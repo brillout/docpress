@@ -1,0 +1,78 @@
+:root {
+  --mobile-header-height: 60px;
+}
+#navigation-wrapper {
+  min-width: 300px;
+  flex-grow: 1;
+}
+.doc-page #navigation-wrapper {
+  max-width: 350px;
+}
+.landing-page #navigation-wrapper {
+  max-width: min(350px, max(300px, calc(300px + 100vw - 1240px)));
+}
+#navigation-container {
+  /* `position: fixed` doesn't inherit the parent's width */
+  position: sticky;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-right: 1px solid #eee;
+}
+#navigation-mask {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+/* `1140px` is the breaking point that preserves the width of code blocks. */
+/* BEFORE EDITING THIS: also change the `1139px` value below */
+@media screen and (min-width: 1140px) {
+  #mobile-header {
+    display: none !important;
+  }
+  #navigation-container {
+    height: 100vh;
+    top: 0;
+  }
+  #navigation-mask {
+    display: none;
+  }
+}
+#navigation-container {
+  transition: transform 0.25s ease;
+  background: white;
+  z-index: 3;
+}
+@media screen and (max-width: 1139px) {
+  #navigation-header-logo,
+  #docsearch {
+    display: none !important;
+  }
+  #navigation-wrapper {
+    min-width: 0px !important;
+    max-width: 0px !important;
+  }
+  #navigation-container {
+    width: 300px;
+    left: 0;
+    height: calc(100vh - var(--mobile-header-height));
+    top: var(--mobile-header-height);
+    padding-top: 20px;
+    /* `position: sticky` doesn't seem to work on mobile */
+    position: fixed;
+  }
+  body:not(.show-menu) #navigation-container {
+    transform: translateX(-300px);
+  }
+  body:not(.show-menu) #navigation-mask {
+    display: none;
+  }
+  #mobile-header {
+    display: inherit;
+  }
+  .doc-page h2 {
+    --padding-top: calc(var(--mobile-header-height) + 12px) !important;
+  }
+}

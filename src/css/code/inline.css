@@ -1,0 +1,27 @@
+code {
+  padding: 2px 5px;
+}
+
+/*
+ * Line breaks in `<code>`:
+ *  - Avoid them on desktop
+ *  - Allow them on mobile
+ *  - Allo them for `<code long>`
+ */
+code {
+  display: inline-block;
+}
+@media screen and (max-width: 500px) {
+  code {
+    word-break: break-word;
+    display: inline;
+  }
+}
+.inline-code-break code {
+  display: inline;
+  word-break: break-word;
+}
+code.long {
+  word-break: break-word;
+  display: inline;
+}

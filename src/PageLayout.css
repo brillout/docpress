@@ -1,0 +1,19 @@
+.doc-page #page-container {
+  padding-bottom: 100px;
+}
+
+#page-wrapper {
+  flex-grow: 1;
+}
+.doc-page #page-wrapper {
+  max-width: 880px;
+}
+.landing-page #page-wrapper {
+  max-width: 1050px;
+}
+
+.doc-page #page-content {
+  max-width: 840px;
+  padding: 20px;
+  margin: auto;
+}

@@ -1,0 +1,20 @@
+@import './code/inline.css';
+@import './code/block.css';
+
+code {
+  /*
+  background-color: #f4f4f4;
+  0.043137255 = 1 - (#f4 / #ff)
+  */
+  background-color: rgba(0, 0, 0, 0.043137255);
+  border-radius: 4px;
+}
+
+/* Inline */
+code {
+  font-size: 1.1em;
+}
+/* Block */
+pre > code {
+  font-size: 1em;
+}

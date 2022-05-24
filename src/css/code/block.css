@@ -1,0 +1,36 @@
+pre > code {
+  padding: 16px !important;
+}
+@media screen and (max-width: 900px) {
+  pre > code {
+    font-size: 0.7em;
+  }
+}
+pre {
+  display: grid;
+}
+pre > code {
+  padding-right: 0px !important;
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 1140px) {
+  pre > code {
+    font-size: 0.95em;
+  }
+}
+@media screen and (max-width: 1040px) {
+  pre > code {
+    font-size: 0.8em;
+  }
+}
+@media screen and (max-width: 940px) {
+  pre > code {
+    font-size: 0.7em;
+  }
+}
+
+pre > code {
+  display: reset;
+  word-break: reset;
+}

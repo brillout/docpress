@@ -1,0 +1,107 @@
+.nav-item {
+  display: block;
+  --padding-left-global: 9px;
+  --padding-left-additional: 0px;
+}
+.nav-item code {
+  font-size: 0.9em;
+}
+.nav-item-h1 + .nav-item-h4 {
+  margin-top: -2px;
+}
+.nav-item-h4 {
+  margin-top: 14px;
+  margin-bottom: -1px;
+  color: #999;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.15ch;
+  padding-left: var(--padding-left-global);
+  padding-right: 4px;
+  text-decoration: none;
+}
+.nav-item-h1:first-of-type {
+  margin-top: 20px;
+}
+.nav-item-h1 {
+  margin-top: 30px;
+  font-size: 15.4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.15ch;
+  color: var(--color-black-soft);
+  padding: 12px 0;
+  padding-left: calc(var(--padding-left-global) - 2px);
+  padding-right: 4px;
+  text-decoration: none;
+}
+.nav-item-h2 {
+  text-decoration: none;
+  font-size: 14.4px;
+  font-weight: 400;
+  letter-spacing: 0.15ch;
+  color: var(--color-black-soft);
+  padding-left: var(--padding-left-global);
+  padding-right: 0;
+  --padding: 4px;
+  padding-top: var(--padding);
+  padding-bottom: var(--padding);
+}
+.nav-item-h3 {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.15ch;
+  color: var(--color-black-soft);
+  text-decoration: none;
+  --padding: 5px;
+
+  background-color: #f9f9f9;
+  padding: var(--padding) 0;
+  padding-left: calc(var(--padding-left-global) + var(--padding-left-additional));
+}
+.nav-item-h3.nav-item-first-of-its-kind {
+  padding-top: calc(var(--padding) * 1.6);
+}
+.nav-item-h3.nav-item-last-of-its-kind {
+  padding-bottom: calc(var(--padding) * 2);
+}
+.nav-item-h2,
+.nav-item-h3 {
+  position: relative;
+}
+.nav-item-h2.is-active {
+  background-color: var(--background-color);
+}
+.nav-item-h3.is-active:before {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 4px;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: var(--background-color);
+  z-index: 10;
+}
+.nav-item-h3.is-active-last:after {
+  display: block;
+  content: '';
+  position: absolute;
+  height: 4px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--background-color);
+  z-index: 10;
+  border-bottom-left-radius: 5px;
+}
+.nav-item.is-active-first {
+  border-top-left-radius: 5px;
+}
+.nav-item.is-active-last,
+.nav-item.is-active-last:before {
+  border-bottom-left-radius: 5px;
+}
+.nav-item-h3.nav-item-parent-is-list-heading {
+  --padding-left-additional: 21px;
+}

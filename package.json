@@ -1,41 +1,35 @@
 {
   "name": "vikepress",
   "scripts": {
-    "dev": "node ./devServer",
-    "prod": "pnpm run build && pnpm run prod:serve",
-    "// Build for production": "",
-    "build": "pnpm run build:clean && pnpm run build:project && pnpm run build:vite && pnpm run build:prerender",
-    "build:clean": "rm -rf dist/",
-    "// We need to build `vite-plugin-ssr` if it's part of the monorepo": "",
-    "build:project": "cd ../../ && bash -c '[[ -d vite-plugin-ssr/ ]] && pnpm run build || :'",
-    "build:vite": "vite build && vite build --ssr",
-    "build:prerender": "vite-plugin-ssr prerender --noExtraDir --root ../../docs/",
-    "// Static serve for production": "",
-    "prod:serve": "serve ../../docs/dist/client/ --listen 3000"
+    "dev": "vikepress dev",
+    "preview": "vikepress preview",
+    "reset": "git clean -Xdf && pnpm install"
   },
   "dependencies": {
     "@mdx-js/mdx": "^2.0.0",
     "@mdx-js/react": "^2.0.0",
     "@mdx-js/rollup": "^2.0.0",
-    "@types/node": "^15.12.1",
-    "@types/react": "^17.0.9",
-    "@types/react-dom": "^17.0.6",
     "@vitejs/plugin-react": "^1.0.4",
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rehype-pretty-code": "^0.2.2",
     "remark-gfm": "^3.0.1",
-    "serve": "^11.3.2",
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
-    "typescript": "^4.5.4",
     "vite": "^2.8.4",
-    "vite-plugin-mdx": "^3.5.6",
     "vite-plugin-ssr": "*"
   },
   "devDependencies": {
-    "vikepress": "*"
+    "@types/node": "^15.12.1",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "rollup": "^2.74.1",
+    "typescript": "^4.5.4",
+    "vikepress": "link:"
+  },
+  "bin": {
+    "vikepress": "./cli.mjs"
   },
   "type": "module"
 }

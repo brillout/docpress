@@ -11,8 +11,12 @@ const rehypePlugins: any = [prettyCode]
 const remarkPlugins = [remarkGfm]
 
 const config: UserConfig = {
-  root: __dirname + '/..',
-  plugins: [react(), markdownHeadings(), mdx({ rehypePlugins, remarkPlugins }), ssr()],
+  root: process.cwd(),
+  plugins: [react(), markdownHeadings(), mdx({ rehypePlugins, remarkPlugins }), ssr({
+    prerender: {
+      noExtraDir: true
+    }
+  })],
   optimizeDeps: { include: ['@mdx-js/react'] },
   clearScreen: false,
   resolve: {

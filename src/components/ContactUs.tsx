@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextContactUs } from '../components/TextContactUs'
+import { TextContactUs } from './TextContactUs'
 
 export { ContactUs }
 

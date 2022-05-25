@@ -2,7 +2,10 @@
   "name": "vikepress",
   "version": "0.0.4",
   "exports": {
-    ".": "./src/components/index.ts"
+    ".": "./src/index.ts",
+    "./client/initFeatureList":  {
+      "browser": "./src/components/features/initFeatureList.ts"
+    }
   },
   "scripts": {
     "dev": "vikepress dev",

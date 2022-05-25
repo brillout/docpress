@@ -1,6 +1,6 @@
 {
   "name": "vikepress",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "exports": {
     ".": "./src/components/index.ts"
   },
@@ -22,7 +22,7 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "^2.8.4",
-    "vite-plugin-ssr": "*"
+    "vite-plugin-ssr": "beta"
   },
   "devDependencies": {
     "@types/node": "^15.12.1",
@@ -35,6 +35,10 @@
   "bin": {
     "vikepress": "./cli.mjs"
   },
-  "files": ["src/*", "dist/*", "cli/*"],
+  "files": [
+    "src/*",
+    "dist/*",
+    "cli/*"
+  ],
   "type": "module"
 }

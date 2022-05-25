@@ -12,19 +12,27 @@ const remarkPlugins = [remarkGfm]
 
 const config: UserConfig = {
   root: process.cwd(),
-  plugins: [react(), markdownHeadings(), mdx({ rehypePlugins, remarkPlugins }), ssr({
-    prerender: {
-      noExtraDir: true
-    }
-  })],
+  plugins: [
+    react(),
+    markdownHeadings(),
+    mdx({ rehypePlugins, remarkPlugins }),
+    ssr({
+      prerender: {
+        noExtraDir: true
+      },
+      pageFiles: {
+        include: ['vikepress']
+      }
+    })
+  ],
   optimizeDeps: { include: ['@mdx-js/react'] },
   clearScreen: false,
   resolve: {
     alias: {
       // Needed for MDX, see https://github.com/mdx-js/mdx/discussions/1794#discussioncomment-1581513
-      'react/jsx-runtime': 'react/jsx-runtime.js',
-    },
-  },
+      'react/jsx-runtime': 'react/jsx-runtime.js'
+    }
+  }
 }
 
 export default config

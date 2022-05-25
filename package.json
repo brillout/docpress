@@ -1,6 +1,9 @@
 {
   "name": "vikepress",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "exports": {
+    ".": "./src/components/index.ts"
+  },
   "scripts": {
     "dev": "vikepress dev",
     "preview": "vikepress preview",

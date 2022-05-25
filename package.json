@@ -1,6 +1,9 @@
 {
   "name": "vikepress",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "exports": {
+    ".": "./src/components/index.ts"
+  },
   "scripts": {
     "dev": "vikepress dev",
     "preview": "vikepress preview",
@@ -19,7 +22,7 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "^2.8.4",
-    "vite-plugin-ssr": "*"
+    "vite-plugin-ssr": "beta"
   },
   "devDependencies": {
     "@types/node": "^15.12.1",

@@ -6,12 +6,13 @@ import { markdownHeadings } from './vite.config/markdownHeadings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 
+const root = process.cwd()
 const prettyCode = [rehypePrettyCode, { theme: 'github-light' }]
 const rehypePlugins: any = [prettyCode]
 const remarkPlugins = [remarkGfm]
 
 const config: UserConfig = {
-  root: process.cwd(),
+  root,
   plugins: [
     react(),
     markdownHeadings(),

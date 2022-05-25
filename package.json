@@ -1,5 +1,6 @@
 {
   "name": "vikepress",
+  "version": "0.0.2",
   "scripts": {
     "dev": "vikepress dev",
     "preview": "vikepress preview",
@@ -31,5 +32,6 @@
   "bin": {
     "vikepress": "./cli.mjs"
   },
+  "files": ["src/*", "dist/*", "cli/*"],
   "type": "module"
 }

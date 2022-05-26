@@ -1,9 +1,7 @@
 import express from 'express'
 import vite from 'vite'
 import { renderPage } from 'vite-plugin-ssr'
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
-const configFile = require.resolve('../../vite.config.ts')
+import { configFile } from './configFile'
 
 startServer()
 

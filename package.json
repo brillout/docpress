@@ -8,9 +8,13 @@
     }
   },
   "scripts": {
-    "dev": "pnpm run build && vikepress dev",
+    "// VikePress Demo": "",
+    "dev": "pnpm run build && pnpm run demo:dev",
+    "preview": "pnpm run build && pnpm run demo:preview",
+    "demo:dev": "vikepress dev",
+    "demo:preview": "vikepress build && vikepress preview",
+    "// VikePress": "",
     "build": "tsup ./cli/ --format esm --out-dir ./dist/cli/",
-    "preview": "vikepress preview",
     "prepublishOnly": "pnpm run build",
     "reset": "git clean -Xdf && pnpm install"
   },
@@ -42,13 +46,6 @@
   "bin": {
     "vikepress": "./cli.mjs"
   },
-  "files": [
-    "src/*",
-    "*.ts",
-    "dist/*",
-    "cli.mjs",
-    "vite.config.ts",
-    "vite.config/*"
-  ],
+  "files": ["src/*", "*.ts", "dist/*", "cli.mjs", "vite.config.ts", "vite.config/*"],
   "type": "module"
 }

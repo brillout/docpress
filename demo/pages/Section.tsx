@@ -1,4 +1,5 @@
 import { P } from 'vikepress'
+import React from 'react'
 
 export { Section }
 

@@ -44,8 +44,9 @@
   },
   "files": [
     "src/*",
+    "*.ts",
     "dist/*",
-    "cli/*"
+    "cli.mjs"
   ],
   "type": "module"
 }

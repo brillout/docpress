@@ -1,0 +1,1 @@
+import 'vikepress/client/initFeatureList'

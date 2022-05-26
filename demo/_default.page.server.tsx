@@ -8,9 +8,9 @@ import { headings, headingsWithoutLink } from './headings'
 const config: Config = {
   projectInfo: {
     projectName: 'Vikepress Demo' as const,
-    projectVersion: '0.0.1',
-    githubRepository: 'https://github.com/brillout/vite-plugin-ssr' as const,
-    githubIssues: 'https://github.com/brillout/vite-plugin-ssr/issues/new' as const,
+    projectVersion: '0.0.0',
+    githubRepository: 'https://github.com/brillout/vikepress' as const,
+    githubIssues: 'https://github.com/brillout/vikepress/issues/new' as const,
     discordInvite: 'https://discord.com/invite/dSDMGGJZQy' as const,
     twitterProfile: 'https://twitter.com/brillout' as const
   },

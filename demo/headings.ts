@@ -5,13 +5,9 @@ import type { HeadingDefinition, HeadingWithoutLink } from '../src/headings'
 
 const headingsWithoutLink: HeadingWithoutLink[] = [
   {
-    title: 'Migration',
-    url: '/migration'
+    title: 'Page 2',
+    url: '/page-2'
   },
-  {
-    title: 'Custom Exports & Custom Hooks',
-    url: '/exports'
-  }
 ]
 
 const headings: HeadingDefinition[] = [
@@ -23,34 +19,22 @@ const headings: HeadingDefinition[] = [
   {
     level: 2,
     title: 'Introduction',
-    titleDocument: 'vite-plugin-ssr',
+    titleDocument: 'Vike Demo',
     url: '/'
   },
-  /*
   {
     level: 2,
-    title: 'What is Server-side Rendering (SSR)?',
-    url: '/ssr',
-  },
-  */
-  {
-    level: 2,
-    title: 'Vue Tour',
+    title: 'About',
     url: '/about'
   },
   {
-    level: 2,
-    title: 'React Tour',
-    url: '/react-tour'
-  },
-  {
     level: 1,
-    title: 'Get Started',
+    title: 'Another Section',
     titleEmoji: 'seedling'
   },
   {
     level: 2,
-    title: 'Scaffold new app',
-    url: '/scaffold'
+    title: 'Page 1',
+    url: '/page-1'
   }
 ]

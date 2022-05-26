@@ -3,6 +3,7 @@ import vite from 'vite'
 import { renderPage } from 'vite-plugin-ssr'
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
+const configFile = require.resolve('../../vite.config.ts')
 
 startServer()
 
@@ -10,7 +11,7 @@ async function startServer() {
   const app = express()
 
   const viteDevServer = await vite.createServer({
-    configFile: require.resolve('../../src/vite.config.ts'),
+    configFile,
     server: { middlewareMode: 'ssr' }
   })
   app.use(viteDevServer.middlewares)

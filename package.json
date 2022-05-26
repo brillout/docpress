@@ -46,7 +46,9 @@
     "src/*",
     "*.ts",
     "dist/*",
-    "cli.mjs"
+    "cli.mjs",
+    "vite.config.ts",
+    "vite.config/*"
   ],
   "type": "module"
 }

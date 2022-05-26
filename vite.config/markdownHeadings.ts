@@ -1,4 +1,4 @@
-import { assert, determineSectionUrlHash } from '../utils'
+import { assert, determineSectionUrlHash } from '../src/utils'
 
 export { MarkdownHeading }
 export { markdownHeadings }

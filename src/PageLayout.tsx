@@ -10,7 +10,7 @@ export { PageLayout }
 
 function PageLayout({
   pageContext,
-  children,
+  children
 }: {
   pageContext: PageContextOriginal & {
     headingsWithSubHeadings: Heading[]
@@ -27,7 +27,7 @@ function PageLayout({
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
           className={isLandingPage ? 'landing-page' : 'doc-page'}
         >

@@ -57,7 +57,7 @@ function FeatureHead({
   name,
   hasLearnMore,
   isSecondaryFeature,
-  className = '',
+  className = ''
 }: {
   className?: string
   name?: string
@@ -72,7 +72,7 @@ function FeatureHead({
         'feature',
         'colorize-on-hover',
         hasLearnMore && 'has-learn-more',
-        isSecondaryFeature && 'secondary-feature',
+        isSecondaryFeature && 'secondary-feature'
       ]
         .filter(Boolean)
         .join(' ')}
@@ -93,7 +93,7 @@ function FeatureHead({
               fontSize: '10px',
               textTransform: 'uppercase',
               letterSpacing: '1px',
-              fontWeight: 600,
+              fontWeight: 600
             }}
           >
             <span className="decolorize-5">Learn more</span>

@@ -8,7 +8,7 @@ import './Navigation.css'
 export { Navigation }
 
 function Navigation({
-  pageContext,
+  pageContext
 }: {
   pageContext: {
     headingsWithSubHeadings: Heading[]
@@ -57,7 +57,7 @@ function Navigation({
                   isActiveLast && ' is-active-last',
                   heading.parentHeadings[0]?.isListTitle && 'nav-item-parent-is-list-heading',
                   heading.level !== headingPrevious?.level && 'nav-item-first-of-its-kind',
-                  heading.level !== headingNext?.level && 'nav-item-last-of-its-kind',
+                  heading.level !== headingNext?.level && 'nav-item-last-of-its-kind'
                 ]
                   .filter(Boolean)
                   .join(' ')}
@@ -106,7 +106,7 @@ function ScrollOverlay() {
         // backgroundColor: 'rgba(0,0,0,0.03)',
         backgroundRepeat: 'no-repeat',
 
-        backgroundSize: '10px 10px',
+        backgroundSize: '10px 10px'
       }}
     />
   )
@@ -123,7 +123,7 @@ function DetachedPageNote() {
         marginTop: 30,
         marginBottom: -8,
         borderRadius: 5,
-        padding: 10,
+        padding: 10
       }}
     >
       <Emoji name="info" />{' '}
@@ -132,7 +132,7 @@ function DetachedPageNote() {
       </b>
       <span
         style={{
-          opacity: 0.8,
+          opacity: 0.8
         }}
       >
         {' '}

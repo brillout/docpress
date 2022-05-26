@@ -9,7 +9,7 @@ function ContactUs({ text }: { text: string }) {
     textAlign: 'center',
     margin: 'auto',
     padding: 'var(--header-padding)',
-    maxWidth: 'var(--header-max-width)',
+    maxWidth: 'var(--header-max-width)'
   }
   return (
     <p style={style}>

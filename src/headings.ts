@@ -73,10 +73,10 @@ function getHeadings(pageContext: {
       const headingProcessed: Omit<Heading, 'parentHeadings'> = {
         ...heading,
         title: titleProcessed,
-        titleInNav: titleInNavProcessed,
+        titleInNav: titleInNavProcessed
       }
       return headingProcessed
-    },
+    }
   )
 
   const headings: Heading[] = []
@@ -89,12 +89,12 @@ function getHeadings(pageContext: {
     const { url, title } = headingsWithoutLink
     assert(
       headings.find((heading) => heading.url === url) === undefined,
-      `remove ${headingsWithoutLink.url} from headingsWithoutLink`,
+      `remove ${headingsWithoutLink.url} from headingsWithoutLink`
     )
     const titleProcessed = typeof title === 'string' ? parseTitle(title) : title
     return {
       ...headingsWithoutLink,
-      title: titleProcessed,
+      title: titleProcessed
     }
   })
 
@@ -188,7 +188,7 @@ function parseTitle(title: string): JSX.Element {
         assert(part.nodeType === 'text')
         return part.content
       }
-    }),
+    })
   )
 
   return titleJsx
@@ -202,6 +202,6 @@ function withEmoji(name: EmojiName, title: string | JSX.Element): JSX.Element {
     { style },
     Emoji({ name }),
     ' ',
-    React.createElement('span', { style: { fontSize: '1rem' } }, title),
+    React.createElement('span', { style: { fontSize: '1rem' } }, title)
   )
 }

@@ -10,7 +10,7 @@ function DocLink({
   href,
   text,
   noBreadcrumb,
-  doNotInferSectionTitle,
+  doNotInferSectionTitle
 }: {
   href: string
   text?: string | JSX.Element
@@ -25,7 +25,7 @@ function getTitle({
   href,
   noBreadcrumb,
   pageContext,
-  doNotInferSectionTitle,
+  doNotInferSectionTitle
 }: {
   href: string
   noBreadcrumb: true | undefined
@@ -46,7 +46,7 @@ function getTitle({
       ...heading.parentHeadings
         .slice()
         .reverse()
-        .map(({ title }) => title),
+        .map(({ title }) => title)
     )
   }
 

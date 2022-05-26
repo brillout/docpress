@@ -43,7 +43,7 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // https://www.unicompat.com/26A0 => 94.1%
     // https://www.unicompat.com/26A0-FE0F => 92.4%
     // https://www.unicompat.com/2697 => 94.1%
-    (name === 'warning' && Unicode(0x26A0, { fontFamily: 'emoji' })) ||
+    (name === 'warning' && Unicode(0x26a0, { fontFamily: 'emoji' })) ||
     // ***
     // U+2697
     // https://emojipedia.org/alembic/
@@ -202,8 +202,8 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
         verticalAlign: 'text-top',
         fontSize: '1em',
         width,
-        ...style,
-      },
+        ...style
+      }
     }
     return React.createElement('img', props)
   }

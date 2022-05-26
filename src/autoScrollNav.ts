@@ -17,6 +17,6 @@ function autoScrollNav() {
     behavior: 'auto',
     //*/
     block: 'center',
-    inline: 'center',
+    inline: 'center'
   })
 }

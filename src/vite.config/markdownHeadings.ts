@@ -25,7 +25,7 @@ function markdownHeadings() {
       }
       const codeNew = transform(code)
       return codeNew
-    },
+    }
   }
 }
 

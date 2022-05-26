@@ -30,7 +30,7 @@ function processPageContext(pageContext: PageContextOriginal) {
   const { title, isLandingPage, pageTitle, isDetachedPage } = getMetaData(
     headingsWithoutLink,
     activeHeading,
-    pageContext,
+    pageContext
   )
   const { faviconUrl, algolia, tagline } = pageContext.exports.config
   const pageContextAdded = {}
@@ -39,13 +39,13 @@ function processPageContext(pageContext: PageContextOriginal) {
       title,
       faviconUrl,
       tagline,
-      algolia,
+      algolia
     },
     headings,
     headingsWithSubHeadings,
     isLandingPage,
     isDetachedPage,
-    pageTitle,
+    pageTitle
   })
   return pageContextAdded
 }
@@ -53,7 +53,7 @@ function processPageContext(pageContext: PageContextOriginal) {
 function getMetaData(
   headingsWithoutLink: HeadingWithoutLink[],
   activeHeading: Heading | null,
-  pageContext: { url: string; pageExports: PageExports, exports: { config: Config } },
+  pageContext: { url: string; pageExports: PageExports; exports: { config: Config } }
 ) {
   const { url } = pageContext
 
@@ -85,7 +85,7 @@ function getMetaData(
 function findActiveHeading(
   headings: Heading[],
   headingsWithoutLink: HeadingWithoutLink[],
-  pageContext: { url: string; pageExports: PageExports },
+  pageContext: { url: string; pageExports: PageExports }
 ): Heading | null {
   let activeHeading: Heading | null = null
   assert(pageContext.url)
@@ -99,7 +99,7 @@ function findActiveHeading(
   const debugInfo = {
     msg: 'Heading not found for url: ' + pageUrl,
     urls: headings.map((h) => h.url),
-    url: pageUrl,
+    url: pageUrl
   }
   assert(activeHeading || headingsWithoutLink.find(({ url }) => pageUrl === url), debugInfo)
   return activeHeading
@@ -108,7 +108,7 @@ function findActiveHeading(
 function getHeadingsWithSubHeadings(
   headings: Heading[],
   pageContext: { pageExports: PageExports; url: string },
-  activeHeading: Heading | null,
+  activeHeading: Heading | null
 ): Heading[] {
   const headingsWithSubHeadings = headings.slice()
   if (activeHeading === null) return headingsWithSubHeadings
@@ -126,7 +126,7 @@ function getHeadingsWithSubHeadings(
         pageHeading.title +
         '` of page `' +
         pageContext.url +
-        '`.',
+        '`.'
     )
     if (pageHeading.headingLevel === 2) {
       const heading: Heading = {
@@ -134,7 +134,7 @@ function getHeadingsWithSubHeadings(
         title,
         parentHeadings: [activeHeading, ...activeHeading.parentHeadings],
         titleInNav: title,
-        level: 3,
+        level: 3
       }
       headingsWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, heading)
     }

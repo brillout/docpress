@@ -3,7 +3,15 @@ import { assert } from '../utils'
 
 export { Note }
 
-function Note({ type, icon, children }: { icon: JSX.Element | string; type?: 'error' | 'warning'; children: JSX.Element }) {
+function Note({
+  type,
+  icon,
+  children
+}: {
+  icon: JSX.Element | string
+  type?: 'error' | 'warning'
+  children: JSX.Element
+}) {
   assert(type === undefined || ['error', 'warning'].includes(type))
   if (!icon) {
     if (type === 'error') {

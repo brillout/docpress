@@ -7,9 +7,9 @@ const headings: Heading[] = [
   {
     level: 2,
     title: 'Overview',
-    isDocumentBegin: true,
+    isDocumentBegin: true
   },
-  ...headingsCrawled,
+  ...headingsCrawled
 ]
 assert_headings()
 
@@ -112,7 +112,7 @@ function renderNavScrollBar(headingSectionsVisibility: HeadingSectionVisibility[
   }
   const getOverlayPosition = ({
     heading,
-    boundaryPosition,
+    boundaryPosition
   }: {
     heading: Heading
     boundaryPosition: number
@@ -179,12 +179,12 @@ function getBoundaryHeading(headingSectionsVisibility: HeadingSectionVisibility[
   const headingVisibleFirst = {
     heading: hFirst,
     boundaryPosition: hFirst.screenBeginPosition,
-    viewportPercentage: hFirst.viewportPercentage,
+    viewportPercentage: hFirst.viewportPercentage
   }
   const headingVisibleLast = {
     heading: hLast,
     boundaryPosition: hLast.screenEndPosition,
-    viewportPercentage: hLast.viewportPercentage,
+    viewportPercentage: hLast.viewportPercentage
   }
   return { headingVisibleFirst, headingVisibleLast }
 }
@@ -271,7 +271,7 @@ function getHeadingSectionsVisbility(headings: Heading[]): HeadingSectionVisibil
       screenBeginPosition,
       screenEndPosition,
       beginPosition,
-      endPosition,
+      endPosition
     })
   })
 

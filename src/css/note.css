@@ -9,7 +9,7 @@ blockquote {
 }
 blockquote.error {
   --color-strengh-bg: 1.7;
-  --color-strengh-border: 6.0;
+  --color-strengh-border: 6;
   --color: 190, 25, 49;
 }
 blockquote.warning {

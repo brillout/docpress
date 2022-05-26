@@ -12,7 +12,7 @@ const config: Config = {
     githubRepository: 'https://github.com/brillout/vite-plugin-ssr' as const,
     githubIssues: 'https://github.com/brillout/vite-plugin-ssr/issues/new' as const,
     discordInvite: 'https://discord.com/invite/dSDMGGJZQy' as const,
-    twitterProfile: 'https://twitter.com/brillout' as const,
+    twitterProfile: 'https://twitter.com/brillout' as const
   },
   faviconUrl: logoUrl,
   algolia: null,
@@ -21,7 +21,7 @@ const config: Config = {
   tagline: 'Vikepress Demo',
   titleNormalCase: true,
   headings,
-  headingsWithoutLink,
+  headingsWithoutLink
 }
 
 export { NavHeader }
@@ -53,7 +53,7 @@ function HeaderTitle({ fontSize, marginLeft }: { fontSize: string; marginLeft: n
       style={{
         fontSize,
         padding: '2px 5px',
-        marginLeft,
+        marginLeft
       }}
     >
       {'Vikepress Demo'}

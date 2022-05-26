@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigation } from './navigation/Navigation'
-import type { Heading, PageContextOriginal } from './config/resolvePageContext'
+import type { PageContextResolved } from './config/resolvePageContext'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
 import { PageContextProvider } from './renderer/usePageContext'
@@ -8,18 +8,7 @@ import './PageLayout.css'
 
 export { PageLayout }
 
-function PageLayout({
-  pageContext,
-  children
-}: {
-  pageContext: PageContextOriginal & {
-    headingsWithSubHeadings: Heading[]
-    pageTitle: string | JSX.Element | null
-    isLandingPage: boolean
-    isDetachedPage: boolean
-  }
-  children: JSX.Element
-}) {
+function PageLayout({ pageContext, children }: { pageContext: PageContextResolved; children: JSX.Element }) {
   const { isLandingPage, pageTitle } = pageContext
   return (
     <React.StrictMode>

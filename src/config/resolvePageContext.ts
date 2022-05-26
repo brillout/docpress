@@ -4,6 +4,7 @@ import type { Heading } from '../headings'
 import type { PageContextBuiltIn } from 'vite-plugin-ssr'
 import type { MarkdownHeading } from '../../vite.config/markdownHeadings'
 import type { Config } from './Config'
+import { getConfig } from './getConfig'
 
 export { resolvePageContext }
 export type { PageContextOriginal }
@@ -17,24 +18,24 @@ type PageExports = {
 type PageContextOriginal = PageContextBuiltIn & {
   Page: ReactComponent
   pageExports: PageExports
-  exports: {
-    config: Config
-  }
 }
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
-  const { headings, headingsWithoutLink } = getHeadings(pageContext)
+  const config = getConfig()
+  const { headings, headingsWithoutLink } = getHeadings(config)
   const activeHeading = findActiveHeading(headings, headingsWithoutLink, pageContext)
   const headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeHeading)
   const { title, isLandingPage, pageTitle, isDetachedPage } = getMetaData(
     headingsWithoutLink,
     activeHeading,
-    pageContext
+    pageContext,
+    config
   )
-  const { faviconUrl, algolia, tagline } = pageContext.exports.config
+  const { faviconUrl, algolia, tagline } = config
   const pageContextResolved = {}
   objectAssign(pageContextResolved, {
+    ...pageContext,
     meta: {
       title,
       faviconUrl,
@@ -45,7 +46,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     headingsWithSubHeadings,
     isLandingPage,
     isDetachedPage,
-    pageTitle
+    pageTitle,
+    config
   })
   return pageContextResolved
 }
@@ -53,7 +55,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 function getMetaData(
   headingsWithoutLink: HeadingWithoutLink[],
   activeHeading: Heading | null,
-  pageContext: { url: string; pageExports: PageExports; exports: { config: Config } }
+  pageContext: { url: string; pageExports: PageExports },
+  config: Config
 ) {
   const { url } = pageContext
 
@@ -72,7 +75,7 @@ function getMetaData(
 
   const isLandingPage = url === '/'
   if (!isLandingPage) {
-    title += ' | ' + pageContext.exports.config.projectInfo.projectName
+    title += ' | ' + config.projectInfo.projectName
   }
 
   if (isLandingPage) {

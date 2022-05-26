@@ -1,11 +1,9 @@
-export { config }
-
 import type { Config } from 'vikepress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsWithoutLink } from './headings'
 
-const config: Config = {
+export default {
   projectInfo: {
     projectName: 'Vikepress Demo' as const,
     projectVersion: '0.0.0',
@@ -22,7 +20,7 @@ const config: Config = {
   titleNormalCase: true,
   headings,
   headingsWithoutLink
-}
+} as Config
 
 function NavHeaderMobile() {
   const LOGO_SIZE = 40

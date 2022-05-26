@@ -5,7 +5,7 @@ export { TextContactUs }
 
 function TextContactUs() {
   const pageContext = usePageContext()
-  const { projectInfo } = pageContext.exports.config
+  const { projectInfo } = pageContext.config
   return (
     <>
       <a href={projectInfo.discordInvite}>Join our Discord</a> or{' '}

@@ -1,4 +1,5 @@
 export { assert }
+export { assertUsage }
 
 function assert(condition: unknown, debugInfo?: unknown): asserts condition {
   if (condition) {
@@ -10,7 +11,18 @@ function assert(condition: unknown, debugInfo?: unknown): asserts condition {
     }
     console.log(debugInfo)
   }
-  const err = new Error('Assertion Failed')
+  const err = new Error('[VikePress] Bug. Contact VikePress maintainer.')
+  if (isBrowserAndDev()) {
+    alert(err.stack)
+  }
+  throw err
+}
+
+function assertUsage(condition: unknown, msg: string): asserts condition {
+  if (condition) {
+    return
+  }
+  const err = new Error('[VikePress][Wrong Usage] ' + msg)
   if (isBrowserAndDev()) {
     alert(err.stack)
   }

@@ -31,7 +31,7 @@ function NavigationHeader() {
         }}
         href="/"
       >
-        {pageContext.exports.config.navHeader}
+        {pageContext.config.navHeader}
       </a>
       <Links />
     </div>
@@ -40,7 +40,7 @@ function NavigationHeader() {
 
 function Links() {
   const pageContext = usePageContext()
-  const { projectInfo } = pageContext.exports.config
+  const { projectInfo } = pageContext.config
   return (
     <div
       style={{
@@ -61,7 +61,7 @@ function Links() {
 
 function ChangelogButton() {
   const pageContext = usePageContext()
-  const { projectInfo } = pageContext.exports.config
+  const { projectInfo } = pageContext.config
   return (
     <a
       href={`${projectInfo.githubRepository}/blob/master/CHANGELOG.md`}

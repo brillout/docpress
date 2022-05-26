@@ -3,29 +3,27 @@ import React from 'react'
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { PageLayout } from '../PageLayout'
 import { resolvePageContext, PageContextOriginal } from '../config/resolvePageContext'
-import { objectAssign } from '../utils'
 import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
 import { parseEmojis } from '../parseEmojis'
 
 export { render }
 
-function render(pageContext: PageContextOriginal) {
-  const { Page } = pageContext
-  const pageContextAdded = resolvePageContext(pageContext)
-  objectAssign(pageContext, pageContextAdded)
+async function render(pageContextOriginal: PageContextOriginal) {
+  const { Page } = pageContextOriginal
+  const pageContextResolved = resolvePageContext(pageContextOriginal)
 
   const page = (
-    <PageLayout pageContext={pageContext}>
+    <PageLayout pageContext={pageContextResolved}>
       <Page />
     </PageLayout>
   )
 
-  const descriptionTag = pageContext.isLandingPage
-    ? dangerouslySkipEscape(`<meta name="description" content="${pageContext.meta.tagline}" />`)
+  const descriptionTag = pageContextResolved.isLandingPage
+    ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)
     : ''
 
-  const docSearchJS = getDocSearchJS(pageContext)
-  const docSearchCSS = getDocSearchCSS(pageContext)
+  const docSearchJS = getDocSearchJS(pageContextResolved)
+  const docSearchCSS = getDocSearchCSS(pageContextResolved)
 
   let pageHtml = ReactDOMServer.renderToString(page)
   pageHtml = parseEmojis(pageHtml)
@@ -33,8 +31,8 @@ function render(pageContext: PageContextOriginal) {
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
-        <link rel="icon" href="${pageContext.meta.faviconUrl}" />
-        <title>${pageContext.meta.title}</title>
+        <link rel="icon" href="${pageContextResolved.meta.faviconUrl}" />
+        <title>${pageContextResolved.meta.title}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         ${docSearchCSS}

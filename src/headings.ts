@@ -46,38 +46,37 @@ type HeadingAbstract = {
   titleInNav?: undefined
 }
 
-function getHeadings(pageContext: {
-  exports: { config: { headings: HeadingDefinition[]; headingsWithoutLink: HeadingWithoutLink[] } }
-}): { headings: Heading[]; headingsWithoutLink: HeadingWithoutLink[] } {
-  const headingsWithoutParent: Omit<Heading, 'parentHeadings'>[] = pageContext.exports.config.headings.map(
-    (heading: HeadingDefinition) => {
-      const titleProcessed: JSX.Element = parseTitle(heading.title)
+function getHeadings(config: { headings: HeadingDefinition[]; headingsWithoutLink: HeadingWithoutLink[] }): {
+  headings: Heading[]
+  headingsWithoutLink: HeadingWithoutLink[]
+} {
+  const headingsWithoutParent: Omit<Heading, 'parentHeadings'>[] = config.headings.map((heading: HeadingDefinition) => {
+    const titleProcessed: JSX.Element = parseTitle(heading.title)
 
-      const titleInNav = heading.titleInNav || heading.title
-      let titleInNavProcessed: JSX.Element
-      if ('isListTitle' in heading) {
-        assert(heading.isListTitle === true)
-        let titleParsed: JSX.Element = parseTitle(titleInNav)
-        // if (heading.titleSize) {
-        //   titleParsed = React.createElement('span', { style: { fontSize: heading.titleSize } }, titleParsed)
-        // }
-        titleInNavProcessed = React.createElement(React.Fragment, {}, [getListPrefix(), titleParsed])
-      } else {
-        titleInNavProcessed = parseTitle(titleInNav)
-      }
-      if ('titleEmoji' in heading) {
-        assert(heading.titleEmoji)
-        titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
-      }
-
-      const headingProcessed: Omit<Heading, 'parentHeadings'> = {
-        ...heading,
-        title: titleProcessed,
-        titleInNav: titleInNavProcessed
-      }
-      return headingProcessed
+    const titleInNav = heading.titleInNav || heading.title
+    let titleInNavProcessed: JSX.Element
+    if ('isListTitle' in heading) {
+      assert(heading.isListTitle === true)
+      let titleParsed: JSX.Element = parseTitle(titleInNav)
+      // if (heading.titleSize) {
+      //   titleParsed = React.createElement('span', { style: { fontSize: heading.titleSize } }, titleParsed)
+      // }
+      titleInNavProcessed = React.createElement(React.Fragment, {}, [getListPrefix(), titleParsed])
+    } else {
+      titleInNavProcessed = parseTitle(titleInNav)
     }
-  )
+    if ('titleEmoji' in heading) {
+      assert(heading.titleEmoji)
+      titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
+    }
+
+    const headingProcessed: Omit<Heading, 'parentHeadings'> = {
+      ...heading,
+      title: titleProcessed,
+      titleInNav: titleInNavProcessed
+    }
+    return headingProcessed
+  })
 
   const headings: Heading[] = []
   headingsWithoutParent.forEach((heading) => {
@@ -85,7 +84,7 @@ function getHeadings(pageContext: {
     headings.push({ ...heading, parentHeadings })
   })
 
-  const headingsWithoutLink = pageContext.exports.config.headingsWithoutLink.map((headingsWithoutLink) => {
+  const headingsWithoutLink = config.headingsWithoutLink.map((headingsWithoutLink) => {
     const { url, title } = headingsWithoutLink
     assert(
       headings.find((heading) => heading.url === url) === undefined,

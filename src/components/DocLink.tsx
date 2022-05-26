@@ -1,6 +1,6 @@
 import React from 'react'
 import { getHeadings, parseTitle, Heading, HeadingWithoutLink } from '../headings'
-import { PageContextOriginal } from '../config/resolvePageContext'
+import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, determineSectionTitle, determineSectionUrlHash } from '../utils'
 
@@ -29,7 +29,7 @@ function getTitle({
 }: {
   href: string
   noBreadcrumb: true | undefined
-  pageContext: PageContextOriginal
+  pageContext: PageContextResolved
   doNotInferSectionTitle: true | undefined
 }): string | JSX.Element {
   let urlHash: string | null = null
@@ -63,7 +63,7 @@ function getTitle({
     }
     if (!sectionTitle) {
       assert(!doNotInferSectionTitle, { doNotInferSectionTitle, href })
-      sectionTitle = determineSectionTitle(href, pageContext.exports.config.titleNormalCase)
+      sectionTitle = determineSectionTitle(href, pageContext.config.titleNormalCase)
     }
     breadcrumbs.push(sectionTitle)
   }
@@ -90,9 +90,9 @@ function getTitle({
   )
 }
 
-function findHeading(href: string, pageContext: PageContextOriginal): Heading | HeadingWithoutLink {
+function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingWithoutLink {
   assert(href.startsWith('/'), `\`href==='${href}'\` but should start with \`/\`.`)
-  const { headings, headingsWithoutLink } = getHeadings(pageContext)
+  const { headings, headingsWithoutLink } = getHeadings(pageContext.config)
   {
     const heading = headingsWithoutLink.find(({ url }) => href === url)
     if (heading) {

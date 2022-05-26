@@ -39,7 +39,7 @@ function MobileHeader() {
             textDecoration: 'none'
           }}
         >
-          {pageContext.exports.config.navHeaderMobile}
+          {pageContext.config.navHeaderMobile}
         </a>
         <div id="docsearch-mobile" />
       </div>

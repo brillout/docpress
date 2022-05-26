@@ -1,10 +1,10 @@
 import { escapeInject } from 'vite-plugin-ssr'
-import { PageContextAdded } from '../processPageContext'
+import { PageContextResolved } from '../config/resolvePageContext'
 
 export { getDocSearchCSS }
 export { getDocSearchJS }
 
-function getDocSearchCSS(pageContext: PageContextAdded) {
+function getDocSearchCSS(pageContext: PageContextResolved) {
   const docSearchCSS = !pageContext.meta.algolia
     ? ''
     : escapeInject`
@@ -13,7 +13,7 @@ function getDocSearchCSS(pageContext: PageContextAdded) {
   return docSearchCSS
 }
 
-function getDocSearchJS(pageContext: PageContextAdded) {
+function getDocSearchJS(pageContext: PageContextResolved) {
   const docSearchJS = !pageContext.meta.algolia
     ? ''
     : escapeInject`

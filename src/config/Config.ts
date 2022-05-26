@@ -1,6 +1,6 @@
 export type { Config }
 
-import type { HeadingDefinition, HeadingWithoutLink } from './headings'
+import type { HeadingDefinition, HeadingWithoutLink } from '../headings'
 
 type Config = {
   projectInfo: {

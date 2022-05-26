@@ -1,13 +1,13 @@
-import { assert, jsxToTextContent, objectAssign } from './utils'
-import { getHeadings, HeadingWithoutLink, parseTitle } from './headings'
-import type { Heading } from './headings'
+import { assert, jsxToTextContent, objectAssign } from '../utils'
+import { getHeadings, HeadingWithoutLink, parseTitle } from '../headings'
+import type { Heading } from '../headings'
 import type { PageContextBuiltIn } from 'vite-plugin-ssr'
-import type { MarkdownHeading } from './vite.config/markdownHeadings'
+import type { MarkdownHeading } from '../vite.config/markdownHeadings'
 import type { Config } from './Config'
 
-export { processPageContext }
+export { resolvePageContext }
 export type { PageContextOriginal }
-export type { PageContextAdded }
+export type { PageContextResolved }
 export type { Heading }
 
 type ReactComponent = () => JSX.Element
@@ -21,9 +21,9 @@ type PageContextOriginal = PageContextBuiltIn & {
     config: Config
   }
 }
-type PageContextAdded = ReturnType<typeof processPageContext>
+type PageContextResolved = ReturnType<typeof resolvePageContext>
 
-function processPageContext(pageContext: PageContextOriginal) {
+function resolvePageContext(pageContext: PageContextOriginal) {
   const { headings, headingsWithoutLink } = getHeadings(pageContext)
   const activeHeading = findActiveHeading(headings, headingsWithoutLink, pageContext)
   const headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeHeading)
@@ -33,8 +33,8 @@ function processPageContext(pageContext: PageContextOriginal) {
     pageContext
   )
   const { faviconUrl, algolia, tagline } = pageContext.exports.config
-  const pageContextAdded = {}
-  objectAssign(pageContextAdded, {
+  const pageContextResolved = {}
+  objectAssign(pageContextResolved, {
     meta: {
       title,
       faviconUrl,
@@ -47,7 +47,7 @@ function processPageContext(pageContext: PageContextOriginal) {
     isDetachedPage,
     pageTitle
   })
-  return pageContextAdded
+  return pageContextResolved
 }
 
 function getMetaData(

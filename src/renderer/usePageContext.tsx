@@ -2,7 +2,7 @@
 // More infos: https://vite-plugin-ssr.com/pageContext-anywhere
 
 import React, { useContext } from 'react'
-import type { PageContextOriginal } from '../processPageContext'
+import type { PageContextOriginal } from '../config/resolvePageContext'
 
 type PageContext = PageContextOriginal
 

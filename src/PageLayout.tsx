@@ -1,8 +1,8 @@
 import React from 'react'
 import { Navigation } from './navigation/Navigation'
-import type { Heading, PageContextOriginal } from './processPageContext'
+import type { Heading, PageContextOriginal } from './config/resolvePageContext'
 import { MobileHeader } from './MobileHeader'
-import { EditPageNote } from './EditPageNote'
+import { EditPageNote } from './components/EditPageNote'
 import { PageContextProvider } from './renderer/usePageContext'
 import './PageLayout.css'
 

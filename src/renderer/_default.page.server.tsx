@@ -2,7 +2,7 @@ import ReactDOMServer from 'react-dom/server'
 import React from 'react'
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { PageLayout } from '../PageLayout'
-import { processPageContext, PageContextOriginal } from '../processPageContext'
+import { resolvePageContext, PageContextOriginal } from '../config/resolvePageContext'
 import { objectAssign } from '../utils'
 import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
 import { parseEmojis } from '../parseEmojis'
@@ -11,7 +11,7 @@ export { render }
 
 function render(pageContext: PageContextOriginal) {
   const { Page } = pageContext
-  const pageContextAdded = processPageContext(pageContext)
+  const pageContextAdded = resolvePageContext(pageContext)
   objectAssign(pageContext, pageContextAdded)
 
   const page = (

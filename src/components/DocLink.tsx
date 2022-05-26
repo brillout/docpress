@@ -1,6 +1,6 @@
 import React from 'react'
 import { getHeadings, parseTitle, Heading, HeadingWithoutLink } from '../headings'
-import { PageContextOriginal } from '../processPageContext'
+import { PageContextOriginal } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, determineSectionTitle, determineSectionUrlHash } from '../utils'
 

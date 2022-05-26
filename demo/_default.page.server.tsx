@@ -1,6 +1,6 @@
 export { config }
 
-import type { Config } from '../src/Config'
+import type { Config } from 'vikepress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsWithoutLink } from './headings'
@@ -23,9 +23,6 @@ const config: Config = {
   headings,
   headingsWithoutLink
 }
-
-export { NavHeader }
-export { NavHeaderMobile }
 
 function NavHeaderMobile() {
   const LOGO_SIZE = 40

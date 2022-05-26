@@ -1,5 +1,5 @@
 import { escapeInject } from 'vite-plugin-ssr'
-import { PageContextAdded } from './processPageContext'
+import { PageContextAdded } from '../processPageContext'
 
 export { getDocSearchCSS }
 export { getDocSearchJS }

@@ -1,9 +1,9 @@
 import React from 'react'
-import iconGithub from './icons/github.svg'
-import iconTwitter from './icons/twitter.svg'
-import iconDiscord from './icons/discord.svg'
-import iconChangelog from './icons/changelog.svg'
-import { usePageContext } from './renderer/usePageContext'
+import iconGithub from '../icons/github.svg'
+import iconTwitter from '../icons/twitter.svg'
+import iconDiscord from '../icons/discord.svg'
+import iconChangelog from '../icons/changelog.svg'
+import { usePageContext } from '../renderer/usePageContext'
 
 export { NavigationHeader }
 

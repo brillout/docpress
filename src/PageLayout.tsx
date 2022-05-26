@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigation } from './Navigation'
+import { Navigation } from './navigation/Navigation'
 import type { Heading, PageContextOriginal } from './processPageContext'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './EditPageNote'

@@ -4,7 +4,7 @@ import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { PageLayout } from '../PageLayout'
 import { processPageContext, PageContextOriginal } from '../processPageContext'
 import { objectAssign } from '../utils'
-import { getDocSearchJS, getDocSearchCSS } from '../DocSearch'
+import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
 import { parseEmojis } from '../parseEmojis'
 
 export { render }

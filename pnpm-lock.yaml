@@ -22,7 +22,7 @@ specifiers:
   vikepress: 'link:'
   vite: ^2.8.4
   vite-plugin-glob: ^0.3.2
-  vite-plugin-ssr: ^0.4.0-beta.28
+  vite-plugin-ssr: ^0.4.0-beta.29
 
 dependencies:
   '@mdx-js/mdx': 2.1.1
@@ -38,7 +38,7 @@ dependencies:
   twemoji: 13.1.1
   vite: 2.9.9
   vite-plugin-glob: 0.3.2
-  vite-plugin-ssr: 0.4.0-beta.28_vite@2.9.9
+  vite-plugin-ssr: 0.4.0-beta.29_vite@2.9.9
 
 devDependencies:
   '@types/express': 4.17.13
@@ -2946,8 +2946,8 @@ packages:
     resolution: {integrity: sha512-b6H9/Rdj/TSMtPpBdVLxuDT3rmCVmuim3NdfUX71PS25AZNPL+DyTR1k2hPW+1XdeSt8ajgdG9udpSx1X5vUVg==}
     dev: false
 
-  /vite-plugin-glob/0.2.9:
-    resolution: {integrity: sha512-UMO76ZfylNTE+6nCmeA+jYlUOVPxft1+oHGaJpiR+nz+qYZWIlruaSBjf7b13RPvUrc79k6OR7Q5KMRFV8sG8A==}
+  /vite-plugin-glob/0.2.8:
+    resolution: {integrity: sha512-Xs9rlEdDW33yfs72Iugu/y3H0AK48DkldM8t5i+LAlXF3GaKA9oFerWZih7qp5cibg4JI99wnMSYHcj/awP7Eg==}
     dependencies:
       acorn: 8.7.1
       fast-glob: 3.2.11
@@ -2966,8 +2966,8 @@ packages:
       ufo: 0.8.4
     dev: false
 
-  /vite-plugin-ssr/0.4.0-beta.28_vite@2.9.9:
-    resolution: {integrity: sha512-yeLKXk2xEI1i4QF1t7PVZig/SAE3Wtb5WUATgOalHRnep9FNpiAV7AI3j+c1PccvnZGMOHs8pQV2twue+3buzg==}
+  /vite-plugin-ssr/0.4.0-beta.29_vite@2.9.9:
+    resolution: {integrity: sha512-OKr6/oCroUFcR6CwE4sXuK5QmEA5FcwKmbpjiUl5PiuHGV0kxLmh7pzUTgy5+M1ZIGo7ml75kTccZEh9Fj863w==}
     engines: {node: '>=12.19.0'}
     hasBin: true
     peerDependencies:
@@ -2985,7 +2985,7 @@ packages:
       symlink-dir: 5.0.1
       vite: 2.9.9
       vite-plugin-dist-importer: 0.1.9
-      vite-plugin-glob: 0.2.9
+      vite-plugin-glob: 0.2.8
     transitivePeerDependencies:
       - supports-color
     dev: false

@@ -27,6 +27,7 @@ const config: UserConfig = {
       }
     }),
     glob({
+      // @ts-expect-error
       restoreQueryExtension: true
     })
   ],

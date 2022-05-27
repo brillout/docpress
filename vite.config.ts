@@ -5,6 +5,7 @@ import { UserConfig } from 'vite'
 import { markdownHeadings } from './vite.config/markdownHeadings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
+import glob from 'vite-plugin-glob'
 
 const root = process.cwd()
 const prettyCode = [rehypePrettyCode, { theme: 'github-light' }]
@@ -24,6 +25,9 @@ const config: UserConfig = {
       pageFiles: {
         include: ['vikepress']
       }
+    }),
+    glob({
+      restoreQueryExtension: true
     })
   ],
   optimizeDeps: { include: ['@mdx-js/react'] },

@@ -21,6 +21,7 @@ specifiers:
   typescript: ^4.5.4
   vikepress: 'link:'
   vite: ^2.8.4
+  vite-plugin-glob: ^0.3.2
   vite-plugin-ssr: ^0.4.0-beta.28
 
 dependencies:
@@ -36,6 +37,7 @@ dependencies:
   shiki: 0.10.1
   twemoji: 13.1.1
   vite: 2.9.9
+  vite-plugin-glob: 0.3.2
   vite-plugin-ssr: 0.4.0-beta.28_vite@2.9.9
 
 devDependencies:
@@ -2946,6 +2948,16 @@ packages:
 
   /vite-plugin-glob/0.2.9:
     resolution: {integrity: sha512-UMO76ZfylNTE+6nCmeA+jYlUOVPxft1+oHGaJpiR+nz+qYZWIlruaSBjf7b13RPvUrc79k6OR7Q5KMRFV8sG8A==}
+    dependencies:
+      acorn: 8.7.1
+      fast-glob: 3.2.11
+      magic-string: 0.26.2
+      micromatch: 4.0.5
+      ufo: 0.8.4
+    dev: false
+
+  /vite-plugin-glob/0.3.2:
+    resolution: {integrity: sha512-RoOm67e9eQ7bbWfnVbErjMcqnWCLjNtLy/fhOu8eqWbNi8Pz4T/co2j8uF9v2/P6KaGz02+4jFL83lDCAZ5StQ==}
     dependencies:
       acorn: 8.7.1
       fast-glob: 3.2.11

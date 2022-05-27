@@ -31,6 +31,7 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "^2.8.4",
+    "vite-plugin-glob": "^0.3.2",
     "vite-plugin-ssr": "^0.4.0-beta.28"
   },
   "devDependencies": {
@@ -46,6 +47,13 @@
   "bin": {
     "vikepress": "./cli.mjs"
   },
-  "files": ["src/*", "*.ts", "dist/*", "cli.mjs", "vite.config.ts", "vite.config/*"],
+  "files": [
+    "src/*",
+    "*.ts",
+    "dist/*",
+    "cli.mjs",
+    "vite.config.ts",
+    "vite.config/*"
+  ],
   "type": "module"
 }

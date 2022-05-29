@@ -22,7 +22,7 @@ specifiers:
   vikepress: 'link:'
   vite: ^2.8.4
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: ^0.4.0-beta.29
+  vite-plugin-ssr: ^0.4.0-beta.30
 
 dependencies:
   '@mdx-js/mdx': 2.1.1
@@ -38,7 +38,7 @@ dependencies:
   twemoji: 13.1.1
   vite: 2.9.9
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: 0.4.0-beta.29_vite@2.9.9
+  vite-plugin-ssr: 0.4.0-beta.30_vite@2.9.9
 
 devDependencies:
   '@types/express': 4.17.13
@@ -2956,8 +2956,8 @@ packages:
       ufo: 0.8.4
     dev: false
 
-  /vite-plugin-ssr/0.4.0-beta.29_vite@2.9.9:
-    resolution: {integrity: sha512-OKr6/oCroUFcR6CwE4sXuK5QmEA5FcwKmbpjiUl5PiuHGV0kxLmh7pzUTgy5+M1ZIGo7ml75kTccZEh9Fj863w==}
+  /vite-plugin-ssr/0.4.0-beta.30_vite@2.9.9:
+    resolution: {integrity: sha512-ufwQO3l2v0Lt8n0m8qJaRa4WV1LSh9ctPqCvXl5q5cGXu/SpHkvbogzOz/Y4YJCE6VzZ04xZVLKjGHfjwyoxhw==}
     engines: {node: '>=12.19.0'}
     hasBin: true
     peerDependencies:

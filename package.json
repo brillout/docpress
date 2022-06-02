@@ -1,6 +1,6 @@
 {
   "name": "vikepress",
-  "version": "0.0.11-build-ssr-only.0",
+  "version": "0.0.11",
   "exports": {
     ".": "./src/index.ts",
     "./client/initFeatureList": {

@@ -12,12 +12,7 @@ async function cli() {
   if (isDev) {
     await import('./devServer')
   } else if (isBuild) {
-    await build({
-      configFile,
-      // @ts-ignore
-      vitePluginSsr: { disableBuildChaining: true },
-      build: { ssr: true }
-    })
+    await build({ configFile })
   } else if (isPreview) {
     const server = await preview({ configFile, preview: { host: true } })
     server.printUrls()

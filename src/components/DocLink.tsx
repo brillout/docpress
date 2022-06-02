@@ -2,7 +2,7 @@ import React from 'react'
 import { getHeadings, parseTitle, Heading, HeadingWithoutLink } from '../headings'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
-import { assert, determineSectionTitle, determineSectionUrlHash } from '../utils'
+import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils'
 
 export { DocLink }
 
@@ -62,7 +62,10 @@ function getTitle({
       })
     }
     if (!sectionTitle) {
-      assert(!doNotInferSectionTitle, { doNotInferSectionTitle, href })
+      assertUsage(
+        !doNotInferSectionTitle,
+        `Link to \`${href}\` has option \`doNotInferSectionTitle\` but \`sectionTitle\` is not defined.`
+      )
       sectionTitle = determineSectionTitle(href, pageContext.config.titleNormalCase)
     }
     breadcrumbs.push(sectionTitle)

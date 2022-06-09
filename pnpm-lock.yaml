@@ -12,7 +12,7 @@ specifiers:
   express: ^4.17.1
   react: ^17.0.2
   react-dom: ^17.0.2
-  rehype-pretty-code: ^0.2.2
+  rehype-pretty-code: 0.2.4
   remark-gfm: ^3.0.1
   rollup: ^2.74.1
   shiki: ^0.10.1
@@ -20,7 +20,7 @@ specifiers:
   twemoji: ^13.1.0
   typescript: ^4.5.4
   vikepress: 'link:'
-  vite: ^2.8.4
+  vite: ^2.9.10
   vite-plugin-glob: 0.2.8
   vite-plugin-ssr: ^0.4.0-beta.30
 
@@ -32,13 +32,13 @@ dependencies:
   express: 4.18.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
-  rehype-pretty-code: 0.2.5_shiki@0.10.1
+  rehype-pretty-code: 0.2.4_shiki@0.10.1
   remark-gfm: 3.0.1
   shiki: 0.10.1
   twemoji: 13.1.1
-  vite: 2.9.9
+  vite: 2.9.10
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: 0.4.0-beta.30_vite@2.9.9
+  vite-plugin-ssr: 0.4.0-beta.30_vite@2.9.10
 
 devDependencies:
   '@types/express': 4.17.13
@@ -2412,8 +2412,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /rehype-pretty-code/0.2.5_shiki@0.10.1:
-    resolution: {integrity: sha512-Gm7EquFGiM8ucJ2neHKzSmV5Nb1b6dBQlTEXyWbGUZZQF5sJc5RI8yw2v9C1swomqyINil4vk5T6jNOkbHtEDA==}
+  /rehype-pretty-code/0.2.4_shiki@0.10.1:
+    resolution: {integrity: sha512-vbqwIa4cNwRaVur9caUw/b0jOQR88Svrs9c9RaQoogvbBxs5X9bWrSe5oFypaRTTq2cpZ45YzJQ7UUPO76LMKA==}
     engines: {node: ^12.16.0 || >=13.2.0}
     peerDependencies:
       shiki: '*'
@@ -2956,7 +2956,7 @@ packages:
       ufo: 0.8.4
     dev: false
 
-  /vite-plugin-ssr/0.4.0-beta.30_vite@2.9.9:
+  /vite-plugin-ssr/0.4.0-beta.30_vite@2.9.10:
     resolution: {integrity: sha512-ufwQO3l2v0Lt8n0m8qJaRa4WV1LSh9ctPqCvXl5q5cGXu/SpHkvbogzOz/Y4YJCE6VzZ04xZVLKjGHfjwyoxhw==}
     engines: {node: '>=12.19.0'}
     hasBin: true
@@ -2973,15 +2973,15 @@ packages:
       picocolors: 1.0.0
       resolve: 1.22.0
       symlink-dir: 5.0.1
-      vite: 2.9.9
+      vite: 2.9.10
       vite-plugin-dist-importer: 0.1.9
       vite-plugin-glob: 0.2.8
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /vite/2.9.9:
-    resolution: {integrity: sha512-ffaam+NgHfbEmfw/Vuh6BHKKlI/XIAhxE5QSS7gFLIngxg171mg1P3a4LSRME0z2ZU1ScxoKzphkipcYwSD5Ew==}
+  /vite/2.9.10:
+    resolution: {integrity: sha512-TwZRuSMYjpTurLqXspct+HZE7ONiW9d+wSWgvADGxhDPPyoIcNywY+RX4ng+QpK30DCa1l/oZgi2PLZDibhzbQ==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:

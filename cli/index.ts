@@ -1,10 +1,11 @@
-const args = process.argv.filter(Boolean).slice(2)
-
 import { build, preview } from 'vite'
 import { configFile } from './configFile'
+import { prerender } from 'vite-plugin-ssr/cli'
+const args = process.argv.filter(Boolean).slice(2)
 const isDev = args.includes('dev')
 const isPreview = args.includes('preview')
 const isBuild = args.includes('build')
+Error.stackTraceLimit = Infinity
 
 cli()
 
@@ -12,7 +13,15 @@ async function cli() {
   if (isDev) {
     await import('./devServer')
   } else if (isBuild) {
-    await build({ configFile })
+    const commonConfig = {
+      configFile,
+      vitePluginSsr: {
+        disableBuildChaining: true
+      }
+    }
+    await build({ ...commonConfig })
+    await build({ ...commonConfig, build: { ssr: true } })
+    await prerender({ configFile })
   } else if (isPreview) {
     const server = await preview({ configFile, preview: { host: true } })
     server.printUrls()

@@ -7,7 +7,7 @@ const headingsWithoutLink: HeadingWithoutLink[] = [
   {
     title: 'Page 2',
     url: '/page-2'
-  },
+  }
 ]
 
 const headings: HeadingDefinition[] = [

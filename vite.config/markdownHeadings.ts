@@ -10,17 +10,12 @@ type MarkdownHeading = {
   titleAddendum?: string
 }
 
-const SKIP_LIST = ['features/DeployAnywhere.mdx']
-
 function markdownHeadings() {
   return {
     name: 'mdx-headings',
     enforce: 'pre',
     transform: async (code: string, id: string) => {
-      if (!id.endsWith('.mdx')) {
-        return
-      }
-      if (SKIP_LIST.some((filePath) => id.endsWith(filePath))) {
+      if (!id.includes('.page.') || !id.endsWith('.mdx')) {
         return
       }
       const codeNew = transform(code)

@@ -12,12 +12,12 @@ export type { PageContextResolved }
 export type { Heading }
 
 type ReactComponent = () => JSX.Element
-type PageExports = {
+type Exports = {
   headings?: MarkdownHeading[]
 }
 type PageContextOriginal = PageContextBuiltIn & {
   Page: ReactComponent
-  pageExports: PageExports
+  exports: Exports
 }
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 
@@ -55,7 +55,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 function getMetaData(
   headingsWithoutLink: HeadingWithoutLink[],
   activeHeading: Heading | null,
-  pageContext: { url: string; pageExports: PageExports },
+  pageContext: { url: string; exports: Exports },
   config: Config
 ) {
   const { url } = pageContext
@@ -88,7 +88,7 @@ function getMetaData(
 function findActiveHeading(
   headings: Heading[],
   headingsWithoutLink: HeadingWithoutLink[],
-  pageContext: { url: string; pageExports: PageExports }
+  pageContext: { url: string; exports: Exports }
 ): Heading | null {
   let activeHeading: Heading | null = null
   assert(pageContext.url)
@@ -110,14 +110,14 @@ function findActiveHeading(
 
 function getHeadingsWithSubHeadings(
   headings: Heading[],
-  pageContext: { pageExports: PageExports; url: string },
+  pageContext: { exports: Exports; url: string },
   activeHeading: Heading | null
 ): Heading[] {
   const headingsWithSubHeadings = headings.slice()
   if (activeHeading === null) return headingsWithSubHeadings
   const activeHeadingIdx = headingsWithSubHeadings.indexOf(activeHeading)
   assert(activeHeadingIdx >= 0)
-  const pageHeadings = pageContext.pageExports.headings || []
+  const pageHeadings = pageContext.exports.headings || []
   pageHeadings.forEach((pageHeading, i) => {
     const title = parseTitle(pageHeading.title)
     const url = '#' + pageHeading.id

@@ -12,7 +12,7 @@ specifiers:
   express: ^4.17.1
   react: ^17.0.2
   react-dom: ^17.0.2
-  rehype-pretty-code: 0.2.4
+  rehype-pretty-code: ^0.3.2
   remark-gfm: ^3.0.1
   rollup: ^2.74.1
   shiki: ^0.10.1
@@ -32,7 +32,7 @@ dependencies:
   express: 4.18.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
-  rehype-pretty-code: 0.2.4_shiki@0.10.1
+  rehype-pretty-code: 0.3.2_shiki@0.10.1
   remark-gfm: 3.0.1
   shiki: 0.10.1
   twemoji: 13.1.1
@@ -2412,8 +2412,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /rehype-pretty-code/0.2.4_shiki@0.10.1:
-    resolution: {integrity: sha512-vbqwIa4cNwRaVur9caUw/b0jOQR88Svrs9c9RaQoogvbBxs5X9bWrSe5oFypaRTTq2cpZ45YzJQ7UUPO76LMKA==}
+  /rehype-pretty-code/0.3.2_shiki@0.10.1:
+    resolution: {integrity: sha512-G7JZDlbaw22QqjuaQ46c+fkQhXC/AD9nMQO3bbnj86jD54uv1QcpyUtSd/elp49vRafM/wZI1XPrOvca0LTt/Q==}
     engines: {node: ^12.16.0 || >=13.2.0}
     peerDependencies:
       shiki: '*'

@@ -24,7 +24,8 @@ const config: UserConfig = {
       },
       pageFiles: {
         include: ['vikepress']
-      }
+      },
+      includeCSS: ['vikepress']
     }),
     glob({
       // @ts-expect-error

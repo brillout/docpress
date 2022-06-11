@@ -22,7 +22,7 @@ specifiers:
   vikepress: 'link:'
   vite: ^2.9.10
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: 0.4.0-beta.35
+  vite-plugin-ssr: 0.4.0-beta.36
 
 dependencies:
   '@mdx-js/mdx': 2.1.1
@@ -36,7 +36,7 @@ dependencies:
   twemoji: 13.1.1
   vite: 2.9.10
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: 0.4.0-beta.35_vite@2.9.10
+  vite-plugin-ssr: 0.4.0-beta.36_vite@2.9.10
 
 devDependencies:
   '@types/express': 4.17.13
@@ -1265,7 +1265,7 @@ packages:
     dev: false
 
   /fs.realpath/1.0.0:
-    resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
+    resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
@@ -1416,7 +1416,7 @@ packages:
     dev: true
 
   /inflight/1.0.6:
-    resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
+    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
@@ -2231,7 +2231,7 @@ packages:
     dev: false
 
   /once/1.4.0:
-    resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
+    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
 
@@ -2272,7 +2272,7 @@ packages:
     dev: false
 
   /path-is-absolute/1.0.1:
-    resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
+    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
 
   /path-key/3.1.1:
@@ -2951,8 +2951,8 @@ packages:
       ufo: 0.8.4
     dev: false
 
-  /vite-plugin-ssr/0.4.0-beta.35_vite@2.9.10:
-    resolution: {integrity: sha512-N+u6zBhN5wXDB3X14MaiuVU1PY8upuMeHsQ4/nlU6s1WQxDmAj1ld5jEtqX+DgEQ88ccqyFxpyL5tBeUwRhx4w==}
+  /vite-plugin-ssr/0.4.0-beta.36_vite@2.9.10:
+    resolution: {integrity: sha512-bhqLEHsD2/gHi/gRpr5732XS8rvJr1+690H5IuHWrtXvA+uNY2cV2IWbP9RqFmCIK7+hHPsej3Y5s0h5zoiEXw==}
     engines: {node: '>=12.19.0'}
     hasBin: true
     peerDependencies:

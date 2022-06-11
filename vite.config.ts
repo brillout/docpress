@@ -31,7 +31,8 @@ const config: UserConfig = {
       restoreQueryExtension: true
     })
   ],
-  optimizeDeps: { include: ['@mdx-js/react'] },
+  // TODO: remove React?
+  optimizeDeps: { include: ['@mdx-js/react', 'react', 'react-dom'] },
   clearScreen: false,
   resolve: {
     alias: {

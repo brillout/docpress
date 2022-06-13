@@ -21,7 +21,7 @@ async function cli() {
     }
     await build({ ...commonConfig })
     await build({ ...commonConfig, build: { ssr: true } })
-    await prerender({ configFile })
+    await prerender({ viteConfig: { configFile } })
   } else if (isPreview) {
     const server = await preview({ configFile, preview: { host: true } })
     server.printUrls()

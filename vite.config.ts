@@ -32,15 +32,9 @@ const config: UserConfig = {
       restoreQueryExtension: true
     })
   ],
-  // TODO: remove React?
+  // TODO: remove `react`?
   optimizeDeps: { include: ['@mdx-js/react', 'react', 'react-dom'] },
-  clearScreen: false,
-  resolve: {
-    alias: {
-      // Needed for MDX, see https://github.com/mdx-js/mdx/discussions/1794#discussioncomment-1581513
-      'react/jsx-runtime': 'react/jsx-runtime.js'
-    }
-  }
+  clearScreen: false
 }
 
 export default config

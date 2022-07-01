@@ -15,7 +15,9 @@ const remarkPlugins = [remarkGfm]
 const config: UserConfig = {
   root,
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'classic'
+    }),
     markdownHeadings(),
     mdx({ rehypePlugins, remarkPlugins }),
     ssr({

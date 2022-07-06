@@ -28,11 +28,10 @@ const config: UserConfig = {
         include: ['vikepress']
       },
       includeCSS: ['vikepress'],
-      // @ts-ignore
       includeAssetsImportedByServer: true
     }),
     glob({
-      // @ts-expect-error
+      // @ts-ignore
       restoreQueryExtension: true
     })
   ],

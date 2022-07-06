@@ -20,9 +20,9 @@ specifiers:
   twemoji: ^13.1.0
   typescript: ^4.5.4
   vikepress: 'link:'
-  vite: ^2.9.10
+  vite: ^2.9.13
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: 0.4.0-beta.38
+  vite-plugin-ssr: 0.4.0-beta.45
 
 dependencies:
   '@mdx-js/mdx': 2.1.1
@@ -34,9 +34,9 @@ dependencies:
   remark-gfm: 3.0.1
   shiki: 0.10.1
   twemoji: 13.1.1
-  vite: 2.9.10
+  vite: 2.9.13
   vite-plugin-glob: 0.2.8
-  vite-plugin-ssr: 0.4.0-beta.38_vite@2.9.10
+  vite-plugin-ssr: 0.4.0-beta.45_vite@2.9.13
 
 devDependencies:
   '@types/express': 4.17.13
@@ -1467,7 +1467,7 @@ packages:
     dev: false
 
   /is-extglob/2.1.1:
-    resolution: {integrity: sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=}
+    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
 
   /is-glob/4.0.3:
@@ -2937,8 +2937,8 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
-  /vite-plugin-dist-importer/0.3.1:
-    resolution: {integrity: sha512-upADN/IejXOIBheOlRxFFAvNjOBCrLD+hQrR/pLRUi2+k8Ekpf+u0hLqJRw7tF8yyIVYEnR5YsaFi/eJZ/Fg/Q==}
+  /vite-plugin-dist-importer/0.3.2:
+    resolution: {integrity: sha512-pjK0KK8rYBTckvNniBknvqGir77HgKwA0qQZ7W1oOjOHklgeY+Sgi6rpg0vVZbft5alG0ij19IqrPoeT4e76VQ==}
     dev: false
 
   /vite-plugin-glob/0.2.8:
@@ -2951,8 +2951,8 @@ packages:
       ufo: 0.8.4
     dev: false
 
-  /vite-plugin-ssr/0.4.0-beta.38_vite@2.9.10:
-    resolution: {integrity: sha512-Emp1miliEGHxRoYRerVlrjjTgh95a2alF/S67hBSDXAy/RWAOp36CQGli13Wp41xpAI/pt1sQ0DL4Mh1Pe+cug==}
+  /vite-plugin-ssr/0.4.0-beta.45_vite@2.9.13:
+    resolution: {integrity: sha512-NRtqyW9aOu9AOMIvDNKDZoAzgUVUTHv5GBpvQGBb4m5HAkUXM2jzfB9H79TtsTp74d4UBd8pgYnXAihW5PfKug==}
     engines: {node: '>=12.19.0'}
     hasBin: true
     peerDependencies:
@@ -2963,20 +2963,21 @@ packages:
       cac: 6.7.12
       debug: 4.3.4
       es-module-lexer: 0.10.5
+      fast-glob: 3.2.11
       kolorist: 1.5.1
       p-limit: 3.1.0
       picocolors: 1.0.0
       resolve: 1.22.0
       symlink-dir: 5.0.1
-      vite: 2.9.10
-      vite-plugin-dist-importer: 0.3.1
+      vite: 2.9.13
+      vite-plugin-dist-importer: 0.3.2
       vite-plugin-glob: 0.2.8
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /vite/2.9.10:
-    resolution: {integrity: sha512-TwZRuSMYjpTurLqXspct+HZE7ONiW9d+wSWgvADGxhDPPyoIcNywY+RX4ng+QpK30DCa1l/oZgi2PLZDibhzbQ==}
+  /vite/2.9.13:
+    resolution: {integrity: sha512-AsOBAaT0AD7Mhe8DuK+/kE4aWYFMx/i0ZNi98hJclxb4e0OhQcZYUrvLjIaQ8e59Ui7txcvKMiJC1yftqpQoDw==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:

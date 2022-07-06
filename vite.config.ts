@@ -36,6 +36,10 @@ const config: UserConfig = {
   ],
   // TODO: remove `react`?
   optimizeDeps: { include: ['@mdx-js/react', 'react', 'react-dom'] },
+  // @ts-ignore
+  ssr: {
+    noExternal: ['vikepress']
+  },
   clearScreen: false
 }
 

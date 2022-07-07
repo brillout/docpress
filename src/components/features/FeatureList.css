@@ -33,8 +33,8 @@
   max-width: 1080px;
 }
 
-#features p {
-  margin: 5px 0;
+#features summary p {
+  margin: 10px 0;
 }
 #features h2 {
   margin-bottom: 0.7em;

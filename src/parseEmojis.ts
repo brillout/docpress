@@ -18,7 +18,7 @@ function parseEmojis(html: string) {
     if (!html.includes(shortcode)) {
       return
     }
-    const emojiStr = twemoji.convert.fromCodePoint(String(codepoint))
+    const emojiStr = twemoji.convert.fromCodePoint(codepoint)
     let emojiImg: any = twemoji.parse(emojiStr, {
       folder: 'svg',
       ext: '.svg'

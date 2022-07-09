@@ -31,6 +31,7 @@ async function render(pageContextOriginal: PageContextOriginal) {
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
+        <meta charset="UTF-8" />
         <link rel="icon" href="${pageContextResolved.meta.faviconUrl}" />
         <title>${pageContextResolved.meta.title}</title>
         ${descriptionTag}

@@ -5,13 +5,18 @@ function assert(condition: unknown, debugInfo?: unknown): asserts condition {
   if (condition) {
     return
   }
-  if (debugInfo !== undefined) {
+  const hasDebugInfo = debugInfo !== undefined
+  if (hasDebugInfo) {
+    console.log(debugInfo)
     if (typeof debugInfo === 'object') {
       debugInfo = JSON.stringify(debugInfo)
     }
-    console.log(debugInfo)
   }
-  const err = new Error('[VikePress] Bug. Contact VikePress maintainer.')
+  let errMsg = '[VikePress] Bug. Contact VikePress maintainer.'
+  if (hasDebugInfo) {
+    errMsg += ' Debug info: ' + String(debugInfo)
+  }
+  const err = new Error(errMsg)
   if (isBrowserAndDev()) {
     alert(err.stack)
   }

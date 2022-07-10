@@ -14,7 +14,7 @@
     "demo:dev": "vikepress dev",
     "demo:preview": "vikepress build && vikepress preview",
     "// VikePress": "",
-    "build": "tsup ./cli/ --format esm --out-dir ./dist/cli/",
+    "build": "rm -rf dist/ && tsup ./cli/ --format esm --out-dir ./dist/cli/",
     "prepublishOnly": "pnpm run build",
     "reset": "git clean -Xdf && pnpm install"
   },

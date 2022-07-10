@@ -14,7 +14,7 @@ pre > code {
   overflow-x: auto;
 }
 
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1139px) {
   pre > code {
     font-size: 0.95em;
   }

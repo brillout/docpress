@@ -38,7 +38,7 @@ type HeadingBase = {
   url?: string
   titleDocument?: string
   titleInNav?: string
-  titleSize?: string
+  // titleSize?: string
 }
 type HeadingAbstract = {
   url?: undefined
@@ -58,9 +58,9 @@ function getHeadings(config: { headings: HeadingDefinition[]; headingsWithoutLin
     if ('isListTitle' in heading) {
       assert(heading.isListTitle === true)
       let titleParsed: JSX.Element = parseTitle(titleInNav)
-      if (heading.titleSize) {
-        titleParsed = React.createElement('span', { style: { fontSize: heading.titleSize } }, titleParsed)
-      }
+      // if (heading.titleSize) {
+      //   titleParsed = React.createElement('span', { style: { fontSize: heading.titleSize } }, titleParsed)
+      // }
       titleInNavProcessed = React.createElement(React.Fragment, {}, [getListPrefix(), titleParsed])
     } else {
       titleInNavProcessed = parseTitle(titleInNav)

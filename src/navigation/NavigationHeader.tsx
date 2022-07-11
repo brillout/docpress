@@ -64,7 +64,7 @@ function ChangelogButton() {
   const { projectInfo } = pageContext.config
   return (
     <a
-      href={`${projectInfo.githubRepository}/blob/master/CHANGELOG.md`}
+      href={`${projectInfo.githubRepository}/blob/main/CHANGELOG.md`}
       className="button colorize-on-hover"
       style={{
         display: 'flex',

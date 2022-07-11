@@ -32,13 +32,15 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     pageContext,
     config
   )
-  const { faviconUrl, algolia, tagline } = config
+  const { faviconUrl, algolia, tagline, bannerUrl, websiteUrl } = config
   const pageContextResolved = {}
   objectAssign(pageContextResolved, {
     ...pageContext,
     meta: {
       title,
       faviconUrl,
+      bannerUrl,
+      websiteUrl,
       tagline,
       algolia
     },

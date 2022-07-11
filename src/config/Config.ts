@@ -23,4 +23,6 @@ type Config = {
   navHeader: React.ReactNode
   titleNormalCase: boolean
   tagline: string
+  websiteUrl: string
+  bannerUrl?: string
 }

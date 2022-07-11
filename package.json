@@ -5,6 +5,9 @@
     ".": "./src/index.ts",
     "./client/initFeatureList": {
       "browser": "./src/components/features/initFeatureList.ts"
+    },
+    "./style.css": {
+      "browser": "./src/css/index.css"
     }
   },
   "scripts": {

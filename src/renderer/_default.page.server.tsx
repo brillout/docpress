@@ -60,6 +60,7 @@ function getOpenGraphTags(
   if (bannerUrl) {
     bannerTags = escapeInject`
       <meta property="og:image" content="${bannerUrl}">
+      <meta property="twitter:card" content="summary_large_image">
       <meta property="twitter:image" content="${bannerUrl}">
     `
   }
@@ -68,10 +69,9 @@ function getOpenGraphTags(
     <meta property="og:type" content="website">
     <meta property="og:title" content="${title}">
     <meta property="og:url" content="${websiteUrl}">
-    <meta property="twitter:description" content="${tagline}">
     <meta property="twitter:title" content="${title}">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://main.vitejs.dev">
+    <meta property="twitter:url" content="${websiteUrl}">
+    <meta property="twitter:description" content="${tagline}">
     ${bannerTags}
   `
 }

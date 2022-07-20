@@ -49,29 +49,21 @@ async function render(pageContextOriginal: PageContextOriginal) {
 
 function getOpenGraphTags(
   url: string,
-  meta: { title: string; tagline: string; websiteUrl: string; bannerUrl?: string }
+  meta: { title: string; tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string }
 ) {
-  const { title, tagline, websiteUrl, bannerUrl } = meta
+  const { title, tagline, websiteUrl, twitterHandle, bannerUrl } = meta
 
   assert(url.startsWith('/'))
   if (url !== '/' || !bannerUrl) return ''
 
-  let bannerTags: string | ReturnType<typeof escapeInject> = ''
-  if (bannerUrl) {
-    bannerTags = escapeInject`
-      <meta property="og:image" content="${bannerUrl}">
-      <meta property="twitter:card" content="summary_large_image">
-      <meta property="twitter:image" content="${bannerUrl}">
-    `
-  }
-
+  // See view-source:https://vitejs.dev/
   return escapeInject`
     <meta property="og:type" content="website">
     <meta property="og:title" content="${title}">
+    <meta property="og:image" content="${bannerUrl}">
     <meta property="og:url" content="${websiteUrl}">
-    <meta property="twitter:title" content="${title}">
-    <meta property="twitter:url" content="${websiteUrl}">
-    <meta property="twitter:description" content="${tagline}">
-    ${bannerTags}
+    <meta property="og:description" content="${tagline}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="${twitterHandle}">
   `
 }

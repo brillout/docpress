@@ -25,4 +25,5 @@ type Config = {
   tagline: string
   websiteUrl: string
   bannerUrl?: string
+  twitterHandle: string
 }

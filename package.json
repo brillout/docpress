@@ -54,13 +54,8 @@
   "bin": {
     "vikepress": "./cli.mjs"
   },
-  "files": [
-    "src/*",
-    "*.ts",
-    "dist/*",
-    "cli.mjs",
-    "vite.config.ts",
-    "vite.config/*"
-  ],
-  "type": "module"
+  "files": ["src/*", "*.ts", "dist/*", "cli.mjs", "vite.config.ts", "vite.config/*"],
+  "type": "module",
+  "license": "MIT",
+  "repository": "https://github.com/brillout/vikepress"
 }

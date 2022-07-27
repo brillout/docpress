@@ -1,6 +1,6 @@
 {
   "name": "vikepress",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "exports": {
     ".": "./src/index.ts",
     "./client/initFeatureList": {
@@ -57,7 +57,14 @@
   "bin": {
     "vikepress": "./cli.mjs"
   },
-  "files": ["src/*", "*.ts", "dist/*", "cli.mjs", "vite.config.ts", "vite.config/*"],
+  "files": [
+    "src/*",
+    "*.ts",
+    "dist/*",
+    "cli.mjs",
+    "vite.config.ts",
+    "vite.config/*"
+  ],
   "type": "module",
   "license": "MIT",
   "repository": "https://github.com/brillout/vikepress"

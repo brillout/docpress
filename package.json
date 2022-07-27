@@ -11,15 +11,18 @@
     }
   },
   "scripts": {
-    "// VikePress Demo": "",
+    "// === VikePress Demo ===": "",
     "dev": "pnpm run build && pnpm run demo:dev",
     "preview": "pnpm run build && pnpm run demo:preview",
     "demo:dev": "vikepress dev",
     "demo:preview": "vikepress build && vikepress preview",
-    "// VikePress": "",
+    "// === VikePress Source Code ===": "",
     "build": "rm -rf dist/ && tsup ./cli/ --format esm --out-dir ./dist/cli/",
+    "reset": "git clean -Xdf && pnpm install",
+    "// === Release ===": "",
     "prepublishOnly": "pnpm run build",
-    "reset": "git clean -Xdf && pnpm install"
+    "postpublish": " git push && git push --tags",
+    "release": "npm version patch && npm publish"
   },
   "dependencies": {
     "@mdx-js/mdx": "^2.0.0",

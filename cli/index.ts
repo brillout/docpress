@@ -16,7 +16,7 @@ async function cli() {
     const commonConfig = {
       configFile,
       vitePluginSsr: {
-        disableBuildChaining: true
+        disableAutoFullBuild: true
       }
     }
     await build({ ...commonConfig })

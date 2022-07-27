@@ -12,7 +12,7 @@ function EditPageNote({ pageContext }: { pageContext: { urlPathname: string } })
   )
   return (
     <div style={{ marginTop: 50 }}>
-      <RepoLink path={'/docs/pages' + pageContext.urlPathname + '.page.mdx'} text={text} editMode={true} />
+      <RepoLink path={'/docs/pages' + pageContext.urlPathname + '.page.server.mdx'} text={text} editMode={true} />
     </div>
   )
 }

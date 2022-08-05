@@ -1,6 +1,7 @@
 .nav-item {
   display: block;
   white-space: nowrap;
+  overflow-x: hidden;
   --padding-left-global: 9px;
   --padding-left-additional: 0px;
 }

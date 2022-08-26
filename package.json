@@ -21,8 +21,7 @@
     "reset": "git clean -Xdf && pnpm install",
     "// === Release ===": "",
     "prepublishOnly": "pnpm run build",
-    "postpublish": " git push && git push --tags",
-    "release": "npm version patch && npm publish"
+    "release": "npm version patch && npm publish git push && git push --tags"
   },
   "dependencies": {
     "@mdx-js/mdx": "^2.0.0",

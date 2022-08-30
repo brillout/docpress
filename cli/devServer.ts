@@ -16,8 +16,9 @@ async function startServer() {
   app.use(viteDevServer.middlewares)
 
   app.get('*', async (req, res, next) => {
-    const url = req.originalUrl
-    const pageContextInit = { url }
+    const pageContextInit = {
+      urlOriginal: req.originalUrl
+    }
     const pageContext = await renderPage(pageContextInit)
     if (!pageContext.httpResponse) return next()
     const { body, statusCode, contentType } = pageContext.httpResponse

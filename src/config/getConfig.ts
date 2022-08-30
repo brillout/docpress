@@ -1,5 +1,5 @@
 export { getConfig }
-import { assertUsage } from '../utils'
+import { assert, assertUsage } from '../utils'
 import { Config } from './Config'
 
 function getConfig(): Config {
@@ -13,5 +13,6 @@ function getConfig(): Config {
     `Found multiple \`vikepress.config.js\` files: ${files.map((f) => `\`${f}\``).join(', ')}. Define only one instead.`
   )
   const config = (Object.values(globResult)[0] as any).default as Config
+  assert(config)
   return config
 }

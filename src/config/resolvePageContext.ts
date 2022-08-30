@@ -57,10 +57,10 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 function getMetaData(
   headingsWithoutLink: HeadingWithoutLink[],
   activeHeading: Heading | null,
-  pageContext: { url: string; exports: Exports },
+  pageContext: { urlOriginal: string; exports: Exports },
   config: Config
 ) {
-  const { url } = pageContext
+  const url = pageContext.urlOriginal
 
   let title: string
   let pageTitle: string | JSX.Element | null
@@ -90,11 +90,11 @@ function getMetaData(
 function findActiveHeading(
   headings: Heading[],
   headingsWithoutLink: HeadingWithoutLink[],
-  pageContext: { url: string; exports: Exports }
+  pageContext: { urlOriginal: string; exports: Exports }
 ): Heading | null {
   let activeHeading: Heading | null = null
-  assert(pageContext.url)
-  const pageUrl = pageContext.url
+  assert(pageContext.urlOriginal)
+  const pageUrl = pageContext.urlOriginal
   headings.forEach((heading) => {
     if (heading.url === pageUrl) {
       activeHeading = heading
@@ -112,7 +112,7 @@ function findActiveHeading(
 
 function getHeadingsWithSubHeadings(
   headings: Heading[],
-  pageContext: { exports: Exports; url: string },
+  pageContext: { exports: Exports; urlOriginal: string },
   activeHeading: Heading | null
 ): Heading[] {
   const headingsWithSubHeadings = headings.slice()
@@ -130,7 +130,7 @@ function getHeadingsWithSubHeadings(
         '` (it should be `<h2>`) for sub-heading `' +
         pageHeading.title +
         '` of page `' +
-        pageContext.url +
+        pageContext.urlOriginal +
         '`.'
     )
     if (pageHeading.headingLevel === 2) {

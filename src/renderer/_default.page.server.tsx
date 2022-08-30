@@ -38,7 +38,7 @@ async function render(pageContextOriginal: PageContextOriginal) {
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         ${docSearchCSS}
-        ${getOpenGraphTags(pageContextOriginal.url, pageContextResolved.meta)}
+        ${getOpenGraphTags(pageContextOriginal.urlPathname, pageContextResolved.meta)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>

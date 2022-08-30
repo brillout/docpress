@@ -4,7 +4,7 @@
     "module": "ES2020",
     "moduleResolution": "Node",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "vite-plugin-glob/client"],
+    "types": ["vite/client"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

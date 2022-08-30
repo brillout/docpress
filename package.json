@@ -34,7 +34,6 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "^2.9.13",
-    "vite-plugin-glob": "0.2.8",
     "vite-plugin-ssr": "^0.4.0"
   },
   "peerDependencies": {

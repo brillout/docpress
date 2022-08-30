@@ -21,7 +21,6 @@ specifiers:
   typescript: ^4.5.4
   vikepress: 'link:'
   vite: ^2.9.13
-  vite-plugin-glob: 0.2.8
   vite-plugin-ssr: ^0.4.0
 
 dependencies:
@@ -35,7 +34,6 @@ dependencies:
   shiki: 0.10.1
   twemoji: 13.1.1
   vite: 2.9.13
-  vite-plugin-glob: 0.2.8
   vite-plugin-ssr: 0.4.0_vite@2.9.13
 
 devDependencies:

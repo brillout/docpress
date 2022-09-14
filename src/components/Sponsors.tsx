@@ -57,12 +57,16 @@ function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
   return (
-    <div style={{ textAlign: 'center', marginTop: 10 }}>
-      <div>
-        <HeartIcon />
-      </div>
+    <div style={{ textAlign: 'center', marginTop: 7 }}>
+      <a
+        className="button"
+        href="https://github.com/sponsors/brillout"
+        style={{ color: 'inherit', display: 'inline-flex', alignItems: 'center', padding: '5px 10px', marginBottom: 10 }}
+      >
+        <img src={iconHeart} height={22} /> <span style={{ marginLeft: 7, fontSize: '1.07em' }}>Sponsor</span>
+      </a>
       <div></div>
-      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 10, marginBottom: 13 }}>
+      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 10, marginBottom: 8 }}>
         {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by our wonderful
         sponsors.
       </div>
@@ -134,8 +138,4 @@ function getImageSize(plan: Plan) {
     return { width: 170, height: 50, padding: 15 }
   }
   assert(false)
-}
-
-function HeartIcon() {
-  return <img src={iconHeart} height={30} />
 }

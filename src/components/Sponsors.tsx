@@ -5,6 +5,10 @@ import { assert } from '../utils'
 import ccoliLogo from './Sponsors/companyLogos/ccoli.svg'
 import contraLogo from './Sponsors/companyLogos/contra.svg'
 import mfqsLogo from './Sponsors/companyLogos/mfqs.svg'
+import medalGold from './Sponsors/medalGold.svg'
+import medalSilver from './Sponsors/medalSilver.svg'
+import medalBronze from './Sponsors/medalBronze.svg'
+import labelBg from './Sponsors/label.svg'
 
 export { Sponsors }
 
@@ -57,17 +61,23 @@ function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
   return (
-    <div style={{ textAlign: 'center', marginTop: 7 }}>
+    <div style={{ textAlign: 'center', marginTop: 19 }}>
       <a
         className="button"
         href="https://github.com/sponsors/brillout"
-        style={{ color: 'inherit', display: 'inline-flex', alignItems: 'center', padding: '5px 10px', marginBottom: 10 }}
+        style={{
+          color: 'inherit',
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 10px',
+          marginBottom: 10
+        }}
       >
         <img src={iconHeart} height={22} /> <span style={{ marginLeft: 7, fontSize: '1.07em' }}>Sponsor</span>
       </a>
       <div></div>
-      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 10, marginBottom: 8 }}>
-        {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by our wonderful
+      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 12, marginBottom: 2 }}>
+        {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by wonderful
         sponsors.
       </div>
       <div
@@ -89,6 +99,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
   let website: string
   let padding: number
   let backgroundColor = '#f0f0f0'
+  let label: null | JSX.Element = null
   if ('username' in sponsor) {
     website = `https://github.com/${sponsor.username}`
     imgSrc = `https://github.com/${sponsor.username}.png?size=30`
@@ -104,26 +115,84 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
     height = size.height
     padding = size.padding
     imgAlt = sponsor.companyName
+    label = <Label sponsor={sponsor} />
   }
-  const margin = 5
+  const marginWidth = 5
   return (
     <a
       href={website}
       style={{
-        backgroundColor,
-        borderRadius: 7,
-        overflow: 'hidden',
-        margin,
-        width,
-        maxWidth: `calc(100vw - 2 * ${marginOuter}px - 2 * ${margin}px)`,
-        height,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        margin: `10px ${marginWidth}px`
       }}
     >
-      <img style={{ maxWidth: `calc(100% - ${padding}px)`, maxHeight: height - padding }} src={imgSrc} alt={imgAlt} />
+      {label}
+      <div
+        style={{
+          backgroundColor,
+          borderRadius: 7,
+          overflow: 'hidden',
+          width,
+          maxWidth: `calc(100vw - 2 * ${marginOuter}px - 2 * ${marginWidth}px)`,
+          height,
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }}
+      >
+        <img
+          style={{ maxWidth: `calc(100% - ${padding}px)`, maxHeight: height - padding, zIndex: 2 }}
+          src={imgSrc}
+          alt={imgAlt}
+        />
+      </div>
     </a>
+  )
+}
+
+function Label({ sponsor }: { sponsor: Sponsor }) {
+  let medalSrc: string
+  let letterSpacing: number | undefined
+  assert(!('username' in sponsor))
+  if (sponsor.plan === 'gold') {
+    medalSrc = medalGold
+    letterSpacing = 1
+  } else if (sponsor.plan === 'silver') {
+    medalSrc = medalSilver
+    letterSpacing = 1
+  } else if (sponsor.plan === 'bronze') {
+    medalSrc = medalBronze
+  } else {
+    assert(false)
+  }
+
+  return (
+    <div
+      style={{
+        top: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        paddingBottom: 1
+      }}
+    >
+      <img src={labelBg} style={{ height: 24, position: 'absolute', bottom: 0 }} />
+      <img src={medalSrc} style={{ height: 15, zIndex: 1, marginRight: 5 }} />{' '}
+      <span
+        style={{
+          zIndex: 1,
+          fontSize: '0.82em',
+          position: 'relative',
+          top: 0,
+          fontWeight: 500,
+          color: '#666',
+          letterSpacing
+        }}
+      >
+        {capitalizeFirstLetter(sponsor.plan)}
+      </span>
+    </div>
   )
 }
 
@@ -138,4 +207,8 @@ function getImageSize(plan: Plan) {
     return { width: 170, height: 50, padding: 15 }
   }
   assert(false)
+}
+
+function capitalizeFirstLetter(word: string): string {
+  return word[0].toUpperCase() + word.slice(1)
 }

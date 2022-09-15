@@ -17,6 +17,7 @@ function Navigation({
   }
 }) {
   const headings = getHeadingsWithComputedProps(pageContext)
+  const headingsGrouped = groupHeadings(headings)
   const { isDetachedPage } = pageContext
   return (
     <>
@@ -24,29 +25,9 @@ function Navigation({
         <NavigationHeader />
         {isDetachedPage && <DetachedPageNote />}
         <div id="navigation-content" style={{ position: 'relative' }}>
-          {headings.map((heading, i) => {
-            assert([1, 2, 3, 4].includes(heading.level), heading)
-            return (
-              <a
-                className={[
-                  'nav-item',
-                  'nav-item-h' + heading.level,
-                  heading.computed.isActive && ' is-active',
-                  heading.computed.isActiveFirst && ' is-active-first',
-                  heading.computed.isActiveLast && ' is-active-last',
-                  heading.computed.isChildOfListHeading && 'nav-item-parent-is-list-heading',
-                  heading.computed.isFirstOfItsKind && 'nav-item-first-of-its-kind',
-                  heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind'
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                href={heading.url || undefined}
-                key={i}
-              >
-                {heading.titleInNav}
-              </a>
-            )
-          })}
+          {headings.map((heading, i) => (
+            <Heading heading={heading} key={i} />
+          ))}
           {/*
       <ScrollOverlay />
       */}
@@ -55,6 +36,57 @@ function Navigation({
       <div id="navigation-mask" />
     </>
   )
+}
+
+function Heading({
+  heading
+}: {
+  heading: {
+    level: number
+    url?: string
+    titleInNav: string | JSX.Element
+    computed: {
+      isActive: boolean
+      isActiveFirst: boolean
+      isActiveLast: boolean
+      isChildOfListHeading: boolean
+      isFirstOfItsKind: boolean
+      isLastOfItsKind: boolean
+    }
+  }
+}) {
+  assert([1, 2, 3, 4].includes(heading.level), heading)
+  return (
+    <a
+      className={[
+        'nav-item',
+        'nav-item-h' + heading.level,
+        heading.computed.isActive && ' is-active',
+        heading.computed.isActiveFirst && ' is-active-first',
+        heading.computed.isActiveLast && ' is-active-last',
+        heading.computed.isChildOfListHeading && 'nav-item-parent-is-list-heading',
+        heading.computed.isFirstOfItsKind && 'nav-item-first-of-its-kind',
+        heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind'
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      href={heading.url || undefined}
+    >
+      {heading.titleInNav}
+    </a>
+  )
+}
+
+function groupHeadings<T extends { level: number }>(headings: T[]) {
+  const headingsGrouped: (T & { headings: T[] })[] = []
+  headings.forEach((heading) => {
+    if (heading.level === 1) {
+      headingsGrouped.push({ ...heading, headings: [] })
+    } else {
+      headingsGrouped[headingsGrouped.length - 1].headings.push(heading)
+    }
+  })
+  return headingsGrouped
 }
 
 function getHeadingsWithComputedProps(pageContext: {
@@ -71,7 +103,7 @@ function getHeadingsWithComputedProps(pageContext: {
 
     let isActiveFirst = false
     let isActiveLast = false
-    let isActive
+    let isActive = false
     if (heading.url === urlPathname) {
       assert(heading.level === 2, { urlPathname })
       isActive = true
@@ -89,7 +121,7 @@ function getHeadingsWithComputedProps(pageContext: {
 
     const isFirstOfItsKind = heading.level !== headingPrevious?.level
     const isLastOfItsKind = heading.level !== headingNext?.level
-    const isChildOfListHeading = heading.parentHeadings[0]?.isListTitle
+    const isChildOfListHeading = !!heading.parentHeadings[0]?.isListTitle
 
     return {
       ...heading,

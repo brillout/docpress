@@ -16,48 +16,27 @@ function Navigation({
     isDetachedPage: boolean
   }
 }) {
-  const { headingsWithSubHeadings, urlPathname, isDetachedPage } = pageContext
+  const headings = getHeadingsWithComputedProps(pageContext)
+  const { isDetachedPage } = pageContext
   return (
     <>
       <div id="navigation-container">
         <NavigationHeader />
         {isDetachedPage && <DetachedPageNote />}
         <div id="navigation-content" style={{ position: 'relative' }}>
-          {headingsWithSubHeadings.map((heading, i) => {
+          {headings.map((heading, i) => {
             assert([1, 2, 3, 4].includes(heading.level), heading)
-
-            const headingPrevious = headingsWithSubHeadings[i - 1]
-            const headingNext = headingsWithSubHeadings[i + 1]
-
-            let isActiveFirst = false
-            let isActiveLast = false
-            let isActive
-            if (heading.url === urlPathname) {
-              assert(heading.level === 2, { urlPathname })
-              isActive = true
-              isActiveFirst = true
-              if (headingNext?.level !== 3) {
-                isActiveLast = true
-              }
-            }
-            if (heading.level === 3) {
-              isActive = true
-              if (headingNext?.level !== 3) {
-                isActiveLast = true
-              }
-            }
-
             return (
               <a
                 className={[
                   'nav-item',
                   'nav-item-h' + heading.level,
-                  isActive && ' is-active',
-                  isActiveFirst && ' is-active-first',
-                  isActiveLast && ' is-active-last',
-                  heading.parentHeadings[0]?.isListTitle && 'nav-item-parent-is-list-heading',
-                  heading.level !== headingPrevious?.level && 'nav-item-first-of-its-kind',
-                  heading.level !== headingNext?.level && 'nav-item-last-of-its-kind'
+                  heading.computed.isActive && ' is-active',
+                  heading.computed.isActiveFirst && ' is-active-first',
+                  heading.computed.isActiveLast && ' is-active-last',
+                  heading.computed.isChildOfListHeading && 'nav-item-parent-is-list-heading',
+                  heading.computed.isFirstOfItsKind && 'nav-item-first-of-its-kind',
+                  heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind'
                 ]
                   .filter(Boolean)
                   .join(' ')}
@@ -76,6 +55,54 @@ function Navigation({
       <div id="navigation-mask" />
     </>
   )
+}
+
+function getHeadingsWithComputedProps(pageContext: {
+  headingsWithSubHeadings: Heading[]
+  urlPathname: string
+  isDetachedPage: boolean
+}) {
+  const { headingsWithSubHeadings, urlPathname } = pageContext
+  return headingsWithSubHeadings.map((heading, i) => {
+    assert([1, 2, 3, 4].includes(heading.level), heading)
+
+    const headingPrevious = headingsWithSubHeadings[i - 1]
+    const headingNext = headingsWithSubHeadings[i + 1]
+
+    let isActiveFirst = false
+    let isActiveLast = false
+    let isActive
+    if (heading.url === urlPathname) {
+      assert(heading.level === 2, { urlPathname })
+      isActive = true
+      isActiveFirst = true
+      if (headingNext?.level !== 3) {
+        isActiveLast = true
+      }
+    }
+    if (heading.level === 3) {
+      isActive = true
+      if (headingNext?.level !== 3) {
+        isActiveLast = true
+      }
+    }
+
+    const isFirstOfItsKind = heading.level !== headingPrevious?.level
+    const isLastOfItsKind = heading.level !== headingNext?.level
+    const isChildOfListHeading = heading.parentHeadings[0]?.isListTitle
+
+    return {
+      ...heading,
+      computed: {
+        isActive,
+        isActiveFirst,
+        isActiveLast,
+        isFirstOfItsKind,
+        isLastOfItsKind,
+        isChildOfListHeading
+      }
+    }
+  })
 }
 
 function ScrollOverlay() {

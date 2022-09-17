@@ -83,8 +83,8 @@ function Sponsors() {
       <div
         style={{ display: 'flex', flexWrap: 'wrap', margin: marginOuter, justifyContent: 'center', alignItems: 'end' }}
       >
-        {sponsors.map((sponsor) => (
-          <SponsorDiv sponsor={sponsor} />
+        {sponsors.map((sponsor, i) => (
+          <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>
     </div>

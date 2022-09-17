@@ -77,14 +77,33 @@
   }
 }
 
-body.expend-menu #navigation-container {
-  min-width: 100vw;
+/*
+html.expend-menu #navigation-content {
+*/
+html.expend-menu #navigation-container {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
 }
-body.expend-menu #navigation-content {
+html.expend-menu #navigation-header {
+  display: none !important;
+}
+html.expend-menu #navigation-content {
   display: flex;
   margin: auto; /* A `max-width` is set by src/navigation/navigationColumnLayout.ts */
 }
-body.expend-menu #navigation-content > .nav-column {
+html.expend-menu #navigation-content > .nav-column {
   flex-grow: 1;
   max-width: 350px;
+}
+html.expend-menu .nav-column > .nav-h1-group:first-child > .nav-item-h1:first-child {
+  margin-top: 0px;
+}
+html.expend-menu {
+  /* disable scroll of main view */
+  overflow: hidden !important;
 }

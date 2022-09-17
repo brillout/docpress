@@ -11,6 +11,7 @@ function NavigationHeader() {
   const pageContext = usePageContext()
   return (
     <div
+      id="navigation-header"
       style={{
         display: 'flex',
         flexDirection: 'column',

@@ -16,26 +16,13 @@ function Navigation({
     isDetachedPage: boolean
   }
 }) {
-  const headings = getHeadingsWithComputedProps(pageContext)
-  const headingsGrouped = groupHeadings(headings)
   const { isDetachedPage } = pageContext
   return (
     <>
       <div id="navigation-container">
         <NavigationHeader />
         {isDetachedPage && <DetachedPageNote />}
-        <div id="navigation-content">
-          <div className="nav-column" style={{ position: 'relative' }}>
-            {headingsGrouped.map((headingsH1, i) => (
-              <div className="nav-h1-group" key={i}>
-                <Heading heading={headingsH1} />
-                {headingsH1.headings.map((heading, j) => (
-                  <Heading heading={heading} key={j} />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        <NavigationContent pageContext={pageContext} />
         {/* <ScrollOverlay /> */}
         <div id="navigation-mask" />
         <div id="expend-button-wrapper">
@@ -43,6 +30,33 @@ function Navigation({
         </div>
       </div>
     </>
+  )
+}
+
+function NavigationContent({
+  pageContext
+}: {
+  pageContext: {
+    headingsWithSubHeadings: Heading[]
+    urlPathname: string
+    isDetachedPage: boolean
+  }
+}) {
+  const headings = getHeadingsWithComputedProps(pageContext)
+  const headingsGrouped = groupHeadings(headings)
+  return (
+    <div id="navigation-content">
+      <div className="nav-column" style={{ position: 'relative' }}>
+        {headingsGrouped.map((headingsH1, i) => (
+          <div className="nav-h1-group" key={i}>
+            <Heading heading={headingsH1} />
+            {headingsH1.headings.map((heading, j) => (
+              <Heading heading={heading} key={j} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -85,6 +99,7 @@ function Heading({
   )
 }
 
+type HeadingsGrouped = ReturnType<typeof groupHeadings>
 function groupHeadings<T extends { level: number }>(headings: T[]) {
   const headingsGrouped: (T & { headings: T[] })[] = []
   headings.forEach((heading) => {

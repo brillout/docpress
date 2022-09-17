@@ -1,24 +1,27 @@
-#navigation-wrapper {
-  position: relative;
-}
 #navigation-container {
-  /*
-  transform: translateZ(0);
-  */
+  --expend-button-width: 24px;
+  --expend-button-height: 55px;
 }
-
-/*
-#navigation-wrapper > #expend-button {
-*/
-#expend-button-wrapper {
+#navigation-container > #expend-button-wrapper {
   position: absolute;
-  right: 40px;
+  right: 0;
 }
-#expend-button {
+html.expend-menu #expend-button-wrapper {
+  right: calc(var(--expend-button-width) + 10px) !important;
+}
+#navigation-container > #expend-button-wrapper > #expend-button {
   position: fixed;
-  top: calc(50% - 50px);
-  width: 40px;
-  background-color: red;
-  height: 100px;
-  z-index: 99999;
+  top: calc(50% - var(--expend-button-height) / 2);
+  width: var(--expend-button-width);
+  background-color: #ddd !important;
+  background: url('./chevron.svg');
+  color: red;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 55px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+html.expend-menu #expend-button {
+  transform: scaleX(-1);
 }

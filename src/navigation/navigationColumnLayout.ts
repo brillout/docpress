@@ -2,26 +2,38 @@ export { activateNavigationColumnLayout }
 
 import { assert } from '../utils'
 
+let scrollPositionBeforeToggle: number = 0
+
 function activateNavigationColumnLayout() {
   updateColumnWidth()
   window.addEventListener('resize', updateColumnWidth, { passive: true })
   document.getElementById('expend-button')!.onclick = toggleNavExpend
+  document.addEventListener(
+    'keyup',
+    (ev) => {
+      if (ev.key === 'Escape') toggleNavExpend()
+    },
+    false
+  )
 }
 
 function toggleNavExpend() {
-  document.body.classList.toggle('show-menu')
+  const navContainer = document.getElementById('navigation-container')!
+  const scrollPos = navContainer.scrollTop
+  document.documentElement.classList.toggle('expend-menu')
+  if (scrollPositionBeforeToggle !== undefined) {
+    navContainer.scrollTop = scrollPositionBeforeToggle
+  }
+  scrollPositionBeforeToggle = scrollPos
 }
 
 function updateColumnWidth() {
   const navMinWidth = 299
-  const navMaxWidth = 350
   const navH1Groups = Array.from(document.querySelectorAll('.nav-h1-group'))
   const numberOfColumnsMax = navH1Groups.length
 
   const widthAvailable = getViewportWidth()
   const numberOfColumns = Math.max(1, Math.min(numberOfColumnsMax, Math.floor(widthAvailable / navMinWidth)))
-  const columnWidth = Math.min(navMaxWidth, widthAvailable / numberOfColumns)
-  assert(columnWidth >= navMinWidth)
 
   let columns = navH1Groups.map((navH1Group) => {
     const column = [

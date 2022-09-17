@@ -76,3 +76,15 @@
     --padding-top: calc(var(--mobile-header-height) + 12px) !important;
   }
 }
+
+body.expend-menu #navigation-container {
+  min-width: 100vw;
+}
+body.expend-menu #navigation-content {
+  display: flex;
+  margin: auto; /* A `max-width` is set by src/navigation/navigationColumnLayout.ts */
+}
+body.expend-menu #navigation-content > .nav-column {
+  flex-grow: 1;
+  max-width: 350px;
+}

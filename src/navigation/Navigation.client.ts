@@ -1,5 +1,8 @@
+import { activateNavigationColumnLayout } from './navigationColumnLayout'
+
 activateNavigationMask()
 activateMenuToggle()
+activateNavigationColumnLayout()
 
 function activateMenuToggle() {
   const menuToggle = document.getElementById('menu-toggle')!

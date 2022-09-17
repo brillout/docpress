@@ -1,0 +1,101 @@
+export { activateNavigationColumnLayout }
+
+import { assert } from '../utils'
+
+function activateNavigationColumnLayout() {
+  updateColumnWidth()
+  window.addEventListener('resize', updateColumnWidth, { passive: true })
+  document.getElementById('expend-button')!.onclick = toggleNavExpend
+}
+
+function toggleNavExpend() {
+  document.body.classList.toggle('show-menu')
+}
+
+function updateColumnWidth() {
+  const navMinWidth = 299
+  const navMaxWidth = 350
+  const navH1Groups = Array.from(document.querySelectorAll('.nav-h1-group'))
+  const numberOfColumnsMax = navH1Groups.length
+
+  const widthAvailable = getViewportWidth()
+  const numberOfColumns = Math.max(1, Math.min(numberOfColumnsMax, Math.floor(widthAvailable / navMinWidth)))
+  const columnWidth = Math.min(navMaxWidth, widthAvailable / numberOfColumns)
+  assert(columnWidth >= navMinWidth)
+
+  let columns = navH1Groups.map((navH1Group) => {
+    const column = [
+      {
+        element: navH1Group,
+        elementHeight: navH1Group.children.length
+      }
+    ]
+    return column
+  })
+
+  mergeColumns(columns, numberOfColumns)
+
+  const navContent = document.getElementById('navigation-content')!
+
+  Array.from(navContent.children).forEach((child) => {
+    assert(child.className === 'nav-column')
+  })
+  navContent.innerHTML = ''
+
+  columns.forEach((column) => {
+    const columnEl = document.createElement('div')
+    columnEl.className = 'nav-column'
+    column.forEach(({ element }) => {
+      columnEl.appendChild(element)
+    })
+    navContent.appendChild(columnEl)
+  })
+
+  const navItemMaxWidth = 350
+  navContent.style.maxWidth = `${numberOfColumns * navItemMaxWidth}px`
+}
+function getViewportWidth(): number {
+  // `window.innerWidth` inlcudes scrollbar width: https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+  return document.documentElement.clientWidth
+}
+
+function mergeColumns<T>(columns: { element: T; elementHeight: number }[][], maxNumberOfColumns: number) {
+  assert(columns.length > 0)
+  assert(maxNumberOfColumns > 0)
+  if (columns.length <= maxNumberOfColumns) {
+    return columns
+  }
+
+  let mergeCandidate = {
+    i: -1,
+    mergeHeight: Infinity
+  }
+  for (let i = 0; i <= columns.length - 2; i++) {
+    const column1 = columns[i + 0]
+    const column2 = columns[i + 1]
+    const column1Height = sum(column1.map((c) => c.elementHeight))
+    const column2Height = sum(column2.map((c) => c.elementHeight))
+    const mergeHeight = column1Height + column2Height
+    if (mergeCandidate.mergeHeight > mergeHeight) {
+      mergeCandidate = {
+        i,
+        mergeHeight
+      }
+    }
+  }
+
+  {
+    const { i } = mergeCandidate
+    assert(-1 < i && i < columns.length - 1, { i, columnsLength: columns.length, maxNumberOfColumns })
+    columns[i] = [...columns[i], ...columns[i + 1]]
+    columns.splice(i + 1, 1)
+  }
+
+  mergeColumns(columns, maxNumberOfColumns)
+}
+
+function sum(arr: number[]): number {
+  let total = 0
+  arr.forEach((n) => (total += n))
+  return total
+}

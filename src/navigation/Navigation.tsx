@@ -24,16 +24,24 @@ function Navigation({
       <div id="navigation-container">
         <NavigationHeader />
         {isDetachedPage && <DetachedPageNote />}
-        <div id="navigation-content" style={{ position: 'relative' }}>
-          {headings.map((heading, i) => (
-            <Heading heading={heading} key={i} />
-          ))}
-          {/*
-      <ScrollOverlay />
-      */}
+        <div id="navigation-content">
+          <div className="nav-column" style={{ position: 'relative' }}>
+            {headingsGrouped.map((headingsH1, i) => (
+              <div className="nav-h1-group" key={i}>
+                <Heading heading={headingsH1} />
+                {headingsH1.headings.map((heading, j) => (
+                  <Heading heading={heading} key={j} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* <ScrollOverlay /> */}
+        <div id="navigation-mask" />
+        <div id="expend-button-wrapper">
+          <div id="expend-button" />
         </div>
       </div>
-      <div id="navigation-mask" />
     </>
   )
 }
@@ -72,7 +80,7 @@ function Heading({
         .join(' ')}
       href={heading.url || undefined}
     >
-      {heading.titleInNav}
+      <span className="nav-item-text">{heading.titleInNav}</span>
     </a>
   )
 }

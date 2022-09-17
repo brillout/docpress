@@ -1,6 +1,7 @@
 @import './Navigation-layout.css';
 @import './Navigation-items.css';
 @import './Navigation-highlight.css';
+@import './expend-button.css';
 
 #navigation-container {
   --background-color: #f0f0f0;

@@ -25,11 +25,17 @@ function Navigation({
         <NavigationContent pageContext={pageContext} />
         {/* <ScrollOverlay /> */}
         <div id="navigation-mask" />
-        <div id="expend-button-wrapper">
-          <div id="expend-button" />
-        </div>
       </div>
+      <ExpendButton />
     </>
+  )
+}
+
+function ExpendButton() {
+  return (
+    <div id="expend-button-wrapper">
+      <div id="expend-button" />
+    </div>
   )
 }
 

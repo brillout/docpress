@@ -23,6 +23,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
           <div id="navigation-wrapper">
             <Navigation pageContext={pageContext} />
           </div>
+          <div id="navigation-expend-button"><div><div></div></div></div>
           <div id="page-wrapper">
             <div id="page-container">
               <MobileHeader />

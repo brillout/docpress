@@ -26,16 +26,7 @@ function Navigation({
         {/* <ScrollOverlay /> */}
         <div id="navigation-mask" />
       </div>
-      <ExpendButton />
     </>
-  )
-}
-
-function ExpendButton() {
-  return (
-    <div id="expend-button-wrapper">
-      <div id="expend-button" />
-    </div>
   )
 }
 
@@ -100,12 +91,14 @@ function Heading({
         .join(' ')}
       href={heading.url || undefined}
     >
+      {/*
       <span className="nav-item-text">{heading.titleInNav}</span>
+    */}
+      {heading.titleInNav}
     </a>
   )
 }
 
-type HeadingsGrouped = ReturnType<typeof groupHeadings>
 function groupHeadings<T extends { level: number }>(headings: T[]) {
   const headingsGrouped: (T & { headings: T[] })[] = []
   headings.forEach((heading) => {

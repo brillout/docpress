@@ -7,9 +7,11 @@ let scrollPositionBeforeToggle: number = 0
 function activateNavigationColumnLayout() {
   updateColumnWidth()
   window.addEventListener('resize', updateColumnWidth, { passive: true })
-  document.getElementById('expend-button')!.onclick = toggleNavExpend
+  document.getElementById('navigation-expend-button')!.onclick = toggleNavExpend
+  document.getElementById('navigation-expend-close-button')!.onclick = toggleNavExpend
   document.addEventListener(
-    'keyup',
+    // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
+    'keydown',
     (ev) => {
       if (ev.key === 'Escape') toggleNavExpend()
     },

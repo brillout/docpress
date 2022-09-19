@@ -1,0 +1,31 @@
+:root {
+  --navigation-expend-button-width: 20px;
+}
+#navigation-expend-button {
+  width: var(--navigation-expend-button-width);
+  position: relative;
+}
+#navigation-wrapper:hover + #navigation-expend-button > div > div,
+#navigation-expend-button:hover > div > div {
+  left: 0px;
+}
+#navigation-expend-button > div > div {
+  transition: all 0.3s ease-in-out;
+  left: -20px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #eee !important;
+  background: url('./chevron.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+html:not(.expend-menu) #navigation-expend-close-button {
+  display: none;
+}
+
+html.expend-menu #page-content{
+  /* Make `Ctrl-F` browser search only crawl the navigation menu */
+  visibility: hidden;
+}

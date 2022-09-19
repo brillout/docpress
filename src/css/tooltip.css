@@ -1,0 +1,9 @@
+:root {
+  --balloon-color: #444;
+  --balloon-move: 2px;
+  --balloon-font-size: 14px;
+  --balloon-border-radius: 5px;
+}
+[aria-label][data-balloon-pos]:after {
+  font-family: 'Inter';
+}

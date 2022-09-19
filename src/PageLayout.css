@@ -5,15 +5,20 @@
 #page-wrapper {
   flex-grow: 1;
 }
+
 .doc-page #page-wrapper {
-  max-width: 880px;
+  --main-view-max-width: 800px;
 }
 .landing-page #page-wrapper {
-  max-width: 1050px;
+  --main-view-max-width: 1010px;
 }
-
-.doc-page #page-content {
-  max-width: 840px;
+#page-wrapper {
+  margin-left: calc(-1 * var(--navigation-expend-button-width));
+  max-width: calc(var(--main-view-max-width) + 40px);
+}
+#page-content {
+  box-sizing: content-box;
+  max-width: var(--main-view-max-width);
   padding: 20px;
   margin: auto;
 }

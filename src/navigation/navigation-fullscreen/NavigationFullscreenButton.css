@@ -4,6 +4,7 @@
 #navigation-fullscreen-button {
   width: var(--navigation-fullscreen-button-width);
   position: relative;
+  z-index: 10;
 }
 #navigation-wrapper:hover + #navigation-fullscreen-button > div > div,
 #navigation-fullscreen-button:hover > div > div {

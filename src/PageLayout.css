@@ -13,12 +13,20 @@
   --main-view-max-width: 1010px;
 }
 #page-wrapper {
-  margin-left: calc(-1 * var(--navigation-fullscreen-button-width));
   max-width: calc(var(--main-view-max-width) + 80px);
 }
 #page-content {
   box-sizing: content-box;
   max-width: var(--main-view-max-width);
-  padding: 20px;
+  padding: 20px var(--main-view-padding);
   margin: auto;
+}
+
+#page-content {
+  --main-view-padding: 20px;
+}
+@media screen and (max-width: 1139px) {
+  #page-content {
+    --main-view-padding: 10px;
+  }
 }

@@ -1,11 +1,13 @@
+export { Navigation }
+export { NavigationMask }
+
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
 import { Heading } from '../headings'
 import { assert } from '../utils'
 import { Emoji } from '../utils/Emoji'
 import './Navigation.css'
-
-export { Navigation }
+import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 
 function Navigation({
   pageContext
@@ -24,10 +26,14 @@ function Navigation({
         {isDetachedPage && <DetachedPageNote />}
         <NavigationContent pageContext={pageContext} />
         {/* <ScrollOverlay /> */}
-        <div id="navigation-mask" />
+        <NavigationFullscreenClose />
       </div>
     </>
   )
+}
+
+function NavigationMask() {
+  return <div id="navigation-mask" />
 }
 
 function NavigationContent({

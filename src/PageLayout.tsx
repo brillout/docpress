@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigation } from './navigation/Navigation'
+import { Navigation, NavigationMask } from './navigation/Navigation'
 import type { PageContextResolved } from './config/resolvePageContext'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
@@ -34,6 +34,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
                 {!isLandingPage && <EditPageNote pageContext={pageContext} />}
               </div>
             </div>
+            <NavigationMask />
           </div>
         </div>
       </PageContextProvider>

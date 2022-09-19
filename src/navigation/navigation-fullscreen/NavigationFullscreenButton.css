@@ -21,7 +21,7 @@
   background-position: center center;
 }
 
-html:not(.navigation-fullscreen) #navigation-fullscreen-close-button {
+html:not(.navigation-fullscreen) #navigation-fullscreen-close {
   display: none;
 }
 

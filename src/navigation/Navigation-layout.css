@@ -48,6 +48,9 @@
   background: white;
   z-index: 3;
 }
+#page-wrapper {
+  margin-left: calc(-1 * var(--navigation-fullscreen-button-width));
+}
 @media screen and (max-width: 1139px) {
   #navigation-header-logo,
   #docsearch {
@@ -57,8 +60,15 @@
     min-width: 0px !important;
     max-width: 0px !important;
   }
+  #navigation-fullscreen-button {
+    display: none;
+  }
+  #page-wrapper {
+    margin-left: 0!important;
+  }
   #navigation-container {
-    width: 300px;
+    --width: min(100vw, 350px);
+    width: var(--width);
     left: 0;
     height: calc(100vh - var(--mobile-header-height));
     top: var(--mobile-header-height);
@@ -67,7 +77,7 @@
     position: fixed;
   }
   body:not(.show-menu) #navigation-container {
-    transform: translateX(-300px);
+    transform: translateX(calc(-1 * var(--width)));
   }
   body:not(.show-menu) #navigation-mask {
     display: none;
@@ -80,9 +90,6 @@
   }
 }
 
-/*
-html.navigation-fullscreen #navigation-content {
-*/
 html.navigation-fullscreen #navigation-container {
   width: 100vw;
   height: 100vh;

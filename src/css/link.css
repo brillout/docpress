@@ -12,3 +12,6 @@ a {
   color: #4747ff;
   text-decoration: none;
 }
+a > button {
+  color: var(--color-text);
+}

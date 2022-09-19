@@ -8,7 +8,7 @@ function initNavigationFullscreen() {
   updateColumnWidth()
   window.addEventListener('resize', updateColumnWidth, { passive: true })
   document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend
-  document.getElementById('navigation-fullscreen-close-button')!.onclick = toggleNavExpend
+  document.getElementById('navigation-fullscreen-close')!.onclick = toggleNavExpend
   document.addEventListener(
     // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
     'keydown',

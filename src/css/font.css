@@ -5,7 +5,8 @@ button {
   font-family: inherit;
 }
 body {
-  color: var(--color-black-soft);
+  --color-text: #323d48;
+  color: var(--color-text);
   line-height: 1.5;
 }
 

@@ -55,8 +55,6 @@ const sponsors: Sponsor[] = [
   }
 ]
 
-const marginOuter = 20
-
 function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
@@ -81,7 +79,7 @@ function Sponsors() {
         sponsors.
       </div>
       <div
-        style={{ display: 'flex', flexWrap: 'wrap', margin: marginOuter, justifyContent: 'center', alignItems: 'end' }}
+        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end' }}
       >
         {sponsors.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
@@ -132,7 +130,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
           borderRadius: 7,
           overflow: 'hidden',
           width,
-          maxWidth: `calc(100vw - 2 * ${marginOuter}px - 2 * ${marginWidth}px)`,
+          maxWidth: `calc(100vw - 2 * var(--main-view-padding) - 2 * ${marginWidth}px)`,
           height,
           display: 'flex',
           alignItems: 'center',

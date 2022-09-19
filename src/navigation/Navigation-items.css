@@ -61,7 +61,7 @@
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + var(--padding-left-additional));
 }
-html.expend-menu .nav-item-h3 {
+html.navigation-fullscreen .nav-item-h3 {
   border-right: 4px solid #eee;
 }
 .nav-item-h3.nav-item-first-of-its-kind {
@@ -105,7 +105,7 @@ html.expend-menu .nav-item-h3 {
   z-index: 10;
   border-bottom-left-radius: 5px;
 }
-html.expend-menu .nav-item {
+html.navigation-fullscreen .nav-item {
   --expend-border-radius: 5px;
 }
 .nav-item.is-active-first {

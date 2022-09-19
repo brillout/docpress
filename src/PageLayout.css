@@ -13,8 +13,8 @@
   --main-view-max-width: 1010px;
 }
 #page-wrapper {
-  margin-left: calc(-1 * var(--navigation-expend-button-width));
-  max-width: calc(var(--main-view-max-width) + 40px);
+  margin-left: calc(-1 * var(--navigation-fullscreen-button-width));
+  max-width: calc(var(--main-view-max-width) + 80px);
 }
 #page-content {
   box-sizing: content-box;

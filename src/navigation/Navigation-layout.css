@@ -81,9 +81,9 @@
 }
 
 /*
-html.expend-menu #navigation-content {
+html.navigation-fullscreen #navigation-content {
 */
-html.expend-menu #navigation-container {
+html.navigation-fullscreen #navigation-container {
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
@@ -92,21 +92,21 @@ html.expend-menu #navigation-container {
   left: 0;
   background-color: white;
 }
-html.expend-menu #navigation-header {
+html.navigation-fullscreen #navigation-header {
   display: none !important;
 }
-html.expend-menu #navigation-content {
+html.navigation-fullscreen #navigation-content {
   display: flex;
-  margin: auto; /* A `max-width` is set by src/navigation/navigationColumnLayout.ts */
+  margin: auto; /* A `max-width` is set by src/navigation/navigation-fullscreen/initNavigationFullscreen.ts */
 }
-html.expend-menu #navigation-content > .nav-column {
+html.navigation-fullscreen #navigation-content > .nav-column {
   flex-grow: 1;
   max-width: 350px;
 }
-html.expend-menu .nav-column > .nav-h1-group:first-child > .nav-item-h1:first-child {
+html.navigation-fullscreen .nav-column > .nav-h1-group:first-child > .nav-item-h1:first-child {
   margin-top: 0px;
 }
-html.expend-menu {
+html.navigation-fullscreen {
   /* disable scroll of main view */
   overflow: hidden !important;
 }

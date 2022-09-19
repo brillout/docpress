@@ -1,8 +1,8 @@
-import { activateNavigationColumnLayout } from './navigationColumnLayout'
+import { initNavigationFullscreen } from './navigation-fullscreen/initNavigationFullscreen'
 
 activateNavigationMask()
 activateMenuToggle()
-activateNavigationColumnLayout()
+initNavigationFullscreen()
 
 function activateMenuToggle() {
   const menuToggle = document.getElementById('menu-toggle')!

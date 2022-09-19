@@ -1,14 +1,14 @@
-export { activateNavigationColumnLayout }
+export { initNavigationFullscreen }
 
-import { assert } from '../utils'
+import { assert } from '../../utils'
 
 let scrollPositionBeforeToggle: number = 0
 
-function activateNavigationColumnLayout() {
+function initNavigationFullscreen() {
   updateColumnWidth()
   window.addEventListener('resize', updateColumnWidth, { passive: true })
-  document.getElementById('navigation-expend-button')!.onclick = toggleNavExpend
-  document.getElementById('navigation-expend-close-button')!.onclick = toggleNavExpend
+  document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend
+  document.getElementById('navigation-fullscreen-close-button')!.onclick = toggleNavExpend
   document.addEventListener(
     // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
     'keydown',
@@ -22,7 +22,7 @@ function activateNavigationColumnLayout() {
 function toggleNavExpend() {
   const navContainer = document.getElementById('navigation-container')!
   const scrollPos = navContainer.scrollTop
-  document.documentElement.classList.toggle('expend-menu')
+  document.documentElement.classList.toggle('navigation-fullscreen')
   if (scrollPositionBeforeToggle !== undefined) {
     navContainer.scrollTop = scrollPositionBeforeToggle
   }

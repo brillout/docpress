@@ -1,3 +1,5 @@
+@import 'balloon-css';
+
 :root {
   --balloon-color: #444;
   --balloon-move: 2px;

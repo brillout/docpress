@@ -91,9 +91,7 @@ function Heading({
         .join(' ')}
       href={heading.url || undefined}
     >
-      {/*
-      <span className="nav-item-text">{heading.titleInNav}</span>
-    */}
+      {/* <span className="nav-item-text">{heading.titleInNav}</span> */}
       {heading.titleInNav}
     </a>
   )

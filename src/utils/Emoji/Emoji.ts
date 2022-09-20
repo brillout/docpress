@@ -34,6 +34,7 @@ type EmojiName =
   | 'package'
   | 'info'
   | 'lab'
+  | 'trophy'
 
 function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }): JSX.Element {
   const emoji =
@@ -157,6 +158,11 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // https://emojipedia.org/gem-stone/
     // https://www.unicompat.com/1F48E => 94.1%
     (name === 'gem-stone' && Unicode(0x1f48e)) ||
+    // ***
+    // 0x1F3C6
+    // https://emojipedia.org/trophy/
+    // https://www.unicompat.com/1F3C6 => 94.1%
+    (name === 'trophy' && Unicode(0x1F3C6)) ||
     false
   /* ======= Unused ========
     // ***

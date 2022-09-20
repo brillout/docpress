@@ -6,7 +6,9 @@ const emojiList = {
   // https://emojipedia.org/no-entry/
   ':no_entry:': 0x26d4,
   // https://emojipedia.org/warning/
-  ':warning:': 0x26a0
+  ':warning:': 0x26a0,
+  // https://emojipedia.org/trophy/
+  ':trophy:': 0x1F3C6,
   /*
   // https://emojipedia.org/red-heart/
   ':heart:': 0x2764,
@@ -14,7 +16,9 @@ const emojiList = {
 }
 
 function parseEmojis(html: string) {
+  console.log('html', html)
   Object.entries(emojiList).forEach(([shortcode, codepoint]) => {
+    console.log(shortcode)
     if (!html.includes(shortcode)) {
       return
     }

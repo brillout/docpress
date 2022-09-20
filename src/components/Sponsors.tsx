@@ -8,29 +8,30 @@ import mfqsLogo from './Sponsors/companyLogos/mfqs.svg'
 import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
-import labelBg from './Sponsors/label.svg'
+import labelBgImg from './Sponsors/label.svg'
+import { Emoji } from '../utils/Emoji'
 
 export { Sponsors }
 
-type Plan = 'bronze' | 'backer' | 'silver' | 'gold'
+type Plan = 'bronze' | 'silver' | 'gold' | 'platinum'
 
-type Sponsor =
-  | {
-      companyName: string
-      companyLogo: string
-      website: string
-      plan: Plan
-    }
-  | {
-      username: string
-    }
+type SponsorCompany = {
+  companyName: string
+  companyLogo: string
+  website: string
+  plan: Plan
+}
+type SponsorIndividual = {
+  username: string
+}
+type Sponsor = SponsorCompany | SponsorIndividual
 
 const sponsors: Sponsor[] = [
   {
-    companyName: 'My Favorite Quilt Store',
-    companyLogo: mfqsLogo,
-    plan: 'silver',
-    website: 'https://myfavoritequiltstore.com'
+    companyName: 'Contra',
+    companyLogo: contraLogo,
+    plan: 'platinum',
+    website: 'https://contra.com'
   },
   {
     companyName: 'ccoli',
@@ -39,10 +40,10 @@ const sponsors: Sponsor[] = [
     website: 'https://ccoli.co'
   },
   {
-    companyName: 'Contra',
-    companyLogo: contraLogo,
-    plan: 'bronze',
-    website: 'https://contra.com'
+    companyName: 'My Favorite Quilt Store',
+    companyLogo: mfqsLogo,
+    plan: 'silver',
+    website: 'https://myfavoritequiltstore.com'
   },
   {
     username: 'spacedawwwg'
@@ -52,6 +53,9 @@ const sponsors: Sponsor[] = [
   },
   {
     username: 'Junaidhkn'
+  },
+  {
+    username: 'zgfdev'
   }
 ]
 
@@ -74,13 +78,11 @@ function Sponsors() {
         <img src={iconHeart} height={22} /> <span style={{ marginLeft: 7, fontSize: '1.07em' }}>Sponsor</span>
       </a>
       <div></div>
-      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 12, marginBottom: 2 }}>
+      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 12, marginBottom: 12 }}>
         {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by wonderful
         sponsors.
       </div>
-      <div
-        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end' }}
-      >
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end' }}>
         {sponsors.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
@@ -108,7 +110,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
   } else {
     imgSrc = sponsor.companyLogo
     website = sponsor.website
-    const size = getImageSize(sponsor.plan)
+    const size = getSize(sponsor.plan)
     width = size.width
     height = size.height
     padding = size.padding
@@ -139,7 +141,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
         }}
       >
         <img
-          style={{ maxWidth: `calc(100% - ${padding}px)`, maxHeight: height - padding, zIndex: 2 }}
+          style={{ width: `calc(100% - ${padding}px)`, height: height - padding, zIndex: 2 }}
           src={imgSrc}
           alt={imgAlt}
         />
@@ -149,21 +151,10 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
 }
 
 function Label({ sponsor }: { sponsor: Sponsor }) {
-  let medalSrc: string
-  let letterSpacing: number | undefined
   assert(!('username' in sponsor))
-  if (sponsor.plan === 'gold') {
-    medalSrc = medalGold
-    letterSpacing = 1
-  } else if (sponsor.plan === 'silver') {
-    medalSrc = medalSilver
-    letterSpacing = 1
-  } else if (sponsor.plan === 'bronze') {
-    medalSrc = medalBronze
-  } else {
-    assert(false)
-  }
-
+  const labelBg = getLabelBg(sponsor)
+  const labelIcon = getLabelIcon(sponsor)
+  const labelText = getLabelText(sponsor)
   return (
     <div
       style={{
@@ -175,8 +166,26 @@ function Label({ sponsor }: { sponsor: Sponsor }) {
         paddingBottom: 1
       }}
     >
-      <img src={labelBg} style={{ height: 24, position: 'absolute', bottom: 0 }} />
-      <img src={medalSrc} style={{ height: 15, zIndex: 1, marginRight: 5 }} />{' '}
+      {labelBg}
+      {labelIcon}
+      {labelText}
+    </div>
+  )
+}
+
+function getLabelBg(sponsor: SponsorCompany) {
+  const height = sponsor.plan === 'platinum' ? 32 : 24
+  return <img src={labelBgImg} style={{ height, position: 'absolute', bottom: 0, zIndex: -1 }} />
+}
+
+function getLabelText(sponsor: SponsorCompany) {
+  if (sponsor.plan === 'platinum') {
+    return <></>
+  }
+  const letterSpacing = ['silver', 'gold'].includes(sponsor.plan) ? 1 : undefined
+  return (
+    <>
+      {' '}
       <span
         style={{
           zIndex: 1,
@@ -190,19 +199,38 @@ function Label({ sponsor }: { sponsor: Sponsor }) {
       >
         {capitalizeFirstLetter(sponsor.plan)}
       </span>
-    </div>
+    </>
   )
 }
 
-function getImageSize(plan: Plan) {
+function getLabelIcon(sponsor: SponsorCompany) {
+  let medalSrc: string
+  if (sponsor.plan === 'platinum') {
+    return <Emoji name="trophy" style={{ fontSize: '1.3em' }} />
+  } else if (sponsor.plan === 'gold') {
+    medalSrc = medalGold
+  } else if (sponsor.plan === 'silver') {
+    medalSrc = medalSilver
+  } else if (sponsor.plan === 'bronze') {
+    medalSrc = medalBronze
+  } else {
+    assert(false)
+  }
+  return <img src={medalSrc} style={{ height: 15, zIndex: 1, marginRight: 5 }} />
+}
+
+function getSize(plan: Plan) {
+  if (plan === 'platinum') {
+    return { width: 400, height: 150, padding: 95 }
+  }
   if (plan === 'gold') {
-    return { width: 320, height: 120, padding: 30 }
+    return { width: 300, height: 100, padding: 45 }
   }
   if (plan === 'silver') {
-    return { width: 220, height: 80, padding: 20 }
+    return { width: 200, height: 70, padding: 30 }
   }
   if (plan === 'bronze') {
-    return { width: 170, height: 50, padding: 15 }
+    return { width: 150, height: 40, padding: 15 }
   }
   assert(false)
 }

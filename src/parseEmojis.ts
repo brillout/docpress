@@ -16,9 +16,7 @@ const emojiList = {
 }
 
 function parseEmojis(html: string) {
-  console.log('html', html)
   Object.entries(emojiList).forEach(([shortcode, codepoint]) => {
-    console.log(shortcode)
     if (!html.includes(shortcode)) {
       return
     }

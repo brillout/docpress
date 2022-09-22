@@ -24,9 +24,9 @@ const config: UserConfig = {
         noExtraDir: true
       },
       pageFiles: {
-        include: ['docpress']
+        include: ['@brillout/docpress']
       },
-      includeCSS: ['docpress'],
+      includeCSS: ['@brillout/docpress'],
       includeAssetsImportedByServer: true
     })
   ],
@@ -34,7 +34,7 @@ const config: UserConfig = {
   optimizeDeps: { include: ['@mdx-js/react', 'react', 'react-dom'] },
   // @ts-ignore
   ssr: {
-    noExternal: ['docpress']
+    noExternal: ['@brillout/docpress']
   },
   clearScreen: false
 }

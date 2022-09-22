@@ -12,7 +12,7 @@ function assert(condition: unknown, debugInfo?: unknown): asserts condition {
       debugInfo = JSON.stringify(debugInfo)
     }
   }
-  let errMsg = '[VikePress] Bug. Contact VikePress maintainer.'
+  let errMsg = '[DocPress] Bug. Contact DocPress maintainer.'
   if (hasDebugInfo) {
     errMsg += ' Debug info: ' + String(debugInfo)
   }
@@ -27,7 +27,7 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
   if (condition) {
     return
   }
-  const err = new Error('[VikePress][Wrong Usage] ' + msg)
+  const err = new Error('[DocPress][Wrong Usage] ' + msg)
   if (isBrowserAndDev()) {
     alert(err.stack)
   }

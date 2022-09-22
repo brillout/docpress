@@ -1,14 +1,14 @@
-import type { Config } from 'vikepress'
+import type { Config } from 'docpress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsWithoutLink } from './headings'
 
 export default {
   projectInfo: {
-    projectName: 'Vikepress Demo' as const,
+    projectName: 'DocPress Demo' as const,
     projectVersion: '0.0.0',
-    githubRepository: 'https://github.com/brillout/vikepress' as const,
-    githubIssues: 'https://github.com/brillout/vikepress/issues/new' as const,
+    githubRepository: 'https://github.com/brillout/docpress' as const,
+    githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
     discordInvite: 'https://discord.com/invite/dSDMGGJZQy' as const,
     twitterProfile: 'https://twitter.com/brillout' as const
   },
@@ -16,7 +16,7 @@ export default {
   algolia: null,
   navHeaderMobile: <NavHeaderMobile />,
   navHeader: <NavHeader />,
-  tagline: 'Vikepress Demo',
+  tagline: 'DocPress Demo',
   titleNormalCase: true,
   headings,
   headingsWithoutLink
@@ -51,7 +51,7 @@ function HeaderTitle({ fontSize, marginLeft }: { fontSize: string; marginLeft: n
         marginLeft
       }}
     >
-      {'Vikepress Demo'}
+      {'DocPress Demo'}
     </span>
   )
 }

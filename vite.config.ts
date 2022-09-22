@@ -24,9 +24,9 @@ const config: UserConfig = {
         noExtraDir: true
       },
       pageFiles: {
-        include: ['vikepress']
+        include: ['docpress']
       },
-      includeCSS: ['vikepress'],
+      includeCSS: ['docpress'],
       includeAssetsImportedByServer: true
     })
   ],
@@ -34,7 +34,7 @@ const config: UserConfig = {
   optimizeDeps: { include: ['@mdx-js/react', 'react', 'react-dom'] },
   // @ts-ignore
   ssr: {
-    noExternal: ['vikepress']
+    noExternal: ['docpress']
   },
   clearScreen: false
 }

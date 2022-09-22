@@ -1,1 +1,1 @@
-import 'vikepress/client/initFeatureList'
+import 'docpress/client/initFeatureList'

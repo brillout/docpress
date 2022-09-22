@@ -1,7 +1,7 @@
 export { Page }
 
 import React from 'react'
-import { Emoji, FeatureList, ContactUs, HorizontalLine } from 'vikepress'
+import { Emoji, FeatureList, ContactUs, HorizontalLine } from 'docpress'
 import CodeBlock from './CodeBlock.mdx'
 
 function Page() {

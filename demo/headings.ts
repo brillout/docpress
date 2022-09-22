@@ -1,7 +1,7 @@
 export { headings }
 export { headingsWithoutLink }
 
-import type { HeadingDefinition, HeadingWithoutLink } from 'vikepress'
+import type { HeadingDefinition, HeadingWithoutLink } from 'docpress'
 
 const headingsWithoutLink: HeadingWithoutLink[] = [
   {

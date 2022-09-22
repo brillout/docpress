@@ -1,5 +1,5 @@
 {
-  "name": "vikepress",
+  "name": "@brillout/docpress",
   "version": "0.0.44",
   "exports": {
     ".": "./src/index.ts",
@@ -11,12 +11,12 @@
     }
   },
   "scripts": {
-    "// === VikePress Demo ===": "",
+    "// === DocPress Demo ===": "",
     "dev": "pnpm run build && pnpm run demo:dev",
     "preview": "pnpm run build && pnpm run demo:preview",
-    "demo:dev": "vikepress dev",
-    "demo:preview": "vikepress build && vikepress preview",
-    "// === VikePress Source Code ===": "",
+    "demo:dev": "docpress dev",
+    "demo:preview": "docpress build && docpress preview",
+    "// === DocPress Source Code ===": "",
     "build": "rm -rf dist/ && tsup ./cli/ --format esm --out-dir ./dist/cli/",
     "reset": "git clean -Xdf && pnpm install",
     "// === Release ===": "",
@@ -51,10 +51,10 @@
     "rollup": "^2.74.1",
     "tsup": "^6.0.1",
     "typescript": "^4.5.4",
-    "vikepress": "link:"
+    "docpress": "link:"
   },
   "bin": {
-    "vikepress": "./cli.mjs"
+    "docpress": "./cli.mjs"
   },
   "files": [
     "src/*",
@@ -66,5 +66,8 @@
   ],
   "type": "module",
   "license": "MIT",
-  "repository": "https://github.com/brillout/vikepress"
+  "repository": "https://github.com/brillout/docpress",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -27,9 +27,9 @@ async function cli() {
     server.printUrls()
   } else {
     throw new Error(
-      `Vikepress: unknown command \`$ vikepress ${args.join(
+      `DocPress: unknown command \`$ docpress ${args.join(
         ' '
-      )}\`. Known commands: \`$ vikepress dev\` and \`$ vikepress preview\`.`
+      )}\`. Known commands: \`$ docpress dev\` and \`$ docpress preview\`.`
     )
   }
 }

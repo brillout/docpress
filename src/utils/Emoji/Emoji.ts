@@ -162,7 +162,7 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // 0x1F3C6
     // https://emojipedia.org/trophy/
     // https://www.unicompat.com/1F3C6 => 94.1%
-    (name === 'trophy' && Unicode(0x1F3C6)) ||
+    (name === 'trophy' && Unicode(0x1f3c6)) ||
     false
   /* ======= Unused ========
     // ***

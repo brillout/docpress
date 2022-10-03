@@ -8,7 +8,7 @@ const emojiList = {
   // https://emojipedia.org/warning/
   ':warning:': 0x26a0,
   // https://emojipedia.org/trophy/
-  ':trophy:': 0x1F3C6,
+  ':trophy:': 0x1f3c6
   /*
   // https://emojipedia.org/red-heart/
   ':heart:': 0x2764,

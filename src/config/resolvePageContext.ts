@@ -39,7 +39,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     meta: {
       title,
       faviconUrl,
-      twitterHandle, bannerUrl,
+      twitterHandle,
+      bannerUrl,
       websiteUrl,
       tagline,
       algolia

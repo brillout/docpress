@@ -1,7 +1,7 @@
 export { Page }
 
 import React from 'react'
-import { Emoji, FeatureList, ContactUs, HorizontalLine } from 'docpress'
+import { Emoji, FeatureList, HorizontalLine } from 'docpress'
 import CodeBlock from './CodeBlock.mdx'
 
 function Page() {
@@ -11,10 +11,6 @@ function Page() {
       <Header />
       <HorizontalLine primary={true} />
       <Features />
-      <div style={{ height: 20 }} />
-      <HorizontalLine />
-      <div style={{ height: 40 }} />
-      <ContactUs text="Some call to action &mdash;" />
       <div style={{ height: 100 }} />
     </>
   )

@@ -14,13 +14,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
   return (
     <React.StrictMode>
       <PageContextProvider pageContext={pageContext}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}
-          className={isLandingPage ? 'landing-page' : 'doc-page'}
-        >
+        <div id="page-layout" className={isLandingPage ? 'landing-page' : 'doc-page'}>
           <div id="navigation-wrapper">
             <Navigation pageContext={pageContext} />
           </div>

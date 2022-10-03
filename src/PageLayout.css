@@ -2,8 +2,15 @@
   padding-bottom: 100px;
 }
 
-#page-wrapper {
+#page-layout {
+  display: flex;
+  justify-content: center;
+}
+#page-layout > #navigation-wrapper,
+#page-layout > #page-wrapper {
   flex-grow: 1;
+  /* Avoid overflowing, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926 */
+  min-width: 0;
 }
 
 .doc-page #page-wrapper {

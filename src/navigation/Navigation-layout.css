@@ -5,7 +5,6 @@
 }
 #navigation-wrapper {
   min-width: var(--navigation-min-height);
-  flex-grow: 1;
 }
 .doc-page #navigation-wrapper {
   max-width: var(--navigation-max-height);

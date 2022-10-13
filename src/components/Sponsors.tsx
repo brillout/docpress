@@ -13,7 +13,7 @@ import { Emoji } from '../utils/Emoji'
 
 export { Sponsors }
 
-type Plan = 'bronze' | 'silver' | 'gold' | 'platinum'
+type Plan = 'FREE_SLOT' | 'bronze' | 'silver' | 'gold' | 'platinum'
 
 type SponsorCompany = {
   companyName: string
@@ -30,19 +30,19 @@ const sponsors: Sponsor[] = [
   {
     companyName: 'Contra',
     companyLogo: contraLogo,
-    plan: 'platinum',
+    plan: 'gold',
     website: 'https://contra.com'
   },
   {
     companyName: 'ccoli',
     companyLogo: ccoliLogo,
-    plan: 'gold',
+    plan: 'silver',
     website: 'https://ccoli.co'
   },
   {
     companyName: 'My Favorite Quilt Store',
     companyLogo: mfqsLogo,
-    plan: 'silver',
+    plan: 'bronze',
     website: 'https://myfavoritequiltstore.com'
   },
   {
@@ -182,7 +182,7 @@ function getLabelText(sponsor: SponsorCompany) {
   if (sponsor.plan === 'platinum') {
     return <></>
   }
-  const letterSpacing = ['silver', 'gold'].includes(sponsor.plan) ? 1 : undefined
+  const letterSpacing = ['bronze', 'silver', 'gold'].includes(sponsor.plan) ? 1 : undefined
   return (
     <>
       {' '}
@@ -221,15 +221,18 @@ function getLabelIcon(sponsor: SponsorCompany) {
 
 function getSize(plan: Plan) {
   if (plan === 'platinum') {
-    return { width: 400, height: 150, padding: 95 }
+    assert(false)
   }
   if (plan === 'gold') {
-    return { width: 300, height: 100, padding: 45 }
+    return { width: 400, height: 150, padding: 95 }
   }
   if (plan === 'silver') {
-    return { width: 200, height: 70, padding: 30 }
+    return { width: 300, height: 100, padding: 45 }
   }
   if (plan === 'bronze') {
+    return { width: 200, height: 70, padding: 30 }
+  }
+  if (plan === 'FREE_SLOT') {
     return { width: 150, height: 40, padding: 15 }
   }
   assert(false)

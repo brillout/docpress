@@ -2,6 +2,7 @@ import { assert } from '../../utils'
 
 addTwitterWidgets()
 addFeatureClickHandlers()
+window.__docpress_hydrationFinished = true
 
 function addTwitterWidgets() {
   loadScript('https://platform.twitter.com/widgets.js')
@@ -58,4 +59,8 @@ function loadScript(scriptUrl: string): void {
 
 function getComputedStyle(el: HTMLElement, styleProp: string) {
   return window.document.defaultView!.getComputedStyle(el).getPropertyValue(styleProp)
+}
+
+declare global {
+  var __docpress_hydrationFinished: undefined | true
 }

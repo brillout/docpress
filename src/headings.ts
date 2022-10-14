@@ -61,7 +61,7 @@ function getHeadings(config: { headings: HeadingDefinition[]; headingsWithoutLin
       // if (heading.titleSize) {
       //   titleParsed = React.createElement('span', { style: { fontSize: heading.titleSize } }, titleParsed)
       // }
-      titleInNavProcessed = React.createElement(React.Fragment, {}, [getListPrefix(), titleParsed])
+      titleInNavProcessed = React.createElement(React.Fragment, {}, getListPrefix(), titleParsed)
     } else {
       titleInNavProcessed = parseTitle(titleInNav)
     }
@@ -180,14 +180,9 @@ function parseTitle(title: string): JSX.Element {
   const titleJsx = React.createElement(
     React.Fragment,
     {},
-    ...parts.map((part) => {
-      if (part.nodeType === 'code') {
-        return React.createElement('code', {}, part.content)
-      } else {
-        assert(part.nodeType === 'text')
-        return part.content
-      }
-    })
+    ...parts.map((part, i) =>
+      React.createElement(part.nodeType === 'code' ? 'code' : React.Fragment, { key: i }, part.content)
+    )
   )
 
   return titleJsx

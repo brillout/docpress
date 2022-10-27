@@ -1,1 +1,0 @@
-import 'docpress/client/initFeatureList'

@@ -64,7 +64,7 @@ function getTitle({
     if (!sectionTitle) {
       assertUsage(
         !doNotInferSectionTitle,
-        `Link to \`${href}\` has option \`doNotInferSectionTitle\` but \`sectionTitle\` isn't defined.`
+        `Page section title not found for <Link href="\`${href}\`" doNotInferSectionTitle={true} />.`
       )
       sectionTitle = determineSectionTitle(href, pageContext.config.titleNormalCase)
     }

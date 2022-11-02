@@ -10,6 +10,7 @@ specifiers:
   '@types/react-dom': ^17.0.6
   '@vitejs/plugin-react': ^2.0.1
   balloon-css: ^1.2.0
+  docpress: 'link:'
   express: ^4.17.1
   react: ^18.1.0
   react-dom: ^18.1.0
@@ -19,8 +20,7 @@ specifiers:
   shiki: ^0.10.1
   tsup: ^6.0.1
   twemoji: ^13.1.0
-  typescript: ^4.5.4
-  vikepress: 'link:'
+  typescript: ^4.8.4
   vite: ^3.0.9
   vite-plugin-ssr: ^0.4.28
 
@@ -43,12 +43,12 @@ devDependencies:
   '@types/node': 15.14.9
   '@types/react': 17.0.45
   '@types/react-dom': 17.0.17
+  docpress: 'link:'
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
   rollup: 2.74.1
-  tsup: 6.0.1_typescript@4.7.2
-  typescript: 4.7.2
-  vikepress: 'link:'
+  tsup: 6.0.1_typescript@4.8.4
+  typescript: 4.8.4
 
 packages:
 
@@ -2996,7 +2996,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /tsup/6.0.1_typescript@4.7.2:
+  /tsup/6.0.1_typescript@4.8.4:
     resolution: {integrity: sha512-2Pl1YkEEvzfg4aYgwUILaHV0wwZQKO7mNHMQChyzdCNlQqf11eug7gWk86XCb3CvRofCXBX87x73BTGjyS3cOQ==}
     engines: {node: '>=14'}
     hasBin: true
@@ -3026,7 +3026,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.21.0
       tree-kill: 1.2.2
-      typescript: 4.7.2
+      typescript: 4.8.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -3053,8 +3053,8 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /typescript/4.7.2:
-    resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true

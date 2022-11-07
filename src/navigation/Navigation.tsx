@@ -200,6 +200,7 @@ function ScrollOverlay() {
 function DetachedPageNote() {
   return (
     <div
+      id="detached-note"
       style={{
         backgroundColor: 'var(--background-color)',
         textAlign: 'left',

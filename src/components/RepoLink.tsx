@@ -6,7 +6,7 @@ export { RepoLink }
 export { isRepoLink }
 
 function isRepoLink(href: string) {
-  return ['/examples/', '/docs/', '/boilerplates/', '.github/'].some((start) => href.startsWith(start))
+  return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/'].some((start) => href.startsWith(start))
 }
 
 function RepoLink({ path, text, editMode }: { path: string; text?: string | JSX.Element; editMode?: true }) {

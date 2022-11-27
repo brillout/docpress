@@ -2,13 +2,22 @@
   "name": "@brillout/docpress",
   "version": "0.1.9",
   "exports": {
-    ".": "./src/index.ts",
-    "./client/initFeatureList": {
-      "browser": "./src/components/features/initFeatureList.ts"
-    },
-    "./style.css": {
+    ".": "./dist/index.js",
+    "./index.css": {
       "browser": "./src/css/index.css"
-    }
+    },
+    "./renderer/_default.page.server.js": "./dist/src/renderer/_default.page.server.js",
+    "./renderer/_default.page.client.js": "./dist/src/renderer/_default.page.client.js",
+    "./renderer/_default.page.server.css": "./dist/src/renderer/_default.page.server.css",
+    "./renderer/_default.page.client.css": "./dist/src/renderer/_default.page.client.css",
+    "./features/FeatureList": "./dist/src/components/features/FeatureList.js",
+    "./features/FeatureList.css": {
+      "browser": "./dist/src/components/features/FeatureList.css"
+    },
+    "./features/initFeatureList": {
+      "browser": "./dist/src/components/features/initFeatureList.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "// === DocPress Demo ===": "",
@@ -17,7 +26,7 @@
     "demo:dev": "docpress dev",
     "demo:preview": "docpress build && docpress preview",
     "// === DocPress Source Code ===": "",
-    "build": "rm -rf dist/ && tsup ./cli/ --format esm --out-dir ./dist/cli/",
+    "build": "tsup --dts",
     "reset": "git clean -Xdf && pnpm install",
     "// === Release ===": "",
     "prepublishOnly": "pnpm run build",
@@ -35,7 +44,7 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "^3.0.9",
-    "vite-plugin-ssr": "^0.4.28"
+    "vite-plugin-ssr": "^0.4.54"
   },
   "peerDependencies": {
     "react": "18",
@@ -46,24 +55,17 @@
     "@types/node": "^15.12.1",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.6",
+    "docpress": "link:",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "rollup": "^2.74.1",
-    "tsup": "^6.0.1",
-    "typescript": "^4.8.4",
-    "docpress": "link:"
+    "tsup": "^6.5.0",
+    "typescript": "^4.8.4"
   },
   "bin": {
-    "docpress": "./cli.mjs"
+    "docpress": "./dist/cli/index.js"
   },
-  "files": [
-    "src/*",
-    "*.ts",
-    "dist/*",
-    "cli.mjs",
-    "vite.config.ts",
-    "vite.config/*"
-  ],
+  "files": ["*.ts", "dist/", "vite.config.ts", "vite.config/*"],
   "type": "module",
   "license": "MIT",
   "repository": "https://github.com/brillout/docpress",

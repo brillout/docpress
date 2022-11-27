@@ -23,10 +23,16 @@ const config: UserConfig = {
       prerender: {
         noExtraDir: true
       },
-      pageFiles: {
-        include: ['@brillout/docpress']
-      },
-      includeCSS: ['@brillout/docpress'],
+      extensions: [{
+        npmPackageName: '@brillout/docpress',
+        pageFiles: [
+          '@brillout/docpress/renderer/_default.page.server.js',
+          '@brillout/docpress/renderer/_default.page.server.css',
+          '@brillout/docpress/renderer/_default.page.client.js',
+          '@brillout/docpress/renderer/_default.page.client.css'
+        ],
+        assetsDir: 'dist/'
+      }],
       includeAssetsImportedByServer: true
     })
   ],

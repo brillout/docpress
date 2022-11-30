@@ -60,12 +60,18 @@
     "react-dom": "^18.1.0",
     "rollup": "^2.74.1",
     "tsup": "^6.5.0",
+    "tsx": "^3.12.1",
     "typescript": "^4.8.4"
   },
   "bin": {
     "docpress": "./dist/cli/index.js"
   },
-  "files": ["*.ts", "dist/", "vite.config.ts", "vite.config/*"],
+  "files": [
+    "*.ts",
+    "dist/",
+    "vite.config.ts",
+    "vite.config/*"
+  ],
   "type": "module",
   "license": "MIT",
   "repository": "https://github.com/brillout/docpress",

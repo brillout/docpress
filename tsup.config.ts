@@ -1,5 +1,7 @@
 import { defineConfig } from 'tsup'
 
+export const FRAMEWORK_BUILDER_ASSET_DIR = 'FRAMEWORK_BUILDER_ASSET_DIR/'
+
 export default defineConfig({
   entry: [
     './src/renderer/_default.page.client.ts',
@@ -12,5 +14,8 @@ export default defineConfig({
   ],
   format: 'esm',
   clean: true,
-  sourcemap: true
+  sourcemap: true,
+  esbuildOptions(options, _context) {
+    options.publicPath = FRAMEWORK_BUILDER_ASSET_DIR
+  }
 })

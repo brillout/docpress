@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "exports": {
     ".": "./dist/index.js",
     "./index.css": {

@@ -1,7 +1,7 @@
 import { assert, determineSectionUrlHash } from '../src/utils'
 
-export { MarkdownHeading }
-export { markdownHeadings }
+export { markdownHeadingsVitePlugin }
+export type { MarkdownHeading }
 
 type MarkdownHeading = {
   title: string
@@ -10,7 +10,7 @@ type MarkdownHeading = {
   titleAddendum?: string
 }
 
-function markdownHeadings() {
+function markdownHeadingsVitePlugin() {
   return {
     name: 'mdx-headings',
     enforce: 'pre',

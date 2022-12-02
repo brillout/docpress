@@ -2,7 +2,7 @@ import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react'
 import ssr from 'vite-plugin-ssr/plugin'
 import { UserConfig } from 'vite'
-import { markdownHeadings } from './vite.config/markdownHeadings'
+import { markdownHeadingsVitePlugin } from './markdownHeadingsVitePlugin'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 
@@ -17,12 +17,13 @@ const config: UserConfig = {
     react({
       jsxRuntime: 'classic'
     }),
-    markdownHeadings(),
+    markdownHeadingsVitePlugin(),
     mdx({ rehypePlugins, remarkPlugins }),
     ssr({
       prerender: {
         noExtraDir: true
       },
+      // @ts-expect-error until new version is released
       extensions: [{
         npmPackageName: '@brillout/docpress',
         pageFiles: [

@@ -1,3 +1,5 @@
-Doc generator of `https://vite-plugin-ssr.com` and `https://telefunc.com`.
+# `@brillout/docpress`
 
-Do not use this. Consider this code private-use only (while public-readable).
+Doc generator for `https://vite-plugin-ssr.com` and `https://telefunc.com`.
+
+Don't use this: consider `@brillout/docpress` private use only.

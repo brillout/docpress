@@ -8,6 +8,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true
-  }
+    "strict": true,
+    "outDir": "./dist/"
+  },
+  "rootDir": "./src/",
+  "include": ["src/**/*"]
 }

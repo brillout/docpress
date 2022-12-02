@@ -1,11 +1,11 @@
 {
   "entries": [
+    "./src/index.ts",
     "./src/renderer/_default.page.client.ts",
     "./src/renderer/_default.page.server.tsx",
-    "./index.ts",
-    "./cli/index.ts",
     "./src/components/features/FeatureList.tsx",
     "./src/components/features/initFeatureList.ts",
-    "./vite-plugin-ssr.config.ts"
+    "./src/cli/index.ts",
+    "./src/vite.config.ts"
   ]
 }

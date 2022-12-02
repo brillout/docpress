@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "exports": {
     ".": "./dist/index.js",
     "./renderer/_default.page.server.js": "./dist/renderer/_default.page.server.js",
@@ -17,9 +17,15 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["dist/*"],
-      "mdx": ["mdx.d.ts"],
-      "features/*": ["dist/components/features/*"]
+      "*": [
+        "dist/*"
+      ],
+      "mdx": [
+        "mdx.d.ts"
+      ],
+      "features/*": [
+        "dist/components/features/*"
+      ]
     }
   },
   "scripts": {

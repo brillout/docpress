@@ -1,5 +1,5 @@
 import { build, preview } from 'vite'
-import { configFile } from './configFile'
+import config from '../vite.config'
 import { prerender } from 'vite-plugin-ssr/prerender'
 const args = process.argv.filter(Boolean).slice(2)
 const isDev = args.includes('dev')
@@ -13,17 +13,11 @@ async function cli() {
   if (isDev) {
     await import('./devServer')
   } else if (isBuild) {
-    const commonConfig = {
-      configFile,
-      vitePluginSsr: {
-        disableAutoFullBuild: true
-      }
-    }
-    await build({ ...commonConfig })
-    await build({ ...commonConfig, build: { ssr: true } })
-    await prerender({ viteConfig: { configFile } })
+    await build(config)
+    await build({ ...config, build: { ssr: true } })
+    await prerender({ viteConfig: config })
   } else if (isPreview) {
-    const server = await preview({ configFile, preview: { host: true } })
+    const server = await preview({ ...config, preview: { host: true } })
     server.printUrls()
   } else {
     throw new Error(

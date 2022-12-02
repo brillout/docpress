@@ -34,7 +34,8 @@ const config: UserConfig = {
         ],
         assetsDir: 'dist/'
       }],
-      includeAssetsImportedByServer: true
+      includeAssetsImportedByServer: true,
+      disableAutoFullBuild: true
     })
   ],
   // TODO: remove `react`?

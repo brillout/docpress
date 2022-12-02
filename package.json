@@ -16,6 +16,7 @@
     }
   },
   "scripts": {
+    "dev": "tsc --watch",
     "build": "framework-builder",
     "prepublishOnly": "pnpm run build",
     "release": "npm version patch && npm publish && git push && git push --tags"

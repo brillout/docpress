@@ -1,7 +1,7 @@
 import express from 'express'
 import * as vite from 'vite'
 import { renderPage } from 'vite-plugin-ssr'
-import { configFile } from './configFile'
+import config from '../vite.config'
 const viteVersion = (vite as { version?: string }).version || '2.?.?'
 
 startServer()
@@ -10,7 +10,7 @@ async function startServer() {
   const app = express()
 
   const viteDevServer = await vite.createServer({
-    configFile,
+    ...config,
     server: { middlewareMode: viteVersion.startsWith('2') ? 'ssr' : true }
   })
   app.use(viteDevServer.middlewares)

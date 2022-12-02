@@ -5,7 +5,6 @@
     "./src/renderer/_default.page.server.tsx",
     "./src/components/features/FeatureList.tsx",
     "./src/components/features/initFeatureList.ts",
-    "./src/cli/index.ts",
-    "./src/vite.config.ts"
+    "./src/cli/index.ts"
   ]
 }

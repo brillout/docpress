@@ -1,5 +1,5 @@
 export { getConfig }
-import { assert, assertUsage } from '../utils'
+import { assert, assertUsage } from '../utils/server'
 import { Config } from './Config'
 
 function getConfig(): Config {

@@ -1,7 +1,7 @@
 export { Note }
 
 import React from 'react'
-import { assert } from '../utils'
+import { assert } from '../utils/server'
 
 function Note({
   type,

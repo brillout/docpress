@@ -1,6 +1,6 @@
 export { initNavigationFullscreen }
 
-import { assert } from '../../utils'
+import { assert } from '../../utils/client'
 
 let scrollPositionBeforeToggle: number = 0
 

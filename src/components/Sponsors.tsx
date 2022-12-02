@@ -1,7 +1,7 @@
 import React from 'react'
 import iconHeart from '../icons/heart.svg'
 import { usePageContext } from '../renderer/usePageContext'
-import { assert } from '../utils'
+import { assert, Emoji } from '../utils/server'
 import ccoliLogo from './Sponsors/companyLogos/ccoli.svg'
 import contraLogo from './Sponsors/companyLogos/contra.svg'
 import mfqsLogo from './Sponsors/companyLogos/mfqs.svg'
@@ -9,7 +9,6 @@ import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
 import labelBgImg from './Sponsors/label.svg'
-import { Emoji } from '../utils/Emoji'
 
 export { Sponsors }
 

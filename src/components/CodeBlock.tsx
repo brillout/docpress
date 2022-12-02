@@ -1,7 +1,7 @@
 export { CodeBlock }
 
 import React from 'react'
-import { assert, objectAssign } from '../utils'
+import { assert, objectAssign } from '../utils/server'
 
 function CodeBlock({ children, lineBreak }: { children: any; lineBreak?: true }) {
   assert(lineBreak, '`lineBreak: true` is currently the only use case for <CodeBlock>')

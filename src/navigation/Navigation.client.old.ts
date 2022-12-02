@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { headings as headingsCrawled } from './Docs.mdx'
-import { assert, isBrowser } from './utils'
+import { assert, isBrowser } from './utils/client'
 import { Heading } from './types'
 const headings: Heading[] = [
   {

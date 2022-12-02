@@ -2,7 +2,7 @@ import React from 'react'
 import { getHeadings, parseTitle, Heading, HeadingWithoutLink } from '../headings'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
-import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils'
+import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
 
 export { DocLink }
 

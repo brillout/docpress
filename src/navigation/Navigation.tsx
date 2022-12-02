@@ -4,8 +4,7 @@ export { NavigationMask }
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
 import { Heading } from '../headings'
-import { assert } from '../utils'
-import { Emoji } from '../utils/Emoji'
+import { assert, Emoji } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 

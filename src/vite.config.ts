@@ -23,7 +23,7 @@ const config: UserConfig = {
       prerender: {
         noExtraDir: true
       },
-      // @ts-expect-error until new version is released
+      // @ts-ignore until new version is released
       extensions: [{
         npmPackageName: '@brillout/docpress',
         pageFiles: [

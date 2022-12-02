@@ -1,4 +1,4 @@
-import { assert } from './utils'
+import { assert } from './utils/client'
 
 installSectionUrlHashs()
 /* Let browser restore previous scroll

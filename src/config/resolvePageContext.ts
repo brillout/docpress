@@ -1,4 +1,4 @@
-import { assert, jsxToTextContent, objectAssign } from '../utils'
+import { assert, jsxToTextContent, objectAssign } from '../utils/server'
 import { getHeadings, HeadingWithoutLink, parseTitle } from '../headings'
 import type { Heading } from '../headings'
 import type { PageContextBuiltIn } from 'vite-plugin-ssr'

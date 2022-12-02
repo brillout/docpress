@@ -5,7 +5,7 @@ import { PageLayout } from '../PageLayout'
 import { resolvePageContext, PageContextOriginal } from '../config/resolvePageContext'
 import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
 import { parseEmojis } from '../parseEmojis'
-import { assert } from '../utils'
+import { assert } from '../utils/server'
 
 export { render }
 

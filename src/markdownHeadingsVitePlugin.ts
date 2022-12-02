@@ -1,4 +1,4 @@
-import { assert, determineSectionUrlHash } from '../src/utils'
+import { assert, determineSectionUrlHash } from '../src/utils/server'
 
 export { markdownHeadingsVitePlugin }
 export type { MarkdownHeading }

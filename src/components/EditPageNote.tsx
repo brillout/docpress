@@ -1,6 +1,6 @@
 import React from 'react'
 import { RepoLink } from './RepoLink'
-import { Emoji } from '../utils/Emoji'
+import { Emoji } from '../utils/server'
 
 export { EditPageNote }
 

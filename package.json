@@ -15,6 +15,13 @@
       "browser": "./dist/components/features/initFeatureList.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "*": ["dist/*"],
+      "mdx": ["mdx.d.ts"],
+      "features/*": ["dist/components/features/*"]
+    }
+  },
   "scripts": {
     "dev": "tsc --watch",
     "build": "framework-builder",

@@ -26,13 +26,15 @@ const config: UserConfig = {
       // @ts-ignore until new version is released
       extensions: [{
         npmPackageName: '@brillout/docpress',
-        pageFiles: [
+        /*
+        pageFilesSrc: '/renderer/*',
+        /*/
+        pageFilesDist: [
           '@brillout/docpress/renderer/_default.page.server.js',
-          '@brillout/docpress/renderer/_default.page.server.css',
-          '@brillout/docpress/renderer/_default.page.client.js',
-          '@brillout/docpress/renderer/_default.page.client.css'
+          '@brillout/docpress/renderer/_default.page.client.js'
         ],
-        assetsDir: 'dist/'
+        //*/
+        assetsDir: '/dist/'
       }],
       includeAssetsImportedByServer: true,
       disableAutoFullBuild: true

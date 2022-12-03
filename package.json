@@ -2,29 +2,25 @@
   "name": "@brillout/docpress",
   "version": "0.1.15",
   "exports": {
-    "./renderer/_default.page.server.js": "./dist/renderer/_default.page.server.js",
-    "./renderer/_default.page.client.js": "./dist/renderer/_default.page.client.js",
-    "./renderer/_default.page.server.css": "./dist/renderer/_default.page.server.css",
-    "./renderer/_default.page.client.css": "./dist/renderer/_default.page.client.css",
-    ".": "./dist/index.js",
-    "./features/FeatureList": "./dist/components/features/FeatureList.js",
+    ".": "./src/index.ts",
+    "./features/FeatureList": "./src/components/features/FeatureList.tsx",
     "./features/FeatureList.css": {
-      "browser": "./dist/components/features/FeatureList.css"
+      "browser": "./src/components/features/FeatureList.css"
     },
     "./features/initFeatureList": {
-      "browser": "./dist/components/features/initFeatureList.js"
+      "browser": "./src/components/features/initFeatureList.ts"
     }
   },
   "typesVersions": {
     "*": {
       "*": [
-        "dist/*"
+        "src/*"
       ],
       "mdx": [
         "mdx.d.ts"
       ],
       "features/*": [
-        "dist/components/features/*"
+        "src/components/features/*"
       ]
     }
   },
@@ -66,10 +62,11 @@
     "typescript": "^4.8.4"
   },
   "bin": {
-    "docpress": "./dist/cli/index.js"
+    "docpress": "./dist/index.js"
   },
   "files": [
     "mdx.d.ts",
+    "src/",
     "dist/"
   ],
   "type": "module",

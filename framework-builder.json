@@ -1,5 +1,10 @@
 {
   "entries": [
-    "./src/cli/index.ts"
+    "./src/renderer/_default.page.client.ts",
+    "./src/renderer/_default.page.server.tsx",
+    "./src/cli/index.ts",
+    "./src/index.ts",
+    "./src/components/features/FeatureList.tsx",
+    "./src/components/features/initFeatureList.ts"
   ]
 }

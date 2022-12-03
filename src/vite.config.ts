@@ -23,17 +23,13 @@ const config: UserConfig = {
       prerender: {
         noExtraDir: true
       },
-      // @ts-ignore until new version is released
+      // @ts-ignore until new version is released TODO
       extensions: [{
         npmPackageName: '@brillout/docpress',
-        /*
-        pageFilesSrc: '/renderer/*',
-        /*/
         pageFilesDist: [
           '@brillout/docpress/renderer/_default.page.server.js',
           '@brillout/docpress/renderer/_default.page.client.js'
         ],
-        //*/
         assetsDir: '/dist/'
       }],
       includeAssetsImportedByServer: true,

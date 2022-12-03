@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "exports": {
     ".": "./src/index.ts",
     "./features/FeatureList": "./src/components/features/FeatureList.tsx",

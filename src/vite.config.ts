@@ -17,7 +17,6 @@ const config: UserConfig = {
     react({
       jsxRuntime: 'classic'
     }),
-    react(),
     markdownHeadingsVitePlugin(),
     mdx({ rehypePlugins, remarkPlugins }),
     ssr({

@@ -25,10 +25,14 @@
     }
   },
   "scripts": {
-    "dev": "tsc --watch",
+    "// Develop Docpress using demo/": "",
+    "dev": "docpress dev",
+    "// Build Docpress": "",
     "build": "rm -rf dist/ && framework-builder",
+    "// Release": "",
     "prepublishOnly": "pnpm run build",
     "release": "npm version patch && npm publish && git push && git push --tags",
+    "// See https://www.npmjs.com/package/self-import": "",
     "postinstall": "self-import"
   },
   "dependencies": {

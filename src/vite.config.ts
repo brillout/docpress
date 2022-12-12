@@ -1,5 +1,5 @@
 import mdx from '@mdx-js/rollup'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import ssr from 'vite-plugin-ssr/plugin'
 import { UserConfig } from 'vite'
 import { markdownHeadingsVitePlugin } from './markdownHeadingsVitePlugin'
@@ -14,9 +14,7 @@ const remarkPlugins = [remarkGfm]
 const config: UserConfig = {
   root,
   plugins: [
-    react({
-      jsxRuntime: 'classic'
-    }),
+    react(),
     markdownHeadingsVitePlugin(),
     mdx({ rehypePlugins, remarkPlugins }),
     ssr({

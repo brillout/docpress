@@ -5,6 +5,7 @@ blockquote {
   border-left: 8px solid rgba(var(--color), calc(0.06 * var(--color-strengh-border)));
   background-color: rgba(var(--color), calc(0.03 * var(--color-strengh-bg)));
   margin-left: 0;
+  margin-right: 0;
   padding: 4px 16px;
 }
 blockquote.error {

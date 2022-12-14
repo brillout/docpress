@@ -76,7 +76,7 @@ function ChangelogButton() {
         color: 'inherit'
       }}
     >
-      <span className="decolorize-7">v{projectInfo.projectVersion}</span>
+      <span id="version-number" className="decolorize-7">v{projectInfo.projectVersion}</span>
       <img className="decolorize-6" src={iconChangelog} height={16} style={{ marginLeft: 5 }} />
     </a>
   )

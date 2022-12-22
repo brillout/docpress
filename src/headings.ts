@@ -1,5 +1,5 @@
 import React from 'react'
-import { assert, Emoji, EmojiName  } from './utils/server'
+import { assert, Emoji, EmojiName } from './utils/server'
 
 export { getHeadings }
 export { parseTitle }

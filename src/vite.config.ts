@@ -21,10 +21,12 @@ const config: UserConfig = {
       prerender: {
         noExtraDir: true
       },
-      extensions: [{
-        npmPackageName: '@brillout/docpress',
-        pageFilesSrc: '/src/renderer/*',
-      }],
+      extensions: [
+        {
+          npmPackageName: '@brillout/docpress',
+          pageFilesSrc: '/src/renderer/*'
+        }
+      ],
       includeAssetsImportedByServer: true,
       disableAutoFullBuild: true
     })

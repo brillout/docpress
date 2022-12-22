@@ -1,5 +1,3 @@
 {
-  "entries": [
-    "./src/cli/index.ts"
-  ]
+  "entries": ["./src/cli/index.ts"]
 }

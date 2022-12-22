@@ -27,4 +27,5 @@ type Config = {
   websiteUrl: string
   bannerUrl?: string
   twitterHandle: string
+  i18n?: true
 }

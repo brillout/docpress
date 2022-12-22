@@ -42,7 +42,15 @@ function NavigationHeader() {
 
 function Links() {
   const pageContext = usePageContext()
-  const { projectInfo } = pageContext.config
+  const { projectInfo, i18n } = pageContext.config
+  const iconI18n = !i18n ? null : (
+    <LinkIcon
+      className="decolorize-4"
+      icon={iconLanguages}
+      href={'/languages'}
+      style={{ height: 21, position: 'relative', top: 0, left: 0 }}
+    />
+  )
   return (
     <div
       style={{
@@ -52,11 +60,11 @@ function Links() {
         justifyContent: 'left'
       }}
     >
-      <SocialLink className="decolorize-4" icon={iconLanguages} href={'/languages'} />
-      <SocialLink className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
-      <SocialLink className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
-      <SocialLink className="decolorize-7" icon={iconTwitter} href={projectInfo.twitterProfile} />
-      <div id="docsearch-desktop" />
+      <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
+      <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
+      <LinkIcon className="decolorize-7" icon={iconTwitter} href={projectInfo.twitterProfile} />
+      <div className="decolorize-6 colorize-on-hover" id="docsearch-desktop" />
+      {iconI18n}
       <ChangelogButton />
     </div>
   )
@@ -78,13 +86,15 @@ function ChangelogButton() {
         color: 'inherit'
       }}
     >
-      <span id="version-number" className="decolorize-7">v{projectInfo.projectVersion}</span>
+      <span id="version-number" className="decolorize-7">
+        v{projectInfo.projectVersion}
+      </span>
       <img className="decolorize-6" src={iconChangelog} height={16} style={{ marginLeft: 5 }} />
     </a>
   )
 }
 
-function SocialLink({ className, icon, href }: { className: string; icon: string; href: string }) {
+function LinkIcon({ className, icon, href, style }: { className: string; icon: string; href: string; style?: any }) {
   return (
     <>
       <a
@@ -92,7 +102,7 @@ function SocialLink({ className, icon, href }: { className: string; icon: string
         href={href}
         style={{ padding: 3, display: 'inline-block', lineHeight: 0 }}
       >
-        <img src={icon} height="20" style={{}} />
+        <img src={icon} height="20" style={style} />
       </a>
     </>
   )

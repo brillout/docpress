@@ -51,8 +51,7 @@
   margin-left: calc(-1 * var(--navigation-fullscreen-button-width));
 }
 @media screen and (max-width: 1139px) {
-  #navigation-header-logo,
-  #docsearch {
+  #navigation-header-logo {
     display: none !important;
   }
   #navigation-wrapper {

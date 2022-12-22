@@ -13,7 +13,12 @@ export default {
     twitterProfile: 'https://twitter.com/brillout' as const
   },
   faviconUrl: logoUrl,
-  algolia: null,
+  algolia: {
+    appId: 'FAKE',
+    apiKey: 'FAKE',
+    indexName: 'FAKE'
+  },
+  i18n: true,
   navHeaderMobile: <NavHeaderMobile />,
   navHeader: <NavHeader />,
   tagline: 'DocPress Demo',

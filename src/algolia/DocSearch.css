@@ -1,12 +1,32 @@
+.DocSearch-Button-Keys {
+  margin-left: 6px !important;
+}
+.DocSearch-Search-Icon {
+  margin-right: 0 !important;
+}
+.DocSearch-Button-Placeholder {
+  padding-right: 6px !important;
+}
+
 #docsearch-desktop {
   max-width: 110px !important;
 }
-#docsearch-desktop .DocSearch-Button-Placeholder {
+#docsearch-desktop .DocSearch-Button-Placeholder,
+#docsearch-desktop .DocSearch-Button-Keys {
   display: none;
+}
+#docsearch-desktop .DocSearch-Button {
+  background: transparent !important;
   padding: 0 !important;
+  position: relative;
+  top: -1px;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none!important;
 }
 #docsearch-desktop .DocSearch-Search-Icon {
-  margin-right: 6px !important;
+  height: 21px !important;
+  width: 21px !important;
 }
 #docsearch-desktop .DocSearch-Button {
   margin-right: 3px !important;

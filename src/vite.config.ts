@@ -23,11 +23,7 @@ const config: UserConfig = {
       },
       extensions: [{
         npmPackageName: '@brillout/docpress',
-        pageFilesDist: [
-          '@brillout/docpress/renderer/_default.page.server.js',
-          '@brillout/docpress/renderer/_default.page.client.js'
-        ],
-        assetsDir: '/dist/'
+        pageFilesSrc: '/src/renderer/*',
       }],
       includeAssetsImportedByServer: true,
       disableAutoFullBuild: true

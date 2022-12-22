@@ -1,0 +1,1 @@
+# Workaround for excluding this directory from potential pnpm parent project https://github.com/pnpm/pnpm/issues/2412#issuecomment-609503116

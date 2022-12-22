@@ -13,6 +13,7 @@ function initNavigationFullscreen() {
     // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
     'keydown',
     (ev) => {
+      if (document.body.classList.contains('DocSearch--active')) return
       if (ev.key === 'Escape') toggleNavExpend()
     },
     false

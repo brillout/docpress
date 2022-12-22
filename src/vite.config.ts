@@ -21,7 +21,6 @@ const config: UserConfig = {
       prerender: {
         noExtraDir: true
       },
-      // @ts-ignore until new version is released TODO
       extensions: [{
         npmPackageName: '@brillout/docpress',
         pageFilesDist: [

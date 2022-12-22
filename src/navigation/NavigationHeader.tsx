@@ -3,6 +3,7 @@ import iconGithub from '../icons/github.svg'
 import iconTwitter from '../icons/twitter.svg'
 import iconDiscord from '../icons/discord.svg'
 import iconChangelog from '../icons/changelog.svg'
+import iconLanguages from '../icons/languages.svg'
 import { usePageContext } from '../renderer/usePageContext'
 
 export { NavigationHeader }
@@ -51,6 +52,7 @@ function Links() {
         justifyContent: 'left'
       }}
     >
+      <SocialLink className="decolorize-4" icon={iconLanguages} href={'/languages'} />
       <SocialLink className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
       <SocialLink className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
       <SocialLink className="decolorize-7" icon={iconTwitter} href={projectInfo.twitterProfile} />

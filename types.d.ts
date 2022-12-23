@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 declare module '*.mdx' {
   import { FunctionComponent } from 'react'
   const value: FunctionComponent

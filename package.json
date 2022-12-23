@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "exports": {
     "./renderer/_default.page.server.js": "./dist/renderer/_default.page.server.js",
     "./renderer/_default.page.client.js": "./dist/renderer/_default.page.client.js",

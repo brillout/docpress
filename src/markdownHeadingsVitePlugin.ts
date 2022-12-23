@@ -48,9 +48,6 @@ function transform(code: string) {
         headings.push({ headingId, headingLevel, title })
         return headingHtml
       }
-      if (line.startsWith('<h')) {
-        assert(false, { line })
-      }
 
       return line
     })

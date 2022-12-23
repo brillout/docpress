@@ -6,6 +6,9 @@ export { determineSectionTitle }
 function determineSectionUrlHash(title: string): string | null {
   const urlHash = title
     .toLowerCase()
+    // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript/37511463#37511463
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .split(/[^a-z0-9]+/)
     .filter(Boolean)
     .join('-')

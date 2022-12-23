@@ -25,7 +25,7 @@ importers:
       shiki: ^0.10.1
       tsx: ^3.12.1
       twemoji: ^13.1.0
-      typescript: ^4.8.4
+      typescript: ^4.9.4
       vite: npm:@brillout/vite@4.0.1-fix
       vite-plugin-ssr: ^0.4.57
     dependencies:
@@ -43,7 +43,7 @@ importers:
       vite-plugin-ssr: 0.4.57_@brillout+vite@4.0.1-fix
     devDependencies:
       '@brillout/docpress': 'link:'
-      '@brillout/framework-builder': 0.1.1_typescript@4.8.4
+      '@brillout/framework-builder': 0.1.1_typescript@4.9.4
       '@types/express': 4.17.13
       '@types/node': 15.14.9
       '@types/react': 17.0.45
@@ -53,18 +53,18 @@ importers:
       react-dom: 18.1.0_react@18.1.0
       rollup: 2.74.1
       tsx: 3.12.1
-      typescript: 4.8.4
+      typescript: 4.9.4
 
 packages:
 
-  /@brillout/framework-builder/0.1.1_typescript@4.8.4:
+  /@brillout/framework-builder/0.1.1_typescript@4.9.4:
     resolution: {integrity: sha512-yf5uIeCcVwx8WiwKQA0YY/1rBrIFXDhC9yBaHzYo3DG8gMoan5o0KMpUPK3dFXL5KrwZ8t4O14CjZkAwUlTC3w==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
-      tsup: 6.5.0_typescript@4.8.4
-      typescript: 4.8.4
+      tsup: 6.5.0_typescript@4.9.4
+      typescript: 4.9.4
     transitivePeerDependencies:
       - '@swc/core'
       - postcss
@@ -2752,7 +2752,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /tsup/6.5.0_typescript@4.8.4:
+  /tsup/6.5.0_typescript@4.9.4:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -2782,7 +2782,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.21.0
       tree-kill: 1.2.2
-      typescript: 4.8.4
+      typescript: 4.9.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -2820,8 +2820,8 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /typescript/4.8.4:
-    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+  /typescript/4.9.4:
+    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true

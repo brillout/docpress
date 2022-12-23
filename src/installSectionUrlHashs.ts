@@ -15,9 +15,7 @@ function installSectionUrlHashs() {
   assert(navigationEl)
   const docSections = Array.from(document.querySelectorAll('h2'))
   docSections.forEach((docSection) => {
-    const docTitle = docSection.textContent
-    assert(docTitle)
-    assert(docSection.id, { docSection })
+    if (!docSection.id) return
     const urlHash = '#' + docSection.id
     assertNavLink(navigationEl, urlHash)
     docSection.onclick = () => {

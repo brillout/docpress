@@ -123,7 +123,7 @@ function getHeadingsWithSubHeadings(
   const pageHeadings = pageContext.exports.headings || []
   pageHeadings.forEach((pageHeading, i) => {
     const title = parseTitle(pageHeading.title)
-    const url = '#' + pageHeading.id
+    const url: null | string = pageHeading.headingId && '#' + pageHeading.headingId
     assert(
       pageHeading.headingLevel !== 3,
       'Wrong page heading level `' +

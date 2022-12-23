@@ -3,12 +3,16 @@ import { assert } from './assert'
 export { determineSectionUrlHash }
 export { determineSectionTitle }
 
-function determineSectionUrlHash(title: string): string {
+function determineSectionUrlHash(title: string): string | null {
   const urlHash = title
     .toLowerCase()
     .split(/[^a-z0-9]+/)
     .filter(Boolean)
     .join('-')
+
+  // E.g. section is composed of only Chinese characters
+  if (urlHash === '') return null
+
   return urlHash
 }
 

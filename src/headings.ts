@@ -24,17 +24,17 @@ export type HeadingDefinition = HeadingBase &
         level: 2
         isListTitle?: true
         sectionTitles?: string[]
-        url: string
+        url: null | string
       }
     | {
         level: 3
-        url: string
+        url: null | string
       }
   )
 type HeadingBase = {
   title: string
   level: number
-  url?: string
+  url?: null | string
   titleDocument?: string
   titleInNav?: string
   // titleSize?: string
@@ -130,7 +130,7 @@ function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: 
   return parentHeadings
 }
 
-function assertHeadingsUrl(headings: { url?: string }[]) {
+function assertHeadingsUrl(headings: { url?: null | string }[]) {
   const urls: Record<string, true> = {}
   headings.forEach((heading) => {
     if (heading.url) {

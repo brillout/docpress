@@ -67,7 +67,7 @@ function Heading({
 }: {
   heading: {
     level: number
-    url?: string
+    url?: string | null
     titleInNav: string | JSX.Element
     computed: {
       isActive: boolean
@@ -80,6 +80,11 @@ function Heading({
   }
 }) {
   assert([1, 2, 3, 4].includes(heading.level), heading)
+  if (heading.level === 1 || heading.level === 4) {
+    assert(heading.url === undefined)
+  } else {
+    assert(heading.url)
+  }
   return (
     <a
       className={[
@@ -94,7 +99,7 @@ function Heading({
       ]
         .filter(Boolean)
         .join(' ')}
-      href={heading.url || undefined}
+      href={heading.url ?? undefined}
     >
       {/* <span className="nav-item-text">{heading.titleInNav}</span> */}
       {heading.titleInNav}

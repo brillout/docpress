@@ -5,7 +5,7 @@ export type { MarkdownHeading }
 
 type MarkdownHeading = {
   title: string
-  id: string
+  headingId: string | null
   headingLevel: number
   titleAddendum?: string
 }
@@ -44,8 +44,8 @@ function transform(code: string) {
       }
 
       if (line.startsWith('#')) {
-        const { id, headingLevel, title, headingHtml } = parseMarkdownHeading(line)
-        headings.push({ id, headingLevel, title })
+        const { headingId, headingLevel, title, headingHtml } = parseMarkdownHeading(line)
+        headings.push({ headingId, headingLevel, title })
         return headingHtml
       }
       if (line.startsWith('<h')) {
@@ -71,12 +71,14 @@ function parseMarkdownHeading(line: string): MarkdownHeading & { headingHtml: st
   assert(!titleMdx.startsWith(' '), { line, lineWords })
   assert(titleMdx, { line, lineWords })
 
-  const id = determineSectionUrlHash(titleMdx)
+  const headingId = determineSectionUrlHash(titleMdx)
   const title = titleMdx
+  const titleParsed = parseTitle(title)
+  assert(headingId === null || headingId.length > 0)
+  const headingAttrId = headingId === null ? '' : ` id="${headingId}"`
+  const headingHtml = `<h${headingLevel}${headingAttrId}>${titleParsed}</h${headingLevel}>`
 
-  const headingHtml = `<h${headingLevel} id="${id}">${parseTitle(title)}</h${headingLevel}>`
-
-  const heading = { headingLevel, title, id, headingHtml }
+  const heading = { headingLevel, title, headingId, headingHtml }
   return heading
 }
 

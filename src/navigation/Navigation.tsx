@@ -4,7 +4,7 @@ export { NavigationMask }
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
 import { Heading } from '../headings'
-import { assert, Emoji } from '../utils/server'
+import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 
@@ -68,6 +68,7 @@ function Heading({
   heading: {
     level: number
     url?: string | null
+    title: string | JSX.Element
     titleInNav: string | JSX.Element
     computed: {
       isActive: boolean
@@ -83,7 +84,13 @@ function Heading({
   if (heading.level === 1 || heading.level === 4) {
     assert(heading.url === undefined)
   } else {
-    assert(heading.url)
+    const sectionTitle = jsxToTextContent(heading.title)
+    assertWarning(
+      heading.url,
+      `${jsxToTextContent(
+        heading.titleInNav
+      )} is missing a URL hash. Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`
+    )
   }
   return (
     <a

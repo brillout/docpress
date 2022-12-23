@@ -1,5 +1,6 @@
 export { assert }
 export { assertUsage }
+export { assertWarning }
 
 function assert(condition: unknown, debugInfo?: unknown): asserts condition {
   if (condition) {
@@ -36,4 +37,15 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
 
 function isBrowserAndDev() {
   return typeof window !== 'undefined' && window?.location?.port !== ''
+}
+
+function assertWarning(condition: unknown, msg: string): asserts condition {
+  if (condition) {
+    return
+  }
+  msg = '[DocPress][Warning] ' + msg
+  console.warn(msg)
+  if (isBrowserAndDev()) {
+    alert(msg)
+  }
 }

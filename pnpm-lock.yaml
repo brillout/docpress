@@ -27,7 +27,7 @@ importers:
       twemoji: ^13.1.0
       typescript: ^4.9.4
       vite: npm:@brillout/vite@4.0.1-fix
-      vite-plugin-ssr: ^0.4.57
+      vite-plugin-ssr: ^0.4.65
     dependencies:
       '@mdx-js/mdx': 2.1.1
       '@mdx-js/react': 2.1.1_react@18.1.0
@@ -40,7 +40,7 @@ importers:
       shiki: 0.10.1
       twemoji: 13.1.1
       vite: /@brillout/vite/4.0.1-fix_@types+node@15.14.9
-      vite-plugin-ssr: 0.4.57_@brillout+vite@4.0.1-fix
+      vite-plugin-ssr: 0.4.65_@brillout+vite@4.0.1-fix
     devDependencies:
       '@brillout/docpress': 'link:'
       '@brillout/framework-builder': 0.1.1_typescript@4.9.4
@@ -2961,8 +2961,8 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
-  /vite-plugin-ssr/0.4.57_@brillout+vite@4.0.1-fix:
-    resolution: {integrity: sha512-H7KH7eOFasuzg4fvql7k3s5ZA5dFC7x54YtHcEsVCkcm6n00AL6q4yfcUWfY49omW93Nem/gOc6hq0BEHhYMbw==}
+  /vite-plugin-ssr/0.4.65_@brillout+vite@4.0.1-fix:
+    resolution: {integrity: sha512-6EmFUR/o/ZjjWFL7Ko3x1f8BCyGvLFU3TOCSsL65yq8WvgRJIjv94ixnD92fBOWfis9NeuTSW9dbBKX+Squejw==}
     engines: {node: '>=12.19.0'}
     hasBin: true
     peerDependencies:

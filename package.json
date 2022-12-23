@@ -50,7 +50,7 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "npm:@brillout/vite@4.0.1-fix",
-    "vite-plugin-ssr": "^0.4.57"
+    "vite-plugin-ssr": "^0.4.65"
   },
   "peerDependencies": {
     "react": "18",

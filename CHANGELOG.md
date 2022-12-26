@@ -1,3 +1,12 @@
+## [0.3.2](https://github.com/brillout/docpress/compare/v0.3.1...v0.3.2) (2022-12-26)
+
+
+### Features
+
+* support windows and cn hash ([d33b09d](https://github.com/brillout/docpress/commit/d33b09da598f79b9116841d94f080ea0b0dcb4f5))
+
+
+
 ## [0.3.1](https://github.com/brillout/docpress/compare/v0.3.0...v0.3.1) (2022-12-23)
 
 

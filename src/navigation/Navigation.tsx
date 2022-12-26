@@ -45,7 +45,9 @@ function NavigationContent({
   }
 }) {
   const headings = getHeadingsWithComputedProps(pageContext)
+
   const headingsGrouped = groupHeadings(headings)
+
   return (
     <div id="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>

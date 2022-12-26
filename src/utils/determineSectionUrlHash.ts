@@ -9,7 +9,7 @@ function determineSectionUrlHash(title: string): string | null {
     // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript/37511463#37511463
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .split(/[^a-z0-9]+/)
+    .split(/[^a-z0-9\u4E00-\u9FA5]+/)
     .filter(Boolean)
     .join('-')
 

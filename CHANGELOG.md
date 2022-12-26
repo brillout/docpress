@@ -1,3 +1,12 @@
+## [0.3.3](https://github.com/brillout/docpress/compare/v0.3.2...v0.3.3) (2022-12-26)
+
+
+### Features
+
+* support custom anchor ([f04c861](https://github.com/brillout/docpress/commit/f04c861083c74b3691af461b881c9a08e0cbe515))
+
+
+
 ## [0.3.2](https://github.com/brillout/docpress/compare/v0.3.1...v0.3.2) (2022-12-26)
 
 

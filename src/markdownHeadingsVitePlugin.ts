@@ -69,8 +69,18 @@ function parseMarkdownHeading(line: string): MarkdownHeading & { headingHtml: st
   assert(!titleMdx.startsWith(' '), { line, lineWords })
   assert(titleMdx, { line, lineWords })
 
-  const headingId = determineSectionUrlHash(titleMdx)
-  const title = titleMdx
+  const customAnchor = /(?<={#).*(?=})/g.exec(titleMdx)?.[0]
+  const customHeading = {
+    title: titleMdx,
+    anchor: titleMdx
+  }
+  // Support custom anchor like: `## title{#custom-anchor}`
+  if (customAnchor) {
+    customHeading.anchor = customAnchor
+    customHeading.title = titleMdx.replace(/{#.*}/g, '')
+  }
+  const headingId = determineSectionUrlHash(customHeading.anchor)
+  const title = customHeading.title
   const titleParsed = parseTitle(title)
   assert(headingId === null || headingId.length > 0)
   const headingAttrId = headingId === null ? '' : ` id="${headingId}"`

@@ -1,4 +1,5 @@
 import { assert, determineSectionUrlHash } from '../src/utils/server'
+import os from 'os'
 
 export { markdownHeadingsVitePlugin }
 export type { MarkdownHeading }
@@ -79,6 +80,8 @@ function parseMarkdownHeading(line: string): MarkdownHeading & { headingHtml: st
   return heading
 }
 
+const isWindows = os.platform() === 'win32'
+
 function parseTitle(titleMarkdown: string): string {
   type Part = { nodeType: 'text' | 'code'; content: string }
   const parts: Part[] = []
@@ -121,7 +124,10 @@ function parseTitle(titleMarkdown: string): string {
   return titleHtml
 
   function serializeText(text: string) {
-    const textEscaped = text.split("'").join("\\'")
+    let textEscaped = text.split("'").join("\\'")
+    if (isWindows) {
+      textEscaped = textEscaped.replace(/\r/, '')
+    }
     return `{'${textEscaped}'}`
   }
 }

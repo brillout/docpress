@@ -235,7 +235,7 @@ function DetachedPageNote() {
         }}
       >
         {' '}
-        &mdash; this page isn't listed in the navigation menu below.
+        &mdash; this page isn't listed in the navigation below.
       </span>
     </div>
   )

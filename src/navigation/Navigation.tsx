@@ -225,10 +225,7 @@ function DetachedPageNote() {
         padding: 10
       }}
     >
-      <Emoji name="info" />{' '}
-      <b>
-        <em>Detached</em>
-      </b>
+      <Emoji name="info" /> <em>Detached</em>
       <span
         style={{
           opacity: 0.8

@@ -17,3 +17,8 @@ body {
   font-style: oblique 0deg 12deg;
   src: url('./Inter-Var.ttf') format('truetype-variations');
 }
+
+em, i {
+  font-variation-settings: "slnt" -10;
+  font-style: normal;
+}

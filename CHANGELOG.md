@@ -1,3 +1,13 @@
+## [0.3.4](https://github.com/brillout/docpress/compare/v0.3.3...v0.3.4) (2023-01-11)
+
+
+### Bug Fixes
+
+* improve detached page note ([33c5194](https://github.com/brillout/docpress/commit/33c5194cfddec36bffd8cbcd08edc35c0b191731))
+* italic font ([02d895d](https://github.com/brillout/docpress/commit/02d895d490370edee609bea9481eca2e026f15c3))
+
+
+
 ## [0.3.3](https://github.com/brillout/docpress/compare/v0.3.2...v0.3.3) (2022-12-26)
 
 

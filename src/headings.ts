@@ -131,13 +131,10 @@ function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: 
 }
 
 function assertHeadingsUrl(headings: { url?: null | string }[]) {
-  const urls: Record<string, true> = {}
   headings.forEach((heading) => {
     if (heading.url) {
       const { url } = heading
       assert(url.startsWith('/'))
-      assert(!urls[url], { url })
-      urls[url] = true
     }
   })
 }

@@ -1,3 +1,13 @@
+## [0.3.5](https://github.com/brillout/docpress/compare/v0.3.4...v0.3.5) (2023-01-19)
+
+
+### Bug Fixes
+
+* allow duplicated headings ([2ac9de1](https://github.com/brillout/docpress/commit/2ac9de136c150e0657f984892f1c2fa954e1266f))
+* improve detached page note ([da2c6bd](https://github.com/brillout/docpress/commit/da2c6bd9a008f09d3fe77a84d3cc880357a3b9bd))
+
+
+
 ## [0.3.4](https://github.com/brillout/docpress/compare/v0.3.3...v0.3.4) (2023-01-11)
 
 

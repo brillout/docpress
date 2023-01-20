@@ -1,4 +1,4 @@
-export { sponsorList }
+export { sponsorsList }
 
 import type { Sponsor } from '../Sponsors'
 import ccoliLogo from './companyLogos/ccoli.svg'
@@ -8,7 +8,7 @@ import reporaLogo from './companyLogos/repora.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 
-const sponsorList: Sponsor[] = [
+const sponsorsList: Sponsor[] = [
   {
     companyName: 'BurdaFoward',
     companyLogo: burdaforwardLogo,

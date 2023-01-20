@@ -9,7 +9,7 @@ import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
 import labelBgImg from './Sponsors/label.svg'
-import { sponsorList } from './Sponsors/sponsorList'
+import { sponsorsList } from './Sponsors/sponsorsList'
 
 type Plan = 'indie' | 'bronze' | 'silver' | 'gold' | 'platinum'
 
@@ -27,8 +27,8 @@ type Sponsor = SponsorCompany | SponsorIndividual
 function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
-  const sponsorsCompany = sponsorList.filter((sponsor) => !('username' in sponsor))
-  const sponsorsHumanidual = sponsorList.filter((sponsor) => 'username' in sponsor)
+  const sponsorsCompany = sponsorsList.filter((sponsor) => !('username' in sponsor))
+  const sponsorsHumanidual = sponsorsList.filter((sponsor) => 'username' in sponsor)
   return (
     <div style={{ textAlign: 'center', marginTop: 19 }}>
       <a

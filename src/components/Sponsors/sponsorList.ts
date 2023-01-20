@@ -5,8 +5,22 @@ import ccoliLogo from './companyLogos/ccoli.svg'
 import contraLogo from './companyLogos/contra.svg'
 import mfqsLogo from './companyLogos/mfqs.svg'
 import reporaLogo from './companyLogos/repora.svg'
+import burdaforwardLogo from './companyLogos/burdaforward.png'
+import inlangLogo from './companyLogos/inlang.png'
 
 const sponsorList: Sponsor[] = [
+  {
+    companyName: 'Inlang',
+    companyLogo: inlangLogo,
+    plan: 'indie',
+    website: 'https://inlang.com/'
+  },
+  {
+    companyName: 'BurdaFoward',
+    companyLogo: burdaforwardLogo,
+    plan: 'platinum',
+    website: 'https://www.burda-forward.de'
+  },
   {
     companyName: 'Contra',
     companyLogo: contraLogo,
@@ -30,6 +44,9 @@ const sponsorList: Sponsor[] = [
     companyLogo: reporaLogo,
     plan: 'bronze',
     website: 'https://www.repora.com'
+  },
+  {
+    username: 'samuelstroschein'
   },
   {
     username: 'DannyZB'

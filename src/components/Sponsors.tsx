@@ -11,7 +11,7 @@ import medalBronze from './Sponsors/medalBronze.svg'
 import labelBgImg from './Sponsors/label.svg'
 import { sponsorList } from './Sponsors/sponsorList'
 
-type Plan = 'FREE_SLOT' | 'bronze' | 'silver' | 'gold' | 'platinum'
+type Plan = 'indie' | 'bronze' | 'silver' | 'gold' | 'platinum'
 
 type SponsorCompany = {
   companyName: string
@@ -197,7 +197,7 @@ function getSize(plan: Plan) {
   if (plan === 'bronze') {
     return { width: 200, height: 70, padding: 30 }
   }
-  if (plan === 'FREE_SLOT') {
+  if (plan === 'indie') {
     return { width: 150, height: 40, padding: 15 }
   }
   assert(false)

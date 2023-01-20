@@ -1,3 +1,17 @@
+## [0.3.6](https://github.com/brillout/docpress/compare/v0.3.5...v0.3.6) (2023-01-20)
+
+
+### Bug Fixes
+
+* add sponsors ([0d320e3](https://github.com/brillout/docpress/commit/0d320e38d1f3681d15a0ae2d6d410d48672cbf70))
+
+
+### Features
+
+* improve sponsor div and support indie sponsors ([c0f3dab](https://github.com/brillout/docpress/commit/c0f3dab91dc616b9ea129f6bbd290004483269fb))
+
+
+
 ## [0.3.5](https://github.com/brillout/docpress/compare/v0.3.4...v0.3.5) (2023-01-19)
 
 

@@ -1,3 +1,6 @@
+export { Sponsors }
+export type { Sponsor }
+
 import React from 'react'
 import iconHeart from '../icons/heart.svg'
 import { usePageContext } from '../renderer/usePageContext'
@@ -6,12 +9,7 @@ import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
 import labelBgImg from './Sponsors/label.svg'
-import ccoliLogo from './Sponsors/companyLogos/ccoli.svg'
-import contraLogo from './Sponsors/companyLogos/contra.svg'
-import mfqsLogo from './Sponsors/companyLogos/mfqs.svg'
-import reporaLogo from './Sponsors/companyLogos/repora.svg'
-
-export { Sponsors }
+import { sponsorList } from './Sponsors/sponsorList'
 
 type Plan = 'FREE_SLOT' | 'bronze' | 'silver' | 'gold' | 'platinum'
 
@@ -25,60 +23,6 @@ type SponsorIndividual = {
   username: string
 }
 type Sponsor = SponsorCompany | SponsorIndividual
-
-const sponsors: Sponsor[] = [
-  {
-    companyName: 'Contra',
-    companyLogo: contraLogo,
-    plan: 'gold',
-    website: 'https://contra.com'
-  },
-  {
-    companyName: 'ccoli',
-    companyLogo: ccoliLogo,
-    plan: 'silver',
-    website: 'https://ccoli.co'
-  },
-  {
-    companyName: 'My Favorite Quilt Store',
-    companyLogo: mfqsLogo,
-    plan: 'bronze',
-    website: 'https://myfavoritequiltstore.com'
-  },
-  {
-    companyName: 'Repora',
-    companyLogo: reporaLogo,
-    plan: 'bronze',
-    website: 'https://www.repora.com'
-  },
-  {
-    username: 'DannyZB'
-  },
-  {
-    username: 'pieperz'
-  },
-  {
-    username: 'hemengke1997'
-  },
-  {
-    username: 'spacedawwwg'
-  },
-  {
-    username: 'arthurgailes'
-  },
-  {
-    username: 'stackblitz'
-  },
-  {
-    username: 'codthing'
-  },
-  {
-    username: 'Junaidhkn'
-  },
-  {
-    username: 'zgfdev'
-  }
-]
 
 function Sponsors() {
   const pageContext = usePageContext()
@@ -104,7 +48,7 @@ function Sponsors() {
         sponsors.
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end' }}>
-        {sponsors.map((sponsor, i) => (
+        {sponsorList.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>

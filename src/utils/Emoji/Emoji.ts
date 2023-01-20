@@ -35,6 +35,7 @@ type EmojiName =
   | 'info'
   | 'lab'
   | 'trophy'
+  | 'ribbon'
 
 function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }): JSX.Element {
   const emoji =
@@ -163,6 +164,13 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // https://emojipedia.org/trophy/
     // https://www.unicompat.com/1F3C6 => 94.1%
     (name === 'trophy' && Unicode(0x1f3c6)) ||
+    // ***
+    // U+1F397
+    // https://emojipedia.org/reminder-ribbon/
+    // unicompat.com is down
+    //  - https://github.com/gelbartj/unicompat-public/issues/42
+    //  - https://stackoverflow.com/questions/51042771/unicode-symbols-and-os-browser-font-support
+    (name === 'ribbon' && Unicode(0x1F397, { fontFamily: 'emoji' })) ||
     false
   /* ======= Unused ========
     // ***

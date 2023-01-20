@@ -27,6 +27,8 @@ type Sponsor = SponsorCompany | SponsorIndividual
 function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
+  const sponsorsCompany = sponsorList.filter((sponsor) => !('username' in sponsor))
+  const sponsorsHumanidual = sponsorList.filter((sponsor) => 'username' in sponsor)
   return (
     <div style={{ textAlign: 'center', marginTop: 19 }}>
       <a
@@ -47,8 +49,13 @@ function Sponsors() {
         {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by wonderful
         sponsors.
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end' }}>
-        {sponsorList.map((sponsor, i) => (
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', alignItems: 'end' }}>
+        {sponsorsCompany.map((sponsor, i) => (
+          <SponsorDiv sponsor={sponsor} key={i} />
+        ))}
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end', marginTop: 20 }}>
+        {sponsorsHumanidual.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>
@@ -106,7 +113,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
         }}
       >
         <img
-          style={{ width: `calc(100% - ${padding}px)`, height: height - padding, zIndex: 2 }}
+          style={{ width: `calc(100% - ${padding}px)`, height: height - padding, zIndex: 2, objectFit: 'contain' }}
           src={imgSrc}
           alt={imgAlt}
         />
@@ -147,7 +154,15 @@ function getLabelText(sponsor: SponsorCompany) {
   if (sponsor.plan === 'platinum') {
     return <></>
   }
-  const letterSpacing = ['bronze', 'silver', 'gold'].includes(sponsor.plan) ? 1 : undefined
+  let letterSpacing: number | undefined = undefined
+  if (['bronze', 'silver', 'gold', 'indie'].includes(sponsor.plan)) {
+    letterSpacing = 1
+  }
+  /*
+  if (sponsor.plan === 'indie') {
+    letterSpacing = 2
+  }
+  */
   return (
     <>
       {' '}
@@ -172,6 +187,8 @@ function getLabelIcon(sponsor: SponsorCompany) {
   let medalSrc: string
   if (sponsor.plan === 'platinum') {
     return <Emoji name="trophy" style={{ fontSize: '1.3em' }} />
+  } else if (sponsor.plan === 'indie') {
+    return <Emoji name="ribbon" style={{ fontSize: '0.9em' /*, position: 'relative', top: -1*/ }} />
   } else if (sponsor.plan === 'gold') {
     medalSrc = medalGold
   } else if (sponsor.plan === 'silver') {
@@ -186,7 +203,7 @@ function getLabelIcon(sponsor: SponsorCompany) {
 
 function getSize(plan: Plan) {
   if (plan === 'platinum') {
-    assert(false)
+    return { width: 500, height: 180, padding: 100 }
   }
   if (plan === 'gold') {
     return { width: 400, height: 150, padding: 95 }
@@ -198,7 +215,7 @@ function getSize(plan: Plan) {
     return { width: 200, height: 70, padding: 30 }
   }
   if (plan === 'indie') {
-    return { width: 150, height: 40, padding: 15 }
+    return { width: 140, height: 50, padding: 20 }
   }
   assert(false)
 }

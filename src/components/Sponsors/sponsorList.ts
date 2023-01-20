@@ -10,12 +10,6 @@ import inlangLogo from './companyLogos/inlang.png'
 
 const sponsorList: Sponsor[] = [
   {
-    companyName: 'Inlang',
-    companyLogo: inlangLogo,
-    plan: 'indie',
-    website: 'https://inlang.com/'
-  },
-  {
     companyName: 'BurdaFoward',
     companyLogo: burdaforwardLogo,
     plan: 'platinum',
@@ -44,6 +38,12 @@ const sponsorList: Sponsor[] = [
     companyLogo: reporaLogo,
     plan: 'bronze',
     website: 'https://www.repora.com'
+  },
+  {
+    companyName: 'Inlang',
+    companyLogo: inlangLogo,
+    plan: 'indie',
+    website: 'https://inlang.com/'
   },
   {
     username: 'samuelstroschein'

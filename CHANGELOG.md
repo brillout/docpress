@@ -1,3 +1,13 @@
+## [0.3.7](https://github.com/brillout/docpress/compare/v0.3.6...v0.3.7) (2023-01-20)
+
+
+### Bug Fixes
+
+* minor layout fix ([d3d8c25](https://github.com/brillout/docpress/commit/d3d8c25f8cbe5e9e9d9e80cd89dadcaf02e9bc88))
+* minor style fix ([e88521a](https://github.com/brillout/docpress/commit/e88521a49fe75d0b4184ed604dfc81a0d9618ab4))
+
+
+
 ## [0.3.6](https://github.com/brillout/docpress/compare/v0.3.5...v0.3.6) (2023-01-20)
 
 

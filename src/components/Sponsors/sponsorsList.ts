@@ -49,6 +49,12 @@ const sponsorsList: Sponsor[] = [
     username: 'samuelstroschein'
   },
   {
+    username: 'szarapka'
+  },
+  {
+    username: 'techniath'
+  },
+  {
     username: 'DannyZB'
   },
   {

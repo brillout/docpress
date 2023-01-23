@@ -46,6 +46,9 @@ const sponsorsList: Sponsor[] = [
     website: 'https://inlang.com/'
   },
   {
+    username: 'ser1us'
+  },
+  {
     username: 'samuelstroschein'
   },
   {

@@ -1,6 +1,5 @@
 export * from '../utils/Emoji'
 export * from './Link'
-export * from './DocLink'
 export * from './RepoLink'
 export * from './P'
 export * from './Info'

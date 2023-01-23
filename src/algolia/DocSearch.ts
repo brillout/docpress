@@ -14,25 +14,23 @@ function getDocSearchCSS(pageContext: PageContextResolved) {
 }
 
 function getDocSearchJS(pageContext: PageContextResolved) {
-  const docSearchJS = !pageContext.meta.algolia
+  const { algolia } = pageContext.meta
+  const docSearchJS = !algolia
     ? ''
     : escapeInject`
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
     <script type="text/javascript">
+      const appId = '${algolia.appId}';
+      const apiKey = '${algolia.apiKey}';
+      const indexName = '${algolia.indexName}';
       const transformData = ${dangerouslySkipEscape(getTransformData())};
       docsearch({
-        appId: '${pageContext.meta.algolia.appId}',
-        apiKey: '${pageContext.meta.algolia.apiKey}',
-        indexName: '${pageContext.meta.algolia.indexName}',
         container: '#docsearch-desktop',
-        transformData
+        appId, apiKey, indexName, transformData
       });
       docsearch({
-        appId: '${pageContext.meta.algolia.appId}',
-        apiKey: '${pageContext.meta.algolia.apiKey}',
-        indexName: '${pageContext.meta.algolia.indexName}',
         container: '#docsearch-mobile',
-        transformData
+        appId, apiKey, indexName, transformData
       });
     </script>
   `

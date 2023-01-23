@@ -50,8 +50,21 @@ function getTitle({
   let hrefWithoutHash: string = href
   if (href.includes('#')) {
     ;[hrefWithoutHash, urlHash] = href.split('#')
+    assert(hrefWithoutHash || urlHash)
   }
-  const heading = findHeading(hrefWithoutHash, pageContext)
+
+  let heading: Heading | HeadingWithoutLink
+  let linkIsOnSamePage: boolean
+  if (hrefWithoutHash) {
+    heading = findHeading(hrefWithoutHash, pageContext)
+    linkIsOnSamePage = heading.url === pageContext.urlPathname
+  } else {
+    assert(urlHash)
+    linkIsOnSamePage = true
+    heading = pageContext.activeHeading
+  }
+  assert(heading)
+  assert(heading === pageContext.activeHeading || !linkIsOnSamePage)
 
   const breadcrumbs: (string | JSX.Element)[] = []
 
@@ -86,7 +99,6 @@ function getTitle({
   }
 
   {
-    const linkIsOnSamePage = heading.url === pageContext.urlPathname
     if (noBreadcrumb || linkIsOnSamePage) {
       return breadcrumbs[breadcrumbs.length - 1]
     }

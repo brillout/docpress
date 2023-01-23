@@ -24,11 +24,11 @@ type PageContextResolved = ReturnType<typeof resolvePageContext>
 function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
   const { headings, headingsWithoutLink } = getHeadings(config)
-  const activeHeading = findActiveHeading(headings, headingsWithoutLink, pageContext)
-  const headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeHeading)
+  const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsWithoutLink, pageContext)
+  const headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
   const { title, isLandingPage, pageTitle, isDetachedPage } = getMetaData(
     headingsWithoutLink,
-    activeHeading,
+    activeNavigationHeading,
     pageContext,
     config
   )
@@ -45,6 +45,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       tagline,
       algolia
     },
+    activeHeading,
     headings,
     headingsWithSubHeadings,
     isLandingPage,
@@ -57,7 +58,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 
 function getMetaData(
   headingsWithoutLink: HeadingWithoutLink[],
-  activeHeading: Heading | null,
+  activeNavigationHeading: Heading | null,
   pageContext: { urlOriginal: string; exports: Exports },
   config: Config
 ) {
@@ -66,9 +67,9 @@ function getMetaData(
   let title: string
   let pageTitle: string | JSX.Element | null
   let isDetachedPage: boolean
-  if (activeHeading) {
-    title = activeHeading.titleDocument || jsxToTextContent(activeHeading.title)
-    pageTitle = activeHeading.title
+  if (activeNavigationHeading) {
+    title = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
+    pageTitle = activeNavigationHeading.title
     isDetachedPage = false
   } else {
     pageTitle = headingsWithoutLink.find((h) => h.url === url)!.title
@@ -88,37 +89,42 @@ function getMetaData(
   return { title, isLandingPage, pageTitle, isDetachedPage }
 }
 
-function findActiveHeading(
+function findHeading(
   headings: Heading[],
   headingsWithoutLink: HeadingWithoutLink[],
   pageContext: { urlOriginal: string; exports: Exports }
-): Heading | null {
-  let activeHeading: Heading | null = null
+): { activeHeading: Heading | HeadingWithoutLink; activeNavigationHeading: Heading | null } {
+  let activeNavigationHeading: Heading | null = null
+  let activeHeading: Heading | HeadingWithoutLink | null = null
   assert(pageContext.urlOriginal)
   const pageUrl = pageContext.urlOriginal
   headings.forEach((heading) => {
     if (heading.url === pageUrl) {
+      activeNavigationHeading = heading
       activeHeading = heading
       assert(heading.level === 2, { pageUrl, heading })
     }
   })
+  if (!activeHeading) {
+    activeHeading = headingsWithoutLink.find(({ url }) => pageUrl === url) ?? null
+  }
   const debugInfo = {
     msg: 'Heading not found for url: ' + pageUrl,
     urls: headings.map((h) => h.url),
     url: pageUrl
   }
-  assert(activeHeading || headingsWithoutLink.find(({ url }) => pageUrl === url), debugInfo)
-  return activeHeading
+  assert(activeHeading, debugInfo)
+  return { activeHeading, activeNavigationHeading }
 }
 
 function getHeadingsWithSubHeadings(
   headings: Heading[],
   pageContext: { exports: Exports; urlOriginal: string },
-  activeHeading: Heading | null
+  activeNavigationHeading: Heading | null
 ): Heading[] {
   const headingsWithSubHeadings = headings.slice()
-  if (activeHeading === null) return headingsWithSubHeadings
-  const activeHeadingIdx = headingsWithSubHeadings.indexOf(activeHeading)
+  if (activeNavigationHeading === null) return headingsWithSubHeadings
+  const activeHeadingIdx = headingsWithSubHeadings.indexOf(activeNavigationHeading)
   assert(activeHeadingIdx >= 0)
   const pageHeadings = pageContext.exports.headings || []
   pageHeadings.forEach((pageHeading, i) => {
@@ -138,7 +144,7 @@ function getHeadingsWithSubHeadings(
       const heading: Heading = {
         url,
         title,
-        parentHeadings: [activeHeading, ...activeHeading.parentHeadings],
+        parentHeadings: [activeNavigationHeading, ...activeNavigationHeading.parentHeadings],
         titleInNav: title,
         level: 3
       }
@@ -146,8 +152,8 @@ function getHeadingsWithSubHeadings(
     }
   })
 
-  if (activeHeading?.sectionTitles) {
-    activeHeading.sectionTitles.forEach((sectionTitle) => {
+  if (activeNavigationHeading?.sectionTitles) {
+    activeNavigationHeading.sectionTitles.forEach((sectionTitle) => {
       const pageHeadingTitles = pageHeadings.map((h) => h.title)
       assert(pageHeadingTitles.includes(sectionTitle), { pageHeadingTitles, sectionTitle })
     })

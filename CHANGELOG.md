@@ -1,3 +1,14 @@
+## [0.3.8](https://github.com/brillout/docpress/compare/v0.3.7...v0.3.8) (2023-01-23)
+
+
+### Bug Fixes
+
+* remove superfluous #page-content hash ([870c54a](https://github.com/brillout/docpress/commit/870c54a14c3a27b5b25587222efa7a45f4aafafb))
+* update sponsor list ([74b9d4c](https://github.com/brillout/docpress/commit/74b9d4c23f3caf443774e2f7c662c941b707f3ab))
+* update sponsor list ([3a2b44e](https://github.com/brillout/docpress/commit/3a2b44e09144ffbebd2eb6ef991584312adc98c5))
+
+
+
 ## [0.3.7](https://github.com/brillout/docpress/compare/v0.3.6...v0.3.7) (2023-01-20)
 
 

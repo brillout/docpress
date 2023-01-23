@@ -1,3 +1,17 @@
+## [0.3.9](https://github.com/brillout/docpress/compare/v0.3.8...v0.3.9) (2023-01-23)
+
+
+### Bug Fixes
+
+* fix algolia script ([a70f1cc](https://github.com/brillout/docpress/commit/a70f1cc843f065b9a3e2e9b6e7858ca971701260))
+
+
+### Features
+
+* support `<Link href="#some-hash" />` ([9407db9](https://github.com/brillout/docpress/commit/9407db96dcbbb32d1f358c96dca4bcbb17896111))
+
+
+
 ## [0.3.8](https://github.com/brillout/docpress/compare/v0.3.7...v0.3.8) (2023-01-23)
 
 

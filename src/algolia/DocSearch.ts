@@ -1,4 +1,4 @@
-import { escapeInject } from 'vite-plugin-ssr'
+import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr'
 import { PageContextResolved } from '../config/resolvePageContext'
 
 export { getDocSearchCSS }
@@ -19,7 +19,7 @@ function getDocSearchJS(pageContext: PageContextResolved) {
     : escapeInject`
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
     <script type="text/javascript">
-      const transformData = ${getTransformData()};
+      const transformData = ${dangerouslySkipEscape(getTransformData())};
       docsearch({
         appId: '${pageContext.meta.algolia.appId}',
         apiKey: '${pageContext.meta.algolia.apiKey}',
@@ -44,12 +44,12 @@ function getDocSearchJS(pageContext: PageContextResolved) {
 //  - https://discourse.algolia.com/t/docsearchs-transformdata-function-cannot-remove-hashes-from-result-urls/8487
 function getTransformData() {
   return `function(hits) {
-    hits.map(hit => {
-      if (hit.anchor === 'page-content') {
-        hit.url = hit.url.replace('#'+ hit.anchor, '');
-        hit.anchor = null;
-       }
-    });
-    return hits;
-  }`
+        hits.map(hit => {
+          if (hit.anchor === 'page-content') {
+            hit.url = hit.url.replace('#'+ hit.anchor, '');
+            hit.anchor = null;
+           }
+        });
+        return hits;
+      }`
 }

@@ -1,7 +1,7 @@
 export { sponsorsList }
 
 import type { Sponsor } from '../Sponsors'
-import ccoliLogo from './companyLogos/ccoli.svg'
+import crepeLogo from './companyLogos/crepe.svg'
 import contraLogo from './companyLogos/contra.svg'
 import mfqsLogo from './companyLogos/mfqs.svg'
 import reporaLogo from './companyLogos/repora.svg'
@@ -22,10 +22,10 @@ const sponsorsList: Sponsor[] = [
     website: 'https://contra.com'
   },
   {
-    companyName: 'ccoli',
-    companyLogo: ccoliLogo,
+    companyName: 'CREPE',
+    companyLogo: crepeLogo,
     plan: 'silver',
-    website: 'https://ccoli.co'
+    website: 'https://crepe.cm'
   },
   {
     companyName: 'My Favorite Quilt Store',

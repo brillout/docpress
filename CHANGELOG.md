@@ -1,3 +1,12 @@
+## [0.3.10](https://github.com/brillout/docpress/compare/v0.3.9...v0.3.10) (2023-02-11)
+
+
+### Bug Fixes
+
+* sponsor rename ccoli -> CREPE ([8ad212f](https://github.com/brillout/docpress/commit/8ad212f7e7ba58db99e2d1cf9ccb100e4afa27fe))
+
+
+
 ## [0.3.9](https://github.com/brillout/docpress/compare/v0.3.8...v0.3.9) (2023-01-23)
 
 

@@ -23,14 +23,14 @@ function getDocSearchJS(pageContext: PageContextResolved) {
       const appId = '${algolia.appId}';
       const apiKey = '${algolia.apiKey}';
       const indexName = '${algolia.indexName}';
-      const transformData = ${dangerouslySkipEscape(getTransformData())};
+      const transformItems = ${dangerouslySkipEscape(getTransformItems())};
       docsearch({
         container: '#docsearch-desktop',
-        appId, apiKey, indexName, transformData
+        appId, apiKey, indexName, transformItems
       });
       docsearch({
         container: '#docsearch-mobile',
-        appId, apiKey, indexName, transformData
+        appId, apiKey, indexName, transformItems
       });
     </script>
   `
@@ -38,15 +38,15 @@ function getDocSearchJS(pageContext: PageContextResolved) {
 }
 
 // Remove superfluous hash '#page-content' from URLs pointing to whole pages
+//  - https://github.com/algolia/docsearch/issues/1801
 //  - https://discourse.algolia.com/t/how-to-avoid-hash-in-search-result-url/6486
 //  - https://discourse.algolia.com/t/docsearchs-transformdata-function-cannot-remove-hashes-from-result-urls/8487
-function getTransformData() {
+function getTransformItems() {
   return `function(hits) {
         hits.map(hit => {
-          if (hit.anchor === 'page-content') {
-            hit.url = hit.url.replace('#'+ hit.anchor, '');
-            hit.anchor = null;
-           }
+          if (hit.url.indexOf('#page-content') > 0) {
+            hit.url = hit.url.replace('#page-content', '');
+          }
         });
         return hits;
       }`

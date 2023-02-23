@@ -1,3 +1,12 @@
+## [0.3.11](https://github.com/brillout/docpress/compare/v0.3.10...v0.3.11) (2023-02-23)
+
+
+### Bug Fixes
+
+* fix Algolia workaround to remove superfluous #page-content hash ([c8ae845](https://github.com/brillout/docpress/commit/c8ae845925ea48603570ff39dcc5134c383958a9))
+
+
+
 ## [0.3.10](https://github.com/brillout/docpress/compare/v0.3.9...v0.3.10) (2023-02-11)
 
 

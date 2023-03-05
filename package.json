@@ -2,6 +2,8 @@
   "name": "@brillout/docpress",
   "version": "0.3.11",
   "scripts": {
+    "// Check types while developing": "",
+    "types": "tsc --noEmit --watch",
     "// Develop/preview Docpress using demo/": "",
     "dev": "docpress dev",
     "preview": "docpress build && docpress preview",

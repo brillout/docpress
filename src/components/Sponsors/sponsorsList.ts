@@ -46,6 +46,12 @@ const sponsorsList: Sponsor[] = [
     website: 'https://inlang.com/'
   },
   {
+    username: 'micah-redwood'
+  },
+  {
+    username: 'nicka-redwood'
+  },
+  {
     username: 'ser1us'
   },
   {

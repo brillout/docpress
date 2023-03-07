@@ -8,43 +8,7 @@ import reporaLogo from './companyLogos/repora.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 
-const sponsorsList: Sponsor[] = [
-  {
-    companyName: 'BurdaFoward',
-    companyLogo: burdaforwardLogo,
-    plan: 'platinum',
-    website: 'https://www.burda-forward.de'
-  },
-  {
-    companyName: 'Contra',
-    companyLogo: contraLogo,
-    plan: 'gold',
-    website: 'https://contra.com'
-  },
-  {
-    companyName: 'CREPE',
-    companyLogo: crepeLogo,
-    plan: 'silver',
-    website: 'https://crepe.cm'
-  },
-  {
-    companyName: 'My Favorite Quilt Store',
-    companyLogo: mfqsLogo,
-    plan: 'bronze',
-    website: 'https://myfavoritequiltstore.com'
-  },
-  {
-    companyName: 'Repora',
-    companyLogo: reporaLogo,
-    plan: 'bronze',
-    website: 'https://www.repora.com'
-  },
-  {
-    companyName: 'Inlang',
-    companyLogo: inlangLogo,
-    plan: 'indie',
-    website: 'https://inlang.com/'
-  },
+const individuals: Sponsor[] = [
   {
     username: 'micah-redwood'
   },
@@ -91,3 +55,44 @@ const sponsorsList: Sponsor[] = [
     username: 'zgfdev'
   }
 ]
+
+const companies: Sponsor[] = [
+  {
+    companyName: 'BurdaFoward',
+    companyLogo: burdaforwardLogo,
+    plan: 'platinum',
+    website: 'https://www.burda-forward.de'
+  },
+  {
+    companyName: 'Contra',
+    companyLogo: contraLogo,
+    plan: 'gold',
+    website: 'https://contra.com'
+  },
+  {
+    companyName: 'CREPE',
+    companyLogo: crepeLogo,
+    plan: 'silver',
+    website: 'https://crepe.cm'
+  },
+  {
+    companyName: 'My Favorite Quilt Store',
+    companyLogo: mfqsLogo,
+    plan: 'bronze',
+    website: 'https://myfavoritequiltstore.com'
+  },
+  {
+    companyName: 'Repora',
+    companyLogo: reporaLogo,
+    plan: 'bronze',
+    website: 'https://www.repora.com'
+  },
+  {
+    companyName: 'Inlang',
+    companyLogo: inlangLogo,
+    plan: 'indie',
+    website: 'https://inlang.com/'
+  }
+]
+
+const sponsorsList: Sponsor[] = [...companies, ...individuals]

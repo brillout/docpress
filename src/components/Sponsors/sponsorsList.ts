@@ -10,6 +10,9 @@ import inlangLogo from './companyLogos/inlang.png'
 
 const individuals: Sponsor[] = [
   {
+    username: 'jscottsf'
+  },
+  {
     username: 'micah-redwood'
   },
   {

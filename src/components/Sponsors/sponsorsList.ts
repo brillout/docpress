@@ -25,6 +25,9 @@ const individuals: Sponsor[] = [
     username: 'samuelstroschein'
   },
   {
+    username: 'npacucci'
+  },
+  {
     username: 'szarapka'
   },
   {

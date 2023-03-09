@@ -89,7 +89,10 @@ const companies: Sponsor[] = [
     companyName: 'Optimizers',
     companyLogo: optimizersLogo,
     plan: 'bronze',
-    website: 'https://www.optimizers.nl/'
+    website: 'https://www.optimizers.nl/',
+    divSize: {
+      padding: 20
+    }
   },
   {
     companyName: 'My Favorite Quilt Store',

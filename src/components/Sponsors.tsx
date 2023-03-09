@@ -18,11 +18,18 @@ type SponsorCompany = {
   companyLogo: string
   website: string
   plan: Plan
+  divSize?: Partial<DivSize>
 }
 type SponsorIndividual = {
   username: string
 }
 type Sponsor = SponsorCompany | SponsorIndividual
+
+type DivSize = {
+  width: number
+  height: number
+  padding: number
+}
 
 function Sponsors() {
   const pageContext = usePageContext()
@@ -82,7 +89,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
   } else {
     imgSrc = sponsor.companyLogo
     website = sponsor.website
-    const size = getSize(sponsor.plan)
+    const size = getSize(sponsor)
     width = size.width
     height = size.height
     padding = size.padding
@@ -201,23 +208,29 @@ function getLabelIcon(sponsor: SponsorCompany) {
   return <img src={medalSrc} style={{ height: 15, zIndex: 1, marginRight: 5 }} />
 }
 
-function getSize(plan: Plan) {
+function getSize(sponsor: SponsorCompany): DivSize {
+  const { plan } = sponsor
+  let divSize: DivSize | undefined
   if (plan === 'platinum') {
-    return { width: 500, height: 180, padding: 100 }
+    divSize = { width: 500, height: 180, padding: 100 }
   }
   if (plan === 'gold') {
-    return { width: 400, height: 150, padding: 95 }
+    divSize = { width: 400, height: 150, padding: 95 }
   }
   if (plan === 'silver') {
-    return { width: 300, height: 100, padding: 45 }
+    divSize = { width: 300, height: 100, padding: 45 }
   }
   if (plan === 'bronze') {
-    return { width: 200, height: 70, padding: 30 }
+    divSize = { width: 200, height: 70, padding: 30 }
   }
   if (plan === 'indie') {
-    return { width: 140, height: 50, padding: 20 }
+    divSize = { width: 140, height: 50, padding: 20 }
   }
-  assert(false)
+  assert(divSize)
+  if (sponsor.divSize) {
+    Object.assign(divSize, sponsor.divSize)
+  }
+  return divSize
 }
 
 function capitalizeFirstLetter(word: string): string {

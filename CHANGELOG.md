@@ -1,3 +1,15 @@
+## [0.3.12](https://github.com/brillout/docpress/compare/v0.3.11...v0.3.12) (2023-03-09)
+
+
+### Bug Fixes
+
+* add missing sponsor ([58fa7f8](https://github.com/brillout/docpress/commit/58fa7f80072558a28d56f111af7d741f55c743f5))
+* add sponsor ([2f71ba4](https://github.com/brillout/docpress/commit/2f71ba4773f487884b486e07c34780e39c95fc89))
+* add sponsor ([1a0cfb4](https://github.com/brillout/docpress/commit/1a0cfb4c2213e398c2cbea8a0f1f0213c726d6ad))
+* add sponsor ([a208230](https://github.com/brillout/docpress/commit/a208230e8c40247f66e65b1c8f0bf6f75ed70c05))
+
+
+
 ## [0.3.11](https://github.com/brillout/docpress/compare/v0.3.10...v0.3.11) (2023-02-23)
 
 

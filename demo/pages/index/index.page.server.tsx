@@ -1,7 +1,7 @@
 export { Page }
 
 import React from 'react'
-import { Emoji, FeatureList, HorizontalLine } from '@brillout/docpress'
+import { Emoji, FeatureList, HorizontalLine, Sponsors } from '@brillout/docpress'
 import CodeBlock from './CodeBlock.mdx'
 
 function Page() {
@@ -11,7 +11,9 @@ function Page() {
       <Header />
       <HorizontalLine primary={true} />
       <Features />
-      <div style={{ height: 100 }} />
+      <HorizontalLine />
+      <Sponsors />
+      <div style={{ height: 50 }} />
     </>
   )
 }

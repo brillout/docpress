@@ -1,3 +1,13 @@
+## [0.3.13](https://github.com/brillout/docpress/compare/v0.3.12...v0.3.13) (2023-03-09)
+
+
+### Bug Fixes
+
+* adjust Optimizers logo ([ca7c558](https://github.com/brillout/docpress/commit/ca7c55851ce94de69767189b869b785772dedc7c))
+* improve sponsor list layout ([746a2a7](https://github.com/brillout/docpress/commit/746a2a7b3fe3bab57cbd8f8f037d05dd62a6b4eb))
+
+
+
 ## [0.3.12](https://github.com/brillout/docpress/compare/v0.3.11...v0.3.12) (2023-03-09)
 
 

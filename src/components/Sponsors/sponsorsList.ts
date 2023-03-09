@@ -4,11 +4,15 @@ import type { Sponsor } from '../Sponsors'
 import crepeLogo from './companyLogos/crepe.svg'
 import contraLogo from './companyLogos/contra.svg'
 import mfqsLogo from './companyLogos/mfqs.svg'
+import optimizersLogo from './companyLogos/optimizers.svg'
 import reporaLogo from './companyLogos/repora.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 
 const individuals: Sponsor[] = [
+  {
+    username: 'leonmondria'
+  },
   {
     username: 'jscottsf'
   },
@@ -80,6 +84,12 @@ const companies: Sponsor[] = [
     companyLogo: crepeLogo,
     plan: 'silver',
     website: 'https://crepe.cm'
+  },
+  {
+    companyName: 'Optimizers',
+    companyLogo: optimizersLogo,
+    plan: 'bronze',
+    website: 'https://www.optimizers.nl/'
   },
   {
     companyName: 'My Favorite Quilt Store',

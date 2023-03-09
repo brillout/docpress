@@ -34,8 +34,8 @@ type DivSize = {
 function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
-  const sponsorsCompany = sponsorsList.filter((sponsor) => !('username' in sponsor))
-  const sponsorsHumanidual = sponsorsList.filter((sponsor) => 'username' in sponsor)
+  const sponsorsCompanies = sponsorsList.filter(isCompany)
+  const sponsorsIndividuals = sponsorsList.filter(isIndividual)
   return (
     <div style={{ textAlign: 'center', marginTop: 19 }}>
       <a
@@ -57,12 +57,12 @@ function Sponsors() {
         sponsors.
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', alignItems: 'end' }}>
-        {sponsorsCompany.map((sponsor, i) => (
+        {sponsorsCompanies.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end', marginTop: 20 }}>
-        {sponsorsHumanidual.map((sponsor, i) => (
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end', marginTop: 10 }}>
+        {sponsorsIndividuals.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>
@@ -77,14 +77,18 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
   let height: number
   let website: string
   let padding: number
+  let marginHeight: number
+  let marginWidth: number
   let backgroundColor = '#f0f0f0'
   let label: null | JSX.Element = null
-  if ('username' in sponsor) {
+  if (isIndividual(sponsor)) {
     website = `https://github.com/${sponsor.username}`
     imgSrc = `https://github.com/${sponsor.username}.png?size=30`
     width = 30
     height = 30
     padding = 0
+    marginHeight = 10
+    marginWidth = 5
     backgroundColor = 'none'
   } else {
     imgSrc = sponsor.companyLogo
@@ -94,14 +98,15 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
     height = size.height
     padding = size.padding
     imgAlt = sponsor.companyName
+    marginHeight = 20
+    marginWidth = 10
     label = <Label sponsor={sponsor} />
   }
-  const marginWidth = 5
   return (
     <a
       href={website}
       style={{
-        margin: `10px ${marginWidth}px`
+        margin: `${marginHeight}px ${marginWidth}px`
       }}
     >
       {label}
@@ -130,7 +135,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
 }
 
 function Label({ sponsor }: { sponsor: Sponsor }) {
-  assert(!('username' in sponsor))
+  assert(isCompany(sponsor))
   const labelBg = getLabelBg(sponsor)
   const labelIcon = getLabelIcon(sponsor)
   const labelText = getLabelText(sponsor)
@@ -235,4 +240,11 @@ function getSize(sponsor: SponsorCompany): DivSize {
 
 function capitalizeFirstLetter(word: string): string {
   return word[0].toUpperCase() + word.slice(1)
+}
+
+function isCompany(sponsor: Sponsor): sponsor is SponsorCompany {
+  return !isIndividual(sponsor)
+}
+function isIndividual(sponsor: Sponsor): sponsor is SponsorIndividual {
+  return 'username' in sponsor
 }

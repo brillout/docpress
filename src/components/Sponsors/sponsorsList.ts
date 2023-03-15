@@ -32,6 +32,9 @@ const individuals: Sponsor[] = [
     username: 'ser1us'
   },
   {
+    username: 'nikitavoloboev'
+  },
+  {
     username: 'samuelstroschein'
   },
   {

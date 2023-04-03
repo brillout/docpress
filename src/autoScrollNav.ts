@@ -3,7 +3,7 @@ import { assert } from './utils/client'
 autoScrollNav()
 
 function autoScrollNav() {
-  const navigationEl = document.getElementById('navigation-content')
+  const navigationEl = document.getElementById('navigation-content-main')
   assert(navigationEl)
   const href = window.location.pathname
   const navLinks: HTMLElement[] = Array.from(navigationEl.querySelectorAll(`a[href="${href}"]`))

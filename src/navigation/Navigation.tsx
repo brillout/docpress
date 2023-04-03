@@ -3,7 +3,7 @@ export { NavigationMask }
 
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
-import { Heading } from '../headings'
+import { Heading, HeadingDetached } from '../headings'
 import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
@@ -13,16 +13,30 @@ function Navigation({
 }: {
   pageContext: {
     headingsWithSubHeadings: Heading[]
-    detachedPageHeadings: null | Heading[]
+    detachedPageHeadings: null | (Heading | HeadingDetached)[]
     urlPathname: string
   }
 }) {
+  const currentUrl = pageContext.urlPathname
   return (
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        {pageContext.detachedPageHeadings && <DetchedNavigation />}
-        <NavigationContent headings={pageContext.headingsWithSubHeadings} currentUrl={pageContext.urlPathname} />
+        {pageContext.detachedPageHeadings && (
+          <>
+            <NavigationContent
+              id="navigation-content-detached"
+              headings={pageContext.detachedPageHeadings}
+              currentUrl={currentUrl}
+            />
+            <DetachedPageNote />
+          </>
+        )}
+        <NavigationContent
+          id="navigation-content-main"
+          headings={pageContext.headingsWithSubHeadings}
+          currentUrl={currentUrl}
+        />
         {/* <ScrollOverlay /> */}
         <NavigationFullscreenClose />
       </div>
@@ -34,13 +48,17 @@ function NavigationMask() {
   return <div id="navigation-mask" />
 }
 
-function NavigationContent(props: { headings: Heading[]; currentUrl: string }) {
+function NavigationContent(props: {
+  id: 'navigation-content-main' | 'navigation-content-detached'
+  headings: (Heading | HeadingDetached)[]
+  currentUrl: string
+}) {
   const headings = getHeadingsWithComputedProps(props.headings, props.currentUrl)
 
   const headingsGrouped = groupHeadings(headings)
 
   return (
-    <div id="navigation-content">
+    <div id={props.id} className="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>
         {headingsGrouped.map((headingsH1, i) => (
           <div className="nav-h1-group" key={i}>
@@ -109,8 +127,9 @@ function Heading({
 
 function groupHeadings<T extends { level: number }>(headings: T[]) {
   const headingsGrouped: (T & { headings: T[] })[] = []
+  const headingLevelMin: number = Math.min(...headings.map((h) => h.level))
   headings.forEach((heading) => {
-    if (heading.level === 1) {
+    if (heading.level === headingLevelMin) {
       headingsGrouped.push({ ...heading, headings: [] })
     } else {
       headingsGrouped[headingsGrouped.length - 1].headings.push(heading)
@@ -119,7 +138,7 @@ function groupHeadings<T extends { level: number }>(headings: T[]) {
   return headingsGrouped
 }
 
-function getHeadingsWithComputedProps(headings: Heading[], currentUrl: string) {
+function getHeadingsWithComputedProps(headings: (Heading | HeadingDetached)[], currentUrl: string) {
   return headings.map((heading, i) => {
     assert([1, 2, 3, 4].includes(heading.level), heading)
 
@@ -146,7 +165,7 @@ function getHeadingsWithComputedProps(headings: Heading[], currentUrl: string) {
 
     const isFirstOfItsKind = heading.level !== headingPrevious?.level
     const isLastOfItsKind = heading.level !== headingNext?.level
-    const isChildOfListHeading = !!heading.parentHeadings[0]?.isListTitle
+    const isChildOfListHeading = !!heading.parentHeadings && !!heading.parentHeadings[0]?.isListTitle
 
     return {
       ...heading,
@@ -162,14 +181,6 @@ function getHeadingsWithComputedProps(headings: Heading[], currentUrl: string) {
   })
 }
 
-function DetchedNavigation() {
-  return (
-    <>
-      <DetachedPageNote />
-    </>
-  )
-}
-
 function DetachedPageNote() {
   return (
     <div
@@ -179,8 +190,8 @@ function DetachedPageNote() {
         textAlign: 'left',
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 30,
-        marginBottom: -8,
+        marginTop: 25,
+        marginBottom: -5,
         borderRadius: 5,
         padding: 10
       }}

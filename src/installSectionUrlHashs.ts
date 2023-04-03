@@ -11,18 +11,20 @@ function installSectionUrlHashs() {
     assert(window.location.pathname === '/')
     return
   }
-  const navigationEl = document.getElementById('navigation-content')
-  assert(navigationEl)
-  const docSections = Array.from(document.querySelectorAll('h2'))
-  docSections.forEach((docSection) => {
-    if (!docSection.id) return
-    const urlHash = '#' + docSection.id
-    assertNavLink(navigationEl, urlHash)
-    docSection.onclick = () => {
-      window.location.hash = urlHash
-      // The browser doesn't jump if hash doesn't change
-      jumpToSection()
-    }
+  const navigationsEl: HTMLElement[] = Array.from(document.querySelectorAll('.navigation-content'))
+  assert(navigationsEl.length > 0)
+  navigationsEl.forEach((navigationEl) => {
+    const docSections = Array.from(document.querySelectorAll('h2'))
+    docSections.forEach((docSection) => {
+      if (!docSection.id) return
+      const urlHash = '#' + docSection.id
+      assertNavLink(navigationEl, urlHash)
+      docSection.onclick = () => {
+        window.location.hash = urlHash
+        // The browser doesn't jump if hash doesn't change
+        jumpToSection()
+      }
+    })
   })
 }
 

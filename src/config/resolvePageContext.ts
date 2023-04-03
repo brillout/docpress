@@ -26,12 +26,12 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const { headings, headingsDetached } = getHeadings(config)
   const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetached, pageContext)
   let headingsWithSubHeadings: Heading[]
-  let detachedPageHeadings: null | Heading[]
+  let detachedPageHeadings: null | (Heading | HeadingDetached)[]
   if (activeNavigationHeading) {
     detachedPageHeadings = null
     headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
   } else {
-    detachedPageHeadings = getPageHeadings(pageContext, activeHeading)
+    detachedPageHeadings = [activeHeading, ...getPageHeadings(pageContext, activeHeading)]
     headingsWithSubHeadings = headings
   }
   const { title, isLandingPage, pageTitle } = getMetaData(

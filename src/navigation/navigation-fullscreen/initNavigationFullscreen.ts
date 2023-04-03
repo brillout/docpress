@@ -32,7 +32,7 @@ function toggleNavExpend() {
 
 function updateColumnWidth() {
   const navMinWidth = 299
-  const navH1Groups = Array.from(document.querySelectorAll('.nav-h1-group'))
+  const navH1Groups = Array.from(document.querySelectorAll('#navigation-content-main .nav-h1-group'))
   const numberOfColumnsMax = navH1Groups.length
 
   const widthAvailable = getViewportWidth()
@@ -50,7 +50,7 @@ function updateColumnWidth() {
 
   mergeColumns(columns, numberOfColumns)
 
-  const navContent = document.getElementById('navigation-content')!
+  const navContent = document.getElementById('navigation-content-main')!
 
   Array.from(navContent.children).forEach((child) => {
     assert(child.className === 'nav-column')

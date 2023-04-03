@@ -19,7 +19,16 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   border-right: 1px solid #eee;
+  --background-color: #f0f0f0;
+  padding-bottom: 70px;
 }
+.navigation-content {
+  margin-top: 20px;
+}
+#navigation-content-detached {
+  margin-top: 25px;
+}
+
 #navigation-mask {
   position: fixed;
   width: 100vw;
@@ -97,14 +106,16 @@ html.navigation-fullscreen #navigation-container {
   left: 0;
   background-color: white;
 }
-html.navigation-fullscreen #navigation-header {
+html.navigation-fullscreen #navigation-header,
+html.navigation-fullscreen #navigation-content-detached,
+html.navigation-fullscreen #detached-note {
   display: none !important;
 }
-html.navigation-fullscreen #navigation-content {
+html.navigation-fullscreen .navigation-content {
   display: flex;
   margin: auto; /* A `max-width` is set by src/navigation/navigation-fullscreen/initNavigationFullscreen.ts */
 }
-html.navigation-fullscreen #navigation-content > .nav-column {
+html.navigation-fullscreen .navigation-content > .nav-column {
   flex-grow: 1;
   max-width: 350px;
 }

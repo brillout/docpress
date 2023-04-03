@@ -61,7 +61,16 @@ function Sponsors() {
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'end', marginTop: 10 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'end',
+          margin: '17px auto',
+          maxWidth: 700
+        }}
+      >
         {sponsorsIndividuals.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
@@ -87,7 +96,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
     width = 30
     height = 30
     padding = 0
-    marginHeight = 10
+    marginHeight = 5
     marginWidth = 5
     backgroundColor = 'none'
   } else {

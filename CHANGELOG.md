@@ -1,3 +1,12 @@
+## [0.4.1](https://github.com/brillout/docpress/compare/v0.4.0...v0.4.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* update vps ([0e8cf65](https://github.com/brillout/docpress/commit/0e8cf653d5c6d3b25bb6f9aac6a1589b9b68d437))
+
+
+
 # [0.4.0](https://github.com/brillout/docpress/compare/v0.3.13...v0.4.0) (2023-04-03)
 
 

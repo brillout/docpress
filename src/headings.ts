@@ -7,12 +7,16 @@ export { parseTitle }
 export type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
   title: JSX.Element
   titleInNav: JSX.Element
-  parentHeadings: Heading[]
+  parentHeadings: (Heading | HeadingDetached)[]
   // Not sure why this is needed
   isListTitle?: true
   sectionTitles?: string[]
 }
-export type HeadingWithoutLink = {
+export type HeadingDetached = Omit<Heading, 'level' | 'parentHeadings'> & {
+  level: 2
+  parentHeadings: null
+}
+export type HeadingDetachedDefinition = {
   url: string
   title: string | JSX.Element
 }
@@ -45,9 +49,9 @@ type HeadingAbstract = {
   titleInNav?: undefined
 }
 
-function getHeadings(config: { headings: HeadingDefinition[]; headingsWithoutLink: HeadingWithoutLink[] }): {
+function getHeadings(config: { headings: HeadingDefinition[]; headingsDetached: HeadingDetachedDefinition[] }): {
   headings: Heading[]
-  headingsWithoutLink: HeadingWithoutLink[]
+  headingsDetached: HeadingDetached[]
 } {
   const headingsWithoutParent: Omit<Heading, 'parentHeadings'>[] = config.headings.map((heading: HeadingDefinition) => {
     const titleProcessed: JSX.Element = parseTitle(heading.title)
@@ -83,21 +87,24 @@ function getHeadings(config: { headings: HeadingDefinition[]; headingsWithoutLin
     headings.push({ ...heading, parentHeadings })
   })
 
-  const headingsWithoutLink = config.headingsWithoutLink.map((headingsWithoutLink) => {
-    const { url, title } = headingsWithoutLink
+  const headingsDetached = config.headingsDetached.map((headingsDetached) => {
+    const { url, title } = headingsDetached
     assert(
       headings.find((heading) => heading.url === url) === undefined,
-      `remove ${headingsWithoutLink.url} from headingsWithoutLink`
+      `remove ${headingsDetached.url} from headingsDetached`
     )
     const titleProcessed = typeof title === 'string' ? parseTitle(title) : title
     return {
-      ...headingsWithoutLink,
-      title: titleProcessed
+      ...headingsDetached,
+      level: 2 as const,
+      title: titleProcessed,
+      titleInNav: titleProcessed,
+      parentHeadings: null
     }
   })
 
-  assertHeadingsUrl([...headings, ...headingsWithoutLink])
-  return { headings, headingsWithoutLink }
+  assertHeadingsUrl([...headings, ...headingsDetached])
+  return { headings, headingsDetached }
 }
 
 function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: Heading[]) {

@@ -1,6 +1,6 @@
 import { assert, jsxToTextContent, objectAssign } from '../utils/server'
-import { getHeadings, HeadingWithoutLink, parseTitle } from '../headings'
-import type { Heading } from '../headings'
+import { getHeadings, parseTitle } from '../headings'
+import type { Heading, HeadingDetached } from '../headings'
 import type { PageContextBuiltIn } from 'vite-plugin-ssr'
 import type { MarkdownHeading } from '../markdownHeadingsVitePlugin'
 import type { Config } from './Config'
@@ -23,12 +23,19 @@ type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
-  const { headings, headingsWithoutLink } = getHeadings(config)
-  const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsWithoutLink, pageContext)
-  const isDetachedPage = !activeNavigationHeading
-  const headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
+  const { headings, headingsDetached } = getHeadings(config)
+  const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetached, pageContext)
+  let headingsWithSubHeadings: Heading[]
+  let detachedPageHeadings: null | Heading[]
+  if (activeNavigationHeading) {
+    detachedPageHeadings = null
+    headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
+  } else {
+    detachedPageHeadings = getPageHeadings(pageContext, activeHeading)
+    headingsWithSubHeadings = headings
+  }
   const { title, isLandingPage, pageTitle } = getMetaData(
-    headingsWithoutLink,
+    headingsDetached,
     activeNavigationHeading,
     pageContext,
     config
@@ -49,8 +56,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     activeHeading,
     headings,
     headingsWithSubHeadings,
+    detachedPageHeadings,
     isLandingPage,
-    isDetachedPage,
     pageTitle,
     config
   })
@@ -58,7 +65,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 }
 
 function getMetaData(
-  headingsWithoutLink: HeadingWithoutLink[],
+  headingsDetached: HeadingDetached[],
   activeNavigationHeading: Heading | null,
   pageContext: { urlOriginal: string; exports: Exports },
   config: Config
@@ -71,7 +78,7 @@ function getMetaData(
     title = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
     pageTitle = activeNavigationHeading.title
   } else {
-    pageTitle = headingsWithoutLink.find((h) => h.url === url)!.title
+    pageTitle = headingsDetached.find((h) => h.url === url)!.title
     title = jsxToTextContent(pageTitle)
   }
 
@@ -89,11 +96,11 @@ function getMetaData(
 
 function findHeading(
   headings: Heading[],
-  headingsWithoutLink: HeadingWithoutLink[],
+  headingsDetached: HeadingDetached[],
   pageContext: { urlOriginal: string; exports: Exports }
-): { activeHeading: Heading | HeadingWithoutLink; activeNavigationHeading: Heading | null } {
+): { activeHeading: Heading | HeadingDetached; activeNavigationHeading: Heading | null } {
   let activeNavigationHeading: Heading | null = null
-  let activeHeading: Heading | HeadingWithoutLink | null = null
+  let activeHeading: Heading | HeadingDetached | null = null
   assert(pageContext.urlOriginal)
   const pageUrl = pageContext.urlOriginal
   headings.forEach((heading) => {
@@ -104,7 +111,7 @@ function findHeading(
     }
   })
   if (!activeHeading) {
-    activeHeading = headingsWithoutLink.find(({ url }) => pageUrl === url) ?? null
+    activeHeading = headingsDetached.find(({ url }) => pageUrl === url) ?? null
   }
   const debugInfo = {
     msg: 'Heading not found for url: ' + pageUrl,
@@ -134,7 +141,10 @@ function getHeadingsWithSubHeadings(
   return headingsWithSubHeadings
 }
 
-function getPageHeadings(pageContext: { exports: Exports; urlOriginal: string }, currentHeading: Heading) {
+function getPageHeadings(
+  pageContext: { exports: Exports; urlOriginal: string },
+  currentHeading: Heading | HeadingDetached
+) {
   const pageHeadings: Heading[] = []
 
   const markdownHeadings = pageContext.exports.headings ?? []
@@ -158,7 +168,7 @@ function getPageHeadings(pageContext: { exports: Exports; urlOriginal: string },
       const heading: Heading = {
         url,
         title,
-        parentHeadings: [currentHeading, ...currentHeading.parentHeadings],
+        parentHeadings: [currentHeading, ...(currentHeading.parentHeadings ?? [])],
         titleInNav: title,
         level: 3
       }

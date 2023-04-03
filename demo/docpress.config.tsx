@@ -1,7 +1,7 @@
 import type { Config } from '@brillout/docpress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
-import { headings, headingsWithoutLink } from './headings'
+import { headings, headingsDetached } from './headings'
 
 export default {
   projectInfo: {
@@ -24,7 +24,7 @@ export default {
   tagline: 'DocPress Demo',
   titleNormalCase: true,
   headings,
-  headingsWithoutLink
+  headingsDetached
 } as Config
 
 function NavHeaderMobile() {

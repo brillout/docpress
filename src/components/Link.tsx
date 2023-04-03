@@ -2,7 +2,7 @@ export { Link }
 
 import React from 'react'
 import { isRepoLink, RepoLink } from './RepoLink'
-import { getHeadings, parseTitle, Heading, HeadingWithoutLink } from '../headings'
+import { getHeadings, parseTitle, Heading, HeadingDetached } from '../headings'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
@@ -53,7 +53,7 @@ function getTitle({
     assert(hrefWithoutHash || urlHash)
   }
 
-  let heading: Heading | HeadingWithoutLink
+  let heading: Heading | HeadingDetached
   let linkIsOnSamePage: boolean
   if (hrefWithoutHash) {
     heading = findHeading(hrefWithoutHash, pageContext)
@@ -68,9 +68,9 @@ function getTitle({
 
   const breadcrumbs: (string | JSX.Element)[] = []
 
-  if ('parentHeadings' in heading) {
+  if (heading.parentHeadings) {
     breadcrumbs.push(
-      ...heading.parentHeadings
+      ...(heading.parentHeadings ?? [])
         .slice()
         .reverse()
         .map(({ title }) => title)
@@ -119,11 +119,11 @@ function getTitle({
   )
 }
 
-function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingWithoutLink {
+function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingDetached {
   assert(href.startsWith('/'), `\`href==='${href}'\` but should start with \`/\`.`)
-  const { headings, headingsWithoutLink } = getHeadings(pageContext.config)
+  const { headings, headingsDetached } = getHeadings(pageContext.config)
   {
-    const heading = headingsWithoutLink.find(({ url }) => href === url)
+    const heading = headingsDetached.find(({ url }) => href === url)
     if (heading) {
       return heading
     }

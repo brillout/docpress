@@ -1,6 +1,6 @@
 export type { Config }
 
-import type { HeadingDefinition, HeadingWithoutLink } from '../headings'
+import type { HeadingDefinition, HeadingDetachedDefinition } from '../headings'
 
 type Config = {
   projectInfo: {
@@ -19,7 +19,7 @@ type Config = {
     indexName: string
   }
   headings: HeadingDefinition[]
-  headingsWithoutLink: HeadingWithoutLink[]
+  headingsDetached: HeadingDetachedDefinition[]
   navHeaderMobile: React.ReactNode
   navHeader: React.ReactNode
   titleNormalCase: boolean

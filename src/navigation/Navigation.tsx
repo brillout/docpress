@@ -13,15 +13,15 @@ function Navigation({
 }: {
   pageContext: {
     headingsWithSubHeadings: Heading[]
+    detachedPageHeadings: null | Heading[]
     urlPathname: string
-    isDetachedPage: boolean
   }
 }) {
   return (
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        {pageContext.isDetachedPage && <DetchedNavigation />}
+        {pageContext.detachedPageHeadings && <DetchedNavigation />}
         <NavigationContent headings={pageContext.headingsWithSubHeadings} currentUrl={pageContext.urlPathname} />
         {/* <ScrollOverlay /> */}
         <NavigationFullscreenClose />

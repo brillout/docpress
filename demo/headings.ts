@@ -1,9 +1,9 @@
 export { headings }
-export { headingsWithoutLink }
+export { headingsDetached }
 
-import type { HeadingDefinition, HeadingWithoutLink } from '@brillout/docpress'
+import type { HeadingDefinition, HeadingDetachedDefinition } from '@brillout/docpress'
 
-const headingsWithoutLink: HeadingWithoutLink[] = [
+const headingsDetached: HeadingDetachedDefinition[] = [
   {
     title: 'Orphan Page',
     url: '/orphan'

@@ -1,3 +1,24 @@
+# [0.4.0](https://github.com/brillout/docpress/compare/v0.3.13...v0.4.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* add sponsor ([fb4a9b4](https://github.com/brillout/docpress/commit/fb4a9b482366bf24a219ddfb008fc9fc4995e524))
+* add sponsors ([ac21520](https://github.com/brillout/docpress/commit/ac215203039de46820b4bad733856f9cbf29b762))
+* rename `headingsWithoutLink` -> `headingsDetached` ([6b72e2a](https://github.com/brillout/docpress/commit/6b72e2a8e9d4f9c320615bbb0b74ab292bf26408))
+
+
+### Features
+
+* detached page navigation ([5ad4fb3](https://github.com/brillout/docpress/commit/5ad4fb39a7e34bf124579d9206706d2d2fb28f2d))
+
+
+### BREAKING CHANGES
+
+* update your `docpress.config.tsx`
+
+
+
 ## [0.3.13](https://github.com/brillout/docpress/compare/v0.3.12...v0.3.13) (2023-03-09)
 
 

@@ -5,8 +5,8 @@ import type { HeadingDefinition, HeadingWithoutLink } from '@brillout/docpress'
 
 const headingsWithoutLink: HeadingWithoutLink[] = [
   {
-    title: 'Page 2',
-    url: '/page-2'
+    title: 'Orphan Page',
+    url: '/orphan'
   }
 ]
 
@@ -34,7 +34,7 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
-    title: 'Page 1',
-    url: '/page-1'
+    title: 'Some Page',
+    url: '/some-page'
   }
 ]

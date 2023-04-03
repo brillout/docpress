@@ -25,8 +25,9 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
   const { headings, headingsWithoutLink } = getHeadings(config)
   const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsWithoutLink, pageContext)
+  const isDetachedPage = !activeNavigationHeading
   const headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
-  const { title, isLandingPage, pageTitle, isDetachedPage } = getMetaData(
+  const { title, isLandingPage, pageTitle } = getMetaData(
     headingsWithoutLink,
     activeNavigationHeading,
     pageContext,
@@ -66,15 +67,12 @@ function getMetaData(
 
   let title: string
   let pageTitle: string | JSX.Element | null
-  let isDetachedPage: boolean
   if (activeNavigationHeading) {
     title = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
     pageTitle = activeNavigationHeading.title
-    isDetachedPage = false
   } else {
     pageTitle = headingsWithoutLink.find((h) => h.url === url)!.title
     title = jsxToTextContent(pageTitle)
-    isDetachedPage = true
   }
 
   const isLandingPage = url === '/'
@@ -86,7 +84,7 @@ function getMetaData(
     pageTitle = null
   }
 
-  return { title, isLandingPage, pageTitle, isDetachedPage }
+  return { title, isLandingPage, pageTitle }
 }
 
 function findHeading(
@@ -124,40 +122,56 @@ function getHeadingsWithSubHeadings(
 ): Heading[] {
   const headingsWithSubHeadings = headings.slice()
   if (activeNavigationHeading === null) return headingsWithSubHeadings
+
+  const pageHeadings = getPageHeadings(pageContext, activeNavigationHeading)
+
   const activeHeadingIdx = headingsWithSubHeadings.indexOf(activeNavigationHeading)
   assert(activeHeadingIdx >= 0)
-  const pageHeadings = pageContext.exports.headings || []
   pageHeadings.forEach((pageHeading, i) => {
-    const title = parseTitle(pageHeading.title)
-    const url: null | string = pageHeading.headingId && '#' + pageHeading.headingId
-    assert(
-      pageHeading.headingLevel !== 3,
-      'Wrong page heading level `' +
-        pageHeading.headingLevel +
-        '` (it should be `<h2>`) for sub-heading `' +
-        pageHeading.title +
-        '` of page `' +
-        pageContext.urlOriginal +
-        '`.'
-    )
-    if (pageHeading.headingLevel === 2) {
+    headingsWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, pageHeading)
+  })
+
+  return headingsWithSubHeadings
+}
+
+function getPageHeadings(pageContext: { exports: Exports; urlOriginal: string }, currentHeading: Heading) {
+  const pageHeadings: Heading[] = []
+
+  const markdownHeadings = pageContext.exports.headings ?? []
+
+  markdownHeadings.forEach((markdownHeading) => {
+    const title = parseTitle(markdownHeading.title)
+    const url: null | string = markdownHeading.headingId && '#' + markdownHeading.headingId
+    // Remove this warning?
+    if (markdownHeading.headingLevel === 3) {
+      console.warn(
+        'Wrong page heading level `' +
+          markdownHeading.headingLevel +
+          '` (it should be `<h2>`) for sub-heading `' +
+          markdownHeading.title +
+          '` of page `' +
+          pageContext.urlOriginal +
+          '`.'
+      )
+    }
+    if (markdownHeading.headingLevel === 2) {
       const heading: Heading = {
         url,
         title,
-        parentHeadings: [activeNavigationHeading, ...activeNavigationHeading.parentHeadings],
+        parentHeadings: [currentHeading, ...currentHeading.parentHeadings],
         titleInNav: title,
         level: 3
       }
-      headingsWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, heading)
+      pageHeadings.push(heading)
     }
   })
 
-  if (activeNavigationHeading?.sectionTitles) {
-    activeNavigationHeading.sectionTitles.forEach((sectionTitle) => {
-      const pageHeadingTitles = pageHeadings.map((h) => h.title)
+  if (currentHeading?.sectionTitles) {
+    currentHeading.sectionTitles.forEach((sectionTitle) => {
+      const pageHeadingTitles = markdownHeadings.map((h) => h.title)
       assert(pageHeadingTitles.includes(sectionTitle), { pageHeadingTitles, sectionTitle })
     })
   }
 
-  return headingsWithSubHeadings
+  return pageHeadings
 }

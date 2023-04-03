@@ -17,13 +17,12 @@ function Navigation({
     isDetachedPage: boolean
   }
 }) {
-  const { isDetachedPage } = pageContext
   return (
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        {isDetachedPage && <DetchedNavigation />}
-        <NavigationContent pageContext={pageContext} />
+        {pageContext.isDetachedPage && <DetchedNavigation />}
+        <NavigationContent headings={pageContext.headingsWithSubHeadings} currentUrl={pageContext.urlPathname} />
         {/* <ScrollOverlay /> */}
         <NavigationFullscreenClose />
       </div>
@@ -35,16 +34,8 @@ function NavigationMask() {
   return <div id="navigation-mask" />
 }
 
-function NavigationContent({
-  pageContext
-}: {
-  pageContext: {
-    headingsWithSubHeadings: Heading[]
-    urlPathname: string
-    isDetachedPage: boolean
-  }
-}) {
-  const headings = getHeadingsWithComputedProps(pageContext)
+function NavigationContent(props: { headings: Heading[]; currentUrl: string }) {
+  const headings = getHeadingsWithComputedProps(props.headings, props.currentUrl)
 
   const headingsGrouped = groupHeadings(headings)
 
@@ -128,23 +119,18 @@ function groupHeadings<T extends { level: number }>(headings: T[]) {
   return headingsGrouped
 }
 
-function getHeadingsWithComputedProps(pageContext: {
-  headingsWithSubHeadings: Heading[]
-  urlPathname: string
-  isDetachedPage: boolean
-}) {
-  const { headingsWithSubHeadings, urlPathname } = pageContext
-  return headingsWithSubHeadings.map((heading, i) => {
+function getHeadingsWithComputedProps(headings: Heading[], currentUrl: string) {
+  return headings.map((heading, i) => {
     assert([1, 2, 3, 4].includes(heading.level), heading)
 
-    const headingPrevious = headingsWithSubHeadings[i - 1]
-    const headingNext = headingsWithSubHeadings[i + 1]
+    const headingPrevious = headings[i - 1]
+    const headingNext = headings[i + 1]
 
     let isActiveFirst = false
     let isActiveLast = false
     let isActive = false
-    if (heading.url === urlPathname) {
-      assert(heading.level === 2, { urlPathname })
+    if (heading.url === currentUrl) {
+      assert(heading.level === 2, { currentUrl })
       isActive = true
       isActiveFirst = true
       if (headingNext?.level !== 3) {

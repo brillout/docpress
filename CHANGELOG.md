@@ -1,3 +1,13 @@
+## [0.4.2](https://github.com/brillout/docpress/compare/v0.4.1...v0.4.2) (2023-04-05)
+
+
+### Bug Fixes
+
+* only show detached headings if there are page headings ([bca7b18](https://github.com/brillout/docpress/commit/bca7b188acc8cf80bc499948e40679971e922972))
+* update sponsor list ([0a737ac](https://github.com/brillout/docpress/commit/0a737acf41241e913df4617cb9e051512e389b04))
+
+
+
 ## [0.4.1](https://github.com/brillout/docpress/compare/v0.4.0...v0.4.1) (2023-04-03)
 
 

@@ -24,11 +24,13 @@ function Navigation({
         <NavigationHeader />
         {pageContext.detachedPageHeadings && (
           <>
-            <NavigationContent
-              id="navigation-content-detached"
-              headings={pageContext.detachedPageHeadings}
-              currentUrl={currentUrl}
-            />
+            {pageContext.detachedPageHeadings.length > 1 && (
+              <NavigationContent
+                id="navigation-content-detached"
+                headings={pageContext.detachedPageHeadings}
+                currentUrl={currentUrl}
+              />
+            )}
             <DetachedPageNote />
           </>
         )}

@@ -7,6 +7,10 @@ const headingsDetached: HeadingDetachedDefinition[] = [
   {
     title: 'Orphan Page',
     url: '/orphan'
+  },
+  {
+    title: 'Orphan Page Without Headings',
+    url: '/orphan-2'
   }
 ]
 

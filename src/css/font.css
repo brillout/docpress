@@ -18,7 +18,8 @@ body {
   src: url('./Inter-Var.ttf') format('truetype-variations');
 }
 
-em, i {
-  font-variation-settings: "slnt" -10;
+em,
+i {
+  font-variation-settings: 'slnt' -10;
   font-style: normal;
 }

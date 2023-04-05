@@ -170,7 +170,7 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // unicompat.com is down
     //  - https://github.com/gelbartj/unicompat-public/issues/42
     //  - https://stackoverflow.com/questions/51042771/unicode-symbols-and-os-browser-font-support
-    (name === 'ribbon' && Unicode(0x1F397, { fontFamily: 'emoji' })) ||
+    (name === 'ribbon' && Unicode(0x1f397, { fontFamily: 'emoji' })) ||
     false
   /* ======= Unused ========
     // ***

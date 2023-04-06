@@ -4,25 +4,14 @@ export { determineSectionUrlHash }
 export { determineSectionTitle }
 
 function determineSectionUrlHash(title: string): string | null {
-  // title = title.toLowerCase()
+  title = title.toLowerCase()
   title = removeAccentsAndDiacritics(title)
-
-  const charSeperator = '_'
-
-  // https://github.com/brillout/docpress/pull/2
-  const charChinese = '\u4E00-\u9FA5'
-  // Url hash allowed characters: https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
-  // E.g. for http://vite-plugin-ssr.com/migration/v1-design#what-are-+-files
-  const charSpecial = "?/:@.\\-~!$&'()*+,;="
-  assert(!charSpecial.includes(charSeperator))
-  const charAllowed = `A-Za-z0-9${charSpecial}${charChinese}`
-
   const urlHash = title
-    .split(new RegExp(`[^${charAllowed}]+`))
+    .split(/[^a-z0-9\u4E00-\u9FA5]+/)
     .filter(Boolean)
-    .join(charSeperator)
+    .join('-')
 
-  // E.g. section is composed of only non-latin characters
+  // E.g. section is composed of only Chinese characters
   if (urlHash === '') return null
 
   return urlHash

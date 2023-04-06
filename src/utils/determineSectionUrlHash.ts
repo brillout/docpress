@@ -4,11 +4,9 @@ export { determineSectionUrlHash }
 export { determineSectionTitle }
 
 function determineSectionUrlHash(title: string): string | null {
+  title = title.toLowerCase()
+  title = removeAccentsAndDiacritics(title)
   const urlHash = title
-    .toLowerCase()
-    // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript/37511463#37511463
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
     .split(/[^a-z0-9\u4E00-\u9FA5]+/)
     .filter(Boolean)
     .join('-')
@@ -17,6 +15,12 @@ function determineSectionUrlHash(title: string): string | null {
   if (urlHash === '') return null
 
   return urlHash
+}
+
+// Remove accents/diacritics in a string in JavaScript
+// https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript/37511463#37511463
+function removeAccentsAndDiacritics(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
 function determineSectionTitle(urlWithHash: string, titleNormalCase: boolean): string {

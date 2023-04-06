@@ -1,3 +1,12 @@
+## [0.4.3](https://github.com/brillout/docpress/compare/v0.4.2...v0.4.3) (2023-04-06)
+
+
+### Bug Fixes
+
+* add sectionTitles to HeadingDetachedDefinition ([8451d9b](https://github.com/brillout/docpress/commit/8451d9bacd259de0e3cba95c89a88d2ce104088e))
+
+
+
 ## [0.4.2](https://github.com/brillout/docpress/compare/v0.4.1...v0.4.2) (2023-04-05)
 
 

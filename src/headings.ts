@@ -19,6 +19,7 @@ export type HeadingDetached = Omit<Heading, 'level' | 'parentHeadings'> & {
 export type HeadingDetachedDefinition = {
   url: string
   title: string | JSX.Element
+  sectionTitles?: string[]
 }
 export type HeadingDefinition = HeadingBase &
   (

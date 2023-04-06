@@ -136,6 +136,7 @@ function parseTitle(titleMarkdown: string): string {
 
   function serializeText(text: string) {
     let textEscaped = text.split("'").join("\\'")
+    // https://github.com/brillout/docpress/pull/2
     if (isWindows()) {
       textEscaped = textEscaped.replace(/\r/, '')
     }

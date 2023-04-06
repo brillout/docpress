@@ -7,11 +7,12 @@ function determineSectionUrlHash(title: string): string | null {
   title = title.toLowerCase()
   title = removeAccentsAndDiacritics(title)
   const urlHash = title
+    // \u4E00-\u9FA5 are chinese characters, see https://github.com/brillout/docpress/pull/2
     .split(/[^a-z0-9\u4E00-\u9FA5]+/)
     .filter(Boolean)
     .join('-')
 
-  // E.g. section is composed of only Chinese characters
+  // E.g. section is composed of only non-latin characters
   if (urlHash === '') return null
 
   return urlHash

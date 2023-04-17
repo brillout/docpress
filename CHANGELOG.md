@@ -1,3 +1,15 @@
+## [0.4.4](https://github.com/brillout/docpress/compare/v0.4.3...v0.4.4) (2023-04-17)
+
+
+### Bug Fixes
+
+* add sponsor ([9dfc70a](https://github.com/brillout/docpress/commit/9dfc70a37dbe0ca17d53fc361fbea776c5755439))
+* add sponsor ([01ef870](https://github.com/brillout/docpress/commit/01ef8709fff9e611eb7843e09c14df3db2788039))
+* add sponsor ([aa06093](https://github.com/brillout/docpress/commit/aa0609325a31195a22918af367fb386c6f9049b3))
+* update @vitejs/plugin-react-swc ([c628ae3](https://github.com/brillout/docpress/commit/c628ae3cad40463ee2a1d45cef91eb53a0db28da))
+
+
+
 ## [0.4.3](https://github.com/brillout/docpress/compare/v0.4.2...v0.4.3) (2023-04-06)
 
 

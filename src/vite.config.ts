@@ -14,9 +14,10 @@ const remarkPlugins = [remarkGfm]
 const config: UserConfig = {
   root,
   plugins: [
-    react(),
     markdownHeadingsVitePlugin(),
     mdx({ rehypePlugins, remarkPlugins }),
+    // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
+    react(),
     ssr({
       prerender: {
         noExtraDir: true
@@ -35,8 +36,7 @@ const config: UserConfig = {
       disableAutoFullBuild: true
     })
   ],
-  // TODO: remove `react`?
-  optimizeDeps: { include: ['@mdx-js/react', 'react', 'react-dom'] },
+  optimizeDeps: { include: ['@mdx-js/react', 'react-dom'] },
   // @ts-ignore
   ssr: {
     noExternal: ['@brillout/docpress']

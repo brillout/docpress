@@ -39,12 +39,14 @@ function getTitle({
   href,
   noBreadcrumb,
   pageContext,
-  doNotInferSectionTitle
+  doNotInferSectionTitle,
+  titleNormalCase
 }: {
   href: string
-  noBreadcrumb: true | undefined
+  noBreadcrumb?: true
   pageContext: PageContextResolved
-  doNotInferSectionTitle: true | undefined
+  doNotInferSectionTitle?: true
+  titleNormalCase?: boolean
 }): string | JSX.Element {
   let urlHash: string | null = null
   let hrefWithoutHash: string = href
@@ -93,7 +95,8 @@ function getTitle({
         !doNotInferSectionTitle,
         `Page section title not found for <Link href="\`${href}\`" doNotInferSectionTitle={true} />.`
       )
-      sectionTitle = determineSectionTitle(href, pageContext.config.titleNormalCase)
+      if (titleNormalCase === undefined) titleNormalCase = pageContext.config.titleNormalCase
+      sectionTitle = determineSectionTitle(href, titleNormalCase)
     }
     breadcrumbs.push(sectionTitle)
   }

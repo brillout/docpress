@@ -1,3 +1,17 @@
+## [0.4.5](https://github.com/brillout/docpress/compare/v0.4.4...v0.4.5) (2023-04-27)
+
+
+### Bug Fixes
+
+* add sponsor ([c8d598f](https://github.com/brillout/docpress/commit/c8d598f723c85ac62d06a667bc35b3e9c0281a6b))
+
+
+### Features
+
+* add option `<Link titleNormalCase={true} />` ([4c0b1ab](https://github.com/brillout/docpress/commit/4c0b1abc18659a2ce7bc31b52758a8849a0e3a0c))
+
+
+
 ## [0.4.4](https://github.com/brillout/docpress/compare/v0.4.3...v0.4.4) (2023-04-17)
 
 

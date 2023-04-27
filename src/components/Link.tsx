@@ -7,32 +7,29 @@ import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
 
-function Link(props: {
-  href: string
-  text?: string | JSX.Element
-  noBreadcrumb?: true
-  doNotInferSectionTitle?: true
-}) {
-  if (isRepoLink(props.href)) {
-    return <RepoLink path={props.href} text={props.text} />
-  } else {
-    return <DocLink {...props} />
-  }
-}
-
-function DocLink({
+function Link({
   href,
   text,
   noBreadcrumb,
-  doNotInferSectionTitle
+  doNotInferSectionTitle,
+  titleNormalCase
 }: {
   href: string
   text?: string | JSX.Element
   noBreadcrumb?: true
   doNotInferSectionTitle?: true
+  titleNormalCase?: boolean
 }) {
-  const pageContext = usePageContext()
-  return <a href={href}>{text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle })}</a>
+  if (isRepoLink(href)) {
+    return <RepoLink path={href} text={text} />
+  } else {
+    const pageContext = usePageContext()
+    return (
+      <a href={href}>
+        {text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle, titleNormalCase })}
+      </a>
+    )
+  }
 }
 
 function getTitle({
@@ -43,10 +40,10 @@ function getTitle({
   titleNormalCase
 }: {
   href: string
-  noBreadcrumb?: true
+  noBreadcrumb: true | undefined
   pageContext: PageContextResolved
-  doNotInferSectionTitle?: true
-  titleNormalCase?: boolean
+  doNotInferSectionTitle: true | undefined
+  titleNormalCase: boolean | undefined
 }): string | JSX.Element {
   let urlHash: string | null = null
   let hrefWithoutHash: string = href

@@ -1,3 +1,12 @@
+## [0.4.6](https://github.com/brillout/docpress/compare/v0.4.5...v0.4.6) (2023-04-27)
+
+
+### Bug Fixes
+
+* option `<Link titleNormalCase={true} />` ([e678810](https://github.com/brillout/docpress/commit/e678810f9d4b258009d8434ee27b74b6b81f6e0d))
+
+
+
 ## [0.4.5](https://github.com/brillout/docpress/compare/v0.4.4...v0.4.5) (2023-04-27)
 
 

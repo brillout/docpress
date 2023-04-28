@@ -53,17 +53,23 @@ function getTitle({
   }
 
   let heading: Heading | HeadingDetached
-  let linkIsOnSamePage: boolean
+  let linkIsOnSamePage: boolean = false
   if (hrefWithoutHash) {
     heading = findHeading(hrefWithoutHash, pageContext)
-    linkIsOnSamePage = heading.url === pageContext.urlPathname
+    if (heading.url === pageContext.urlPathname) {
+      linkIsOnSamePage = true
+      // heading !== pageContext.activeHeading because activeHeading is a different object holding on-this-page subheadings
+      heading = pageContext.activeHeading
+    }
   } else {
     assert(urlHash)
     linkIsOnSamePage = true
     heading = pageContext.activeHeading
   }
   assert(heading)
-  assert(heading === pageContext.activeHeading || !linkIsOnSamePage)
+  assert(linkIsOnSamePage === (heading.url === pageContext.urlPathname))
+  assert(linkIsOnSamePage === (heading.url === pageContext.activeHeading.url))
+  assert(linkIsOnSamePage === (heading === pageContext.activeHeading))
 
   const breadcrumbs: (string | JSX.Element)[] = []
 

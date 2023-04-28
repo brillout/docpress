@@ -1,3 +1,13 @@
+## [0.4.7](https://github.com/brillout/docpress/compare/v0.4.6...v0.4.7) (2023-04-28)
+
+
+### Bug Fixes
+
+* add sponsor ([fee6a1f](https://github.com/brillout/docpress/commit/fee6a1f6e8b5b119cb9414495ed57b1a34c55133))
+* support self links ([59a0136](https://github.com/brillout/docpress/commit/59a01361ee1ee580b2ffbf0dadd8d29c5df2a93b))
+
+
+
 ## [0.4.6](https://github.com/brillout/docpress/compare/v0.4.5...v0.4.6) (2023-04-27)
 
 

@@ -1,3 +1,18 @@
+## [0.4.8](https://github.com/brillout/docpress/compare/v0.4.7...v0.4.8) (2023-05-17)
+
+
+### Bug Fixes
+
+* add sponsor ([9c8226c](https://github.com/brillout/docpress/commit/9c8226ca48c4f5d637555bbfd3e226883e7a6ea8))
+* remove markdown heading warning ([9ff337c](https://github.com/brillout/docpress/commit/9ff337c5760859c4f5ac132202c5bb908abac87f))
+
+
+### Features
+
+* `<Warning>` & `<Construction>` ([777853e](https://github.com/brillout/docpress/commit/777853e69b7d778842bc83bb18c96c9c3a8621e0))
+
+
+
 ## [0.4.7](https://github.com/brillout/docpress/compare/v0.4.6...v0.4.7) (2023-04-28)
 
 

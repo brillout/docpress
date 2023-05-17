@@ -152,18 +152,6 @@ function getPageHeadings(
   markdownHeadings.forEach((markdownHeading) => {
     const title = parseTitle(markdownHeading.title)
     const url: null | string = markdownHeading.headingId && '#' + markdownHeading.headingId
-    // Remove this warning?
-    if (markdownHeading.headingLevel === 3) {
-      console.warn(
-        'Wrong page heading level `' +
-          markdownHeading.headingLevel +
-          '` (it should be `<h2>`) for sub-heading `' +
-          markdownHeading.title +
-          '` of page `' +
-          pageContext.urlOriginal +
-          '`.'
-      )
-    }
     if (markdownHeading.headingLevel === 2) {
       const heading: Heading = {
         url,

@@ -19,7 +19,7 @@ type SponsorCompany = {
   website: string
   plan: Plan
   divSize?: Partial<DivSize>
-  username: string
+  github: string
 }
 type SponsorIndividual = {
   username: string

@@ -123,21 +123,21 @@ const companies: Sponsor[] = [
     companyLogo: burdaforwardLogo,
     plan: 'platinum',
     website: 'https://www.burda-forward.de',
-    username: 'BurdaForward'
+    github: 'BurdaForward'
   },
   {
     companyName: 'Contra',
     companyLogo: contraLogo,
     plan: 'silver',
     website: 'https://contra.com',
-    username: 'contra'
+    github: 'contra'
   },
   {
     companyName: 'Alignable',
     companyLogo: alignableLogo,
     plan: 'silver',
     website: 'https://www.alignable.com/',
-    username: 'AlignableUser'
+    github: 'AlignableUser'
   },
   {
     companyName: 'Optimizers',
@@ -147,21 +147,21 @@ const companies: Sponsor[] = [
     divSize: {
       padding: 20
     },
-    username: 'OptimizersGroup'
+    github: 'OptimizersGroup'
   },
   {
     companyName: 'My Favorite Quilt Store',
     companyLogo: mfqsLogo,
     plan: 'indie',
     website: 'https://myfavoritequiltstore.com',
-    username: 'pieperz'
+    github: 'pieperz'
   },
   {
     companyName: 'Inlang',
     companyLogo: inlangLogo,
     plan: 'indie',
     website: 'https://inlang.com/',
-    username: 'inlang'
+    github: 'inlang'
   }
 ]
 

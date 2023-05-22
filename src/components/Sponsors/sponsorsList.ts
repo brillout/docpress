@@ -8,6 +8,7 @@ import optimizersLogo from './companyLogos/optimizers.svg'
 import reporaLogo from './companyLogos/repora.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
+import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
   {
@@ -129,6 +130,12 @@ const companies: Sponsor[] = [
     companyLogo: contraLogo,
     plan: 'gold',
     website: 'https://contra.com'
+  },
+  {
+    companyName: 'Alignable',
+    companyLogo: alignableLogo,
+    plan: 'silver',
+    website: 'https://www.alignable.com/'
   },
   {
     companyName: 'CREPE',

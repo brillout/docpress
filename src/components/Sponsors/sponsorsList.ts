@@ -11,111 +11,41 @@ import alignableLogo from './companyLogos/alignable.svg'
 const individuals: Sponsor[] = [
   { username: 'phiberber' },
   { username: 'cookieplace' },
-  {
-    username: 'JiangWeixian'
-  },
-  {
-    username: 'harrytran998'
-  },
-  {
-    username: 'royalswe'
-  },
-  {
-    username: 'alexturpin'
-  },
-  {
-    username: 'gu-stav'
-  },
-  {
-    username: 'YannBirba'
-  },
-  {
-    username: 'fi3ework'
-  },
-  {
-    username: 'EJM-Company'
-  },
-  {
-    username: 'Nelie-Taylor'
-  },
-  {
-    username: 'fortezhuo'
-  },
-  {
-    username: 'nshelia'
-  },
-  {
-    username: 'marcusway'
-  },
-  {
-    username: 'edikdeisling'
-  },
-  {
-    username: 'AurelienLourot'
-  },
-  {
-    username: 'jahredhope'
-  },
-  {
-    username: 'charlieforward9'
-  },
-  {
-    username: 'leonmondria'
-  },
-  {
-    username: 'jscottsf'
-  },
-  {
-    username: 'micah-redwood'
-  },
-  {
-    username: 'nicka-redwood'
-  },
-  {
-    username: 'ser1us'
-  },
-  {
-    username: 'nikitavoloboev'
-  },
-  {
-    username: 'samuelstroschein'
-  },
-  {
-    username: 'npacucci'
-  },
-  {
-    username: 'szarapka'
-  },
-  {
-    username: 'techniath'
-  },
-  {
-    username: 'DannyZB'
-  },
-  {
-    username: 'pieperz'
-  },
-  {
-    username: 'hemengke1997'
-  },
-  {
-    username: 'spacedawwwg'
-  },
-  {
-    username: 'arthurgailes'
-  },
-  {
-    username: 'stackblitz'
-  },
-  {
-    username: 'codthing'
-  },
-  {
-    username: 'Junaidhkn'
-  },
-  {
-    username: 'zgfdev'
-  }
+  { username: 'JiangWeixian' },
+  { username: 'harrytran998' },
+  { username: 'royalswe' },
+  { username: 'alexturpin' },
+  { username: 'gu-stav' },
+  { username: 'YannBirba' },
+  { username: 'fi3ework' },
+  { username: 'EJM-Company' },
+  { username: 'Nelie-Taylor' },
+  { username: 'fortezhuo' },
+  { username: 'nshelia' },
+  { username: 'marcusway' },
+  { username: 'edikdeisling' },
+  { username: 'AurelienLourot' },
+  { username: 'jahredhope' },
+  { username: 'charlieforward9' },
+  { username: 'leonmondria' },
+  { username: 'jscottsf' },
+  { username: 'micah-redwood' },
+  { username: 'nicka-redwood' },
+  { username: 'ser1us' },
+  { username: 'nikitavoloboev' },
+  { username: 'samuelstroschein' },
+  { username: 'npacucci' },
+  { username: 'szarapka' },
+  { username: 'techniath' },
+  { username: 'DannyZB' },
+  { username: 'pieperz' },
+  { username: 'hemengke1997' },
+  { username: 'spacedawwwg' },
+  { username: 'arthurgailes' },
+  { username: 'stackblitz' },
+  { username: 'codthing' },
+  { username: 'Junaidhkn' },
+  { username: 'zgfdev' }
 ]
 
 const companies: Sponsor[] = [

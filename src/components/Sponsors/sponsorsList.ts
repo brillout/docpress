@@ -1,16 +1,15 @@
 export { sponsorsList }
 
 import type { Sponsor } from '../Sponsors'
-import crepeLogo from './companyLogos/crepe.svg'
 import contraLogo from './companyLogos/contra.svg'
 import mfqsLogo from './companyLogos/mfqs.svg'
 import optimizersLogo from './companyLogos/optimizers.svg'
-import reporaLogo from './companyLogos/repora.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: 'cookieplace' },
   {
     username: 'JiangWeixian'
   },
@@ -129,7 +128,7 @@ const companies: Sponsor[] = [
   {
     companyName: 'Contra',
     companyLogo: contraLogo,
-    plan: 'gold',
+    plan: 'silver',
     website: 'https://contra.com',
     username: 'contra'
   },
@@ -139,13 +138,6 @@ const companies: Sponsor[] = [
     plan: 'silver',
     website: 'https://www.alignable.com/',
     username: 'AlignableUser'
-  },
-  {
-    companyName: 'CREPE',
-    companyLogo: crepeLogo,
-    plan: 'silver',
-    website: 'https://crepe.cm',
-    username: 'cookieplace'
   },
   {
     companyName: 'Optimizers',
@@ -160,16 +152,9 @@ const companies: Sponsor[] = [
   {
     companyName: 'My Favorite Quilt Store',
     companyLogo: mfqsLogo,
-    plan: 'bronze',
+    plan: 'indie',
     website: 'https://myfavoritequiltstore.com',
     username: 'pieperz'
-  },
-  {
-    companyName: 'Repora',
-    companyLogo: reporaLogo,
-    plan: 'bronze',
-    website: 'https://www.repora.com',
-    username: 'DannyZB'
   },
   {
     companyName: 'Inlang',

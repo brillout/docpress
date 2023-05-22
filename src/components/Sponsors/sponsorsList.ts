@@ -123,25 +123,29 @@ const companies: Sponsor[] = [
     companyName: 'BurdaFoward',
     companyLogo: burdaforwardLogo,
     plan: 'platinum',
-    website: 'https://www.burda-forward.de'
+    website: 'https://www.burda-forward.de',
+    username: 'BurdaForward'
   },
   {
     companyName: 'Contra',
     companyLogo: contraLogo,
     plan: 'gold',
-    website: 'https://contra.com'
+    website: 'https://contra.com',
+    username: 'contra'
   },
   {
     companyName: 'Alignable',
     companyLogo: alignableLogo,
     plan: 'silver',
-    website: 'https://www.alignable.com/'
+    website: 'https://www.alignable.com/',
+    username: 'AlignableUser'
   },
   {
     companyName: 'CREPE',
     companyLogo: crepeLogo,
     plan: 'silver',
-    website: 'https://crepe.cm'
+    website: 'https://crepe.cm',
+    username: 'cookieplace'
   },
   {
     companyName: 'Optimizers',
@@ -150,25 +154,29 @@ const companies: Sponsor[] = [
     website: 'https://www.optimizers.nl/',
     divSize: {
       padding: 20
-    }
+    },
+    username: 'OptimizersGroup'
   },
   {
     companyName: 'My Favorite Quilt Store',
     companyLogo: mfqsLogo,
     plan: 'bronze',
-    website: 'https://myfavoritequiltstore.com'
+    website: 'https://myfavoritequiltstore.com',
+    username: 'pieperz'
   },
   {
     companyName: 'Repora',
     companyLogo: reporaLogo,
     plan: 'bronze',
-    website: 'https://www.repora.com'
+    website: 'https://www.repora.com',
+    username: 'DannyZB'
   },
   {
     companyName: 'Inlang',
     companyLogo: inlangLogo,
     plan: 'indie',
-    website: 'https://inlang.com/'
+    website: 'https://inlang.com/',
+    username: 'inlang'
   }
 ]
 

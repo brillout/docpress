@@ -3,6 +3,7 @@ export { Warning }
 export { Construction }
 
 import React from 'react'
+import './Note.css'
 
 function Warning({ children }: { children: JSX.Element }) {
   return <Note type="warning">{children}</Note>

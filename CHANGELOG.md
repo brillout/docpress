@@ -1,3 +1,12 @@
+## [0.4.13](https://github.com/brillout/docpress/compare/v0.4.12...v0.4.13) (2023-05-30)
+
+
+### Bug Fixes
+
+* p inline trick ([9a1f2f4](https://github.com/brillout/docpress/commit/9a1f2f468b6c1e988c2e4966a862b387384314fe))
+
+
+
 ## [0.4.12](https://github.com/brillout/docpress/compare/v0.4.11...v0.4.12) (2023-05-30)
 
 

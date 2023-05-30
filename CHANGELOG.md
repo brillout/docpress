@@ -1,3 +1,12 @@
+## [0.4.11](https://github.com/brillout/docpress/compare/v0.4.10...v0.4.11) (2023-05-30)
+
+
+### Bug Fixes
+
+* fix Note.css import ([d68dbb0](https://github.com/brillout/docpress/commit/d68dbb05f632d843dabf2bfb0aa684128907df75))
+
+
+
 ## [0.4.10](https://github.com/brillout/docpress/compare/v0.4.9...v0.4.10) (2023-05-30)
 
 

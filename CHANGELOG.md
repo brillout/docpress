@@ -1,3 +1,14 @@
+## [0.4.10](https://github.com/brillout/docpress/compare/v0.4.9...v0.4.10) (2023-05-30)
+
+
+### Bug Fixes
+
+* add sponsor ([c946d12](https://github.com/brillout/docpress/commit/c946d122b411ce51f3aaf56743cd63820eac0777))
+* add sponsor ([9516639](https://github.com/brillout/docpress/commit/9516639532f9bd79512982bb985437ff9c3cc779))
+* enable MDX for <Warning> ([b8d62b2](https://github.com/brillout/docpress/commit/b8d62b2fd0039b59f999cf34b9e594b7335713da))
+
+
+
 ## [0.4.9](https://github.com/brillout/docpress/compare/v0.4.8...v0.4.9) (2023-05-22)
 
 

@@ -44,8 +44,7 @@ function Note({
   return (
     <blockquote className={className}>
       <div style={{ marginBottom: 20 }} />
-      {icon}
-      <div className="blockquote-content">{children}</div>
+      {icon} <div className="blockquote-content">{children}</div>
       <div style={{ marginTop: 20 }} />
     </blockquote>
   )

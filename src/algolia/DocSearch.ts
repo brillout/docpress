@@ -1,8 +1,11 @@
-import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
-import { PageContextResolved } from '../config/resolvePageContext'
-
 export { getDocSearchCSS }
 export { getDocSearchJS }
+
+import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
+import { PageContextResolved } from '../config/resolvePageContext'
+/* Imorted in /src/css/index.css instead
+import './DocSearch.css'
+*/
 
 function getDocSearchCSS(pageContext: PageContextResolved) {
   const docSearchCSS = !pageContext.meta.algolia

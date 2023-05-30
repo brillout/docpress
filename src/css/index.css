@@ -8,3 +8,4 @@
 @import './table.css';
 @import './tooltip.css';
 @import '../algolia/DocSearch.css';
+@import '../components/Note.css';

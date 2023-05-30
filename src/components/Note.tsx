@@ -21,7 +21,7 @@ function Note({
   type?: 'error' | 'warning' | 'construction'
   children: JSX.Element
 }) {
-  let className: string | undefined
+  let className = ''
   if (!icon) {
     if (type === 'error') {
       icon = ':no_entry:'
@@ -35,6 +35,9 @@ function Note({
       icon = ':construction:'
       className = 'warning'
     }
+  }
+  if (icon) {
+    className = `custom-icon ${className}`
   }
   return (
     <blockquote className={className}>

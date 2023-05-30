@@ -18,6 +18,12 @@ blockquote.warning {
   --color-strengh-border: 8;
   --color: 255, 204, 50;
 }
+blockquote.custom-icon > p:first-child {
+  /* E.g. for <Warning> so that the warning icon is on the same line as the first paragraph.
+   * We assume the second element to have a top margin.
+   */
+  display: inline;
+}
 blockquote > p:first-child::before,
 /* blockquote > p:first-of-type::before, */
 blockquote > div.paragraph:first-child::before {

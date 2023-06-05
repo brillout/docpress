@@ -1,3 +1,12 @@
+## [0.4.17](https://github.com/brillout/docpress/compare/v0.4.16...v0.4.17) (2023-06-05)
+
+
+### Bug Fixes
+
+* update dependencies ([cc7dd43](https://github.com/brillout/docpress/commit/cc7dd43a0d294ac09e02c2fe50280810509bb1cf))
+
+
+
 ## [0.4.16](https://github.com/brillout/docpress/compare/v0.4.15...v0.4.16) (2023-06-05)
 
 

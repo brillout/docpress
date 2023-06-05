@@ -11,30 +11,32 @@ function installSectionUrlHashs() {
     assert(window.location.pathname === '/')
     return
   }
-  const navigationsEl: HTMLElement[] = Array.from(document.querySelectorAll('.navigation-content'))
-  assert(navigationsEl.length > 0)
-  navigationsEl.forEach((navigationEl) => {
-    const docSections = Array.from(document.querySelectorAll('h2'))
-    docSections.forEach((docSection) => {
-      if (!docSection.id) return
-      const urlHash = '#' + docSection.id
-      assertNavLink(navigationEl, urlHash)
-      docSection.onclick = () => {
-        window.location.hash = urlHash
-        // The browser doesn't jump if hash doesn't change
-        jumpToSection()
-      }
-    })
+  const headings = [...Array.from(document.querySelectorAll('h2')), ...Array.from(document.querySelectorAll('h3'))]
+  headings.forEach((heading) => {
+    if (!heading.id) return
+    const urlHash = '#' + heading.id
+    assertNavLink(urlHash, heading)
+    heading.onclick = () => {
+      window.location.hash = urlHash
+      // The browser doesn't jump if hash doesn't change
+      jumpToSection()
+    }
   })
 }
 
-function assertNavLink(navigationEl: HTMLElement, urlHash: string) {
-  const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${window.location.pathname}"]`))
-  assert(parentNavLinkMatch.length <= 1)
-  if (parentNavLinkMatch.length === 0) return
-
-  const navLinks: HTMLElement[] = Array.from(navigationEl.querySelectorAll(`a[href="${urlHash}"]`))
-  assert(navLinks.length === 1, { urlHash })
+function assertNavLink(urlHash: string, heading: HTMLHeadingElement) {
+  const navigationEl = getNavigationEl()
+  {
+    const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${window.location.pathname}"]`))
+    assert(parentNavLinkMatch.length === 1)
+  }
+  {
+    const navLinks: HTMLElement[] = Array.from(navigationEl.querySelectorAll(`a[href="${urlHash}"]`))
+    const { tagName } = heading
+    assert(tagName.startsWith('H'))
+    const lengthExpected = tagName === 'H2' ? 1 : 0
+    assert(navLinks.length === lengthExpected, { urlHash })
+  }
 }
 
 function jumpToSection() {
@@ -48,4 +50,11 @@ function jumpToSection() {
     return
   }
   target.scrollIntoView()
+}
+
+function getNavigationEl() {
+  const elems: HTMLElement[] = Array.from(document.querySelectorAll('#navigation-container'))
+  assert(elems.length === 1)
+  const navigationEl = elems[0]!
+  return navigationEl
 }

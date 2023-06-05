@@ -1,25 +1,39 @@
-.doc-page h2 {
-  margin-top: 50px;
+.doc-page h2,
+.doc-page h3 {
   margin-bottom: 16px;
 }
-.doc-page h2[id] {
-  cursor: pointer;
-  position: relative;
-  padding-left: 20px;
-  margin-left: -20px;
+.doc-page h2 {
+  margin-top: 50px;
 }
-.doc-page h2[id]:hover::before {
-  content: '#';
-  position: absolute;
-  left: calc(-1 * (0.75em - 20px));
-  color: #aaa;
+.doc-page h3 {
+  margin-top: 40px;
 }
 
-.doc-page h1 + h2 {
+.doc-page h1 + h2,
+.doc-page h1 + h3,
+.doc-page h2 + h3 {
   margin-top: 0;
 }
 
 .doc-page h4 {
   margin-top: 32px;
   margin-bottom: 16px;
+}
+
+/***************/
+/** Clickable **/
+/***************/
+.doc-page h2[id],
+.doc-page h3[id] {
+  cursor: pointer;
+  position: relative;
+  padding-left: 26px;
+  margin-left: -26px;
+}
+.doc-page h2[id]:hover::before,
+.doc-page h3[id]:hover::before {
+  content: '#';
+  position: absolute;
+  left: calc(-1 * (0.75em - 23px));
+  color: #aaa;
 }

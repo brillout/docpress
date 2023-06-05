@@ -1,3 +1,12 @@
+## [0.4.15](https://github.com/brillout/docpress/compare/v0.4.14...v0.4.15) (2023-06-05)
+
+
+### Features
+
+* improve <CodeBlock> ([e2779f3](https://github.com/brillout/docpress/commit/e2779f3b0c6430b70b7d0913afa4a19318021457))
+
+
+
 ## [0.4.14](https://github.com/brillout/docpress/compare/v0.4.13...v0.4.14) (2023-06-05)
 
 

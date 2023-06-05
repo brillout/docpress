@@ -1,0 +1,9 @@
+.with-line-break_white-space code,
+.with-line-break_break-word code {
+  white-space: break-spaces;
+  padding-right: 16px !important;
+}
+.with-line-break_break-word code {
+  word-wrap: break-word;
+  word-break: break-all;
+}

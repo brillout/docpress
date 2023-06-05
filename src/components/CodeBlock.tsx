@@ -1,18 +1,21 @@
 export { CodeBlock }
 
 import React from 'react'
-import { assert, objectAssign } from '../utils/server'
+import { assert } from '../utils/server'
 
-function CodeBlock({ children, lineBreak }: { children: any; lineBreak?: true }) {
-  assert(lineBreak, '`lineBreak: true` is currently the only use case for <CodeBlock>')
-  const style = {}
+function CodeBlock({ children, lineBreak }: { children: any; lineBreak?: 'white-space' | 'break-word' }) {
+  assert(
+    lineBreak === 'white-space' || lineBreak === 'break-word',
+    '`lineBreak` is currently the only use case for <CodeBlock>'
+  )
+  const style: React.CSSProperties = {}
   if (lineBreak) {
-    objectAssign(style, {
-      wordWrap: 'break-word',
-      wordBreak: 'break-all',
-      whiteSpace: 'initial',
-      paddingRight: '16px !important'
-    })
+    style.whiteSpace = 'break-spaces'
+    style.paddingRight = '16px !important'
+    if (lineBreak === 'break-word') {
+      style.wordWrap = 'break-word'
+      style.wordBreak = 'break-all'
+    }
   }
   return (
     <pre>

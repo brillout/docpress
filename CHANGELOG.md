@@ -1,3 +1,17 @@
+## [0.4.16](https://github.com/brillout/docpress/compare/v0.4.15...v0.4.16) (2023-06-05)
+
+
+### Bug Fixes
+
+* remove <CodeBlock> in favor of <CodeBlockTransformer> ([878cd82](https://github.com/brillout/docpress/commit/878cd82605757a6334c424f7aac142bdf2ddbaab))
+
+
+### Features
+
+* <CodeBlockTransformer> ([6ba0cac](https://github.com/brillout/docpress/commit/6ba0cac4736a341fd1e0ff12bdf06dbeb35a1b39))
+
+
+
 ## [0.4.15](https://github.com/brillout/docpress/compare/v0.4.14...v0.4.15) (2023-06-05)
 
 

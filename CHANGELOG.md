@@ -1,3 +1,12 @@
+## [0.4.14](https://github.com/brillout/docpress/compare/v0.4.13...v0.4.14) (2023-06-05)
+
+
+### Features
+
+* add URL hashs also to <h3> ([17c2127](https://github.com/brillout/docpress/commit/17c212716ff6e6d7aaf17f73a6f2edd68495028d))
+
+
+
 ## [0.4.13](https://github.com/brillout/docpress/compare/v0.4.12...v0.4.13) (2023-05-30)
 
 

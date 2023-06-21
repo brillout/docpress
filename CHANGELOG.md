@@ -1,3 +1,12 @@
+## [0.5.2](https://github.com/brillout/docpress/compare/v0.5.1...v0.5.2) (2023-06-21)
+
+
+### Bug Fixes
+
+* expose further <Note*> types ([d1222a0](https://github.com/brillout/docpress/commit/d1222a095abd31697c1a360c95260556f11bc85e))
+
+
+
 ## [0.5.1](https://github.com/brillout/docpress/compare/v0.5.0...v0.5.1) (2023-06-21)
 
 

@@ -23,23 +23,27 @@ function Note({
   type?: 'error' | 'warning' | 'construction'
   children: JSX.Element
 }) {
-  let className = ''
+  let className = 'custom-icon'
+  if (type) {
+    className = `${className} type-${type}`
+  }
   if (!icon) {
+    let classColor = ''
     if (type === 'error') {
       icon = ':no_entry:'
-      className = 'error'
+      classColor = 'color-error'
     }
     if (type === 'warning') {
       icon = ':warning:'
-      className = 'warning'
+      classColor = 'color-warning'
     }
     if (type === 'construction') {
       icon = ':construction:'
-      className = 'warning'
+      classColor = 'color-warning'
     }
-  }
-  if (icon) {
-    className = `custom-icon ${className}`
+    if (classColor) {
+      className = `${className} ${classColor}`
+    }
   }
   return (
     <blockquote className={className}>

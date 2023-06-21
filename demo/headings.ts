@@ -28,8 +28,8 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
-    title: 'About',
-    url: '/about'
+    title: 'Features',
+    url: '/features'
   },
   {
     level: 1,

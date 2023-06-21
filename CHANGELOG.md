@@ -1,3 +1,12 @@
+## [0.5.1](https://github.com/brillout/docpress/compare/v0.5.0...v0.5.1) (2023-06-21)
+
+
+### Bug Fixes
+
+* export <Danger> ([5a8baa3](https://github.com/brillout/docpress/commit/5a8baa3ebe8cbaf49017dece78d3816da439a6bf))
+
+
+
 # [0.5.0](https://github.com/brillout/docpress/compare/v0.4.17...v0.5.0) (2023-06-21)
 
 

@@ -26,11 +26,12 @@ blockquote.custom-icon > .blockquote-content > :first-child {
    * We assume the second element to have a top margin.
    */
   display: inline;
+  margin-left: 1px;
 }
 blockquote > p:first-child::before,
 /* blockquote > p:first-of-type::before, */
 blockquote > div.paragraph:first-child::before {
   font-family: emoji;
   content: 'ℹ️';
-  margin-right: 4px;
+  margin-right: 7px;
 }

@@ -1,4 +1,4 @@
-import type { Config } from '@brillout/docpress'
+import type { Config } from '../src'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsDetached } from './headings'

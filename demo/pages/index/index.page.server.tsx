@@ -1,7 +1,7 @@
 export { Page }
 
 import React from 'react'
-import { Emoji, FeatureList, HorizontalLine, Sponsors } from '@brillout/docpress'
+import { Emoji, FeatureList, HorizontalLine, Sponsors } from '../../../src'
 import CodeBlock from './CodeBlock.mdx'
 
 function Page() {

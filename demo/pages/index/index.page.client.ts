@@ -1,2 +1,2 @@
-import '@brillout/docpress/features/initFeatureList'
-import '@brillout/docpress/features/FeatureList.css'
+import '../../../src/components/features/initFeatureList'
+import '../../../src/components/features/FeatureList.css'

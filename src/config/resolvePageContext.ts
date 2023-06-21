@@ -113,12 +113,18 @@ function findHeading(
   if (!activeHeading) {
     activeHeading = headingsDetached.find(({ url }) => pageUrl === url) ?? null
   }
-  const debugInfo = {
-    msg: 'Heading not found for url: ' + pageUrl,
-    urls: headings.map((h) => h.url),
-    url: pageUrl
+  if (!activeHeading) {
+    throw new Error(
+      [
+        `Heading not found for URL '${pageUrl}'`,
+        'Heading is defined for following URLs:',
+        ...headings
+          .map((h) => `  ${h.url}`)
+          .filter(Boolean)
+          .sort()
+      ].join('\n')
+    )
   }
-  assert(activeHeading, debugInfo)
   return { activeHeading, activeNavigationHeading }
 }
 

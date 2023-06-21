@@ -1,4 +1,4 @@
-import { Link, Warning, Construction, Danger } from '../../src'
+import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon } from '../../src'
 
 This page is for testing/developing DocPress features.
 
@@ -65,3 +65,31 @@ Orphan page: <Link href="/orphan" />.
 </Danger>
 
 
+## `<NoteWithoutIcon>`
+
+<NoteWithoutIcon>
+  Some note.
+</NoteWithoutIcon>
+
+<NoteWithoutIcon>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</NoteWithoutIcon>
+
+
+## `<NoteWithCustomIcon>`
+
+<NoteWithCustomIcon icon={<span style={{fontSize: "1.1em"}}>⚗️</span>}>
+  Some note.
+</NoteWithCustomIcon>
+
+<NoteWithCustomIcon>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</NoteWithCustomIcon>

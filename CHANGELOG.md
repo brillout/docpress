@@ -1,3 +1,16 @@
+# [0.5.0](https://github.com/brillout/docpress/compare/v0.4.17...v0.5.0) (2023-06-21)
+
+
+### Bug Fixes
+
+* add sponsor ([b02f923](https://github.com/brillout/docpress/commit/b02f92320010f44e248416191684b7b62c9f2a14))
+* deprecate <Note> ([dded513](https://github.com/brillout/docpress/commit/dded5130b6f0d6aaf871b32649542b9dc13ae5bf))
+* improve error message upon heading not found ([55f90ab](https://github.com/brillout/docpress/commit/55f90abf347bb91162ef70768e2f1aa09d84e2bf))
+* improve note icon margins ([bb63954](https://github.com/brillout/docpress/commit/bb639545bd38672a5e34ba17df7227327dbe3e8a))
+* improve note icon margins ([99ade34](https://github.com/brillout/docpress/commit/99ade34492dcfd81efec5a94e9c14af48cac80b1))
+
+
+
 ## [0.4.17](https://github.com/brillout/docpress/compare/v0.4.16...v0.4.17) (2023-06-05)
 
 

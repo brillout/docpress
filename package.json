@@ -11,7 +11,8 @@
     "// Build Docpress": "",
     "build": "rimraf dist/ && framework-builder",
     "// Release": "",
-    "release": "release-me patch"
+    "release": "release-me patch",
+    "release:breaking-change": "release-me minor"
   },
   "dependencies": {
     "@mdx-js/mdx": "^2.0.0",

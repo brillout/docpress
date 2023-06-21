@@ -31,6 +31,7 @@ function NoteWithoutIcon({ children }: { children: JSX.Element }) {
 }
 type CustomIcon = JSX.Element | string
 function NoteWithCustomIcon({ icon, children }: { children: JSX.Element; icon: CustomIcon }) {
+  if( !icon ) throw new Error(`<NoteWithCustomIcon icon={/*...*/}> property 'icon' is \`${icon}\` which is forbidden`)
   return <NoteGeneric icon={icon}>{children}</NoteGeneric>
 }
 
@@ -43,7 +44,7 @@ function NoteGeneric({
   type?: 'danger' | 'warning' | 'construction'
   children: JSX.Element
 }) {
-  assert(icon === null || icon || type)
+  assert(icon === null || icon || type, { icon, type })
 
   let className = 'custom-icon'
   if (type) {

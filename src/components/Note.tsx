@@ -18,23 +18,23 @@ import './Note.css'
 */
 
 function Warning({ children }: { children: JSX.Element }) {
-  return <Note type="warning">{children}</Note>
+  return <NoteGeneric type="warning">{children}</NoteGeneric>
 }
 function Construction({ children }: { children: JSX.Element }) {
-  return <Note type="construction">{children}</Note>
+  return <NoteGeneric type="construction">{children}</NoteGeneric>
 }
 function Danger({ children }: { children: JSX.Element }) {
-  return <Note type="danger">{children}</Note>
+  return <NoteGeneric type="danger">{children}</NoteGeneric>
 }
 function NoteWithoutIcon({ children }: { children: JSX.Element }) {
-  return <Note icon={null}>{children}</Note>
+  return <NoteGeneric icon={null}>{children}</NoteGeneric>
 }
 type CustomIcon = JSX.Element | string
 function NoteWithCustomIcon({ icon, children }: { children: JSX.Element; icon: CustomIcon }) {
-  return <Note icon={icon}>{children}</Note>
+  return <NoteGeneric icon={icon}>{children}</NoteGeneric>
 }
 
-function Note({
+function NoteGeneric({
   type,
   icon,
   children

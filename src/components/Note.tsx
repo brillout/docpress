@@ -1,6 +1,12 @@
-export { Note }
 export { Warning }
 export { Construction }
+/* Use markdown instead:
+ * ```diff
+ * - <Note>Some note</Note>
+ * + > Some note
+ * ```
+export { Note }
+*/
 
 import React from 'react'
 /* Imorted in /src/css/index.css instead

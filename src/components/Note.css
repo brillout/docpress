@@ -8,12 +8,12 @@ blockquote {
   margin-right: 0;
   padding: 4px 16px;
 }
-blockquote.color-error {
+blockquote.note-color-red {
   --color-strengh-bg: 1.7;
   --color-strengh-border: 6;
   --color: 190, 25, 49;
 }
-blockquote.color-warning {
+blockquote.note-color-yellow {
   --color-strengh-bg: 4;
   --color-strengh-border: 8;
   --color: 255, 204, 50;
@@ -37,6 +37,9 @@ blockquote.type-construction img[src^="https://twemoji."] {
 blockquote.type-warning img[src^="https://twemoji."] {
   position: relative;
   top: -1px;
+  margin-right: 2px;
+}
+blockquote.type-danger img[src^="https://twemoji."] {
   margin-right: 2px;
 }
 blockquote > p:first-child::before,

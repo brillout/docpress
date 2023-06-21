@@ -1,5 +1,6 @@
 export { Warning }
 export { Construction }
+export { Danger }
 /* Use markdown instead:
  * ```diff
  * - <Note>Some note</Note>
@@ -19,6 +20,9 @@ function Warning({ children }: { children: JSX.Element }) {
 function Construction({ children }: { children: JSX.Element }) {
   return <Note type="construction">{children}</Note>
 }
+function Danger({ children }: { children: JSX.Element }) {
+  return <Note type="danger">{children}</Note>
+}
 
 function Note({
   type,
@@ -26,7 +30,7 @@ function Note({
   children
 }: {
   icon?: JSX.Element | string
-  type?: 'error' | 'warning' | 'construction'
+  type?: 'danger' | 'warning' | 'construction'
   children: JSX.Element
 }) {
   let className = 'custom-icon'
@@ -35,17 +39,17 @@ function Note({
   }
   if (!icon) {
     let classColor = ''
-    if (type === 'error') {
+    if (type === 'danger') {
       icon = ':no_entry:'
-      classColor = 'color-error'
+      classColor = 'note-color-red'
     }
     if (type === 'warning') {
       icon = ':warning:'
-      classColor = 'color-warning'
+      classColor = 'note-color-yellow'
     }
     if (type === 'construction') {
       icon = ':construction:'
-      classColor = 'color-warning'
+      classColor = 'note-color-yellow'
     }
     if (classColor) {
       className = `${className} ${classColor}`

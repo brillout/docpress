@@ -31,15 +31,18 @@ blockquote.custom-icon > .blockquote-content > :first-child {
 /************************/
 /*** Icon Positioning ***/
 /************************/
-blockquote.type-construction img[src^="https://twemoji."] {
+blockquote.type-construction img[src^="https://twemoji."]
+{
   margin-right: 2px;
 }
-blockquote.type-warning img[src^="https://twemoji."] {
+blockquote.type-warning img[src^="https://twemoji."]
+{
   position: relative;
   top: -1px;
   margin-right: 2px;
 }
-blockquote.type-danger img[src^="https://twemoji."] {
+blockquote.type-danger img[src^="https://twemoji."]
+{
   margin-right: 2px;
 }
 blockquote > p:first-child::before,

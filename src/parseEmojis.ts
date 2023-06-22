@@ -10,7 +10,7 @@ const emojiList = {
   // https://emojipedia.org/trophy/
   ':trophy:': 0x1f3c6,
   // https://emojipedia.org/construction/
-  ':construction:': 0x1F6A7
+  ':construction:': 0x1f6a7
   /*
   // https://emojipedia.org/red-heart/
   ':heart:': 0x2764,

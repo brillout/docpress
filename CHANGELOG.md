@@ -1,3 +1,13 @@
+## [0.5.3](https://github.com/brillout/docpress/compare/v0.5.2...v0.5.3) (2023-06-27)
+
+
+### Bug Fixes
+
+* improve error message upon wrong <Note> usage ([4cbf562](https://github.com/brillout/docpress/commit/4cbf5620c57d41bd6f3754391e7e2894570109ca))
+* remove <Info> ([4fdb4e4](https://github.com/brillout/docpress/commit/4fdb4e4b6c2ea8a9574f959d6434a0617bbf423b))
+
+
+
 ## [0.5.2](https://github.com/brillout/docpress/compare/v0.5.1...v0.5.2) (2023-06-21)
 
 

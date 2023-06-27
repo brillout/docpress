@@ -1,4 +1,4 @@
-import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon } from '../../src'
+import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon, ReadingRecommendation } from '../../src'
 
 This page is for testing/developing DocPress features.
 
@@ -93,3 +93,9 @@ Orphan page: <Link href="/orphan" />.
   Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
   dui ac porta. Duis tincidunt pretium ullamcorper.
 </NoteWithCustomIcon>
+
+## `<ReadingRecommendation>`
+
+<ReadingRecommendation links={['/features']} />
+
+<ReadingRecommendation links={['/features', '/']} />

@@ -34,6 +34,6 @@
 .doc-page h3[id]:hover::before {
   content: '#';
   position: absolute;
-  left: calc(-1 * (0.75em - 23px));
+  left: calc(-1 * (0.75em - 26px));
   color: #aaa;
 }

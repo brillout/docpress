@@ -1,3 +1,14 @@
+## [0.5.4](https://github.com/brillout/docpress/compare/v0.5.3...v0.5.4) (2023-07-06)
+
+
+### Bug Fixes
+
+* 100% instead of 100vw ([0e55206](https://github.com/brillout/docpress/commit/0e552062b11a93c40ba69c712210dc9966428c34))
+* adjust hash char margin ([f54e432](https://github.com/brillout/docpress/commit/f54e4328bc1493a284b65f6c810344da3eca6a39))
+* hide mobile navigation overlay when clicking on nav link ([b88fc65](https://github.com/brillout/docpress/commit/b88fc65b0aa55f77f0277d6189dc099be5b3fc23))
+
+
+
 ## [0.5.3](https://github.com/brillout/docpress/compare/v0.5.2...v0.5.3) (2023-06-27)
 
 

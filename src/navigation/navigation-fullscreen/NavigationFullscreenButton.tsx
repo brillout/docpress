@@ -34,7 +34,7 @@ function NavigationFullscreenClose() {
   return (
     <a
       id="navigation-fullscreen-close"
-      style={{ position: 'fixed', top: 11, right: 15, zIndex: 10 }}
+      style={{ position: 'absolute', top: 11, right: 11, zIndex: 10 }}
       aria-label="Press <Esc>"
       data-balloon-pos="left"
     >

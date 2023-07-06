@@ -10,7 +10,7 @@ function MobileHeader() {
       id="mobile-header"
       style={{
         height: 'var(--mobile-header-height)',
-        width: '100vw',
+        width: '100%',
         position: 'relative'
       }}
     >

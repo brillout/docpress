@@ -40,5 +40,10 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Some Page',
     url: '/some-page'
+  },
+  {
+    level: 2,
+    title: 'Tiny Page',
+    url: '/tiny'
   }
 ]

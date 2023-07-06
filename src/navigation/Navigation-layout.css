@@ -1,17 +1,17 @@
 :root {
   --mobile-header-height: 60px;
-  --navigation-min-height: 300px;
-  --navigation-max-height: 350px;
+  --navigation-min-width: 300px;
+  --navigation-max-width: 350px;
 }
 #navigation-wrapper {
-  min-width: var(--navigation-min-height);
+  min-width: var(--navigation-min-width);
 }
 .doc-page #navigation-wrapper {
-  max-width: var(--navigation-max-height);
+  max-width: var(--navigation-max-width);
 }
 .landing-page #navigation-wrapper {
   /* prettier-ignore */
-  max-width: min(var(--navigation-max-height), max(var(--navigation-min-height), calc(var(--navigation-min-height) + 100% - 1240px)));
+  max-width: min(var(--navigation-max-width), max(var(--navigation-min-width), calc(var(--navigation-min-width) + 100% - 1240px)));
 }
 #navigation-container {
   /* `position: fixed` doesn't inherit the parent's width */

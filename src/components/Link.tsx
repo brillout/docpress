@@ -92,7 +92,7 @@ function getTitle({
   if (urlHash) {
     let sectionTitle: string | JSX.Element | undefined = undefined
     assert(!urlHash.startsWith('#'))
-    const pageHeading = findHeading(`#${urlHash}`, pageContext)
+    const pageHeading = linkIsOnSamePage && findHeading(`#${urlHash}`, pageContext)
     if (pageHeading) {
       sectionTitle = pageHeading.title
     } else if ('sectionTitles' in heading && heading.sectionTitles) {

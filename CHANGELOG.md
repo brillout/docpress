@@ -1,3 +1,13 @@
+## [0.5.7](https://github.com/brillout/docpress/compare/v0.5.6...v0.5.7) (2023-08-20)
+
+
+### Bug Fixes
+
+* fix same-page hash <Link> for detached page ([ee94c0b](https://github.com/brillout/docpress/commit/ee94c0b0602ff87ef8a408807d0b0dc2f3ed5bb3))
+* improve error message ([6599f1e](https://github.com/brillout/docpress/commit/6599f1e999d81b5fb0764b276e15f086c14f16b6))
+
+
+
 ## [0.5.6](https://github.com/brillout/docpress/compare/v0.5.5...v0.5.6) (2023-08-20)
 
 

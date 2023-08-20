@@ -53,7 +53,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       algolia
     },
     activeHeading,
-    headings,
     headingsDetached,
     headingsProcessed,
     headingsOfDetachedPage,

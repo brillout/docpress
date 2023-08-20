@@ -144,6 +144,10 @@ function findHeading(href: string, pageContext: PageContextResolved): Heading | 
     }
   }
   const heading = headingsProcessed.find(({ url }) => href === url)
-  assert(heading, `Could not find heading for ${href}. Did you define the heading for ${href}?`)
+  if (href.startsWith('#')) {
+    assertUsage(heading, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
+  } else {
+    assertUsage(heading, `Couldn't find heading for ${href}, did you define the heading for ${href}?`)
+  }
   return heading
 }

@@ -16,7 +16,7 @@ function RepoLink({ path, text, editMode }: { path: string; text?: string | JSX.
   if (!path.startsWith('/')) {
     path = '/' + path
   }
-  const viewMode = (editMode && 'edit') || (path.endsWith('/') && 'tree') || 'blob'
+  const viewMode = path.endsWith('/') || editMode ? 'tree' : 'blob'
   const { githubRepository } = pageContext.config.projectInfo
   assert(githubRepository.startsWith('https://github.com/'))
   const href = `${githubRepository}/${viewMode}/main${path}`

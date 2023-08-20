@@ -1,3 +1,12 @@
+## [0.5.8](https://github.com/brillout/docpress/compare/v0.5.7...v0.5.8) (2023-08-20)
+
+
+### Bug Fixes
+
+* edit links ([8c0a98e](https://github.com/brillout/docpress/commit/8c0a98e6f26b73161fadc921c0c7fddc86b551ae))
+
+
+
 ## [0.5.7](https://github.com/brillout/docpress/compare/v0.5.6...v0.5.7) (2023-08-20)
 
 

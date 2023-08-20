@@ -1,5 +1,5 @@
 import { assert, jsxToTextContent, objectAssign } from '../utils/server'
-import { getHeadings, parseTitle } from '../headings'
+import { getHeadingsWithProcessedTitle, parseTitle } from '../headings'
 import type { Heading, HeadingDetached } from '../headings'
 import type { PageContextBuiltIn } from 'vite-plugin-ssr/types'
 import type { MarkdownHeading } from '../markdownHeadingsVitePlugin'
@@ -23,7 +23,7 @@ type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
-  const { headings, headingsDetached } = getHeadings(config)
+  const { headings, headingsDetached } = getHeadingsWithProcessedTitle(config)
   const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetached, pageContext)
   let headingsWithSubHeadings: Heading[]
   let detachedPageHeadings: null | (Heading | HeadingDetached)[]

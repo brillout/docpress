@@ -1,7 +1,7 @@
 import React from 'react'
 import { assert, Emoji, EmojiName } from './utils/server'
 
-export { getHeadings }
+export { getHeadingsWithProcessedTitle }
 export { parseTitle }
 
 export type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
@@ -50,7 +50,10 @@ type HeadingAbstract = {
   titleInNav?: undefined
 }
 
-function getHeadings(config: { headings: HeadingDefinition[]; headingsDetached: HeadingDetachedDefinition[] }): {
+function getHeadingsWithProcessedTitle(config: {
+  headings: HeadingDefinition[]
+  headingsDetached: HeadingDetachedDefinition[]
+}): {
   headings: Heading[]
   headingsDetached: HeadingDetached[]
 } {

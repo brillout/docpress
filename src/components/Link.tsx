@@ -20,6 +20,8 @@ function Link({
   doNotInferSectionTitle?: true
   titleNormalCase?: boolean
 }) {
+  assertUsage(href.startsWith('/') || href.startsWith('#'), `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`)
+
   if (isRepoLink(href)) {
     return <RepoLink path={href} text={text} />
   } else {
@@ -86,7 +88,11 @@ function getTitle({
 
   if (urlHash) {
     let sectionTitle: string | JSX.Element | undefined = undefined
-    if ('sectionTitles' in heading && heading.sectionTitles) {
+    assert(!urlHash.startsWith('#'))
+    const pageHeading = findHeading(`#${urlHash}`, pageContext)
+    if (pageHeading) {
+      sectionTitle = pageHeading.title
+    } else if ('sectionTitles' in heading && heading.sectionTitles) {
       heading.sectionTitles.forEach((title) => {
         if (determineSectionUrlHash(title) === urlHash) {
           sectionTitle = parseTitle(title)
@@ -126,7 +132,7 @@ function getTitle({
 }
 
 function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingDetached {
-  assert(href.startsWith('/'), `\`href==='${href}'\` but should start with \`/\`.`)
+  assert(href.startsWith('/') || href.startsWith('#'))
   const { headingsWithSubHeadings, headingsDetached } = pageContext
   {
     const heading = headingsDetached.find(({ url }) => href === url)

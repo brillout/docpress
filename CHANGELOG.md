@@ -1,3 +1,14 @@
+## [0.5.5](https://github.com/brillout/docpress/compare/v0.5.4...v0.5.5) (2023-08-20)
+
+
+### Bug Fixes
+
+* add sponsor ([93a1550](https://github.com/brillout/docpress/commit/93a1550b6b5c95a9c9fbebd7337e3a672dfbdcb0))
+* remove dupliate sponsor ([277dadb](https://github.com/brillout/docpress/commit/277dadba79d1c0ada78e497e776ab388b59a9a40))
+* show original heading title for same-page <Link> without needing `sectionTitles` ([05aa40a](https://github.com/brillout/docpress/commit/05aa40a698238c2b3f6d23b74e53c2f92ff1ae25))
+
+
+
 ## [0.5.4](https://github.com/brillout/docpress/compare/v0.5.3...v0.5.4) (2023-07-06)
 
 

@@ -26,7 +26,11 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const processed = getHeadingsWithProcessedTitle(config)
   const { headingsDetachedProcessed } = processed
   let { headingsProcessed } = processed
-  const { activeHeading, activeNavigationHeading } = findHeading(headingsProcessed, headingsDetachedProcessed, pageContext)
+  const { activeHeading, activeNavigationHeading } = findHeading(
+    headingsProcessed,
+    headingsDetachedProcessed,
+    pageContext
+  )
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
   headingsAll = getHeadingsWithSubHeadings(headingsAll, pageContext, activeHeading)

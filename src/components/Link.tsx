@@ -2,7 +2,7 @@ export { Link }
 
 import React from 'react'
 import { isRepoLink, RepoLink } from './RepoLink'
-import { getHeadingsWithProcessedTitle, parseTitle, Heading, HeadingDetached } from '../headings'
+import { getHeadingsWithProcessedTitle, parseTitle, Heading, HeadingDetached } from '../parseTitle'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'

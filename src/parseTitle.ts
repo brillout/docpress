@@ -1,8 +1,8 @@
 import React from 'react'
 import { assert, Emoji, EmojiName } from './utils/server'
 
-export { getHeadingsWithProcessedTitle }
 export { parseTitle }
+export { getHeadingsWithProcessedTitle }
 
 export type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
   title: JSX.Element

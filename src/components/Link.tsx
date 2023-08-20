@@ -2,7 +2,7 @@ export { Link }
 
 import React from 'react'
 import { isRepoLink, RepoLink } from './RepoLink'
-import { getHeadingsWithProcessedTitle, parseTitle, Heading, HeadingDetached } from '../parseTitle'
+import { parseTitle, Heading, HeadingDetached } from '../parseTitle'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
@@ -127,14 +127,14 @@ function getTitle({
 
 function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingDetached {
   assert(href.startsWith('/'), `\`href==='${href}'\` but should start with \`/\`.`)
-  const { headings, headingsDetached } = getHeadingsWithProcessedTitle(pageContext.config)
+  const { headingsWithSubHeadings, headingsDetached } = pageContext
   {
     const heading = headingsDetached.find(({ url }) => href === url)
     if (heading) {
       return heading
     }
   }
-  const heading = headings.find(({ url }) => href === url)
+  const heading = headingsWithSubHeadings.find(({ url }) => href === url)
   assert(heading, `Could not find heading for ${href}. Did you define the heading for ${href}?`)
   return heading
 }

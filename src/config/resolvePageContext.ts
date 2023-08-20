@@ -54,6 +54,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     },
     activeHeading,
     headings,
+    headingsDetached,
     headingsWithSubHeadings,
     headingsOfDetachedPage,
     isLandingPage,

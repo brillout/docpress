@@ -136,14 +136,8 @@ function getTitle({
 
 function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingDetached {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { headingsProcessed, headingsDetachedProcessed } = pageContext
-  {
-    const heading = headingsDetachedProcessed.find(({ url }) => href === url)
-    if (heading) {
-      return heading
-    }
-  }
-  const heading = headingsProcessed.find(({ url }) => href === url)
+  const { headingsAll } = pageContext
+  const heading = headingsAll.find(({ url }) => href === url)
   if (href.startsWith('#')) {
     assertUsage(heading, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
   } else {

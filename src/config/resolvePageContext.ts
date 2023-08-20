@@ -28,6 +28,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   let { headingsProcessed } = processed
   const { activeHeading, activeNavigationHeading } = findHeading(headingsProcessed, headingsDetachedProcessed, pageContext)
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
+  let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
+  headingsAll = getHeadingsWithSubHeadings(headingsAll, pageContext, activeHeading)
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsWithSubHeadings(headingsProcessed, pageContext, activeNavigationHeading)
   } else {
@@ -53,6 +55,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       algolia
     },
     activeHeading,
+    headingsAll,
     headingsProcessed,
     headingsDetachedProcessed,
     headingsOfDetachedPage,
@@ -127,20 +130,19 @@ function findHeading(
   return { activeHeading, activeNavigationHeading }
 }
 
-function getHeadingsWithSubHeadings(
-  headingsProcessed: Heading[],
+function getHeadingsWithSubHeadings<T extends Heading | HeadingDetached>(
+  headingsProcessed: T[],
   pageContext: { exports: Exports; urlOriginal: string },
-  activeNavigationHeading: Heading | null
-): Heading[] {
+  activeHeading: T
+): T[] {
   const headingsProcessedWithSubHeadings = headingsProcessed.slice()
-  if (activeNavigationHeading === null) return headingsProcessedWithSubHeadings
 
-  const pageHeadings = getPageHeadings(pageContext, activeNavigationHeading)
+  const pageHeadings = getPageHeadings(pageContext, activeHeading)
 
-  const activeHeadingIdx = headingsProcessedWithSubHeadings.indexOf(activeNavigationHeading)
+  const activeHeadingIdx = headingsProcessedWithSubHeadings.indexOf(activeHeading)
   assert(activeHeadingIdx >= 0)
   pageHeadings.forEach((pageHeading, i) => {
-    headingsProcessedWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, pageHeading)
+    headingsProcessedWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, pageHeading as T)
   })
 
   return headingsProcessedWithSubHeadings

@@ -25,13 +25,13 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
   const { headings, headingsDetached } = getHeadingsWithProcessedTitle(config)
   const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetached, pageContext)
-  let headingsWithSubHeadings: Heading[]
+  let headingsProcessed: Heading[]
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
   if (activeNavigationHeading) {
-    headingsWithSubHeadings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
+    headingsProcessed = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
   } else {
     headingsOfDetachedPage = [activeHeading, ...getPageHeadings(pageContext, activeHeading)]
-    headingsWithSubHeadings = headings
+    headingsProcessed = headings
   }
   const { title, isLandingPage, pageTitle } = getMetaData(
     headingsDetached,
@@ -55,7 +55,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     activeHeading,
     headings,
     headingsDetached,
-    headingsWithSubHeadings,
+    headingsProcessed,
     headingsOfDetachedPage,
     isLandingPage,
     pageTitle,
@@ -133,18 +133,18 @@ function getHeadingsWithSubHeadings(
   pageContext: { exports: Exports; urlOriginal: string },
   activeNavigationHeading: Heading | null
 ): Heading[] {
-  const headingsWithSubHeadings = headings.slice()
-  if (activeNavigationHeading === null) return headingsWithSubHeadings
+  const headingsProcessed = headings.slice()
+  if (activeNavigationHeading === null) return headingsProcessed
 
   const pageHeadings = getPageHeadings(pageContext, activeNavigationHeading)
 
-  const activeHeadingIdx = headingsWithSubHeadings.indexOf(activeNavigationHeading)
+  const activeHeadingIdx = headingsProcessed.indexOf(activeNavigationHeading)
   assert(activeHeadingIdx >= 0)
   pageHeadings.forEach((pageHeading, i) => {
-    headingsWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, pageHeading)
+    headingsProcessed.splice(activeHeadingIdx + 1 + i, 0, pageHeading)
   })
 
-  return headingsWithSubHeadings
+  return headingsProcessed
 }
 
 function getPageHeadings(

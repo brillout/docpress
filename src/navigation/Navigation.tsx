@@ -12,7 +12,7 @@ function Navigation({
   pageContext
 }: {
   pageContext: {
-    headingsWithSubHeadings: Heading[]
+    headingsProcessed: Heading[]
     headingsOfDetachedPage: null | (Heading | HeadingDetached)[]
     urlPathname: string
   }
@@ -36,7 +36,7 @@ function Navigation({
         )}
         <NavigationContent
           id="navigation-content-main"
-          headings={pageContext.headingsWithSubHeadings}
+          headings={pageContext.headingsProcessed}
           currentUrl={currentUrl}
         />
         {/* <ScrollOverlay /> */}

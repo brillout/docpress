@@ -27,7 +27,7 @@ function Navigation({
             {pageContext.headingsOfDetachedPage.length > 1 && (
               <NavigationContent
                 id="navigation-content-detached"
-                headings={pageContext.headingsOfDetachedPage}
+                headingsProcessed={pageContext.headingsOfDetachedPage}
                 currentUrl={currentUrl}
               />
             )}
@@ -36,7 +36,7 @@ function Navigation({
         )}
         <NavigationContent
           id="navigation-content-main"
-          headings={pageContext.headingsProcessed}
+          headingsProcessed={pageContext.headingsProcessed}
           currentUrl={currentUrl}
         />
         {/* <ScrollOverlay /> */}
@@ -52,10 +52,10 @@ function NavigationMask() {
 
 function NavigationContent(props: {
   id: 'navigation-content-main' | 'navigation-content-detached'
-  headings: (Heading | HeadingDetached)[]
+  headingsProcessed: (Heading | HeadingDetached)[]
   currentUrl: string
 }) {
-  const headings = getHeadingsWithComputedProps(props.headings, props.currentUrl)
+  const headings = getHeadingsWithComputedProps(props.headingsProcessed, props.currentUrl)
 
   const headingsGrouped = groupHeadings(headings)
 

@@ -1,3 +1,12 @@
+## [0.5.6](https://github.com/brillout/docpress/compare/v0.5.5...v0.5.6) (2023-08-20)
+
+
+### Bug Fixes
+
+* minor fix ([c014cec](https://github.com/brillout/docpress/commit/c014cecf577cbb2bf53088de1fee2a9fe657eb3f))
+
+
+
 ## [0.5.5](https://github.com/brillout/docpress/compare/v0.5.4...v0.5.5) (2023-08-20)
 
 

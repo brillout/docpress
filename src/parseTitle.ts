@@ -54,8 +54,8 @@ function getHeadingsWithProcessedTitle(config: {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
 }): {
-  headings: Heading[]
-  headingsDetached: HeadingDetached[]
+  headingsProcessed: Heading[]
+  headingsDetachedProcessed: HeadingDetached[]
 } {
   const headingsWithoutParent: Omit<Heading, 'parentHeadings'>[] = config.headings.map((heading: HeadingDefinition) => {
     const titleProcessed: JSX.Element = parseTitle(heading.title)
@@ -85,16 +85,16 @@ function getHeadingsWithProcessedTitle(config: {
     return headingProcessed
   })
 
-  const headings: Heading[] = []
+  const headingsProcessed: Heading[] = []
   headingsWithoutParent.forEach((heading) => {
-    const parentHeadings = findParentHeadings(heading, headings)
-    headings.push({ ...heading, parentHeadings })
+    const parentHeadings = findParentHeadings(heading, headingsProcessed)
+    headingsProcessed.push({ ...heading, parentHeadings })
   })
 
-  const headingsDetached = config.headingsDetached.map((headingsDetached) => {
+  const headingsDetachedProcessed = config.headingsDetached.map((headingsDetached) => {
     const { url, title } = headingsDetached
     assert(
-      headings.find((heading) => heading.url === url) === undefined,
+      headingsProcessed.find((heading) => heading.url === url) === undefined,
       `remove ${headingsDetached.url} from headingsDetached`
     )
     const titleProcessed = typeof title === 'string' ? parseTitle(title) : title
@@ -107,8 +107,8 @@ function getHeadingsWithProcessedTitle(config: {
     }
   })
 
-  assertHeadingsUrl([...headings, ...headingsDetached])
-  return { headings, headingsDetached }
+  assertHeadingsUrl([...headingsProcessed, ...headingsDetachedProcessed])
+  return { headingsProcessed, headingsDetachedProcessed }
 }
 
 function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: Heading[]) {

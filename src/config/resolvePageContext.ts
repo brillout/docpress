@@ -24,12 +24,12 @@ type PageContextResolved = ReturnType<typeof resolvePageContext>
 function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
   const processed = getHeadingsWithProcessedTitle(config)
-  const { headingsDetached: headingsDetachedProcessed } = processed
-  let { headings } = processed
-  const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetachedProcessed, pageContext)
+  const { headingsDetachedProcessed } = processed
+  let { headingsProcessed } = processed
+  const { activeHeading, activeNavigationHeading } = findHeading(headingsProcessed, headingsDetachedProcessed, pageContext)
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
   if (activeNavigationHeading) {
-    headings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
+    headingsProcessed = getHeadingsWithSubHeadings(headingsProcessed, pageContext, activeNavigationHeading)
   } else {
     headingsOfDetachedPage = [activeHeading, ...getPageHeadings(pageContext, activeHeading)]
   }
@@ -53,7 +53,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       algolia
     },
     activeHeading,
-    headingsProcessed: headings,
+    headingsProcessed,
     headingsDetachedProcessed,
     headingsOfDetachedPage,
     isLandingPage,
@@ -64,7 +64,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 }
 
 function getMetaData(
-  headingsDetached: HeadingDetached[],
+  headingsDetachedProcessed: HeadingDetached[],
   activeNavigationHeading: Heading | null,
   pageContext: { urlOriginal: string; exports: Exports },
   config: Config
@@ -77,7 +77,7 @@ function getMetaData(
     title = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
     pageTitle = activeNavigationHeading.title
   } else {
-    pageTitle = headingsDetached.find((h) => h.url === url)!.title
+    pageTitle = headingsDetachedProcessed.find((h) => h.url === url)!.title
     title = jsxToTextContent(pageTitle)
   }
 
@@ -94,15 +94,15 @@ function getMetaData(
 }
 
 function findHeading(
-  headings: Heading[],
-  headingsDetached: HeadingDetached[],
+  headingsProcessed: Heading[],
+  headingsDetachedProcessed: HeadingDetached[],
   pageContext: { urlOriginal: string; exports: Exports }
 ): { activeHeading: Heading | HeadingDetached; activeNavigationHeading: Heading | null } {
   let activeNavigationHeading: Heading | null = null
   let activeHeading: Heading | HeadingDetached | null = null
   assert(pageContext.urlOriginal)
   const pageUrl = pageContext.urlOriginal
-  headings.forEach((heading) => {
+  headingsProcessed.forEach((heading) => {
     if (heading.url === pageUrl) {
       activeNavigationHeading = heading
       activeHeading = heading
@@ -110,14 +110,14 @@ function findHeading(
     }
   })
   if (!activeHeading) {
-    activeHeading = headingsDetached.find(({ url }) => pageUrl === url) ?? null
+    activeHeading = headingsDetachedProcessed.find(({ url }) => pageUrl === url) ?? null
   }
   if (!activeHeading) {
     throw new Error(
       [
         `Heading not found for URL '${pageUrl}'`,
         'Heading is defined for following URLs:',
-        ...headings
+        ...headingsProcessed
           .map((h) => `  ${h.url}`)
           .filter(Boolean)
           .sort()
@@ -128,22 +128,22 @@ function findHeading(
 }
 
 function getHeadingsWithSubHeadings(
-  headings: Heading[],
+  headingsProcessed: Heading[],
   pageContext: { exports: Exports; urlOriginal: string },
   activeNavigationHeading: Heading | null
 ): Heading[] {
-  const headingsProcessed = headings.slice()
-  if (activeNavigationHeading === null) return headingsProcessed
+  const headingsProcessedWithSubHeadings = headingsProcessed.slice()
+  if (activeNavigationHeading === null) return headingsProcessedWithSubHeadings
 
   const pageHeadings = getPageHeadings(pageContext, activeNavigationHeading)
 
-  const activeHeadingIdx = headingsProcessed.indexOf(activeNavigationHeading)
+  const activeHeadingIdx = headingsProcessedWithSubHeadings.indexOf(activeNavigationHeading)
   assert(activeHeadingIdx >= 0)
   pageHeadings.forEach((pageHeading, i) => {
-    headingsProcessed.splice(activeHeadingIdx + 1 + i, 0, pageHeading)
+    headingsProcessedWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, pageHeading)
   })
 
-  return headingsProcessed
+  return headingsProcessedWithSubHeadings
 }
 
 function getPageHeadings(

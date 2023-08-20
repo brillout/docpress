@@ -13,7 +13,7 @@ function Navigation({
 }: {
   pageContext: {
     headingsWithSubHeadings: Heading[]
-    detachedPageHeadings: null | (Heading | HeadingDetached)[]
+    headingsOfDetachedPage: null | (Heading | HeadingDetached)[]
     urlPathname: string
   }
 }) {
@@ -22,12 +22,12 @@ function Navigation({
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        {pageContext.detachedPageHeadings && (
+        {pageContext.headingsOfDetachedPage && (
           <>
-            {pageContext.detachedPageHeadings.length > 1 && (
+            {pageContext.headingsOfDetachedPage.length > 1 && (
               <NavigationContent
                 id="navigation-content-detached"
-                headings={pageContext.detachedPageHeadings}
+                headings={pageContext.headingsOfDetachedPage}
                 currentUrl={currentUrl}
               />
             )}

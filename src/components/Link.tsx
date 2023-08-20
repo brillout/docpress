@@ -20,7 +20,10 @@ function Link({
   doNotInferSectionTitle?: true
   titleNormalCase?: boolean
 }) {
-  assertUsage(href.startsWith('/') || href.startsWith('#'), `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`)
+  assertUsage(
+    href.startsWith('/') || href.startsWith('#'),
+    `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`
+  )
 
   if (isRepoLink(href)) {
     return <RepoLink path={href} text={text} />
@@ -133,9 +136,9 @@ function getTitle({
 
 function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingDetached {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { headingsProcessed, headingsDetached } = pageContext
+  const { headingsProcessed, headingsDetachedProcessed } = pageContext
   {
-    const heading = headingsDetached.find(({ url }) => href === url)
+    const heading = headingsDetachedProcessed.find(({ url }) => href === url)
     if (heading) {
       return heading
     }

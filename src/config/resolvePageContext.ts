@@ -23,18 +23,18 @@ type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
-  const { headings, headingsDetached } = getHeadingsWithProcessedTitle(config)
-  const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetached, pageContext)
-  let headingsProcessed: Heading[]
+  const processed = getHeadingsWithProcessedTitle(config)
+  const { headingsDetached: headingsDetachedProcessed } = processed
+  let { headings } = processed
+  const { activeHeading, activeNavigationHeading } = findHeading(headings, headingsDetachedProcessed, pageContext)
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
   if (activeNavigationHeading) {
-    headingsProcessed = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
+    headings = getHeadingsWithSubHeadings(headings, pageContext, activeNavigationHeading)
   } else {
     headingsOfDetachedPage = [activeHeading, ...getPageHeadings(pageContext, activeHeading)]
-    headingsProcessed = headings
   }
   const { title, isLandingPage, pageTitle } = getMetaData(
-    headingsDetached,
+    headingsDetachedProcessed,
     activeNavigationHeading,
     pageContext,
     config
@@ -53,8 +53,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       algolia
     },
     activeHeading,
-    headingsDetached,
-    headingsProcessed,
+    headingsProcessed: headings,
+    headingsDetachedProcessed,
     headingsOfDetachedPage,
     isLandingPage,
     pageTitle,

@@ -1,3 +1,12 @@
+## [0.5.10](https://github.com/brillout/docpress/compare/v0.5.9...v0.5.10) (2023-09-22)
+
+
+### Bug Fixes
+
+* make children type optional ([11701f1](https://github.com/brillout/docpress/commit/11701f19217c2cf46696e95ec62c08c4acfe671a))
+
+
+
 ## [0.5.9](https://github.com/brillout/docpress/compare/v0.5.8...v0.5.9) (2023-09-22)
 
 

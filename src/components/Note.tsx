@@ -17,20 +17,20 @@ import { assert } from '../utils/assert'
 import './Note.css'
 */
 
-function Warning({ children }: { children: JSX.Element }) {
+function Warning({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="warning">{children}</NoteGeneric>
 }
-function Construction({ children }: { children: JSX.Element }) {
+function Construction({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="construction">{children}</NoteGeneric>
 }
-function Danger({ children }: { children: JSX.Element }) {
+function Danger({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="danger">{children}</NoteGeneric>
 }
-function NoteWithoutIcon({ children }: { children: JSX.Element }) {
+function NoteWithoutIcon({ children }: { children: React.ReactNode }) {
   return <NoteGeneric icon={null}>{children}</NoteGeneric>
 }
 type CustomIcon = JSX.Element | string
-function NoteWithCustomIcon({ icon, children }: { children: JSX.Element; icon: CustomIcon }) {
+function NoteWithCustomIcon({ icon, children }: { children: React.ReactNode; icon: CustomIcon }) {
   if (!icon) throw new Error(`<NoteWithCustomIcon icon={/*...*/}> property 'icon' is \`${icon}\` which is forbidden`)
   return <NoteGeneric icon={icon}>{children}</NoteGeneric>
 }
@@ -42,7 +42,7 @@ function NoteGeneric({
 }: {
   icon?: null | CustomIcon
   type?: 'danger' | 'warning' | 'construction'
-  children: JSX.Element
+  children: React.ReactNode
 }) {
   assert(icon === null || icon || type, { icon, type })
 

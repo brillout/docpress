@@ -63,7 +63,7 @@ function FeatureHead({
   name?: string
   hasLearnMore?: boolean
   isSecondaryFeature?: true
-  children: any
+  children: React.ReactNode
 }) {
   return (
     <summary
@@ -105,7 +105,7 @@ function FeatureHead({
     </summary>
   )
 }
-function LearnMore({ children, name, rightSide }: { name: string; children: any; rightSide: boolean }) {
+function LearnMore({ children, name, rightSide }: { name: string; children: React.ReactNode; rightSide: boolean }) {
   return (
     <aside className={'learn-more ' + (rightSide ? 'right-side' : '')} id={`learn-more-${name}`}>
       {children}

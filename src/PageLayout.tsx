@@ -9,7 +9,7 @@ import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/N
 
 export { PageLayout }
 
-function PageLayout({ pageContext, children }: { pageContext: PageContextResolved; children: JSX.Element }) {
+function PageLayout({ pageContext, children }: { pageContext: PageContextResolved; children: React.ReactNode }) {
   const { isLandingPage, pageTitle } = pageContext
   return (
     <React.StrictMode>

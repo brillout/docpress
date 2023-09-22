@@ -20,7 +20,7 @@ function Link({
   noBreadcrumb?: true
   doNotInferSectionTitle?: true
   titleNormalCase?: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
 }) {
   assertUsage(
     href.startsWith('/') || href.startsWith('#'),

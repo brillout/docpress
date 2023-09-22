@@ -12,18 +12,21 @@ function Link({
   text,
   noBreadcrumb,
   doNotInferSectionTitle,
-  titleNormalCase
+  titleNormalCase,
+  children
 }: {
   href: string
   text?: string | JSX.Element
   noBreadcrumb?: true
   doNotInferSectionTitle?: true
   titleNormalCase?: boolean
+  children: React.ReactNode
 }) {
   assertUsage(
     href.startsWith('/') || href.startsWith('#'),
     `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`
   )
+  assertUsage(!text || !children, 'Cannot use both `text` or `children`')
 
   if (isRepoLink(href)) {
     return <RepoLink path={href} text={text} />
@@ -31,7 +34,7 @@ function Link({
     const pageContext = usePageContext()
     return (
       <a href={href}>
-        {text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle, titleNormalCase })}
+        {children || text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle, titleNormalCase })}
       </a>
     )
   }

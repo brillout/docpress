@@ -1,3 +1,17 @@
+## [0.5.9](https://github.com/brillout/docpress/compare/v0.5.8...v0.5.9) (2023-09-22)
+
+
+### Bug Fixes
+
+* allow <Link> to have children ([547b3b4](https://github.com/brillout/docpress/commit/547b3b4cf92c5422047a5977b6bd62d0b170c591))
+
+
+### Features
+
+* impl `<Comment>` ([b84b8dc](https://github.com/brillout/docpress/commit/b84b8dcf2ab4cfbcf3ce1dcf1460d402c0d82975))
+
+
+
 ## [0.5.8](https://github.com/brillout/docpress/compare/v0.5.7...v0.5.8) (2023-08-20)
 
 

@@ -1,3 +1,13 @@
+## [0.5.11](https://github.com/brillout/docpress/compare/v0.5.10...v0.5.11) (2023-09-23)
+
+
+### Features
+
+* global note ([c40a139](https://github.com/brillout/docpress/commit/c40a1398e7d217ef000eb6117fe26de9a47c7feb))
+* support `algolia: 'PENDING_APPROVAL'` ([4c9bb56](https://github.com/brillout/docpress/commit/4c9bb56491d52676d8703ad007a52913516440c6))
+
+
+
 ## [0.5.10](https://github.com/brillout/docpress/compare/v0.5.9...v0.5.10) (2023-09-22)
 
 

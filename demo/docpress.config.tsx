@@ -14,9 +14,7 @@ export default {
   },
   faviconUrl: logoUrl,
   algolia: {
-    appId: 'FAKE',
-    apiKey: 'FAKE',
-    indexName: 'FAKE'
+    PENDING_APPROVAL: true
   },
   i18n: true,
   navHeaderMobile: <NavHeaderMobile />,

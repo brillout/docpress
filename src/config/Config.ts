@@ -13,11 +13,20 @@ type Config = {
     twitterProfile: string
   }
   faviconUrl: string
-  algolia: null | {
-    appId: string
-    apiKey: string
-    indexName: string
-  }
+  algolia:
+    | null
+    | {
+        PENDING_APPROVAL: true
+        appId?: undefined
+        apiKey?: undefined
+        indexName?: undefined
+      }
+    | {
+        PENDING_APPROVAL?: undefined
+        appId: string
+        apiKey: string
+        indexName: string
+      }
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
   navHeaderMobile: React.ReactNode

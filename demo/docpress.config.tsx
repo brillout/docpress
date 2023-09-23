@@ -1,4 +1,5 @@
 import type { Config } from '../src'
+import { Warning } from '../src'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsDetached } from './headings'
@@ -22,8 +23,19 @@ export default {
   tagline: 'DocPress Demo',
   titleNormalCase: true,
   headings,
-  headingsDetached
+  headingsDetached,
+  globalNote: <GlobalNoteWarning />
 } as Config
+
+function GlobalNoteWarning() {
+  return (
+    <>
+      <div style={{ maxWidth: 500, margin: 'auto' }}>
+        <Warning>Some global note.</Warning>
+      </div>
+    </>
+  )
+}
 
 function NavHeaderMobile() {
   const LOGO_SIZE = 40

@@ -36,5 +36,6 @@ type Config = {
   websiteUrl: string
   bannerUrl?: string
   twitterHandle: string
+  globalNote?: React.ReactNode
   i18n?: true
 }

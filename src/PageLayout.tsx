@@ -11,6 +11,7 @@ export { PageLayout }
 
 function PageLayout({ pageContext, children }: { pageContext: PageContextResolved; children: React.ReactNode }) {
   const { isLandingPage, pageTitle } = pageContext
+  const { globalNote } = pageContext.config
   return (
     <React.StrictMode>
       <PageContextProvider pageContext={pageContext}>
@@ -23,6 +24,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
             <div id="page-container">
               <MobileHeader />
               <div id="page-content">
+                { globalNote }
                 {pageTitle && <h1>{pageTitle}</h1>}
                 {children}
                 {!isLandingPage && <EditPageNote pageContext={pageContext} />}

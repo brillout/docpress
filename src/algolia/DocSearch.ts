@@ -43,7 +43,7 @@ function getDocSearchJS(pageContext: PageContextResolved) {
   if (algolia?.PENDING_APPROVAL) {
     docSearchJS = escapeInject`
     ${docSearchJS}
-    <script>[document.getElementById('docsearch-desktop'), document.getElementById('docsearch-mobile')].forEach(el => el.addEventListener('click', () => window.alert("Algolia approval is pending: the search results will be empty. Try again in a couple of days.")))</script>
+    <script>[document.getElementById('docsearch-desktop'), document.getElementById('docsearch-mobile')].forEach(el => el.addEventListener('click', () => window.alert("Algolia approval is pending: the search results may be empty until the approval process is completed.")))</script>
     `
   }
   return docSearchJS

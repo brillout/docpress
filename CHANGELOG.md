@@ -1,3 +1,13 @@
+## [0.5.12](https://github.com/brillout/docpress/compare/v0.5.11...v0.5.12) (2023-09-24)
+
+
+### Bug Fixes
+
+* fix algolia pending approval warning ([4a9822e](https://github.com/brillout/docpress/commit/4a9822e6d99f0301cf6106460e7d5d294ec675a5))
+* improve algolia type ([88515dd](https://github.com/brillout/docpress/commit/88515dd3f3d61b6be5739c56df3558ce6c69dc56))
+
+
+
 ## [0.5.11](https://github.com/brillout/docpress/compare/v0.5.10...v0.5.11) (2023-09-23)
 
 

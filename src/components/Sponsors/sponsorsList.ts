@@ -9,6 +9,7 @@ import inlangLogo from './companyLogos/inlang.png'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: '3dyuval' },
   { username: 'talzion12' },
   { username: 'felixhaeberle' },
   { username: 'apappas1129' },

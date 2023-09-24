@@ -1,7 +1,7 @@
 export { getDocSearchCSS }
 export { getDocSearchJS }
 
-import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
+import { dangerouslySkipEscape, escapeInject } from 'vike/server'
 import { PageContextResolved } from '../config/resolvePageContext'
 /* Imorted in /src/css/index.css instead
 import './DocSearch.css'

@@ -1,6 +1,6 @@
 import express from 'express'
 import * as vite from 'vite'
-import { renderPage } from 'vite-plugin-ssr/server'
+import { renderPage } from 'vike/server'
 import config from '../vite.config'
 const viteVersion = (vite as { version?: string }).version || '2.?.?'
 

@@ -1,7 +1,7 @@
 import { assert, jsxToTextContent, objectAssign } from '../utils/server'
 import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
 import type { Heading, HeadingDetached } from '../parseTitle'
-import type { PageContextBuiltIn } from 'vite-plugin-ssr/types'
+import type { PageContextBuiltIn } from 'vike/types'
 import type { MarkdownHeading } from '../markdownHeadingsVitePlugin'
 import type { Config } from './Config'
 import { getConfig } from './getConfig'

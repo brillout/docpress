@@ -1,6 +1,6 @@
 import { build, preview } from 'vite'
 import config from '../vite.config'
-import { prerender } from 'vite-plugin-ssr/prerender'
+import { prerender } from 'vike/prerender'
 const args = process.argv.filter(Boolean).slice(2)
 const isDev = args.includes('dev')
 const isPreview = args.includes('preview')

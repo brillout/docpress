@@ -32,7 +32,8 @@ function getDocSearchJS(pageContext: PageContextResolved) {
       const transformItems = ${dangerouslySkipEscape(getTransformItems())};
       docsearch({
         container: '#docsearch-desktop',
-        appId, apiKey, indexName, transformItems
+        appId, apiKey, indexName, transformItems,
+        insights: true,
       });
       docsearch({
         container: '#docsearch-mobile',

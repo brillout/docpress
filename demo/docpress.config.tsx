@@ -15,7 +15,7 @@ export default {
   },
   faviconUrl: logoUrl,
   algolia: {
-    PENDING_APPROVAL: true
+    // PENDING_APPROVAL: true
   },
   i18n: true,
   navHeaderMobile: <NavHeaderMobile />,

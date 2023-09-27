@@ -32,18 +32,3 @@
   margin-right: 3px !important;
   margin-left: 1px !important;
 }
-
-#docsearch-mobile {
-  margin-left: auto !important;
-  padding-right: 20px !important;
-}
-
-#docsearch-mobile .DocSearch-Button {
-  margin-left: 0px !important;
-}
-
-@media screen and (max-width: 339px) {
-  #docsearch-mobile {
-    padding-right: 6px !important;
-  }
-}

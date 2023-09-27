@@ -35,16 +35,12 @@ function getDocSearchJS(pageContext: PageContextResolved) {
         appId, apiKey, indexName, transformItems,
         insights: true,
       });
-      docsearch({
-        container: '#docsearch-mobile',
-        appId, apiKey, indexName, transformItems
-      });
     </script>
   `
   if (algolia?.PENDING_APPROVAL) {
     docSearchJS = escapeInject`
     ${docSearchJS}
-    <script>[document.getElementById('docsearch-desktop'), document.getElementById('docsearch-mobile')].forEach(el => el.addEventListener('click', () => window.alert("Algolia approval is pending: the search results may be empty until the approval process is completed.")))</script>
+    <script>document.getElementById('docsearch-desktop').addEventListener('click', () => window.alert("Algolia approval is pending: the search results may be empty until the approval process is completed."))</script>
     `
   }
   return docSearchJS

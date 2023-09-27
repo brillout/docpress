@@ -41,7 +41,6 @@ function MobileHeader() {
         >
           {pageContext.config.navHeaderMobile}
         </a>
-        <div id="docsearch-mobile" />
       </div>
     </div>
   )

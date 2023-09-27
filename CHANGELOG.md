@@ -1,3 +1,13 @@
+## [0.5.13](https://github.com/brillout/docpress/compare/v0.5.12...v0.5.13) (2023-09-27)
+
+
+### Bug Fixes
+
+* add sponsor ([07e3a9e](https://github.com/brillout/docpress/commit/07e3a9e7dfac3ba5435b6da6b76a12c756828bec))
+* remove problematic mobile algolia button ([a63d5dc](https://github.com/brillout/docpress/commit/a63d5dc5fcf429259f997e8acbcb6c841c4fb67d))
+
+
+
 ## [0.5.12](https://github.com/brillout/docpress/compare/v0.5.11...v0.5.12) (2023-09-24)
 
 

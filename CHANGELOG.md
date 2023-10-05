@@ -1,3 +1,17 @@
+## [0.5.14](https://github.com/brillout/docpress/compare/v0.5.13...v0.5.14) (2023-10-05)
+
+
+### Bug Fixes
+
+* add sponsor ([29d24fb](https://github.com/brillout/docpress/commit/29d24fbe84d63edeef21f7dc4c9329c7d8d037dc))
+
+
+### Features
+
+* press kit ([496cb61](https://github.com/brillout/docpress/commit/496cb61b3007c0f50f11f9633b8fe7657cce8419))
+
+
+
 ## [0.5.13](https://github.com/brillout/docpress/compare/v0.5.12...v0.5.13) (2023-09-27)
 
 

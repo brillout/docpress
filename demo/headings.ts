@@ -45,5 +45,10 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Tiny Page',
     url: '/tiny'
+  },
+  {
+    level: 2,
+    title: 'Press Kit',
+    url: '/press'
   }
 ]

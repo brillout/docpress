@@ -13,6 +13,7 @@ function NavigationHeader() {
   return (
     <div
       id="navigation-header"
+      className={pageContext.config.pressKit && 'press-kit'}
       style={{
         display: 'flex',
         flexDirection: 'column',

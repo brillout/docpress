@@ -40,4 +40,5 @@ type Config = {
   twitterHandle: string
   globalNote?: React.ReactNode
   i18n?: true
+  pressKit?: true
 }

@@ -4,6 +4,7 @@ activateNavigationMask()
 activateMenuToggle()
 initNavigationFullscreen()
 autoHideNavigationOverlayOnLinkClick()
+navHeaderRightClickInterceptor()
 
 function activateMenuToggle() {
   const menuToggle = document.getElementById('menu-toggle')!
@@ -29,4 +30,14 @@ function navigationOverlayToggle() {
 }
 function navigationOverlayHide() {
   document.body.classList.remove('show-menu')
+}
+
+function navHeaderRightClickInterceptor() {
+  const navHeader = document.getElementById('navigation-header')!
+  if (!navHeader.classList.contains('press-kit')) return
+  if (window.location.pathname === '/press') return
+  navHeader.oncontextmenu = (ev) => {
+    ev.preventDefault()
+    window.location.href = '/press'
+  }
 }

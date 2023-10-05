@@ -18,6 +18,7 @@ export default {
     // PENDING_APPROVAL: true
   },
   i18n: true,
+  pressKit: true,
   navHeaderMobile: <NavHeaderMobile />,
   navHeader: <NavHeader />,
   tagline: 'DocPress Demo',

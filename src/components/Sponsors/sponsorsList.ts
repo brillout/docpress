@@ -6,9 +6,11 @@ import mfqsLogo from './companyLogos/mfqs.svg'
 import optimizersLogo from './companyLogos/optimizers.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
+import bluefinLogo from './companyLogos/bluefin.svg'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: 'chrisvander' },
   { username: 'EralChen' },
   { username: '3dyuval' },
   { username: 'talzion12' },
@@ -99,6 +101,13 @@ const companies: Sponsor[] = [
     plan: 'indie',
     website: 'https://inlang.com/',
     github: 'inlang'
+  },
+  {
+    companyName: 'Bluefin',
+    companyLogo: bluefinLogo,
+    plan: 'indie',
+    website: 'https://https://www.bluefin.one',
+    github: 'bluefin-clinical'
   }
 ]
 

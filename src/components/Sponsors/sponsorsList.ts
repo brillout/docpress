@@ -4,12 +4,13 @@ import type { Sponsor } from '../Sponsors'
 import contraLogo from './companyLogos/contra.svg'
 import mfqsLogo from './companyLogos/mfqs.svg'
 import optimizersLogo from './companyLogos/optimizers.svg'
-import burdaforwardLogo from './companyLogos/burdaforward.png'
+// import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 import bluefinLogo from './companyLogos/bluefin.svg'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: 'BurdaForward' },
   { username: 'chrisvander' },
   { username: 'EralChen' },
   { username: '3dyuval' },
@@ -57,6 +58,7 @@ const individuals: Sponsor[] = [
 ]
 
 const companies: Sponsor[] = [
+  /*
   {
     companyName: 'BurdaFoward',
     companyLogo: burdaforwardLogo,
@@ -64,6 +66,7 @@ const companies: Sponsor[] = [
     website: 'https://www.burda-forward.de',
     github: 'BurdaForward'
   },
+  */
   {
     companyName: 'Contra',
     companyLogo: contraLogo,

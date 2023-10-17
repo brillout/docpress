@@ -26,7 +26,7 @@
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
     "vite": "^4.3.9",
-    "vike": "^0.4.131"
+    "vike": "^0.4.143"
   },
   "type": "module",
   "exports": {

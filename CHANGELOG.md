@@ -1,3 +1,13 @@
+## [0.5.15](https://github.com/brillout/docpress/compare/v0.5.14...v0.5.15) (2023-10-17)
+
+
+### Bug Fixes
+
+* add sponsor ([24e96ab](https://github.com/brillout/docpress/commit/24e96abf429c35cc24cd1835a6dc099c0a827975))
+* remove BurdaForward from sponsor list ([9d6a218](https://github.com/brillout/docpress/commit/9d6a218cd48c461bd1a84c79ddccf49ed8e13697))
+
+
+
 ## [0.5.14](https://github.com/brillout/docpress/compare/v0.5.13...v0.5.14) (2023-10-05)
 
 

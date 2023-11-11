@@ -1,3 +1,14 @@
+## [0.5.16](https://github.com/brillout/docpress/compare/v0.5.15...v0.5.16) (2023-11-11)
+
+
+### Bug Fixes
+
+* .mdx export type ([68238dd](https://github.com/brillout/docpress/commit/68238ddfb5ce264ac77c3d9308ac28e8d93776d7))
+* add sponsor ([88472e0](https://github.com/brillout/docpress/commit/88472e0a7fca5e1b793fc0087155a2f5fc782072))
+* add sponsor ([ae25913](https://github.com/brillout/docpress/commit/ae259137032998b3676af13958f3fce4951aee38))
+
+
+
 ## [0.5.15](https://github.com/brillout/docpress/compare/v0.5.14...v0.5.15) (2023-10-17)
 
 

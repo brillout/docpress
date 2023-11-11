@@ -1,8 +1,7 @@
 /// <reference types="vite/client" />
 
 declare module '*.mdx' {
-  import { FunctionComponent } from 'react'
-  const value: FunctionComponent
+  const value: () => JSX.Element
   export default value
   export const headings: { level: number; title: string; id: string; titleAddendum?: string }[]
 }

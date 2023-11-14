@@ -54,7 +54,7 @@ function getOpenGraphTags(
   const { title, tagline, websiteUrl, twitterHandle, bannerUrl } = meta
 
   assert(url.startsWith('/'))
-  if (url !== '/' || !bannerUrl) return ''
+  if (!bannerUrl) return ''
 
   // See view-source:https://vitejs.dev/
   return escapeInject`

@@ -1,3 +1,12 @@
+## [0.5.17](https://github.com/brillout/docpress/compare/v0.5.16...v0.5.17) (2023-11-14)
+
+
+### Bug Fixes
+
+* set og:image on all pages ([552c2b8](https://github.com/brillout/docpress/commit/552c2b8f55b0d050303da0cf5b2f2e439c2bf315))
+
+
+
 ## [0.5.16](https://github.com/brillout/docpress/compare/v0.5.15...v0.5.16) (2023-11-11)
 
 

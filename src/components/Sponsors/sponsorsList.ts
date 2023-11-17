@@ -10,6 +10,8 @@ import bluefinLogo from './companyLogos/bluefin.svg'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: 'msiegenthaler' },
+  { username: 'linkyard' },
   { username: 'AnukarOP' },
   { username: 'RoyMcCrain' },
   { username: 'BurdaForward' },

@@ -1,3 +1,12 @@
+## [0.5.18](https://github.com/brillout/docpress/compare/v0.5.17...v0.5.18) (2023-11-17)
+
+
+### Bug Fixes
+
+* style <h5> ([c04e7bc](https://github.com/brillout/docpress/commit/c04e7bc7f28c005e94b72759d61aebf9a1271903))
+
+
+
 ## [0.5.17](https://github.com/brillout/docpress/compare/v0.5.16...v0.5.17) (2023-11-14)
 
 

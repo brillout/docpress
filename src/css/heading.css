@@ -20,6 +20,12 @@
   margin-bottom: 16px;
 }
 
+.doc-page h5 {
+  font-size: 0.94em;
+  color: #777;
+  margin-bottom: 10px;
+}
+
 /***************/
 /** Clickable **/
 /***************/

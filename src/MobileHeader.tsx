@@ -36,7 +36,8 @@ function MobileHeader() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'left',
-            textDecoration: 'none'
+            textDecoration: 'none',
+            ...pageContext.config.navHeaderMobileWrapperStyle
           }}
         >
           {pageContext.config.navHeaderMobile}

@@ -32,7 +32,9 @@ type Config = {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
   navHeaderMobile: React.ReactNode
+  navHeaderMobileWrapperStyle?: React.CSSProperties
   navHeader: React.ReactNode
+  navHeaderWrapperStyle?: React.CSSProperties
   titleNormalCase: boolean
   tagline: string
   websiteUrl: string

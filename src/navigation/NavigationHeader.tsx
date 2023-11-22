@@ -30,7 +30,8 @@ function NavigationHeader() {
           justifyContent: 'left',
           textDecoration: 'none',
           paddingTop: 12,
-          paddingBottom: 7
+          paddingBottom: 7,
+          ...pageContext.config.navHeaderWrapperStyle
         }}
         href="/"
       >

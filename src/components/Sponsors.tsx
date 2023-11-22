@@ -35,13 +35,14 @@ type DivSize = {
 function Sponsors() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
+  const sponsorGithubAccount = pageContext.config.sponsorGithubAccount || 'brillout'
   const sponsorsCompanies = sponsorsList.filter(isCompany)
   const sponsorsIndividuals = sponsorsList.filter(isIndividual)
   return (
     <div style={{ textAlign: 'center', marginTop: 19 }}>
       <a
         className="button"
-        href="https://github.com/sponsors/brillout"
+        href={`https://github.com/sponsors/${sponsorGithubAccount}`}
         style={{
           color: 'inherit',
           display: 'inline-flex',

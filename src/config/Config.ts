@@ -41,4 +41,5 @@ type Config = {
   globalNote?: React.ReactNode
   i18n?: true
   pressKit?: true
+  sponsorGithubAccount?: string
 }

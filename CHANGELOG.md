@@ -1,3 +1,13 @@
+## [0.5.21](https://github.com/brillout/docpress/compare/v0.5.20...v0.5.21) (2023-11-22)
+
+
+### Bug Fixes
+
+* add sponsor ([764ceaf](https://github.com/brillout/docpress/commit/764ceafa7868b54b55c27ba6e5cc310f405e46b2))
+* workaround bug scrolling the main view ([63bbedf](https://github.com/brillout/docpress/commit/63bbedf72c039ba8f25a53c949f2f3c7ca2b799c))
+
+
+
 ## [0.5.20](https://github.com/brillout/docpress/compare/v0.5.19...v0.5.20) (2023-11-22)
 
 

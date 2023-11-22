@@ -1,3 +1,12 @@
+## [0.5.20](https://github.com/brillout/docpress/compare/v0.5.19...v0.5.20) (2023-11-22)
+
+
+### Features
+
+* navHeaderWrapperStyle ([8fe659e](https://github.com/brillout/docpress/commit/8fe659ed40fa105bdea1f6fc7edac40b75e07138))
+
+
+
 ## [0.5.19](https://github.com/brillout/docpress/compare/v0.5.18...v0.5.19) (2023-11-22)
 
 

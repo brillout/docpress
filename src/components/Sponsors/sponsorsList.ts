@@ -4,17 +4,17 @@ import type { Sponsor } from '../Sponsors'
 import contraLogo from './companyLogos/contra.svg'
 import mfqsLogo from './companyLogos/mfqs.svg'
 import optimizersLogo from './companyLogos/optimizers.svg'
-// import burdaforwardLogo from './companyLogos/burdaforward.png'
+import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 import bluefinLogo from './companyLogos/bluefin.svg'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: 'ChristophP' },
   { username: 'msiegenthaler' },
   { username: 'linkyard' },
   { username: 'AnukarOP' },
   { username: 'RoyMcCrain' },
-  { username: 'BurdaForward' },
   { username: 'chrisvander' },
   { username: 'EralChen' },
   { username: '3dyuval' },
@@ -62,15 +62,6 @@ const individuals: Sponsor[] = [
 ]
 
 const companies: Sponsor[] = [
-  /*
-  {
-    companyName: 'BurdaFoward',
-    companyLogo: burdaforwardLogo,
-    plan: 'platinum',
-    website: 'https://www.burda-forward.de',
-    github: 'BurdaForward'
-  },
-  */
   {
     companyName: 'Contra',
     companyLogo: contraLogo,
@@ -94,6 +85,13 @@ const companies: Sponsor[] = [
       padding: 20
     },
     github: 'OptimizersGroup'
+  },
+  {
+    companyName: 'BurdaFoward',
+    companyLogo: burdaforwardLogo,
+    plan: 'bronze',
+    website: 'https://www.burda-forward.de',
+    github: 'BurdaForward'
   },
   {
     companyName: 'My Favorite Quilt Store',

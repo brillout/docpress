@@ -22,7 +22,6 @@ export default {
   navHeaderMobile: <NavHeaderMobile />,
   navHeader: <NavHeader />,
   tagline: 'DocPress Demo',
-  titleNormalCase: true,
   headings,
   headingsDetached,
   globalNote: <GlobalNoteWarning />

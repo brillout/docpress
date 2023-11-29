@@ -24,16 +24,13 @@ function removeAccentsAndDiacritics(str: string): string {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
-function determineSectionTitle(urlWithHash: string, titleNormalCase: boolean): string {
+function determineSectionTitle(urlWithHash: string): string {
   assert(urlWithHash.includes('#'), { urlWithHash })
   const urlHash = urlWithHash.split('#')[1]
   const title = urlHash
     .split('-')
     .map((word, i) => {
       if (i === 0) {
-        return capitalizeFirstLetter(word)
-      }
-      if (!titleNormalCase && word.length >= 4) {
         return capitalizeFirstLetter(word)
       }
       return word

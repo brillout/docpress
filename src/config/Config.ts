@@ -35,7 +35,6 @@ type Config = {
   navHeaderMobileWrapperStyle?: React.CSSProperties
   navHeader: React.ReactNode
   navHeaderWrapperStyle?: React.CSSProperties
-  titleNormalCase: boolean
   tagline: string
   websiteUrl: string
   bannerUrl?: string

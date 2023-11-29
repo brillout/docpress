@@ -12,14 +12,12 @@ function Link({
   text,
   noBreadcrumb,
   doNotInferSectionTitle,
-  titleNormalCase,
   children
 }: {
   href: string
   text?: string | JSX.Element
   noBreadcrumb?: true
   doNotInferSectionTitle?: true
-  titleNormalCase?: boolean
   children?: React.ReactNode
 }) {
   assertUsage(
@@ -33,9 +31,7 @@ function Link({
   } else {
     const pageContext = usePageContext()
     return (
-      <a href={href}>
-        {children || text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle, titleNormalCase })}
-      </a>
+      <a href={href}>{children || text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle })}</a>
     )
   }
 }
@@ -44,14 +40,12 @@ function getTitle({
   href,
   noBreadcrumb,
   pageContext,
-  doNotInferSectionTitle,
-  titleNormalCase
+  doNotInferSectionTitle
 }: {
   href: string
   noBreadcrumb: true | undefined
   pageContext: PageContextResolved
   doNotInferSectionTitle: true | undefined
-  titleNormalCase: boolean | undefined
 }): string | JSX.Element {
   let urlHash: string | null = null
   let hrefWithoutHash: string = href
@@ -110,8 +104,7 @@ function getTitle({
         !doNotInferSectionTitle,
         `Page section title not found for <Link href="\`${href}\`" doNotInferSectionTitle={true} />.`
       )
-      if (titleNormalCase === undefined) titleNormalCase = pageContext.config.titleNormalCase
-      sectionTitle = determineSectionTitle(href, titleNormalCase)
+      sectionTitle = determineSectionTitle(href)
     }
     breadcrumbs.push(sectionTitle)
   }

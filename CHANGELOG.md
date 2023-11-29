@@ -1,3 +1,12 @@
+## [0.5.23](https://github.com/brillout/docpress/compare/v0.5.22...v0.5.23) (2023-11-29)
+
+
+### Bug Fixes
+
+* always set titleNormalCase ([0ba3af8](https://github.com/brillout/docpress/commit/0ba3af80a71c6dd10bfbb5fc7c9b9f425cb31070))
+
+
+
 ## [0.5.22](https://github.com/brillout/docpress/compare/v0.5.21...v0.5.22) (2023-11-24)
 
 

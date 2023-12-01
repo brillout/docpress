@@ -10,6 +10,7 @@ import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
   { username: 'routinghub' },
+  { username: 'LostCrew' }, // Ecosia
   { username: 'jakubfiala' }, // Ecosia
   { username: 'HarshwardhanSingh' },
   { username: 'd3x7r0' },

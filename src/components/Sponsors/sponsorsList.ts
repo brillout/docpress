@@ -2,7 +2,6 @@ export { sponsorsList }
 
 import type { Sponsor } from '../Sponsors'
 import contraLogo from './companyLogos/contra.svg'
-import mfqsLogo from './companyLogos/mfqs.svg'
 import optimizersLogo from './companyLogos/optimizers.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
@@ -10,15 +9,16 @@ import bluefinLogo from './companyLogos/bluefin.svg'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
-  { username: 'jakubfiala' },
+  { username: 'routinghub' },
+  { username: 'jakubfiala' }, // Ecosia
   { username: 'HarshwardhanSingh' },
   { username: 'd3x7r0' },
-  { username: 'ChristophP' },
+  { username: 'ChristophP' }, // BurdaForward
   { username: 'msiegenthaler' },
   { username: 'linkyard' },
   { username: 'AnukarOP' },
   { username: 'RoyMcCrain' },
-  { username: 'chrisvander' },
+  { username: 'chrisvander' }, // Bluefin
   { username: 'EralChen' },
   { username: '3dyuval' },
   { username: 'talzion12' },
@@ -95,13 +95,6 @@ const companies: Sponsor[] = [
     plan: 'bronze',
     website: 'https://www.burda-forward.de',
     github: 'BurdaForward'
-  },
-  {
-    companyName: 'My Favorite Quilt Store',
-    companyLogo: mfqsLogo,
-    plan: 'indie',
-    website: 'https://myfavoritequiltstore.com',
-    github: 'pieperz'
   },
   {
     companyName: 'Inlang',

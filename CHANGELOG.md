@@ -1,3 +1,13 @@
+## [0.5.26](https://github.com/brillout/docpress/compare/v0.5.25...v0.5.26) (2023-12-15)
+
+
+### Bug Fixes
+
+* update Vike dep ([914aec6](https://github.com/brillout/docpress/commit/914aec66f44ebab93cac14fb9fe1b62af4591fc1))
+* update Vike usage ([4f5d9c1](https://github.com/brillout/docpress/commit/4f5d9c1ef6271c2c00bd3c9a59a940d9d98a3fc2))
+
+
+
 ## [0.5.25](https://github.com/brillout/docpress/compare/v0.5.24...v0.5.25) (2023-12-11)
 
 * add sponsor ([#6](https://github.com/brillout/docpress/pull/6))

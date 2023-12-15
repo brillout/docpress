@@ -39,8 +39,8 @@ importers:
         specifier: ^13.1.0
         version: 13.1.1
       vike:
-        specifier: ^0.4.143
-        version: 0.4.143(vite@4.3.9)
+        specifier: ^0.4.150
+        version: 0.4.150(vite@4.3.9)
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@15.14.9)
@@ -134,12 +134,12 @@ packages:
     resolution: {integrity: sha512-1T8WlD75eeFSMrptGy8jiLHmfHgMmSjWvLOIUvHmSVZt+6k0eQqYUoK4KbmE4T9pVLIfxvZSOm2D68VEqKRHRw==}
     dev: false
 
-  /@brillout/json-serializer@0.5.6:
-    resolution: {integrity: sha512-48u+Wthh0muDueyooi/Or59DDFCPitnuCN9OkMWoj7MQAbDn5pS/cVBB7ds6ENmtC1Qb0spI4PfKZxQSBEkubg==}
+  /@brillout/json-serializer@0.5.8:
+    resolution: {integrity: sha512-vEuXw30ok+mJfJutOxXKBb4lBJ0HymA7lev9PcYK6W/hzjhCTPk9Bdk85HrcNcKZWRQiwoWtw0F2Di4TRJ7ssQ==}
     dev: false
 
-  /@brillout/picocolors@1.0.9:
-    resolution: {integrity: sha512-Lt/W5JsA75hcDJ2cOAlE4TqSMl6c9K+rXGRo/cU2fApnmhbRcNdkR4UHQDAwtWfZyUKWaxdwSui+jp+74J1pZg==}
+  /@brillout/picocolors@1.0.10:
+    resolution: {integrity: sha512-dh+JJlsBf3QYX+91Ezma8RLKNOjGDoBBmORv/NzRpQuasdyzwQCMXGGjsDu12ZhGz92TqQbL9pv79rvbheI21A==}
     dev: false
 
   /@brillout/release-me@0.1.9:
@@ -1147,18 +1147,12 @@ packages:
       negotiator: 0.6.3
     dev: false
 
-  /acorn-jsx@5.3.2(acorn@8.7.1):
+  /acorn-jsx@5.3.2(acorn@8.8.2):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.7.1
-    dev: false
-
-  /acorn@8.7.1:
-    resolution: {integrity: sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
+      acorn: 8.8.2
     dev: false
 
   /acorn@8.8.2:
@@ -2824,8 +2818,8 @@ packages:
   /micromark-extension-mdxjs@1.0.0:
     resolution: {integrity: sha512-TZZRZgeHvtgm+IhtgC2+uDMR7h8eTKF0QUX9YsgoL9+bADBpBY6SiLvWqnBlLbCEevITmTqmEuY3FoxMKVs1rQ==}
     dependencies:
-      acorn: 8.7.1
-      acorn-jsx: 5.3.2(acorn@8.7.1)
+      acorn: 8.8.2
+      acorn-jsx: 5.3.2(acorn@8.8.2)
       micromark-extension-mdx-expression: 1.0.3
       micromark-extension-mdx-jsx: 1.0.3
       micromark-extension-mdx-md: 1.0.0
@@ -3996,8 +3990,8 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
-  /vike@0.4.143(vite@4.3.9):
-    resolution: {integrity: sha512-l0IA1x4reGa7+y8Q1rIQgx2Z4aYT+wDGJmAa+myX5N2kzd8wQNzF1hs3PXtgtkcH0YK6Ondr+LU84WzD9VfbLw==}
+  /vike@0.4.150(vite@4.3.9):
+    resolution: {integrity: sha512-R2cfpRWTZb0WOgMDsh5oLGq9yJV4aPjEyjpnvy0Rkntv9YpX4EXp9MmNHUTqNJJqBeURtJKHQpfPbFRgbPjIbQ==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -4008,8 +4002,8 @@ packages:
         optional: true
     dependencies:
       '@brillout/import': 0.2.3
-      '@brillout/json-serializer': 0.5.6
-      '@brillout/picocolors': 1.0.9
+      '@brillout/json-serializer': 0.5.8
+      '@brillout/picocolors': 1.0.10
       '@brillout/require-shim': 0.1.2
       '@brillout/vite-plugin-import-build': 0.2.20
       acorn: 8.8.2

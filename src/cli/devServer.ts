@@ -21,8 +21,10 @@ async function startServer() {
     }
     const pageContext = await renderPage(pageContextInit)
     if (!pageContext.httpResponse) return next()
-    const { body, statusCode, contentType } = pageContext.httpResponse
-    res.status(statusCode).type(contentType).send(body)
+    const { body, statusCode, headers } = pageContext.httpResponse
+    res.status(statusCode)
+    headers.forEach(([name, value]) => res.setHeader(name, value))
+    res.send(body)
   })
 
   const port = 3000

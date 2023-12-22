@@ -1,3 +1,12 @@
+## [0.5.28](https://github.com/brillout/docpress/compare/v0.5.27...v0.5.28) (2023-12-22)
+
+
+### Bug Fixes
+
+* update vike ([545952f](https://github.com/brillout/docpress/commit/545952fe6df56da754b82ff23574f367173ab421))
+
+
+
 ## [0.5.27](https://github.com/brillout/docpress/compare/v0.5.26...v0.5.27) (2023-12-18)
 
 

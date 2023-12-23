@@ -9,6 +9,8 @@
 
 ## [0.5.27](https://github.com/brillout/docpress/compare/v0.5.26...v0.5.27) (2023-12-18)
 
+* add sponsor
+
 
 
 ## [0.5.26](https://github.com/brillout/docpress/compare/v0.5.25...v0.5.26) (2023-12-15)

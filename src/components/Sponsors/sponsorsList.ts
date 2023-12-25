@@ -3,12 +3,14 @@ export { sponsorsList }
 import type { Sponsor } from '../Sponsors'
 import contraLogo from './companyLogos/contra.svg'
 import optimizersLogo from './companyLogos/optimizers.svg'
+import sourcegraphLogo from './companyLogos/sourcegraph.svg'
 import burdaforwardLogo from './companyLogos/burdaforward.png'
 import inlangLogo from './companyLogos/inlang.png'
 import bluefinLogo from './companyLogos/bluefin.svg'
 import alignableLogo from './companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
+  { username: 'sqs' },
   { username: 'dylmye' },
   { username: 'isakura313' },
   { username: 'rivatove' },
@@ -83,6 +85,13 @@ const companies: Sponsor[] = [
     plan: 'silver',
     website: 'https://www.alignable.com/',
     github: 'AlignableUser'
+  },
+  {
+    companyName: 'Sourcegraph',
+    companyLogo: sourcegraphLogo,
+    plan: 'bronze',
+    website: 'https://sourcegraph.com',
+    github: 'sourcegraph'
   },
   {
     companyName: 'Optimizers',

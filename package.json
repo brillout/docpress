@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.5.30",
+  "version": "0.5.31",
   "scripts": {
     "// Check types while developing": "",
     "types": "tsc --noEmit --watch",

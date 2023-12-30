@@ -1,3 +1,12 @@
+## [0.5.31](https://github.com/brillout/docpress/compare/v0.5.30...v0.5.31) (2023-12-30)
+
+
+### Features
+
+* add new sponsor ([49613b6](https://github.com/brillout/docpress/commit/49613b6b99ca1ac6e699ebeef4c77e2bc2702281))
+
+
+
 ## [0.5.30](https://github.com/brillout/docpress/compare/v0.5.29...v0.5.30) (2023-12-25)
 
 

@@ -5,6 +5,7 @@ import React from 'react'
 import iconHeart from '../icons/heart.svg'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, Emoji } from '../utils/server'
+import { Supporter, SupporterSection, SectionDescription, Individuals, SupporterImg } from './Supporters'
 import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
@@ -39,7 +40,7 @@ function Sponsors() {
   const sponsorsCompanies = sponsorsList.filter(isCompany)
   const sponsorsIndividuals = sponsorsList.filter(isIndividual)
   return (
-    <div style={{ textAlign: 'center', marginTop: 19 }}>
+    <SupporterSection>
       <a
         className="button"
         href={`https://github.com/sponsors/${sponsorGithubAccount}`}
@@ -54,76 +55,49 @@ function Sponsors() {
         <img src={iconHeart} height={22} /> <span style={{ marginLeft: 7, fontSize: '1.07em' }}>Sponsor</span>
       </a>
       <div></div>
-      <div style={{ maxWidth: 400, display: 'inline-block', marginTop: 12, marginBottom: 12 }}>
+      <SectionDescription>
         {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by wonderful
         sponsors.
-      </div>
+      </SectionDescription>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', alignItems: 'end' }}>
         {sponsorsCompanies.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
       </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          alignItems: 'end',
-          margin: '17px auto',
-          maxWidth: 700
-        }}
-      >
+      <Individuals>
         {sponsorsIndividuals.map((sponsor, i) => (
           <SponsorDiv sponsor={sponsor} key={i} />
         ))}
-      </div>
-    </div>
+      </Individuals>
+    </SupporterSection>
   )
 }
 
 function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
-  let imgSrc: string
-  let imgAlt: string | undefined
-  let width: number
-  let height: number
-  let website: string
-  let padding: number
-  let marginHeight: number
-  let marginWidth: number
-  let backgroundColor = '#f0f0f0'
-  let label: null | JSX.Element = null
   if (isIndividual(sponsor)) {
-    website = `https://github.com/${sponsor.username}`
-    imgSrc = `https://github.com/${sponsor.username}.png?size=30`
-    width = 30
-    height = 30
-    padding = 0
-    marginHeight = 5
-    marginWidth = 5
-    backgroundColor = 'none'
-  } else {
-    imgSrc = sponsor.companyLogo
-    website = sponsor.website
-    const size = getSize(sponsor)
-    width = size.width
-    height = size.height
-    padding = size.padding
-    imgAlt = sponsor.companyName
-    marginHeight = 20
-    marginWidth = 10
-    label = <Label sponsor={sponsor} />
+    return <Supporter username={sponsor.username} />
   }
+  return <CompanyDiv sponsor={sponsor} />
+}
+
+function CompanyDiv({ sponsor }: { sponsor: Sponsor }) {
+  assert(isCompany(sponsor))
+  const imgSrc = sponsor.companyLogo
+  const imgAlt = sponsor.companyName
+  const { width, height, padding } = getSize(sponsor)
+  const marginHeight = 20
+  const marginWidth = 10
   return (
     <a
-      href={website}
+      href={sponsor.website}
       style={{
         margin: `${marginHeight}px ${marginWidth}px`
       }}
     >
-      {label}
+      <Label sponsor={sponsor} />
       <div
         style={{
-          backgroundColor,
+          backgroundColor: '#f0f0f0',
           borderRadius: 7,
           overflow: 'hidden',
           width,
@@ -135,11 +109,7 @@ function SponsorDiv({ sponsor }: { sponsor: Sponsor }) {
           justifyContent: 'center'
         }}
       >
-        <img
-          style={{ width: `calc(100% - ${padding}px)`, height: height - padding, zIndex: 2, objectFit: 'contain' }}
-          src={imgSrc}
-          alt={imgAlt}
-        />
+        <SupporterImg {...{ imgSrc, imgAlt, width, height, padding }} />
       </div>
     </a>
   )

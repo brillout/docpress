@@ -41,6 +41,9 @@ importers:
       vike:
         specifier: ^0.4.151
         version: 0.4.151(vite@4.3.9)
+      vike-contributors:
+        specifier: ^0.0.5
+        version: 0.0.5
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@15.14.9)
@@ -3994,6 +3997,11 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.2
       vfile-message: 3.1.2
+    dev: false
+
+  /vike-contributors@0.0.5:
+    resolution: {integrity: sha512-OhEoCs/TPOgYtYcuTtRx6wdMhhjk8uiTtuT+Cmd7z/zCCdSXva6/nwmvtBl4vSdqJDvI4iqChuZN41iBG4yimA==}
+    requiresBuild: true
     dev: false
 
   /vike@0.4.151(vite@4.3.9):

@@ -16,7 +16,7 @@ function Page() {
       <HorizontalLine />
       <Contributors />
       <HorizontalLine />
-      <Consulting />
+      <Consulting consultingPageHref="/consulting" />
       <div style={{ height: 50 }} />
     </>
   )

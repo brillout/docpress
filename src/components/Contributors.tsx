@@ -60,15 +60,15 @@ function Maintainer({ maintainer }: { maintainer: (typeof maintainers)[0] }) {
         <div style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2, overflow: 'hidden' }}>
           <SupporterImg
             username={maintainer.username}
-            avatarUrl={maintainer.avatarUrl}
-            imgAlt={maintainer.fullName}
+            avatarUrl={getAvatarUrl(maintainer)}
+            imgAlt={maintainer.firstName}
             width={imgSize}
             height={imgSize}
           />
         </div>
       </a>
       <div>
-        <b>{maintainer.fullName}</b> ·{' '}
+        <b>{maintainer.firstName}</b> ·{' '}
         <a href={githubUrl}>
           <i style={{ fontSize: '.9em', color: '#505050' }}>{maintainer.username}</i>
         </a>
@@ -100,4 +100,13 @@ function Maintainer({ maintainer }: { maintainer: (typeof maintainers)[0] }) {
       </div>
     </div>
   )
+}
+
+function getAvatarUrl(maintainer: (typeof maintainers)[0]) {
+  for (const contributor of contributors) {
+    if (maintainer.username === contributor.login) {
+      return contributor.avatarUrl
+    }
+  }
+  throw new Error(`Maintainer ${maintainer.username} not found in contributors' list.`)
 }

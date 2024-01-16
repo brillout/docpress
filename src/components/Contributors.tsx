@@ -1,4 +1,4 @@
-export { Contributors }
+export { Contributors, Maintainer }
 
 import React from 'react'
 import { usePageContext } from '../renderer/usePageContext'

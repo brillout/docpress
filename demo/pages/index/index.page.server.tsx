@@ -1,7 +1,7 @@
 export { Page }
 
 import React from 'react'
-import { Contributors, Emoji, FeatureList, HorizontalLine, Sponsors } from '../../../src'
+import { Contributors, Emoji, FeatureList, HorizontalLine, Sponsors, Consulting } from '../../../src'
 import CodeBlock from './CodeBlock.mdx'
 
 function Page() {
@@ -15,6 +15,8 @@ function Page() {
       <Sponsors />
       <HorizontalLine />
       <Contributors />
+      <HorizontalLine />
+      <Consulting consultingPageHref="/consulting" />
       <div style={{ height: 50 }} />
     </>
   )

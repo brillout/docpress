@@ -6,6 +6,7 @@ type Config = {
   projectInfo: {
     githubRepository: string
     githubIssues: string
+    githubDiscussions?: string
     projectName: string
     projectNameJsx?: JSX.Element
     projectVersion: string

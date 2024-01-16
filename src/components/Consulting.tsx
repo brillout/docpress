@@ -7,20 +7,21 @@ import { SupporterSection, SectionDescription, CallToAction } from './Supporters
 import { Maintainer } from './Contributors'
 import { maintainers } from './maintainersList'
 import { Link } from './Link'
+const consultingPageHref = '/consutling'
 
-function Consulting({ consultingPageHref }: { consultingPageHref: string }) {
+function Consulting() {
   return (
     <SupporterSection>
       <CallToAction iconUrl={iconPeople} text="Consulting" href={consultingPageHref} />
       <div></div>
       <SectionDescription>
-        <ConsultingText {...{ consultingPageHref }} />
+        <ConsultingText />
       </SectionDescription>
     </SupporterSection>
   )
 }
 
-function ConsultingText({ consultingPageHref }: { consultingPageHref?: string }) {
+function ConsultingText() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
   const projectName = projectInfo.projectNameJsx || projectInfo.projectName
@@ -29,13 +30,9 @@ function ConsultingText({ consultingPageHref }: { consultingPageHref?: string })
       For issues related to {projectName}, open a{' '}
       <a href={projectInfo.githubDiscussions || projectInfo.githubIssues}>GitHub Discussion</a>. For advanced help, the{' '}
       {projectName} team offers{' '}
-      {consultingPageHref ? (
-        <Link href={consultingPageHref} noBreadcrumb>
-          consulting
-        </Link>
-      ) : (
-        'consulting'
-      )}
+      <Link href={consultingPageHref} noBreadcrumb>
+        consulting
+      </Link>
       .
     </>
   )

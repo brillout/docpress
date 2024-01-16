@@ -27,8 +27,8 @@ function ConsultingText({ consultingPageHref }: { consultingPageHref?: string })
   return (
     <>
       For issues related to {projectName}, open a{' '}
-      <a href={projectInfo.githubDiscussions || projectInfo.githubIssues}>GitHub Discussion</a>. If you have more than
-      just a few questions, the {projectName} team offers{' '}
+      <a href={projectInfo.githubDiscussions || projectInfo.githubIssues}>GitHub Discussion</a>. For advanced help, the{' '}
+      {projectName} team offers{' '}
       {consultingPageHref ? (
         <Link href={consultingPageHref} noBreadcrumb>
           consulting

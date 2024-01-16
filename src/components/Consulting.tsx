@@ -1,15 +1,18 @@
 export { Consulting, ConsultingText, Consultants }
 
 import React from 'react'
+import iconPeople from '../icons/people.svg'
 import { usePageContext } from '../renderer/usePageContext'
-import { SupporterSection, SectionDescription } from './Supporters'
+import { SupporterSection, SectionDescription, CallToAction } from './Supporters'
 import { Maintainer } from './Contributors'
 import { maintainers } from './maintainersList'
 import { Link } from './Link'
 
-function Consulting({ consultingPageHref }: { consultingPageHref?: string }) {
+function Consulting({ consultingPageHref }: { consultingPageHref: string }) {
   return (
     <SupporterSection>
+      <CallToAction iconUrl={iconPeople} text="Consulting" href={consultingPageHref} />
+      <div></div>
       <SectionDescription>
         <ConsultingText {...{ consultingPageHref }} />
       </SectionDescription>
@@ -20,12 +23,20 @@ function Consulting({ consultingPageHref }: { consultingPageHref?: string }) {
 function ConsultingText({ consultingPageHref }: { consultingPageHref?: string }) {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
+  const projectName = projectInfo.projectNameJsx || projectInfo.projectName
   return (
     <>
-      For concrete issues related to {projectInfo.projectNameJsx || projectInfo.projectName}, open a{' '}
+      For issues related to {projectName}, open a{' '}
       <a href={projectInfo.githubDiscussions || projectInfo.githubIssues}>GitHub Discussion</a>. If you have more than
-      just a few questions, some of us offer{' '}
-      {consultingPageHref ? <Link href={consultingPageHref}>consulting</Link> : 'consulting'} services.
+      just a few questions, the {projectName} team offers{' '}
+      {consultingPageHref ? (
+        <Link href={consultingPageHref} noBreadcrumb>
+          consulting
+        </Link>
+      ) : (
+        'consulting'
+      )}
+      .
     </>
   )
 }

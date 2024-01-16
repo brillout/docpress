@@ -5,7 +5,7 @@ import React from 'react'
 import iconHeart from '../icons/heart.svg'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, Emoji } from '../utils/server'
-import { Supporter, SupporterSection, SectionDescription, Individuals, SupporterImg } from './Supporters'
+import { Supporter, SupporterSection, SectionDescription, Individuals, SupporterImg, CallToAction } from './Supporters'
 import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
@@ -41,19 +41,7 @@ function Sponsors() {
   const sponsorsIndividuals = sponsorsList.filter(isIndividual)
   return (
     <SupporterSection>
-      <a
-        className="button"
-        href={`https://github.com/sponsors/${sponsorGithubAccount}`}
-        style={{
-          color: 'inherit',
-          display: 'inline-flex',
-          alignItems: 'center',
-          padding: '5px 10px',
-          marginBottom: 10
-        }}
-      >
-        <img src={iconHeart} height={22} /> <span style={{ marginLeft: 7, fontSize: '1.07em' }}>Sponsor</span>
-      </a>
+      <CallToAction iconUrl={iconHeart} text="Sponsor" href={`https://github.com/sponsors/${sponsorGithubAccount}`} />
       <div></div>
       <SectionDescription>
         {projectInfo.projectNameJsx || projectInfo.projectName} is free and open source, made possible by wonderful

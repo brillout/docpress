@@ -10,7 +10,7 @@ import medalGold from './Sponsors/medalGold.svg'
 import medalSilver from './Sponsors/medalSilver.svg'
 import medalBronze from './Sponsors/medalBronze.svg'
 import labelBgImg from './Sponsors/label.svg'
-import { sponsorsList } from './Sponsors/sponsorsList'
+import { sponsorsList } from '../data/sponsorsList'
 
 type Plan = 'indie' | 'bronze' | 'silver' | 'gold' | 'platinum'
 

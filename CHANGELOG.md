@@ -1,3 +1,17 @@
+## [0.5.34](https://github.com/brillout/docpress/compare/v0.5.33...v0.5.34) (2024-01-18)
+
+
+### Bug Fixes
+
+* update Inlang sponsor ([a557b19](https://github.com/brillout/docpress/commit/a557b193a55228b60b718b3a228328e3a164291f))
+
+
+### Features
+
+* display contributors ([c4f5f54](https://github.com/brillout/docpress/commit/c4f5f543bbb28645e6e1d1f66f4ff82554778f63))
+
+
+
 ## [0.5.33](https://github.com/brillout/docpress/compare/v0.5.32...v0.5.33) (2024-01-04)
 
 

@@ -86,6 +86,13 @@ const companies: Sponsor[] = [
     github: 'contra'
   },
   {
+    companyName: 'Inlang',
+    companyLogo: inlangLogo,
+    plan: 'silver',
+    website: 'https://inlang.com/',
+    github: 'inlang'
+  },
+  {
     companyName: 'Alignable',
     companyLogo: alignableLogo,
     plan: 'silver',
@@ -115,13 +122,6 @@ const companies: Sponsor[] = [
     plan: 'bronze',
     website: 'https://www.burda-forward.de',
     github: 'BurdaForward'
-  },
-  {
-    companyName: 'Inlang',
-    companyLogo: inlangLogo,
-    plan: 'indie',
-    website: 'https://inlang.com/',
-    github: 'inlang'
   },
   {
     companyName: 'Bluefin',

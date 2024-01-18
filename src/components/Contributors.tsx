@@ -51,6 +51,7 @@ function Maintainer({ maintainer }: { maintainer: (typeof maintainers)[0] }) {
         maxWidth: `calc(100vw - 2 * var(--main-view-padding) - 2 * ${marginWidth}px)`,
         margin: `${marginHeight}px ${marginWidth}px`,
         display: 'flex',
+        flexWrap: 'wrap',
         padding: 20,
         gap: 20,
         textAlign: 'left'

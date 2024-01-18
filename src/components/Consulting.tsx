@@ -20,7 +20,7 @@ function Consulting() {
       <SectionDescription>
         For questions and issues related to {projectName}, open a{' '}
         <a href={projectInfo.githubDiscussions || projectInfo.githubIssues}>GitHub Discussion</a>. For advanced help or
-        for help not directly related to {projectName}, the {projectName} team offers{' '}
+        help not directly related to {projectName}, the {projectName} team offers{' '}
         <Link href={consultingPageHref} noBreadcrumb>
           consulting
         </Link>

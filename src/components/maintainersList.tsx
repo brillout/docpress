@@ -68,5 +68,18 @@ const maintainers = [
         <code>vike-react</code> (Contributor)
       </>
     ]
+  },
+  {
+    username: '4350pChris',
+    firstName: 'Chris',
+    roles: [
+      <>
+        <code>vike-pinia</code> (Lead Maintainer, Creator)
+      </>,
+      <>
+        <code>vike-vue</code> (Contributor)
+      </>,
+      <>Vike Core (Contributor)</>
+    ]
   }
 ]

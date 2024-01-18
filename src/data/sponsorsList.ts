@@ -90,7 +90,7 @@ const companies: Sponsor[] = [
     companyLogo: inlangLogo,
     plan: 'silver',
     website: 'https://inlang.com/',
-    github: 'inlang'
+    github: 'opral'
   },
   {
     companyName: 'Alignable',

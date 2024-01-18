@@ -8,7 +8,6 @@ type Config = {
     githubIssues: string
     githubDiscussions?: string
     projectName: string
-    projectNameJsx?: JSX.Element
     projectVersion: string
     discordInvite: string
     twitterProfile: string

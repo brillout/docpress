@@ -1,13 +1,13 @@
 export { sponsorsList }
 
-import type { Sponsor } from '../Sponsors'
-import contraLogo from './companyLogos/contra.svg'
-import optimizersLogo from './companyLogos/optimizers.svg'
-import sourcegraphLogo from './companyLogos/sourcegraph.svg'
-import burdaforwardLogo from './companyLogos/burdaforward.png'
-import inlangLogo from './companyLogos/inlang.png'
-import bluefinLogo from './companyLogos/bluefin.svg'
-import alignableLogo from './companyLogos/alignable.svg'
+import type { Sponsor } from '../components/Sponsors'
+import contraLogo from './sponsorsList/companyLogos/contra.svg'
+import optimizersLogo from './sponsorsList/companyLogos/optimizers.svg'
+import sourcegraphLogo from './sponsorsList/companyLogos/sourcegraph.svg'
+import burdaforwardLogo from './sponsorsList/companyLogos/burdaforward.png'
+import inlangLogo from './sponsorsList/companyLogos/inlang.png'
+import bluefinLogo from './sponsorsList/companyLogos/bluefin.svg'
+import alignableLogo from './sponsorsList/companyLogos/alignable.svg'
 
 const individuals: Sponsor[] = [
   { username: 'shishkin17' },

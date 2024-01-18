@@ -3,7 +3,7 @@ export { Contributors, Maintainer }
 import React from 'react'
 import { usePageContext } from '../renderer/usePageContext'
 import { Supporter, SupporterSection, SectionDescription, Individuals, SupporterImg } from './Supporters'
-import { maintainers } from './maintainersList'
+import { maintainers } from '../data/maintainersList'
 import { contributors } from 'vike-contributors' // sorted by number of contributions
 
 function Contributors() {

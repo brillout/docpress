@@ -5,7 +5,7 @@ import iconPeople from '../icons/people.svg'
 import { usePageContext } from '../renderer/usePageContext'
 import { SupporterSection, SectionDescription, CallToAction } from './Supporters'
 import { Maintainer } from './Contributors'
-import { maintainers } from './maintainersList'
+import { maintainers } from '../data/maintainersList'
 import { Link } from './Link'
 const consultingPageHref = '/consulting'
 

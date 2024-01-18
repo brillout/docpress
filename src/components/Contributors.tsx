@@ -12,7 +12,7 @@ function Contributors() {
   return (
     <SupporterSection>
       <SectionDescription>
-        {projectInfo.projectNameJsx || projectInfo.projectName} is built and maintained by passionate contributors.
+        {projectInfo.projectName} is built and maintained by passionate contributors.
       </SectionDescription>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', alignItems: 'end' }}>
         {maintainers.map((maintainer, i) => (

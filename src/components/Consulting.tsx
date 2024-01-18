@@ -12,7 +12,7 @@ const consultingPageHref = '/consulting'
 function Consulting() {
   const pageContext = usePageContext()
   const { projectInfo } = pageContext.config
-  const projectName = projectInfo.projectNameJsx || projectInfo.projectName
+  const { projectName } = projectInfo
   return (
     <SupporterSection>
       <CallToAction iconUrl={iconPeople} text="Consulting" href={consultingPageHref} />

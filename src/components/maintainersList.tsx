@@ -49,7 +49,7 @@ const maintainers = [
         <code>vike-react-query</code> (Lead Maintainer, Creator)
       </>,
       <>
-        <code>vike-react-zustand</code> (Lead Maintainer, Creator)
+        <code>vike-angular</code> (Lead Maintainer, Creator)
       </>,
       <>Vike Core (Contributor)</>
     ]

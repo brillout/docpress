@@ -42,8 +42,8 @@ importers:
         specifier: ^0.4.151
         version: 0.4.151(vite@4.3.9)
       vike-contributors:
-        specifier: ^0.0.5
-        version: 0.0.5
+        specifier: ^0.0.6
+        version: 0.0.6
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@15.14.9)
@@ -3999,8 +3999,8 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
-  /vike-contributors@0.0.5:
-    resolution: {integrity: sha512-OhEoCs/TPOgYtYcuTtRx6wdMhhjk8uiTtuT+Cmd7z/zCCdSXva6/nwmvtBl4vSdqJDvI4iqChuZN41iBG4yimA==}
+  /vike-contributors@0.0.6:
+    resolution: {integrity: sha512-KWn1FudirXoJlsoY5sHeCjVnbV5Uv+c45/3KkY4Dbm0lI3E0GjYXGMF/y9NJl9jEZ4XTz+YP3Usxtl4Mazr+bA==}
     requiresBuild: true
     dev: false
 

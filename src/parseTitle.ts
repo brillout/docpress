@@ -12,7 +12,7 @@ function getHeadingsWithProcessedTitle(config: {
   headingsProcessed: Heading[]
   headingsDetachedProcessed: HeadingDetached[]
 } {
-  const headingsWithoutParent: Omit<Heading, 'headingsBreadcrumb'>[] = config.headings.map((heading: HeadingDefinition) => {
+  const headingsWithoutBreadcrumb: Omit<Heading, 'headingsBreadcrumb'>[] = config.headings.map((heading: HeadingDefinition) => {
     const titleProcessed: JSX.Element = parseTitle(heading.title)
 
     const titleInNav = heading.titleInNav || heading.title
@@ -32,9 +32,12 @@ function getHeadingsWithProcessedTitle(config: {
   })
 
   const headingsProcessed: Heading[] = []
-  headingsWithoutParent.forEach((heading) => {
-    const headingsBreadcrumb = findParentHeadings(heading, headingsProcessed)
-    headingsProcessed.push({ ...heading, headingsBreadcrumb })
+  headingsWithoutBreadcrumb.forEach((heading) => {
+    const headingsBreadcrumb = getHeadingsBreadcrumb(heading, headingsProcessed)
+    headingsProcessed.push({
+      ...heading,
+      headingsBreadcrumb
+    })
   })
 
   const headingsDetachedProcessed = config.headingsDetached.map((headingsDetached) => {
@@ -57,7 +60,7 @@ function getHeadingsWithProcessedTitle(config: {
   return { headingsProcessed, headingsDetachedProcessed }
 }
 
-function findParentHeadings(heading: Omit<Heading, 'headingsBreadcrumb'>, headings: Heading[]) {
+function getHeadingsBreadcrumb(heading: Omit<Heading, 'headingsBreadcrumb'>, headings: Heading[]) {
   const headingsBreadcrumb: Heading[] = []
   let levelCurrent = heading.level
   headings

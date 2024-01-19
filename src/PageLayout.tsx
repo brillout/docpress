@@ -24,7 +24,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
             <div id="page-container">
               <MobileHeader />
               <div id="page-content">
-                { globalNote }
+                {globalNote}
                 {pageTitle && <h1>{pageTitle}</h1>}
                 {children}
                 {!isLandingPage && <EditPageNote pageContext={pageContext} />}

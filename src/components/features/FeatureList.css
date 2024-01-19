@@ -110,7 +110,9 @@ aside.learn-more.right-side {
 }
 
 .feature .chevron {
-  transition: filter 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+  transition:
+    filter 0.3s ease-in-out,
+    transform 0.3s ease-in-out !important;
 }
 .feature.selected .chevron {
   transform: rotate(180deg);

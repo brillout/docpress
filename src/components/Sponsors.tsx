@@ -44,8 +44,7 @@ function Sponsors() {
       <CallToAction iconUrl={iconHeart} text="Sponsor" href={`https://github.com/sponsors/${sponsorGithubAccount}`} />
       <div></div>
       <SectionDescription>
-        {projectInfo.projectName} is free and open source, made possible by wonderful
-        sponsors.
+        {projectInfo.projectName} is free and open source, made possible by wonderful sponsors.
       </SectionDescription>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', alignItems: 'end' }}>
         {sponsorsCompanies.map((sponsor, i) => (

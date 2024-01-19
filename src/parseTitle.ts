@@ -12,24 +12,26 @@ function getHeadingsWithProcessedTitle(config: {
   headingsProcessed: Heading[]
   headingsDetachedProcessed: HeadingDetached[]
 } {
-  const headingsWithoutBreadcrumb: Omit<Heading, 'headingsBreadcrumb'>[] = config.headings.map((heading: HeadingDefinition) => {
-    const titleProcessed: JSX.Element = parseTitle(heading.title)
+  const headingsWithoutBreadcrumb: Omit<Heading, 'headingsBreadcrumb'>[] = config.headings.map(
+    (heading: HeadingDefinition) => {
+      const titleProcessed: JSX.Element = parseTitle(heading.title)
 
-    const titleInNav = heading.titleInNav || heading.title
-    let titleInNavProcessed: JSX.Element
-    titleInNavProcessed = parseTitle(titleInNav)
-    if ('titleEmoji' in heading) {
-      assert(heading.titleEmoji)
-      titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
-    }
+      const titleInNav = heading.titleInNav || heading.title
+      let titleInNavProcessed: JSX.Element
+      titleInNavProcessed = parseTitle(titleInNav)
+      if ('titleEmoji' in heading) {
+        assert(heading.titleEmoji)
+        titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
+      }
 
-    const headingProcessed: Omit<Heading, 'headingsBreadcrumb'> = {
-      ...heading,
-      title: titleProcessed,
-      titleInNav: titleInNavProcessed
+      const headingProcessed: Omit<Heading, 'headingsBreadcrumb'> = {
+        ...heading,
+        title: titleProcessed,
+        titleInNav: titleInNavProcessed
+      }
+      return headingProcessed
     }
-    return headingProcessed
-  })
+  )
 
   const headingsProcessed: Heading[] = []
   headingsWithoutBreadcrumb.forEach((heading) => {

@@ -12,7 +12,7 @@ function getHeadingsWithProcessedTitle(config: {
   headingsProcessed: Heading[]
   headingsDetachedProcessed: HeadingDetached[]
 } {
-  const headingsWithoutParent: Omit<Heading, 'parentHeadings'>[] = config.headings.map((heading: HeadingDefinition) => {
+  const headingsWithoutParent: Omit<Heading, 'headingsBreadcrumb'>[] = config.headings.map((heading: HeadingDefinition) => {
     const titleProcessed: JSX.Element = parseTitle(heading.title)
 
     const titleInNav = heading.titleInNav || heading.title
@@ -23,7 +23,7 @@ function getHeadingsWithProcessedTitle(config: {
       titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
     }
 
-    const headingProcessed: Omit<Heading, 'parentHeadings'> = {
+    const headingProcessed: Omit<Heading, 'headingsBreadcrumb'> = {
       ...heading,
       title: titleProcessed,
       titleInNav: titleInNavProcessed
@@ -33,8 +33,8 @@ function getHeadingsWithProcessedTitle(config: {
 
   const headingsProcessed: Heading[] = []
   headingsWithoutParent.forEach((heading) => {
-    const parentHeadings = findParentHeadings(heading, headingsProcessed)
-    headingsProcessed.push({ ...heading, parentHeadings })
+    const headingsBreadcrumb = findParentHeadings(heading, headingsProcessed)
+    headingsProcessed.push({ ...heading, headingsBreadcrumb })
   })
 
   const headingsDetachedProcessed = config.headingsDetached.map((headingsDetached) => {
@@ -49,7 +49,7 @@ function getHeadingsWithProcessedTitle(config: {
       level: 2 as const,
       title: titleProcessed,
       titleInNav: titleProcessed,
-      parentHeadings: null
+      headingsBreadcrumb: null
     }
   })
 
@@ -57,8 +57,8 @@ function getHeadingsWithProcessedTitle(config: {
   return { headingsProcessed, headingsDetachedProcessed }
 }
 
-function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: Heading[]) {
-  const parentHeadings: Heading[] = []
+function findParentHeadings(heading: Omit<Heading, 'headingsBreadcrumb'>, headings: Heading[]) {
+  const headingsBreadcrumb: Heading[] = []
   let levelCurrent = heading.level
   headings
     .slice()
@@ -67,10 +67,10 @@ function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: 
       const isParent = parentCandidate.level < levelCurrent
       if (isParent) {
         levelCurrent = parentCandidate.level
-        parentHeadings.push(parentCandidate)
+        headingsBreadcrumb.push(parentCandidate)
       }
     })
-  return parentHeadings
+  return headingsBreadcrumb
 }
 
 function assertHeadingsUrl(headings: { url?: null | string }[]) {

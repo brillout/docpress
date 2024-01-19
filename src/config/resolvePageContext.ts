@@ -167,7 +167,7 @@ function getHeadingsOfTheCurrentPage(
       const heading: Heading = {
         url,
         title,
-        parentHeadings: [currentHeading, ...(currentHeading.parentHeadings ?? [])],
+        headingsBreadcrumb: [currentHeading, ...(currentHeading.headingsBreadcrumb ?? [])],
         titleInNav: title,
         level: 3
       }

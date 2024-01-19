@@ -76,9 +76,9 @@ function getLinkText({
 
   const breadcrumbParts: (string | JSX.Element)[] = []
 
-  if (heading.parentHeadings) {
+  if (heading.headingsBreadcrumb) {
     breadcrumbParts.push(
-      ...(heading.parentHeadings ?? [])
+      ...(heading.headingsBreadcrumb ?? [])
         .slice()
         .reverse()
         .map(({ title }) => title)

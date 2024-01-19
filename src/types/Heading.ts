@@ -8,12 +8,12 @@ import type { EmojiName } from '../utils/server'
 type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
   title: JSX.Element
   titleInNav: JSX.Element
-  parentHeadings: (Heading | HeadingDetached)[]
+  headingsBreadcrumb: (Heading | HeadingDetached)[]
   sectionTitles?: string[]
 }
-type HeadingDetached = Omit<Heading, 'level' | 'parentHeadings'> & {
+type HeadingDetached = Omit<Heading, 'level' | 'headingsBreadcrumb'> & {
   level: 2
-  parentHeadings: null
+  headingsBreadcrumb: null
 }
 type HeadingDetachedDefinition = {
   url: string

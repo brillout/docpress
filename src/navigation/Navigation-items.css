@@ -117,6 +117,3 @@ html.navigation-fullscreen .nav-item {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: var(--expend-border-radius);
 }
-.nav-item-h3.nav-item-parent-is-list-heading {
-  --padding-left-additional: 21px;
-}

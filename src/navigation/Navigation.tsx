@@ -87,7 +87,6 @@ function Heading({
       isActive: boolean
       isActiveFirst: boolean
       isActiveLast: boolean
-      isChildOfListHeading: boolean
       isFirstOfItsKind: boolean
       isLastOfItsKind: boolean
     }
@@ -113,7 +112,6 @@ function Heading({
         heading.computed.isActive && ' is-active',
         heading.computed.isActiveFirst && ' is-active-first',
         heading.computed.isActiveLast && ' is-active-last',
-        heading.computed.isChildOfListHeading && 'nav-item-parent-is-list-heading',
         heading.computed.isFirstOfItsKind && 'nav-item-first-of-its-kind',
         heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind'
       ]
@@ -167,7 +165,6 @@ function getHeadingsWithComputedProps(headings: (Heading | HeadingDetached)[], c
 
     const isFirstOfItsKind = heading.level !== headingPrevious?.level
     const isLastOfItsKind = heading.level !== headingNext?.level
-    const isChildOfListHeading = !!heading.parentHeadings && !!heading.parentHeadings[0]?.isListTitle
 
     return {
       ...heading,
@@ -176,8 +173,7 @@ function getHeadingsWithComputedProps(headings: (Heading | HeadingDetached)[], c
         isActiveFirst,
         isActiveLast,
         isFirstOfItsKind,
-        isLastOfItsKind,
-        isChildOfListHeading
+        isLastOfItsKind
       }
     }
   })
@@ -211,39 +207,5 @@ function DetachedPageNote() {
         &mdash; this page isn't listed in the navigation below.
       </span>
     </div>
-  )
-}
-
-function ScrollOverlay() {
-  // const width = '1px'
-  // const color = '#aaa'
-  return (
-    <div
-      id="scroll-overlay"
-      style={{
-        pointerEvents: 'none',
-        position: 'absolute',
-        left: '0',
-        width: '100%',
-        /*
-        background: `linear-gradient(to right, ${color} ${width}, transparent ${width}) 0 0,
-    linear-gradient(to right, ${color} ${width}, transparent ${width}) 0 100%,
-    linear-gradient(to left, ${color} ${width}, transparent ${width}) 100% 0,
-    linear-gradient(to left, ${color} ${width}, transparent ${width}) 100% 100%,
-    linear-gradient(to bottom, ${color} ${width}, transparent ${width}) 0 0,
-    linear-gradient(to bottom, ${color} ${width}, transparent ${width}) 100% 0,
-    linear-gradient(to top, ${color} ${width}, transparent ${width}) 0 100%,
-    linear-gradient(to top, ${color} ${width}, transparent ${width}) 100% 100%`,
-        //*/
-        //borderRight: `5px solid ${color}`,
-        borderRight: `3px solid #666`,
-        //border: `1px solid ${color}`,
-        boxSizing: 'border-box',
-        // backgroundColor: 'rgba(0,0,0,0.03)',
-        backgroundRepeat: 'no-repeat',
-
-        backgroundSize: '10px 10px'
-      }}
-    />
   )
 }

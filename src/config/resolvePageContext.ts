@@ -1,7 +1,7 @@
 import { assert, jsxToTextContent, objectAssign } from '../utils/server'
 import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
 import type { Heading, HeadingDetached } from '../parseTitle'
-import type { PageContextBuiltIn } from 'vike/types'
+import type { PageContextBuiltInServer } from 'vike/types'
 import type { MarkdownHeading } from '../markdownHeadingsVitePlugin'
 import type { Config } from './Config'
 import { getConfig } from './getConfig'
@@ -15,7 +15,7 @@ type ReactComponent = () => JSX.Element
 type Exports = {
   headings?: MarkdownHeading[]
 }
-type PageContextOriginal = PageContextBuiltIn & {
+type PageContextOriginal = PageContextBuiltInServer & {
   Page: ReactComponent
   exports: Exports
 }

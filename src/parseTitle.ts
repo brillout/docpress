@@ -8,8 +8,6 @@ export type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
   title: JSX.Element
   titleInNav: JSX.Element
   parentHeadings: (Heading | HeadingDetached)[]
-  // Not sure why this is needed
-  isListTitle?: true
   sectionTitles?: string[]
 }
 export type HeadingDetached = Omit<Heading, 'level' | 'parentHeadings'> & {
@@ -27,7 +25,6 @@ export type HeadingDefinition = HeadingBase &
     | ({ level: 4 } & HeadingAbstract)
     | {
         level: 2
-        isListTitle?: true
         sectionTitles?: string[]
         url: null | string
       }
@@ -62,16 +59,7 @@ function getHeadingsWithProcessedTitle(config: {
 
     const titleInNav = heading.titleInNav || heading.title
     let titleInNavProcessed: JSX.Element
-    if ('isListTitle' in heading) {
-      assert(heading.isListTitle === true)
-      let titleParsed: JSX.Element = parseTitle(titleInNav)
-      // if (heading.titleSize) {
-      //   titleParsed = React.createElement('span', { style: { fontSize: heading.titleSize } }, titleParsed)
-      // }
-      titleInNavProcessed = React.createElement(React.Fragment, {}, getListPrefix(), titleParsed)
-    } else {
-      titleInNavProcessed = parseTitle(titleInNav)
-    }
+    titleInNavProcessed = parseTitle(titleInNav)
     if ('titleEmoji' in heading) {
       assert(heading.titleEmoji)
       titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
@@ -114,26 +102,12 @@ function getHeadingsWithProcessedTitle(config: {
 function findParentHeadings(heading: Omit<Heading, 'parentHeadings'>, headings: Heading[]) {
   const parentHeadings: Heading[] = []
   let levelCurrent = heading.level
-  let listTitleParentFound = false
   headings
     .slice()
     .reverse()
     .forEach((parentCandidate) => {
-      let isListTitleParent = false
-      if (
-        !listTitleParentFound &&
-        levelCurrent === heading.level &&
-        parentCandidate.level === heading.level &&
-        !parentCandidate.isListTitle &&
-        heading.isListTitle
-      ) {
-        isListTitleParent = true
-        listTitleParentFound = true
-      }
-
       const isParent = parentCandidate.level < levelCurrent
-
-      if (isParent || isListTitleParent) {
+      if (isParent) {
         levelCurrent = parentCandidate.level
         parentHeadings.push(parentCandidate)
       }
@@ -148,12 +122,6 @@ function assertHeadingsUrl(headings: { url?: null | string }[]) {
       assert(url.startsWith('/'))
     }
   })
-}
-
-function getListPrefix() {
-  const nonBreakingSpace = String.fromCodePoint(0x00a0)
-  const bulletPoint = String.fromCodePoint(0x2022)
-  return nonBreakingSpace + bulletPoint + nonBreakingSpace
 }
 
 function parseTitle(title: string): JSX.Element {

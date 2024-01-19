@@ -5,6 +5,7 @@ import contraLogo from './sponsorsList/companyLogos/contra.svg'
 import optimizersLogo from './sponsorsList/companyLogos/optimizers.svg'
 import sourcegraphLogo from './sponsorsList/companyLogos/sourcegraph.svg'
 import burdaforwardLogo from './sponsorsList/companyLogos/burdaforward.png'
+import ecosiaLogo from './sponsorsList/companyLogos/ecosia.svg'
 import inlangLogo from './sponsorsList/companyLogos/inlang.png'
 import bluefinLogo from './sponsorsList/companyLogos/bluefin.svg'
 import alignableLogo from './sponsorsList/companyLogos/alignable.svg'
@@ -122,6 +123,13 @@ const companies: Sponsor[] = [
     plan: 'bronze',
     website: 'https://www.burda-forward.de',
     github: 'BurdaForward'
+  },
+  {
+    companyName: 'Ecosia',
+    companyLogo: ecosiaLogo,
+    plan: 'bronze',
+    website: 'https://ecosia.org',
+    github: 'ecosia'
   },
   {
     companyName: 'Bluefin',

@@ -33,11 +33,11 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   )
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
-  headingsAll = getHeadingsWithSubHeadings(headingsAll, pageContext, activeHeading)
+  headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
   if (activeNavigationHeading) {
-    headingsProcessed = getHeadingsWithSubHeadings(headingsProcessed, pageContext, activeNavigationHeading)
+    headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
   } else {
-    headingsOfDetachedPage = [activeHeading, ...getPageHeadings(pageContext, activeHeading)]
+    headingsOfDetachedPage = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
   }
   const { title, isLandingPage, pageTitle } = getMetaData(
     headingsDetachedProcessed,
@@ -134,25 +134,25 @@ function findHeading(
   return { activeHeading, activeNavigationHeading }
 }
 
-function getHeadingsWithSubHeadings<T extends Heading | HeadingDetached>(
+function getHeadingsAll<T extends Heading | HeadingDetached>(
   headingsProcessed: T[],
   pageContext: { exports: Exports; urlOriginal: string },
   activeHeading: T
 ): T[] {
-  const headingsProcessedWithSubHeadings = headingsProcessed.slice()
+  const headingsAll = headingsProcessed.slice()
 
-  const pageHeadings = getPageHeadings(pageContext, activeHeading)
+  const headingsOfTheCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
-  const activeHeadingIdx = headingsProcessedWithSubHeadings.indexOf(activeHeading)
+  const activeHeadingIdx = headingsAll.indexOf(activeHeading)
   assert(activeHeadingIdx >= 0)
-  pageHeadings.forEach((pageHeading, i) => {
-    headingsProcessedWithSubHeadings.splice(activeHeadingIdx + 1 + i, 0, pageHeading as T)
+  headingsOfTheCurrentPage.forEach((pageHeading, i) => {
+    headingsAll.splice(activeHeadingIdx + 1 + i, 0, pageHeading as T)
   })
 
-  return headingsProcessedWithSubHeadings
+  return headingsAll
 }
 
-function getPageHeadings(
+function getHeadingsOfTheCurrentPage(
   pageContext: { exports: Exports; urlOriginal: string },
   currentHeading: Heading | HeadingDetached
 ) {

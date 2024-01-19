@@ -3,7 +3,7 @@ export { NavigationMask }
 
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
-import { Heading, HeadingDetached } from '../parseTitle'
+import { Heading, HeadingDetached } from '../types/Heading'
 import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'

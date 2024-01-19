@@ -1,6 +1,6 @@
 export type { Config }
 
-import type { HeadingDefinition, HeadingDetachedDefinition } from '../parseTitle'
+import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading'
 
 type Config = {
   projectInfo: {

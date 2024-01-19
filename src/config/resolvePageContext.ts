@@ -1,10 +1,10 @@
 import { assert, jsxToTextContent, objectAssign } from '../utils/server'
-import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
-import type { Heading, HeadingDetached } from '../parseTitle'
+import type { Heading, HeadingDetached } from '../types/Heading'
 import type { PageContextBuiltInServer } from 'vike/types'
 import type { MarkdownHeading } from '../markdownHeadingsVitePlugin'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
+import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
 
 export { resolvePageContext }
 export type { PageContextOriginal }

@@ -1,51 +1,9 @@
-import React from 'react'
-import { assert, Emoji, EmojiName } from './utils/server'
-
 export { parseTitle }
 export { getHeadingsWithProcessedTitle }
 
-export type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
-  title: JSX.Element
-  titleInNav: JSX.Element
-  parentHeadings: (Heading | HeadingDetached)[]
-  sectionTitles?: string[]
-}
-export type HeadingDetached = Omit<Heading, 'level' | 'parentHeadings'> & {
-  level: 2
-  parentHeadings: null
-}
-export type HeadingDetachedDefinition = {
-  url: string
-  title: string | JSX.Element
-  sectionTitles?: string[]
-}
-export type HeadingDefinition = HeadingBase &
-  (
-    | ({ level: 1; titleEmoji: EmojiName } & HeadingAbstract)
-    | ({ level: 4 } & HeadingAbstract)
-    | {
-        level: 2
-        sectionTitles?: string[]
-        url: null | string
-      }
-    | {
-        level: 3
-        url: null | string
-      }
-  )
-type HeadingBase = {
-  title: string
-  level: number
-  url?: null | string
-  titleDocument?: string
-  titleInNav?: string
-  // titleSize?: string
-}
-type HeadingAbstract = {
-  url?: undefined
-  titleDocument?: undefined
-  titleInNav?: undefined
-}
+import React from 'react'
+import type { HeadingDefinition, HeadingDetachedDefinition, Heading, HeadingDetached } from './types/Heading'
+import { assert, Emoji, EmojiName } from './utils/server'
 
 function getHeadingsWithProcessedTitle(config: {
   headings: HeadingDefinition[]

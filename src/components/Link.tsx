@@ -2,10 +2,11 @@ export { Link }
 
 import React from 'react'
 import { isRepoLink, RepoLink } from './RepoLink'
-import { parseTitle, Heading, HeadingDetached } from '../parseTitle'
-import { PageContextResolved } from '../config/resolvePageContext'
+import type { Heading, HeadingDetached } from '../types/Heading'
+import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
+import { parseTitle } from '../parseTitle'
 
 function Link({
   href,

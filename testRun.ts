@@ -23,7 +23,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   test('/features', async () => {
     await page.goto(getServerUrl() + '/features')
     const text = await page.textContent('body')
-    expect(text).toContain('Some global note.')
+    expect(text).toContain('Some glo0bal note.')
     expect(text).toContain('Another page: Another Section > Some Page.')
   })
 }

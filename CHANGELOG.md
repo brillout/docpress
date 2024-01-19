@@ -1,3 +1,12 @@
+## [0.5.36](https://github.com/brillout/docpress/compare/v0.5.35...v0.5.36) (2024-01-19)
+
+
+### Features
+
+* add ecosia to sponsors' list ([370cddc](https://github.com/brillout/docpress/commit/370cddcfbda77f360ea1b17bc71990f02d584b39))
+
+
+
 ## [0.5.35](https://github.com/brillout/docpress/compare/v0.5.34...v0.5.35) (2024-01-19)
 
 

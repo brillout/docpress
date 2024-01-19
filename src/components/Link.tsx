@@ -32,12 +32,12 @@ function Link({
   } else {
     const pageContext = usePageContext()
     return (
-      <a href={href}>{children || text || getTitle({ href, noBreadcrumb, pageContext, doNotInferSectionTitle })}</a>
+      <a href={href}>{children || text || getLinkText({ href, noBreadcrumb, pageContext, doNotInferSectionTitle })}</a>
     )
   }
 }
 
-function getTitle({
+function getLinkText({
   href,
   noBreadcrumb,
   pageContext,
@@ -74,10 +74,10 @@ function getTitle({
   assert(isLinkOnSamePage === (heading.url === pageContext.activeHeading.url))
   assert(isLinkOnSamePage === (heading === pageContext.activeHeading))
 
-  const breadcrumbs: (string | JSX.Element)[] = []
+  const breadcrumbParts: (string | JSX.Element)[] = []
 
   if (heading.parentHeadings) {
-    breadcrumbs.push(
+    breadcrumbParts.push(
       ...(heading.parentHeadings ?? [])
         .slice()
         .reverse()
@@ -85,7 +85,7 @@ function getTitle({
     )
   }
 
-  breadcrumbs.push(heading.title)
+  breadcrumbParts.push(heading.title)
 
   if (urlHash) {
     let sectionTitle: string | JSX.Element | undefined = undefined
@@ -107,18 +107,18 @@ function getTitle({
       )
       sectionTitle = determineSectionTitle(href)
     }
-    breadcrumbs.push(sectionTitle)
+    breadcrumbParts.push(sectionTitle)
   }
 
   {
     if (noBreadcrumb || isLinkOnSamePage) {
-      return breadcrumbs[breadcrumbs.length - 1]
+      return breadcrumbParts[breadcrumbParts.length - 1]
     }
   }
 
   return (
     <>
-      {breadcrumbs.map((title, i) => {
+      {breadcrumbParts.map((title, i) => {
         const seperator = i === 0 ? <></> : ' > '
         return (
           <React.Fragment key={i}>

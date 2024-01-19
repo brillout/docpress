@@ -1,6 +1,6 @@
 export { getConfig }
 import { assert, assertUsage } from '../utils/server'
-import { Config } from './Config'
+import { Config } from '../types/Config'
 
 function getConfig(): Config {
   // We use `@ts-ignore` because the DocPress user most likely didn't add `vite/client` in his `tsconfig.json`.

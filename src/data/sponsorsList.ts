@@ -135,7 +135,7 @@ const companies: Sponsor[] = [
     companyName: 'Bluefin',
     companyLogo: bluefinLogo,
     plan: 'indie',
-    website: 'https://https://www.bluefin.one',
+    website: 'https://www.bluefin.one',
     github: 'bluefin-clinical'
   }
 ]

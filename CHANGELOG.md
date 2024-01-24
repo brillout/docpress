@@ -1,3 +1,13 @@
+## [0.5.37](https://github.com/brillout/docpress/compare/v0.5.36...v0.5.37) (2024-01-24)
+
+
+### Bug Fixes
+
+* broken link ([c0b29c1](https://github.com/brillout/docpress/commit/c0b29c19a4d7556acb2f665736aaa9bc25c36a89))
+* update contributors' list ([c619285](https://github.com/brillout/docpress/commit/c619285ba3296ffd4d6b3fe7309b287b1653bd38))
+
+
+
 ## [0.5.36](https://github.com/brillout/docpress/compare/v0.5.35...v0.5.36) (2024-01-19)
 
 

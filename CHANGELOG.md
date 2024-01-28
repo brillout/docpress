@@ -1,3 +1,12 @@
+## [0.5.38](https://github.com/brillout/docpress/compare/v0.5.37...v0.5.38) (2024-01-28)
+
+
+### Bug Fixes
+
+* update sponsors and contributors ([5cca3e3](https://github.com/brillout/docpress/commit/5cca3e383a0867bc72b4f0742fea7ee5e54f15b7))
+
+
+
 ## [0.5.37](https://github.com/brillout/docpress/compare/v0.5.36...v0.5.37) (2024-01-24)
 
 

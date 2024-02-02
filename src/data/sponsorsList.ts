@@ -41,7 +41,9 @@ const individuals: Sponsor[] = [
   { username: 'talzion12' },
   { username: 'felixhaeberle' },
   { username: 'apappas1129' },
+  /* 404
   { username: 'agalbenus' },
+  */
   { username: 'phiberber' },
   { username: 'cookieplace' },
   { username: 'JiangWeixian' },

@@ -1,7 +1,7 @@
 export { headings }
 export { headingsDetached }
 
-import type { HeadingDefinition, HeadingDetachedDefinition } from '../src'
+import type { HeadingDefinition, HeadingDetachedDefinition } from '@brillout/docpress'
 
 const headingsDetached: HeadingDetachedDefinition[] = [
   {

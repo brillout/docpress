@@ -1,5 +1,5 @@
-import type { Config } from '../src'
-import { Warning } from '../src'
+import type { Config } from '@brillout/docpress'
+import { Warning } from '@brillout/docpress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsDetached } from './headings'

@@ -24,8 +24,8 @@
   },
   "type": "module",
   "exports": {
-    "./renderer/_default.page.server.tsx": "./renderer/_default.page.server.tsx",
-    "./renderer/_default.page.client.ts": "./renderer/_default.page.client.ts",
+    "./renderer/onRenderHtml.tsx": "./renderer/onRenderHtml.tsx",
+    "./renderer/client.ts": "./renderer/client.ts",
     ".": "./index.ts",
     "./features/FeatureList": "./components/features/FeatureList.tsx",
     "./features/FeatureList.css": {

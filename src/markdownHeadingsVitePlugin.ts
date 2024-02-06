@@ -17,7 +17,7 @@ function markdownHeadingsVitePlugin() {
     name: 'mdx-headings',
     enforce: 'pre',
     transform: async (code: string, id: string) => {
-      if (!id.includes('.page.') || !id.endsWith('.mdx')) {
+      if (!id.endsWith('+Page.mdx')) {
         return
       }
       const codeNew = transform(code)

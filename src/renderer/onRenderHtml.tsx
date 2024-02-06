@@ -1,3 +1,5 @@
+export { onRenderHtml }
+
 import ReactDOMServer from 'react-dom/server'
 import React from 'react'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
@@ -7,9 +9,7 @@ import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
 import { parseEmojis } from '../parseEmojis'
 import { assert } from '../utils/server'
 
-export { render }
-
-async function render(pageContextOriginal: PageContextOriginal) {
+async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
   const { Page } = pageContextOriginal
   const pageContextResolved = resolvePageContext(pageContextOriginal)
 

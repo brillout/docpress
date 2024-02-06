@@ -1,1 +1,1 @@
-export { default } from '../src/vite.config'
+export { default } from '@brillout/docpress/vite-config'

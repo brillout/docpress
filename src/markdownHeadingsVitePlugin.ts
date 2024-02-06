@@ -1,8 +1,8 @@
 export { markdownHeadingsVitePlugin }
 export type { MarkdownHeading }
 
-import { assert } from '../src/utils/assert'
-import { determineSectionUrlHash } from '../src/utils/determineSectionUrlHash'
+import { assert } from './utils/assert.js'
+import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
 import os from 'os'
 
 type MarkdownHeading = {

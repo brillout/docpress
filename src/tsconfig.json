@@ -9,9 +9,6 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     // "noUncheckedIndexedAccess": true,
-    "strict": true,
-    "outDir": "./dist/"
-  },
-  "rootDir": "./src/",
-  "include": ["src/**/*"]
+    "strict": true
+  }
 }

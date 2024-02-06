@@ -7,8 +7,10 @@
     "types": "cd src/ && pnpm run types",
     "// Test": "",
     "test": "test-e2e",
+    "========= Build": "",
+    "build": "cd src/ && pnpm run build",
     "========= Clean": "",
-    "reset": "git clean -Xdf && pnpm install",
+    "reset": "git clean -Xdf && pnpm install && pnpm run build",
     "========= Release": "",
     "release": "cd src/ && pnpm run release",
     "release:breaking-change": "cd src/ && pnpm run release:breaking-change"

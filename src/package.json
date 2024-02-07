@@ -35,10 +35,7 @@
     "./features/initFeatureList": {
       "browser": "./components/features/initFeatureList.ts"
     },
-    "./vite-config": {
-      "default": "./dist/vite.config.js",
-      "types": "./dist/vite.config.d.ts"
-    }
+    "./vite-config": "./dist/vite.config.js"
   },
   "typesVersions": {
     "*": {

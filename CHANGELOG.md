@@ -1,3 +1,12 @@
+## [0.5.40](https://github.com/brillout/docpress/compare/v0.5.39...v0.5.40) (2024-02-07)
+
+
+### Bug Fixes
+
+* remove AurelienLourot from consultants ([0e5e091](https://github.com/brillout/docpress/commit/0e5e091d7fdf96ada65c7ff1b09e587c1aaa2a0f))
+
+
+
 ## [0.5.39](https://github.com/brillout/docpress/compare/v0.5.38...v0.5.39) (2024-02-02)
 
 

@@ -8,6 +8,7 @@
     "types": "tsc --noEmit --watch",
     "// Release": "",
     "release": "release-me patch",
+    "release:commit": "release-me commit",
     "release:breaking-change": "release-me minor"
   },
   "dependencies": {

@@ -13,6 +13,7 @@
     "reset": "git clean -Xdf && pnpm install && pnpm run build",
     "========= Release": "",
     "release": "cd src/ && pnpm run release",
+    "release:commit": "cd src/ && pnpm run release:commit",
     "release:breaking-change": "cd src/ && pnpm run release:breaking-change"
   },
   "devDependencies": {

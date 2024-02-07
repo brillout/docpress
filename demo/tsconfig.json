@@ -4,12 +4,10 @@
     "module": "ES2020",
     "moduleResolution": "Node",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
+    "types": ["@brillout/docpress/types"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    // "noUncheckedIndexedAccess": true,
     "strict": true
   }
 }

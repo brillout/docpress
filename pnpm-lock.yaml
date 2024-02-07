@@ -26,6 +26,9 @@ importers:
       react-dom:
         specifier: ^18.1.0
         version: 18.1.0(react@18.1.0)
+      typescript:
+        specifier: ^4.9.4
+        version: 4.9.4
       vike:
         specifier: ^0.4.161
         version: 0.4.161(vite@4.3.9)
@@ -2850,7 +2853,6 @@ packages:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /uglify-js@3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}

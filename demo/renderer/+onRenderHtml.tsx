@@ -1,1 +1,1 @@
-export { onRenderHtml } from '@brillout/docpress/renderer/onRenderHtml.tsx'
+export { onRenderHtml } from '@brillout/docpress/renderer/onRenderHtml'

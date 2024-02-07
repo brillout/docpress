@@ -38,8 +38,8 @@ const maintainers = [
         <code>vike-react</code> (Contributor)
       </>,
       <>Vike Core (Contributor)</>
-    ],
-    consultingUrl: 'https://lourot.dev/'
+    ]
+    // consultingUrl: 'https://lourot.dev/'
   },
   {
     username: 'nitedani',

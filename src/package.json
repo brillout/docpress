@@ -28,9 +28,9 @@
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/client": "./renderer/client.ts",
     ".": "./index.ts",
-    "./features/FeatureList": "./components/features/FeatureList.tsx",
-    "./features/FeatureList.client": {
-      "browser": "./components/features/FeatureList.client.ts"
+    "./FeatureList/FeatureList": "./components/FeatureList/FeatureList.tsx",
+    "./FeatureList/FeatureList.client": {
+      "browser": "./components/FeatureList/FeatureList.client.ts"
     },
     "./vite-config": "./dist/vite.config.js",
     "./style": "./css/index.css"
@@ -46,8 +46,8 @@
       "vite-config": [
         "./dist/vite.config.d.ts"
       ],
-      "features/*": [
-        "./components/features/*"
+      "FeatureList/*": [
+        "./components/FeatureList/*"
       ]
     }
   },

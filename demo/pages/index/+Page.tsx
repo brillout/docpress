@@ -2,7 +2,7 @@ export { Page }
 
 import React from 'react'
 import { Contributors, Emoji, HorizontalLine, Sponsors, Consulting } from '@brillout/docpress'
-import { FeatureList } from '@brillout/docpress/features/FeatureList'
+import { FeatureList } from '@brillout/docpress/FeatureList/FeatureList'
 import CodeBlock from './CodeBlock.mdx'
 
 function Page() {

@@ -1,2 +1,2 @@
 import '@brillout/docpress/renderer/client'
-import '@brillout/docpress/features/FeatureList.client'
+import '@brillout/docpress/FeatureList/FeatureList.client'

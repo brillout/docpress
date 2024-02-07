@@ -63,8 +63,8 @@ importers:
         specifier: ^13.1.0
         version: 13.1.1
       vike-contributors:
-        specifier: ^0.0.8
-        version: 0.0.8
+        specifier: ^0.0.9
+        version: 0.0.9
     devDependencies:
       '@brillout/release-me':
         specifier: ^0.1.13
@@ -2987,8 +2987,8 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
-  /vike-contributors@0.0.8:
-    resolution: {integrity: sha512-mqDB78GXSJvHtlKoFjwTf1WzbmxNQ31XNTvOX/Ypr4hd6F7x7y08UxWg0brsgdyBc1xspjEHJEaTNSfxgwlvEA==}
+  /vike-contributors@0.0.9:
+    resolution: {integrity: sha512-uOvGIv5XZZ7Gm9BdQty/K2f22641+ZTBH1Ccq7Qh/uvH2gI+SA8npSSS6zwdVlSWFsvecZqSn45AYKrAYSIMNg==}
     requiresBuild: true
     dev: false
 

@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.5.39",
+  "version": "0.5.40",
   "scripts": {
     "// Build vite.config.ts": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.vite-config.json",
@@ -20,7 +20,7 @@
     "remark-gfm": "^3.0.1",
     "shiki": "^0.10.1",
     "twemoji": "^13.1.0",
-    "vike-contributors": "^0.0.8"
+    "vike-contributors": "^0.0.9"
   },
   "type": "module",
   "exports": {

@@ -2,7 +2,14 @@ export { maintainers }
 
 import React from 'react'
 
-const maintainers = [
+type Maintainer = {
+  username: string
+  firstName: string
+  roles: React.ReactNode[]
+  consultingUrl?: string
+}
+
+const maintainers: Maintainer[] = [
   {
     username: 'brillout',
     firstName: 'Rom',

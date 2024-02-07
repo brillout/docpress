@@ -29,9 +29,6 @@
     "./renderer/client": "./renderer/client.ts",
     ".": "./index.ts",
     "./features/FeatureList": "./components/features/FeatureList.tsx",
-    "./features/FeatureList.css": {
-      "browser": "./components/features/FeatureList.css"
-    },
     "./features/initFeatureList": {
       "browser": "./components/features/initFeatureList.ts"
     },

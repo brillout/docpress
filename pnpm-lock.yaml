@@ -6,6 +6,7 @@ settings:
 
 overrides:
   '@brillout/docpress': link:./src/
+  vike: 0.4.160-commit-d574f51
 
 importers:
 
@@ -85,8 +86,8 @@ importers:
         specifier: ^4.9.4
         version: 4.9.4
       vike:
-        specifier: ^0.4.160
-        version: 0.4.160(vite@4.3.9)
+        specifier: 0.4.160-commit-d574f51
+        version: 0.4.160-commit-d574f51(vite@4.3.9)
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@15.14.9)
@@ -3044,8 +3045,8 @@ packages:
     requiresBuild: true
     dev: false
 
-  /vike@0.4.160(vite@4.3.9):
-    resolution: {integrity: sha512-sC+MR1gkY/wgPSbVOlc05PF429CSja3Cc5Ps7+vgccsIH5fhRTm8gS6TwmEK130stK0xauiS2hK9T7BvFTv5rA==}
+  /vike@0.4.160-commit-d574f51(vite@4.3.9):
+    resolution: {integrity: sha512-/+o959GH33AeO6crX3SVaGWvxItjb/gmm/J8g9Btk1NLTtOK9g7fLrqdn7QYy+BHfCPIrOqdH6vFZ9MZ/lE64w==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:

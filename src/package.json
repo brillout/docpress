@@ -55,10 +55,14 @@
     }
   },
   "peerDependencies": {
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "*",
     "vike": "^0.4.161",
-    "vite": "^4.3.9",
-    "react": "18",
-    "react-dom": "18"
+    "vite": "^4.3.9"
   },
   "devDependencies": {
     "@brillout/release-me": "^0.1.13",

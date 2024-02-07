@@ -20,8 +20,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@brillout/docpress": "link:./src/",
-      "vike": "0.4.160-commit-d574f51"
+      "@brillout/docpress": "link:./src/"
     }
   },
   "packageManager": "pnpm@8.15.1"

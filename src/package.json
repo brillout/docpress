@@ -29,8 +29,8 @@
     "./renderer/client": "./renderer/client.ts",
     ".": "./index.ts",
     "./features/FeatureList": "./components/features/FeatureList.tsx",
-    "./features/initFeatureList": {
-      "browser": "./components/features/initFeatureList.ts"
+    "./features/FeatureList.client": {
+      "browser": "./components/features/FeatureList.client.ts"
     },
     "./vite-config": "./dist/vite.config.js",
     "./style": "./css/index.css"

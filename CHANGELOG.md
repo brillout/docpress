@@ -1,3 +1,15 @@
+# [0.6.0](https://github.com/brillout/docpress/compare/v0.5.40...v0.6.0) (2024-02-08)
+
+
+### Bug Fixes
+
+* add peer dependencies ([cd0aeaf](https://github.com/brillout/docpress/commit/cd0aeaf3b5231185538593a05edec8b2865c7623))
+* export global style ([51be4fa](https://github.com/brillout/docpress/commit/51be4faeb38d02d0bc045a8f42bae9186388b671))
+* split FeatureList ([913a45b](https://github.com/brillout/docpress/commit/913a45b378f1bb98ee8f335be90e99446f73b211))
+* update to Vike's V1 design ([cc5ea4c](https://github.com/brillout/docpress/commit/cc5ea4cd1ce9d1147ef0220be0c20be49aa6cc09))
+
+
+
 ## [0.5.40](https://github.com/brillout/docpress/compare/v0.5.39...v0.5.40) (2024-02-07)
 
 

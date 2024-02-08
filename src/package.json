@@ -2,8 +2,10 @@
   "name": "@brillout/docpress",
   "version": "0.5.40",
   "scripts": {
-    "// Build vite.config.ts": "",
-    "build": "rm -rf dist/ && tsc --project tsconfig.vite-config.json",
+    "// Build vite.config.ts and vike-config.ts": "",
+    "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
+    "// Development": "",
+    "dev": "tsc --watch --project tsconfig.config.json",
     "// Check types while developing": "",
     "types": "tsc --noEmit --watch",
     "// Release": "",
@@ -33,6 +35,7 @@
       "browser": "./components/FeatureList/FeatureList.client.ts"
     },
     "./vite-config": "./dist/vite.config.js",
+    "./vike-config": "./dist/vike-config.js",
     "./style": "./css/index.css"
   },
   "typesVersions": {
@@ -45,6 +48,9 @@
       ],
       "vite-config": [
         "./dist/vite.config.d.ts"
+      ],
+      "vike-config": [
+        "./dist/vike-config.d.ts"
       ],
       "FeatureList/*": [
         "./components/FeatureList/*"

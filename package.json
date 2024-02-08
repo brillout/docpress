@@ -17,7 +17,8 @@
     "release:breaking-change": "cd src/ && pnpm run release:breaking-change"
   },
   "devDependencies": {
-    "@brillout/test-e2e": "^0.5.25"
+    "@brillout/test-e2e": "^0.5.25",
+    "@brillout/docpress": "workspace:^"
   },
   "pnpm": {
     "overrides": {

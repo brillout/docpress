@@ -11,6 +11,9 @@ importers:
 
   .:
     devDependencies:
+      '@brillout/docpress':
+        specifier: link:src
+        version: link:src
       '@brillout/test-e2e':
         specifier: ^0.5.25
         version: 0.5.25

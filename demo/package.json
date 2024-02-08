@@ -9,8 +9,8 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "typescript": "^4.9.4",
-    "vike": "^0.4.161",
-    "vite": "^4.3.9"
+    "vike": "0.4.161-commit-ba539a4",
+    "vite": "npm:@brillout/vite@5.1.0-commit-3dc7abd"
   },
   "type": "module"
 }

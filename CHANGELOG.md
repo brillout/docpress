@@ -1,3 +1,12 @@
+## [0.6.2](https://github.com/brillout/docpress/compare/v0.6.1...v0.6.2) (2024-02-14)
+
+
+### Bug Fixes
+
+* don't break user-land TypeScript ([932034f](https://github.com/brillout/docpress/commit/932034f5ccd5944083e615eaf39eabb82963b429))
+
+
+
 ## [0.6.1](https://github.com/brillout/docpress/compare/v0.6.0...v0.6.1) (2024-02-14)
 
 

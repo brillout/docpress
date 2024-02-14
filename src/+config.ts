@@ -1,7 +1,7 @@
 import type { Config } from 'vike/types'
 
 export default {
-  // @ts-ignore remove this ts-ignore once Vike's new version is released
+  // @ts-ignore Remove this ts-ignore once Vike's new version is released.
   name: '@brillout/docpress' ,
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   client: 'import:@brillout/docpress/renderer/client:doesNotExist',

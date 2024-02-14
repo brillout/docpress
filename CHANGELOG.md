@@ -1,3 +1,13 @@
+## [0.6.1](https://github.com/brillout/docpress/compare/v0.6.0...v0.6.1) (2024-02-14)
+
+
+### Bug Fixes
+
+* set Vike extension name ([5b1d6a0](https://github.com/brillout/docpress/commit/5b1d6a03374de071dd351fb7647c33399d9dd0a3))
+* udpate for upcoming Vike version ([c9a9c1d](https://github.com/brillout/docpress/commit/c9a9c1dca52ff332f0279effeaa0c8394eea5e16))
+
+
+
 # [0.6.0](https://github.com/brillout/docpress/compare/v0.5.40...v0.6.0) (2024-02-08)
 
 

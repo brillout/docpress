@@ -35,20 +35,6 @@ const maintainers: Maintainer[] = [
     ]
   },
   {
-    username: 'AurelienLourot',
-    firstName: 'Aurélien',
-    roles: [
-      <>
-        <code>vike-vue</code> (Lead Maintainer, Creator)
-      </>,
-      <>
-        <code>vike-react</code> (Contributor)
-      </>,
-      <>Vike Core (Contributor)</>
-    ]
-    // consultingUrl: 'https://lourot.dev/'
-  },
-  {
     username: 'nitedani',
     firstName: 'Dániel',
     roles: [
@@ -88,5 +74,19 @@ const maintainers: Maintainer[] = [
       </>,
       <>Vike Core (Contributor)</>
     ]
+  },
+  {
+    username: 'AurelienLourot',
+    firstName: 'Aurélien',
+    roles: [
+      <>
+        <code>vike-vue</code> (Contributor)
+      </>,
+      <>
+        <code>vike-react</code> (Contributor)
+      </>,
+      <>Vike Core (Contributor)</>
+    ]
+    // consultingUrl: 'https://lourot.dev/'
   }
 ]

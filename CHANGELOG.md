@@ -1,3 +1,12 @@
+## [0.6.3](https://github.com/brillout/docpress/compare/v0.6.2...v0.6.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* update Aurelien's involvement ([5aaaf1f](https://github.com/brillout/docpress/commit/5aaaf1fb4a245e7f8012860d98e2e5b727798e25))
+
+
+
 ## [0.6.2](https://github.com/brillout/docpress/compare/v0.6.1...v0.6.2) (2024-02-14)
 
 

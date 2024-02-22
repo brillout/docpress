@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "scripts": {
     "// Build vite.config.ts and +config.ts": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.config.json",

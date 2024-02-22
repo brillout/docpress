@@ -1,3 +1,12 @@
+## [0.6.4](https://github.com/brillout/docpress/compare/v0.6.3...v0.6.4) (2024-02-22)
+
+
+### Bug Fixes
+
+* make <code> inline ([fe303ba](https://github.com/brillout/docpress/commit/fe303bab52fc6d48ed9b899038135c8aa032da3a))
+
+
+
 ## [0.6.3](https://github.com/brillout/docpress/compare/v0.6.2...v0.6.3) (2024-02-15)
 
 

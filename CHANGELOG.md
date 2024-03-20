@@ -1,3 +1,7 @@
+## [0.6.5](https://github.com/brillout/docpress/compare/v0.6.4...v0.6.5) (2024-03-20)
+
+
+
 ## [0.6.4](https://github.com/brillout/docpress/compare/v0.6.3...v0.6.4) (2024-02-22)
 
 

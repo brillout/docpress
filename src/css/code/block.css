@@ -34,3 +34,7 @@ pre > code {
   display: reset;
   word-break: reset;
 }
+
+figure[data-rehype-pretty-code-figure] {
+  margin: 0 !important;
+}

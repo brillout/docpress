@@ -1,5 +1,6 @@
 @import './code/inline.css';
 @import './code/block.css';
+@import './code/diff.css';
 
 code {
   /*

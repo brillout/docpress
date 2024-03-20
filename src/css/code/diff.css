@@ -1,0 +1,44 @@
+/* Attributes generted by https://shiki.style/packages/transformers#transformernotationdiff */
+pre.has-diff .diff {
+  position: relative;
+}
+
+pre.has-diff .diff::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: calc(100% + var(--code-block-padding));
+  height: 100%;
+  top: 0;
+  left: -16px;
+}
+
+pre.has-diff .diff.remove::after {
+  background-color: rgba(244, 63, 94, .14);
+}
+
+pre.has-diff .diff.add::after {
+  background-color: rgba(16, 185, 129, .14);
+}
+
+pre.has-diff .diff::before {
+  content: "+";
+  position: absolute;
+  font-weight: 500;
+}
+
+pre.has-diff .diff.add::before {
+  content: "+";
+  color: rgb(24, 121, 78);
+  font-size: 1.2em;
+  top: -1px;
+  left: calc(3px - var(--code-block-padding));
+}
+
+pre.has-diff .diff.remove::before {
+  content: "-";
+  color: rgb(179, 78, 82);
+  font-size: 1.4em;
+  top: -5px;
+  left: calc(2px - var(--code-block-padding));
+}

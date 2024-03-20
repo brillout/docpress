@@ -1,5 +1,9 @@
+:root {
+  --code-block-padding: 16px;
+}
+
 pre > code {
-  padding: 16px !important;
+  padding: var(--code-block-padding) !important;
 }
 @media screen and (max-width: 900px) {
   pre > code {

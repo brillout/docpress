@@ -5,9 +5,10 @@ import { UserConfig } from 'vite'
 import { markdownHeadingsVitePlugin } from './markdownHeadingsVitePlugin.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
+import { transformerNotationDiff } from '@shikijs/transformers'
 
 const root = process.cwd()
-const prettyCode = [rehypePrettyCode, { theme: 'github-light' }]
+const prettyCode = [rehypePrettyCode, { theme: 'github-light', transformers: [transformerNotationDiff()] }]
 const rehypePlugins: any = [prettyCode]
 const remarkPlugins = [remarkGfm]
 

@@ -1,4 +1,4 @@
-import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon, ReadingRecommendation, RemovedFile } from '@brillout/docpress'
+import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon, ReadingRecommendation, FileRemoved } from '@brillout/docpress'
 
 This page is for testing/developing DocPress features.
 
@@ -31,14 +31,14 @@ export default {
 } satisfies Config
 ```
 
-Removed file using `<RemovedFile>` wrapper:
+Removed file using `<FileRemoved>` wrapper:
 
-<RemovedFile>
+<FileRemoved>
 ```js
 // some-file.js
 export default /* ... */
 ```
-</RemovedFile>
+</FileRemoved>
 
 Old school diffs:
 

@@ -2,7 +2,7 @@
 
 pre.has-diff .diff.remove,
 /* For <FileRemoved> */
-.diff-file-removed code {
+.diff-entire-file-removed code {
   background-color: #fbdcda !important;
 }
 
@@ -11,12 +11,12 @@ pre.has-diff .diff.add {
 }
 
 pre.has-diff [data-line].diff,
-.diff-file-removed [data-line] {
+.diff-entire-file-removed [data-line] {
   position: relative;
 }
 pre.has-diff .diff::before,
 /* For <FileRemoved> */
-.diff-file-removed [data-line]::before {
+.diff-entire-file-removed [data-line]::before {
   position: absolute;
   font-weight: 500;
 }
@@ -31,7 +31,7 @@ pre.has-diff .diff.add::before {
 
 pre.has-diff .diff.remove::before,
 /* For <FileRemoved> */
-.diff-file-removed [data-line]::before {
+.diff-entire-file-removed [data-line]::before {
   content: '-';
   color: #f77;
   font-size: 1.4em;

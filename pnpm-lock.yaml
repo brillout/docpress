@@ -48,16 +48,16 @@ importers:
   src:
     dependencies:
       '@mdx-js/mdx':
-        specifier: ^3.0.1
+        specifier: 3.0.1
         version: 3.0.1
       '@mdx-js/react':
-        specifier: ^3.0.1
+        specifier: 3.0.1
         version: 3.0.1(@types/react@17.0.45)(react@18.2.0)
       '@mdx-js/rollup':
-        specifier: ^3.0.1
+        specifier: 3.0.1
         version: 3.0.1(rollup@4.13.0)
       '@shikijs/transformers':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0
       '@vitejs/plugin-react-swc':
         specifier: ^3.3.2
@@ -66,13 +66,13 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       rehype-pretty-code:
-        specifier: ^0.13.0
+        specifier: 0.13.0
         version: 0.13.0(shiki@1.2.0)
       remark-gfm:
-        specifier: ^4.0.0
+        specifier: 4.0.0
         version: 4.0.0
       shiki:
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0
       twemoji:
         specifier: ^13.1.0
@@ -1172,7 +1172,7 @@ packages:
   /@types/hast@3.0.4:
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
     dependencies:
-      '@types/unist': 2.0.6
+      '@types/unist': 3.0.2
     dev: false
 
   /@types/mdast@4.0.3:

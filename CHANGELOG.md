@@ -1,3 +1,13 @@
+## [0.6.8](https://github.com/brillout/docpress/compare/v0.6.7...v0.6.8) (2024-03-21)
+
+
+### Bug Fixes
+
+* fix shiki regression ([ea3e86d](https://github.com/brillout/docpress/commit/ea3e86d7f4aabb64dcbfb9697d675698828f7553))
+* pin mdx & co ([4be9e23](https://github.com/brillout/docpress/commit/4be9e230e69e074743b4fb6964cfc8d06f28251c))
+
+
+
 ## [0.6.7](https://github.com/brillout/docpress/compare/v0.6.6...v0.6.7) (2024-03-21)
 
 

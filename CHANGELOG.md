@@ -1,3 +1,12 @@
+## [0.6.6](https://github.com/brillout/docpress/compare/v0.6.5...v0.6.6) (2024-03-21)
+
+
+### Features
+
+* <RemovedFile> ([bdcfd70](https://github.com/brillout/docpress/commit/bdcfd701fde1b15116f6453394c1bde38b1e3c0b))
+
+
+
 ## [0.6.5](https://github.com/brillout/docpress/compare/v0.6.4...v0.6.5) (2024-03-20)
 
 

@@ -63,7 +63,7 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(vite@5.2.2)
       balloon-css:
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0
       rehype-pretty-code:
         specifier: 0.13.0
@@ -75,7 +75,7 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       twemoji:
-        specifier: ^13.1.0
+        specifier: 13.1.1
         version: 13.1.1
       vike-contributors:
         specifier: ^0.0.9

@@ -19,11 +19,11 @@
     "@mdx-js/rollup": "3.0.1",
     "@shikijs/transformers": "1.2.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
-    "balloon-css": "^1.2.0",
+    "balloon-css": "1.2.0",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0",
-    "twemoji": "^13.1.0",
+    "twemoji": "13.1.1",
     "vike-contributors": "^0.0.9"
   },
   "type": "module",

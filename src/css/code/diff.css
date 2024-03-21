@@ -1,33 +1,39 @@
 /* Attributes generted by https://shiki.style/packages/transformers#transformernotationdiff */
-pre.has-diff .diff {
-  position: relative;
-}
 
-pre.has-diff .diff.remove {
-  background-color: #fbdcda;
+pre.has-diff .diff.remove,
+/* For <RemovedFile> */
+.diff-removed-file code {
+  background-color: #fbdcda !important;
 }
 
 pre.has-diff .diff.add {
-  background-color: #d7ecdf;
+  background-color: #d7ecdf !important;
 }
 
-pre.has-diff .diff::before {
-  content: "+";
+pre.has-diff [data-line].diff,
+.diff-removed-file [data-line] {
+  position: relative;
+}
+pre.has-diff .diff::before,
+/* For <RemovedFile> */
+.diff-removed-file [data-line]::before {
   position: absolute;
   font-weight: 500;
 }
 
 pre.has-diff .diff.add::before {
-  content: "+";
-  color: rgb(24, 121, 78);
+  content: '+';
+  color: #0c0;
   font-size: 1.2em;
-  top: -2px;
+  top: -1px;
   left: 3px;
 }
 
-pre.has-diff .diff.remove::before {
-  content: "-";
-  color: rgb(179, 78, 82);
+pre.has-diff .diff.remove::before,
+/* For <RemovedFile> */
+.diff-removed-file [data-line]::before {
+  content: '-';
+  color: #f77;
   font-size: 1.4em;
   top: -5px;
   left: 2px;

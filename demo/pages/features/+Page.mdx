@@ -1,4 +1,4 @@
-import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon, ReadingRecommendation, FileRemoved, FileAdded } from '@brillout/docpress'
+import { Link, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon, ReadingRecommendation, FileRemoved, FileAdded, CodeBlockTransformer } from '@brillout/docpress'
 
 This page is for testing/developing DocPress features.
 
@@ -11,6 +11,20 @@ Orphan page: <Link href="/orphan" />.
 Same page link (non-inferred original heading title without needing `sectionTitles`): <Link href="#blockquote" />.
 
 ## Code blocks
+
+### Basic
+
+```js
+console.log('hello')
+console.log(`wo${'r'}ld`)
+```
+
+```
+No language
+Second line
+```
+
+### Diff
 
 Powered by `shiki` and `rehype-pretty-code`.
 
@@ -57,6 +71,26 @@ Old school diffs:
 + added
   no change
 ```
+
+### `<CodeBlockTransformer>`
+
+`<CodeBlockTransformer lineBreak="white-space">`
+
+<CodeBlockTransformer lineBreak="white-space">
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'node_modules/some-library/dist/esm/some-file' imported from node_modules/some-library/dist/esm/index.js
+Did you mean to import some-file.js?
+```
+</CodeBlockTransformer>
+
+`<CodeBlockTransformer lineBreak="break-word">`
+
+<CodeBlockTransformer lineBreak="break-word">
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'node_modules/some-library/dist/esm/some-file' imported from node_modules/some-library/dist/esm/index.js
+Did you mean to import some-file.js?
+```
+</CodeBlockTransformer>
 
 
 ## Blockquote

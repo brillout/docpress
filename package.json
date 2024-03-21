@@ -14,11 +14,20 @@
     "========= Release": "",
     "release": "cd src/ && pnpm run release",
     "release:commit": "cd src/ && pnpm run release:commit",
-    "release:breaking-change": "cd src/ && pnpm run release:breaking-change"
+    "release:breaking-change": "cd src/ && pnpm run release:breaking-change",
+    "========= Formatting": "",
+    "format": "pnpm run format:biome",
+    "format:prettier": "git ls-files | egrep '\\.(json|js|jsx|css|ts|tsx|vue|mjs|cjs)$' | grep --invert-match package.json | xargs pnpm exec prettier --write",
+    "format:biome": "biome format --write .",
+    "format:check": "biome format . || echo Fix formatting by running: $ pnpm -w run format",
+    "========= Only allow pnpm; forbid yarn & npm": "",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
     "@brillout/test-e2e": "^0.5.25",
-    "@brillout/docpress": "workspace:^"
+    "@brillout/docpress": "workspace:^",
+    "prettier": "^2.8.7"
   },
   "pnpm": {
     "overrides": {

@@ -1,6 +1,7 @@
 {
   "name": "@brillout/docpress",
   "version": "0.6.7",
+  "type": "module",
   "scripts": {
     "// Build vite.config.ts and +config.ts": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
@@ -26,7 +27,16 @@
     "twemoji": "13.1.1",
     "vike-contributors": "^0.0.9"
   },
-  "type": "module",
+  "peerDependencies": {
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "*",
+    "vike": "^0.4.162",
+    "vite": "^5.2.0"
+  },
   "exports": {
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/client": "./renderer/client.ts",
@@ -58,16 +68,6 @@
       ]
     }
   },
-  "peerDependencies": {
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "typescript": "*",
-    "vike": "^0.4.162",
-    "vite": "^5.2.0"
-  },
   "devDependencies": {
     "@brillout/release-me": "^0.1.13",
     "@types/node": "^15.12.1",
@@ -79,8 +79,8 @@
     "vike": "^0.4.166",
     "vite": "^5.2.2"
   },
-  "license": "MIT",
   "repository": "https://github.com/brillout/docpress",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

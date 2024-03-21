@@ -1,3 +1,18 @@
+## [0.6.7](https://github.com/brillout/docpress/compare/v0.6.6...v0.6.7) (2024-03-21)
+
+
+### Bug Fixes
+
+* improve diff colors ([cfb8703](https://github.com/brillout/docpress/commit/cfb8703cc24b8d234d57c13629ad9511d7a1c060))
+* rename <RemovedFile> to <FileRemoved> ([4a4abb8](https://github.com/brillout/docpress/commit/4a4abb8701e88e8875b427e9da642272ad3c5b4c))
+
+
+### Features
+
+* <FileAdded> ([ee20c97](https://github.com/brillout/docpress/commit/ee20c97debb422b0359aae4622f9a97f7d6f93ff))
+
+
+
 ## [0.6.6](https://github.com/brillout/docpress/compare/v0.6.5...v0.6.6) (2024-03-21)
 
 

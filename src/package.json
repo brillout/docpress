@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "scripts": {
     "// Build vite.config.ts and +config.ts": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
@@ -41,11 +41,21 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["./*"],
-      "types": ["./types.d.ts"],
-      "vite-config": ["./dist/vite.config.d.ts"],
-      "config": ["./dist/+config.d.ts"],
-      "FeatureList/*": ["./components/FeatureList/*"]
+      "*": [
+        "./*"
+      ],
+      "types": [
+        "./types.d.ts"
+      ],
+      "vite-config": [
+        "./dist/vite.config.d.ts"
+      ],
+      "config": [
+        "./dist/+config.d.ts"
+      ],
+      "FeatureList/*": [
+        "./components/FeatureList/*"
+      ]
     }
   },
   "peerDependencies": {

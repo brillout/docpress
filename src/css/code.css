@@ -15,7 +15,12 @@ code {
 code {
   font-size: 1.1em;
 }
+
 /* Block */
 pre > code {
   font-size: 1em;
+}
+/* Workaround for shiki regression */
+pre>code:not([data-language]) {
+  padding: 16px !important;
 }

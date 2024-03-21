@@ -6,22 +6,27 @@ pre.has-diff .diff.remove,
   background-color: #fbdcda !important;
 }
 
-pre.has-diff .diff.add {
+pre.has-diff .diff.add,
+/* For <FileAdded> */
+.diff-entire-file-added code {
   background-color: #d7ecdf !important;
 }
 
 pre.has-diff [data-line].diff,
-.diff-entire-file-removed [data-line] {
+.diff-entire-file [data-line] {
   position: relative;
 }
+
 pre.has-diff .diff::before,
-/* For <FileRemoved> */
-.diff-entire-file-removed [data-line]::before {
+/* For <FileRemoved> / <FileAdded> */
+.diff-entire-file [data-line]::before {
   position: absolute;
   font-weight: 500;
 }
 
-pre.has-diff .diff.add::before {
+pre.has-diff .diff.add::before,
+/* For <FileAdded> */
+.diff-entire-file-added [data-line]::before {
   content: '+';
   color: #0c0;
   font-size: 1.2em;

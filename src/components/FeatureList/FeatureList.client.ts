@@ -10,7 +10,7 @@ function addTwitterWidgets() {
 
 function addFeatureClickHandlers() {
   const featureEls: HTMLElement[] = Array.from(
-    document.getElementById('features')!.querySelectorAll('.feature.has-learn-more')
+    document.getElementById('features')!.querySelectorAll('.feature.has-learn-more'),
   )
   featureEls.forEach((featureEl) => {
     featureEl.onclick = () => {
@@ -36,13 +36,12 @@ function expandLearnMore(featureEl: HTMLElement) {
     if (getComputedStyle(rowEl, 'display') === 'grid') {
       ;[
         ...(rowEl.querySelectorAll('.learn-more') as any as HTMLElement[]),
-        ...(rowEl.querySelectorAll('.feature') as any as HTMLElement[])
+        ...(rowEl.querySelectorAll('.feature') as any as HTMLElement[]),
       ].forEach((el) => {
         el.classList.remove(selectedClass)
       })
     }
   }
-
   ;[featureEl, learnEl].forEach((el) => {
     el.classList.toggle(selectedClass)
   })

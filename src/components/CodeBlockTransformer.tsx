@@ -11,7 +11,7 @@ type LineBreak = 'white-space' | 'break-word'
 function CodeBlockTransformer({ children, lineBreak }: { children: React.ReactNode; lineBreak: LineBreak }) {
   assert(
     lineBreak === 'white-space' || lineBreak === 'break-word',
-    '`lineBreak` is currently the only use case for <CodeBlockTransformer>'
+    '`lineBreak` is currently the only use case for <CodeBlockTransformer>',
   )
   const className = `with-line-break_${lineBreak}` as const
   return <div className={className}>{children}</div>

@@ -67,7 +67,7 @@ function Features() {
                 dui ac porta. Duis tincidunt pretium ullamcorper.
               </p>
             </>
-          )
+          ),
         },
         {
           title: (
@@ -97,7 +97,7 @@ function Features() {
                 dui ac porta. Duis tincidunt pretium ullamcorper.
               </p>
             </>
-          )
+          ),
         },
         {
           title: (
@@ -124,7 +124,7 @@ function Features() {
                 nibh et lorem varius suscipit vitae vitae ligula.
               </p>
             </>
-          )
+          ),
         },
         {
           title: (
@@ -142,8 +142,8 @@ function Features() {
               <p>Etiam accumsan neque eu vulputate aliquet. Nulla sit amet sollicitudin velit.</p>
               <p>Pellentesque bibendum semper tortor id venenatis.</p>
             </>
-          )
-        }
+          ),
+        },
       ]}
     />
   )

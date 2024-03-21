@@ -11,7 +11,7 @@ const Context = React.createContext<PageContextResolved>(undefined as any)
 
 function PageContextProvider({
   pageContext,
-  children
+  children,
 }: {
   pageContext: PageContextResolved
   children: React.ReactNode

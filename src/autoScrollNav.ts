@@ -29,7 +29,7 @@ function autoScrollNav() {
     // @ts-ignore https://github.com/microsoft/TypeScript/issues/46654
     behavior: 'instant',
     block: 'center',
-    inline: 'start'
+    inline: 'start',
   })
   // Avoid scrollIntoView() from scrolling the main view. Alternatively, we could use scrollIntoViewIfNeeded() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) which doesn't scroll the main view but Firefox doesn't support it.
   document.documentElement.scrollTop = scrollTopOriginal

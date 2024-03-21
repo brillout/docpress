@@ -13,7 +13,7 @@ function Link({
   text,
   noBreadcrumb,
   doNotInferSectionTitle,
-  children
+  children,
 }: {
   href: string
   text?: string | JSX.Element
@@ -23,7 +23,7 @@ function Link({
 }) {
   assertUsage(
     href.startsWith('/') || href.startsWith('#'),
-    `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`
+    `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`,
   )
   assertUsage(!text || !children, 'Cannot use both `text` or `children`')
 
@@ -41,7 +41,7 @@ function getLinkText({
   href,
   noBreadcrumb,
   pageContext,
-  doNotInferSectionTitle
+  doNotInferSectionTitle,
 }: {
   href: string
   noBreadcrumb: true | undefined
@@ -81,7 +81,7 @@ function getLinkText({
       ...(heading.headingsBreadcrumb ?? [])
         .slice()
         .reverse()
-        .map(({ title }) => title)
+        .map(({ title }) => title),
     )
   }
 
@@ -103,7 +103,7 @@ function getLinkText({
     if (!sectionTitle) {
       assertUsage(
         !doNotInferSectionTitle,
-        `Page section title not found for <Link href="\`${href}\`" doNotInferSectionTitle={true} />.`
+        `Page section title not found for <Link href="\`${href}\`" doNotInferSectionTitle={true} />.`,
       )
       sectionTitle = determineSectionTitle(href)
     }

@@ -38,7 +38,7 @@ function NoteWithCustomIcon({ icon, children }: { children: React.ReactNode; ico
 function NoteGeneric({
   type,
   icon,
-  children
+  children,
 }: {
   icon?: null | CustomIcon
   type?: 'danger' | 'warning' | 'construction'

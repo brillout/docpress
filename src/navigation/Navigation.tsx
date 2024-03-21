@@ -9,7 +9,7 @@ import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 
 function Navigation({
-  pageContext
+  pageContext,
 }: {
   pageContext: {
     headingsProcessed: Heading[]
@@ -76,7 +76,7 @@ function NavigationContent(props: {
 }
 
 function Heading({
-  heading
+  heading,
 }: {
   heading: {
     level: number
@@ -100,8 +100,8 @@ function Heading({
     assertWarning(
       heading.url,
       `${jsxToTextContent(
-        heading.titleInNav
-      )} is missing a URL hash. Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`
+        heading.titleInNav,
+      )} is missing a URL hash. Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`,
     )
   }
   return (
@@ -113,7 +113,7 @@ function Heading({
         heading.computed.isActiveFirst && ' is-active-first',
         heading.computed.isActiveLast && ' is-active-last',
         heading.computed.isFirstOfItsKind && 'nav-item-first-of-its-kind',
-        heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind'
+        heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind',
       ]
         .filter(Boolean)
         .join(' ')}
@@ -173,8 +173,8 @@ function getHeadingsWithComputedProps(headings: (Heading | HeadingDetached)[], c
         isActiveFirst,
         isActiveLast,
         isFirstOfItsKind,
-        isLastOfItsKind
-      }
+        isLastOfItsKind,
+      },
     }
   })
 }
@@ -191,7 +191,7 @@ function DetachedPageNote() {
         marginTop: 25,
         marginBottom: -5,
         borderRadius: 5,
-        padding: 10
+        padding: 10,
       }}
     >
       <Emoji name="info" />{' '}
@@ -200,7 +200,7 @@ function DetachedPageNote() {
       </b>
       <span
         style={{
-          opacity: 0.8
+          opacity: 0.8,
         }}
       >
         {' '}

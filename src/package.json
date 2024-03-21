@@ -41,21 +41,11 @@
   },
   "typesVersions": {
     "*": {
-      "*": [
-        "./*"
-      ],
-      "types": [
-        "./types.d.ts"
-      ],
-      "vite-config": [
-        "./dist/vite.config.d.ts"
-      ],
-      "config": [
-        "./dist/+config.d.ts"
-      ],
-      "FeatureList/*": [
-        "./components/FeatureList/*"
-      ]
+      "*": ["./*"],
+      "types": ["./types.d.ts"],
+      "vite-config": ["./dist/vite.config.d.ts"],
+      "config": ["./dist/+config.d.ts"],
+      "FeatureList/*": ["./components/FeatureList/*"]
     }
   },
   "peerDependencies": {

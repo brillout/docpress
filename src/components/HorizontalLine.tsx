@@ -12,7 +12,7 @@ function HorizontalLine({ primary }: { primary?: true }) {
           border: 0,
           borderTop: '1px solid #eee',
           maxWidth: 500,
-          width: '80%'
+          width: '80%',
         }}
       />
     </div>

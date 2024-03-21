@@ -15,7 +15,7 @@ function NavigationFullscreenButton() {
             cursor: 'pointer',
             height: '100vh',
             width: 20,
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         >
           <div></div>

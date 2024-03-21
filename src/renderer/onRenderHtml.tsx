@@ -49,7 +49,7 @@ async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
 
 function getOpenGraphTags(
   url: string,
-  meta: { title: string; tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string }
+  meta: { title: string; tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string },
 ) {
   const { title, tagline, websiteUrl, twitterHandle, bannerUrl } = meta
 

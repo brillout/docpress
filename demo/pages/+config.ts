@@ -5,5 +5,5 @@ import docpress from '@brillout/docpress/config'
 
 // Default configs (can be overridden by pages)
 const config = {
-  extends: docpress
+  extends: docpress,
 } satisfies Config

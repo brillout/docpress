@@ -29,7 +29,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const { activeHeading, activeNavigationHeading } = findHeading(
     headingsProcessed,
     headingsDetachedProcessed,
-    pageContext
+    pageContext,
   )
   let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
@@ -43,7 +43,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     headingsDetachedProcessed,
     activeNavigationHeading,
     pageContext,
-    config
+    config,
   )
   const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl } = config
   const pageContextResolved = {}
@@ -56,7 +56,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       bannerUrl,
       websiteUrl,
       tagline,
-      algolia
+      algolia,
     },
     activeHeading,
     headingsAll,
@@ -65,7 +65,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     headingsOfDetachedPage,
     isLandingPage,
     pageTitle,
-    config
+    config,
   })
   return pageContextResolved
 }
@@ -74,7 +74,7 @@ function getMetaData(
   headingsDetachedProcessed: HeadingDetached[],
   activeNavigationHeading: Heading | null,
   pageContext: { urlOriginal: string; exports: Exports },
-  config: Config
+  config: Config,
 ) {
   const url = pageContext.urlOriginal
 
@@ -103,7 +103,7 @@ function getMetaData(
 function findHeading(
   headingsProcessed: Heading[],
   headingsDetachedProcessed: HeadingDetached[],
-  pageContext: { urlOriginal: string; exports: Exports }
+  pageContext: { urlOriginal: string; exports: Exports },
 ): { activeHeading: Heading | HeadingDetached; activeNavigationHeading: Heading | null } {
   let activeNavigationHeading: Heading | null = null
   let activeHeading: Heading | HeadingDetached | null = null
@@ -127,8 +127,8 @@ function findHeading(
         ...headingsProcessed
           .map((h) => `  ${h.url}`)
           .filter(Boolean)
-          .sort()
-      ].join('\n')
+          .sort(),
+      ].join('\n'),
     )
   }
   return { activeHeading, activeNavigationHeading }
@@ -137,7 +137,7 @@ function findHeading(
 function getHeadingsAll<T extends Heading | HeadingDetached>(
   headingsProcessed: T[],
   pageContext: { exports: Exports; urlOriginal: string },
-  activeHeading: T
+  activeHeading: T,
 ): T[] {
   const headingsAll = headingsProcessed.slice()
 
@@ -154,7 +154,7 @@ function getHeadingsAll<T extends Heading | HeadingDetached>(
 
 function getHeadingsOfTheCurrentPage(
   pageContext: { exports: Exports; urlOriginal: string },
-  currentHeading: Heading | HeadingDetached
+  currentHeading: Heading | HeadingDetached,
 ) {
   const headingsOfCurrentPage: Heading[] = []
 
@@ -169,7 +169,7 @@ function getHeadingsOfTheCurrentPage(
         title,
         headingsBreadcrumb: [currentHeading, ...(currentHeading.headingsBreadcrumb ?? [])],
         titleInNav: title,
-        level: 3
+        level: 3,
       }
       headingsOfCurrentPage.push(heading)
     }

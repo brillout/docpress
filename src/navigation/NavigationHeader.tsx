@@ -18,7 +18,7 @@ function NavigationHeader() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: -5
+        marginBottom: -5,
       }}
     >
       <a
@@ -31,7 +31,7 @@ function NavigationHeader() {
           textDecoration: 'none',
           paddingTop: 12,
           paddingBottom: 7,
-          ...pageContext.config.navHeaderWrapperStyle
+          ...pageContext.config.navHeaderWrapperStyle,
         }}
         href="/"
       >
@@ -59,7 +59,7 @@ function Links() {
         display: 'flex',
         alignItems: 'center',
         paddingTop: 0,
-        justifyContent: 'left'
+        justifyContent: 'left',
       }}
     >
       <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
@@ -85,7 +85,7 @@ function ChangelogButton() {
         padding: '1px 7px',
         marginLeft: 2,
         fontSize: '0.97em',
-        color: 'inherit'
+        color: 'inherit',
       }}
     >
       <span id="version-number" className="decolorize-7">

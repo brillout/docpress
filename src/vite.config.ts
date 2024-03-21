@@ -21,17 +21,17 @@ const config: UserConfig = {
     react(),
     vike({
       prerender: {
-        noExtraDir: true
+        noExtraDir: true,
       },
-      includeAssetsImportedByServer: true
-    })
+      includeAssetsImportedByServer: true,
+    }),
   ],
   optimizeDeps: { include: ['@mdx-js/react', 'react-dom'] },
   // @ts-ignore
   ssr: {
-    noExternal: ['@brillout/docpress']
+    noExternal: ['@brillout/docpress'],
   },
-  clearScreen: false
+  clearScreen: false,
 }
 
 export default config

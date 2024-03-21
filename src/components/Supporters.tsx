@@ -11,7 +11,7 @@ function SupporterSection({ children }: { children?: Children }) {
     <div
       style={{
         textAlign: 'center',
-        marginTop: 19
+        marginTop: 19,
       }}
     >
       {children}
@@ -26,7 +26,7 @@ function SectionDescription({ children }: { children?: Children }) {
         maxWidth: 400,
         display: 'inline-block',
         marginTop: 12,
-        marginBottom: 12
+        marginBottom: 12,
       }}
     >
       {children}
@@ -43,7 +43,7 @@ function Individuals({ children }: { children?: Children }) {
         justifyContent: 'center',
         alignItems: 'end',
         margin: '17px auto',
-        maxWidth: 700
+        maxWidth: 700,
       }}
     >
       {children}
@@ -62,7 +62,7 @@ function Supporter({ username, avatarUrl }: { username: string; avatarUrl?: stri
     <a
       href={website}
       style={{
-        margin: `${marginHeight}px ${marginWidth}px`
+        margin: `${marginHeight}px ${marginWidth}px`,
       }}
     >
       <div
@@ -74,7 +74,7 @@ function Supporter({ username, avatarUrl }: { username: string; avatarUrl?: stri
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
       >
         <SupporterImg {...{ username, avatarUrl, width, height }} />
@@ -90,7 +90,7 @@ function SupporterImg({
   imgAlt,
   width,
   height,
-  padding = 0
+  padding = 0,
 }: {
   imgSrc?: string
   avatarUrl?: string
@@ -126,7 +126,7 @@ function CallToAction({ iconUrl, text, href }: { iconUrl: string; text: string; 
         display: 'inline-flex',
         alignItems: 'center',
         padding: '5px 10px',
-        marginBottom: 10
+        marginBottom: 10,
       }}
       href={href}
     >

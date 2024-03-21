@@ -22,7 +22,7 @@ function markdownHeadingsVitePlugin() {
       }
       const codeNew = transform(code)
       return codeNew
-    }
+    },
   }
 }
 
@@ -72,7 +72,7 @@ function parseMarkdownHeading(line: string): MarkdownHeading & { headingHtml: st
 
   const headingMdx = {
     title: titleMdx,
-    anchor: titleMdx
+    anchor: titleMdx,
   }
   {
     // Support custom anchor like: `## title{#custom-anchor}`

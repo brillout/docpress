@@ -11,7 +11,7 @@ export default {
     githubRepository: 'https://github.com/brillout/docpress' as const,
     githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
     discordInvite: 'https://discord.com/invite/dSDMGGJZQy' as const,
-    twitterProfile: 'https://twitter.com/brillout' as const
+    twitterProfile: 'https://twitter.com/brillout' as const,
   },
   faviconUrl: logoUrl,
   algolia: {
@@ -24,7 +24,7 @@ export default {
   tagline: 'DocPress Demo',
   headings,
   headingsDetached,
-  globalNote: <GlobalNoteWarning />
+  globalNote: <GlobalNoteWarning />,
 } as Config
 
 function GlobalNoteWarning() {
@@ -63,7 +63,7 @@ function HeaderTitle({ fontSize, marginLeft }: { fontSize: string; marginLeft: n
       style={{
         fontSize,
         padding: '2px 5px',
-        marginLeft
+        marginLeft,
       }}
     >
       {'DocPress Demo'}

@@ -10,7 +10,7 @@ const emojiList = {
   // https://emojipedia.org/trophy/
   ':trophy:': 0x1f3c6,
   // https://emojipedia.org/construction/
-  ':construction:': 0x1f6a7
+  ':construction:': 0x1f6a7,
   /*
   // https://emojipedia.org/red-heart/
   ':heart:': 0x2764,
@@ -25,7 +25,7 @@ function parseEmojis(html: string) {
     const emojiStr = twemoji.convert.fromCodePoint(codepoint as any)
     let emojiImg: any = twemoji.parse(emojiStr, {
       folder: 'svg',
-      ext: '.svg'
+      ext: '.svg',
     })
     const style = 'height: 1.275em; width: 1.275em; vertical-align: -20%'
     emojiImg = emojiImg.replace('<img class="emoji" ', `<img style="${style}" `)

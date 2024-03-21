@@ -16,7 +16,7 @@ function initNavigationFullscreen() {
       if (document.body.classList.contains('DocSearch--active')) return
       if (ev.key === 'Escape') toggleNavExpend()
     },
-    false
+    false,
   )
 }
 
@@ -42,8 +42,8 @@ function updateColumnWidth() {
     const column = [
       {
         element: navH1Group,
-        elementHeight: navH1Group.children.length
-      }
+        elementHeight: navH1Group.children.length,
+      },
     ]
     return column
   })
@@ -83,7 +83,7 @@ function mergeColumns<T>(columns: { element: T; elementHeight: number }[][], max
 
   let mergeCandidate = {
     i: -1,
-    mergeHeight: Infinity
+    mergeHeight: Infinity,
   }
   for (let i = 0; i <= columns.length - 2; i++) {
     const column1 = columns[i + 0]
@@ -94,7 +94,7 @@ function mergeColumns<T>(columns: { element: T; elementHeight: number }[][], max
     if (mergeCandidate.mergeHeight > mergeHeight) {
       mergeCandidate = {
         i,
-        mergeHeight
+        mergeHeight,
       }
     }
   }

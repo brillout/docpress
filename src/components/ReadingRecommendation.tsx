@@ -26,7 +26,7 @@ function ReadingRecommendation({ tour, links }: { tour?: true; links?: string[] 
             <ul
               style={{
                 marginLeft: 18,
-                marginTop: 11
+                marginTop: 11,
               }}
             >
               {tour && (

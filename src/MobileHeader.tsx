@@ -11,7 +11,7 @@ function MobileHeader() {
       style={{
         height: 'var(--mobile-header-height)',
         width: '100%',
-        position: 'relative'
+        position: 'relative',
       }}
     >
       <div
@@ -25,7 +25,7 @@ function MobileHeader() {
           left: 0,
           height: 'var(--mobile-header-height)',
           width: '100%',
-          borderBottom: '1px solid #ddd'
+          borderBottom: '1px solid #ddd',
         }}
       >
         <MenuToggle />
@@ -37,7 +37,7 @@ function MobileHeader() {
             alignItems: 'center',
             justifyContent: 'left',
             textDecoration: 'none',
-            ...pageContext.config.navHeaderMobileWrapperStyle
+            ...pageContext.config.navHeaderMobileWrapperStyle,
           }}
         >
           {pageContext.config.navHeaderMobile}

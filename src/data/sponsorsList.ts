@@ -79,7 +79,7 @@ const individuals: Sponsor[] = [
   { username: 'stackblitz' },
   { username: 'codthing' },
   { username: 'Junaidhkn' },
-  { username: 'zgfdev' }
+  { username: 'zgfdev' },
 ]
 
 const companies: Sponsor[] = [
@@ -88,28 +88,28 @@ const companies: Sponsor[] = [
     companyLogo: contraLogo,
     plan: 'silver',
     website: 'https://contra.com',
-    github: 'contra'
+    github: 'contra',
   },
   {
     companyName: 'Inlang',
     companyLogo: inlangLogo,
     plan: 'silver',
     website: 'https://inlang.com/',
-    github: 'opral'
+    github: 'opral',
   },
   {
     companyName: 'Alignable',
     companyLogo: alignableLogo,
     plan: 'silver',
     website: 'https://www.alignable.com/',
-    github: 'AlignableUser'
+    github: 'AlignableUser',
   },
   {
     companyName: 'Sourcegraph',
     companyLogo: sourcegraphLogo,
     plan: 'bronze',
     website: 'https://sourcegraph.com',
-    github: 'sourcegraph'
+    github: 'sourcegraph',
   },
   {
     companyName: 'Optimizers',
@@ -117,31 +117,31 @@ const companies: Sponsor[] = [
     plan: 'bronze',
     website: 'https://www.optimizers.nl/',
     divSize: {
-      padding: 20
+      padding: 20,
     },
-    github: 'OptimizersGroup'
+    github: 'OptimizersGroup',
   },
   {
     companyName: 'BurdaFoward',
     companyLogo: burdaforwardLogo,
     plan: 'bronze',
     website: 'https://www.burda-forward.de',
-    github: 'BurdaForward'
+    github: 'BurdaForward',
   },
   {
     companyName: 'Ecosia',
     companyLogo: ecosiaLogo,
     plan: 'bronze',
     website: 'https://ecosia.org',
-    github: 'ecosia'
+    github: 'ecosia',
   },
   {
     companyName: 'Bluefin',
     companyLogo: bluefinLogo,
     plan: 'indie',
     website: 'https://www.bluefin.one',
-    github: 'bluefin-clinical'
-  }
+    github: 'bluefin-clinical',
+  },
 ]
 
 const sponsorsList: Sponsor[] = [...companies, ...individuals]

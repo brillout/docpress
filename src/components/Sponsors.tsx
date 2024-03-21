@@ -78,7 +78,7 @@ function CompanyDiv({ sponsor }: { sponsor: Sponsor }) {
     <a
       href={sponsor.website}
       style={{
-        margin: `${marginHeight}px ${marginWidth}px`
+        margin: `${marginHeight}px ${marginWidth}px`,
       }}
     >
       <Label sponsor={sponsor} />
@@ -93,7 +93,7 @@ function CompanyDiv({ sponsor }: { sponsor: Sponsor }) {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
       >
         <SupporterImg {...{ imgSrc, imgAlt, width, height, padding }} />
@@ -115,7 +115,7 @@ function Label({ sponsor }: { sponsor: Sponsor }) {
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-        paddingBottom: 1
+        paddingBottom: 1,
       }}
     >
       {labelBg}
@@ -154,7 +154,7 @@ function getLabelText(sponsor: SponsorCompany) {
           top: 0,
           fontWeight: 500,
           color: '#666',
-          letterSpacing
+          letterSpacing,
         }}
       >
         {capitalizeFirstLetter(sponsor.plan)}

@@ -27,10 +27,10 @@ function getHeadingsWithProcessedTitle(config: {
       const headingProcessed: Omit<Heading, 'headingsBreadcrumb'> = {
         ...heading,
         title: titleProcessed,
-        titleInNav: titleInNavProcessed
+        titleInNav: titleInNavProcessed,
       }
       return headingProcessed
-    }
+    },
   )
 
   const headingsProcessed: Heading[] = []
@@ -38,7 +38,7 @@ function getHeadingsWithProcessedTitle(config: {
     const headingsBreadcrumb = getHeadingsBreadcrumb(heading, headingsProcessed)
     headingsProcessed.push({
       ...heading,
-      headingsBreadcrumb
+      headingsBreadcrumb,
     })
   })
 
@@ -46,7 +46,7 @@ function getHeadingsWithProcessedTitle(config: {
     const { url, title } = headingsDetached
     assert(
       headingsProcessed.find((heading) => heading.url === url) === undefined,
-      `remove ${headingsDetached.url} from headingsDetached`
+      `remove ${headingsDetached.url} from headingsDetached`,
     )
     const titleProcessed = typeof title === 'string' ? parseTitle(title) : title
     return {
@@ -54,7 +54,7 @@ function getHeadingsWithProcessedTitle(config: {
       level: 2 as const,
       title: titleProcessed,
       titleInNav: titleProcessed,
-      headingsBreadcrumb: null
+      headingsBreadcrumb: null,
     }
   })
 
@@ -119,8 +119,8 @@ function parseTitle(title: string): JSX.Element {
     React.Fragment,
     {},
     ...parts.map((part, i) =>
-      React.createElement(part.nodeType === 'code' ? 'code' : React.Fragment, { key: i }, part.content)
-    )
+      React.createElement(part.nodeType === 'code' ? 'code' : React.Fragment, { key: i }, part.content),
+    ),
   )
 
   return titleJsx
@@ -134,6 +134,6 @@ function withEmoji(name: EmojiName, title: string | JSX.Element): JSX.Element {
     { style },
     Emoji({ name }),
     ' ',
-    React.createElement('span', { style: { fontSize: '1rem' } }, title)
+    React.createElement('span', { style: { fontSize: '1rem' } }, title),
   )
 }

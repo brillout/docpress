@@ -216,8 +216,8 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
         verticalAlign: 'text-top',
         fontSize: '1em',
         width,
-        ...style
-      }
+        ...style,
+      },
     }
     return React.createElement('img', props)
   }

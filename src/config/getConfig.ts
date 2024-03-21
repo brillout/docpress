@@ -10,7 +10,7 @@ function getConfig(): Config {
   assertUsage(files.length >= 1, 'No DocPress config file found `docpress.config.(js|ts|tsx|...)`')
   assertUsage(
     files.length === 1,
-    `Found multiple \`docpress.config.js\` files: ${files.map((f) => `\`${f}\``).join(', ')}. Define only one instead.`
+    `Found multiple \`docpress.config.js\` files: ${files.map((f) => `\`${f}\``).join(', ')}. Define only one instead.`,
   )
   const config = (Object.values(globResult)[0] as any).default as Config
   assert(config)

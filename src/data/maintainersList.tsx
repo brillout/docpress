@@ -20,8 +20,8 @@ const maintainers: Maintainer[] = [
       </>,
       <>
         <code>vike-vue</code> (Contributor)
-      </>
-    ]
+      </>,
+    ],
   },
   {
     username: 'magne4000',
@@ -31,8 +31,8 @@ const maintainers: Maintainer[] = [
       <>
         <code>vike-solid</code> (Lead Maintainer, Creator)
       </>,
-      <>Vike Core (Contributor)</>
-    ]
+      <>Vike Core (Contributor)</>,
+    ],
   },
   {
     username: 'nitedani',
@@ -44,8 +44,8 @@ const maintainers: Maintainer[] = [
       <>
         <code>vike-angular</code> (Lead Maintainer, Creator)
       </>,
-      <>Vike Core (Contributor)</>
-    ]
+      <>Vike Core (Contributor)</>,
+    ],
   },
   {
     username: 'phonzammi',
@@ -59,8 +59,8 @@ const maintainers: Maintainer[] = [
       </>,
       <>
         <code>vike-react</code> (Contributor)
-      </>
-    ]
+      </>,
+    ],
   },
   {
     username: '4350pChris',
@@ -72,8 +72,8 @@ const maintainers: Maintainer[] = [
       <>
         <code>vike-vue</code> (Contributor)
       </>,
-      <>Vike Core (Contributor)</>
-    ]
+      <>Vike Core (Contributor)</>,
+    ],
   },
   {
     username: 'AurelienLourot',
@@ -85,8 +85,8 @@ const maintainers: Maintainer[] = [
       <>
         <code>vike-react</code> (Contributor)
       </>,
-      <>Vike Core (Contributor)</>
-    ]
+      <>Vike Core (Contributor)</>,
+    ],
     // consultingUrl: 'https://lourot.dev/'
-  }
+  },
 ]

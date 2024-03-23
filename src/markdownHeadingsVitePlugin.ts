@@ -9,7 +9,6 @@ type MarkdownHeading = {
   title: string
   headingId: string | null
   headingLevel: number
-  titleAddendum?: string
 }
 
 function markdownHeadingsVitePlugin() {

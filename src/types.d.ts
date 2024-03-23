@@ -3,5 +3,5 @@
 declare module '*.mdx' {
   const value: () => JSX.Element
   export default value
-  export const headings: { level: number; title: string; id: string; titleAddendum?: string }[]
+  export const headings: { level: number; title: string; id: string }[]
 }

@@ -26,7 +26,7 @@ function parsePageSections() {
 }
 
 function transform(code: string) {
-  const headings: PageSection[] = []
+  const pageSections: PageSection[] = []
   let isCodeBlock = false
   let codeNew = code
     .split('\n')
@@ -46,14 +46,14 @@ function transform(code: string) {
 
       if (line.startsWith('#')) {
         const { headingId, headingLevel, title, headingHtml } = parsePageSection(line)
-        headings.push({ headingId, headingLevel, title })
+        pageSections.push({ headingId, headingLevel, title })
         return headingHtml
       }
 
       return line
     })
     .join('\n')
-  const headingsExportCode = `export const headings = [${headings
+  const headingsExportCode = `export const headings = [${pageSections
     .map((heading) => JSON.stringify(heading))
     .join(', ')}];`
   codeNew += `\n\n${headingsExportCode}\n`

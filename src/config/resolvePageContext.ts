@@ -163,14 +163,13 @@ function getHeadingsOfTheCurrentPage(
   headingsExport.forEach((markdownHeading) => {
     const title = parseTitle(markdownHeading.title)
     const url: null | string = markdownHeading.headingId && '#' + markdownHeading.headingId
-    if (markdownHeading.headingLevel === 2 || markdownHeading.headingLevel === 3) {
-      const level: 3 | 4 = (markdownHeading.headingLevel + 1) as 3 | 4
+    if (markdownHeading.headingLevel === 2) {
       const heading: Heading = {
         url,
         title,
         headingsBreadcrumb: [currentHeading, ...(currentHeading.headingsBreadcrumb ?? [])],
         titleInNav: title,
-        level,
+        level: 3,
       }
       headingsOfCurrentPage.push(heading)
     }

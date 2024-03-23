@@ -1,4 +1,4 @@
-export { markdownHeadingsVitePlugin }
+export { parsePageSections }
 export type { MarkdownHeading }
 
 import { assert } from './utils/assert.js'
@@ -11,7 +11,7 @@ type MarkdownHeading = {
   headingLevel: number
 }
 
-function markdownHeadingsVitePlugin() {
+function parsePageSections() {
   return {
     name: 'mdx-headings',
     enforce: 'pre',

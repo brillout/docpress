@@ -2,7 +2,7 @@ import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react-swc'
 import vike from 'vike/plugin'
 import { UserConfig } from 'vite'
-import { markdownHeadingsVitePlugin } from './markdownHeadingsVitePlugin.js'
+import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
@@ -15,7 +15,7 @@ const remarkPlugins = [remarkGfm]
 const config: UserConfig = {
   root,
   plugins: [
-    markdownHeadingsVitePlugin(),
+    parsePageSections(),
     mdx({ rehypePlugins, remarkPlugins }),
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
     react(),

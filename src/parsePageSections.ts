@@ -1,11 +1,11 @@
 export { parsePageSections }
-export type { MarkdownHeading }
+export type { PageSection }
 
 import { assert } from './utils/assert.js'
 import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
 import os from 'os'
 
-type MarkdownHeading = {
+type PageSection = {
   title: string
   headingId: string | null
   headingLevel: number
@@ -26,7 +26,7 @@ function parsePageSections() {
 }
 
 function transform(code: string) {
-  const headings: MarkdownHeading[] = []
+  const headings: PageSection[] = []
   let isCodeBlock = false
   let codeNew = code
     .split('\n')
@@ -45,7 +45,7 @@ function transform(code: string) {
       }
 
       if (line.startsWith('#')) {
-        const { headingId, headingLevel, title, headingHtml } = parseMarkdownHeading(line)
+        const { headingId, headingLevel, title, headingHtml } = parsePageSection(line)
         headings.push({ headingId, headingLevel, title })
         return headingHtml
       }
@@ -60,7 +60,7 @@ function transform(code: string) {
   return codeNew
 }
 
-function parseMarkdownHeading(line: string): MarkdownHeading & { headingHtml: string } {
+function parsePageSection(line: string): PageSection & { headingHtml: string } {
   const [lineBegin, ...lineWords] = line.split(' ')
   assert(lineBegin.split('#').join('') === '', { line, lineWords })
   const headingLevel = lineBegin.length

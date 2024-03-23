@@ -13,7 +13,7 @@ type MarkdownHeading = {
 
 function parsePageSections() {
   return {
-    name: 'mdx-headings',
+    name: '@brillout/docpress:parsePageSections',
     enforce: 'pre',
     transform: async (code: string, id: string) => {
       if (!id.endsWith('+Page.mdx')) {

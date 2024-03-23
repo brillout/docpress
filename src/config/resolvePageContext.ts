@@ -158,12 +158,12 @@ function getHeadingsOfTheCurrentPage(
 ) {
   const headingsOfCurrentPage: Heading[] = []
 
-  const headingsExport = pageContext.exports.pageSectionsExport ?? []
+  const pageSections = pageContext.exports.pageSectionsExport ?? []
 
-  headingsExport.forEach((markdownHeading) => {
-    const title = parseTitle(markdownHeading.title)
-    const url: null | string = markdownHeading.headingId && '#' + markdownHeading.headingId
-    if (markdownHeading.headingLevel === 2) {
+  pageSections.forEach((pageSection) => {
+    const title = parseTitle(pageSection.title)
+    const url: null | string = pageSection.headingId && '#' + pageSection.headingId
+    if (pageSection.headingLevel === 2) {
       const heading: Heading = {
         url,
         title,
@@ -177,8 +177,8 @@ function getHeadingsOfTheCurrentPage(
 
   if (currentHeading?.sectionTitles) {
     currentHeading.sectionTitles.forEach((sectionTitle) => {
-      const pageHeadingTitles = headingsExport.map((h) => h.title)
-      assert(pageHeadingTitles.includes(sectionTitle), { pageHeadingTitles, sectionTitle })
+      const pageSectionTitles = pageSections.map((h) => h.title)
+      assert(pageSectionTitles.includes(sectionTitle), { pageHeadingTitles: pageSectionTitles, sectionTitle })
     })
   }
 

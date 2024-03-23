@@ -53,10 +53,10 @@ function transform(code: string) {
       return line
     })
     .join('\n')
-  const headingsExportCode = `export const pageSectionsExport = [${pageSections
+  const exportCode = `export const pageSectionsExport = [${pageSections
     .map((heading) => JSON.stringify(heading))
     .join(', ')}];`
-  codeNew += `\n\n${headingsExportCode}\n`
+  codeNew += `\n\n${exportCode}\n`
   return codeNew
 }
 

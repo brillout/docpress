@@ -13,7 +13,7 @@ export type { Heading }
 
 type ReactComponent = () => JSX.Element
 type Exports = {
-  headings?: PageSection[]
+  pageSectionsExport?: PageSection[]
 }
 type PageContextOriginal = PageContextBuiltInServer & {
   Page: ReactComponent
@@ -158,7 +158,7 @@ function getHeadingsOfTheCurrentPage(
 ) {
   const headingsOfCurrentPage: Heading[] = []
 
-  const headingsExport = pageContext.exports.headings ?? []
+  const headingsExport = pageContext.exports.pageSectionsExport ?? []
 
   headingsExport.forEach((markdownHeading) => {
     const title = parseTitle(markdownHeading.title)

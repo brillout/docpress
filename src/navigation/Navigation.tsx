@@ -127,9 +127,9 @@ function Heading({
 
 function groupHeadings<T extends { level: number }>(headings: T[]) {
   const headingsGrouped: (T & { headings: T[] })[] = []
-  const headingLevelMin: number = Math.min(...headings.map((h) => h.level))
+  const levelMin: number = Math.min(...headings.map((h) => h.level))
   headings.forEach((heading) => {
-    if (heading.level === headingLevelMin) {
+    if (heading.level === levelMin) {
       headingsGrouped.push({ ...heading, headings: [] })
     } else {
       headingsGrouped[headingsGrouped.length - 1].headings.push(heading)

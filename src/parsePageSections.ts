@@ -8,7 +8,7 @@ import os from 'os'
 type PageSection = {
   title: string
   pageSectionId: string | null
-  headingLevel: number
+  pageSectionLevel: number
 }
 
 function parsePageSections() {
@@ -45,8 +45,8 @@ function transform(code: string) {
       }
 
       if (line.startsWith('#')) {
-        const { pageSectionId, headingLevel, title, headingHtml } = parsePageSection(line)
-        pageSections.push({ pageSectionId, headingLevel, title })
+        const { pageSectionId, pageSectionLevel, title, headingHtml } = parsePageSection(line)
+        pageSections.push({ pageSectionId, pageSectionLevel, title })
         return headingHtml
       }
 
@@ -63,7 +63,7 @@ function transform(code: string) {
 function parsePageSection(line: string): PageSection & { headingHtml: string } {
   const [lineBegin, ...lineWords] = line.split(' ')
   assert(lineBegin.split('#').join('') === '', { line, lineWords })
-  const headingLevel = lineBegin.length
+  const pageSectionLevel = lineBegin.length
 
   const titleMdx = lineWords.join(' ')
   assert(!titleMdx.startsWith(' '), { line, lineWords })
@@ -87,9 +87,9 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
   const titleParsed = parseTitle(title)
   assert(pageSectionId === null || pageSectionId.length > 0)
   const headingAttrId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
-  const headingHtml = `<h${headingLevel}${headingAttrId}>${titleParsed}</h${headingLevel}>`
+  const headingHtml = `<h${pageSectionLevel}${headingAttrId}>${titleParsed}</h${pageSectionLevel}>`
 
-  const heading = { headingLevel, title, pageSectionId, headingHtml }
+  const heading = { pageSectionLevel, title, pageSectionId, headingHtml }
   return heading
 }
 

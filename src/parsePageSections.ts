@@ -6,7 +6,7 @@ import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
 import os from 'os'
 
 type PageSection = {
-  title: string
+  pageSectionTitle: string
   pageSectionId: string | null
   pageSectionLevel: number
 }
@@ -45,8 +45,8 @@ function transform(code: string) {
       }
 
       if (line.startsWith('#')) {
-        const { pageSectionId, pageSectionLevel, title, headingHtml } = parsePageSection(line)
-        pageSections.push({ pageSectionId, pageSectionLevel, title })
+        const { pageSectionId, pageSectionLevel, pageSectionTitle, headingHtml } = parsePageSection(line)
+        pageSections.push({ pageSectionId, pageSectionLevel, pageSectionTitle })
         return headingHtml
       }
 
@@ -70,26 +70,26 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
   assert(titleMdx, { line, lineWords })
 
   const headingMdx = {
-    title: titleMdx,
+    pageSectionTitle: titleMdx,
     anchor: titleMdx,
   }
   {
-    // Support custom anchor like: `## title{#custom-anchor}`
+    // Support custom anchor like: `## Some Title{#custom-anchor}`
     const customAnchor = /(?<={#).*(?=})/g.exec(titleMdx)?.[0]
     if (customAnchor) {
       headingMdx.anchor = customAnchor
-      headingMdx.title = titleMdx.replace(/{#.*}/g, '')
+      headingMdx.pageSectionTitle = titleMdx.replace(/{#.*}/g, '')
     }
   }
   const pageSectionId = determineSectionUrlHash(headingMdx.anchor)
-  const title = headingMdx.title
+  const { pageSectionTitle } = headingMdx
 
-  const titleParsed = parseTitle(title)
+  const titleParsed = parseTitle(pageSectionTitle)
   assert(pageSectionId === null || pageSectionId.length > 0)
   const headingAttrId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
   const headingHtml = `<h${pageSectionLevel}${headingAttrId}>${titleParsed}</h${pageSectionLevel}>`
 
-  const heading = { pageSectionLevel, title, pageSectionId, headingHtml }
+  const heading = { pageSectionLevel, pageSectionTitle, pageSectionId, headingHtml }
   return heading
 }
 

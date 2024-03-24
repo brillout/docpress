@@ -161,14 +161,14 @@ function getHeadingsOfTheCurrentPage(
   const pageSections = pageContext.exports.pageSectionsExport ?? []
 
   pageSections.forEach((pageSection) => {
-    const title = parseTitle(pageSection.title)
+    const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
     const url: null | string = pageSection.pageSectionId && '#' + pageSection.pageSectionId
     if (pageSection.pageSectionLevel === 2) {
       const heading: Heading = {
         url,
-        title,
+        title: pageSectionTitleJsx,
         headingsBreadcrumb: [currentHeading, ...(currentHeading.headingsBreadcrumb ?? [])],
-        titleInNav: title,
+        titleInNav: pageSectionTitleJsx,
         level: 3,
       }
       headingsOfCurrentPage.push(heading)
@@ -177,7 +177,7 @@ function getHeadingsOfTheCurrentPage(
 
   if (currentHeading?.sectionTitles) {
     currentHeading.sectionTitles.forEach((sectionTitle) => {
-      const pageSectionTitles = pageSections.map((h) => h.title)
+      const pageSectionTitles = pageSections.map((h) => h.pageSectionTitle)
       assert(pageSectionTitles.includes(sectionTitle), { pageHeadingTitles: pageSectionTitles, sectionTitle })
     })
   }

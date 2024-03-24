@@ -50,23 +50,37 @@ function NavigationMask() {
   return <div id="navigation-mask" />
 }
 
+type NavItemProps = {
+  level: number
+  url?: string | null
+  title: string | JSX.Element
+  titleInNav: string | JSX.Element
+}
+type NavItemPropsComputed = {
+  isActive: boolean
+  isActiveFirst: boolean
+  isActiveLast: boolean
+  isFirstOfItsKind: boolean
+  isLastOfItsKind: boolean
+}
+
 function NavigationContent(props: {
   id: 'navigation-content-main' | 'navigation-content-detached'
   headingsProcessed: (Heading | HeadingDetached)[]
   currentUrl: string
 }) {
-  const headings = getHeadingsWithComputedProps(props.headingsProcessed, props.currentUrl)
+  const navItems = addComputedProps(props.headingsProcessed, props.currentUrl)
 
-  const headingsGrouped = groupHeadings(headings)
+  const navItemsGrouped = groupHeadings(navItems)
 
   return (
     <div id={props.id} className="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>
-        {headingsGrouped.map((headingsH1, i) => (
+        {navItemsGrouped.map((headingsH1, i) => (
           <div className="nav-h1-group" key={i}>
-            <NavItem heading={headingsH1} />
+            <NavItem navItem={headingsH1} />
             {headingsH1.headings.map((heading, j) => (
-              <NavItem heading={heading} key={j} />
+              <NavItem navItem={heading} key={j} />
             ))}
           </div>
         ))}
@@ -76,31 +90,19 @@ function NavigationContent(props: {
 }
 
 function NavItem({
-  heading,
+  navItem,
 }: {
-  heading: {
-    level: number
-    url?: string | null
-    title: string | JSX.Element
-    titleInNav: string | JSX.Element
-    computed: {
-      isActive: boolean
-      isActiveFirst: boolean
-      isActiveLast: boolean
-      isFirstOfItsKind: boolean
-      isLastOfItsKind: boolean
-    }
-  }
+  navItem: NavItemProps & NavItemPropsComputed
 }) {
-  assert([1, 2, 3, 4].includes(heading.level), heading)
-  if (heading.level === 1 || heading.level === 4) {
-    assert(heading.url === undefined)
+  assert([1, 2, 3, 4].includes(navItem.level), navItem)
+  if (navItem.level === 1 || navItem.level === 4) {
+    assert(navItem.url === undefined)
   } else {
-    const sectionTitle = jsxToTextContent(heading.title)
+    const sectionTitle = jsxToTextContent(navItem.title)
     assertWarning(
-      heading.url,
+      navItem.url,
       `${jsxToTextContent(
-        heading.titleInNav,
+        navItem.titleInNav,
       )} is missing a URL hash. Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`,
     )
   }
@@ -108,19 +110,19 @@ function NavItem({
     <a
       className={[
         'nav-item',
-        'nav-item-level-' + heading.level,
-        heading.computed.isActive && ' is-active',
-        heading.computed.isActiveFirst && ' is-active-first',
-        heading.computed.isActiveLast && ' is-active-last',
-        heading.computed.isFirstOfItsKind && 'nav-item-first-of-its-kind',
-        heading.computed.isLastOfItsKind && 'nav-item-last-of-its-kind',
+        'nav-item-level-' + navItem.level,
+        navItem.isActive && ' is-active',
+        navItem.isActiveFirst && ' is-active-first',
+        navItem.isActiveLast && ' is-active-last',
+        navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
+        navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
       ]
         .filter(Boolean)
         .join(' ')}
-      href={heading.url ?? undefined}
+      href={navItem.url ?? undefined}
     >
       {/* <span className="nav-item-text">{heading.titleInNav}</span> */}
-      {heading.titleInNav}
+      {navItem.titleInNav}
     </a>
   )
 }
@@ -138,7 +140,10 @@ function groupHeadings<T extends { level: number }>(headings: T[]) {
   return headingsGrouped
 }
 
-function getHeadingsWithComputedProps(headings: (Heading | HeadingDetached)[], currentUrl: string) {
+function addComputedProps(
+  headings: (Heading | HeadingDetached)[],
+  currentUrl: string,
+): (NavItemProps & NavItemPropsComputed)[] {
   return headings.map((heading, i) => {
     assert([1, 2, 3, 4].includes(heading.level), heading)
 
@@ -168,13 +173,11 @@ function getHeadingsWithComputedProps(headings: (Heading | HeadingDetached)[], c
 
     return {
       ...heading,
-      computed: {
-        isActive,
-        isActiveFirst,
-        isActiveLast,
-        isFirstOfItsKind,
-        isLastOfItsKind,
-      },
+      isActive,
+      isActiveFirst,
+      isActiveLast,
+      isFirstOfItsKind,
+      isLastOfItsKind,
     }
   })
 }

@@ -39,8 +39,8 @@ importers:
         specifier: ^4.9.4
         version: 4.9.4
       vike:
-        specifier: ^0.4.166
-        version: 0.4.166(vite@5.2.2)
+        specifier: ^0.4.167
+        version: 0.4.167(vite@5.2.2)
       vite:
         specifier: ^5.2.2
         version: 5.2.2(@types/node@15.14.9)
@@ -103,8 +103,8 @@ importers:
         specifier: ^4.9.4
         version: 4.9.4
       vike:
-        specifier: ^0.4.166
-        version: 0.4.166(vite@5.2.2)
+        specifier: ^0.4.167
+        version: 0.4.167(vite@5.2.2)
       vite:
         specifier: ^5.2.2
         version: 5.2.2(@types/node@15.14.9)
@@ -3335,8 +3335,8 @@ packages:
     requiresBuild: true
     dev: false
 
-  /vike@0.4.166(vite@5.2.2):
-    resolution: {integrity: sha512-oK5vmDFthyHyhPLA4R+J/oM10Xb8a2bPVWuip7uWKU/NBq3q+2nmHsGMKRHXVjXmI3MKLYhSOz4xQV775C6WHQ==}
+  /vike@0.4.167(vite@5.2.2):
+    resolution: {integrity: sha512-YsEjcK0pa3GRAfO5LlOKeuUpvpQIXBVuGya8Mia22U529CgIPSZqMsYt85/OymHnEoOZxFEDO4PshbX7xC9K2A==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:

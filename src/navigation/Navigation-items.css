@@ -8,10 +8,10 @@
 .nav-item code {
   font-size: 0.9em;
 }
-.nav-item-h1 + .nav-item-h4 {
+.nav-item-level-1 + .nav-item-level-4 {
   margin-top: -2px;
 }
-.nav-item-h4 {
+.nav-item-level-4 {
   margin-top: 14px;
   margin-bottom: -1px;
   color: #999;
@@ -22,10 +22,10 @@
   padding-right: 4px;
   text-decoration: none;
 }
-.nav-column:first-of-type > .nav-h1-group:first-of-type > .nav-item-h1:first-of-type {
+.nav-column:first-of-type > .nav-h1-group:first-of-type > .nav-item-level-1:first-of-type {
   margin-top: 20px;
 }
-.nav-item-h1 {
+.nav-item-level-1 {
   margin-top: 30px;
   font-size: 15.4px;
   text-transform: uppercase;
@@ -37,7 +37,7 @@
   padding-right: 4px;
   text-decoration: none;
 }
-.nav-item-h2 {
+.nav-item-level-2 {
   text-decoration: none;
   font-size: 14.4px;
   font-weight: 400;
@@ -49,7 +49,7 @@
   padding-top: var(--padding);
   padding-bottom: var(--padding);
 }
-.nav-item-h3 {
+.nav-item-level-3 {
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.15ch;
@@ -61,28 +61,28 @@
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + var(--padding-left-additional));
 }
-html.navigation-fullscreen .nav-item-h3 {
+html.navigation-fullscreen .nav-item-level-3 {
   border-right: 4px solid #eee;
 }
-.nav-item-h3.nav-item-first-of-its-kind {
+.nav-item-level-3.nav-item-first-of-its-kind {
   padding-top: calc(var(--padding) * 1.6);
 }
-.nav-item-h3.nav-item-last-of-its-kind {
+.nav-item-level-3.nav-item-last-of-its-kind {
   padding-bottom: calc(var(--padding) * 2);
 }
-.nav-item-h2,
-.nav-item-h3 {
+.nav-item-level-2,
+.nav-item-level-3 {
   position: relative;
 }
 /*
-.nav-item-h2.is-active .nav-item-text{
+.nav-item-level-2.is-active .nav-item-text{
   background-color: var(--background-color);
 }
 */
-.nav-item-h2.is-active {
+.nav-item-level-2.is-active {
   background-color: var(--background-color);
 }
-.nav-item-h3.is-active:before {
+.nav-item-level-3.is-active:before {
   display: block;
   content: '';
   position: absolute;
@@ -93,7 +93,7 @@ html.navigation-fullscreen .nav-item-h3 {
   background-color: var(--background-color);
   z-index: 10;
 }
-.nav-item-h3.is-active-last:after {
+.nav-item-level-3.is-active-last:after {
   display: block;
   content: '';
   position: absolute;

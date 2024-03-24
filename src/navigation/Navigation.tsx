@@ -108,7 +108,7 @@ function Heading({
     <a
       className={[
         'nav-item',
-        'nav-item-h' + heading.level,
+        'nav-item-level-' + heading.level,
         heading.computed.isActive && ' is-active',
         heading.computed.isActiveFirst && ' is-active-first',
         heading.computed.isActiveLast && ' is-active-last',

@@ -5,21 +5,21 @@ export { HeadingDefinition }
 
 import type { EmojiName } from '../utils/server'
 
-type MenuItemLevel =
-  | MenuItemDefinitionLevel
+type NavItemLevel =
+  | NaItemDefinitionLevel
   | {
       level: 3
       url: null | string
     }
-type MenuItemDefinitionLevel =
-  | ({ level: 1; titleEmoji: EmojiName } & IsMenuCategory)
-  | ({ level: 4 } & IsMenuCategory)
+type NaItemDefinitionLevel =
+  | ({ level: 1; titleEmoji: EmojiName } & IsNavCategory)
+  | ({ level: 4 } & IsNavCategory)
   | {
       level: 2
       sectionTitles?: string[]
       url: null | string
     }
-type IsMenuCategory = {
+type IsNavCategory = {
   url?: undefined
   titleDocument?: undefined
   titleInNav?: undefined
@@ -42,9 +42,9 @@ type HeadingDetachedDefinition = {
   sectionTitles?: string[]
 }
 type HeadingDefinition = HeadingCommon &
-  MenuItemDefinitionLevel & {
+  NaItemDefinitionLevel & {
     title: string
-    // TODO: rename to titleMenu
+    // TODO: rename to titleNav
     titleInNav?: string
   }
 type HeadingCommon = {

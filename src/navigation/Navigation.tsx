@@ -64,9 +64,9 @@ function NavigationContent(props: {
       <div className="nav-column" style={{ position: 'relative' }}>
         {headingsGrouped.map((headingsH1, i) => (
           <div className="nav-h1-group" key={i}>
-            <Heading heading={headingsH1} />
+            <NavItem heading={headingsH1} />
             {headingsH1.headings.map((heading, j) => (
-              <Heading heading={heading} key={j} />
+              <NavItem heading={heading} key={j} />
             ))}
           </div>
         ))}
@@ -75,7 +75,7 @@ function NavigationContent(props: {
   )
 }
 
-function Heading({
+function NavItem({
   heading,
 }: {
   heading: {

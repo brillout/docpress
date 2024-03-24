@@ -162,7 +162,7 @@ function getHeadingsOfTheCurrentPage(
 
   pageSections.forEach((pageSection) => {
     const title = parseTitle(pageSection.title)
-    const url: null | string = pageSection.headingId && '#' + pageSection.headingId
+    const url: null | string = pageSection.pageSectionId && '#' + pageSection.pageSectionId
     if (pageSection.headingLevel === 2) {
       const heading: Heading = {
         url,

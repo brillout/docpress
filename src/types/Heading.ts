@@ -26,6 +26,7 @@ type IsMenuCategory = {
 }
 
 type Heading = HeadingCommon & {
+  level: number
   title: JSX.Element
   titleInNav: JSX.Element
   headingsBreadcrumb: (Heading | HeadingDetached)[]
@@ -41,12 +42,13 @@ type HeadingDetachedDefinition = {
   sectionTitles?: string[]
 }
 type HeadingDefinition = HeadingCommon &
-  MenuItemLevel & {
+  MenuItemDefinitionLevel & {
     title: string
+    // TODO: rename to titleMenu
     titleInNav?: string
   }
 type HeadingCommon = {
   url?: null | string
-  level: number
+  // TODO: rename to titlePage
   titleDocument?: string
 }

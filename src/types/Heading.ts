@@ -5,7 +5,27 @@ export { HeadingDefinition }
 
 import type { EmojiName } from '../utils/server'
 
-type Heading = Omit<HeadingDefinition, 'title' | 'titleInNav'> & {
+type MenuItemLevel =
+  | MenuItemDefinitionLevel
+  | {
+      level: 3
+      url: null | string
+    }
+type MenuItemDefinitionLevel =
+  | ({ level: 1; titleEmoji: EmojiName } & IsMenuCategory)
+  | ({ level: 4 } & IsMenuCategory)
+  | {
+      level: 2
+      sectionTitles?: string[]
+      url: null | string
+    }
+type IsMenuCategory = {
+  url?: undefined
+  titleDocument?: undefined
+  titleInNav?: undefined
+}
+
+type Heading = HeadingCommon & {
   title: JSX.Element
   titleInNav: JSX.Element
   headingsBreadcrumb: (Heading | HeadingDetached)[]
@@ -20,30 +40,13 @@ type HeadingDetachedDefinition = {
   title: string | JSX.Element
   sectionTitles?: string[]
 }
-type HeadingDefinition = HeadingBase &
-  (
-    | ({ level: 1; titleEmoji: EmojiName } & HeadingAbstract)
-    | ({ level: 4 } & HeadingAbstract)
-    | {
-        level: 2
-        sectionTitles?: string[]
-        url: null | string
-      }
-    | {
-        level: 3
-        url: null | string
-      }
-  )
-type HeadingBase = {
-  title: string
-  level: number
+type HeadingDefinition = HeadingCommon &
+  MenuItemLevel & {
+    title: string
+    titleInNav?: string
+  }
+type HeadingCommon = {
   url?: null | string
+  level: number
   titleDocument?: string
-  titleInNav?: string
-  // titleSize?: string
-}
-type HeadingAbstract = {
-  url?: undefined
-  titleDocument?: undefined
-  titleInNav?: undefined
 }

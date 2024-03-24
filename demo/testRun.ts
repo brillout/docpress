@@ -1,6 +1,6 @@
 export { testRun }
 
-import { test, expect, run, fetchHtml, page, getServerUrl } from '@brillout/test-e2e'
+import { test, expect, run, fetchHtml, page, getServerUrl, testScreenshotFixture } from '@brillout/test-e2e'
 
 function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   {
@@ -25,5 +25,10 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const text = await page.textContent('body')
     expect(text).toContain('Some global note.')
     expect(text).toContain('Another Section > Some Page (basic link)')
+  })
+
+  test('screenshot fixture', async () => {
+    await page.click('a[href="/some-page"]')
+    await testScreenshotFixture({ doNotTestLocally: true })
   })
 }

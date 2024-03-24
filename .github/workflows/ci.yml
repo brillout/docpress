@@ -6,18 +6,18 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [18]
+        node_version: [20]
       fail-fast: false
     name: 'Test on node-${{ matrix.node_version }}, ${{ matrix.os }}'
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
-      - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v2
+      - name: Set Node.js version to ${{ matrix.node_version }}
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
           cache: "pnpm"
@@ -25,3 +25,13 @@ jobs:
       - run: pnpm exec playwright install chromium
       - run: pnpm run build
       - run: pnpm run test
+
+      - name: Upload screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'screenshots'
+          path: |
+            **/test-screenshot-expect.png
+            **/test-screenshot-actual.png
+            **/test-screenshot-differ.png

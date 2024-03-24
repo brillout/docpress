@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
-    "@brillout/test-e2e": "^0.5.25",
+    "@brillout/test-e2e": "^0.5.29",
     "@brillout/docpress": "workspace:^",
     "prettier": "^2.8.7"
   },

@@ -22,7 +22,7 @@
   padding-right: 4px;
   text-decoration: none;
 }
-.nav-column:first-of-type > .nav-h1-group:first-of-type > .nav-item-level-1:first-of-type {
+.nav-column:first-of-type > .nav-items-level-1-group:first-of-type > .nav-item-level-1:first-of-type {
   margin-top: 20px;
 }
 .nav-item-level-1 {

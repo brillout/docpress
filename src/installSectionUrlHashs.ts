@@ -27,8 +27,9 @@ function installSectionUrlHashs() {
 function assertNavLink(urlHash: string, heading: HTMLHeadingElement) {
   const navigationEl = getNavigationEl()
   {
-    const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${window.location.pathname}"]`))
-    assert(parentNavLinkMatch.length === 1)
+    const { pathname } = window.location
+    const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${pathname}"]`))
+    assert(parentNavLinkMatch.length === 1, { parentNavLinkMatch, pathname })
   }
   {
     const navLinks: HTMLElement[] = Array.from(navigationEl.querySelectorAll(`a[href="${urlHash}"]`))

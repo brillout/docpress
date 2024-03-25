@@ -63,7 +63,7 @@ function getHeadingsWithProcessedTitle(config: {
 }
 
 function getHeadingsBreadcrumb(heading: Omit<Heading, 'headingsBreadcrumb'>, headings: Heading[]) {
-  const headingsBreadcrumb: Heading[] = []
+  const headingsBreadcrumb: JSX.Element[] = []
   let levelCurrent = heading.level
   headings
     .slice()
@@ -72,7 +72,7 @@ function getHeadingsBreadcrumb(heading: Omit<Heading, 'headingsBreadcrumb'>, hea
       const isParent = parentCandidate.level < levelCurrent
       if (isParent) {
         levelCurrent = parentCandidate.level
-        headingsBreadcrumb.push(parentCandidate)
+        headingsBreadcrumb.push(parentCandidate.title)
       }
     })
   return headingsBreadcrumb

@@ -29,7 +29,7 @@ type Heading = HeadingCommon & {
   level: number
   title: JSX.Element
   titleInNav: JSX.Element
-  headingsBreadcrumb: (Heading | HeadingDetached)[]
+  headingsBreadcrumb: JSX.Element[]
   sectionTitles?: string[]
 }
 type HeadingDetached = Omit<Heading, 'level' | 'headingsBreadcrumb'> & {

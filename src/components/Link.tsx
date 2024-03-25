@@ -66,7 +66,7 @@ function getLinkText({
     linkData = findLinkData(hrefWithoutHash, pageContext)
     if (linkData.url === pageContext.urlPathname) {
       isLinkOnSamePage = true
-      // linkData !== pageContext.linkActive because linkActive is a different object holding on-this-page subheadings
+      // linkData !== pageContext.linkActive because linkActive is a different object holding on-this-page breadcrumbs
       linkData = pageContext.linkActive
     }
   }

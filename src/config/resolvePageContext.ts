@@ -39,7 +39,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
   headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
   const linkAll: LinkData[] = headingsAll
-  const linkActive: LinkData = activeHeading
 
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
@@ -66,7 +65,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       algolia,
     },
     linkAll,
-    linkActive,
     isLandingPage,
     pageTitle,
     config,

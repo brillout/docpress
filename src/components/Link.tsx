@@ -56,22 +56,18 @@ function getLinkText({
     assert(hrefWithoutHash || urlHash)
   }
 
-  let linkData: LinkData
+  const linkData = findLinkData(hrefWithoutHash || pageContext.urlPathname, pageContext)
   let isLinkOnSamePage: boolean = false
   if (!hrefWithoutHash) {
     assert(urlHash)
     isLinkOnSamePage = true
-    linkData = pageContext.linkActive
   } else {
-    linkData = findLinkData(hrefWithoutHash, pageContext)
     if (linkData.url === pageContext.urlPathname) {
       isLinkOnSamePage = true
     }
   }
   assert(linkData)
   assert(isLinkOnSamePage === (linkData.url === pageContext.urlPathname))
-  assert(isLinkOnSamePage === (linkData.url === pageContext.linkActive.url))
-  assert(isLinkOnSamePage === (linkData === pageContext.linkActive))
 
   const breadcrumbParts: (string | JSX.Element)[] = []
 

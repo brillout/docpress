@@ -55,46 +55,46 @@ function getLinkText({
     assert(hrefWithoutHash || urlHash)
   }
 
-  let heading: Heading | HeadingDetached
+  let linkData: LinkData
   let isLinkOnSamePage: boolean = false
   if (hrefWithoutHash) {
-    heading = findHeading(hrefWithoutHash, pageContext)
-    if (heading.url === pageContext.urlPathname) {
+    linkData = findLinkData(hrefWithoutHash, pageContext)
+    if (linkData.url === pageContext.urlPathname) {
       isLinkOnSamePage = true
       // heading !== pageContext.activeHeading because activeHeading is a different object holding on-this-page subheadings
-      heading = pageContext.activeHeading
+      linkData = pageContext.activeHeading
     }
   } else {
     assert(urlHash)
     isLinkOnSamePage = true
-    heading = pageContext.activeHeading
+    linkData = pageContext.activeHeading
   }
-  assert(heading)
-  assert(isLinkOnSamePage === (heading.url === pageContext.urlPathname))
-  assert(isLinkOnSamePage === (heading.url === pageContext.activeHeading.url))
-  assert(isLinkOnSamePage === (heading === pageContext.activeHeading))
+  assert(linkData)
+  assert(isLinkOnSamePage === (linkData.url === pageContext.urlPathname))
+  assert(isLinkOnSamePage === (linkData.url === pageContext.activeHeading.url))
+  assert(isLinkOnSamePage === (linkData === pageContext.activeHeading))
 
   const breadcrumbParts: (string | JSX.Element)[] = []
 
-  if (heading.headingsBreadcrumb) {
+  if (linkData.headingsBreadcrumb) {
     breadcrumbParts.push(
-      ...(heading.headingsBreadcrumb ?? [])
+      ...(linkData.headingsBreadcrumb ?? [])
         .slice()
         .reverse()
         .map(({ title }) => title),
     )
   }
 
-  breadcrumbParts.push(heading.title)
+  breadcrumbParts.push(linkData.title)
 
   if (urlHash) {
     let sectionTitle: string | JSX.Element | undefined = undefined
     assert(!urlHash.startsWith('#'))
     if (isLinkOnSamePage) {
-      const pageHeading = findHeading(`#${urlHash}`, pageContext)
+      const pageHeading = findLinkData(`#${urlHash}`, pageContext)
       sectionTitle = pageHeading.title
-    } else if ('sectionTitles' in heading && heading.sectionTitles) {
-      heading.sectionTitles.forEach((title) => {
+    } else if ('sectionTitles' in linkData && linkData.sectionTitles) {
+      linkData.sectionTitles.forEach((title) => {
         if (determineSectionUrlHash(title) === urlHash) {
           sectionTitle = parseTitle(title)
         }
@@ -131,7 +131,14 @@ function getLinkText({
   )
 }
 
-function findHeading(href: string, pageContext: PageContextResolved): Heading | HeadingDetached {
+type LinkData = {
+  url?: null | string
+  title: JSX.Element
+  headingsBreadcrumb: null | (Heading | HeadingDetached)[]
+  sectionTitles?: string[]
+}
+
+function findLinkData(href: string, pageContext: PageContextResolved): LinkData {
   assert(href.startsWith('/') || href.startsWith('#'))
   const { headingsAll } = pageContext
   const heading = headingsAll.find(({ url }) => href === url)

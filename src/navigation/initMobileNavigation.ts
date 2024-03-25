@@ -11,7 +11,7 @@ function activateMobileShowNavigationToggle() {
   toggle.onclick = onMobileShowNavigationToggle
 }
 function activateMobileNavigationMask() {
-  const navigationMask = document.getElementById('navigation-mask')!
+  const navigationMask = document.getElementById('mobile-navigation-mask')!
   navigationMask.onclick = onMobileShowNavigationToggle
 }
 

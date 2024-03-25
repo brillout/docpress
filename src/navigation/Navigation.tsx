@@ -40,7 +40,7 @@ function Navigation({
 }
 
 function NavigationMask() {
-  return <div id="navigation-mask" />
+  return <div id="mobile-navigation-mask" />
 }
 
 type NavItem = {

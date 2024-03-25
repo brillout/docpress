@@ -50,13 +50,13 @@ function NavigationMask() {
   return <div id="navigation-mask" />
 }
 
-type NavItemProps = {
+type NavItem = {
   level: number
   url?: string | null
   title: string | JSX.Element
   titleInNav: string | JSX.Element
 }
-type NavItemPropsComputed = {
+type NavItemComputed = NavItem & {
   isActive: boolean
   isActiveFirst: boolean
   isActiveLast: boolean
@@ -66,7 +66,7 @@ type NavItemPropsComputed = {
 
 function NavigationContent(props: {
   id: 'navigation-content-main' | 'navigation-content-detached'
-  navItems: NavItemProps[]
+  navItems: NavItem[]
   currentUrl: string
 }) {
   const navItemsWithComputed = addComputedProps(props.navItems, props.currentUrl)
@@ -77,9 +77,9 @@ function NavigationContent(props: {
       <div className="nav-column" style={{ position: 'relative' }}>
         {navItemsGrouped.map((navItemLevel1, i) => (
           <div className="nav-items-level-1-group" key={i}>
-            <NavItem navItem={navItemLevel1} />
+            <NavItemComponent navItem={navItemLevel1} />
             {navItemLevel1.navItemChilds.map((navItem, j) => (
-              <NavItem navItem={navItem} key={j} />
+              <NavItemComponent navItem={navItem} key={j} />
             ))}
           </div>
         ))}
@@ -88,10 +88,10 @@ function NavigationContent(props: {
   )
 }
 
-function NavItem({
+function NavItemComponent({
   navItem,
 }: {
-  navItem: NavItemProps & NavItemPropsComputed
+  navItem: NavItemComputed
 }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
   if (navItem.level === 1 || navItem.level === 4) {
@@ -139,7 +139,7 @@ function groupByLevel1<T extends { level: number }>(navItems: T[]) {
   return navItemsGrouped
 }
 
-function addComputedProps(navItems: NavItemProps[], currentUrl: string): (NavItemProps & NavItemPropsComputed)[] {
+function addComputedProps(navItems: NavItem[], currentUrl: string): NavItemComputed[] {
   return navItems.map((navItem, i) => {
     assert([1, 2, 3, 4].includes(navItem.level), navItem)
 

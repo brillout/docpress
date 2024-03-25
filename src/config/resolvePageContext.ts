@@ -62,9 +62,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     },
     activeHeading,
     headingsAll,
-    headingsProcessed,
-    headingsDetachedProcessed,
-    headingsOfDetachedPage,
     isLandingPage,
     pageTitle,
     config,
@@ -72,7 +69,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 
   let navigationData: NavigationData
   {
-    const { headingsOfDetachedPage } = pageContextResolved
     const currentUrl = pageContext.urlPathname
     if (headingsOfDetachedPage) {
       navigationData = {

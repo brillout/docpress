@@ -58,22 +58,22 @@ function getLinkText({
 
   let linkData: LinkData
   let isLinkOnSamePage: boolean = false
-  if (hrefWithoutHash) {
+  if (!hrefWithoutHash) {
+    assert(urlHash)
+    isLinkOnSamePage = true
+    linkData = pageContext.linkActive
+  } else {
     linkData = findLinkData(hrefWithoutHash, pageContext)
     if (linkData.url === pageContext.urlPathname) {
       isLinkOnSamePage = true
-      // heading !== pageContext.activeHeading because activeHeading is a different object holding on-this-page subheadings
-      linkData = pageContext.activeHeading
+      // linkData !== pageContext.linkActive because linkActive is a different object holding on-this-page subheadings
+      linkData = pageContext.linkActive
     }
-  } else {
-    assert(urlHash)
-    isLinkOnSamePage = true
-    linkData = pageContext.activeHeading
   }
   assert(linkData)
   assert(isLinkOnSamePage === (linkData.url === pageContext.urlPathname))
-  assert(isLinkOnSamePage === (linkData.url === pageContext.activeHeading.url))
-  assert(isLinkOnSamePage === (linkData === pageContext.activeHeading))
+  assert(isLinkOnSamePage === (linkData.url === pageContext.linkActive.url))
+  assert(isLinkOnSamePage === (linkData === pageContext.linkActive))
 
   const breadcrumbParts: (string | JSX.Element)[] = []
 
@@ -136,8 +136,8 @@ type LinkData = {
 
 function findLinkData(href: string, pageContext: PageContextResolved): LinkData {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { linksData } = pageContext
-  const linkData = linksData.find(({ url }) => href === url)
+  const { linkAll } = pageContext
+  const linkData = linkAll.find(({ url }) => href === url)
   if (href.startsWith('#')) {
     assertUsage(linkData, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
   } else {

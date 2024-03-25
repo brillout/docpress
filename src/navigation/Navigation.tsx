@@ -101,7 +101,7 @@ function NavItemComponent({
   return (
     <a
       className={[
-        'naev-item',
+        'nav-item',
         'nav-item-level-' + navItem.level,
         navItem.isActive && ' is-active',
         navItem.isActiveFirst && ' is-active-first',

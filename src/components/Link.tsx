@@ -1,8 +1,8 @@
 export { Link }
+export type { LinkData }
 
 import React from 'react'
 import { isRepoLink, RepoLink } from './RepoLink'
-import type { Heading, HeadingDetached } from '../types/Heading'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
@@ -135,12 +135,12 @@ type LinkData = {
 
 function findLinkData(href: string, pageContext: PageContextResolved): LinkData {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { headingsAll } = pageContext
-  const heading = headingsAll.find(({ url }) => href === url)
+  const { linksData } = pageContext
+  const linkData = linksData.find(({ url }) => href === url)
   if (href.startsWith('#')) {
-    assertUsage(heading, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
+    assertUsage(linkData, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
   } else {
-    assertUsage(heading, `Couldn't find heading for ${href}, did you define the heading for ${href}?`)
+    assertUsage(linkData, `Couldn't find heading for ${href}, did you define the heading for ${href}?`)
   }
-  return heading
+  return linkData
 }

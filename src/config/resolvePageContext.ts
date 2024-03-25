@@ -1,11 +1,12 @@
 import { assert, jsxToTextContent, objectAssign } from '../utils/server'
 import type { Heading, HeadingDetached } from '../types/Heading'
-import type { PageContextBuiltInServer } from 'vike/types'
+import type { PageContextServer } from 'vike/types'
 import type { PageSection } from '../parsePageSections'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
 import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
 import { NavigationData, NavItem } from '../navigation/Navigation'
+import { LinkData } from '../components'
 
 export { resolvePageContext }
 export type { PageContextOriginal }
@@ -16,7 +17,7 @@ type ReactComponent = () => JSX.Element
 type Exports = {
   pageSectionsExport?: PageSection[]
 }
-type PageContextOriginal = PageContextBuiltInServer & {
+type PageContextOriginal = PageContextServer & {
   Page: ReactComponent
   exports: Exports
 }
@@ -37,6 +38,8 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
   headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
+  const linksData: LinkData[] = headingsAll
+
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
   } else {
@@ -62,7 +65,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       algolia,
     },
     activeHeading,
-    headingsAll,
+    linksData,
     isLandingPage,
     pageTitle,
     config,

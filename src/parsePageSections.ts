@@ -54,7 +54,7 @@ function transform(code: string) {
     })
     .join('\n')
   const exportCode = `export const pageSectionsExport = [${pageSections
-    .map((heading) => JSON.stringify(heading))
+    .map((pageSection) => JSON.stringify(pageSection))
     .join(', ')}];`
   codeNew += `\n\n${exportCode}\n`
   return codeNew
@@ -86,11 +86,11 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
 
   const titleParsed = parseTitle(pageSectionTitle)
   assert(pageSectionId === null || pageSectionId.length > 0)
-  const headingAttrId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
-  const headingHtml = `<h${pageSectionLevel}${headingAttrId}>${titleParsed}</h${pageSectionLevel}>`
+  const headingId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
+  const headingHtml = `<h${pageSectionLevel}${headingId}>${titleParsed}</h${pageSectionLevel}>`
 
-  const heading = { pageSectionLevel, pageSectionTitle, pageSectionId, headingHtml }
-  return heading
+  const pageSection = { pageSectionLevel, pageSectionTitle, pageSectionId, headingHtml }
+  return pageSection
 }
 
 function parseTitle(titleMarkdown: string): string {

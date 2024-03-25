@@ -166,10 +166,10 @@ function getHeadingsAll<T extends Heading | HeadingDetached>(
 
   const headingsOfTheCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
-  const activeHeadingIdx = headingsAll.indexOf(activeHeading)
-  assert(activeHeadingIdx >= 0)
+  const activeHeadingIndex = headingsAll.indexOf(activeHeading)
+  assert(activeHeadingIndex >= 0)
   headingsOfTheCurrentPage.forEach((pageHeading, i) => {
-    headingsAll.splice(activeHeadingIdx + 1 + i, 0, pageHeading as T)
+    headingsAll.splice(activeHeadingIndex + 1 + i, 0, pageHeading as T)
   })
 
   return headingsAll

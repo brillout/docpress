@@ -49,25 +49,11 @@ function getLinkText({
   pageContext: PageContextResolved
   doNotInferSectionTitle: true | undefined
 }): string | JSX.Element {
-  let urlHash: string | null = null
-  let hrefWithoutHash: string = href
-  if (href.includes('#')) {
-    ;[hrefWithoutHash, urlHash] = href.split('#')
-    assert(hrefWithoutHash || urlHash)
-  }
+  const { hrefPathname, hrefHash } = parseHref(href)
 
-  const linkData = findLinkData(hrefWithoutHash || pageContext.urlPathname, pageContext)
-  let isLinkOnSamePage: boolean = false
-  if (!hrefWithoutHash) {
-    assert(urlHash)
-    isLinkOnSamePage = true
-  } else {
-    if (linkData.url === pageContext.urlPathname) {
-      isLinkOnSamePage = true
-    }
-  }
-  assert(linkData)
-  assert(isLinkOnSamePage === (linkData.url === pageContext.urlPathname))
+  const linkData = findLinkData(hrefPathname || pageContext.urlPathname, pageContext)
+  const isLinkOnSamePage = linkData.url === pageContext.urlPathname
+  if (!hrefPathname) assert(isLinkOnSamePage)
 
   const breadcrumbParts: (string | JSX.Element)[] = []
 
@@ -77,15 +63,15 @@ function getLinkText({
 
   breadcrumbParts.push(linkData.title)
 
-  if (urlHash) {
+  if (hrefHash) {
     let sectionTitle: string | JSX.Element | undefined = undefined
-    assert(!urlHash.startsWith('#'))
+    assert(!hrefHash.startsWith('#'))
     if (isLinkOnSamePage) {
-      const pageHeading = findLinkData(`#${urlHash}`, pageContext)
+      const pageHeading = findLinkData(`#${hrefHash}`, pageContext)
       sectionTitle = pageHeading.title
     } else if ('sectionTitles' in linkData && linkData.sectionTitles) {
       linkData.sectionTitles.forEach((title) => {
-        if (determineSectionUrlHash(title) === urlHash) {
+        if (determineSectionUrlHash(title) === hrefHash) {
           sectionTitle = parseTitle(title)
         }
       })
@@ -153,4 +139,21 @@ function findLinkData(href: string, pageContext: PageContextResolved): LinkData 
     )
   }
   return linkData
+}
+
+function parseHref(href: string) {
+  let hrefHash: string | null = null
+  let hrefPathname: string | null = null
+  if (!href.includes('#')) {
+    hrefPathname = href
+  } else {
+    const [partsFirst, ...partsRest] = href.split('#')
+    if (partsFirst) {
+      hrefPathname = partsFirst
+    }
+    hrefHash = partsRest.join('#')
+  }
+  assert(hrefPathname !== null || hrefHash !== null)
+  assert(hrefPathname || hrefHash)
+  return { hrefPathname, hrefHash }
 }

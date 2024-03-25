@@ -7,6 +7,7 @@ import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
 import { parseTitle } from '../parseTitle'
+import pc from '@brillout/picocolors'
 
 function Link({
   href,
@@ -140,7 +141,22 @@ function findLinkData(href: string, pageContext: PageContextResolved): LinkData 
   if (href.startsWith('#')) {
     assertUsage(linkData, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
   } else {
-    assertUsage(linkData, `Couldn't find heading for ${href}, did you define the heading for ${href}?`)
+    assertUsage(
+      linkData,
+      [
+        `Couldn't find page with URL ${pc.bold(href)}`,
+        `— did you define it in`,
+        [
+          pc.cyan('docpress.config.js'),
+          pc.dim('#{'),
+          pc.cyan('headings'),
+          pc.dim(','),
+          pc.cyan('headingsDetached'),
+          pc.dim('}'),
+          '?',
+        ].join(''),
+      ].join(' '),
+    )
   }
   return linkData
 }

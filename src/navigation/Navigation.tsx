@@ -27,7 +27,7 @@ function Navigation({
             {pageContext.headingsOfDetachedPage.length > 1 && (
               <NavigationContent
                 id="navigation-content-detached"
-                headingsProcessed={pageContext.headingsOfDetachedPage}
+                navItems={pageContext.headingsOfDetachedPage}
                 currentUrl={currentUrl}
               />
             )}
@@ -36,7 +36,7 @@ function Navigation({
         )}
         <NavigationContent
           id="navigation-content-main"
-          headingsProcessed={pageContext.headingsProcessed}
+          navItems={pageContext.headingsProcessed}
           currentUrl={currentUrl}
         />
         {/* <ScrollOverlay /> */}
@@ -66,21 +66,20 @@ type NavItemPropsComputed = {
 
 function NavigationContent(props: {
   id: 'navigation-content-main' | 'navigation-content-detached'
-  headingsProcessed: (Heading | HeadingDetached)[]
+  navItems: NavItemProps[]
   currentUrl: string
 }) {
-  const navItems = addComputedProps(props.headingsProcessed, props.currentUrl)
-
-  const navItemsGrouped = groupHeadings(navItems)
+  const navItemsWithComputed = addComputedProps(props.navItems, props.currentUrl)
+  const navItemsGrouped = groupByLevel1(navItemsWithComputed)
 
   return (
     <div id={props.id} className="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>
-        {navItemsGrouped.map((headingsH1, i) => (
+        {navItemsGrouped.map((navItemLevel1, i) => (
           <div className="nav-h1-group" key={i}>
-            <NavItem navItem={headingsH1} />
-            {headingsH1.headings.map((heading, j) => (
-              <NavItem navItem={heading} key={j} />
+            <NavItem navItem={navItemLevel1} />
+            {navItemLevel1.navItemChilds.map((navItem, j) => (
+              <NavItem navItem={navItem} key={j} />
             ))}
           </div>
         ))}
@@ -121,58 +120,55 @@ function NavItem({
         .join(' ')}
       href={navItem.url ?? undefined}
     >
-      {/* <span className="nav-item-text">{heading.titleInNav}</span> */}
+      {/* <span className="nav-item-text">{navItem.titleInNav}</span> */}
       {navItem.titleInNav}
     </a>
   )
 }
 
-function groupHeadings<T extends { level: number }>(headings: T[]) {
-  const headingsGrouped: (T & { headings: T[] })[] = []
-  const levelMin: number = Math.min(...headings.map((h) => h.level))
-  headings.forEach((heading) => {
-    if (heading.level === levelMin) {
-      headingsGrouped.push({ ...heading, headings: [] })
+function groupByLevel1<T extends { level: number }>(navItems: T[]) {
+  const navItemsGrouped: (T & { navItemChilds: T[] })[] = []
+  const levelMin: number = Math.min(...navItems.map((h) => h.level))
+  navItems.forEach((navItem) => {
+    if (navItem.level === levelMin) {
+      navItemsGrouped.push({ ...navItem, navItemChilds: [] })
     } else {
-      headingsGrouped[headingsGrouped.length - 1].headings.push(heading)
+      navItemsGrouped[navItemsGrouped.length - 1].navItemChilds.push(navItem)
     }
   })
-  return headingsGrouped
+  return navItemsGrouped
 }
 
-function addComputedProps(
-  headings: (Heading | HeadingDetached)[],
-  currentUrl: string,
-): (NavItemProps & NavItemPropsComputed)[] {
-  return headings.map((heading, i) => {
-    assert([1, 2, 3, 4].includes(heading.level), heading)
+function addComputedProps(navItems: NavItemProps[], currentUrl: string): (NavItemProps & NavItemPropsComputed)[] {
+  return navItems.map((navItem, i) => {
+    assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
-    const headingPrevious = headings[i - 1]
-    const headingNext = headings[i + 1]
+    const navItemPrevious = navItems[i - 1]
+    const navItemNext = navItems[i + 1]
 
     let isActiveFirst = false
     let isActiveLast = false
     let isActive = false
-    if (heading.url === currentUrl) {
-      assert(heading.level === 2, { currentUrl })
+    if (navItem.url === currentUrl) {
+      assert(navItem.level === 2, { currentUrl })
       isActive = true
       isActiveFirst = true
-      if (headingNext?.level !== 3) {
+      if (navItemNext?.level !== 3) {
         isActiveLast = true
       }
     }
-    if (heading.level === 3) {
+    if (navItem.level === 3) {
       isActive = true
-      if (headingNext?.level !== 3) {
+      if (navItemNext?.level !== 3) {
         isActiveLast = true
       }
     }
 
-    const isFirstOfItsKind = heading.level !== headingPrevious?.level
-    const isLastOfItsKind = heading.level !== headingNext?.level
+    const isFirstOfItsKind = navItem.level !== navItemPrevious?.level
+    const isLastOfItsKind = navItem.level !== navItemNext?.level
 
     return {
-      ...heading,
+      ...navItem,
       isActive,
       isActiveFirst,
       isActiveLast,

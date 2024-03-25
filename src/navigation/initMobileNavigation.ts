@@ -8,11 +8,11 @@ function initMobileNavigation() {
 
 function activateMobileShowNavigationToggle() {
   const toggle = document.getElementById('mobile-show-navigation-toggle')!
-  toggle.onclick = onMobileShowNavigationToggle
+  toggle.onclick = toggleNavigation
 }
 function activateMobileNavigationMask() {
   const navigationMask = document.getElementById('mobile-navigation-mask')!
-  navigationMask.onclick = onMobileShowNavigationToggle
+  navigationMask.onclick = toggleNavigation
 }
 
 function autoHideNavigationOverlayOnLinkClick() {
@@ -20,13 +20,13 @@ function autoHideNavigationOverlayOnLinkClick() {
     const el = ev.target
     if (!el || !('classList' in el)) return
     if (!el.classList.contains('nav-item')) return
-    onMobileShowNavigationHide()
+    hideNavigation()
   })
 }
 
-function onMobileShowNavigationToggle() {
+function toggleNavigation() {
   document.body.classList.toggle('mobile-show-navigation')
 }
-function onMobileShowNavigationHide() {
+function hideNavigation() {
   document.body.classList.remove('mobile-show-navigation')
 }

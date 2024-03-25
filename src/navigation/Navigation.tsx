@@ -13,10 +13,12 @@ type NavigationData = Parameters<typeof Navigation>[0]
 
 function Navigation({
   navItems,
+  navItemsAll,
   currentUrl,
   isDetachedPage,
 }: {
   navItems: NavItem[]
+  navItemsAll: NavItem[]
   currentUrl: string
   isDetachedPage: boolean
 }) {
@@ -32,7 +34,7 @@ function Navigation({
             <DetachedPageNote />
           </>
         )}
-        <NavigationContent id="navigation-content-main" navItems={navItems} currentUrl={currentUrl} />
+        <NavigationContent id="navigation-content-main" navItems={navItemsAll} currentUrl={currentUrl} />
         {/* <ScrollOverlay /> */}
         <NavigationFullscreenClose />
       </div>

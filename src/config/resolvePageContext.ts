@@ -75,17 +75,20 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   let navigationData: NavigationData
   {
     const currentUrl = pageContext.urlPathname
+    const navItemsAll = headingsProcessed
     if (isDetachedPage) {
       const navItems: NavItem[] = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
       navigationData = {
         isDetachedPage: true,
         navItems,
+        navItemsAll,
         currentUrl,
       }
     } else {
       navigationData = {
         isDetachedPage: false,
-        navItems: headingsProcessed,
+        navItems: navItemsAll,
+        navItemsAll,
         currentUrl,
       }
     }

@@ -13,10 +13,10 @@ type NavigationData = Parameters<typeof Navigation>[0]
 function Navigation({
   navItems,
   currentUrl,
-  isDetachedPage
+  isDetachedPage,
 }: {
   navItems: NavItem[]
-  currentUrl: string,
+  currentUrl: string
   isDetachedPage: boolean
 }) {
   return (
@@ -26,20 +26,12 @@ function Navigation({
         {isDetachedPage && (
           <>
             {navItems.length > 1 && (
-              <NavigationContent
-                id="navigation-content-detached"
-                navItems={navItems}
-                currentUrl={currentUrl}
-              />
+              <NavigationContent id="navigation-content-detached" navItems={navItems} currentUrl={currentUrl} />
             )}
             <DetachedPageNote />
           </>
         )}
-        <NavigationContent
-          id="navigation-content-main"
-          navItems={navItems}
-          currentUrl={currentUrl}
-        />
+        <NavigationContent id="navigation-content-main" navItems={navItems} currentUrl={currentUrl} />
         {/* <ScrollOverlay /> */}
         <NavigationFullscreenClose />
       </div>

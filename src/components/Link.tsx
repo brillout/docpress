@@ -76,8 +76,8 @@ function getLinkText({
 
   const breadcrumbParts: (string | JSX.Element)[] = []
 
-  if (linkData.headingsBreadcrumb) {
-    breadcrumbParts.push(...(linkData.headingsBreadcrumb ?? []).slice().reverse())
+  if (linkData.linkBreadcrumb) {
+    breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse())
   }
 
   breadcrumbParts.push(linkData.title)
@@ -129,7 +129,7 @@ function getLinkText({
 type LinkData = {
   url?: null | string
   title: JSX.Element
-  headingsBreadcrumb: null | JSX.Element[]
+  linkBreadcrumb: null | JSX.Element[]
   sectionTitles?: string[]
 }
 

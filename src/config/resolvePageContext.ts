@@ -188,7 +188,7 @@ function getHeadingsOfTheCurrentPage(
       const heading: Heading = {
         url,
         title: pageSectionTitleJsx,
-        headingsBreadcrumb: [currentHeading.title, ...(currentHeading.headingsBreadcrumb ?? [])],
+        linkBreadcrumb: [currentHeading.title, ...(currentHeading.linkBreadcrumb ?? [])],
         titleInNav: pageSectionTitleJsx,
         level: 3,
       }

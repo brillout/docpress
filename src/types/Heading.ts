@@ -29,12 +29,12 @@ type Heading = HeadingCommon & {
   level: number
   title: JSX.Element
   titleInNav: JSX.Element
-  headingsBreadcrumb: JSX.Element[]
+  linkBreadcrumb: JSX.Element[]
   sectionTitles?: string[]
 }
-type HeadingDetached = Omit<Heading, 'level' | 'headingsBreadcrumb'> & {
+type HeadingDetached = Omit<Heading, 'level' | 'linkBreadcrumb'> & {
   level: 2
-  headingsBreadcrumb: null
+  linkBreadcrumb: null
 }
 type HeadingDetachedDefinition = {
   url: string

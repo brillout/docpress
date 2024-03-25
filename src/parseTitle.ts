@@ -12,7 +12,7 @@ function getHeadingsWithProcessedTitle(config: {
   headingsProcessed: Heading[]
   headingsDetachedProcessed: HeadingDetached[]
 } {
-  const headingsWithoutBreadcrumb: Omit<Heading, 'headingsBreadcrumb'>[] = config.headings.map(
+  const headingsWithoutBreadcrumb: Omit<Heading, 'linkBreadcrumb'>[] = config.headings.map(
     (heading: HeadingDefinition) => {
       const titleProcessed: JSX.Element = parseTitle(heading.title)
 
@@ -24,7 +24,7 @@ function getHeadingsWithProcessedTitle(config: {
         titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
       }
 
-      const headingProcessed: Omit<Heading, 'headingsBreadcrumb'> = {
+      const headingProcessed: Omit<Heading, 'linkBreadcrumb'> = {
         ...heading,
         title: titleProcessed,
         titleInNav: titleInNavProcessed,
@@ -35,10 +35,10 @@ function getHeadingsWithProcessedTitle(config: {
 
   const headingsProcessed: Heading[] = []
   headingsWithoutBreadcrumb.forEach((heading) => {
-    const headingsBreadcrumb = getHeadingsBreadcrumb(heading, headingsProcessed)
+    const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsProcessed)
     headingsProcessed.push({
       ...heading,
-      headingsBreadcrumb,
+      linkBreadcrumb,
     })
   })
 
@@ -54,7 +54,7 @@ function getHeadingsWithProcessedTitle(config: {
       level: 2 as const,
       title: titleProcessed,
       titleInNav: titleProcessed,
-      headingsBreadcrumb: null,
+      linkBreadcrumb: null,
     }
   })
 
@@ -62,8 +62,8 @@ function getHeadingsWithProcessedTitle(config: {
   return { headingsProcessed, headingsDetachedProcessed }
 }
 
-function getHeadingsBreadcrumb(heading: Omit<Heading, 'headingsBreadcrumb'>, headings: Heading[]) {
-  const headingsBreadcrumb: JSX.Element[] = []
+function getHeadingsBreadcrumb(heading: Omit<Heading, 'linkBreadcrumb'>, headings: Heading[]) {
+  const linkBreadcrumb: JSX.Element[] = []
   let levelCurrent = heading.level
   headings
     .slice()
@@ -72,10 +72,10 @@ function getHeadingsBreadcrumb(heading: Omit<Heading, 'headingsBreadcrumb'>, hea
       const isParent = parentCandidate.level < levelCurrent
       if (isParent) {
         levelCurrent = parentCandidate.level
-        headingsBreadcrumb.push(parentCandidate.title)
+        linkBreadcrumb.push(parentCandidate.title)
       }
     })
-  return headingsBreadcrumb
+  return linkBreadcrumb
 }
 
 function assertHeadingsUrl(headings: { url?: null | string }[]) {

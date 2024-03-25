@@ -27,6 +27,6 @@ html:not(.navigation-fullscreen) #navigation-fullscreen-close {
 }
 
 html.navigation-fullscreen #page-content {
-  /* Make `Ctrl-F` browser search only crawl the navigation menu */
+  /* Make `Ctrl-F` browser search only crawl the navigation */
   visibility: hidden;
 }

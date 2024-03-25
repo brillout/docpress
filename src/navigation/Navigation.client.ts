@@ -1,38 +1,42 @@
 import { initNavigationFullscreen } from './navigation-fullscreen/initNavigationFullscreen'
 
-activateNavigationMask()
-activateMenuToggle()
+// Fullscreen navigation
 initNavigationFullscreen()
+
+// Right click navigation header => show /press
+presskitNavigationHeaderRightClickInterceptor()
+
+// Mobile navigation toggle
+activateMobileShowNavigationToggle()
+activateMobileNavigationMask()
 autoHideNavigationOverlayOnLinkClick()
-navHeaderRightClickInterceptor()
 
-function activateMenuToggle() {
-  const menuToggle = document.getElementById('menu-toggle')!
-  menuToggle.onclick = navigationOverlayToggle
+
+
+function activateMobileShowNavigationToggle() {
+  const toggle = document.getElementById('mobile-show-navigation-toggle')!
+  toggle.onclick = onMobileShowNavigationToggle
 }
-
-function activateNavigationMask() {
+function activateMobileNavigationMask() {
   const navigationMask = document.getElementById('navigation-mask')!
-  navigationMask.onclick = navigationOverlayToggle
+  navigationMask.onclick = onMobileShowNavigationToggle
 }
-
 function autoHideNavigationOverlayOnLinkClick() {
   document.addEventListener('click', (ev: any) => {
     const el = ev.target
     if (!el || !('classList' in el)) return
     if (!el.classList.contains('nav-item')) return
-    navigationOverlayHide()
+    onMobileShowNavigationHide()
   })
 }
-
-function navigationOverlayToggle() {
-  document.body.classList.toggle('show-menu')
+function onMobileShowNavigationToggle() {
+  document.body.classList.toggle('mobile-show-navigation')
 }
-function navigationOverlayHide() {
-  document.body.classList.remove('show-menu')
+function onMobileShowNavigationHide() {
+  document.body.classList.remove('mobile-show-navigation')
 }
 
-function navHeaderRightClickInterceptor() {
+function presskitNavigationHeaderRightClickInterceptor() {
   const navHeader = document.getElementById('navigation-header')!
   if (!navHeader.classList.contains('press-kit')) return
   if (window.location.pathname === '/press') return

@@ -83,10 +83,10 @@
     /* `position: sticky` doesn't seem to work on mobile */
     position: fixed;
   }
-  body:not(.show-menu) #navigation-container {
+  body:not(.mobile-show-navigation) #navigation-container {
     transform: translateX(calc(-1 * var(--width)));
   }
-  body:not(.show-menu) #navigation-mask {
+  body:not(.mobile-show-navigation) #navigation-mask {
     display: none;
   }
   #mobile-header {

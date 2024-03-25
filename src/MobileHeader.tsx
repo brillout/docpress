@@ -28,7 +28,7 @@ function MobileHeader() {
           borderBottom: '1px solid #ddd',
         }}
       >
-        <MenuToggle />
+        <MobileShowNavigationToggle />
         <a
           href="/"
           style={{
@@ -47,9 +47,9 @@ function MobileHeader() {
   )
 }
 
-function MenuToggle() {
+function MobileShowNavigationToggle() {
   return (
-    <div style={{ padding: 20, lineHeight: 0, cursor: 'pointer' }} id="menu-toggle">
+    <div style={{ padding: 20, lineHeight: 0, cursor: 'pointer' }} id="mobile-show-navigation-toggle">
       <svg
         style={{ width: 20 }}
         className="icon"

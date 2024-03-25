@@ -1,8 +1,7 @@
 export { parsePageSections }
 export type { PageSection }
 
-import { assert } from './utils/assert.js'
-import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
+import { assert, determineSectionUrlHash } from './utils/server.js'
 import os from 'os'
 
 type PageSection = {
@@ -69,20 +68,17 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
   assert(!titleMdx.startsWith(' '), { line, lineWords })
   assert(titleMdx, { line, lineWords })
 
-  const headingMdx = {
-    pageSectionTitle: titleMdx,
-    anchor: titleMdx,
-  }
+  let pageSectionTitle = titleMdx
+  let anchor = titleMdx
   {
-    // Support custom anchor like: `## Some Title{#custom-anchor}`
+    // Support custom anchor: `## Some Title{#custom-anchor}`
     const customAnchor = /(?<={#).*(?=})/g.exec(titleMdx)?.[0]
     if (customAnchor) {
-      headingMdx.anchor = customAnchor
-      headingMdx.pageSectionTitle = titleMdx.replace(/{#.*}/g, '')
+      anchor = customAnchor
+      pageSectionTitle = titleMdx.replace(/{#.*}/g, '')
     }
   }
-  const pageSectionId = determineSectionUrlHash(headingMdx.anchor)
-  const { pageSectionTitle } = headingMdx
+  const pageSectionId = determineSectionUrlHash(anchor)
 
   const titleParsed = parseTitle(pageSectionTitle)
   assert(pageSectionId === null || pageSectionId.length > 0)

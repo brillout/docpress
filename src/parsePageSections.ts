@@ -1,7 +1,8 @@
 export { parsePageSections }
 export type { PageSection }
 
-import { assert, determineSectionUrlHash } from './utils/server.js'
+import { assert } from './utils/assert.js'
+import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
 import os from 'os'
 
 type PageSection = {

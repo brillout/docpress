@@ -1,33 +1,34 @@
 export { Navigation }
 export { NavigationMask }
+export type { NavigationData }
 
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
-import { Heading, HeadingDetached } from '../types/Heading'
 import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 
+type NavigationData = Parameters<typeof Navigation>[0]
+
 function Navigation({
-  pageContext,
+  navItems,
+  currentUrl,
+  isDetachedPage
 }: {
-  pageContext: {
-    headingsProcessed: Heading[]
-    headingsOfDetachedPage: null | (Heading | HeadingDetached)[]
-    urlPathname: string
-  }
+  navItems: NavItem[]
+  currentUrl: string,
+  isDetachedPage: boolean
 }) {
-  const currentUrl = pageContext.urlPathname
   return (
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        {pageContext.headingsOfDetachedPage && (
+        {isDetachedPage && (
           <>
-            {pageContext.headingsOfDetachedPage.length > 1 && (
+            {navItems.length > 1 && (
               <NavigationContent
                 id="navigation-content-detached"
-                navItems={pageContext.headingsOfDetachedPage}
+                navItems={navItems}
                 currentUrl={currentUrl}
               />
             )}
@@ -36,7 +37,7 @@ function Navigation({
         )}
         <NavigationContent
           id="navigation-content-main"
-          navItems={pageContext.headingsProcessed}
+          navItems={navItems}
           currentUrl={currentUrl}
         />
         {/* <ScrollOverlay /> */}

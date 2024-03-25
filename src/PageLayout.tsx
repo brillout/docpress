@@ -17,7 +17,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
       <PageContextProvider pageContext={pageContext}>
         <div id="page-layout" className={isLandingPage ? 'landing-page' : 'doc-page'}>
           <div id="navigation-wrapper">
-            <Navigation pageContext={pageContext} />
+            <Navigation {...pageContext.navigationData} />
           </div>
           <NavigationFullscreenButton />
           <div id="page-wrapper">

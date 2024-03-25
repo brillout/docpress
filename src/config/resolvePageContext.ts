@@ -5,6 +5,7 @@ import type { PageSection } from '../parsePageSections'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
 import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
+import { NavigationData } from '../navigation/Navigation'
 
 export { resolvePageContext }
 export type { PageContextOriginal }
@@ -46,6 +47,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     config,
   )
   const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl } = config
+
   const pageContextResolved = {}
   objectAssign(pageContextResolved, {
     ...pageContext,
@@ -67,6 +69,27 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     pageTitle,
     config,
   })
+
+  let navigationData: NavigationData
+  {
+    const { headingsOfDetachedPage } = pageContextResolved
+    const currentUrl = pageContext.urlPathname
+    if (headingsOfDetachedPage) {
+      navigationData = {
+        isDetachedPage: true,
+        navItems: headingsOfDetachedPage,
+        currentUrl,
+      }
+    } else {
+      navigationData = {
+        isDetachedPage: false,
+        navItems: headingsProcessed,
+        currentUrl,
+      }
+    }
+  }
+  objectAssign(pageContextResolved, { navigationData })
+
   return pageContextResolved
 }
 

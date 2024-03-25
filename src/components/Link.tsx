@@ -56,19 +56,17 @@ function getLinkText({
   if (!hrefPathname) assert(isLinkOnSamePage)
 
   const breadcrumbParts: (string | JSX.Element)[] = []
-
   if (linkData.linkBreadcrumb) {
     breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse())
   }
-
   breadcrumbParts.push(linkData.title)
 
   if (hrefHash) {
     let sectionTitle: string | JSX.Element | undefined = undefined
     assert(!hrefHash.startsWith('#'))
     if (isLinkOnSamePage) {
-      const pageHeading = findLinkData(`#${hrefHash}`, pageContext)
-      sectionTitle = pageHeading.title
+      const linkDataPageSection = findLinkData(`#${hrefHash}`, pageContext)
+      sectionTitle = linkDataPageSection.title
     } else if ('sectionTitles' in linkData && linkData.sectionTitles) {
       linkData.sectionTitles.forEach((title) => {
         if (determineSectionUrlHash(title) === hrefHash) {

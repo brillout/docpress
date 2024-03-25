@@ -1,6 +1,7 @@
 export { Navigation }
 export { NavigationMask }
 export type { NavigationData }
+export type { NavItem }
 
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'

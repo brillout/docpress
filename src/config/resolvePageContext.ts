@@ -5,7 +5,7 @@ import type { PageSection } from '../parsePageSections'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
 import { getHeadingsWithProcessedTitle, parseTitle } from '../parseTitle'
-import { NavigationData } from '../navigation/Navigation'
+import { NavigationData, NavItem } from '../navigation/Navigation'
 
 export { resolvePageContext }
 export type { PageContextOriginal }
@@ -32,13 +32,14 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     headingsDetachedProcessed,
     pageContext,
   )
-  let headingsOfDetachedPage: null | (Heading | HeadingDetached)[] = null
+
+  const isDetachedPage = !activeNavigationHeading
+
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
   headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
   } else {
-    headingsOfDetachedPage = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
   }
   const { title, isLandingPage, pageTitle } = getMetaData(
     headingsDetachedProcessed,
@@ -70,10 +71,11 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   let navigationData: NavigationData
   {
     const currentUrl = pageContext.urlPathname
-    if (headingsOfDetachedPage) {
+    if (isDetachedPage) {
+      const navItems: NavItem[] = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
       navigationData = {
         isDetachedPage: true,
-        navItems: headingsOfDetachedPage,
+        navItems,
         currentUrl,
       }
     } else {

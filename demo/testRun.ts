@@ -20,6 +20,14 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain('Some global note.')
   })
 
+  test('/orphan', async () => {
+    await page.goto(getServerUrl() + '/orphan')
+    const text = await page.textContent('body')
+    expect(text).toContain(`This page is "detached": it isn't included in the left-side navigation.`)
+    expect(text).toContain(`Another Orphan Page Without Headings.`)
+    expect(text).toContain(`Same page link for orphan page: Some SecTion.`)
+  })
+
   test('/features', async () => {
     await page.goto(getServerUrl() + '/features')
     const text = await page.textContent('body')

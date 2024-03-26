@@ -182,19 +182,18 @@ function getPageSectionsResolved(
 ): PageSectionResolved[] {
   const pageSections = pageContext.exports.pageSectionsExport ?? []
 
-  const pageSectionsResolved = pageSections
-    .map((pageSection) => {
-      const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
-      const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
-      const pageSectionResolved: PageSectionResolved = {
-        url,
-        title: pageSectionTitleJsx,
-        linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
-        titleInNav: pageSectionTitleJsx,
-        pageSectionLevel: pageSection.pageSectionLevel,
-      }
-      return pageSectionResolved
-    })
+  const pageSectionsResolved = pageSections.map((pageSection) => {
+    const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
+    const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
+    const pageSectionResolved: PageSectionResolved = {
+      url,
+      title: pageSectionTitleJsx,
+      linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
+      titleInNav: pageSectionTitleJsx,
+      pageSectionLevel: pageSection.pageSectionLevel,
+    }
+    return pageSectionResolved
+  })
 
   if (activeHeading?.sectionTitles) {
     activeHeading.sectionTitles.forEach((sectionTitle) => {

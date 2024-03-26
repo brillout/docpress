@@ -24,6 +24,30 @@ type PageContextOriginal = PageContextServer & {
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
+  const pageContextResolved = {}
+
+  objectAssign(pageContextResolved, resolveHeadings(pageContext))
+
+  const config = getConfig()
+  const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl } = config
+  objectAssign(pageContextResolved, {
+    ...pageContext,
+    meta: {
+      ...pageContextResolved.meta,
+      faviconUrl,
+      twitterHandle,
+      bannerUrl,
+      websiteUrl,
+      tagline,
+      algolia,
+    },
+    config,
+  })
+
+  return pageContextResolved
+}
+
+function resolveHeadings(pageContext: PageContextOriginal) {
   const config = getConfig()
   const processed = getHeadingsWithProcessedTitle(config)
   const { headingsDetachedProcessed } = processed
@@ -42,7 +66,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
-  } else {
   }
   const { title, isLandingPage, pageTitle } = getMetaData(
     headingsDetachedProcessed,
@@ -50,25 +73,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     pageContext,
     config,
   )
-  const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl } = config
-
-  const pageContextResolved = {}
-  objectAssign(pageContextResolved, {
-    ...pageContext,
-    meta: {
-      title,
-      faviconUrl,
-      twitterHandle,
-      bannerUrl,
-      websiteUrl,
-      tagline,
-      algolia,
-    },
-    linkAll,
-    isLandingPage,
-    pageTitle,
-    config,
-  })
 
   let navigationData: NavigationData
   {
@@ -91,9 +95,17 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       }
     }
   }
-  objectAssign(pageContextResolved, { navigationData })
 
-  return pageContextResolved
+  const pageContextAddendum = {
+    navigationData,
+    linkAll,
+    isLandingPage,
+    pageTitle,
+    meta: {
+      title,
+    },
+  }
+  return pageContextAddendum
 }
 
 function getMetaData(

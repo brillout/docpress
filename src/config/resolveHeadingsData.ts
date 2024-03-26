@@ -23,25 +23,25 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   }
 
   const processed = getHeadingsWithProcessedTitle(config)
-  const { headingsDetachedProcessed } = processed
-  let { headingsProcessed } = processed
+  const { headingsDetachedResolved } = processed
+  let { headingsResolved } = processed
   const { activeHeading, activeNavigationHeading } = findHeading(
-    headingsProcessed,
-    headingsDetachedProcessed,
+    headingsResolved,
+    headingsDetachedResolved,
     pageContext,
   )
 
   const isDetachedPage = !activeNavigationHeading
 
-  let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
+  let headingsAll = [...headingsResolved, ...headingsDetachedResolved]
   headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
   const linksAll: LinkData[] = headingsAll
 
   if (activeNavigationHeading) {
-    headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
+    headingsResolved = getHeadingsAll(headingsResolved, pageContext, activeNavigationHeading)
   }
   const { documentTitle, isLandingPage, pageTitle } = getTitles(
-    headingsDetachedProcessed,
+    headingsDetachedResolved,
     activeNavigationHeading,
     pageContext,
     config,
@@ -50,7 +50,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   let navigationData: NavigationData
   {
     const currentUrl: string = pageContext.urlPathname
-    const navItemsAll: NavItem[] = headingsProcessed
+    const navItemsAll: NavItem[] = headingsResolved
     if (isDetachedPage) {
       const navItems: NavItem[] = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
       navigationData = {
@@ -80,7 +80,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 }
 
 function getTitles(
-  headingsDetachedProcessed: HeadingDetachedResolved[],
+  headingsDetachedResolved: HeadingDetachedResolved[],
   activeNavigationHeading: HeadingResolved | null,
   pageContext: { urlOriginal: string; exports: Exports },
   config: Config,
@@ -93,7 +93,7 @@ function getTitles(
     documentTitle = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
     pageTitle = activeNavigationHeading.title
   } else {
-    pageTitle = headingsDetachedProcessed.find((h) => h.url === url)!.title
+    pageTitle = headingsDetachedResolved.find((h) => h.url === url)!.title
     documentTitle = jsxToTextContent(pageTitle)
   }
 
@@ -110,15 +110,15 @@ function getTitles(
 }
 
 function findHeading(
-  headingsProcessed: HeadingResolved[],
-  headingsDetachedProcessed: HeadingDetachedResolved[],
+  headingsResolved: HeadingResolved[],
+  headingsDetachedResolved: HeadingDetachedResolved[],
   pageContext: { urlOriginal: string; exports: Exports },
 ): { activeHeading: HeadingResolved | HeadingDetachedResolved; activeNavigationHeading: HeadingResolved | null } {
   let activeNavigationHeading: HeadingResolved | null = null
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   const { urlOriginal } = pageContext
   assert(urlOriginal)
-  headingsProcessed.forEach((heading) => {
+  headingsResolved.forEach((heading) => {
     if (heading.url === urlOriginal) {
       activeNavigationHeading = heading
       activeHeading = heading
@@ -126,14 +126,14 @@ function findHeading(
     }
   })
   if (!activeHeading) {
-    activeHeading = headingsDetachedProcessed.find(({ url }) => urlOriginal === url) ?? null
+    activeHeading = headingsDetachedResolved.find(({ url }) => urlOriginal === url) ?? null
   }
   if (!activeHeading) {
     throw new Error(
       [
         `Heading not found for URL '${urlOriginal}'`,
         'Heading is defined for following URLs:',
-        ...headingsProcessed
+        ...headingsResolved
           .map((h) => `  ${h.url}`)
           .filter(Boolean)
           .sort(),
@@ -144,11 +144,11 @@ function findHeading(
 }
 
 function getHeadingsAll<T extends HeadingResolved | HeadingDetachedResolved>(
-  headingsProcessed: T[],
+  headingsResolved: T[],
   pageContext: { exports: Exports; urlOriginal: string },
   activeHeading: T,
 ): T[] {
-  const headingsAll = headingsProcessed.slice()
+  const headingsAll = headingsResolved.slice()
 
   const headingsOfTheCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
@@ -198,8 +198,8 @@ function getHeadingsWithProcessedTitle(config: {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
 }): {
-  headingsProcessed: HeadingResolved[]
-  headingsDetachedProcessed: HeadingDetachedResolved[]
+  headingsResolved: HeadingResolved[]
+  headingsDetachedResolved: HeadingDetachedResolved[]
 } {
   const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
     (heading: HeadingDefinition) => {
@@ -222,19 +222,19 @@ function getHeadingsWithProcessedTitle(config: {
     },
   )
 
-  const headingsProcessed: HeadingResolved[] = []
+  const headingsResolved: HeadingResolved[] = []
   headingsWithoutBreadcrumb.forEach((heading) => {
-    const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsProcessed)
-    headingsProcessed.push({
+    const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsResolved)
+    headingsResolved.push({
       ...heading,
       linkBreadcrumb,
     })
   })
 
-  const headingsDetachedProcessed = config.headingsDetached.map((headingsDetached) => {
+  const headingsDetachedResolved = config.headingsDetached.map((headingsDetached) => {
     const { url, title } = headingsDetached
     assert(
-      headingsProcessed.find((heading) => heading.url === url) === undefined,
+      headingsResolved.find((heading) => heading.url === url) === undefined,
       `remove ${headingsDetached.url} from headingsDetached`,
     )
     const titleProcessed = typeof title === 'string' ? parseTitle(title) : title
@@ -247,7 +247,7 @@ function getHeadingsWithProcessedTitle(config: {
     }
   })
 
-  return { headingsProcessed, headingsDetachedProcessed }
+  return { headingsResolved, headingsDetachedResolved }
 }
 
 function getHeadingsBreadcrumb(heading: Omit<HeadingResolved, 'linkBreadcrumb'>, headings: HeadingResolved[]) {

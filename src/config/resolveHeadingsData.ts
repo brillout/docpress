@@ -13,6 +13,7 @@ import { parseTitle, withEmoji } from '../parseTitle'
 import { NavigationData, NavItem } from '../navigation/Navigation'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
+import pc from '@brillout/picocolors'
 
 function resolveHeadingsData(pageContext: PageContextOriginal) {
   const config = getConfig()
@@ -131,8 +132,7 @@ function findHeading(
   if (!activeHeading) {
     throw new Error(
       [
-        `Heading not found for URL '${urlOriginal}'`,
-        'Heading is defined for following URLs:',
+        `URL ${pc.bold(urlOriginal)} not found in following URLs:`,
         ...headingsResolved
           .map((h) => `  ${h.url}`)
           .filter(Boolean)

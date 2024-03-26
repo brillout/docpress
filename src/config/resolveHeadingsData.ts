@@ -33,7 +33,14 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const headingsOfCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
-  const linksAll: LinkData[] = [...headingsOfCurrentPage, ...headingsResolved, ...headingsDetachedResolved]
+  const linksAll: LinkData[] = [...headingsOfCurrentPage, ...headingsResolved, ...headingsDetachedResolved].map(
+    (heading) => ({
+      url: heading.url,
+      title: heading.title,
+      linkBreadcrumb: heading.linkBreadcrumb,
+      sectionTitles: heading.sectionTitles,
+    }),
+  )
 
   let navigationData: NavigationData
   {

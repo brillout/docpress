@@ -20,7 +20,7 @@ type PageSectionResolved = {
   title: JSX.Element
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
-  pageSectionLevel: 2
+  pageSectionLevel: number
 }
 
 function resolveHeadingsData(pageContext: PageContextOriginal) {
@@ -185,7 +185,6 @@ function getPageSectionsResolved(
     .map((pageSection) => {
       const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
       const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
-      assert(pageSection.pageSectionLevel === 2)
       const pageSectionResolved: PageSectionResolved = {
         url,
         title: pageSectionTitleJsx,

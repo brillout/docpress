@@ -194,6 +194,10 @@ function getHeadingsOfTheCurrentPage(
   return headingsOfCurrentPage
 }
 
+/**
+ * - Parse title (from `string` to `JSX.Element`)
+ * - Determine navigation breadcrumbs
+ */
 function getHeadingsResolved(config: {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
@@ -203,22 +207,22 @@ function getHeadingsResolved(config: {
 } {
   const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
     (heading: HeadingDefinition) => {
-      const titleProcessed: JSX.Element = parseTitle(heading.title)
+      const titleParsed: JSX.Element = parseTitle(heading.title)
 
       const titleInNav = heading.titleInNav || heading.title
-      let titleInNavProcessed: JSX.Element
-      titleInNavProcessed = parseTitle(titleInNav)
+      let titleInNavParsed: JSX.Element
+      titleInNavParsed = parseTitle(titleInNav)
       if ('titleEmoji' in heading) {
         assert(heading.titleEmoji)
-        titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
+        titleInNavParsed = withEmoji(heading.titleEmoji, titleInNavParsed)
       }
 
-      const headingProcessed: Omit<HeadingResolved, 'linkBreadcrumb'> = {
+      const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
         ...heading,
-        title: titleProcessed,
-        titleInNav: titleInNavProcessed,
+        title: titleParsed,
+        titleInNav: titleInNavParsed,
       }
-      return headingProcessed
+      return headingResolved
     },
   )
 
@@ -237,12 +241,12 @@ function getHeadingsResolved(config: {
       headingsResolved.find((heading) => heading.url === url) === undefined,
       `remove ${headingsDetached.url} from headingsDetached`,
     )
-    const titleProcessed = typeof title === 'string' ? parseTitle(title) : title
+    const titleParsed = typeof title === 'string' ? parseTitle(title) : title
     return {
       ...headingsDetached,
       level: 2 as const,
-      title: titleProcessed,
-      titleInNav: titleProcessed,
+      title: titleParsed,
+      titleInNav: titleParsed,
       linkBreadcrumb: null,
     }
   })

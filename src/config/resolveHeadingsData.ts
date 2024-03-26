@@ -15,6 +15,14 @@ import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 
+type PageSectionResolved = {
+  url: string | null
+  title: JSX.Element
+  titleInNav: JSX.Element
+  linkBreadcrumb: JSX.Element[]
+  pageSectionLevel: 2
+}
+
 function resolveHeadingsData(pageContext: PageContextOriginal) {
   const config = getConfig()
 
@@ -97,7 +105,7 @@ function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): 
 }
 function pageSectionToNavItem(pageSection: PageSectionResolved): NavItem {
   return {
-    level: pageSection.headingLevel,
+    level: pageSection.pageSectionLevel + 1,
     url: pageSection.url,
     title: pageSection.title,
     titleInNav: pageSection.titleInNav,
@@ -166,13 +174,6 @@ function getActiveHeading(
   return { activeHeading, isDetachedPage }
 }
 
-type PageSectionResolved = {
-  url: string | null
-  title: JSX.Element
-  titleInNav: JSX.Element
-  linkBreadcrumb: JSX.Element[]
-  headingLevel: 3
-}
 function getPageSectionsResolved(
   pageContext: { exports: Exports; urlOriginal: string },
   activeHeading: HeadingResolved | HeadingDetachedResolved,
@@ -184,12 +185,13 @@ function getPageSectionsResolved(
     .map((pageSection) => {
       const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
       const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
+      assert(pageSection.pageSectionLevel === 2)
       const pageSectionResolved: PageSectionResolved = {
         url,
         title: pageSectionTitleJsx,
         linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
         titleInNav: pageSectionTitleJsx,
-        headingLevel: 3,
+        pageSectionLevel: pageSection.pageSectionLevel,
       }
       return pageSectionResolved
     })

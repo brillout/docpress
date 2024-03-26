@@ -1,3 +1,12 @@
+## [0.6.9](https://github.com/brillout/docpress/compare/v0.6.8...v0.6.9) (2024-03-26)
+
+
+### Bug Fixes
+
+* search link URL in all page sections ([14b2b10](https://github.com/brillout/docpress/commit/14b2b108b65426b0c718e2fbe291f7ff91c5c6cd))
+
+
+
 ## [0.6.8](https://github.com/brillout/docpress/compare/v0.6.7...v0.6.8) (2024-03-21)
 
 

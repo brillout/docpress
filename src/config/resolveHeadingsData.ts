@@ -97,7 +97,7 @@ function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): 
 }
 function pageSectionToNavItem(pageSection: PageSectionResolved): NavItem {
   return {
-    level: pageSection.level,
+    level: pageSection.headingLevel,
     url: pageSection.url,
     title: pageSection.title,
     titleInNav: pageSection.titleInNav,
@@ -171,7 +171,7 @@ type PageSectionResolved = {
   title: JSX.Element
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
-  level: 3
+  headingLevel: 3
 }
 function getPageSectionsResolved(
   pageContext: { exports: Exports; urlOriginal: string },
@@ -189,7 +189,7 @@ function getPageSectionsResolved(
         title: pageSectionTitleJsx,
         linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
         titleInNav: pageSectionTitleJsx,
-        level: 3,
+        headingLevel: 3,
       }
       return pageSectionResolved
     })

@@ -50,7 +50,9 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   let navigationData: NavigationData
   {
     const currentUrl: string = pageContext.urlPathname
-    const navItemsPageSections = pageSectionsResolved.map(pageSectionToNavItem)
+    const navItemsPageSections = pageSectionsResolved
+      .filter((pageSection) => pageSection.pageSectionLevel === 2)
+      .map(pageSectionToNavItem)
     if (isDetachedPage) {
       const navItemsAll: NavItem[] = headingsResolved
       const navItems: NavItem[] = [headingToNavItem(activeHeading), ...navItemsPageSections]
@@ -181,7 +183,6 @@ function getPageSectionsResolved(
   const pageSections = pageContext.exports.pageSectionsExport ?? []
 
   const pageSectionsResolved = pageSections
-    .filter((pageSection) => pageSection.pageSectionLevel === 2)
     .map((pageSection) => {
       const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
       const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId

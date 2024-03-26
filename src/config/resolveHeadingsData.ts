@@ -24,7 +24,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   let headingsAll = [...headingsProcessed, ...headingsDetachedProcessed]
   headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
-  const linkAll: LinkData[] = headingsAll
+  const linksAll: LinkData[] = headingsAll
 
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
@@ -38,8 +38,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   let navigationData: NavigationData
   {
-    const currentUrl = pageContext.urlPathname
-    const navItemsAll = headingsProcessed
+    const currentUrl: string = pageContext.urlPathname
+    const navItemsAll: NavItem[] = headingsProcessed
     if (isDetachedPage) {
       const navItems: NavItem[] = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
       navigationData = {
@@ -60,7 +60,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const pageContextAddendum = {
     navigationData,
-    linkAll,
+    linksAll,
     isLandingPage,
     pageTitle,
     documentTitle,
@@ -105,22 +105,22 @@ function findHeading(
 ): { activeHeading: Heading | HeadingDetached; activeNavigationHeading: Heading | null } {
   let activeNavigationHeading: Heading | null = null
   let activeHeading: Heading | HeadingDetached | null = null
-  assert(pageContext.urlOriginal)
-  const pageUrl = pageContext.urlOriginal
+  const { urlOriginal } = pageContext
+  assert(urlOriginal)
   headingsProcessed.forEach((heading) => {
-    if (heading.url === pageUrl) {
+    if (heading.url === urlOriginal) {
       activeNavigationHeading = heading
       activeHeading = heading
-      assert(heading.level === 2, { pageUrl, heading })
+      assert(heading.level === 2, { pageUrl: urlOriginal, heading })
     }
   })
   if (!activeHeading) {
-    activeHeading = headingsDetachedProcessed.find(({ url }) => pageUrl === url) ?? null
+    activeHeading = headingsDetachedProcessed.find(({ url }) => urlOriginal === url) ?? null
   }
   if (!activeHeading) {
     throw new Error(
       [
-        `Heading not found for URL '${pageUrl}'`,
+        `Heading not found for URL '${urlOriginal}'`,
         'Heading is defined for following URLs:',
         ...headingsProcessed
           .map((h) => `  ${h.url}`)

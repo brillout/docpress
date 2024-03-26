@@ -114,8 +114,8 @@ type LinkData = {
 
 function findLinkData(href: string, pageContext: PageContextResolved): LinkData {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { linkAll } = pageContext
-  const linkData = linkAll.find(({ url }) => href === url)
+  const { linksAll } = pageContext
+  const linkData = linksAll.find(({ url }) => href === url)
   if (href.startsWith('#')) {
     assertUsage(linkData, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
   } else {

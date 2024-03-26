@@ -27,11 +27,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const { headingsDetachedResolved } = resolved
   let { headingsResolved } = resolved
 
-  const { activeHeading, activeNavigationHeading } = findHeading(
-    headingsResolved,
-    headingsDetachedResolved,
-    pageContext,
-  )
+  const { activeHeading, isDetachedPage } = getActiveHeading(headingsResolved, headingsDetachedResolved, pageContext)
 
   const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
@@ -39,7 +35,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const linksAll: LinkData[] = [...headingsOfCurrentPage, ...headingsResolved, ...headingsDetachedResolved]
 
-  const isDetachedPage = !activeNavigationHeading
   let navigationData: NavigationData
   {
     const currentUrl: string = pageContext.urlPathname
@@ -102,22 +97,21 @@ function getTitles(
   return { documentTitle, isLandingPage, pageTitle }
 }
 
-function findHeading(
+function getActiveHeading(
   headingsResolved: HeadingResolved[],
   headingsDetachedResolved: HeadingDetachedResolved[],
   pageContext: { urlOriginal: string; exports: Exports },
-): { activeHeading: HeadingResolved | HeadingDetachedResolved; activeNavigationHeading: HeadingResolved | null } {
-  let activeNavigationHeading: HeadingResolved | null = null
+) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   const { urlOriginal } = pageContext
   assert(urlOriginal)
   headingsResolved.forEach((heading) => {
     if (heading.url === urlOriginal) {
-      activeNavigationHeading = heading
       activeHeading = heading
       assert(heading.level === 2, { pageUrl: urlOriginal, heading })
     }
   })
+  const isDetachedPage = !activeHeading
   if (!activeHeading) {
     activeHeading = headingsDetachedResolved.find(({ url }) => urlOriginal === url) ?? null
   }
@@ -132,7 +126,7 @@ function findHeading(
       ].join('\n'),
     )
   }
-  return { activeHeading, activeNavigationHeading }
+  return { activeHeading, isDetachedPage }
 }
 
 function getHeadingsOfTheCurrentPage(

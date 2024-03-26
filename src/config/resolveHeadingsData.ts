@@ -26,12 +26,16 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const resolved = getHeadingsResolved(config)
   const { headingsDetachedResolved } = resolved
   let { headingsResolved } = resolved
+
   const { activeHeading, activeNavigationHeading } = findHeading(
     headingsResolved,
     headingsDetachedResolved,
     pageContext,
   )
+
   const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
+
+  const headingsOfCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
   const isDetachedPage = !activeNavigationHeading
 
@@ -48,7 +52,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     const currentUrl: string = pageContext.urlPathname
     const navItemsAll: NavItem[] = headingsResolved
     if (isDetachedPage) {
-      const navItems: NavItem[] = [activeHeading, ...getHeadingsOfTheCurrentPage(pageContext, activeHeading)]
+      const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage]
       navigationData = {
         isDetachedPage: true,
         navItems,

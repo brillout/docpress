@@ -1,5 +1,5 @@
-export { Heading }
-export { HeadingDetached }
+export { HeadingResolved }
+export { HeadingDetachedResolved }
 export { HeadingDetachedDefinition }
 export { HeadingDefinition }
 
@@ -25,13 +25,13 @@ type IsNavCategory = {
   titleInNav?: undefined
 }
 
-type Heading = HeadingCommon & {
+type HeadingResolved = HeadingCommon & {
   level: number
   title: JSX.Element
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
 }
-type HeadingDetached = Omit<Heading, 'level' | 'linkBreadcrumb'> & {
+type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
   level: 2
   linkBreadcrumb: null
 }

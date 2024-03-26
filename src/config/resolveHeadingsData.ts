@@ -1,7 +1,12 @@
 export { resolveHeadingsData }
 
 import { assert, jsxToTextContent } from '../utils/server'
-import type { HeadingDefinition, HeadingDetachedDefinition, Heading, HeadingDetached } from '../types/Heading'
+import type {
+  HeadingDefinition,
+  HeadingDetachedDefinition,
+  HeadingResolved,
+  HeadingDetachedResolved,
+} from '../types/Heading'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
 import { parseTitle, withEmoji } from '../parseTitle'
@@ -75,8 +80,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 }
 
 function getTitles(
-  headingsDetachedProcessed: HeadingDetached[],
-  activeNavigationHeading: Heading | null,
+  headingsDetachedProcessed: HeadingDetachedResolved[],
+  activeNavigationHeading: HeadingResolved | null,
   pageContext: { urlOriginal: string; exports: Exports },
   config: Config,
 ) {
@@ -105,12 +110,12 @@ function getTitles(
 }
 
 function findHeading(
-  headingsProcessed: Heading[],
-  headingsDetachedProcessed: HeadingDetached[],
+  headingsProcessed: HeadingResolved[],
+  headingsDetachedProcessed: HeadingDetachedResolved[],
   pageContext: { urlOriginal: string; exports: Exports },
-): { activeHeading: Heading | HeadingDetached; activeNavigationHeading: Heading | null } {
-  let activeNavigationHeading: Heading | null = null
-  let activeHeading: Heading | HeadingDetached | null = null
+): { activeHeading: HeadingResolved | HeadingDetachedResolved; activeNavigationHeading: HeadingResolved | null } {
+  let activeNavigationHeading: HeadingResolved | null = null
+  let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   const { urlOriginal } = pageContext
   assert(urlOriginal)
   headingsProcessed.forEach((heading) => {
@@ -138,7 +143,7 @@ function findHeading(
   return { activeHeading, activeNavigationHeading }
 }
 
-function getHeadingsAll<T extends Heading | HeadingDetached>(
+function getHeadingsAll<T extends HeadingResolved | HeadingDetachedResolved>(
   headingsProcessed: T[],
   pageContext: { exports: Exports; urlOriginal: string },
   activeHeading: T,
@@ -158,9 +163,9 @@ function getHeadingsAll<T extends Heading | HeadingDetached>(
 
 function getHeadingsOfTheCurrentPage(
   pageContext: { exports: Exports; urlOriginal: string },
-  currentHeading: Heading | HeadingDetached,
+  currentHeading: HeadingResolved | HeadingDetachedResolved,
 ) {
-  const headingsOfCurrentPage: Heading[] = []
+  const headingsOfCurrentPage: HeadingResolved[] = []
 
   const pageSections = pageContext.exports.pageSectionsExport ?? []
 
@@ -168,7 +173,7 @@ function getHeadingsOfTheCurrentPage(
     const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
     const url: null | string = pageSection.pageSectionId && '#' + pageSection.pageSectionId
     if (pageSection.pageSectionLevel === 2) {
-      const heading: Heading = {
+      const heading: HeadingResolved = {
         url,
         title: pageSectionTitleJsx,
         linkBreadcrumb: [currentHeading.title, ...(currentHeading.linkBreadcrumb ?? [])],
@@ -193,10 +198,10 @@ function getHeadingsWithProcessedTitle(config: {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
 }): {
-  headingsProcessed: Heading[]
-  headingsDetachedProcessed: HeadingDetached[]
+  headingsProcessed: HeadingResolved[]
+  headingsDetachedProcessed: HeadingDetachedResolved[]
 } {
-  const headingsWithoutBreadcrumb: Omit<Heading, 'linkBreadcrumb'>[] = config.headings.map(
+  const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
     (heading: HeadingDefinition) => {
       const titleProcessed: JSX.Element = parseTitle(heading.title)
 
@@ -208,7 +213,7 @@ function getHeadingsWithProcessedTitle(config: {
         titleInNavProcessed = withEmoji(heading.titleEmoji, titleInNavProcessed)
       }
 
-      const headingProcessed: Omit<Heading, 'linkBreadcrumb'> = {
+      const headingProcessed: Omit<HeadingResolved, 'linkBreadcrumb'> = {
         ...heading,
         title: titleProcessed,
         titleInNav: titleInNavProcessed,
@@ -217,7 +222,7 @@ function getHeadingsWithProcessedTitle(config: {
     },
   )
 
-  const headingsProcessed: Heading[] = []
+  const headingsProcessed: HeadingResolved[] = []
   headingsWithoutBreadcrumb.forEach((heading) => {
     const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsProcessed)
     headingsProcessed.push({
@@ -245,7 +250,7 @@ function getHeadingsWithProcessedTitle(config: {
   return { headingsProcessed, headingsDetachedProcessed }
 }
 
-function getHeadingsBreadcrumb(heading: Omit<Heading, 'linkBreadcrumb'>, headings: Heading[]) {
+function getHeadingsBreadcrumb(heading: Omit<HeadingResolved, 'linkBreadcrumb'>, headings: HeadingResolved[]) {
   const linkBreadcrumb: JSX.Element[] = []
   let levelCurrent = heading.level
   headings

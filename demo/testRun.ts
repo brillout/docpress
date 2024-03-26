@@ -41,6 +41,9 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const text = await page.textContent('body')
     expect(text).toContain('Some global note.')
     expect(text).toContain('Another Section > Some Page (basic link)')
+    expect(text).toContain('Orphan Page (link to detached page)')
+    expect(text).toContain('<Link> (same-page link, non-inferred original heading title without needing sectionTitles)')
+    expect(text).toContain('<Warning> (same-page link, sub heading)')
     {
       const html = await fetchHtml(featuresURL)
       expect(getTitle(html)).toBe('Features | DocPress Demo')

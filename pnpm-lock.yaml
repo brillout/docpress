@@ -47,6 +47,9 @@ importers:
 
   src:
     dependencies:
+      '@brillout/picocolors':
+        specifier: ^1.0.10
+        version: 1.0.10
       '@mdx-js/mdx':
         specifier: 3.0.1
         version: 3.0.1

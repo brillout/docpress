@@ -33,27 +33,18 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const headingsOfCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
-  const linksAll: LinkData[] = [...headingsOfCurrentPage, ...headingsResolved, ...headingsDetachedResolved].map(
-    (heading) => ({
-      url: heading.url,
-      title: heading.title,
-      linkBreadcrumb: heading.linkBreadcrumb,
-      sectionTitles: heading.sectionTitles,
-    }),
-  )
+  const linksAll: LinkData[] = [
+    ...headingsOfCurrentPage.map(pageSectionToLinkData),
+    ...headingsResolved.map(headingToLinkData),
+    ...headingsDetachedResolved.map(headingToLinkData),
+  ]
 
   let navigationData: NavigationData
   {
-    const toNavItem = (heading: HeadingResolved | HeadingDetachedResolved): NavItem => ({
-      level: heading.level,
-      url: heading.url,
-      title: heading.title,
-      titleInNav: heading.titleInNav,
-    })
     const currentUrl: string = pageContext.urlPathname
     if (isDetachedPage) {
       const navItemsAll: NavItem[] = headingsResolved
-      const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage].map(toNavItem)
+      const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage].map(headingToNavItem)
       navigationData = {
         isDetachedPage: true,
         navItems,
@@ -61,16 +52,11 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
         currentUrl,
       }
     } else {
-      const navItemsAll: NavItem[] = headingsResolved.map(toNavItem)
+      const navItemsAll: NavItem[] = headingsResolved.map(headingToNavItem)
       const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === currentUrl)
       assert(activeHeadingIndex >= 0)
       headingsOfCurrentPage.forEach((heading, i) => {
-        const navItem: NavItem = {
-          level: heading.level,
-          url: heading.url,
-          title: heading.title,
-          titleInNav: heading.titleInNav,
-        }
+        const navItem: NavItem = pageSectionToNavItem(heading)
         navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
       })
 
@@ -91,6 +77,39 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     documentTitle,
   }
   return pageContextAddendum
+}
+
+function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {
+  return {
+    level: heading.level,
+    url: heading.url,
+    title: heading.title,
+    titleInNav: heading.titleInNav,
+  }
+}
+function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {
+  return {
+    url: heading.url,
+    title: heading.title,
+    linkBreadcrumb: heading.linkBreadcrumb,
+    sectionTitles: heading.sectionTitles,
+  }
+}
+function pageSectionToNavItem(pageSection: HeadingResolved | HeadingDetachedResolved): NavItem {
+  return {
+    level: pageSection.level,
+    url: pageSection.url,
+    title: pageSection.title,
+    titleInNav: pageSection.titleInNav,
+  }
+}
+function pageSectionToLinkData(pageSection: HeadingResolved | HeadingDetachedResolved): LinkData {
+  return {
+    url: pageSection.url,
+    title: pageSection.title,
+    linkBreadcrumb: pageSection.linkBreadcrumb,
+    sectionTitles: pageSection.sectionTitles,
+  }
 }
 
 function getTitles(

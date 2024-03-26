@@ -53,13 +53,12 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
         currentUrl,
       }
     } else {
-      const headingsAll = headingsResolved.slice()
-      const activeHeadingIndex = headingsAll.indexOf(activeNavigationHeading)
+      const navItemsAll: NavItem[] = headingsResolved.slice()
+      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === currentUrl)
       assert(activeHeadingIndex >= 0)
       headingsOfCurrentPage.forEach((pageHeading, i) => {
-        headingsAll.splice(activeHeadingIndex + 1 + i, 0, pageHeading)
+        navItemsAll.splice(activeHeadingIndex + 1 + i, 0, pageHeading)
       })
-      const navItemsAll: NavItem[] = headingsAll
 
       navigationData = {
         isDetachedPage: false,

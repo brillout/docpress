@@ -64,8 +64,14 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
       const navItemsAll: NavItem[] = headingsResolved.map(toNavItem)
       const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === currentUrl)
       assert(activeHeadingIndex >= 0)
-      headingsOfCurrentPage.forEach((pageHeading, i) => {
-        navItemsAll.splice(activeHeadingIndex + 1 + i, 0, toNavItem(pageHeading))
+      headingsOfCurrentPage.forEach((heading, i) => {
+        const navItem: NavItem = {
+          level: heading.level,
+          url: heading.url,
+          title: heading.title,
+          titleInNav: heading.titleInNav,
+        }
+        navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
       })
 
       navigationData = {

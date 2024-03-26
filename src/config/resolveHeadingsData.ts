@@ -37,12 +37,9 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const headingsOfCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
 
+  const linksAll: LinkData[] = [...headingsOfCurrentPage, ...headingsResolved, ...headingsDetachedResolved]
+
   const isDetachedPage = !activeNavigationHeading
-
-  let headingsAll = [...headingsResolved, ...headingsDetachedResolved]
-  headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
-  const linksAll: LinkData[] = headingsAll
-
   let navigationData: NavigationData
   {
     const currentUrl: string = pageContext.urlPathname

@@ -31,6 +31,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     headingsDetachedResolved,
     pageContext,
   )
+  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
   const isDetachedPage = !activeNavigationHeading
 
@@ -41,7 +42,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   if (activeNavigationHeading) {
     headingsResolved = getHeadingsAll(headingsResolved, pageContext, activeNavigationHeading)
   }
-  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
   let navigationData: NavigationData
   {
@@ -76,16 +76,16 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 }
 
 function getTitles(
-  activeNavigationHeading: HeadingResolved | HeadingDetachedResolved,
+  activeHeading: HeadingResolved | HeadingDetachedResolved,
   pageContext: { urlOriginal: string },
   config: Config,
 ) {
   const url = pageContext.urlOriginal
   const isLandingPage = url === '/'
 
-  const { title } = activeNavigationHeading
+  const { title } = activeHeading
   let pageTitle = isLandingPage ? null : title
-  let documentTitle = activeNavigationHeading.titleDocument || jsxToTextContent(title)
+  let documentTitle = activeHeading.titleDocument || jsxToTextContent(title)
 
   if (!isLandingPage) {
     documentTitle += ' | ' + config.projectInfo.projectName

@@ -22,9 +22,9 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     assertHeadingsDefinition([...headings, ...headingsDetached])
   }
 
-  const processed = getHeadingsWithProcessedTitle(config)
-  const { headingsDetachedResolved } = processed
-  let { headingsResolved } = processed
+  const resolved = getHeadingsResolved(config)
+  const { headingsDetachedResolved } = resolved
+  let { headingsResolved } = resolved
   const { activeHeading, activeNavigationHeading } = findHeading(
     headingsResolved,
     headingsDetachedResolved,
@@ -194,7 +194,7 @@ function getHeadingsOfTheCurrentPage(
   return headingsOfCurrentPage
 }
 
-function getHeadingsWithProcessedTitle(config: {
+function getHeadingsResolved(config: {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
 }): {

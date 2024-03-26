@@ -44,10 +44,16 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   let navigationData: NavigationData
   {
+    const toNavItem = (heading: HeadingResolved | HeadingDetachedResolved): NavItem => ({
+      level: heading.level,
+      url: heading.url,
+      title: heading.title,
+      titleInNav: heading.titleInNav,
+    })
     const currentUrl: string = pageContext.urlPathname
     if (isDetachedPage) {
       const navItemsAll: NavItem[] = headingsResolved
-      const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage]
+      const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage].map(toNavItem)
       navigationData = {
         isDetachedPage: true,
         navItems,
@@ -55,11 +61,11 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
         currentUrl,
       }
     } else {
-      const navItemsAll: NavItem[] = headingsResolved.slice()
+      const navItemsAll: NavItem[] = headingsResolved.map(toNavItem)
       const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === currentUrl)
       assert(activeHeadingIndex >= 0)
       headingsOfCurrentPage.forEach((pageHeading, i) => {
-        navItemsAll.splice(activeHeadingIndex + 1 + i, 0, pageHeading)
+        navItemsAll.splice(activeHeadingIndex + 1 + i, 0, toNavItem(pageHeading))
       })
 
       navigationData = {

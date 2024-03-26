@@ -11,6 +11,12 @@ import type { Exports, PageContextOriginal } from './resolvePageContext'
 
 function resolveHeadingsData(pageContext: PageContextOriginal) {
   const config = getConfig()
+
+  {
+    const { headings, headingsDetached } = config
+    assertHeadingsDefinition([...headings, ...headingsDetached])
+  }
+
   const processed = getHeadingsWithProcessedTitle(config)
   const { headingsDetachedProcessed } = processed
   let { headingsProcessed } = processed
@@ -236,7 +242,6 @@ function getHeadingsWithProcessedTitle(config: {
     }
   })
 
-  assertHeadingsUrl([...headingsProcessed, ...headingsDetachedProcessed])
   return { headingsProcessed, headingsDetachedProcessed }
 }
 
@@ -256,7 +261,7 @@ function getHeadingsBreadcrumb(heading: Omit<Heading, 'linkBreadcrumb'>, heading
   return linkBreadcrumb
 }
 
-function assertHeadingsUrl(headings: { url?: null | string }[]) {
+function assertHeadingsDefinition(headings: { url?: null | string }[]) {
   headings.forEach((heading) => {
     if (heading.url) {
       const { url } = heading

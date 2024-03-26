@@ -1,11 +1,9 @@
 export { resolvePageContext }
 export type { PageContextOriginal }
 export type { PageContextResolved }
-export type { Heading }
 export type { Exports }
 
 import { objectAssign } from '../utils/server'
-import type { Heading } from '../types/Heading'
 import type { PageContextServer } from 'vike/types'
 import type { PageSection } from '../parsePageSections'
 import { getConfig } from './getConfig'

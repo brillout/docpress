@@ -36,8 +36,8 @@ importers:
         specifier: ^18.1.0
         version: 18.1.0(react@18.1.0)
       typescript:
-        specifier: ^4.9.4
-        version: 4.9.4
+        specifier: ^5.4.3
+        version: 5.4.3
       vike:
         specifier: ^0.4.167
         version: 0.4.167(vite@5.2.2)
@@ -103,8 +103,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       typescript:
-        specifier: ^4.9.4
-        version: 4.9.4
+        specifier: ^5.4.3
+        version: 5.4.3
       vike:
         specifier: ^0.4.167
         version: 0.4.167(vite@5.2.2)
@@ -3228,9 +3228,9 @@ packages:
     engines: {node: '>=16'}
     dev: true
 
-  /typescript@4.9.4:
-    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
-    engines: {node: '>=4.2.0'}
+  /typescript@5.4.3:
+    resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
+    engines: {node: '>=14.17'}
     hasBin: true
 
   /uglify-js@3.17.4:

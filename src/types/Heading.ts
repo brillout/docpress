@@ -30,7 +30,6 @@ type Heading = HeadingCommon & {
   title: JSX.Element
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
-  sectionTitles?: string[]
 }
 type HeadingDetached = Omit<Heading, 'level' | 'linkBreadcrumb'> & {
   level: 2
@@ -39,7 +38,6 @@ type HeadingDetached = Omit<Heading, 'level' | 'linkBreadcrumb'> & {
 type HeadingDetachedDefinition = {
   url: string
   title: string | JSX.Element
-  sectionTitles?: string[]
 }
 type HeadingDefinition = HeadingCommon &
   NaItemDefinitionLevel & {
@@ -51,4 +49,5 @@ type HeadingCommon = {
   url?: null | string
   // TODO: rename to titlePage
   titleDocument?: string
+  sectionTitles?: string[]
 }

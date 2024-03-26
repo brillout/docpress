@@ -33,7 +33,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   objectAssign(pageContextResolved, {
     ...pageContext,
     meta: {
-      ...pageContextResolved.meta,
       faviconUrl,
       twitterHandle,
       bannerUrl,
@@ -67,7 +66,7 @@ function resolveHeadings(pageContext: PageContextOriginal) {
   if (activeNavigationHeading) {
     headingsProcessed = getHeadingsAll(headingsProcessed, pageContext, activeNavigationHeading)
   }
-  const { title, isLandingPage, pageTitle } = getMetaData(
+  const { documentTitle, isLandingPage, pageTitle } = getTitles(
     headingsDetachedProcessed,
     activeNavigationHeading,
     pageContext,
@@ -101,14 +100,12 @@ function resolveHeadings(pageContext: PageContextOriginal) {
     linkAll,
     isLandingPage,
     pageTitle,
-    meta: {
-      title,
-    },
+    documentTitle,
   }
   return pageContextAddendum
 }
 
-function getMetaData(
+function getTitles(
   headingsDetachedProcessed: HeadingDetached[],
   activeNavigationHeading: Heading | null,
   pageContext: { urlOriginal: string; exports: Exports },
@@ -116,26 +113,26 @@ function getMetaData(
 ) {
   const url = pageContext.urlOriginal
 
-  let title: string
+  let documentTitle: string
   let pageTitle: string | JSX.Element | null
   if (activeNavigationHeading) {
-    title = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
+    documentTitle = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
     pageTitle = activeNavigationHeading.title
   } else {
     pageTitle = headingsDetachedProcessed.find((h) => h.url === url)!.title
-    title = jsxToTextContent(pageTitle)
+    documentTitle = jsxToTextContent(pageTitle)
   }
 
   const isLandingPage = url === '/'
   if (!isLandingPage) {
-    title += ' | ' + config.projectInfo.projectName
+    documentTitle += ' | ' + config.projectInfo.projectName
   }
 
   if (isLandingPage) {
     pageTitle = null
   }
 
-  return { title, isLandingPage, pageTitle }
+  return { documentTitle, isLandingPage, pageTitle }
 }
 
 function findHeading(

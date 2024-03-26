@@ -34,11 +34,15 @@ async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
       <head>
         <meta charset="UTF-8" />
         <link rel="icon" href="${pageContextResolved.meta.faviconUrl}" />
-        <title>${pageContextResolved.meta.title}</title>
+        <title>${pageContextResolved.documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         ${docSearchCSS}
-        ${getOpenGraphTags(pageContextOriginal.urlPathname, pageContextResolved.meta)}
+        ${getOpenGraphTags(
+          pageContextOriginal.urlPathname,
+          pageContextResolved.documentTitle,
+          pageContextResolved.meta,
+        )}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
@@ -49,9 +53,10 @@ async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
 
 function getOpenGraphTags(
   url: string,
-  meta: { title: string; tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string },
+  documentTitle: string,
+  meta: { tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string },
 ) {
-  const { title, tagline, websiteUrl, twitterHandle, bannerUrl } = meta
+  const { tagline, websiteUrl, twitterHandle, bannerUrl } = meta
 
   assert(url.startsWith('/'))
   if (!bannerUrl) return ''
@@ -59,7 +64,7 @@ function getOpenGraphTags(
   // See view-source:https://vitejs.dev/
   return escapeInject`
     <meta property="og:type" content="website">
-    <meta property="og:title" content="${title}">
+    <meta property="og:title" content="${documentTitle}">
     <meta property="og:image" content="${bannerUrl}">
     <meta property="og:url" content="${websiteUrl}">
     <meta property="og:description" content="${tagline}">

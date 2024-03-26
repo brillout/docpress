@@ -13,6 +13,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const landingPageUrl = '/'
   test(landingPageUrl, async () => {
     const html = await fetchHtml(landingPageUrl)
+    expect(getTitle(html)).toBe('Vike Demo')
     expect(html).toContain('Introduction')
     expect(html).toContain('Feature 1')
     expect(html).toContain('Some global note.')
@@ -28,6 +29,10 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain(`This page is "detached": it isn't included in the left-side navigation.`)
     expect(text).toContain(`Another Orphan Page Without Headings.`)
     expect(text).toContain(`Same page link for orphan page: Some SecTion.`)
+    {
+      const html = await fetchHtml(orphanURL)
+      expect(getTitle(html)).toBe('Orphan Page | DocPress Demo')
+    }
   })
 
   const featuresURL = '/features'
@@ -36,10 +41,19 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const text = await page.textContent('body')
     expect(text).toContain('Some global note.')
     expect(text).toContain('Another Section > Some Page (basic link)')
+    {
+      const html = await fetchHtml(featuresURL)
+      expect(getTitle(html)).toBe('Features | DocPress Demo')
+    }
   })
 
   test('screenshot fixture', async () => {
     await page.click('a[href="/some-page"]')
     await testScreenshotFixture({ doNotTestLocally: true })
   })
+}
+
+function getTitle(html: string) {
+  const title = html.match(/<title>(.*?)<\/title>/i)?.[1]
+  return title
 }

@@ -89,7 +89,7 @@ function getTitles(
   const url = pageContext.urlOriginal
 
   let documentTitle: string
-  let pageTitle: string | JSX.Element | null
+  let pageTitle: JSX.Element | null
   if (activeNavigationHeading) {
     documentTitle = activeNavigationHeading.titleDocument || jsxToTextContent(activeNavigationHeading.title)
     pageTitle = activeNavigationHeading.title

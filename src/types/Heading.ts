@@ -47,7 +47,7 @@ type HeadingDefinition = HeadingCommon &
   }
 type HeadingCommon = {
   url?: null | string
-  // TODO: rename to titlePage
-  titleDocument?: string
   sectionTitles?: string[]
+  // TODO: remove? Both Vike and Telefunc set it to the same value than docpress.config.js#projectInfo.projectName
+  titleDocument?: string
 }

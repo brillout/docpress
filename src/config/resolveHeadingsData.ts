@@ -31,10 +31,10 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
-  const headingsOfCurrentPage = getHeadingsOfTheCurrentPage(pageContext, activeHeading)
+  const pageSectionsResolved = getPageSectionsResolved(pageContext, activeHeading)
 
   const linksAll: LinkData[] = [
-    ...headingsOfCurrentPage.map(pageSectionToLinkData),
+    ...pageSectionsResolved.map(pageSectionToLinkData),
     ...headingsResolved.map(headingToLinkData),
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
@@ -44,7 +44,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     const currentUrl: string = pageContext.urlPathname
     if (isDetachedPage) {
       const navItemsAll: NavItem[] = headingsResolved
-      const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage].map(headingToNavItem)
+      const navItems: NavItem[] = [headingToNavItem(activeHeading), ...pageSectionsResolved.map(pageSectionToNavItem)]
       navigationData = {
         isDetachedPage: true,
         navItems,
@@ -55,8 +55,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
       const navItemsAll: NavItem[] = headingsResolved.map(headingToNavItem)
       const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === currentUrl)
       assert(activeHeadingIndex >= 0)
-      headingsOfCurrentPage.forEach((heading, i) => {
-        const navItem: NavItem = pageSectionToNavItem(heading)
+      pageSectionsResolved.forEach((pageSection, i) => {
+        const navItem: NavItem = pageSectionToNavItem(pageSection)
         navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
       })
 
@@ -95,7 +95,7 @@ function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): 
     sectionTitles: heading.sectionTitles,
   }
 }
-function pageSectionToNavItem(pageSection: HeadingResolved | HeadingDetachedResolved): NavItem {
+function pageSectionToNavItem(pageSection: PageSectionResolved): NavItem {
   return {
     level: pageSection.level,
     url: pageSection.url,
@@ -103,12 +103,11 @@ function pageSectionToNavItem(pageSection: HeadingResolved | HeadingDetachedReso
     titleInNav: pageSection.titleInNav,
   }
 }
-function pageSectionToLinkData(pageSection: HeadingResolved | HeadingDetachedResolved): LinkData {
+function pageSectionToLinkData(pageSection: PageSectionResolved): LinkData {
   return {
     url: pageSection.url,
     title: pageSection.title,
     linkBreadcrumb: pageSection.linkBreadcrumb,
-    sectionTitles: pageSection.sectionTitles,
   }
 }
 
@@ -167,37 +166,42 @@ function getActiveHeading(
   return { activeHeading, isDetachedPage }
 }
 
-function getHeadingsOfTheCurrentPage(
+type PageSectionResolved = {
+  url: string | null
+  title: JSX.Element
+  titleInNav: JSX.Element
+  linkBreadcrumb: JSX.Element[]
+  level: 3
+}
+function getPageSectionsResolved(
   pageContext: { exports: Exports; urlOriginal: string },
-  currentHeading: HeadingResolved | HeadingDetachedResolved,
-) {
-  const headingsOfCurrentPage: HeadingResolved[] = []
-
+  activeHeading: HeadingResolved | HeadingDetachedResolved,
+): PageSectionResolved[] {
   const pageSections = pageContext.exports.pageSectionsExport ?? []
 
-  pageSections.forEach((pageSection) => {
-    const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
-    const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
-    if (pageSection.pageSectionLevel === 2) {
-      const heading: HeadingResolved = {
+  const pageSectionsResolved = pageSections
+    .filter((pageSection) => pageSection.pageSectionLevel === 2)
+    .map((pageSection) => {
+      const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
+      const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
+      const pageSectionResolved: PageSectionResolved = {
         url,
         title: pageSectionTitleJsx,
-        linkBreadcrumb: [currentHeading.title, ...(currentHeading.linkBreadcrumb ?? [])],
+        linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
         titleInNav: pageSectionTitleJsx,
         level: 3,
       }
-      headingsOfCurrentPage.push(heading)
-    }
-  })
+      return pageSectionResolved
+    })
 
-  if (currentHeading?.sectionTitles) {
-    currentHeading.sectionTitles.forEach((sectionTitle) => {
+  if (activeHeading?.sectionTitles) {
+    activeHeading.sectionTitles.forEach((sectionTitle) => {
       const pageSectionTitles = pageSections.map((h) => h.pageSectionTitle)
       assert(pageSectionTitles.includes(sectionTitle), { pageHeadingTitles: pageSectionTitles, sectionTitle })
     })
   }
 
-  return headingsOfCurrentPage
+  return pageSectionsResolved
 }
 
 /**

@@ -43,15 +43,11 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   headingsAll = getHeadingsAll(headingsAll, pageContext, activeHeading)
   const linksAll: LinkData[] = headingsAll
 
-  if (activeNavigationHeading) {
-    headingsResolved = getHeadingsAll(headingsResolved, pageContext, activeNavigationHeading)
-  }
-
   let navigationData: NavigationData
   {
     const currentUrl: string = pageContext.urlPathname
-    const navItemsAll: NavItem[] = headingsResolved
     if (isDetachedPage) {
+      const navItemsAll: NavItem[] = headingsResolved
       const navItems: NavItem[] = [activeHeading, ...headingsOfCurrentPage]
       navigationData = {
         isDetachedPage: true,
@@ -60,6 +56,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
         currentUrl,
       }
     } else {
+      headingsResolved = getHeadingsAll(headingsResolved, pageContext, activeNavigationHeading)
+      const navItemsAll: NavItem[] = headingsResolved
       navigationData = {
         isDetachedPage: false,
         navItems: navItemsAll,

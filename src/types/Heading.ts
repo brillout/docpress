@@ -10,6 +10,7 @@ type HeadingResolved = HeadingCommon & {
   title: JSX.Element
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
+  sectionTitles?: string[]
 }
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
   level: 2
@@ -19,6 +20,7 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
 type HeadingDetachedDefinition = {
   url: string
   title: string | JSX.Element
+  sectionTitles?: string[]
 }
 
 type HeadingDefinition = HeadingCommon &
@@ -42,7 +44,6 @@ type HeadingDefinitionLevel =
 
 type HeadingCommon = {
   url?: null | string
-  sectionTitles?: string[]
   // TODO: remove? Both Vike and Telefunc set it to the same value than docpress.config.js#projectInfo.projectName
   titleDocument?: string
 }

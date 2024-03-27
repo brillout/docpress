@@ -5,26 +5,6 @@ export { HeadingDefinition }
 
 import type { EmojiName } from '../utils/server'
 
-type NavItemLevel =
-  | NaItemDefinitionLevel
-  | {
-      level: 3
-      url: null | string
-    }
-type NaItemDefinitionLevel =
-  | ({ level: 1; titleEmoji: EmojiName } & IsNavCategory)
-  | ({ level: 4 } & IsNavCategory)
-  | {
-      level: 2
-      sectionTitles?: string[]
-      url: null | string
-    }
-type IsNavCategory = {
-  url?: undefined
-  titleDocument?: undefined
-  titleInNav?: undefined
-}
-
 type HeadingResolved = HeadingCommon & {
   level: number
   title: JSX.Element
@@ -35,16 +15,31 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
   level: 2
   linkBreadcrumb: null
 }
+
 type HeadingDetachedDefinition = {
   url: string
   title: string | JSX.Element
 }
+
 type HeadingDefinition = HeadingCommon &
-  NaItemDefinitionLevel & {
+  HeadingDefinitionLevel & {
     title: string
-    // TODO: rename to titleNav
     titleInNav?: string
   }
+type IsCategory = {
+  url?: undefined
+  titleDocument?: undefined
+  titleInNav?: undefined
+}
+type HeadingDefinitionLevel =
+  | ({ level: 1; titleEmoji: EmojiName } & IsCategory)
+  | ({ level: 4 } & IsCategory)
+  | {
+      level: 2
+      sectionTitles?: string[]
+      url: null | string
+    }
+
 type HeadingCommon = {
   url?: null | string
   sectionTitles?: string[]

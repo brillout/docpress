@@ -1,3 +1,12 @@
+## [0.6.10](https://github.com/brillout/docpress/compare/v0.6.9...v0.6.10) (2024-03-27)
+
+
+### Bug Fixes
+
+* fix type regression ([11772ae](https://github.com/brillout/docpress/commit/11772aeef084115691244de57c956d12dc346474))
+
+
+
 ## [0.6.9](https://github.com/brillout/docpress/compare/v0.6.8...v0.6.9) (2024-03-26)
 
 

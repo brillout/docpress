@@ -5,13 +5,15 @@ export { HeadingDefinition }
 
 import type { EmojiName } from '../utils/server'
 
-type HeadingResolved = HeadingCommon & {
+type HeadingResolved = {
+  url?: null | string
   level: number
   title: JSX.Element
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
   sectionTitles?: string[]
-}
+} & Tmp
+
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
   level: 2
   linkBreadcrumb: null
@@ -23,11 +25,12 @@ type HeadingDetachedDefinition = {
   sectionTitles?: string[]
 }
 
-type HeadingDefinition = HeadingCommon &
-  HeadingDefinitionLevel & {
-    title: string
-    titleInNav?: string
-  }
+type HeadingDefinition = {
+  url?: null | string
+  title: string
+  titleInNav?: string
+} & HeadingDefinitionLevel &
+  Tmp
 type IsCategory = {
   url?: undefined
   titleDocument?: undefined
@@ -42,8 +45,7 @@ type HeadingDefinitionLevel =
       url: null | string
     }
 
-type HeadingCommon = {
-  url?: null | string
+type Tmp = {
   // TODO: remove? Both Vike and Telefunc set it to the same value than docpress.config.js#projectInfo.projectName
   titleDocument?: string
 }

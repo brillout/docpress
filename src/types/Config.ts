@@ -35,6 +35,7 @@ type Config = {
   navHeaderMobileWrapperStyle?: React.CSSProperties
   navHeader: React.ReactNode
   navHeaderWrapperStyle?: React.CSSProperties
+  /** Sets `<meta name="description" content="${tagline}" />` */
   tagline: string
   websiteUrl: string
   bannerUrl?: string

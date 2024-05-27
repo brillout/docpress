@@ -70,7 +70,7 @@
     }
   },
   "devDependencies": {
-    "@brillout/release-me": "^0.1.13",
+    "@brillout/release-me": "^0.3.8",
     "@types/node": "^15.12.1",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.6",

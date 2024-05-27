@@ -33,6 +33,5 @@
     "overrides": {
       "@brillout/docpress": "link:./src/"
     }
-  },
-  "packageManager": "pnpm@9.1.2"
+  }
 }

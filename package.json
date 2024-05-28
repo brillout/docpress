@@ -9,8 +9,6 @@
     "test": "test-e2e",
     "========= Build": "",
     "build": "cd src/ && pnpm run build",
-    "========= Clean": "",
-    "reset": "git clean -Xdf && pnpm install && pnpm run build",
     "========= Release": "",
     "release": "cd src/ && pnpm run release",
     "release:commit": "cd src/ && pnpm run release:commit",
@@ -20,6 +18,8 @@
     "format:prettier": "git ls-files | egrep '\\.(json|js|jsx|css|ts|tsx|vue|mjs|cjs)$' | grep --invert-match package.json | xargs pnpm exec prettier --write",
     "format:biome": "biome format --write .",
     "format:check": "biome format . || echo Fix formatting by running: $ pnpm -w run format",
+    "========= Reset": "",
+    "reset": "git clean -Xdf && pnpm install && pnpm run build",
     "========= Only allow pnpm; forbid yarn & npm": "",
     "preinstall": "npx only-allow pnpm"
   },

@@ -10,7 +10,8 @@ function HorizontalLine({ primary }: { primary?: true }) {
           display: 'inline-block',
           margin: 0,
           border: 0,
-          borderTop: '1px solid #eee',
+          // Same as `.doc-page h2::after`
+          borderTop: '1px solid #eaeaea',
           maxWidth: 500,
           width: '80%',
         }}

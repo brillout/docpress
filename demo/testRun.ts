@@ -16,10 +16,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(getTitle(html)).toBe('Vike Demo')
     expect(html).toContain('Introduction')
     expect(html).toContain('Feature 1')
-    expect(html).toContain('Some global note.')
     await page.goto(getServerUrl() + landingPageUrl)
     const text = await page.textContent('body')
-    expect(text).toContain('Some global note.')
   })
 
   const orphanURL = '/orphan'
@@ -39,7 +37,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   test(featuresURL, async () => {
     await page.goto(getServerUrl() + featuresURL)
     const text = await page.textContent('body')
-    expect(text).toContain('Some global note.')
     expect(text).toContain('Another Section > Some Page (basic link)')
     expect(text).toContain('Orphan Page (link to detached page)')
     expect(text).toContain('<Link> (same-page link, non-inferred original heading title without needing sectionTitles)')

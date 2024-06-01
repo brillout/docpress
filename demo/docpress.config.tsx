@@ -1,5 +1,4 @@
 import type { Config } from '@brillout/docpress'
-import { Warning } from '@brillout/docpress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsDetached } from './headings'
@@ -10,7 +9,6 @@ export default {
     projectVersion: '0.0.0',
     githubRepository: 'https://github.com/brillout/docpress' as const,
     githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
-    discordInvite: 'https://discord.com/invite/dSDMGGJZQy' as const,
     twitterProfile: 'https://twitter.com/brillout' as const,
   },
   faviconUrl: logoUrl,
@@ -24,9 +22,10 @@ export default {
   tagline: 'DocPress Demo',
   headings,
   headingsDetached,
-  globalNote: <GlobalNoteWarning />,
+  // globalNote: <GlobalNoteWarning />,
 } as Config
 
+/*
 function GlobalNoteWarning() {
   return (
     <>
@@ -36,6 +35,7 @@ function GlobalNoteWarning() {
     </>
   )
 }
+*/
 
 function NavHeaderMobile() {
   const LOGO_SIZE = 40

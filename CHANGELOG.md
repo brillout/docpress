@@ -1,3 +1,12 @@
+## [0.6.11](https://github.com/brillout/docpress/compare/v0.6.10...v0.6.11) (2024-06-01)
+
+
+### Bug Fixes
+
+* improve heading space ([a148030](https://github.com/brillout/docpress/commit/a148030cf905c1795a0f8fa56785bc456bdc6f34))
+
+
+
 ## [0.6.10](https://github.com/brillout/docpress/compare/v0.6.9...v0.6.10) (2024-03-27)
 
 

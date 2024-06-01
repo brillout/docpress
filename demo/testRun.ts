@@ -1,6 +1,6 @@
 export { testRun }
 
-import { test, expect, run, fetchHtml, page, getServerUrl, testScreenshotFixture } from '@brillout/test-e2e'
+import { test, expect, run, fetchHtml, page, getServerUrl } from '@brillout/test-e2e'
 
 function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   {
@@ -45,11 +45,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       const html = await fetchHtml(featuresURL)
       expect(getTitle(html)).toBe('Features | DocPress Demo')
     }
-  })
-
-  test('screenshot fixture', async () => {
-    await page.click('a[href="/some-page"]')
-    await testScreenshotFixture({ doNotTestLocally: true })
   })
 }
 

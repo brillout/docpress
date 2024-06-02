@@ -1,3 +1,12 @@
+## [0.6.12](https://github.com/brillout/docpress/compare/v0.6.11...v0.6.12) (2024-06-02)
+
+
+### Bug Fixes
+
+* hide discord if not defined ([a3a19e7](https://github.com/brillout/docpress/commit/a3a19e79de3fc376537e30e8e1574ccd1a4579dc))
+
+
+
 ## [0.6.11](https://github.com/brillout/docpress/compare/v0.6.10...v0.6.11) (2024-06-01)
 
 

@@ -9,7 +9,7 @@ type Config = {
     githubDiscussions?: string
     projectName: string
     projectVersion: string
-    discordInvite: string
+    discordInvite?: string
     twitterProfile: string
   }
   faviconUrl: string

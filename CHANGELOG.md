@@ -1,3 +1,12 @@
+## [0.6.13](https://github.com/brillout/docpress/compare/v0.6.12...v0.6.13) (2024-06-02)
+
+
+### Bug Fixes
+
+* fix Config type ([b9927d3](https://github.com/brillout/docpress/commit/b9927d3253604269fcc4c8e0900b4477decf9443))
+
+
+
 ## [0.6.12](https://github.com/brillout/docpress/compare/v0.6.11...v0.6.12) (2024-06-02)
 
 

@@ -47,6 +47,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
 
+  const isMarketingPage = activeHeading.isMarketingPage ?? true
+
   let navigationData: NavigationData
   {
     const currentUrl: string = pageContext.urlPathname
@@ -85,6 +87,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
+    isMarketingPage,
   }
   return pageContextAddendum
 }

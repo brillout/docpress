@@ -1,7 +1,7 @@
 import React from 'react'
 import { assert } from '../assert'
 
-import { iconMechanicalArm, iconCompass, iconRoadFork, iconShield, iconTypescript, iconEngine } from './assets'
+import { iconMechanicalArm, iconCompass, iconShield, iconTypescript, iconEngine } from './assets'
 
 export { Emoji }
 export type { EmojiName }
@@ -26,7 +26,6 @@ type EmojiName =
   | 'dizzy'
   | 'sparkles'
   | 'writing-hang'
-  | 'road-fork'
   | 'engine'
   | 'red-circle'
   | 'sparkling-heart'
@@ -88,9 +87,6 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // https://www.unicompat.com/FE0F => 46.5%
     // https://icon-sets.iconify.design/noto/shield/
     (name === 'shield' && Img(iconShield)) ||
-    // ***
-    // Custom
-    (name === 'road-fork' && Img(iconRoadFork, '1.4em')) ||
     // ***
     // U+270D
     // https://emojipedia.org/writing-hand/

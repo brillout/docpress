@@ -3,6 +3,7 @@ import { Link } from './Link'
 
 export { ReadingRecommendation }
 
+// TODO/eventually: remove
 function ReadingRecommendation({ tour, links }: { tour?: true; links?: string[] }) {
   links ??= []
   if (!links.length) tour = true

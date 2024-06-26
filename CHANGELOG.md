@@ -1,3 +1,13 @@
+## [0.6.14](https://github.com/brillout/docpress/compare/v0.6.13...v0.6.14) (2024-06-26)
+
+
+### Bug Fixes
+
+* improve heading sizes ([40c8c70](https://github.com/brillout/docpress/commit/40c8c70d40a2e46afb386d633cd6f244c3f68cf8))
+* remove unused road-fork emoji ([03dbc14](https://github.com/brillout/docpress/commit/03dbc14f9a5fd75bb44c39d957eaccb92bb5f897))
+
+
+
 ## [0.6.13](https://github.com/brillout/docpress/compare/v0.6.12...v0.6.13) (2024-06-02)
 
 

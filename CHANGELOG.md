@@ -1,3 +1,12 @@
+## [0.6.15](https://github.com/brillout/docpress/compare/v0.6.14...v0.6.15) (2024-07-01)
+
+
+### Features
+
+* <Contribution> ([c140c9f](https://github.com/brillout/docpress/commit/c140c9fa6372ca5aeb814e44596e902a835da411))
+
+
+
 ## [0.6.14](https://github.com/brillout/docpress/compare/v0.6.13...v0.6.14) (2024-06-26)
 
 

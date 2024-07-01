@@ -1,5 +1,6 @@
 export { Warning }
 export { Construction }
+export { Contribution }
 export { Danger }
 export { NoteWithoutIcon }
 export { NoteWithCustomIcon }
@@ -23,6 +24,9 @@ function Warning({ children }: { children: React.ReactNode }) {
 function Construction({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="construction">{children}</NoteGeneric>
 }
+function Contribution({ children }: { children: React.ReactNode }) {
+  return <NoteGeneric type="contribution">{children}</NoteGeneric>
+}
 function Danger({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="danger">{children}</NoteGeneric>
 }
@@ -38,10 +42,12 @@ function NoteWithCustomIcon({ icon, children }: { children: React.ReactNode; ico
 function NoteGeneric({
   type,
   icon,
+  iconMargin,
   children,
 }: {
   icon?: null | CustomIcon
-  type?: 'danger' | 'warning' | 'construction'
+  iconMargin?: null | number
+  type?: 'danger' | 'warning' | 'construction' | 'contribution'
   children: React.ReactNode
 }) {
   assert(icon === null || icon || type, { icon, type })
@@ -64,6 +70,11 @@ function NoteGeneric({
       icon = ':construction:'
       classColor = 'note-color-yellow'
     }
+    if (type === 'contribution') {
+      icon = '💚'
+      classColor = 'note-color-green'
+      iconMargin = 2
+    }
     assert(icon)
     assert(classColor)
     className = `${className} ${classColor}`
@@ -71,7 +82,7 @@ function NoteGeneric({
   return (
     <blockquote className={className}>
       <div style={{ marginBottom: 20 }} />
-      {icon} <div className="blockquote-content">{children}</div>
+      {icon}<span style={{width: iconMargin ?? undefined, display: 'inline-block'}}></span> <div className="blockquote-content">{children}</div>
       <div style={{ marginTop: 20 }} />
     </blockquote>
   )

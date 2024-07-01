@@ -56,6 +56,11 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
+    title: 'June Releases',
+    url: '/releases/2024-06',
+  },
+  {
+    level: 2,
     title: 'Press Kit',
     url: '/press',
   },

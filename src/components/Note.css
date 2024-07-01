@@ -18,6 +18,22 @@ blockquote.note-color-yellow {
   --color-strengh-border: 8;
   --color: 255, 204, 50;
 }
+blockquote.note-color-green {
+  --color-strengh-bg: 4;
+  --color-strengh-border: 4;
+  --color: 000, 204, 50;
+  border-left-color: rgb(0, 179, 0, 0.3);
+  background-color: rgb(0, 179, 0, 0.08);
+}
+/*
+blockquote.note-color-pink {
+  --color-strengh-bg: 4;
+  --color-strengh-border: 4;
+  --color: 000, 204, 50;
+  border-left-color: rgb(255, 0, 100, 0.3);
+  background-color: rgb(255, 0, 100, 0.1);
+}
+*/
 .blockquote-content {
   display: inline;
 }

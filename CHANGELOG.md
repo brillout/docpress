@@ -1,3 +1,16 @@
+## [0.6.16](https://github.com/brillout/docpress/compare/v0.6.15...v0.6.16) (2024-07-16)
+
+
+### Bug Fixes
+
+* fix blockquote icon ([bcf2191](https://github.com/brillout/docpress/commit/bcf2191734438c66bed4c95305bc77c2ed42b0c5))
+* improve blockquote icon padding ([377861f](https://github.com/brillout/docpress/commit/377861fee24baceeb893a4c80e04d3815ae4a011))
+* improve responsive font-size of code blocks ([30cffd5](https://github.com/brillout/docpress/commit/30cffd5bf761fd3abeee872a82ebe2de82114c3c))
+* remove twemoji ([ffa9094](https://github.com/brillout/docpress/commit/ffa9094e540f0d4590cc06a2fffd1a2f99ad01a6))
+* workaround code block iOS chrome bug ([bad2e49](https://github.com/brillout/docpress/commit/bad2e4936895e45d8531b08c77e6db6c86154ec7))
+
+
+
 ## [0.6.15](https://github.com/brillout/docpress/compare/v0.6.14...v0.6.15) (2024-07-01)
 
 

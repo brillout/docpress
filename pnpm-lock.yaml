@@ -39,8 +39,8 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
       vike:
-        specifier: ^0.4.174
-        version: 0.4.174(vite@5.2.2(@types/node@15.14.9))
+        specifier: ^0.4.180
+        version: 0.4.180(vite@5.2.2(@types/node@15.14.9))
       vite:
         specifier: ^5.2.2
         version: 5.2.2(@types/node@15.14.9)
@@ -103,8 +103,8 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
       vike:
-        specifier: ^0.4.174
-        version: 0.4.174(vite@5.2.2(@types/node@15.14.9))
+        specifier: ^0.4.180
+        version: 0.4.180(vite@5.2.2(@types/node@15.14.9))
       vite:
         specifier: ^5.2.2
         version: 5.2.2(@types/node@15.14.9)
@@ -179,8 +179,8 @@ packages:
   '@brillout/import@0.2.3':
     resolution: {integrity: sha512-1T8WlD75eeFSMrptGy8jiLHmfHgMmSjWvLOIUvHmSVZt+6k0eQqYUoK4KbmE4T9pVLIfxvZSOm2D68VEqKRHRw==}
 
-  '@brillout/json-serializer@0.5.10':
-    resolution: {integrity: sha512-3bh/MS5pudu3H9l3a0KAE1RBfy/L95JWAEo8b2mPBN3H98wzCHYzgjQb9xRl58y+Kc7FgkjApgCFJV+zR06P5Q==}
+  '@brillout/json-serializer@0.5.13':
+    resolution: {integrity: sha512-9FpmgpuoSISw6fAPVB2qwW1dGAADN28YbWpfwOErfcZxpBH4lsnejuY89qcivInnWXYJvyyPwghCuOTbtuaYFg==}
 
   '@brillout/part-regex@0.1.3':
     resolution: {integrity: sha512-ZyqtOYHvQs3Ca0xt9fb2OlGzCrKwXtMcAATDObkFmI4jKuObEORjWrqAslWTelquXlyEYLz7h1nt6jp50LDyJA==}
@@ -1828,12 +1828,12 @@ packages:
   vike-contributors@0.0.9:
     resolution: {integrity: sha512-uOvGIv5XZZ7Gm9BdQty/K2f22641+ZTBH1Ccq7Qh/uvH2gI+SA8npSSS6zwdVlSWFsvecZqSn45AYKrAYSIMNg==}
 
-  vike@0.4.174:
-    resolution: {integrity: sha512-RgicUKxcm6SsOoyJWx3W853qvS8vigZjdKc2OzrGMxSfmvwHAzWtYO69MELWB8jZRDmALwDOuzCpmHUV2n2fbw==}
+  vike@0.4.180:
+    resolution: {integrity: sha512-q+XVDWUy267UWisH14lGggF474ZFHmebxQHbeuAkSUD5O9UTse1bs7f3AvuKBzShrrf/VwFs3vnr75jKeGuOew==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
-      react-streaming: '>=0.3.5'
+      react-streaming: '>=0.3.42'
       vite: '>=4.4.0'
     peerDependenciesMeta:
       react-streaming:
@@ -1946,7 +1946,7 @@ snapshots:
 
   '@brillout/import@0.2.3': {}
 
-  '@brillout/json-serializer@0.5.10': {}
+  '@brillout/json-serializer@0.5.13': {}
 
   '@brillout/part-regex@0.1.3': {}
 
@@ -3779,10 +3779,10 @@ snapshots:
 
   vike-contributors@0.0.9: {}
 
-  vike@0.4.174(vite@5.2.2(@types/node@15.14.9)):
+  vike@0.4.180(vite@5.2.2(@types/node@15.14.9)):
     dependencies:
       '@brillout/import': 0.2.3
-      '@brillout/json-serializer': 0.5.10
+      '@brillout/json-serializer': 0.5.13
       '@brillout/picocolors': 1.0.13
       '@brillout/require-shim': 0.1.2
       '@brillout/vite-plugin-server-entry': 0.4.6

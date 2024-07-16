@@ -51,6 +51,7 @@ function NoteGeneric({
   children: React.ReactNode
 }) {
   assert(icon === null || icon || type, { icon, type })
+  iconMargin ??= 2
 
   let className = 'custom-icon'
   if (type) {
@@ -73,7 +74,6 @@ function NoteGeneric({
     if (type === 'contribution') {
       icon = '💚'
       classColor = 'note-color-green'
-      iconMargin = 2
     }
     assert(icon)
     assert(classColor)

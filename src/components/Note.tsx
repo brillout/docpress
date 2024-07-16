@@ -59,15 +59,15 @@ function NoteGeneric({
   if (!icon && type) {
     let classColor = ''
     if (type === 'danger') {
-      icon = ':no_entry:'
+      icon = '⛔'
       classColor = 'note-color-red'
     }
     if (type === 'warning') {
-      icon = ':warning:'
+      icon = '⚠️'
       classColor = 'note-color-yellow'
     }
     if (type === 'construction') {
-      icon = ':construction:'
+      icon = '🚧'
       classColor = 'note-color-yellow'
     }
     if (type === 'contribution') {
@@ -82,7 +82,9 @@ function NoteGeneric({
   return (
     <blockquote className={className}>
       <div style={{ marginBottom: 20 }} />
-      {icon}<span style={{width: iconMargin ?? undefined, display: 'inline-block'}}></span> <div className="blockquote-content">{children}</div>
+      <span style={{ fontFamily: 'emoji' }}>{icon}</span>
+      <span style={{ width: iconMargin ?? undefined, display: 'inline-block' }}></span>{' '}
+      <div className="blockquote-content">{children}</div>
       <div style={{ marginTop: 20 }} />
     </blockquote>
   )

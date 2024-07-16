@@ -6,7 +6,6 @@ import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { PageLayout } from '../PageLayout'
 import { resolvePageContext, PageContextOriginal } from '../config/resolvePageContext'
 import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
-import { parseEmojis } from '../parseEmojis'
 import { assert } from '../utils/server'
 
 async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
@@ -26,8 +25,7 @@ async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
   const docSearchJS = getDocSearchJS(pageContextResolved)
   const docSearchCSS = getDocSearchCSS(pageContextResolved)
 
-  let pageHtml = ReactDOMServer.renderToString(page)
-  pageHtml = parseEmojis(pageHtml)
+  const pageHtml = ReactDOMServer.renderToString(page)
 
   return escapeInject`<!DOCTYPE html>
     <html>

@@ -4,11 +4,6 @@ pre > code {
 pre [data-line] {
   padding: 0px 16px !important;
 }
-@media screen and (max-width: 900px) {
-  pre > code {
-    font-size: 0.7em;
-  }
-}
 pre {
   display: grid;
 }
@@ -17,6 +12,20 @@ pre > code {
   overflow-x: auto;
 }
 
+pre > code {
+  display: reset;
+  word-break: reset;
+}
+
+figure[data-rehype-pretty-code-figure] {
+  margin: 0 !important;
+}
+
+@media screen and (max-width: 900px) {
+  pre > code {
+    font-size: 0.7em;
+  }
+}
 @media screen and (max-width: 1139px) {
   pre > code {
     font-size: 0.95em;
@@ -31,13 +40,4 @@ pre > code {
   pre > code {
     font-size: 0.7em;
   }
-}
-
-pre > code {
-  display: reset;
-  word-break: reset;
-}
-
-figure[data-rehype-pretty-code-figure] {
-  margin: 0 !important;
 }

@@ -23,21 +23,21 @@ figure[data-rehype-pretty-code-figure] {
 
 @media screen and (max-width: 900px) {
   pre > code {
-    font-size: 0.7em;
+    font-size: 0.7em !important;
   }
 }
 @media screen and (max-width: 1139px) {
   pre > code {
-    font-size: 0.95em;
+    font-size: 0.95em !important;
   }
 }
 @media screen and (max-width: 1040px) {
   pre > code {
-    font-size: 0.8em;
+    font-size: 0.8em !important;
   }
 }
 @media screen and (max-width: 940px) {
   pre > code {
-    font-size: 0.7em;
+    font-size: 0.7em !important;
   }
 }

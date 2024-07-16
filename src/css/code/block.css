@@ -21,11 +21,6 @@ figure[data-rehype-pretty-code-figure] {
   margin: 0 !important;
 }
 
-@media screen and (max-width: 900px) {
-  pre > code {
-    font-size: 0.7em !important;
-  }
-}
 @media screen and (max-width: 1139px) {
   pre > code {
     font-size: 0.95em !important;

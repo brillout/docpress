@@ -1,4 +1,5 @@
 export { Warning }
+export { Advanced }
 export { Construction }
 export { Contribution }
 export { Danger }
@@ -20,6 +21,9 @@ import './Note.css'
 
 function Warning({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="warning">{children}</NoteGeneric>
+}
+function Advanced({ children }: { children: React.ReactNode }) {
+  return <NoteGeneric type="advanced">{children}</NoteGeneric>
 }
 function Construction({ children }: { children: React.ReactNode }) {
   return <NoteGeneric type="construction">{children}</NoteGeneric>
@@ -47,7 +51,7 @@ function NoteGeneric({
 }: {
   icon?: null | CustomIcon
   iconMargin?: null | number
-  type?: 'danger' | 'warning' | 'construction' | 'contribution'
+  type?: 'danger' | 'warning' | 'construction' | 'contribution' | 'advanced'
   children: React.ReactNode
 }) {
   assert(icon === null || icon || type, { icon, type })
@@ -74,6 +78,10 @@ function NoteGeneric({
     if (type === 'contribution') {
       icon = '💚'
       classColor = 'note-color-green'
+    }
+    if (type === 'advanced') {
+      icon = '🧠'
+      classColor = 'note-color-pink'
     }
     assert(icon)
     assert(classColor)

@@ -1,3 +1,17 @@
+## [0.6.17](https://github.com/brillout/docpress/compare/v0.6.16...v0.6.17) (2024-09-05)
+
+
+### Bug Fixes
+
+* increase h3 font-size ([366c810](https://github.com/brillout/docpress/commit/366c810c0a29ef4eeea088c4bc28c59ee12f1d52))
+
+
+### Features
+
+* add <Advanced> note ([c84a7f4](https://github.com/brillout/docpress/commit/c84a7f4378ce670ba24d37314b2347337b9fb85f))
+
+
+
 ## [0.6.16](https://github.com/brillout/docpress/compare/v0.6.15...v0.6.16) (2024-07-16)
 
 

@@ -26,7 +26,7 @@ const config: UserConfig = {
       includeAssetsImportedByServer: true,
     }),
   ],
-  optimizeDeps: { include: ['@mdx-js/react', 'react-dom'] },
+  optimizeDeps: { include: ['@brillout/docpress', 'react-dom'] },
   // @ts-ignore
   ssr: {
     noExternal: ['@brillout/docpress'],

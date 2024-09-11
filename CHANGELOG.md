@@ -132,7 +132,7 @@
 
 ### Bug Fixes
 
-* make <code> inline ([fe303ba](https://github.com/brillout/docpress/commit/fe303bab52fc6d48ed9b899038135c8aa032da3a))
+* make `<code>` inline ([fe303ba](https://github.com/brillout/docpress/commit/fe303bab52fc6d48ed9b899038135c8aa032da3a))
 
 
 

@@ -1,3 +1,13 @@
+## [0.6.18](https://github.com/brillout/docpress/compare/v0.6.17...v0.6.18) (2024-09-11)
+
+
+### Bug Fixes
+
+* improve .mdx type ([6ae4346](https://github.com/brillout/docpress/commit/6ae4346b6f4de48dfaebdf3063688891267276ff))
+* improve optimizeDeps ([c471260](https://github.com/brillout/docpress/commit/c471260b867410bc66e292daf27e55272dc63d89))
+
+
+
 ## [0.6.17](https://github.com/brillout/docpress/compare/v0.6.16...v0.6.17) (2024-09-05)
 
 

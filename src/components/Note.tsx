@@ -19,28 +19,32 @@ import { assert } from '../utils/assert'
 import './Note.css'
 */
 
-function Warning({ children }: { children: React.ReactNode }) {
-  return <NoteGeneric type="warning">{children}</NoteGeneric>
+type Props = {
+  children: React.ReactNode
 }
-function Advanced({ children }: { children: React.ReactNode }) {
-  return <NoteGeneric type="advanced">{children}</NoteGeneric>
+function Warning(props: Props) {
+  return <NoteGeneric type="warning" {...props} />
 }
-function Construction({ children }: { children: React.ReactNode }) {
-  return <NoteGeneric type="construction">{children}</NoteGeneric>
+function Advanced(props: Props) {
+  return <NoteGeneric type="advanced" {...props} />
 }
-function Contribution({ children }: { children: React.ReactNode }) {
-  return <NoteGeneric type="contribution">{children}</NoteGeneric>
+function Construction(props: Props) {
+  return <NoteGeneric type="construction" {...props} />
 }
-function Danger({ children }: { children: React.ReactNode }) {
-  return <NoteGeneric type="danger">{children}</NoteGeneric>
+function Contribution(props: Props) {
+  return <NoteGeneric type="contribution" {...props} />
 }
-function NoteWithoutIcon({ children }: { children: React.ReactNode }) {
-  return <NoteGeneric icon={null}>{children}</NoteGeneric>
+function Danger(props: Props) {
+  return <NoteGeneric type="danger" {...props} />
+}
+function NoteWithoutIcon(props: Props) {
+  return <NoteGeneric icon={null} {...props} />
 }
 type CustomIcon = JSX.Element | string
-function NoteWithCustomIcon({ icon, children }: { children: React.ReactNode; icon: CustomIcon }) {
+function NoteWithCustomIcon(props: Props & { icon: CustomIcon }) {
+  const { icon } = props
   if (!icon) throw new Error(`<NoteWithCustomIcon icon={/*...*/}> property 'icon' is \`${icon}\` which is forbidden`)
-  return <NoteGeneric icon={icon}>{children}</NoteGeneric>
+  return <NoteGeneric {...props} />
 }
 
 function NoteGeneric({
@@ -48,11 +52,10 @@ function NoteGeneric({
   icon,
   iconMargin,
   children,
-}: {
+}: Props & {
   icon?: null | CustomIcon
   iconMargin?: null | number
   type?: 'danger' | 'warning' | 'construction' | 'contribution' | 'advanced'
-  children: React.ReactNode
 }) {
   assert(icon === null || icon || type, { icon, type })
   iconMargin ??= 2

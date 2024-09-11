@@ -1,3 +1,12 @@
+## [0.6.20](https://github.com/brillout/docpress/compare/v0.6.19...v0.6.20) (2024-09-11)
+
+
+### Bug Fixes
+
+* make style optional ([45f6d98](https://github.com/brillout/docpress/commit/45f6d981e0605a48a1d9bc65a3c77f39baf512bb))
+
+
+
 ## [0.6.19](https://github.com/brillout/docpress/compare/v0.6.18...v0.6.19) (2024-09-11)
 
 

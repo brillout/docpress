@@ -21,7 +21,7 @@ import './Note.css'
 
 type Props = {
   children: React.ReactNode
-  style: React.CSSProperties
+  style?: React.CSSProperties
 }
 function Warning(props: Props) {
   return <NoteGeneric type="warning" {...props} />

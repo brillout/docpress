@@ -1,3 +1,12 @@
+## [0.6.19](https://github.com/brillout/docpress/compare/v0.6.18...v0.6.19) (2024-09-11)
+
+
+### Features
+
+* add style prop to notes ([63ec258](https://github.com/brillout/docpress/commit/63ec2586aff33177cea49f21123da06835585cba))
+
+
+
 ## [0.6.18](https://github.com/brillout/docpress/compare/v0.6.17...v0.6.18) (2024-09-11)
 
 

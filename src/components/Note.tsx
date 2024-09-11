@@ -21,6 +21,7 @@ import './Note.css'
 
 type Props = {
   children: React.ReactNode
+  style: React.CSSProperties
 }
 function Warning(props: Props) {
   return <NoteGeneric type="warning" {...props} />
@@ -52,6 +53,7 @@ function NoteGeneric({
   icon,
   iconMargin,
   children,
+  style,
 }: Props & {
   icon?: null | CustomIcon
   iconMargin?: null | number
@@ -91,7 +93,7 @@ function NoteGeneric({
     className = `${className} ${classColor}`
   }
   return (
-    <blockquote className={className}>
+    <blockquote className={className} style={style}>
       <div style={{ marginBottom: 20 }} />
       <span style={{ fontFamily: 'emoji' }}>{icon}</span>
       <span style={{ width: iconMargin ?? undefined, display: 'inline-block' }}></span>{' '}

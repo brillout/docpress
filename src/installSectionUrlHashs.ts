@@ -6,7 +6,7 @@ jumpToSection()
 */
 
 function installSectionUrlHashs() {
-  const pageContainer = document.querySelector('.doc-page #page-container')
+  const pageContainer = document.querySelector('.doc-page .page-container')
   if (!pageContainer) {
     assert(window.location.pathname === '/')
     return

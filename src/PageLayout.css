@@ -1,42 +1,42 @@
-.doc-page #page-container {
+.doc-page .page-container {
   padding-bottom: 100px;
 }
 
-#page-layout {
+.page-layout {
   display: flex;
   justify-content: center;
   width: 100%;
 }
-#page-layout > #navigation-wrapper,
-#page-layout > #page-wrapper {
+.page-layout > #navigation-wrapper,
+.page-layout > .page-wrapper {
   flex-grow: 1;
 }
 /* Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926 */
-#page-layout > #page-wrapper {
+.page-layout > .page-wrapper {
   min-width: 0;
 }
 
-.doc-page #page-wrapper {
+.doc-page .page-wrapper {
   --main-view-max-width: 800px;
 }
-.landing-page #page-wrapper {
+.landing-page .page-wrapper {
   --main-view-max-width: 1010px;
 }
-#page-wrapper {
+.page-wrapper {
   max-width: calc(var(--main-view-max-width) + 80px);
 }
-#page-content {
+.page-content {
   box-sizing: content-box;
   max-width: var(--main-view-max-width);
   padding: 20px var(--main-view-padding);
   margin: auto;
 }
 
-#page-content {
+.page-content {
   --main-view-padding: 20px;
 }
 @media screen and (max-width: 1139px) {
-  #page-content {
+  .page-content {
     --main-view-padding: 10px;
   }
 }

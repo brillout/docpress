@@ -15,15 +15,15 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
   return (
     <React.StrictMode>
       <PageContextProvider pageContext={pageContext}>
-        <div id="page-layout" className={isLandingPage ? 'landing-page' : 'doc-page'}>
+        <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
           <div id="navigation-wrapper">
             <Navigation {...pageContext.navigationData} />
           </div>
           <NavigationFullscreenButton />
-          <div id="page-wrapper">
-            <div id="page-container">
+          <div className="page-wrapper">
+            <div className="page-container">
               <MobileHeader />
-              <div id="page-content">
+              <div className="page-content">
                 {globalNote}
                 {pageTitle && <h1>{pageTitle}</h1>}
                 {children}

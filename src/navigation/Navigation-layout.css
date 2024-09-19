@@ -56,7 +56,7 @@
   background: white;
   z-index: 3;
 }
-#page-wrapper {
+.page-wrapper {
   margin-left: calc(-1 * var(--navigation-fullscreen-button-width));
 }
 @media screen and (max-width: 1139px) {
@@ -70,7 +70,7 @@
   #navigation-fullscreen-button {
     display: none;
   }
-  #page-wrapper {
+  .page-wrapper {
     margin-left: 0 !important;
   }
   #navigation-container {

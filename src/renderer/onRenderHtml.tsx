@@ -42,7 +42,7 @@ async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
           pageContextResolved.meta,
         )}
       </head>
-      <body class=${JSON.stringify(pageContextResolved.isMarketingPage ? 'isMarketingPage' : '')}>
+      <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
         ${docSearchJS}
       </body>

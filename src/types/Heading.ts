@@ -12,7 +12,6 @@ type HeadingResolved = {
   titleInNav: JSX.Element
   linkBreadcrumb: JSX.Element[]
   sectionTitles?: string[]
-  isMarketingPage?: true
 } & Tmp
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
@@ -24,14 +23,12 @@ type HeadingDetachedDefinition = {
   url: string
   title: string | JSX.Element
   sectionTitles?: string[]
-  isMarketingPage?: true
 }
 
 type HeadingDefinition = {
   url?: null | string
   title: string
   titleInNav?: string
-  isMarketingPage?: true
 } & HeadingDefinitionLevel &
   Tmp
 type IsCategory = {

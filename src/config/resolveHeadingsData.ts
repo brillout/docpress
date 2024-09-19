@@ -123,10 +123,10 @@ function pageSectionToLinkData(pageSection: PageSectionResolved): LinkData {
 
 function getTitles(
   activeHeading: HeadingResolved | HeadingDetachedResolved,
-  pageContext: { urlOriginal: string },
+  pageContext: { urlPathname: string },
   config: Config,
 ) {
-  const url = pageContext.urlOriginal
+  const url = pageContext.urlPathname
   const isLandingPage = url === '/'
 
   const { title } = activeHeading
@@ -147,25 +147,25 @@ function getTitles(
 function getActiveHeading(
   headingsResolved: HeadingResolved[],
   headingsDetachedResolved: HeadingDetachedResolved[],
-  pageContext: { urlOriginal: string; exports: Exports },
+  pageContext: { urlPathname: string; exports: Exports },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
-  const { urlOriginal } = pageContext
-  assert(urlOriginal)
+  const { urlPathname } = pageContext
+  assert(urlPathname)
   headingsResolved.forEach((heading) => {
-    if (heading.url === urlOriginal) {
+    if (heading.url === urlPathname) {
       activeHeading = heading
-      assert(heading.level === 2, { pageUrl: urlOriginal, heading })
+      assert(heading.level === 2, { pageUrl: urlPathname, heading })
     }
   })
   const isDetachedPage = !activeHeading
   if (!activeHeading) {
-    activeHeading = headingsDetachedResolved.find(({ url }) => urlOriginal === url) ?? null
+    activeHeading = headingsDetachedResolved.find(({ url }) => urlPathname === url) ?? null
   }
   if (!activeHeading) {
     throw new Error(
       [
-        `URL ${pc.bold(urlOriginal)} not found in following URLs:`,
+        `URL ${pc.bold(urlPathname)} not found in following URLs:`,
         ...headingsResolved
           .map((h) => `  ${h.url}`)
           .filter(Boolean)
@@ -177,7 +177,7 @@ function getActiveHeading(
 }
 
 function getPageSectionsResolved(
-  pageContext: { exports: Exports; urlOriginal: string },
+  pageContext: { exports: Exports },
   activeHeading: HeadingResolved | HeadingDetachedResolved,
 ): PageSectionResolved[] {
   const pageSections = pageContext.exports.pageSectionsExport ?? []

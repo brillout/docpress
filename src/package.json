@@ -8,7 +8,7 @@
     "// Development": "",
     "dev": "tsc --watch --project tsconfig.config.json",
     "// Check types while developing": "",
-    "types": "tsc --noEmit --watch",
+    "typecheck": "tsc --noEmit --watch",
     "// Release": "",
     "release": "release-me patch",
     "release:commit": "release-me commit",
@@ -39,6 +39,8 @@
   },
   "exports": {
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
+    "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
+    "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
     "./renderer/client": "./renderer/client.ts",
     ".": "./index.ts",
     "./FeatureList/FeatureList": "./components/FeatureList/FeatureList.tsx",

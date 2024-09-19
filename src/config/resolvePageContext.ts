@@ -13,10 +13,17 @@ type ReactComponent = () => JSX.Element
 type Exports = {
   pageSectionsExport?: PageSection[]
 }
-type PageContextOriginal = PageContextServer & {
-  Page: ReactComponent
-  exports: Exports
+type PageContextOriginal = PageContextServer
+
+declare global {
+  namespace Vike {
+    interface PageContext {
+      Page: ReactComponent
+      exports: Exports
+    }
+  }
 }
+
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
@@ -27,7 +34,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
   const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl } = config
   objectAssign(pageContextResolved, {
-    ...pageContext,
+    urlPathname: pageContext.urlPathname, // TODO: remove
     meta: {
       faviconUrl,
       twitterHandle,

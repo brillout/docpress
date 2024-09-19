@@ -55,7 +55,7 @@ importers:
         version: 3.0.1
       '@mdx-js/react':
         specifier: 3.0.1
-        version: 3.0.1(@types/react@17.0.45)(react@18.2.0)
+        version: 3.0.1(@types/react@18.3.7)(react@18.2.0)
       '@mdx-js/rollup':
         specifier: 3.0.1
         version: 3.0.1(rollup@4.13.0)
@@ -88,11 +88,11 @@ importers:
         specifier: ^15.12.1
         version: 15.14.9
       '@types/react':
-        specifier: ^17.0.44
-        version: 17.0.45
+        specifier: ^18.2.45
+        version: 18.3.7
       '@types/react-dom':
-        specifier: ^17.0.6
-        version: 17.0.17
+        specifier: ^18.2.18
+        version: 18.3.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -831,14 +831,11 @@ packages:
   '@types/prop-types@15.7.5':
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
-  '@types/react-dom@17.0.17':
-    resolution: {integrity: sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==}
+  '@types/react-dom@18.3.0':
+    resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
 
-  '@types/react@17.0.45':
-    resolution: {integrity: sha512-YfhQ22Lah2e3CHPsb93tRwIGNiSwkuz1/blk4e6QrWS0jQzCSNbGLtOEYhPg02W0yGTTmpajp7dCTbBAMN3qsg==}
-
-  '@types/scheduler@0.16.2':
-    resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+  '@types/react@18.3.7':
+    resolution: {integrity: sha512-KUnDCJF5+AiZd8owLIeVHqmW9yM4sqmDVf2JRJiBMFkGvkoZ4/WyV2lL4zVsoinmRS/W3FeEdZLEWFRofnT2FQ==}
 
   '@types/unist@2.0.6':
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
@@ -2220,10 +2217,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mdx-js/react@3.0.1(@types/react@17.0.45)(react@18.2.0)':
+  '@mdx-js/react@3.0.1(@types/react@18.3.7)(react@18.2.0)':
     dependencies:
       '@types/mdx': 2.0.2
-      '@types/react': 17.0.45
+      '@types/react': 18.3.7
       react: 18.2.0
 
   '@mdx-js/rollup@3.0.1(rollup@4.13.0)':
@@ -2378,17 +2375,14 @@ snapshots:
 
   '@types/prop-types@15.7.5': {}
 
-  '@types/react-dom@17.0.17':
+  '@types/react-dom@18.3.0':
     dependencies:
-      '@types/react': 17.0.45
+      '@types/react': 18.3.7
 
-  '@types/react@17.0.45':
+  '@types/react@18.3.7':
     dependencies:
       '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
       csstype: 3.1.0
-
-  '@types/scheduler@0.16.2': {}
 
   '@types/unist@2.0.6': {}
 

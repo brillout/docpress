@@ -1,4 +1,5 @@
 import type { Config } from 'vike/types'
+import type { Exports } from './config/resolvePageContext'
 
 export default {
   // @ts-ignore Remove this ts-ignore once Vike's new version is released.
@@ -10,4 +11,27 @@ export default {
   hydrationCanBeAborted: true,
   passToClient: ['pageContextResolved'],
   client: 'import:@brillout/docpress/renderer/client:doesNotExist',
+  meta: {
+    NavHeader: {
+      env: { client: true, server: true }
+    },
+  },
 } satisfies Config
+
+type ReactComponent = () => JSX.Element
+declare global {
+  namespace Vike {
+    interface PageContext {
+      Page: ReactComponent
+      exports: Exports
+    }
+    interface Config {
+      NavHeader?: {
+        NavHeader: ReactComponent
+        navHeaderWrapperStyle?: React.CSSProperties
+        NavHeaderMobile: ReactComponent
+        navHeaderMobileWrapperStyle?: React.CSSProperties
+      }
+    }
+  }
+}

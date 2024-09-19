@@ -4,12 +4,14 @@ import iconTwitter from '../icons/twitter.svg'
 import iconDiscord from '../icons/discord.svg'
 import iconChangelog from '../icons/changelog.svg'
 import iconLanguages from '../icons/languages.svg'
-import { usePageContext } from '../renderer/usePageContext'
+import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
 
 export { NavigationHeader }
 
 function NavigationHeader() {
   const pageContext = usePageContext()
+  const pageContext2 = usePageContext2()
+  const { NavHeader } = pageContext2.config.NavHeader!
   return (
     <div
       id="navigation-header"
@@ -31,11 +33,11 @@ function NavigationHeader() {
           textDecoration: 'none',
           paddingTop: 12,
           paddingBottom: 7,
-          ...pageContext.config.navHeaderWrapperStyle,
+          ...pageContext2.config.NavHeader?.navHeaderWrapperStyle,
         }}
         href="/"
       >
-        {pageContext.config.navHeader}
+        <NavHeader />
       </a>
       <Links />
     </div>

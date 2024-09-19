@@ -3,17 +3,23 @@ import { Navigation, NavigationMask } from './navigation/Navigation'
 import type { PageContextResolved } from './config/resolvePageContext'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
-import { PageContextProvider } from './renderer/usePageContext'
+import { PageContextProvider, PageContextProvider2 } from './renderer/usePageContext'
 import './PageLayout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
+import type { PageContext } from 'vike/types'
 
 export { PageLayout }
 
-function PageLayout({ pageContext, children }: { pageContext: PageContextResolved; children: React.ReactNode }) {
+function PageLayout({
+  pageContext,
+  children,
+  pageContext2,
+}: { pageContext: PageContextResolved; children: React.ReactNode; pageContext2: PageContext }) {
   const { isLandingPage, pageTitle, navigationData } = pageContext
   const { globalNote } = pageContext.config
   return (
     <React.StrictMode>
+      <PageContextProvider2 pageContext={pageContext2}>
       <PageContextProvider pageContext={pageContext}>
         <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
           <div id="navigation-wrapper">
@@ -34,6 +40,7 @@ function PageLayout({ pageContext, children }: { pageContext: PageContextResolve
           </div>
         </div>
       </PageContextProvider>
+      </PageContextProvider2>
     </React.StrictMode>
   )
 }

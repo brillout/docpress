@@ -9,20 +9,10 @@ import type { PageSection } from '../parsePageSections'
 import { getConfig } from './getConfig'
 import { resolveHeadingsData } from './resolveHeadingsData'
 
-type ReactComponent = () => JSX.Element
 type Exports = {
   pageSectionsExport?: PageSection[]
 }
 type PageContextOriginal = PageContextServer
-
-declare global {
-  namespace Vike {
-    interface PageContext {
-      Page: ReactComponent
-      exports: Exports
-    }
-  }
-}
 
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 

@@ -8,7 +8,7 @@ import React from 'react'
 function getPageElement(pageContext: PageContext, pageContextResolved: PageContextResolved) {
   const { Page } = pageContext
   const page = (
-    <PageLayout pageContext={pageContextResolved}>
+    <PageLayout pageContext={pageContextResolved} pageContext2={pageContext}>
       <Page />
     </PageLayout>
   )

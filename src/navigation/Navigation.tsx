@@ -8,6 +8,7 @@ import { NavigationHeader } from './NavigationHeader'
 import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
+import { parseTitle } from '../parseTitle'
 
 type NavigationData = Parameters<typeof Navigation>[0]
 
@@ -49,8 +50,8 @@ function NavigationMask() {
 type NavItem = {
   level: number
   url?: string | null
-  title: string | JSX.Element
-  titleInNav: string | JSX.Element
+  title: string
+  titleInNav: string
 }
 type NavItemComputed = NavItem & {
   isActive: boolean
@@ -90,14 +91,16 @@ function NavItemComponent({
   navItem: NavItemComputed
 }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
+  const titleJsx = parseTitle(navItem.title)
+  const titleInNavJsx = parseTitle(navItem.titleInNav)
   if (navItem.level === 1 || navItem.level === 4) {
     assert(navItem.url === undefined)
   } else {
-    const sectionTitle = jsxToTextContent(navItem.title)
+    const sectionTitle = jsxToTextContent(titleJsx)
     assertWarning(
       navItem.url,
       `${jsxToTextContent(
-        navItem.titleInNav,
+        titleInNavJsx,
       )} is missing a URL hash. Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`,
     )
   }
@@ -116,8 +119,8 @@ function NavItemComponent({
         .join(' ')}
       href={navItem.url ?? undefined}
     >
-      {/* <span className="nav-item-text">{navItem.titleInNav}</span> */}
-      {navItem.titleInNav}
+      {/* <span className="nav-item-text">{titleInNavJsx}</span> */}
+      {titleInNavJsx}
     </a>
   )
 }

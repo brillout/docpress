@@ -5,6 +5,8 @@ import iconDiscord from '../icons/discord.svg'
 import iconChangelog from '../icons/changelog.svg'
 import iconLanguages from '../icons/languages.svg'
 import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
+import { DocSearch } from '@docsearch/react'
+import '@docsearch/css'
 
 export { NavigationHeader }
 
@@ -55,6 +57,7 @@ function Links() {
       style={{ height: 21, position: 'relative', top: 0, left: 0 }}
     />
   )
+  const { algolia } = pageContext.meta
   return (
     <div
       style={{
@@ -69,7 +72,17 @@ function Links() {
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
       )}
       <LinkIcon className="decolorize-7" icon={iconTwitter} href={projectInfo.twitterProfile} />
-      <div className="decolorize-6 colorize-on-hover" id="docsearch-desktop" />
+      {algolia && (
+        <div className="decolorize-6 colorize-on-hover">
+          <DocSearch
+            appId={algolia.appId}
+            indexName={algolia.indexName}
+            apiKey={algolia.apiKey}
+            transformItems={transformItems}
+            insights={true}
+          />
+        </div>
+      )}
       {iconI18n}
       <ChangelogButton />
     </div>
@@ -112,4 +125,18 @@ function LinkIcon({ className, icon, href, style }: { className: string; icon: s
       </a>
     </>
   )
+}
+
+// Remove superfluous hash '#page-content' from URLs pointing to whole pages
+//  - https://github.com/algolia/docsearch/issues/1801
+//  - https://discourse.algolia.com/t/how-to-avoid-hash-in-search-result-url/6486
+//  - https://discourse.algolia.com/t/docsearchs-transformdata-function-cannot-remove-hashes-from-result-urls/8487
+type TransformItems = Parameters<typeof DocSearch>[0]['transformItems']
+const transformItems: TransformItems = (hits) => {
+  hits.map((hit) => {
+    if (hit.url.indexOf('#page-content') > 0) {
+      hit.url = hit.url.replace('#page-content', '')
+    }
+  })
+  return hits
 }

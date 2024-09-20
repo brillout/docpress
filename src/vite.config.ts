@@ -6,6 +6,7 @@ import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
+import { cjsInterop } from 'vite-plugin-cjs-interop'
 
 const root = process.cwd()
 const prettyCode = [rehypePrettyCode, { theme: 'github-light', transformers: [transformerNotationDiff()] }]
@@ -25,9 +26,13 @@ const config: UserConfig = {
       },
       includeAssetsImportedByServer: true,
     }),
+    cjsInterop({
+      dependencies: ['@docsearch/react'],
+    }),
   ],
-  optimizeDeps: { include: [/*'@brillout/docpress',*/ 'react-dom/client'] },
-  // @ts-ignore
+  optimizeDeps: {
+    include: ['react-dom/client', '@docsearch/react'],
+  },
   ssr: {
     noExternal: ['@brillout/docpress'],
   },

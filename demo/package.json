@@ -15,5 +15,9 @@
     "vike": "^0.4.195",
     "vite": "^5.4.6"
   },
+  "// Help Vite resolve the dependencies of @brillout/docpress for optimizeDeps": "",
+  "devDependencies": {
+    "@docsearch/react": "link:../src/node_modules/@docsearch/react"
+  },
   "type": "module"
 }

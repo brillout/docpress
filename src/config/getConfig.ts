@@ -12,7 +12,8 @@ function getConfig(): Config {
     files.length === 1,
     `Found multiple \`docpress.config.js\` files: ${files.map((f) => `\`${f}\``).join(', ')}. Define only one instead.`,
   )
-  const config = (Object.values(globResult)[0] as any).default as Config
+  const exports: any = Object.values(globResult)[0]
+  const config: Config = exports.default || exports.config
   assert(config)
   return config
 }

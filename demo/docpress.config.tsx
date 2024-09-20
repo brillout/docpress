@@ -1,9 +1,11 @@
+export { config }
+
 import type { Config } from '@brillout/docpress'
 import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsDetached } from './headings'
 
-export default {
+const config: Config = {
   projectInfo: {
     projectName: 'DocPress Demo' as const,
     projectVersion: '0.0.0',
@@ -13,7 +15,9 @@ export default {
   },
   faviconUrl: logoUrl,
   algolia: {
-    // PENDING_APPROVAL: true
+    appId: 'FAKE_ID',
+    apiKey: 'FAKE_KEY',
+    indexName: 'FAKE_INDEX',
   },
   i18n: true,
   pressKit: true,
@@ -22,8 +26,10 @@ export default {
   tagline: 'DocPress Demo',
   headings,
   headingsDetached,
+  websiteUrl: 'fake-website.example.org',
+  twitterHandle: 'fake-twitter-handle',
   // globalNote: <GlobalNoteWarning />,
-} as Config
+}
 
 /*
 function GlobalNoteWarning() {

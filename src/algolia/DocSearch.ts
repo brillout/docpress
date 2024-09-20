@@ -19,16 +19,14 @@ function getDocSearchCSS(pageContext: PageContextResolved) {
 function getDocSearchJS(pageContext: PageContextResolved) {
   const { algolia } = pageContext.meta
   // If the docpress website doesn't use algolia => we don't inject the algolia assets => the search icon wrapper stays empty
-  // If algolia is PENDING_APPROVAL => we fill a FAKE API key so that the algolia popup shows (while no results are shown).
-  //  - We show an alert warning users that there aren't any results until algolia's approval is pending (see below).
   let docSearchJS = !algolia
     ? ''
     : escapeInject`
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
     <script type="text/javascript">
-      const appId = '${algolia.appId || 'FAKE'}';
-      const apiKey = '${algolia.apiKey || 'FAKE'}';
-      const indexName = '${algolia.indexName || 'FAKE'}';
+      const appId = '${algolia.appId}';
+      const apiKey = '${algolia.apiKey}';
+      const indexName = '${algolia.indexName}';
       const transformItems = ${dangerouslySkipEscape(getTransformItems())};
       docsearch({
         container: '#docsearch-desktop',
@@ -37,12 +35,6 @@ function getDocSearchJS(pageContext: PageContextResolved) {
       });
     </script>
   `
-  if (algolia?.PENDING_APPROVAL) {
-    docSearchJS = escapeInject`
-    ${docSearchJS}
-    <script>document.getElementById('docsearch-desktop').addEventListener('click', () => window.alert("Algolia approval is pending: the search results may be empty until the approval process is completed."))</script>
-    `
-  }
   return docSearchJS
 }
 

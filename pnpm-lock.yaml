@@ -58,7 +58,7 @@ importers:
         version: 3.0.1
       '@mdx-js/react':
         specifier: 3.0.1
-        version: 3.0.1(@types/react@18.3.7)(react@18.2.0)
+        version: 3.0.1(@types/react@18.3.7)(react@demo+node_modules+react)
       '@mdx-js/rollup':
         specifier: 3.0.1
         version: 3.0.1(rollup@4.13.0)
@@ -71,12 +71,6 @@ importers:
       balloon-css:
         specifier: 1.2.0
         version: 1.2.0
-      react:
-        specifier: '>=18.0.0'
-        version: 18.2.0
-      react-dom:
-        specifier: '>=18.0.0'
-        version: 18.2.0(react@18.2.0)
       rehype-pretty-code:
         specifier: 0.13.0
         version: 0.13.0(shiki@1.2.0)
@@ -102,6 +96,12 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.18
         version: 18.3.0
+      react:
+        specifier: link:../demo/node_modules/react/
+        version: link:../demo/node_modules/react
+      react-dom:
+        specifier: link:../demo/node_modules/react-dom/
+        version: link:../demo/node_modules/react-dom
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
@@ -1469,17 +1469,8 @@ packages:
     peerDependencies:
       react: ^18.1.0
 
-  react-dom@18.2.0:
-    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
-    peerDependencies:
-      react: ^18.2.0
-
   react@18.1.0:
     resolution: {integrity: sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==}
-    engines: {node: '>=0.10.0'}
-
-  react@18.2.0:
-    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
     engines: {node: '>=0.10.0'}
 
   read-pkg-up@10.1.0:
@@ -1528,9 +1519,6 @@ packages:
 
   scheduler@0.22.0:
     resolution: {integrity: sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==}
-
-  scheduler@0.23.0:
-    resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
 
   semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
@@ -2028,11 +2016,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mdx-js/react@3.0.1(@types/react@18.3.7)(react@18.2.0)':
+  '@mdx-js/react@3.0.1(@types/react@18.3.7)(react@demo+node_modules+react)':
     dependencies:
       '@types/mdx': 2.0.2
       '@types/react': 18.3.7
-      react: 18.2.0
+      react: link:demo/node_modules/react
 
   '@mdx-js/rollup@3.0.1(rollup@4.13.0)':
     dependencies:
@@ -3284,17 +3272,7 @@ snapshots:
       react: 18.1.0
       scheduler: 0.22.0
 
-  react-dom@18.2.0(react@18.2.0):
-    dependencies:
-      loose-envify: 1.4.0
-      react: 18.2.0
-      scheduler: 0.23.0
-
   react@18.1.0:
-    dependencies:
-      loose-envify: 1.4.0
-
-  react@18.2.0:
     dependencies:
       loose-envify: 1.4.0
 
@@ -3394,10 +3372,6 @@ snapshots:
       queue-microtask: 1.2.3
 
   scheduler@0.22.0:
-    dependencies:
-      loose-envify: 1.4.0
-
-  scheduler@0.23.0:
     dependencies:
       loose-envify: 1.4.0
 

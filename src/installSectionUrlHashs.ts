@@ -1,9 +1,6 @@
-import { assert } from './utils/client'
+export { installSectionUrlHashs }
 
-installSectionUrlHashs()
-/* Let browser restore previous scroll
-jumpToSection()
-*/
+import { assert } from './utils/client'
 
 function installSectionUrlHashs() {
   const pageContainer = document.querySelector('.doc-page .page-container')
@@ -22,6 +19,10 @@ function installSectionUrlHashs() {
       jumpToSection()
     }
   })
+
+  /* Let browser restore previous scroll
+  jumpToSection()
+  */
 }
 
 function assertNavLink(urlHash: string, heading: HTMLHeadingElement) {

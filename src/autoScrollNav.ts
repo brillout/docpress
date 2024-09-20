@@ -1,6 +1,6 @@
-import { assert } from './utils/client'
+export { autoScrollNav }
 
-autoScrollNav()
+import { assert } from './utils/client'
 
 function autoScrollNav() {
   const navigationEl = document.getElementById('navigation-content-main')

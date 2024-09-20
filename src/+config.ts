@@ -10,7 +10,6 @@ export default {
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: ['pageContextResolved'],
-  client: 'import:@brillout/docpress/renderer/client:doesNotExist',
   meta: {
     NavHeader: {
       env: { client: true, server: true }

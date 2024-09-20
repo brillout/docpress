@@ -1,17 +1,16 @@
-import { assert } from '../../utils/client'
+export { addTwitterWidgets }
+export { addFeatureClickHandlers }
 
-addTwitterWidgets()
-addFeatureClickHandlers()
-window.__docpress_hydrationFinished = true
+import { assert } from '../../utils/client'
 
 function addTwitterWidgets() {
   loadScript('https://platform.twitter.com/widgets.js')
 }
 
 function addFeatureClickHandlers() {
-  const featureEls: HTMLElement[] = Array.from(
-    document.getElementById('features')!.querySelectorAll('.feature.has-learn-more'),
-  )
+  const featuresEl = document.getElementById('features')
+  if (!featuresEl) return
+  const featureEls: HTMLElement[] = Array.from(featuresEl.querySelectorAll('.feature.has-learn-more'))
   featureEls.forEach((featureEl) => {
     featureEl.onclick = () => {
       expandLearnMore(featureEl)
@@ -58,8 +57,4 @@ function loadScript(scriptUrl: string): void {
 
 function getComputedStyle(el: HTMLElement, styleProp: string) {
   return window.document.defaultView!.getComputedStyle(el).getPropertyValue(styleProp)
-}
-
-declare global {
-  var __docpress_hydrationFinished: undefined | true
 }

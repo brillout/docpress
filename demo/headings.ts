@@ -73,4 +73,27 @@ const headings: HeadingDefinition[] = [
     title: 'Press Kit',
     url: '/press',
   },
+  {
+    level: 1,
+    title: 'Third Section',
+    titleEmoji: 'seedling',
+  },
+  {
+    level: 4,
+    title: 'Category 1',
+  },
+  {
+    level: 2,
+    title: 'Page 1',
+    url: '/page-1',
+  },
+  {
+    level: 4,
+    title: 'Category 2',
+  },
+  {
+    level: 2,
+    title: 'Page 2',
+    url: '/page-2',
+  },
 ]

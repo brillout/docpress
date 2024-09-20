@@ -20,26 +20,26 @@ function PageLayout({
   return (
     <React.StrictMode>
       <PageContextProvider2 pageContext={pageContext2}>
-      <PageContextProvider pageContext={pageContext}>
-        <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
-          <div id="navigation-wrapper">
-            <Navigation {...pageContext.navigationData} />
-          </div>
-          <NavigationFullscreenButton />
-          <div className="page-wrapper">
-            <div className="page-container">
-              <MobileHeader />
-              <div className="page-content">
-                {globalNote}
-                {pageTitle && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitle}</h1>}
-                {children}
-                {!isLandingPage && <EditPageNote pageContext={pageContext} />}
-              </div>
+        <PageContextProvider pageContext={pageContext}>
+          <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
+            <div id="navigation-wrapper">
+              <Navigation {...pageContext.navigationData} />
             </div>
-            <NavigationMask />
+            <NavigationFullscreenButton />
+            <div className="page-wrapper">
+              <div className="page-container">
+                <MobileHeader />
+                <div className="page-content">
+                  {globalNote}
+                  {pageTitle && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitle}</h1>}
+                  {children}
+                  {!isLandingPage && <EditPageNote pageContext={pageContext} />}
+                </div>
+              </div>
+              <NavigationMask />
+            </div>
           </div>
-        </div>
-      </PageContextProvider>
+        </PageContextProvider>
       </PageContextProvider2>
     </React.StrictMode>
   )

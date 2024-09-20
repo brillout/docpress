@@ -100,8 +100,8 @@ importers:
         specifier: ^18.2.18
         version: 18.3.0
       typescript:
-        specifier: ^5.4.3
-        version: 5.4.3
+        specifier: ^5.6.2
+        version: 5.6.2
       vike:
         specifier: ^0.4.195
         version: 0.4.195(vite@5.2.2(@types/node@15.14.9))
@@ -1635,6 +1635,11 @@ packages:
 
   typescript@5.4.3:
     resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3466,6 +3471,8 @@ snapshots:
   type-fest@4.8.2: {}
 
   typescript@5.4.3: {}
+
+  typescript@5.6.2: {}
 
   uglify-js@3.17.4:
     optional: true

@@ -1,3 +1,18 @@
+## [0.6.21](https://github.com/brillout/docpress/compare/v0.6.20...v0.6.21) (2024-09-20)
+
+
+### Bug Fixes
+
+* add id attribute to `<h1>` tag ([846433f](https://github.com/brillout/docpress/commit/846433f91f6be5a295ecb09185dccfb1c884694b))
+* update vike ([3b4f667](https://github.com/brillout/docpress/commit/3b4f667427ef7175333b3dd5255cced323611531))
+
+
+### BREAKING CHANGES
+
+* Update to `vike@0.4.195` or above.
+
+
+
 ## [0.6.20](https://github.com/brillout/docpress/compare/v0.6.19...v0.6.20) (2024-09-11)
 
 

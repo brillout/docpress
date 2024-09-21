@@ -17,7 +17,8 @@
   },
   "// Help Vite resolve the dependencies of @brillout/docpress for optimizeDeps": "",
   "devDependencies": {
-    "@docsearch/react": "link:../src/node_modules/@docsearch/react"
+    "@docsearch/react": "link:../src/node_modules/@docsearch/react/",
+    "vike-contributors": "link:../src/node_modules/vike-contributors/"
   },
   "type": "module"
 }

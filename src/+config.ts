@@ -12,7 +12,7 @@ export default {
   passToClient: ['pageContextResolved'],
   meta: {
     NavHeader: {
-      env: { client: true, server: true }
+      env: { client: true, server: true },
     },
   },
 } satisfies Config

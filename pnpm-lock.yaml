@@ -58,8 +58,11 @@ importers:
         version: 5.4.6(@types/node@22.5.5)
     devDependencies:
       '@docsearch/react':
-        specifier: link:../src/node_modules/@docsearch/react
+        specifier: link:../src/node_modules/@docsearch/react/
         version: link:../src/node_modules/@docsearch/react
+      vike-contributors:
+        specifier: link:../src/node_modules/vike-contributors/
+        version: link:../src/node_modules/vike-contributors
 
   src:
     dependencies:

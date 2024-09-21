@@ -7,6 +7,7 @@ import { PageContextProvider, PageContextProvider2 } from './renderer/usePageCon
 import './PageLayout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
 import type { PageContext } from 'vike/types'
+import { parseTitle } from './parseTitle'
 
 export { PageLayout }
 
@@ -16,6 +17,7 @@ function PageLayout({
   pageContext2,
 }: { pageContext: PageContextResolved; children: React.ReactNode; pageContext2: PageContext }) {
   const { isLandingPage, pageTitle, navigationData } = pageContext
+  const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
   return (
     <React.StrictMode>
@@ -31,7 +33,7 @@ function PageLayout({
                 <MobileHeader />
                 <div className="page-content">
                   {globalNote}
-                  {pageTitle && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitle}</h1>}
+                  {pageTitleParsed && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitleParsed}</h1>}
                   {children}
                   {!isLandingPage && <EditPageNote pageContext={pageContext} />}
                 </div>

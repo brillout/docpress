@@ -26,6 +26,7 @@ function usePageContext(): PageContextResolved {
 }
 
 export { PageContextProvider2 }
+// TODO/refactor: rename to usePageContext and remove old implementation
 export { usePageContext2 }
 
 const Context2 = React.createContext<PageContext>(undefined as any)

@@ -12,6 +12,7 @@ import { resolveHeadingsData } from './resolveHeadingsData'
 type Exports = {
   pageSectionsExport?: PageSection[]
 }
+// TODO/refactor: remove PageContextOriginal in favor of using PageContextServer
 type PageContextOriginal = PageContextServer
 
 type PageContextResolved = ReturnType<typeof resolvePageContext>

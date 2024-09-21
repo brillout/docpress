@@ -1,5 +1,7 @@
 export { initPressKit }
 
+import { navigate } from 'vike/client/router'
+
 function initPressKit() {
   // Right click navigation header => show /press
   navigationHeaderRightClickInterceptor()
@@ -12,6 +14,6 @@ function navigationHeaderRightClickInterceptor() {
   const navHeaderImg = document.querySelector('#navigation-header-logo img') as HTMLElement
   navHeaderImg.oncontextmenu = (ev) => {
     ev.preventDefault()
-    window.location.href = '/press'
+    navigate('/press')
   }
 }

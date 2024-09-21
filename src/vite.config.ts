@@ -31,7 +31,7 @@ const config: UserConfig = {
     }),
   ],
   optimizeDeps: {
-    include: ['react-dom/client', '@docsearch/react'],
+    include: ['react', 'react-dom/client', '@docsearch/react'],
   },
   ssr: {
     noExternal: ['@brillout/docpress'],

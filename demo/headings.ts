@@ -16,6 +16,10 @@ const headingsDetached: HeadingDetachedDefinition[] = [
     title: 'Consulting',
     url: '/consulting',
   },
+  {
+    title: 'Languages',
+    url: '/languages',
+  },
 ]
 
 const headings: HeadingDefinition[] = [

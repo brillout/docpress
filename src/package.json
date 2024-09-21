@@ -27,8 +27,7 @@
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0",
-    "vike-contributors": "^0.0.9",
-    "vite-plugin-cjs-interop": "^2.1.4"
+    "vike-contributors": "^0.0.9"
   },
   "peerDependencies": {
     "@types/node": "*",

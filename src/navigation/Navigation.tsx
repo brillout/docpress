@@ -27,17 +27,19 @@ function Navigation({
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        {isDetachedPage && (
-          <>
-            {navItems.length > 1 && (
-              <NavigationContent id="navigation-content-detached" navItems={navItems} currentUrl={currentUrl} />
-            )}
-            <DetachedPageNote />
-          </>
-        )}
-        <NavigationContent id="navigation-content-main" navItems={navItemsAll} currentUrl={currentUrl} />
-        {/* <ScrollOverlay /> */}
-        <NavigationFullscreenClose />
+        <div id="navigation-body">
+          {isDetachedPage && (
+            <>
+              {navItems.length > 1 && (
+                <NavigationContent id="navigation-content-detached" navItems={navItems} currentUrl={currentUrl} />
+              )}
+              <DetachedPageNote />
+            </>
+          )}
+          <NavigationContent id="navigation-content-main" navItems={navItemsAll} currentUrl={currentUrl} />
+          {/* <ScrollOverlay /> */}
+          <NavigationFullscreenClose />
+        </div>
       </div>
     </>
   )

@@ -26,7 +26,7 @@ function installSectionUrlHashs() {
 }
 
 function assertNavLink(urlHash: string, heading: HTMLHeadingElement) {
-  const navigationEl = getNavigationEl()
+  const navigationEl = document.querySelector('#navigation-body')!
   {
     const { pathname } = window.location
     const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${pathname}"]`))
@@ -52,11 +52,4 @@ function jumpToSection() {
     return
   }
   target.scrollIntoView()
-}
-
-function getNavigationEl() {
-  const elems: HTMLElement[] = Array.from(document.querySelectorAll('#navigation-container'))
-  assert(elems.length === 1)
-  const navigationEl = elems[0]!
-  return navigationEl
 }

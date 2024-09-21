@@ -26,7 +26,6 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Overview',
-    titleEmoji: 'compass',
   },
   {
     level: 2,
@@ -47,7 +46,6 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Another Section',
-    titleEmoji: 'seedling',
   },
   {
     level: 2,
@@ -76,7 +74,6 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Third Section',
-    titleEmoji: 'seedling',
   },
   {
     level: 4,

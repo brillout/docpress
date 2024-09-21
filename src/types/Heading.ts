@@ -37,7 +37,7 @@ type IsCategory = {
   titleInNav?: undefined
 }
 type HeadingDefinitionLevel =
-  | ({ level: 1; titleEmoji: EmojiName } & IsCategory)
+  | ({ level: 1 } & IsCategory)
   | ({ level: 4 } & IsCategory)
   | {
       level: 2

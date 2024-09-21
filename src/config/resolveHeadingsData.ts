@@ -214,15 +214,6 @@ function getHeadingsResolved(config: {
   const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
     (heading: HeadingDefinition) => {
       const titleInNav = heading.titleInNav || heading.title
-      /* TODO: remove this and all realted code
-      let titleInNavParsed: JSX.Element
-      titleInNavParsed = parseTitle(titleInNav)
-      if ('titleEmoji' in heading) {
-        assert(heading.titleEmoji)
-        titleInNavParsed = withEmoji(heading.titleEmoji, titleInNavParsed)
-      }
-      */
-
       const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
         ...heading,
         titleInNav,

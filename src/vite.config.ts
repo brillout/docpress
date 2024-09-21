@@ -27,7 +27,7 @@ const config: UserConfig = {
     }),
   ],
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-dom/client', '@docsearch/react', 'vike-contributors'],
+    include: ['react', 'react-dom', 'react-dom/client'],
     exclude: ['@brillout/docpress'],
   },
   ssr: {

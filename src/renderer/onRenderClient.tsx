@@ -5,13 +5,18 @@ import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import { initNavigationFullscreen } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
-import { initMobileNavigation } from '../navigation/initMobileNavigation'
+import {
+  hideNavigationFullScreen,
+  initNavigationFullscreen,
+} from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { addFeatureClickHandlers, addTwitterWidgets } from '../components/FeatureList/FeatureList.client'
+
+initOnLinkClick()
 
 let root: ReactDOM.Root
 function onRenderClient(pageContext: PageContextClient) {
@@ -43,6 +48,27 @@ function onRenderDone() {
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
   useEffect(onRenderDone)
   return children
+}
+
+function initOnLinkClick() {
+  document.addEventListener('click', (ev) => {
+    const linkTag = findLinkTag(ev.target as HTMLElement)
+    if (!linkTag) return
+    const url = linkTag.getAttribute('href')
+    if (!url) return
+    hideMobileNavigation()
+    hideNavigationFullScreen()
+  })
+}
+function findLinkTag(target: HTMLElement): null | HTMLElement {
+  while (target.tagName !== 'A') {
+    const { parentNode } = target
+    if (!parentNode) {
+      return null
+    }
+    target = parentNode as HTMLElement
+  }
+  return target
 }
 
 function setHydrationIsFinished() {

@@ -1,6 +1,5 @@
 export { initMobileNavigation }
-
-hideNavigationOnLinkClick()
+export { hideMobileNavigation }
 
 function initMobileNavigation() {
   activateMobileShowNavigationToggle()
@@ -16,27 +15,9 @@ function activateMobileNavigationMask() {
   navigationMask.onclick = toggleNavigation
 }
 
-function hideNavigationOnLinkClick() {
-  document.addEventListener('click', (ev) => {
-    const linkTag = findLinkTag(ev.target as HTMLElement)
-    if (!linkTag) return
-    hideNavigation()
-  })
-}
-function findLinkTag(target: HTMLElement): null | HTMLElement {
-  while (target.tagName !== 'A') {
-    const { parentNode } = target
-    if (!parentNode) {
-      return null
-    }
-    target = parentNode as HTMLElement
-  }
-  return target
-}
-
 function toggleNavigation() {
   document.body.classList.toggle('mobile-show-navigation')
 }
-function hideNavigation() {
+function hideMobileNavigation() {
   document.body.classList.remove('mobile-show-navigation')
 }

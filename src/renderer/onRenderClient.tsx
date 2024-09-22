@@ -20,6 +20,7 @@ initOnLinkClick()
 
 let root: ReactDOM.Root
 function onRenderClient(pageContext: PageContextClient) {
+  // TODO: stop using any
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
   let page = getPageElement(pageContext, pageContextResolved)
   page = <OnRenderDoneHook>{page}</OnRenderDoneHook>
@@ -32,6 +33,16 @@ function onRenderClient(pageContext: PageContextClient) {
     }
     root.render(page)
   }
+
+  if (!pageContext.isHydration) {
+    applyHead(pageContext)
+  }
+}
+
+function applyHead(pageContext: PageContextClient) {
+  // TODO: stop using any
+  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
+  document.title = pageContextResolved.documentTitle
 }
 
 function onRenderDone() {

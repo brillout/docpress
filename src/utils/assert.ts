@@ -19,7 +19,7 @@ function assert(condition: unknown, debugInfo?: unknown): asserts condition {
   }
   const err = new Error(errMsg)
   if (isBrowserAndDev()) {
-    alert(err.stack)
+    window.alert(err.stack)
   }
   throw err
 }
@@ -30,7 +30,7 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
   }
   const err = new Error('[DocPress][Wrong Usage] ' + msg)
   if (isBrowserAndDev()) {
-    alert(err.stack)
+    window.alert(err.stack)
   }
   throw err
 }
@@ -46,6 +46,6 @@ function assertWarning(condition: unknown, msg: string): asserts condition {
   msg = '[DocPress][Warning] ' + msg
   console.warn(msg)
   if (isBrowserAndDev()) {
-    alert(msg)
+    window.alert(msg)
   }
 }

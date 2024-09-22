@@ -1,3 +1,21 @@
+# [0.7.0](https://github.com/brillout/docpress/compare/v0.6.21...v0.7.0) (2024-09-22)
+
+
+### Bug Fixes
+
+* fix no URL hash error message ([d733190](https://github.com/brillout/docpress/commit/d733190b1bf7d64e0e78cfdff5c847afebcc5b50))
+* use Client Routing ([#10](https://github.com/brillout/docpress/issues/10)) ([edc9044](https://github.com/brillout/docpress/commit/edc90443012306aef9f884f33aaa5cedffa2ea22))
+
+
+### BREAKING CHANGES
+
+* Stop using JSX to define titles (inside `docpress.config.ts`/`headings.ts`/`headingsDetatched.ts`) and use Markdown strings instead.
+* Move `<NavHeader>`, `<NavHeaderMobile>`, `navHeaderWrapperStyle`, `navHeaderMobileWrapperStyle` from `docpress.config.ts` to `pages/+NavHeader.tsx`.
+* Remove all `import '@brillout/docpress/renderer/client'`.
+* `titleEmoji` is removed.
+
+
+
 ## [0.6.21](https://github.com/brillout/docpress/compare/v0.6.20...v0.6.21) (2024-09-20)
 
 

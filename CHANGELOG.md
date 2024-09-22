@@ -1,3 +1,12 @@
+## [0.7.2](https://github.com/brillout/docpress/compare/v0.7.1...v0.7.2) (2024-09-22)
+
+
+### Bug Fixes
+
+* window.toggleDevMode() ([bd18762](https://github.com/brillout/docpress/commit/bd18762fef9df8f87d1b4d7e9d1e96faa693f978))
+
+
+
 ## [0.7.1](https://github.com/brillout/docpress/compare/v0.7.0...v0.7.1) (2024-09-22)
 
 

@@ -81,7 +81,7 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
-    title: 'Page 1',
+    title: '`Page 1`',
     url: '/page-1',
   },
   {

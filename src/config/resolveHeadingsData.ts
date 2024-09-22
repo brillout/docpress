@@ -13,6 +13,7 @@ import { NavigationData, NavItem } from '../navigation/Navigation'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
+import { parseTitle } from '../parseTitle'
 
 type PageSectionResolved = {
   url: string | null
@@ -130,7 +131,7 @@ function getTitles(
 
   const { title } = activeHeading
   let pageTitle = isLandingPage ? null : title
-  let documentTitle = activeHeading.titleDocument || jsxToTextContent(title)
+  let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseTitle(title))
 
   if (!isLandingPage) {
     documentTitle += ' | ' + config.projectInfo.projectName

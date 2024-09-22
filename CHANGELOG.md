@@ -1,3 +1,19 @@
+## [0.7.1](https://github.com/brillout/docpress/compare/v0.7.0...v0.7.1) (2024-09-22)
+
+
+### Bug Fixes
+
+* parse Markdown for document.title ([b0083dc](https://github.com/brillout/docpress/commit/b0083dc7a37c29d40f6e750b05b6588167d20363))
+* update document.title upon client-side page navigation ([07620ac](https://github.com/brillout/docpress/commit/07620ac44acc1300fc068ba91871a2f9635ed574))
+* window.alert() upon error ([fcc822a](https://github.com/brillout/docpress/commit/fcc822a65bd7a2f0736b343103d28ce992815c3b))
+
+
+### Features
+
+* DEV MODE ([3ef5381](https://github.com/brillout/docpress/commit/3ef5381a580d5106ea37ea4daf52d2919858ffbc))
+
+
+
 # [0.7.0](https://github.com/brillout/docpress/compare/v0.6.21...v0.7.0) (2024-09-22)
 
 

@@ -2,6 +2,14 @@ export { assert }
 export { assertUsage }
 export { assertWarning }
 
+if (isBrowser()) {
+  window.onerror = (err) => {
+    console.log('err', err)
+    alert(err)
+    window.onerror = null
+  }
+}
+
 function assert(condition: unknown, debugInfo?: unknown): asserts condition {
   if (condition) {
     return
@@ -35,8 +43,11 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
   throw err
 }
 
+function isBrowser() {
+  return typeof window !== 'undefined'
+}
 function isBrowserAndDev() {
-  return typeof window !== 'undefined' && window?.location?.port !== ''
+  return isBrowser() && (window?.location?.port !== '' || window.localStorage['dev'])
 }
 
 function assertWarning(condition: unknown, msg: string): asserts condition {

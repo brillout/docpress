@@ -72,6 +72,11 @@ const headings: HeadingDefinition[] = [
     url: '/press',
   },
   {
+    level: 2,
+    title: 'Page wiht error',
+    url: '/error',
+  },
+  {
     level: 1,
     title: 'Third Section',
   },

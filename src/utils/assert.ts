@@ -67,12 +67,13 @@ function isLocalhost() {
 }
 function toggleDevMode() {
   if (isLocalhost()) throw new Error('On localhost DEV MODE is always on.')
-  if (window.localStorage[devModeKey]) {
+  const isEnabled = () => window.localStorage[devModeKey]
+  if (!isEnabled()) {
     window.localStorage[devModeKey] = 'true'
   } else {
     delete window.localStorage[devModeKey]
   }
-  console.log(`DEV MODE ${isDevMode() ? 'enabled' : 'disabled'}`)
+  console.log(`DEV MODE ${isEnabled() ? 'enabled' : 'disabled'}`)
 }
 
 function assertWarning(condition: unknown, msg: string): asserts condition {

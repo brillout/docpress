@@ -3,11 +3,14 @@ export { onRenderHtml }
 import ReactDOMServer from 'react-dom/server'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert } from '../utils/server'
-import type { PageContextServer } from 'vike/types'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
+import type { OnRenderHtmlAsync } from 'vike/types'
 
-async function onRenderHtml(pageContext: PageContextServer) {
+const onRenderHtml: OnRenderHtmlAsync = async (
+  pageContext,
+): // TODO: Why is Promise<Awaited<>> needed?
+Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
 
   const page = getPageElement(pageContext, pageContextResolved)

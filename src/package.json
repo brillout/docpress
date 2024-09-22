@@ -3,16 +3,17 @@
   "version": "0.6.21",
   "type": "module",
   "scripts": {
-    "// Build vite.config.ts and +config.ts": "",
+    "======== Build": "",
+    "// Build vite.config.ts and +config.ts (other files don't need to be built as @brillout/docpress is noExternal)": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
-    "// Development": "",
+    "======== Develop": "",
     "dev": "tsc --watch --project tsconfig.config.json",
-    "// Check types while developing": "",
+    "// Check types of all source files while developing": "",
     "typecheck": "tsc --noEmit --watch",
-    "// Release": "",
+    "========= Release": "",
     "release": "release-me patch",
-    "release:commit": "release-me commit",
-    "release:breaking-change": "release-me minor"
+    "release:minor": "release-me minor",
+    "release:commit": "release-me commit"
   },
   "dependencies": {
     "@brillout/picocolors": "^1.0.10",

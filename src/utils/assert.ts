@@ -2,11 +2,24 @@ export { assert }
 export { assertUsage }
 export { assertWarning }
 
+const devModeKey = '__docpress_dev_mode'
+
 if (isBrowser()) {
-  window.onerror = (err) => {
-    console.log('err', err)
-    alert(err)
-    window.onerror = null
+  ;(window as any).toggleDevMode = toggleDevMode
+  console.log(
+    [
+      '[@brillout/docpress] DEV MODE',
+      isDevMode() ? 'enabled' : 'disabled',
+      !isLocalhost() && 'run window.toggleDevMode() to toggle DEV MODE',
+    ]
+      .filter(Boolean)
+      .join(' '),
+  )
+  if (isDevMode()) {
+    window.onerror = (err) => {
+      alert(err)
+      window.onerror = null
+    }
   }
 }
 
@@ -26,7 +39,7 @@ function assert(condition: unknown, debugInfo?: unknown): asserts condition {
     errMsg += ' Debug info: ' + String(debugInfo)
   }
   const err = new Error(errMsg)
-  if (isBrowserAndDev()) {
+  if (isBrowser() && isDevMode()) {
     window.alert(err.stack)
   }
   throw err
@@ -37,7 +50,7 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
     return
   }
   const err = new Error('[DocPress][Wrong Usage] ' + msg)
-  if (isBrowserAndDev()) {
+  if (isBrowser() && isDevMode()) {
     window.alert(err.stack)
   }
   throw err
@@ -46,8 +59,20 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
 function isBrowser() {
   return typeof window !== 'undefined'
 }
-function isBrowserAndDev() {
-  return isBrowser() && (window?.location?.port !== '' || window.localStorage['dev'])
+function isDevMode() {
+  return !!window.localStorage[devModeKey] || isLocalhost()
+}
+function isLocalhost() {
+  return window?.location?.port !== ''
+}
+function toggleDevMode() {
+  if (isLocalhost()) throw new Error('On localhost DEV MODE is always on.')
+  if (window.localStorage[devModeKey]) {
+    window.localStorage[devModeKey] = 'true'
+  } else {
+    delete window.localStorage[devModeKey]
+  }
+  console.log(`DEV MODE ${isDevMode() ? 'enabled' : 'disabled'}`)
 }
 
 function assertWarning(condition: unknown, msg: string): asserts condition {
@@ -56,7 +81,7 @@ function assertWarning(condition: unknown, msg: string): asserts condition {
   }
   msg = '[DocPress][Warning] ' + msg
   console.warn(msg)
-  if (isBrowserAndDev()) {
+  if (isBrowser() && isDevMode()) {
     window.alert(msg)
   }
 }

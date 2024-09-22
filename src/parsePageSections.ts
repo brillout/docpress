@@ -44,7 +44,12 @@ function transform(code: string) {
         return line
       }
 
-      if (line.startsWith('#')) {
+      if (
+        line.startsWith('#')
+        /* TODO/eventually: implement.
+        || line.startsWith('<h2')
+        */
+      ) {
         const { pageSectionId, pageSectionLevel, pageSectionTitle, headingHtml } = parsePageSection(line)
         pageSections.push({ pageSectionId, pageSectionLevel, pageSectionTitle })
         return headingHtml

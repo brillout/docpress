@@ -26,10 +26,12 @@ const config: UserConfig = {
       includeAssetsImportedByServer: true,
     }),
   ],
-  optimizeDeps: { include: [/*'@brillout/docpress',*/ 'react-dom/client'] },
-  // @ts-ignore
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-dom/client'],
+    exclude: ['@brillout/docpress'],
+  },
   ssr: {
-    noExternal: ['@brillout/docpress'],
+    noExternal: ['@brillout/docpress', '@docsearch/react'],
   },
   clearScreen: false,
 }

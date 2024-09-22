@@ -26,7 +26,6 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Overview',
-    titleEmoji: 'compass',
   },
   {
     level: 2,
@@ -47,7 +46,6 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Another Section',
-    titleEmoji: 'seedling',
   },
   {
     level: 2,
@@ -72,5 +70,27 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Press Kit',
     url: '/press',
+  },
+  {
+    level: 1,
+    title: 'Third Section',
+  },
+  {
+    level: 4,
+    title: 'Category 1',
+  },
+  {
+    level: 2,
+    title: 'Page 1',
+    url: '/page-1',
+  },
+  {
+    level: 4,
+    title: 'Category 2',
+  },
+  {
+    level: 2,
+    title: 'Page 2',
+    url: '/page-2',
   },
 ]

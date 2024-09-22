@@ -9,7 +9,6 @@ import type {
 } from '../types/Heading'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
-import { parseTitle, withEmoji } from '../parseTitle'
 import { NavigationData, NavItem } from '../navigation/Navigation'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
@@ -17,9 +16,9 @@ import pc from '@brillout/picocolors'
 
 type PageSectionResolved = {
   url: string | null
-  title: JSX.Element
-  titleInNav: JSX.Element
-  linkBreadcrumb: JSX.Element[]
+  title: string
+  titleInNav: string
+  linkBreadcrumb: string[]
   pageSectionLevel: number
 }
 
@@ -123,10 +122,10 @@ function pageSectionToLinkData(pageSection: PageSectionResolved): LinkData {
 
 function getTitles(
   activeHeading: HeadingResolved | HeadingDetachedResolved,
-  pageContext: { urlOriginal: string },
+  pageContext: { urlPathname: string },
   config: Config,
 ) {
-  const url = pageContext.urlOriginal
+  const url = pageContext.urlPathname
   const isLandingPage = url === '/'
 
   const { title } = activeHeading
@@ -147,25 +146,25 @@ function getTitles(
 function getActiveHeading(
   headingsResolved: HeadingResolved[],
   headingsDetachedResolved: HeadingDetachedResolved[],
-  pageContext: { urlOriginal: string; exports: Exports },
+  pageContext: { urlPathname: string; exports: Exports },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
-  const { urlOriginal } = pageContext
-  assert(urlOriginal)
+  const { urlPathname } = pageContext
+  assert(urlPathname)
   headingsResolved.forEach((heading) => {
-    if (heading.url === urlOriginal) {
+    if (heading.url === urlPathname) {
       activeHeading = heading
-      assert(heading.level === 2, { pageUrl: urlOriginal, heading })
+      assert(heading.level === 2, { pageUrl: urlPathname, heading })
     }
   })
   const isDetachedPage = !activeHeading
   if (!activeHeading) {
-    activeHeading = headingsDetachedResolved.find(({ url }) => urlOriginal === url) ?? null
+    activeHeading = headingsDetachedResolved.find(({ url }) => urlPathname === url) ?? null
   }
   if (!activeHeading) {
     throw new Error(
       [
-        `URL ${pc.bold(urlOriginal)} not found in following URLs:`,
+        `URL ${pc.bold(urlPathname)} not found in following URLs:`,
         ...headingsResolved
           .map((h) => `  ${h.url}`)
           .filter(Boolean)
@@ -177,19 +176,19 @@ function getActiveHeading(
 }
 
 function getPageSectionsResolved(
-  pageContext: { exports: Exports; urlOriginal: string },
+  pageContext: { exports: Exports },
   activeHeading: HeadingResolved | HeadingDetachedResolved,
 ): PageSectionResolved[] {
   const pageSections = pageContext.exports.pageSectionsExport ?? []
 
   const pageSectionsResolved = pageSections.map((pageSection) => {
-    const pageSectionTitleJsx = parseTitle(pageSection.pageSectionTitle)
+    const { pageSectionTitle } = pageSection
     const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId
     const pageSectionResolved: PageSectionResolved = {
       url,
-      title: pageSectionTitleJsx,
+      title: pageSectionTitle,
       linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
-      titleInNav: pageSectionTitleJsx,
+      titleInNav: pageSectionTitle,
       pageSectionLevel: pageSection.pageSectionLevel,
     }
     return pageSectionResolved
@@ -205,10 +204,6 @@ function getPageSectionsResolved(
   return pageSectionsResolved
 }
 
-/**
- * - Parse title (from `string` to `JSX.Element`)
- * - Determine navigation breadcrumbs
- */
 function getHeadingsResolved(config: {
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
@@ -218,20 +213,10 @@ function getHeadingsResolved(config: {
 } {
   const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
     (heading: HeadingDefinition) => {
-      const titleParsed: JSX.Element = parseTitle(heading.title)
-
       const titleInNav = heading.titleInNav || heading.title
-      let titleInNavParsed: JSX.Element
-      titleInNavParsed = parseTitle(titleInNav)
-      if ('titleEmoji' in heading) {
-        assert(heading.titleEmoji)
-        titleInNavParsed = withEmoji(heading.titleEmoji, titleInNavParsed)
-      }
-
       const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
         ...heading,
-        title: titleParsed,
-        titleInNav: titleInNavParsed,
+        titleInNav,
       }
       return headingResolved
     },
@@ -247,17 +232,15 @@ function getHeadingsResolved(config: {
   })
 
   const headingsDetachedResolved = config.headingsDetached.map((headingsDetached) => {
-    const { url, title } = headingsDetached
+    const { url } = headingsDetached
     assert(
       headingsResolved.find((heading) => heading.url === url) === undefined,
       `remove ${headingsDetached.url} from headingsDetached`,
     )
-    const titleParsed = typeof title === 'string' ? parseTitle(title) : title
     return {
       ...headingsDetached,
       level: 2 as const,
-      title: titleParsed,
-      titleInNav: titleParsed,
+      titleInNav: headingsDetached.title,
       linkBreadcrumb: null,
     }
   })
@@ -266,7 +249,7 @@ function getHeadingsResolved(config: {
 }
 
 function getHeadingsBreadcrumb(heading: Omit<HeadingResolved, 'linkBreadcrumb'>, headings: HeadingResolved[]) {
-  const linkBreadcrumb: JSX.Element[] = []
+  const linkBreadcrumb: string[] = []
   let levelCurrent = heading.level
   headings
     .slice()

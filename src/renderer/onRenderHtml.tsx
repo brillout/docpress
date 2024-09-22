@@ -1,29 +1,20 @@
 export { onRenderHtml }
 
 import ReactDOMServer from 'react-dom/server'
-import React from 'react'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
-import { PageLayout } from '../PageLayout'
-import { resolvePageContext, PageContextOriginal } from '../config/resolvePageContext'
-import { getDocSearchJS, getDocSearchCSS } from '../algolia/DocSearch'
 import { assert } from '../utils/server'
+import type { PageContextServer } from 'vike/types'
+import type { PageContextResolved } from '../config/resolvePageContext'
+import { getPageElement } from './getPageElement'
 
-async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
-  const { Page } = pageContextOriginal
-  const pageContextResolved = resolvePageContext(pageContextOriginal)
+async function onRenderHtml(pageContext: PageContextServer) {
+  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
 
-  const page = (
-    <PageLayout pageContext={pageContextResolved}>
-      <Page />
-    </PageLayout>
-  )
+  const page = getPageElement(pageContext, pageContextResolved)
 
   const descriptionTag = pageContextResolved.isLandingPage
     ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)
     : ''
-
-  const docSearchJS = getDocSearchJS(pageContextResolved)
-  const docSearchCSS = getDocSearchCSS(pageContextResolved)
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
@@ -35,16 +26,10 @@ async function onRenderHtml(pageContextOriginal: PageContextOriginal) {
         <title>${pageContextResolved.documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-        ${docSearchCSS}
-        ${getOpenGraphTags(
-          pageContextOriginal.urlPathname,
-          pageContextResolved.documentTitle,
-          pageContextResolved.meta,
-        )}
+        ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
-        ${docSearchJS}
       </body>
     </html>`
 }

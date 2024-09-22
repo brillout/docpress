@@ -3,37 +3,46 @@ import { Navigation, NavigationMask } from './navigation/Navigation'
 import type { PageContextResolved } from './config/resolvePageContext'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
-import { PageContextProvider } from './renderer/usePageContext'
+import { PageContextProvider, PageContextProvider2 } from './renderer/usePageContext'
 import './PageLayout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
+import type { PageContext } from 'vike/types'
+import { parseTitle } from './parseTitle'
 
 export { PageLayout }
 
-function PageLayout({ pageContext, children }: { pageContext: PageContextResolved; children: React.ReactNode }) {
+function PageLayout({
+  pageContext,
+  children,
+  pageContext2,
+}: { pageContext: PageContextResolved; children: React.ReactNode; pageContext2: PageContext }) {
   const { isLandingPage, pageTitle, navigationData } = pageContext
+  const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
   return (
     <React.StrictMode>
-      <PageContextProvider pageContext={pageContext}>
-        <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
-          <div id="navigation-wrapper">
-            <Navigation {...pageContext.navigationData} />
-          </div>
-          <NavigationFullscreenButton />
-          <div className="page-wrapper">
-            <div className="page-container">
-              <MobileHeader />
-              <div className="page-content">
-                {globalNote}
-                {pageTitle && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitle}</h1>}
-                {children}
-                {!isLandingPage && <EditPageNote pageContext={pageContext} />}
-              </div>
+      <PageContextProvider2 pageContext={pageContext2}>
+        <PageContextProvider pageContext={pageContext}>
+          <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
+            <div id="navigation-wrapper">
+              <Navigation {...pageContext.navigationData} />
             </div>
-            <NavigationMask />
+            <NavigationFullscreenButton />
+            <div className="page-wrapper">
+              <div className="page-container">
+                <MobileHeader />
+                <div className="page-content">
+                  {globalNote}
+                  {pageTitleParsed && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitleParsed}</h1>}
+                  {children}
+                  {!isLandingPage && <EditPageNote pageContext={pageContext} />}
+                </div>
+              </div>
+              <NavigationMask />
+            </div>
           </div>
-        </div>
-      </PageContextProvider>
+        </PageContextProvider>
+      </PageContextProvider2>
     </React.StrictMode>
   )
 }

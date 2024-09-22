@@ -8,7 +8,7 @@
     "// Development": "",
     "dev": "tsc --watch --project tsconfig.config.json",
     "// Check types while developing": "",
-    "types": "tsc --noEmit --watch",
+    "typecheck": "tsc --noEmit --watch",
     "// Release": "",
     "release": "release-me patch",
     "release:commit": "release-me commit",
@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@brillout/picocolors": "^1.0.10",
+    "@docsearch/css": "^3.6.1",
+    "@docsearch/react": "3.6.1",
     "@mdx-js/mdx": "3.0.1",
     "@mdx-js/react": "3.0.1",
     "@mdx-js/rollup": "3.0.1",
@@ -39,7 +41,8 @@
   },
   "exports": {
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
-    "./renderer/client": "./renderer/client.ts",
+    "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
+    "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
     ".": "./index.ts",
     "./FeatureList/FeatureList": "./components/FeatureList/FeatureList.tsx",
     "./FeatureList/FeatureList.client": {

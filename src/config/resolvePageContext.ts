@@ -9,14 +9,12 @@ import type { PageSection } from '../parsePageSections'
 import { getConfig } from './getConfig'
 import { resolveHeadingsData } from './resolveHeadingsData'
 
-type ReactComponent = () => JSX.Element
 type Exports = {
   pageSectionsExport?: PageSection[]
 }
-type PageContextOriginal = PageContextServer & {
-  Page: ReactComponent
-  exports: Exports
-}
+// TODO/refactor: remove PageContextOriginal in favor of using PageContextServer
+type PageContextOriginal = PageContextServer
+
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 
 function resolvePageContext(pageContext: PageContextOriginal) {
@@ -27,7 +25,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const config = getConfig()
   const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl } = config
   objectAssign(pageContextResolved, {
-    ...pageContext,
+    urlPathname: pageContext.urlPathname, // TODO: remove
     meta: {
       faviconUrl,
       twitterHandle,

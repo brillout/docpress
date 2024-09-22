@@ -1,9 +1,9 @@
 export { initMobileNavigation }
+export { hideMobileNavigation }
 
 function initMobileNavigation() {
   activateMobileShowNavigationToggle()
   activateMobileNavigationMask()
-  autoHideNavigationOverlayOnLinkClick()
 }
 
 function activateMobileShowNavigationToggle() {
@@ -15,18 +15,9 @@ function activateMobileNavigationMask() {
   navigationMask.onclick = toggleNavigation
 }
 
-function autoHideNavigationOverlayOnLinkClick() {
-  document.addEventListener('click', (ev: any) => {
-    const el = ev.target
-    if (!el || !('classList' in el)) return
-    if (!el.classList.contains('nav-item')) return
-    hideNavigation()
-  })
-}
-
 function toggleNavigation() {
   document.body.classList.toggle('mobile-show-navigation')
 }
-function hideNavigation() {
+function hideMobileNavigation() {
   document.body.classList.remove('mobile-show-navigation')
 }

@@ -1,6 +1,6 @@
-import { assert } from './utils/client'
+export { autoScrollNav }
 
-autoScrollNav()
+import { assert } from './utils/client'
 
 function autoScrollNav() {
   const navigationEl = document.getElementById('navigation-content-main')
@@ -31,6 +31,7 @@ function autoScrollNav() {
     block: 'center',
     inline: 'start',
   })
-  // Avoid scrollIntoView() from scrolling the main view. Alternatively, we could use scrollIntoViewIfNeeded() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) which doesn't scroll the main view but Firefox doesn't support it.
+  // Avoid scrollIntoView() from scrolling the main view.
+  // - Alternatively scrollIntoViewIfNeeded() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) would work (it doesn't scroll the main view) but Firefox doesn't support it.
   document.documentElement.scrollTop = scrollTopOriginal
 }

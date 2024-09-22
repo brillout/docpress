@@ -1,10 +1,12 @@
 import React from 'react'
-import { usePageContext } from './renderer/usePageContext'
+import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 
 export { MobileHeader }
 
 function MobileHeader() {
   const pageContext = usePageContext()
+  const pageContext2 = usePageContext2()
+  const { NavHeaderMobile } = pageContext2.config.NavHeader!
   return (
     <div
       id="mobile-header"
@@ -37,10 +39,10 @@ function MobileHeader() {
             alignItems: 'center',
             justifyContent: 'left',
             textDecoration: 'none',
-            ...pageContext.config.navHeaderMobileWrapperStyle,
+            ...pageContext2.config.NavHeader?.navHeaderMobileWrapperStyle,
           }}
         >
-          {pageContext.config.navHeaderMobile}
+          <NavHeaderMobile />
         </a>
       </div>
     </div>

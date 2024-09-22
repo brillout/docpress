@@ -8,9 +8,9 @@ import type { EmojiName } from '../utils/server'
 type HeadingResolved = {
   url?: null | string
   level: number
-  title: JSX.Element
-  titleInNav: JSX.Element
-  linkBreadcrumb: JSX.Element[]
+  title: string
+  titleInNav: string
+  linkBreadcrumb: string[]
   sectionTitles?: string[]
 } & Tmp
 
@@ -21,7 +21,7 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
 
 type HeadingDetachedDefinition = {
   url: string
-  title: string | JSX.Element
+  title: string
   sectionTitles?: string[]
 }
 
@@ -37,7 +37,7 @@ type IsCategory = {
   titleInNav?: undefined
 }
 type HeadingDefinitionLevel =
-  | ({ level: 1; titleEmoji: EmojiName } & IsCategory)
+  | ({ level: 1 } & IsCategory)
   | ({ level: 4 } & IsCategory)
   | {
       level: 2

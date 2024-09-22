@@ -1,7 +1,6 @@
 export { config }
 
 import type { Config } from '@brillout/docpress'
-import React from 'react'
 import logoUrl from './images/logo.svg'
 import { headings, headingsDetached } from './headings'
 
@@ -21,8 +20,6 @@ const config: Config = {
   },
   i18n: true,
   pressKit: true,
-  navHeaderMobile: <NavHeaderMobile />,
-  navHeader: <NavHeader />,
   tagline: 'DocPress Demo',
   headings,
   headingsDetached,
@@ -42,37 +39,3 @@ function GlobalNoteWarning() {
   )
 }
 */
-
-function NavHeaderMobile() {
-  const LOGO_SIZE = 40
-  return (
-    <>
-      <img src={logoUrl} height={LOGO_SIZE} width={LOGO_SIZE} />
-      <HeaderTitle fontSize={'1.25em'} marginLeft={5} />
-    </>
-  )
-}
-
-function NavHeader() {
-  const LOGO_SIZE = 55
-  return (
-    <>
-      <img src={logoUrl} height={LOGO_SIZE} width={LOGO_SIZE} />
-      <HeaderTitle fontSize={'1.55em'} marginLeft={10} />
-    </>
-  )
-}
-
-function HeaderTitle({ fontSize, marginLeft }: { fontSize: string; marginLeft: number }) {
-  return (
-    <span
-      style={{
-        fontSize,
-        padding: '2px 5px',
-        marginLeft,
-      }}
-    >
-      {'DocPress Demo'}
-    </span>
-  )
-}

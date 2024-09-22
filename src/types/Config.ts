@@ -20,10 +20,7 @@ type Config = {
   }
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
-  navHeaderMobile: React.ReactNode
-  navHeaderMobileWrapperStyle?: React.CSSProperties
-  navHeader: React.ReactNode
-  navHeaderWrapperStyle?: React.CSSProperties
+
   /** Sets `<meta name="description" content="${tagline}" />` */
   tagline: string
   websiteUrl: string

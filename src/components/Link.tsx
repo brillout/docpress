@@ -48,25 +48,25 @@ function getLinkText({
   noBreadcrumb: true | undefined
   pageContext: PageContextResolved
   doNotInferSectionTitle: true | undefined
-}): string | JSX.Element {
+}): JSX.Element {
   const { hrefPathname, hrefHash } = parseHref(href)
 
   const linkData = findLinkData(hrefPathname || pageContext.urlPathname, pageContext)
   const isLinkOnSamePage = linkData.url === pageContext.urlPathname
   if (!hrefPathname) assert(isLinkOnSamePage)
 
-  const breadcrumbParts: (string | JSX.Element)[] = []
+  const breadcrumbParts: JSX.Element[] = []
   if (linkData.linkBreadcrumb) {
-    breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse())
+    breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse().map(parseTitle))
   }
-  breadcrumbParts.push(linkData.title)
+  breadcrumbParts.push(parseTitle(linkData.title))
 
   if (hrefHash) {
-    let sectionTitle: string | JSX.Element | undefined = undefined
+    let sectionTitle: JSX.Element | undefined = undefined
     assert(!hrefHash.startsWith('#'))
     if (isLinkOnSamePage) {
       const linkDataPageSection = findLinkData(`#${hrefHash}`, pageContext)
-      sectionTitle = linkDataPageSection.title
+      sectionTitle = parseTitle(linkDataPageSection.title)
     } else if ('sectionTitles' in linkData && linkData.sectionTitles) {
       linkData.sectionTitles.forEach((title) => {
         if (determineSectionUrlHash(title) === hrefHash) {
@@ -79,7 +79,7 @@ function getLinkText({
         !doNotInferSectionTitle,
         `Page section title not found for <Link href="\`${href}\`" doNotInferSectionTitle={true} />.`,
       )
-      sectionTitle = determineSectionTitle(href)
+      sectionTitle = <>{determineSectionTitle(href)}</>
     }
     breadcrumbParts.push(sectionTitle)
   }
@@ -107,8 +107,8 @@ function getLinkText({
 
 type LinkData = {
   url?: null | string
-  title: JSX.Element
-  linkBreadcrumb: null | JSX.Element[]
+  title: string
+  linkBreadcrumb: null | string[]
   sectionTitles?: string[]
 }
 

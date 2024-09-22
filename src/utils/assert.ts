@@ -10,7 +10,7 @@ if (isBrowser()) {
     [
       '[@brillout/docpress] DEV MODE',
       isDevMode() ? 'enabled' : 'disabled',
-      !isLocalhost() && 'run window.toggleDevMode() to toggle DEV MODE',
+      !isLocalhost() && '— run window.toggleDevMode() to toggle DEV MODE',
     ]
       .filter(Boolean)
       .join(' '),

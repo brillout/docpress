@@ -37,7 +37,6 @@ function Navigation({
             </>
           )}
           <NavigationContent id="navigation-content-main" navItems={navItemsAll} currentUrl={currentUrl} />
-          {/* <ScrollOverlay /> */}
           <NavigationFullscreenClose />
         </div>
       </div>
@@ -115,9 +114,9 @@ function NavItemComponent({
       className={[
         'nav-item',
         'nav-item-level-' + navItem.level,
-        navItem.isActive && ' is-active',
-        navItem.isActiveFirst && ' is-active-first',
-        navItem.isActiveLast && ' is-active-last',
+        navItem.url && navItem.isActive && ' is-active',
+        navItem.url && navItem.isActiveFirst && ' is-active-first',
+        navItem.url && navItem.isActiveLast && ' is-active-last',
         navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
         navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
       ]

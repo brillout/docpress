@@ -125,18 +125,3 @@ html.navigation-fullscreen {
   /* disable scroll of main view */
   overflow: hidden !important;
 }
-
-html.navigation-fullscreen #navigation-overlay {
-  display: none
-}
-
-#navigation-body {
-  position: relative;
-}
-#navigation-overlay {
-  position: absolute;
-  height: 100vh;
-  top: 0;
-  width: 100%;
-  background-color: #aaa;
-}

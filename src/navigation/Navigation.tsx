@@ -38,6 +38,7 @@ function Navigation({
           )}
           <NavigationContent id="navigation-content-main" navItems={navItemsAll} currentUrl={currentUrl} />
           <NavigationFullscreenClose />
+          <div id="navigation-overlay" />
         </div>
       </div>
     </>

@@ -125,3 +125,12 @@ html.navigation-fullscreen {
   /* disable scroll of main view */
   overflow: hidden !important;
 }
+
+html:not(.navigation-fullscreen) .nav-items-group:not(.is-active-group) .nav-item:not(.nav-item-level-1) {
+  display: none;
+}
+html:not(.navigation-fullscreen) .nav-items-group:not(.is-active-group) .nav-item.nav-item-level-1 {
+  margin: 0 !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}

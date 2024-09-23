@@ -69,12 +69,16 @@ function NavigationContent(props: {
 }) {
   const navItemsWithComputed = addComputedProps(props.navItems, props.currentUrl)
   const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
+  propageIsActive(navItemsGrouped)
 
   return (
     <div id={props.id} className="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>
         {navItemsGrouped.map((navItemGroup, i) => (
-          <div className="nav-items-group" key={i}>
+          <div
+            className={['nav-items-group', navItemGroup.isActive && 'is-active-group'].filter(Boolean).join(' ')}
+            key={i}
+          >
             <NavItemComponent navItem={navItemGroup} />
             {navItemGroup.navItemChilds.map((navItem, j) => (
               <NavItemComponent navItem={navItem} key={j} />
@@ -141,6 +145,18 @@ function groupByLevelMin(navItems: NavItemComputed[]) {
     }
   })
   return navItemsGrouped
+}
+
+type NavItemsGrouped = ReturnType<typeof groupByLevelMin>
+function propageIsActive(navItemsGrouped: NavItemsGrouped): void {
+  navItemsGrouped.forEach((navItemGroup) => {
+    if (navItemGroup.level !== 1) return
+    navItemGroup.navItemChilds.forEach((navItem) => {
+      if (navItem.isActive) {
+        navItemGroup.isActive = true
+      }
+    })
+  })
 }
 
 function addComputedProps(navItems: NavItem[], currentUrl: string): NavItemComputed[] {

@@ -39,7 +39,7 @@ function hideNavigationFullScreen() {
 
 function updateColumnWidth() {
   const navMinWidth = 299
-  const navH1Groups = Array.from(document.querySelectorAll('#navigation-content-main .nav-items-level-1-group'))
+  const navH1Groups = Array.from(document.querySelectorAll('#navigation-content-main .nav-items-group'))
   const numberOfColumnsMax = navH1Groups.length
 
   const widthAvailable = getViewportWidth()

@@ -75,7 +75,7 @@ function NavigationContent(props: {
     <div id={props.id} className="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>
         {navItemsGrouped.map((navItemLevel1, i) => (
-          <div className="nav-items-level-1-group" key={i}>
+          <div className="nav-items-group" key={i}>
             <NavItemComponent navItem={navItemLevel1} />
             {navItemLevel1.navItemChilds.map((navItem, j) => (
               <NavItemComponent navItem={navItem} key={j} />

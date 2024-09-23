@@ -118,7 +118,7 @@ html.navigation-fullscreen .navigation-content > .nav-column {
   flex-grow: 1;
   max-width: 350px;
 }
-html.navigation-fullscreen .nav-column > .nav-items-level-1-group:first-child > .nav-item-level-1:first-child {
+html.navigation-fullscreen .nav-column > .nav-items-group:first-child > .nav-item-level-1:first-child {
   margin-top: 0px;
 }
 html.navigation-fullscreen {

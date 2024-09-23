@@ -17,7 +17,7 @@ if (isBrowser()) {
   )
   if (isDevMode()) {
     window.onerror = (err) => {
-      alert(err)
+      window.alert(err)
       window.onerror = null
     }
   }
@@ -39,9 +39,6 @@ function assert(condition: unknown, debugInfo?: unknown): asserts condition {
     errMsg += ' Debug info: ' + String(debugInfo)
   }
   const err = new Error(errMsg)
-  if (isBrowser() && isDevMode()) {
-    window.alert(err.stack)
-  }
   throw err
 }
 
@@ -50,9 +47,6 @@ function assertUsage(condition: unknown, msg: string): asserts condition {
     return
   }
   const err = new Error('[DocPress][Wrong Usage] ' + msg)
-  if (isBrowser() && isDevMode()) {
-    window.alert(err.stack)
-  }
   throw err
 }
 
@@ -81,8 +75,9 @@ function assertWarning(condition: unknown, msg: string): asserts condition {
     return
   }
   msg = '[DocPress][Warning] ' + msg
-  console.warn(msg)
   if (isBrowser() && isDevMode()) {
-    window.alert(msg)
+    throw new Error(msg)
+  } else {
+    console.warn(msg)
   }
 }

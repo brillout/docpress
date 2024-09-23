@@ -69,15 +69,15 @@ function NavigationContent(props: {
   currentUrl: string
 }) {
   const navItemsWithComputed = addComputedProps(props.navItems, props.currentUrl)
-  const navItemsGrouped = groupByLevel1(navItemsWithComputed)
+  const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
 
   return (
     <div id={props.id} className="navigation-content">
       <div className="nav-column" style={{ position: 'relative' }}>
-        {navItemsGrouped.map((navItemLevel1, i) => (
+        {navItemsGrouped.map((navItemGroup, i) => (
           <div className="nav-items-group" key={i}>
-            <NavItemComponent navItem={navItemLevel1} />
-            {navItemLevel1.navItemChilds.map((navItem, j) => (
+            <NavItemComponent navItem={navItemGroup} />
+            {navItemGroup.navItemChilds.map((navItem, j) => (
               <NavItemComponent navItem={navItem} key={j} />
             ))}
           </div>
@@ -131,8 +131,8 @@ function NavItemComponent({
   )
 }
 
-function groupByLevel1<T extends { level: number }>(navItems: T[]) {
-  const navItemsGrouped: (T & { navItemChilds: T[] })[] = []
+function groupByLevelMin(navItems: NavItemComputed[]) {
+  const navItemsGrouped: (NavItemComputed & { navItemChilds: NavItemComputed[] })[] = []
   const levelMin: number = Math.min(...navItems.map((h) => h.level))
   navItems.forEach((navItem) => {
     if (navItem.level === levelMin) {

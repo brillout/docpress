@@ -19,9 +19,13 @@ import { addFeatureClickHandlers, addTwitterWidgets } from '../components/Featur
 initOnLinkClick()
 
 let root: ReactDOM.Root
-function onRenderClient(pageContext: PageContextClient) {
+let renderPromiseResolve: () => void
+async function onRenderClient(pageContext: PageContextClient) {
   // TODO: stop using any
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
+  const renderPromise = new Promise<void>((r) => {
+    renderPromiseResolve = r
+  })
   let page = getPageElement(pageContext, pageContextResolved)
   page = <OnRenderDoneHook>{page}</OnRenderDoneHook>
   const container = document.getElementById('page-view')!
@@ -33,10 +37,10 @@ function onRenderClient(pageContext: PageContextClient) {
     }
     root.render(page)
   }
-
   if (!pageContext.isHydration) {
     applyHead(pageContext)
   }
+  await renderPromise
 }
 
 function applyHead(pageContext: PageContextClient) {
@@ -54,6 +58,7 @@ function onRenderDone() {
   addFeatureClickHandlers()
   addTwitterWidgets()
   setHydrationIsFinished()
+  renderPromiseResolve()
 }
 
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {

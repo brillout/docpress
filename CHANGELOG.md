@@ -1,3 +1,13 @@
+## [0.7.3](https://github.com/brillout/docpress/compare/v0.7.2...v0.7.3) (2024-09-25)
+
+
+### Bug Fixes
+
+* fix hash links ([8a517f7](https://github.com/brillout/docpress/commit/8a517f7845c540fd7bde5d4ef0cc788a88f8fc2c))
+* improve dev mode ([2afe127](https://github.com/brillout/docpress/commit/2afe127a8fe22714e616715e3ce50bef24fb275b))
+
+
+
 ## [0.7.2](https://github.com/brillout/docpress/compare/v0.7.1...v0.7.2) (2024-09-22)
 
 

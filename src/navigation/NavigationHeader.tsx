@@ -6,6 +6,7 @@ import iconChangelog from '../icons/changelog.svg'
 import iconLanguages from '../icons/languages.svg'
 import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
 import { DocSearch } from '@docsearch/react'
+import { Hit } from '../components/Algolia/Hit'
 import '@docsearch/css'
 
 export { NavigationHeader }
@@ -79,6 +80,7 @@ function Links() {
             indexName={algolia.indexName}
             apiKey={algolia.apiKey}
             insights={true}
+            hitComponent={Hit}
           />
         </div>
       )}

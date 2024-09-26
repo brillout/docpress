@@ -2,7 +2,7 @@ export { Hit }
 
 import React from 'react'
 import { DocSearch } from '@docsearch/react'
-import type { InternalDocSearchHit } from '../../types/DocSearch'
+import type { InternalDocSearchHit } from './types'
 import { Snippet } from './Snippet'
 import { SourceIcon } from './SourceIcon'
 import { SelectIcon } from './SelectIcon'

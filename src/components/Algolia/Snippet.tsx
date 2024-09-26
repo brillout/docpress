@@ -1,5 +1,5 @@
 import { createElement } from 'react'
-import { StoredDocSearchHit } from '../../types/DocSearch'
+import { StoredDocSearchHit } from './types'
 
 function getPropertyByPath(object: Record<string, any>, path: string): any {
   const parts = path.split('.')

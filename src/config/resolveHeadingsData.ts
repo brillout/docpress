@@ -166,10 +166,12 @@ function getActiveHeading(
     throw new Error(
       [
         `URL ${pc.bold(urlPathname)} not found in following URLs:`,
-        ...headingsResolved
-          .map((h) => `  ${h.url}`)
+        [...headingsResolved, ...headingsDetachedResolved]
           .filter(Boolean)
-          .sort(),
+          .map((h) => h.url)
+          .sort()
+          .map((url) => `  ${url}`)
+          .join('\n'),
       ].join('\n'),
     )
   }

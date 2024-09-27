@@ -19,6 +19,10 @@ export default {
       env: { client: true, server: true },
     },
   },
+  prefetch: {
+    staticAssets: 'hover',
+    pageContext: Infinity,
+  },
 } satisfies Config
 
 type ReactComponent = () => JSX.Element

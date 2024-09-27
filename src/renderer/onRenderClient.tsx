@@ -16,6 +16,7 @@ import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { addFeatureClickHandlers, addTwitterWidgets } from '../components/FeatureList/FeatureList.client'
 
+addEcosystemStamp()
 initOnLinkClick()
 
 let root: ReactDOM.Root
@@ -92,4 +93,10 @@ function setHydrationIsFinished() {
   // - https://github.com/vikejs/vike/blob/9d67f3dd4bdfb38c835186b8147251e0e3b06657/docs/.testRun.ts#L22
   // - https://github.com/brillout/telefunc/blob/57c942c15b7795cfda96b5106acc9e098aa509aa/docs/.testRun.ts#L26
   ;(window as any).__docpress_hydrationFinished = true
+}
+
+// Used by:
+// - https://github.com/vikejs/vike/blob/87cca54f30b3c7e71867763d5723493d7eef37ab/vike/client/client-routing-runtime/prefetch.ts#L309-L312
+function addEcosystemStamp() {
+  ;(window as any)._isBrilloutDocpress = true
 }

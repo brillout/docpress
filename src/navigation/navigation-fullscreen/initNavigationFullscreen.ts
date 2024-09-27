@@ -6,7 +6,6 @@ let scrollPositionBeforeToggle: number = 0
 initOnce()
 
 function initOnce() {
-  window.addEventListener('resize', updateColumnWidth, { passive: true })
   document.addEventListener(
     // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
     'keydown',
@@ -16,6 +15,7 @@ function initOnce() {
     },
     false,
   )
+  window.addEventListener('resize', updateColumnWidth, { passive: true })
 }
 function initNavigationFullscreen() {
   document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend

@@ -2,12 +2,14 @@ export { initNavigationFullscreen }
 export { initNavigationFullscreenOnce }
 export { hideNavigationFullScreen }
 
+import { navigate } from 'vike/client/router'
 import { assert } from '../../utils/client'
 
 let scrollPositionBeforeToggle: number
+let urlBeforeMenu: string = location.pathname === '/menu' ? '/' : location.href
 
 function initNavigationFullscreenOnce() {
-  scrollPositionBeforeToggle = 0 // Initial scroll of fullscreen navigation is 0
+  urlBeforeMenu = location.pathname === '/menu' ? '/' : location.href
   initKeyBindings()
 }
 function initKeyBindings() {
@@ -16,12 +18,34 @@ function initKeyBindings() {
     'keydown',
     (ev) => {
       if (document.body.classList.contains('DocSearch--active')) return
-      if (ev.key === 'Escape') toggleNavExpend()
+      //if (ev.key === 'Escape') toggleNavExpend()
+      if (ev.key === 'Escape') toggleMenu()
+      if (ev.key === 'm') toggleMenu()
     },
     false,
   )
   initTopNavigation()
 }
+
+function toggleMenu() {
+  assert(urlBeforeMenu !== undefined)
+  if (location.pathname === '/menu') {
+    navigate(urlBeforeMenu)
+  } else {
+    urlBeforeMenu = location.href
+    navigate('/menu')
+  }
+  /*
+  const key = '__docpress_urlBeforeMenu'
+  if (location.pathname === '/menu') {
+    navigate(localStorage.getItem(key) || '/')
+  } else {
+    localStorage.setItem(key, location.pathname)
+    navigate('/menu')
+  }
+  */
+}
+
 function initNavigationFullscreen() {
   document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend
   document.getElementById('navigation-fullscreen-close')!.onclick = toggleNavExpend

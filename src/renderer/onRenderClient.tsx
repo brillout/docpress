@@ -15,9 +15,11 @@ import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
+import { prefetch } from 'vike/client/router'
 
 addEcosystemStamp()
 initNavigationFullscreenOnce()
+prefetchMenu()
 
 let root: ReactDOM.Root
 let renderPromiseResolve: () => void
@@ -58,6 +60,11 @@ function onRenderStart() {
 }
 
 function onRenderDone() {
+  if (document.getElementById('menu-full')) {
+    renderPromiseResolve()
+    return
+  }
+
   autoScrollNav()
   installSectionUrlHashs()
   initNavigationFullscreen()
@@ -70,6 +77,10 @@ function onRenderDone() {
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
   useEffect(onRenderDone)
   return children
+}
+
+async function prefetchMenu() {
+  await prefetch('/menu')
 }
 
 function setHydrationIsFinished() {

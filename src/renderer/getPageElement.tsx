@@ -7,7 +7,7 @@ import React from 'react'
 
 function getPageElement(pageContext: PageContext, pageContextResolved: PageContextResolved) {
   const { Page } = pageContext
-  const { Layout = PassThrough } = pageContext.config
+  const Layout = pageContext.config.Layout || PassThrough
   const page = (
     <React.StrictMode>
       <PageContextProvider2 pageContext={pageContext}>

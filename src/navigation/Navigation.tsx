@@ -1,4 +1,5 @@
 export { Navigation }
+export { NavigationContent }
 export { NavigationMask }
 export type { NavigationData }
 export type { NavItem }

@@ -50,6 +50,7 @@
     "./FeatureList/FeatureList.client": {
       "browser": "./components/FeatureList/FeatureList.client.ts"
     },
+    "./MenuPage": "./pages/MenuPage.tsx",
     "./vite-config": "./dist/vite.config.js",
     "./config": "./dist/+config.js",
     "./style": "./css/index.css",

@@ -240,7 +240,13 @@ function getHeadingsResolved(config: {
     })
   })
 
-  const headingsDetachedResolved = config.headingsDetached.map((headingsDetached) => {
+  const headingsDetached = [...config.headingsDetached]
+  // Add /menu
+  headingsDetached.push({
+    title: 'Menu',
+    url: '/menu',
+  })
+  const headingsDetachedResolved = headingsDetached.map((headingsDetached) => {
     const { url } = headingsDetached
     assert(
       headingsResolved.find((heading) => heading.url === url) === undefined,

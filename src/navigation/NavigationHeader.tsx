@@ -6,6 +6,7 @@ import iconChangelog from '../icons/changelog.svg'
 import iconLanguages from '../icons/languages.svg'
 import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
 import { DocSearch } from '@docsearch/react'
+import { Hit } from '../components/Algolia/Hit'
 import '@docsearch/css'
 
 export { NavigationHeader }
@@ -78,8 +79,8 @@ function Links() {
             appId={algolia.appId}
             indexName={algolia.indexName}
             apiKey={algolia.apiKey}
-            transformItems={transformItems}
             insights={true}
+            hitComponent={Hit}
           />
         </div>
       )}
@@ -125,18 +126,4 @@ function LinkIcon({ className, icon, href, style }: { className: string; icon: s
       </a>
     </>
   )
-}
-
-// Remove superfluous hash '#page-content' from URLs pointing to whole pages
-//  - https://github.com/algolia/docsearch/issues/1801
-//  - https://discourse.algolia.com/t/how-to-avoid-hash-in-search-result-url/6486
-//  - https://discourse.algolia.com/t/docsearchs-transformdata-function-cannot-remove-hashes-from-result-urls/8487
-type TransformItems = Parameters<typeof DocSearch>[0]['transformItems']
-const transformItems: TransformItems = (hits) => {
-  hits.map((hit) => {
-    if (hit.url.indexOf('#page-content') > 0) {
-      hit.url = hit.url.replace('#page-content', '')
-    }
-  })
-  return hits
 }

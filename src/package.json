@@ -46,6 +46,7 @@
     "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
     "./Layout": "./Layout.tsx",
     ".": "./index.ts",
+    "./MenuPage": "./pages/MenuPage.tsx",
     "./vite-config": "./dist/vite.config.js",
     "./config": "./dist/+config.js",
     "./style": "./css/index.css",

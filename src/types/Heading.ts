@@ -3,8 +3,6 @@ export { HeadingDetachedResolved }
 export { HeadingDetachedDefinition }
 export { HeadingDefinition }
 
-import type { EmojiName } from '../utils/server'
-
 type HeadingResolved = {
   url?: null | string
   level: number
@@ -19,15 +17,17 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
   linkBreadcrumb: null
 }
 
-type HeadingDetachedDefinition = {
-  url: string
+type HeadingDefinitionCommon = {
   title: string
+}
+
+type HeadingDetachedDefinition = HeadingDefinitionCommon & {
+  url: string
   sectionTitles?: string[]
 }
 
-type HeadingDefinition = {
+type HeadingDefinition = HeadingDefinitionCommon & {
   url?: null | string
-  title: string
   titleInNav?: string
 } & HeadingDefinitionLevel &
   Tmp

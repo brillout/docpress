@@ -1,17 +1,17 @@
+export { Layout }
+
 import React from 'react'
 import { Navigation, NavigationMask } from './navigation/Navigation'
 import type { PageContextResolved } from './config/resolvePageContext'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
 import { PageContextProvider, PageContextProvider2 } from './renderer/usePageContext'
-import './PageLayout.css'
+import './Layout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
 import type { PageContext } from 'vike/types'
 import { parseTitle } from './parseTitle'
 
-export { PageLayout }
-
-function PageLayout({
+function Layout({
   pageContext,
   children,
   pageContext2,

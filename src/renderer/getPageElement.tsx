@@ -2,15 +2,19 @@ export { getPageElement }
 
 import type { PageContext } from 'vike/types'
 import type { PageContextResolved } from '../config/resolvePageContext'
-import { PageLayout } from '../PageLayout'
 import React from 'react'
 
 function getPageElement(pageContext: PageContext, pageContextResolved: PageContextResolved) {
   const { Page } = pageContext
+  const { Layout = PassThrough } = pageContext.config
   const page = (
-    <PageLayout pageContext={pageContextResolved} pageContext2={pageContext}>
+    <Layout pageContext={pageContextResolved} pageContext2={pageContext}>
       <Page />
-    </PageLayout>
+    </Layout>
   )
   return page
+}
+
+function PassThrough({ children }: any) {
+  return <>{children}</>
 }

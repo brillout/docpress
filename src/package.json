@@ -44,6 +44,7 @@
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
     "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
+    "./Layout": "./Layout.tsx",
     ".": "./index.ts",
     "./FeatureList/FeatureList": "./components/FeatureList/FeatureList.tsx",
     "./FeatureList/FeatureList.client": {

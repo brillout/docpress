@@ -1,4 +1,4 @@
-import type { Config } from 'vike/types'
+import type { Config, ImportString } from 'vike/types'
 import type { Exports } from './config/resolvePageContext'
 
 export default {
@@ -7,11 +7,15 @@ export default {
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
   onBeforeRender: 'import:@brillout/docpress/renderer/onBeforeRender:onBeforeRender',
+  Layout: 'import:@brillout/docpress/Layout:Layout',
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: ['pageContextResolved'],
   meta: {
     NavHeader: {
+      env: { client: true, server: true },
+    },
+    Layout: {
       env: { client: true, server: true },
     },
   },
@@ -25,6 +29,7 @@ declare global {
       exports: Exports
     }
     interface Config {
+      Layout: ReactComponent | ImportString
       NavHeader?: {
         NavHeader: ReactComponent
         navHeaderWrapperStyle?: React.CSSProperties

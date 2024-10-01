@@ -1,4 +1,3 @@
-- Navigation doesn't scroll:
-  - Going back in history
-  - Upon client-side navigation (sometimes/always?)
+- Navigation doesn't always scroll while developing vike.dev
+  - Going back in history + client-side navigation
 - Fix `<Ctrl> + click` on link in Menu

@@ -8,6 +8,7 @@ import { getPageElement } from './getPageElement'
 import {
   hideNavigationFullScreen,
   initNavigationFullscreen,
+  initNavigationFullscreenOnce,
 } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
@@ -18,6 +19,7 @@ import { addFeatureClickHandlers, addTwitterWidgets } from '../components/Featur
 
 addEcosystemStamp()
 initOnLinkClick()
+initNavigationFullscreenOnce()
 
 let root: ReactDOM.Root
 let renderPromiseResolve: () => void

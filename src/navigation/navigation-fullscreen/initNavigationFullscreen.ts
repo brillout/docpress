@@ -1,11 +1,16 @@
 export { initNavigationFullscreen }
+export { initNavigationFullscreenOnce }
 export { hideNavigationFullScreen }
 
 import { assert } from '../../utils/client'
-let scrollPositionBeforeToggle: number = 0
-initOnce()
 
-function initOnce() {
+let scrollPositionBeforeToggle: number
+
+function initNavigationFullscreenOnce() {
+  scrollPositionBeforeToggle = 0
+  initKeyBindings()
+}
+function initKeyBindings() {
   document.addEventListener(
     // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
     'keydown',
@@ -24,12 +29,11 @@ function initNavigationFullscreen() {
 }
 
 function toggleNavExpend() {
+  assert(scrollPositionBeforeToggle !== undefined)
   const navContainer = document.getElementById('navigation-container')!
   const scrollPos = navContainer.scrollTop
   document.documentElement.classList.toggle('navigation-fullscreen')
-  if (scrollPositionBeforeToggle !== undefined) {
-    navContainer.scrollTop = scrollPositionBeforeToggle
-  }
+  navContainer.scrollTop = scrollPositionBeforeToggle
   scrollPositionBeforeToggle = scrollPos
 }
 function hideNavigationFullScreen() {

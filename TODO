@@ -1,2 +1,4 @@
+- Navigation doesn't scroll:
+  - Going back in history
+  - Upon client-side navigation (sometimes/always?)
 - Fix `<Ctrl> + click` on link in Menu
-- Fix going back in history => navigation doesn't scroll

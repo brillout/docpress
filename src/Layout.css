@@ -40,3 +40,22 @@
     --main-view-padding: 10px;
   }
 }
+
+
+/* === noSideNavigation === */
+html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-wrapper,
+html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fullscreen-button {
+  display: none;
+}
+.page-layout:not(.noSideNavigation) #navtop {
+  display: none;
+}
+#navtop {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  justify-content: left;
+  text-decoration: none;
+  padding-top: 12px;
+  padding-bottom: 7px;
+}

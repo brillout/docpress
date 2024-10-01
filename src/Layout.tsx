@@ -7,15 +7,27 @@ import { EditPageNote } from './components/EditPageNote'
 import './Layout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
 import { parseTitle } from './parseTitle'
-import { usePageContext } from './renderer/usePageContext'
+import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage, pageTitle, navigationData } = pageContext
+  const pageContext2 = usePageContext2()
+  const { isLandingPage, pageTitle, navigationData, noSideNavigation } = pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
+  const { NavHeader } = pageContext2.config.NavHeader!
   return (
-    <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
+    <>
+      {noSideNavigation && (
+        <div id="navtop">
+          <NavHeader />
+        </div>
+      )}
+    <div
+      className={['page-layout', isLandingPage ? 'landing-page' : 'doc-page', noSideNavigation && 'noSideNavigation']
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div id="navigation-wrapper">
         <Navigation {...pageContext.navigationData} />
       </div>
@@ -33,5 +45,6 @@ function Layout({ children }: { children: React.ReactNode }) {
         <NavigationMask />
       </div>
     </div>
+    </>
   )
 }

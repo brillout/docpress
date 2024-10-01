@@ -85,6 +85,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
+    noSideNavigation: activeHeading.noSideNavigation,
   }
   return pageContextAddendum
 }

@@ -8,6 +8,7 @@ import './Layout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
+import { Links } from './navigation/NavigationHeader'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -19,8 +20,39 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {noSideNavigation && (
-        <div id="navtop">
-          <NavHeader />
+        <div id="navtop" style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <NavHeader />
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <a
+              id="doclink"
+              style={{
+                /* background: 'red',*/
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '10px 30px',
+                cursor: 'pointer',
+                color: '#666',
+                fontSize: '1.06em',
+              }}
+            >
+              Documentation
+            </a>
+          </div>
+          <Links />
         </div>
       )}
       <div

@@ -10,6 +10,7 @@ import { Hit } from '../components/Algolia/Hit'
 import '@docsearch/css'
 
 export { NavigationHeader }
+export { Links }
 
 function NavigationHeader() {
   const pageContext = usePageContext()

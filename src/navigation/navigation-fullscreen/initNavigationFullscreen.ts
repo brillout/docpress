@@ -20,6 +20,13 @@ function initKeyBindings() {
     },
     false,
   )
+  document.addEventListener('click', (ev) => {
+    if (!isNormalLeftClick(ev)) return
+    const linkTag = findLinkTag(ev.target as HTMLElement)
+    if (!linkTag) return
+    if (linkTag.id !== 'doclink') return
+    toggleNavExpend()
+  })
   window.addEventListener('resize', updateColumnWidth, { passive: true })
 }
 function initNavigationFullscreen() {
@@ -124,4 +131,18 @@ function sum(arr: number[]): number {
   let total = 0
   arr.forEach((n) => (total += n))
   return total
+}
+
+function isNormalLeftClick(ev: MouseEvent): boolean {
+  return ev.button === 0 && !ev.ctrlKey && !ev.shiftKey && !ev.altKey && !ev.metaKey
+}
+function findLinkTag(target: HTMLElement): null | HTMLElement {
+  while (target.tagName !== 'A') {
+    const { parentNode } = target
+    if (!parentNode) {
+      return null
+    }
+    target = parentNode as HTMLElement
+  }
+  return target
 }

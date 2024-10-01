@@ -45,17 +45,29 @@
 /* === noSideNavigation === */
 html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-wrapper,
 html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fullscreen-button {
-  display: none;
+  display: none !important;
 }
 .page-layout:not(.noSideNavigation) #navtop {
-  display: none;
+  display: none !important;
+}
+.noSideNavigation .page-wrapper {
+  /* I think we can remove this after we remove the vertical fullscreen navigation toggler */
+  margin-left: 0 !important;
+}
+@media screen and (max-width: 1139px) {
+  #navtop {
+    display: none !important;
+  }
 }
 #navtop {
   display: flex;
   align-items: center;
   color: inherit;
-  justify-content: left;
+  justify-content: space-between;
   text-decoration: none;
   padding-top: 12px;
   padding-bottom: 7px;
+  padding: 10px;
+  max-width: 1280px;
+  margin: auto;
 }

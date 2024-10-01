@@ -52,7 +52,10 @@
     },
     "./vite-config": "./dist/vite.config.js",
     "./config": "./dist/+config.js",
-    "./style": "./css/index.css"
+    "./style": "./css/index.css",
+    "./types": {
+      "types": "./types.d.ts"
+    }
   },
   "typesVersions": {
     "*": {

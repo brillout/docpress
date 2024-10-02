@@ -107,8 +107,8 @@ importers:
         version: 0.0.9
     devDependencies:
       '@brillout/release-me':
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.4.2
+        version: 0.4.2
       '@types/node':
         specifier: link:../demo/node_modules/@types/node/
         version: link:../demo/node_modules/@types/node
@@ -278,14 +278,11 @@ packages:
   '@brillout/picocolors@1.0.10':
     resolution: {integrity: sha512-dh+JJlsBf3QYX+91Ezma8RLKNOjGDoBBmORv/NzRpQuasdyzwQCMXGGjsDu12ZhGz92TqQbL9pv79rvbheI21A==}
 
-  '@brillout/picocolors@1.0.12':
-    resolution: {integrity: sha512-2gowgbpAqEQz4U1D/dh3tU2fKcRm+yt724d8YTbCsVHxnLTHWP2J5RMO1iTWcoViX7rTmLvPkHHlYtEiKP4gLA==}
-
   '@brillout/picocolors@1.0.15':
     resolution: {integrity: sha512-VrgvPtfnKP/i8kxCAyQVd0DWg6xU8OZJndbLf/lrywd96UdMhnGL/PK42HhHhhwkDSkaiQU+zc+OPWpvqOe4Cg==}
 
-  '@brillout/release-me@0.3.8':
-    resolution: {integrity: sha512-feo4CLWpMT0LS5l/fI37vv9pbOOEste6/AO9qLT5WtupqDkgK9k6iBuZmzLlef4AthIA2BY20tXlX/VcFWKuSw==}
+  '@brillout/release-me@0.4.2':
+    resolution: {integrity: sha512-bPXYKz7uLTs9OWoPzi4Jq9gV59RY8JwfaVw8E0o0Wf1lrO5kAxKGzYCi84Oy/NhZ31ytk7M955V3/YijQ2Ijwg==}
     hasBin: true
 
   '@brillout/require-shim@0.1.2':
@@ -1282,10 +1279,6 @@ packages:
     resolution: {integrity: sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==}
     engines: {node: 14 || >=16.14}
 
-  lru-cache@6.0.0:
-    resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
-    engines: {node: '>=10'}
-
   markdown-extensions@2.0.0:
     resolution: {integrity: sha512-o5vL7aDWatOTX8LzaS1WMoaoxIiLRQJuIKKe2wAw6IeULDHaqbiqiggmx+pKvZDb1Sj+pE46Sn1T7lCqfFtg1Q==}
     engines: {node: '>=16'}
@@ -1648,11 +1641,6 @@ packages:
   search-insights@2.17.2:
     resolution: {integrity: sha512-zFNpOpUO+tY2D85KrxJ+aqwnIfdEGi06UH2+xEb+Bp9Mwznmauqc9djbnBibJO5mpfUPPa8st6Sx65+vbeO45g==}
 
-  semver@7.5.4:
-    resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.6.2:
     resolution: {integrity: sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==}
     engines: {node: '>=10'}
@@ -1878,9 +1866,6 @@ packages:
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
 
-  yallist@4.0.0:
-    resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
-
   yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
@@ -2050,17 +2035,15 @@ snapshots:
 
   '@brillout/picocolors@1.0.10': {}
 
-  '@brillout/picocolors@1.0.12': {}
-
   '@brillout/picocolors@1.0.15': {}
 
-  '@brillout/release-me@0.3.8':
+  '@brillout/release-me@0.4.2':
     dependencies:
-      '@brillout/picocolors': 1.0.12
+      '@brillout/picocolors': 1.0.15
       commander: 11.1.0
       conventional-changelog: 5.1.0
       execa: 5.1.1
-      semver: 7.5.4
+      semver: 7.6.2
 
   '@brillout/require-shim@0.1.2': {}
 
@@ -2603,7 +2586,7 @@ snapshots:
       handlebars: 4.7.7
       json-stringify-safe: 5.0.1
       meow: 12.1.1
-      semver: 7.5.4
+      semver: 7.6.2
       split2: 4.2.0
 
   conventional-changelog@5.1.0:
@@ -2808,7 +2791,7 @@ snapshots:
   git-semver-tags@7.0.1:
     dependencies:
       meow: 12.1.1
-      semver: 7.5.4
+      semver: 7.6.2
 
   glob-parent@5.1.2:
     dependencies:
@@ -2986,10 +2969,6 @@ snapshots:
       get-func-name: 2.0.2
 
   lru-cache@10.1.0: {}
-
-  lru-cache@6.0.0:
-    dependencies:
-      yallist: 4.0.0
 
   markdown-extensions@2.0.0: {}
 
@@ -3453,7 +3432,7 @@ snapshots:
     dependencies:
       hosted-git-info: 7.0.1
       is-core-module: 2.9.0
-      semver: 7.5.4
+      semver: 7.6.2
       validate-npm-package-license: 3.0.4
 
   npm-run-path@4.0.1:
@@ -3657,10 +3636,6 @@ snapshots:
       loose-envify: 1.4.0
 
   search-insights@2.17.2: {}
-
-  semver@7.5.4:
-    dependencies:
-      lru-cache: 6.0.0
 
   semver@7.6.2: {}
 
@@ -3868,8 +3843,6 @@ snapshots:
       isexe: 2.0.0
 
   wordwrap@1.0.0: {}
-
-  yallist@4.0.0: {}
 
   yocto-queue@1.0.0: {}
 

@@ -77,7 +77,7 @@
     }
   },
   "devDependencies": {
-    "@brillout/release-me": "^0.3.8",
+    "@brillout/release-me": "^0.4.2",
     "@types/node": "link:../demo/node_modules/@types/node/",
     "@types/react": "link:../demo/node_modules/@types/react/",
     "@types/react-dom": "link:../demo/node_modules/@types/react-dom/",

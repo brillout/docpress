@@ -20,14 +20,8 @@ function initKeyBindings() {
     },
     false,
   )
-  document.addEventListener('click', (ev) => {
-    if (!isNormalLeftClick(ev)) return
-    const linkTag = findLinkTag(ev.target as HTMLElement)
-    if (!linkTag) return
-    if (linkTag.id !== 'doclink') return
-    toggleNavExpend()
-  })
   window.addEventListener('resize', updateColumnWidth, { passive: true })
+  initTopNavigation()
 }
 function initNavigationFullscreen() {
   document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend
@@ -133,6 +127,15 @@ function sum(arr: number[]): number {
   return total
 }
 
+function initTopNavigation() {
+  document.addEventListener('click', (ev) => {
+    if (!isNormalLeftClick(ev)) return
+    const linkTag = findLinkTag(ev.target as HTMLElement)
+    if (!linkTag) return
+    if (linkTag.id !== 'doclink') return
+    toggleNavExpend()
+  })
+}
 function isNormalLeftClick(ev: MouseEvent): boolean {
   return ev.button === 0 && !ev.ctrlKey && !ev.shiftKey && !ev.altKey && !ev.metaKey
 }

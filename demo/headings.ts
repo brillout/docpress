@@ -43,7 +43,7 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Features',
     url: '/features',
-    topNavigation: true,
+    topNavigation: 'Features (nav title)',
   },
   {
     level: 1,

@@ -9,7 +9,7 @@ type HeadingResolved = {
   title: string
   titleInNav: string
   noSideNavigation?: true
-  topNavigation?: true
+  topNavigation?: true | string
   linkBreadcrumb: string[]
   sectionTitles?: string[]
 } & Tmp
@@ -21,7 +21,7 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
 
 type HeadingDefinitionCommon = {
   title: string
-  topNavigation?: true
+  topNavigation?: true | string
 }
 
 type HeadingDetachedDefinition = HeadingDefinitionCommon & {

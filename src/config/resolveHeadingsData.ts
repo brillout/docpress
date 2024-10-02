@@ -81,7 +81,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   const topNavigationList = headingsResolved
     .filter((heading) => heading.topNavigation)
-    .map((h) => ({ title: h.title, url: h.url }))
+    .map((h) => ({ title: typeof h.topNavigation === 'string' ? h.topNavigation : h.title, url: h.url }))
 
   const pageContextAddendum = {
     navigationData,

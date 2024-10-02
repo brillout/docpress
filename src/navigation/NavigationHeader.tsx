@@ -72,7 +72,7 @@ function Links() {
       {projectInfo.discordInvite && (
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
       )}
-      <LinkIcon className="decolorize-7" icon={iconTwitter} href={projectInfo.twitterProfile} />
+      <LinkIcon className="decolorize-4" icon={iconTwitter} href={projectInfo.twitterProfile} />
       {algolia && (
         <div className="decolorize-6 colorize-on-hover">
           <DocSearch

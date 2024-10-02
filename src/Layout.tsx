@@ -20,30 +20,32 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {noSideNavigation && (
-        <div id="navtop" style={{ position: 'relative' }}>
+        <div
+          id="navtop"
+          style={{
+            position: 'relative',
+            display: 'flex',
+            color: 'inherit',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            textDecoration: 'none',
+            maxWidth: 1280,
+            margin: 'auto',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <NavHeader />
           </div>
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <a
               id="doclink"
               style={{
-                /* background: 'red',*/
+                // background: 'red',
                 height: '100%',
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '10px 30px',
+                padding: '20px 20px',
                 cursor: 'pointer',
                 color: '#666',
                 fontSize: '1.06em',
@@ -51,8 +53,8 @@ function Layout({ children }: { children: React.ReactNode }) {
             >
               Documentation
             </a>
+            <Links style={{ display: 'inline-flex' }} />
           </div>
-          <Links />
         </div>
       )}
       <div

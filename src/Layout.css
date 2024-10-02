@@ -59,15 +59,3 @@ html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fulls
     display: none !important;
   }
 }
-#navtop {
-  display: flex;
-  align-items: center;
-  color: inherit;
-  justify-content: space-between;
-  text-decoration: none;
-  padding-top: 12px;
-  padding-bottom: 7px;
-  padding: 10px;
-  max-width: 1280px;
-  margin: auto;
-}

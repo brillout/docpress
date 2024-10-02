@@ -1,3 +1,34 @@
+## [0.7.4](https://github.com/brillout/docpress/compare/v0.7.3...v0.7.4) (2024-10-02)
+
+
+### Bug Fixes
+
+* fix page not found error message ([a00f7f2](https://github.com/brillout/docpress/commit/a00f7f23e34840a4f0fae8bc2356fb66c1dd47f4))
+* improve social links order ([b8b268a](https://github.com/brillout/docpress/commit/b8b268a4fcd79aaffcebb8337d9139b7911c4f1b))
+* support Bundler tsconfig moduleResolution ([39fce1a](https://github.com/brillout/docpress/commit/39fce1a7d04fe3777f2fb89fbab225291e81335c))
+* udpate Vike ([381c7f2](https://github.com/brillout/docpress/commit/381c7f25bc9f5105cc10a2472cd3adb5b9a6d85e))
+* update twitter logo ([0712f77](https://github.com/brillout/docpress/commit/0712f7742d3629bbc1693c7bfedf9ff3a2b56c67))
+* use pageContext prefetching ([f0f4f29](https://github.com/brillout/docpress/commit/f0f4f29749800da45b37fcf0818bc64fd9e4fd3c))
+
+
+### Code Refactoring
+
+* replace <PageLayout> with +Layout ([c16105b](https://github.com/brillout/docpress/commit/c16105bab9273fb26468dc02344abfc6479a7f76))
+
+
+### Features
+
+* pages without side navigation ([#12](https://github.com/brillout/docpress/issues/12)) ([4dbb947](https://github.com/brillout/docpress/commit/4dbb9471e3cbb13848f8c69b8c02b7a2fef23fc0))
+* use custom DocSearch `<Hit>` component ([#11](https://github.com/brillout/docpress/issues/11)) ([14f7582](https://github.com/brillout/docpress/commit/14f7582a6d50929a3acb461ccb735a6891630fc8))
+
+
+### BREAKING CHANGES
+
+* Update to vike@0.4.198 or above.
+* Ignore new warning `Cannot optimize dependency: @brillout/docpress/renderer/onRenderClient, present in 'optimizeDeps.include'`
+
+
+
 ## [0.7.3](https://github.com/brillout/docpress/compare/v0.7.2...v0.7.3) (2024-09-25)
 
 

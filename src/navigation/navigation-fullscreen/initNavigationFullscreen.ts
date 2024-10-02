@@ -129,15 +129,11 @@ function sum(arr: number[]): number {
 
 function initTopNavigation() {
   document.addEventListener('click', (ev) => {
-    if (!isNormalLeftClick(ev)) return
     const linkTag = findLinkTag(ev.target as HTMLElement)
     if (!linkTag) return
     if (linkTag.id !== 'doclink') return
     toggleNavExpend()
   })
-}
-function isNormalLeftClick(ev: MouseEvent): boolean {
-  return ev.button === 0 && !ev.ctrlKey && !ev.shiftKey && !ev.altKey && !ev.metaKey
 }
 function findLinkTag(target: HTMLElement): null | HTMLElement {
   while (target.tagName !== 'A') {

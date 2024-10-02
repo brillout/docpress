@@ -7,31 +7,86 @@ import { EditPageNote } from './components/EditPageNote'
 import './Layout.css'
 import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
 import { parseTitle } from './parseTitle'
-import { usePageContext } from './renderer/usePageContext'
+import { usePageContext, usePageContext2 } from './renderer/usePageContext'
+import { Links } from './navigation/NavigationHeader'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage, pageTitle, navigationData } = pageContext
+  const pageContext2 = usePageContext2()
+  const { isLandingPage, pageTitle, navigationData, noSideNavigation, topNavigationList } = pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
+  const { NavHeader } = pageContext2.config.NavHeader!
   return (
-    <div className={`page-layout ${isLandingPage ? 'landing-page' : 'doc-page'}`}>
-      <div id="navigation-wrapper">
-        <Navigation {...pageContext.navigationData} />
-      </div>
-      <NavigationFullscreenButton />
-      <div className="page-wrapper">
-        <div className="page-container">
-          <MobileHeader />
-          <div className="page-content">
-            {globalNote}
-            {pageTitleParsed && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitleParsed}</h1>}
-            {children}
-            {!isLandingPage && <EditPageNote pageContext={pageContext} />}
+    <>
+      {noSideNavigation && (
+        <div
+          id="top-navigation"
+          style={{
+            position: 'relative',
+            display: 'flex',
+            color: 'inherit',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            textDecoration: 'none',
+            maxWidth: 1024,
+            margin: 'auto',
+          }}
+        >
+          <a href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>
+            <NavHeader />
+          </a>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <TopNavigationLink id="doclink">Documentation</TopNavigationLink>
+            {topNavigationList.map(({ title, url }) => (
+              <TopNavigationLink href={url!} key={url}>
+                {title}
+              </TopNavigationLink>
+            ))}
+            <Links style={{ display: 'inline-flex', marginLeft: 10 }} />
           </div>
         </div>
-        <NavigationMask />
+      )}
+      <div
+        className={['page-layout', isLandingPage ? 'landing-page' : 'doc-page', noSideNavigation && 'noSideNavigation']
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div id="navigation-wrapper">
+          <Navigation {...pageContext.navigationData} />
+        </div>
+        <NavigationFullscreenButton />
+        <div className="page-wrapper">
+          <div className="page-container">
+            <MobileHeader />
+            <div className="page-content">
+              {globalNote}
+              {pageTitleParsed && <h1 id={`${navigationData.currentUrl.replace('/', '')}`}>{pageTitleParsed}</h1>}
+              {children}
+              {!isLandingPage && <EditPageNote pageContext={pageContext} />}
+            </div>
+          </div>
+          <NavigationMask />
+        </div>
       </div>
-    </div>
+    </>
+  )
+}
+
+function TopNavigationLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  return (
+    <a
+      style={{
+        height: '100%',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px 10px',
+        cursor: 'pointer',
+        color: '#666',
+        fontSize: '1.06em',
+      }}
+      {...props}
+    />
   )
 }

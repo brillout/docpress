@@ -32,6 +32,7 @@ const headings: HeadingDefinition[] = [
     title: 'Introduction',
     titleDocument: 'Vike Demo',
     url: '/',
+    noSideNavigation: true,
   },
   {
     level: 2,
@@ -42,6 +43,7 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Features',
     url: '/features',
+    topNavigation: 'Features (nav title)',
   },
   {
     level: 1,

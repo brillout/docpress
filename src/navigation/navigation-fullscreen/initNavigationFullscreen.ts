@@ -21,6 +21,7 @@ function initKeyBindings() {
     false,
   )
   window.addEventListener('resize', updateColumnWidth, { passive: true })
+  initTopNavigation()
 }
 function initNavigationFullscreen() {
   document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend
@@ -124,4 +125,23 @@ function sum(arr: number[]): number {
   let total = 0
   arr.forEach((n) => (total += n))
   return total
+}
+
+function initTopNavigation() {
+  document.addEventListener('click', (ev) => {
+    const linkTag = findLinkTag(ev.target as HTMLElement)
+    if (!linkTag) return
+    if (linkTag.id !== 'doclink') return
+    toggleNavExpend()
+  })
+}
+function findLinkTag(target: HTMLElement): null | HTMLElement {
+  while (target.tagName !== 'A') {
+    const { parentNode } = target
+    if (!parentNode) {
+      return null
+    }
+    target = parentNode as HTMLElement
+  }
+  return target
 }

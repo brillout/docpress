@@ -10,6 +10,7 @@ import { Hit } from '../components/Algolia/Hit'
 import '@docsearch/css'
 
 export { NavigationHeader }
+export { Links }
 
 function NavigationHeader() {
   const pageContext = usePageContext()
@@ -47,7 +48,7 @@ function NavigationHeader() {
   )
 }
 
-function Links() {
+function Links({ style }: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   const { projectInfo, i18n } = pageContext.config
   const iconI18n = !i18n ? null : (
@@ -66,6 +67,7 @@ function Links() {
         alignItems: 'center',
         paddingTop: 0,
         justifyContent: 'left',
+        ...style,
       }}
     >
       {algolia && (

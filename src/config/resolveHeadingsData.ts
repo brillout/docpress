@@ -79,12 +79,18 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
+  const topNavigationList = headingsResolved
+    .filter((heading) => heading.topNavigation)
+    .map((h) => ({ title: typeof h.topNavigation === 'string' ? h.topNavigation : h.title, url: h.url }))
+
   const pageContextAddendum = {
     navigationData,
     linksAll,
     isLandingPage,
     pageTitle,
     documentTitle,
+    noSideNavigation: activeHeading.noSideNavigation,
+    topNavigationList,
   }
   return pageContextAddendum
 }

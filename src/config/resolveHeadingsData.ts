@@ -79,6 +79,10 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
+  const topNavigationList = headingsResolved
+    .filter((heading) => heading.topNavigation)
+    .map((h) => ({ title: h.title, url: h.url }))
+
   const pageContextAddendum = {
     navigationData,
     linksAll,
@@ -86,6 +90,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     pageTitle,
     documentTitle,
     noSideNavigation: activeHeading.noSideNavigation,
+    topNavigationList,
   }
   return pageContextAddendum
 }

@@ -13,7 +13,7 @@ import { Links } from './navigation/NavigationHeader'
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
-  const { isLandingPage, pageTitle, navigationData, noSideNavigation } = pageContext
+  const { isLandingPage, pageTitle, navigationData, noSideNavigation, topNavigationList } = pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
   const { NavHeader } = pageContext2.config.NavHeader!
@@ -29,31 +29,21 @@ function Layout({ children }: { children: React.ReactNode }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             textDecoration: 'none',
-            maxWidth: 1280,
+            maxWidth: 1024,
             margin: 'auto',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>
             <NavHeader />
-          </div>
+          </a>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <a
-              id="doclink"
-              style={{
-                // background: 'red',
-                height: '100%',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '20px 20px',
-                cursor: 'pointer',
-                color: '#666',
-                fontSize: '1.06em',
-              }}
-            >
-              Documentation
-            </a>
-            <Links style={{ display: 'inline-flex' }} />
+            <TopNavigationLink id="doclink">Documentation</TopNavigationLink>
+            {topNavigationList.map(({ title, url }) => (
+              <TopNavigationLink href={url!} key={url}>
+                {title}
+              </TopNavigationLink>
+            ))}
+            <Links style={{ display: 'inline-flex', marginLeft: 10 }} />
           </div>
         </div>
       )}
@@ -80,5 +70,23 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </>
+  )
+}
+
+function TopNavigationLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  return (
+    <a
+      style={{
+        height: '100%',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px 10px',
+        cursor: 'pointer',
+        color: '#666',
+        fontSize: '1.06em',
+      }}
+      {...props}
+    />
   )
 }

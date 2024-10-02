@@ -11,11 +11,6 @@
 * use pageContext prefetching ([f0f4f29](https://github.com/brillout/docpress/commit/f0f4f29749800da45b37fcf0818bc64fd9e4fd3c))
 
 
-### Code Refactoring
-
-* replace <PageLayout> with +Layout ([c16105b](https://github.com/brillout/docpress/commit/c16105bab9273fb26468dc02344abfc6479a7f76))
-
-
 ### Features
 
 * pages without side navigation ([#12](https://github.com/brillout/docpress/issues/12)) ([4dbb947](https://github.com/brillout/docpress/commit/4dbb9471e3cbb13848f8c69b8c02b7a2fef23fc0))

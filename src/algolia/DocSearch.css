@@ -14,9 +14,7 @@
 }
 .DocSearch-Button {
   background: transparent !important;
-  padding: 0 !important;
-  position: relative;
-  top: -1px;
+  padding: 3px !important;
   outline: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -26,6 +24,5 @@
   width: 21px !important;
 }
 .DocSearch-Button {
-  margin-right: 3px !important;
-  margin-left: 1px !important;
+  margin: 0 !important;
 }

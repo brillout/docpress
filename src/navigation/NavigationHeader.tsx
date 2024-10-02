@@ -68,11 +68,6 @@ function Links() {
         justifyContent: 'left',
       }}
     >
-      <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
-      {projectInfo.discordInvite && (
-        <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
-      )}
-      <LinkIcon className="decolorize-4" icon={iconTwitter} href={projectInfo.twitterProfile} />
       {algolia && (
         <div className="decolorize-6 colorize-on-hover">
           <DocSearch
@@ -84,6 +79,11 @@ function Links() {
           />
         </div>
       )}
+      <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
+      {projectInfo.discordInvite && (
+        <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
+      )}
+      <LinkIcon className="decolorize-4" icon={iconTwitter} href={projectInfo.twitterProfile} />
       {iconI18n}
       <ChangelogButton />
     </div>

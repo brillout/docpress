@@ -33,7 +33,7 @@ declare global {
       exports: Exports
     }
     interface Config {
-      Layout: ReactComponent | ImportString
+      Layout?: ReactComponent | ImportString
       NavHeader?: {
         NavHeader: ReactComponent
         navHeaderWrapperStyle?: React.CSSProperties

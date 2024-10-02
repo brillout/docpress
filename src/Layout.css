@@ -43,19 +43,21 @@
 
 
 /* === noSideNavigation === */
-html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-wrapper,
-html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fullscreen-button {
-  display: none !important;
-}
 .page-layout:not(.noSideNavigation) #top-navigation {
   display: none !important;
-}
-.noSideNavigation .page-wrapper {
-  /* I think we can remove this after we remove the vertical fullscreen navigation toggler */
-  margin-left: 0 !important;
 }
 @media screen and (max-width: 1139px) {
   #top-navigation {
     display: none !important;
+  }
+}
+@media screen and (min-width: 1140px) {
+  html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-wrapper,
+  html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fullscreen-button {
+    display: none !important;
+  }
+  .noSideNavigation .page-wrapper {
+    /* Maybe we can remove this after we remove the vertical fullscreen navigation toggler? */
+    margin-left: 0 !important;
   }
 }

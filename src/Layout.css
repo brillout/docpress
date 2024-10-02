@@ -47,7 +47,7 @@ html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-wrapp
 html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fullscreen-button {
   display: none !important;
 }
-.page-layout:not(.noSideNavigation) #navtop {
+.page-layout:not(.noSideNavigation) #top-navigation {
   display: none !important;
 }
 .noSideNavigation .page-wrapper {
@@ -55,7 +55,7 @@ html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fulls
   margin-left: 0 !important;
 }
 @media screen and (max-width: 1139px) {
-  #navtop {
+  #top-navigation {
     display: none !important;
   }
 }

@@ -21,7 +21,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <>
       {noSideNavigation && (
         <div
-          id="navtop"
+          id="top-navigation"
           style={{
             position: 'relative',
             display: 'flex',

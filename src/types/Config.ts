@@ -20,6 +20,7 @@ type Config = {
   }
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
+  topNavigationStyle: React.CSSProperties
 
   /** Sets `<meta name="description" content="${tagline}" />` */
   tagline: string

@@ -13,7 +13,8 @@ import { Links } from './navigation/NavigationHeader'
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
-  const { isLandingPage, pageTitle, navigationData, noSideNavigation, topNavigationList } = pageContext
+  const { isLandingPage, pageTitle, navigationData, noSideNavigation, topNavigationList, topNavigationStyle } =
+    pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
   const { NavHeader } = pageContext2.config.NavHeader!
@@ -31,6 +32,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             textDecoration: 'none',
             maxWidth: 1024,
             margin: 'auto',
+            ...topNavigationStyle,
           }}
         >
           <a href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>

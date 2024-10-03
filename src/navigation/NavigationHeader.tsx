@@ -81,12 +81,12 @@ function Links({ style }: { style?: React.CSSProperties }) {
           />
         </div>
       )}
-      <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
+      {iconI18n}
       {projectInfo.discordInvite && (
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
       )}
       <LinkIcon className="decolorize-4" icon={iconTwitter} href={projectInfo.twitterProfile} />
-      {iconI18n}
+      <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
       <ChangelogButton />
     </div>
   )

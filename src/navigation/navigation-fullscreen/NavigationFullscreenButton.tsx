@@ -4,6 +4,7 @@ export { NavigationFullscreenClose }
 import React from 'react'
 import './NavigationFullscreenButton.css'
 import closeIcon from './close.svg'
+import { hotkeyLabel } from './hotkeyLabel'
 
 function NavigationFullscreenButton() {
   return (
@@ -22,7 +23,7 @@ function NavigationFullscreenButton() {
         </div>
         <div
           style={{ position: 'fixed', height: '100vh', width: 20 }}
-          aria-label="Press <Esc>"
+          aria-label={hotkeyLabel}
           data-balloon-pos="right"
         ></div>
       </a>
@@ -35,7 +36,7 @@ function NavigationFullscreenClose() {
     <a
       id="navigation-fullscreen-close"
       style={{ position: 'absolute', top: 11, right: 11, zIndex: 10 }}
-      aria-label="Press <Esc>"
+      aria-label={hotkeyLabel}
       data-balloon-pos="left"
     >
       <img src={closeIcon} height={50} width={50} style={{ display: 'block' }} />

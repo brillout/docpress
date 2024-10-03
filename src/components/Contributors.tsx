@@ -15,6 +15,7 @@ function Contributors() {
         style={{
           maxWidth: 400,
           display: 'inline-block',
+          fontSize: '1.2em',
         }}
       >
         {projectInfo.projectName} is built and maintained by passionate contributors.

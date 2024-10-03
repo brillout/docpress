@@ -1,3 +1,12 @@
+## [0.7.8](https://github.com/brillout/docpress/compare/v0.7.7...v0.7.8) (2024-10-03)
+
+
+### Bug Fixes
+
+* improve <Contributors> font size ([defacfb](https://github.com/brillout/docpress/commit/defacfbb61a1f82783aa8e17da8d3cb0cb2cbe8b))
+
+
+
 ## [0.7.7](https://github.com/brillout/docpress/compare/v0.7.6...v0.7.7) (2024-10-03)
 
 

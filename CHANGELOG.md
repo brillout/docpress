@@ -1,3 +1,21 @@
+## [0.7.6](https://github.com/brillout/docpress/compare/v0.7.5...v0.7.6) (2024-10-03)
+
+
+### Bug Fixes
+
+* add hotkey tooltip ([35f57b7](https://github.com/brillout/docpress/commit/35f57b79577360e94c82fd9c7ad71dc94a1401ea))
+* improve hotkey label ([007ff02](https://github.com/brillout/docpress/commit/007ff023958c9ec38780f797d19d5b4bd4c268a1))
+* improve social links order ([f001a0a](https://github.com/brillout/docpress/commit/f001a0a55e02247536c8b66e3f1f932c2a34607a))
+* polish social link margins ([b2479a7](https://github.com/brillout/docpress/commit/b2479a7921c1209958e53c0db27cd167d944b3b0))
+
+
+### Features
+
+* noSideNavigation: 'no-logo' ([c31b59c](https://github.com/brillout/docpress/commit/c31b59c1e20c8b8c9513e1e9f1b3b1338378467e))
+* topNavigationStyle ([8dcfbbc](https://github.com/brillout/docpress/commit/8dcfbbc1c929667f6d5cc3994486d3f2b6da291e))
+
+
+
 ## [0.7.5](https://github.com/brillout/docpress/compare/v0.7.4...v0.7.5) (2024-10-02)
 
 

@@ -8,8 +8,9 @@ import CodeBlock from './CodeBlock.mdx'
 function Page() {
   return (
     <>
-      <div style={{ height: 10 }} />
-      <Header />
+      <Block noMargin>
+        <Header />
+      </Block>
       <Features />
       <Block>
         <Sponsors />
@@ -151,7 +152,7 @@ function Features() {
   )
 }
 
-function Block({ children }: { children: React.ReactNode }) {
+function Block({ children, noMargin }: { children: React.ReactNode; noMargin?: true }) {
   return (
     <div
       style={{
@@ -159,7 +160,7 @@ function Block({ children }: { children: React.ReactNode }) {
         display: 'flex',
         justifyContent: 'center',
         paddingBottom: 20,
-        marginTop: 'var(--block-margin)',
+        marginTop: noMargin ? 0 : 'var(--block-margin)',
       }}
     >
       <div style={{ maxWidth: 1000 }}>{children}</div>

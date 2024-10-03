@@ -2,7 +2,7 @@ export { Contributors, Maintainer }
 
 import React from 'react'
 import { usePageContext } from '../renderer/usePageContext'
-import { Supporter, SupporterSection, SectionDescription, Individuals, SupporterImg } from './Supporters'
+import { Supporter, SupporterSection, Individuals, SupporterImg } from './Supporters'
 import { maintainers } from '../data/maintainersList'
 import { contributors } from 'vike-contributors' // sorted by number of contributions
 
@@ -11,9 +11,14 @@ function Contributors() {
   const { projectInfo } = pageContext.config
   return (
     <SupporterSection>
-      <SectionDescription>
+      <p
+        style={{
+          maxWidth: 400,
+          display: 'inline-block',
+        }}
+      >
         {projectInfo.projectName} is built and maintained by passionate contributors.
-      </SectionDescription>
+      </p>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', alignItems: 'end' }}>
         {maintainers.map((maintainer, i) => (
           <Maintainer maintainer={maintainer} key={i} />

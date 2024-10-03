@@ -84,7 +84,7 @@ function CompanyDiv({ sponsor }: { sponsor: Sponsor }) {
       <Label sponsor={sponsor} />
       <div
         style={{
-          backgroundColor: '#f0f0f0',
+          backgroundColor: '#ebebeb',
           borderRadius: 7,
           overflow: 'hidden',
           width,
@@ -127,7 +127,7 @@ function Label({ sponsor }: { sponsor: Sponsor }) {
 
 function getLabelBg(sponsor: SponsorCompany) {
   const height = sponsor.plan === 'platinum' ? 32 : 24
-  return <img src={labelBgImg} style={{ height, position: 'absolute', bottom: 0, zIndex: -1 }} />
+  return <img src={labelBgImg} style={{ height, position: 'absolute', bottom: 0 }} />
 }
 
 function getLabelText(sponsor: SponsorCompany) {
@@ -166,9 +166,9 @@ function getLabelText(sponsor: SponsorCompany) {
 function getLabelIcon(sponsor: SponsorCompany) {
   let medalSrc: string
   if (sponsor.plan === 'platinum') {
-    return <Emoji name="trophy" style={{ fontSize: '1.3em' }} />
+    return <Emoji name="trophy" style={{ fontSize: '1.3em', position: 'relative' }} />
   } else if (sponsor.plan === 'indie') {
-    return <Emoji name="ribbon" style={{ fontSize: '0.9em' /*, position: 'relative', top: -1*/ }} />
+    return <Emoji name="ribbon" style={{ fontSize: '0.9em', position: 'relative', top: 1 }} />
   } else if (sponsor.plan === 'gold') {
     medalSrc = medalGold
   } else if (sponsor.plan === 'silver') {

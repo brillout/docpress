@@ -1,7 +1,7 @@
 export { Page }
 
 import React from 'react'
-import { Contributors, Emoji, HorizontalLine, Sponsors, Consulting } from '@brillout/docpress'
+import { Contributors, Emoji, Sponsors, Consulting } from '@brillout/docpress'
 import { FeatureList } from '@brillout/docpress/FeatureList/FeatureList'
 import CodeBlock from './CodeBlock.mdx'
 
@@ -10,15 +10,17 @@ function Page() {
     <>
       <div style={{ height: 10 }} />
       <Header />
-      <HorizontalLine primary={true} />
       <Features />
-      <HorizontalLine />
-      <Sponsors />
-      <HorizontalLine />
-      <Contributors />
-      <HorizontalLine />
-      <Consulting />
-      <div style={{ height: 50 }} />
+      <Block>
+        <Sponsors />
+      </Block>
+      <Block>
+        <Contributors />
+      </Block>
+      <Block>
+        <Consulting />
+        <div style={{ height: 30 }} />
+      </Block>
     </>
   )
 }
@@ -146,5 +148,21 @@ function Features() {
         },
       ]}
     />
+  )
+}
+
+function Block({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        backgroundColor: 'var(--bg-color)',
+        display: 'flex',
+        justifyContent: 'center',
+        paddingBottom: 20,
+        marginTop: 'var(--block-margin)',
+      }}
+    >
+      <div style={{ maxWidth: 1000 }}>{children}</div>
+    </div>
   )
 }

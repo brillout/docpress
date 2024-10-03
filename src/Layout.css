@@ -22,10 +22,10 @@
 .landing-page .page-wrapper {
   --main-view-max-width: 1010px;
 }
-.page-wrapper {
+.page-layout:not(.noSideNavigation) .page-wrapper {
   max-width: calc(var(--main-view-max-width) + 80px);
 }
-.page-content {
+.page-layout:not(.noSideNavigation) .page-content {
   box-sizing: content-box;
   max-width: var(--main-view-max-width);
   padding: 20px var(--main-view-padding);

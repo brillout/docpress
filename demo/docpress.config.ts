@@ -24,9 +24,6 @@ const config: Config = {
   tagline: 'DocPress Demo',
   headings,
   headingsDetached,
-  topNavigationStyle: {
-    marginTop: 10,
-  },
   websiteUrl: 'fake-website.example.org',
   twitterHandle: 'fake-twitter-handle',
   // globalNote: <GlobalNoteWarning />,

@@ -31,8 +31,8 @@ function Layout({ children }: { children: React.ReactNode }) {
             alignItems: 'center',
             justifyContent: noSideNavigation === 'no-logo' ? 'center' : 'space-between',
             textDecoration: 'none',
-            maxWidth: 1024,
-            margin: 'auto',
+            marginBottom: 'var(--block-margin)',
+            backgroundColor: 'var(--bg-color)',
             ...topNavigationStyle,
           }}
         >

@@ -11,7 +11,6 @@ function SupporterSection({ children }: { children?: Children }) {
     <div
       style={{
         textAlign: 'center',
-        marginTop: 19,
       }}
     >
       {children}

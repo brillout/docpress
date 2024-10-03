@@ -1,3 +1,17 @@
+## [0.7.7](https://github.com/brillout/docpress/compare/v0.7.6...v0.7.7) (2024-10-03)
+
+
+### Features
+
+* block design ([ea74049](https://github.com/brillout/docpress/commit/ea74049cbcac34b14aee187b0a8362056d71e34b))
+
+
+### BREAKING CHANGES
+
+* Double-check landing page margins and layout (e.g. add margins to `<Sponsors>`, `<Contributors>`, and `<Consulting>`).
+
+
+
 ## [0.7.6](https://github.com/brillout/docpress/compare/v0.7.5...v0.7.6) (2024-10-03)
 
 

@@ -47,7 +47,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 {title}
               </TopNavigationLink>
             ))}
-            <Links style={{ display: 'inline-flex', marginLeft: 10 }} />
+            <Links style={{ display: 'inline-flex', marginLeft: 5 }} />
           </div>
         </div>
       )}

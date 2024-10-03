@@ -103,7 +103,7 @@ function ChangelogButton() {
         display: 'flex',
         alignItems: 'center',
         padding: '1px 7px',
-        marginLeft: 2,
+        marginLeft: 5,
         fontSize: '0.97em',
         color: 'inherit',
       }}
@@ -122,7 +122,7 @@ function LinkIcon({ className, icon, href, style }: { className: string; icon: s
       <a
         className={'colorize-on-hover ' + className}
         href={href}
-        style={{ padding: 3, display: 'inline-block', lineHeight: 0 }}
+        style={{ padding: 5, display: 'inline-block', lineHeight: 0 }}
       >
         <img src={icon} height="20" style={style} />
       </a>

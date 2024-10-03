@@ -11,6 +11,7 @@ const config: Config = {
     githubRepository: 'https://github.com/brillout/docpress' as const,
     githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
     twitterProfile: 'https://twitter.com/brillout' as const,
+    discordInvite: 'https://example.org/some-discord-invite',
   },
   faviconUrl: logoUrl,
   algolia: {

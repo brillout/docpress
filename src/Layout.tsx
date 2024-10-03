@@ -28,16 +28,18 @@ function Layout({ children }: { children: React.ReactNode }) {
             display: 'flex',
             color: 'inherit',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: noSideNavigation === 'no-logo' ? 'center' : 'space-between',
             textDecoration: 'none',
             maxWidth: 1024,
             margin: 'auto',
             ...topNavigationStyle,
           }}
         >
-          <a href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>
-            <NavHeader />
-          </a>
+          {noSideNavigation !== 'no-logo' && (
+            <a href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>
+              <NavHeader />
+            </a>
+          )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <TopNavigationLink id="doclink">Documentation</TopNavigationLink>
             {topNavigationList.map(({ title, url }) => (

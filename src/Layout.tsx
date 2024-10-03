@@ -9,6 +9,7 @@ import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/N
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './navigation/NavigationHeader'
+import { hotkeyLabel } from './navigation/navigation-fullscreen/hotkeyLabel'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -41,7 +42,9 @@ function Layout({ children }: { children: React.ReactNode }) {
             </a>
           )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <TopNavigationLink id="doclink">Documentation</TopNavigationLink>
+            <TopNavigationLink id="doclink" aria-label={hotkeyLabel} data-balloon-pos="left">
+              Documentation
+            </TopNavigationLink>
             {topNavigationList.map(({ title, url }) => (
               <TopNavigationLink href={url!} key={url}>
                 {title}

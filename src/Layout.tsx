@@ -42,7 +42,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             </a>
           )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <TopNavigationLink id="doclink" aria-label={hotkeyLabel} data-balloon-pos="left">
+            <TopNavigationLink id="doclink" aria-label={hotkeyLabel} data-balloon-pos="left" data-balloon-blunt>
               Documentation
             </TopNavigationLink>
             {topNavigationList.map(({ title, url }) => (

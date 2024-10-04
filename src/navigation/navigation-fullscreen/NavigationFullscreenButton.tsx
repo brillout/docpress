@@ -25,6 +25,7 @@ function NavigationFullscreenButton() {
           style={{ position: 'fixed', height: '100vh', width: 20 }}
           aria-label={hotkeyLabel}
           data-balloon-pos="right"
+          data-balloon-blunt
         ></div>
       </a>
     </>
@@ -38,6 +39,7 @@ function NavigationFullscreenClose() {
       style={{ position: 'absolute', top: 11, right: 11, zIndex: 10 }}
       aria-label={hotkeyLabel}
       data-balloon-pos="left"
+      data-balloon-blunt
     >
       <img src={closeIcon} height={50} width={50} style={{ display: 'block' }} />
     </a>

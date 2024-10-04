@@ -7,7 +7,7 @@ import { assert } from '../../utils/client'
 let scrollPositionBeforeToggle: number
 
 function initNavigationFullscreenOnce() {
-  scrollPositionBeforeToggle = 0
+  scrollPositionBeforeToggle = 0 // Initial scroll of fullscreen navigation is 0
   initKeyBindings()
 }
 function initKeyBindings() {

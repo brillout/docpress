@@ -1,3 +1,15 @@
+## [0.7.9](https://github.com/brillout/docpress/compare/v0.7.8...v0.7.9) (2024-10-04)
+
+
+### Bug Fixes
+
+* avoid nav scroll flash ([88efbdc](https://github.com/brillout/docpress/commit/88efbdcce2c3ceda9b319eb288ad35da94fdd6c8))
+* don't break click modifiers ([9a07859](https://github.com/brillout/docpress/commit/9a078590f51878d9e2d3ee5deeb29b37152767cf))
+* more reliable nav scrolling upon fullscreen nav toggling ([222f768](https://github.com/brillout/docpress/commit/222f76827858638be643881ae9a25f54891c39cd))
+* remove tooltip animation ([e374852](https://github.com/brillout/docpress/commit/e374852b0c208605b5c36fd934056b2df9fb02d8))
+
+
+
 ## [0.7.8](https://github.com/brillout/docpress/compare/v0.7.7...v0.7.8) (2024-10-03)
 
 

@@ -71,6 +71,7 @@ function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
 
 function initOnLinkClick() {
   document.addEventListener('click', (ev) => {
+    if (!isNormalLeftClick(ev)) return
     const linkTag = findLinkTag(ev.target as HTMLElement)
     if (!linkTag) return
     const url = linkTag.getAttribute('href')
@@ -88,6 +89,9 @@ function findLinkTag(target: HTMLElement): null | HTMLElement {
     target = parentNode as HTMLElement
   }
   return target
+}
+function isNormalLeftClick(ev: MouseEvent): boolean {
+  return ev.button === 0 && !ev.ctrlKey && !ev.shiftKey && !ev.altKey && !ev.metaKey
 }
 
 function setHydrationIsFinished() {

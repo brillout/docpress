@@ -18,12 +18,13 @@ import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { addFeatureClickHandlers, addTwitterWidgets } from '../components/FeatureList/FeatureList.client'
 
 addEcosystemStamp()
-initOnLinkClick()
 initNavigationFullscreenOnce()
 
 let root: ReactDOM.Root
 let renderPromiseResolve: () => void
 async function onRenderClient(pageContext: PageContextClient) {
+  onRenderStart()
+
   // TODO: stop using any
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
   const renderPromise = new Promise<void>((r) => {
@@ -52,6 +53,11 @@ function applyHead(pageContext: PageContextClient) {
   document.title = pageContextResolved.documentTitle
 }
 
+function onRenderStart() {
+  hideMobileNavigation()
+  hideNavigationFullScreen()
+}
+
 function onRenderDone() {
   autoScrollNav()
   installSectionUrlHashs()
@@ -67,31 +73,6 @@ function onRenderDone() {
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
   useEffect(onRenderDone)
   return children
-}
-
-function initOnLinkClick() {
-  document.addEventListener('click', (ev) => {
-    if (!isNormalLeftClick(ev)) return
-    const linkTag = findLinkTag(ev.target as HTMLElement)
-    if (!linkTag) return
-    const url = linkTag.getAttribute('href')
-    if (!url) return
-    hideMobileNavigation()
-    hideNavigationFullScreen()
-  })
-}
-function findLinkTag(target: HTMLElement): null | HTMLElement {
-  while (target.tagName !== 'A') {
-    const { parentNode } = target
-    if (!parentNode) {
-      return null
-    }
-    target = parentNode as HTMLElement
-  }
-  return target
-}
-function isNormalLeftClick(ev: MouseEvent): boolean {
-  return ev.button === 0 && !ev.ctrlKey && !ev.shiftKey && !ev.altKey && !ev.metaKey
 }
 
 function setHydrationIsFinished() {

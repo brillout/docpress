@@ -9,6 +9,7 @@ import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 import { parseTitle } from '../parseTitle'
+import { autoScrollNav_SSR } from '../autoScrollNav'
 
 type NavigationData = Parameters<typeof Navigation>[0]
 
@@ -40,6 +41,8 @@ function Navigation({
           <NavigationFullscreenClose />
         </div>
       </div>
+      {/* Early scrolling, to avoid flashing */}
+      <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
     </>
   )
 }

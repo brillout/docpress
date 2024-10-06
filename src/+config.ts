@@ -23,6 +23,7 @@ export default {
     staticAssets: 'hover',
     pageContext: Infinity,
   },
+  clientHooks: false
 } satisfies Config
 
 type ReactComponent = () => JSX.Element

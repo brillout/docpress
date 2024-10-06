@@ -5,12 +5,12 @@ import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert } from '../utils/server'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import type { InjectFilterEntry, OnRenderHtmlSync } from 'vike/types'
+import type { OnRenderHtmlAsync } from 'vike/types'
 
-const onRenderHtml: OnRenderHtmlSync = (
+const onRenderHtml: OnRenderHtmlAsync = async (
   pageContext,
 ): // TODO: Why is Promise<Awaited<>> needed?
-ReturnType<OnRenderHtmlSync> => {
+Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
 
   const page = getPageElement(pageContext, pageContextResolved)
@@ -21,7 +21,7 @@ ReturnType<OnRenderHtmlSync> => {
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
-  const documentHtml = escapeInject`<!DOCTYPE html>
+  return escapeInject`<!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
@@ -35,16 +35,6 @@ ReturnType<OnRenderHtmlSync> => {
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
       </body>
     </html>`
-
-  return {
-    documentHtml,
-    // @ts-expect-error
-    injectFilter(assets: InjectFilterEntry[]) {
-      assets.forEach((asset) => {
-        if (asset.assetType == 'script') asset.inject = false
-      })
-    },
-  }
 }
 
 function getOpenGraphTags(

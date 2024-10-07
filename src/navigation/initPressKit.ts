@@ -14,6 +14,6 @@ function navigationHeaderRightClickInterceptor() {
   const navHeaderImg = document.querySelector('#navigation-header-logo img') as HTMLElement
   navHeaderImg.oncontextmenu = (ev) => {
     ev.preventDefault()
-    navigate('/press')
+    navigate('/press#logo')
   }
 }

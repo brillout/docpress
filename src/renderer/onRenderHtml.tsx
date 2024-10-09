@@ -77,7 +77,7 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
     CSS_block.push(
       ...[
         //
-        `  #navigation-content-main {`,
+        `  html.navigation-fullscreen #navigation-content-main {`,
         `    width: ${width}px;`,
         `    grid-template-columns: repeat(${numberOfColumns}, ${columnWidth}px);`,
         `  }`,

@@ -123,6 +123,7 @@ html.navigation-fullscreen {
 }
 
 html.navigation-fullscreen #navigation-content-main {
+  display: grid;
   margin: auto;
 }
 .nav-items-group {

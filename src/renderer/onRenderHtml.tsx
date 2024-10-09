@@ -78,7 +78,7 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
       ...[
         //
         `  #navigation-content-main {`,
-        `    width: ${width};`,
+        `    width: ${width}px;`,
         `    grid-template-columns: repeat(${numberOfColumns}, ${columnWidth}px);`,
         `  }`,
       ],
@@ -88,17 +88,18 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
       CSS_block.push(
         ...[
           //
-          `  #nav-items-group:nth-child(${columnUngroupedId}) {`,
-          `    grid-column: ${columnGroupedId};`,
+          `  .nav-items-group:nth-child(${columnUngroupedId + 1}) {`,
+          `    grid-column: ${columnGroupedId + 1};`,
           `  }`,
         ],
       )
     })
     const noMediaQuery = numberOfColumns === navItemsGrouped.length
     if (!noMediaQuery) {
+      const maxWidth = width + columnWidth - 1
       CSS_block = [
         //
-        `@media screen and (max-width: ${width}px) {`,
+        `@media screen and (max-width: ${maxWidth}px) {`,
         ...CSS_block,
         `}`,
       ]

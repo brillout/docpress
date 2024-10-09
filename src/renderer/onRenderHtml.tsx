@@ -68,7 +68,8 @@ function getOpenGraphTags(
 }
 
 function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[]) {
-  const columnWidth = 350
+  const columnWidthMin = 300
+  const columnWidthMax = 350
   const columnsUnmerged = navItemsGrouped.map((navItem) => navItem.navItemChilds.length)
   let CSS = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
@@ -77,7 +78,8 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
       ...[
         //
         `  html.navigation-fullscreen #navigation-content-main {`,
-        `    grid-template-columns: repeat(${numberOfColumns}, ${columnWidth}px);`,
+        `    max-width: ${columnWidthMax * numberOfColumns}px;`,
+        `    grid-template-columns: repeat(${numberOfColumns}, auto);`,
         `  }`,
       ],
     )
@@ -94,7 +96,7 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
     })
     const noMediaQuery = numberOfColumns === navItemsGrouped.length
     if (!noMediaQuery) {
-      const maxWidth = (numberOfColumns + 1) * columnWidth - 1
+      const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
       CSS_block = [
         //
         `@media screen and (max-width: ${maxWidth}px) {`,

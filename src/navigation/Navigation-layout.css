@@ -122,9 +122,10 @@ html.navigation-fullscreen #navigation-body {
   display: flex;
 }
 html.navigation-fullscreen #navigation-content-main {
+  flex-grow: 1;
   display: grid;
   margin-top: -25px;
 }
 html.navigation-fullscreen .nav-items-group {
-  width: 350px;
+  padding: 0 10px;
 }

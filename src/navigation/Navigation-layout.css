@@ -122,6 +122,7 @@ html.navigation-fullscreen {
 html.navigation-fullscreen #navigation-content-main {
   display: grid;
   margin: auto;
+  margin-top: -25px;
 }
 html.navigation-fullscreen .nav-items-group {
   width: 350px;

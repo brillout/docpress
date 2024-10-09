@@ -1,5 +1,14 @@
 export { getCSSForResponsiveFullcreenNavItems }
 
+// There doens't seem to be as simpler way to have a column layout that uses the whole width real estate.
+// - https://stackoverflow.com/questions/9683425/css-column-count-not-respected
+// - https://stackoverflow.com/questions/25446921/get-flexbox-column-wrap-to-use-full-width-and-minimize-height
+// - https://stackoverflow.com/questions/74873283/how-to-create-a-css-grid-with-3-columns-having-column-flow
+// - https://stackoverflow.com/questions/50693793/3-columns-grid-top-to-bottom-using-grid-css
+// - https://stackoverflow.com/questions/9119347/html-css-vertical-flow-layout-columnar-style-how-to-implement
+// - https://stackoverflow.com/questions/27119691/how-to-start-a-new-column-in-flex-column-wrap-layout
+// - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
+
 import assert from 'assert'
 import { type NavItemGrouped } from '../navigation/Navigation'
 

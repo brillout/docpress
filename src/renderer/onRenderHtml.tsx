@@ -109,19 +109,15 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
   return CSS
 }
 
-function determineColumns(
-  columnsUnmerged: number[],
-  // TODO/refactor: rename to numberOfColumns
-  maxNumberOfColumns: number,
-): number[] {
-  assert(maxNumberOfColumns <= columnsUnmerged.length)
+function determineColumns(columnsUnmerged: number[], numberOfColumns: number): number[] {
+  assert(numberOfColumns <= columnsUnmerged.length)
   const columnsMergingInit: ColumnMerging[] = columnsUnmerged.map((columnHeight, i) => ({
     columnIdsMerged: [i],
     heightTotal: columnHeight,
   }))
-  const columnsMerged = mergeColumns(columnsMergingInit, maxNumberOfColumns)
+  const columnsMerged = mergeColumns(columnsMergingInit, numberOfColumns)
   const columnsIdMap: number[] = new Array(columnsUnmerged.length)
-  assert(columnsMerged.length === maxNumberOfColumns)
+  assert(columnsMerged.length === numberOfColumns)
   columnsMerged.forEach((columnMerged, columnMergedId) => {
     columnMerged.columnIdsMerged.forEach((columnId) => {
       columnsIdMap[columnId] = columnMergedId

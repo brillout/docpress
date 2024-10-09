@@ -72,13 +72,11 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
   const columnsUnmerged = navItemsGrouped.map((navItem) => navItem.navItemChilds.length)
   let CSS = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
-    const width = numberOfColumns * columnWidth
     let CSS_block: string[] = []
     CSS_block.push(
       ...[
         //
         `  html.navigation-fullscreen #navigation-content-main {`,
-        `    width: ${width}px;`,
         `    grid-template-columns: repeat(${numberOfColumns}, ${columnWidth}px);`,
         `  }`,
       ],
@@ -96,7 +94,7 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
     })
     const noMediaQuery = numberOfColumns === navItemsGrouped.length
     if (!noMediaQuery) {
-      const maxWidth = width + columnWidth - 1
+      const maxWidth = (numberOfColumns + 1) * columnWidth - 1
       CSS_block = [
         //
         `@media screen and (max-width: ${maxWidth}px) {`,

@@ -118,10 +118,11 @@ html.navigation-fullscreen {
   /* disable scroll of main view */
   overflow: hidden !important;
 }
-
+html.navigation-fullscreen #navigation-body {
+  display: flex;
+}
 html.navigation-fullscreen #navigation-content-main {
   display: grid;
-  margin: auto;
   margin-top: -25px;
 }
 html.navigation-fullscreen .nav-items-group {

@@ -3,6 +3,10 @@ export { NavigationMask }
 export type { NavigationData }
 export type { NavItem }
 
+// TODO/refactor: do this only on the server side?
+export { groupByLevelMin }
+export type { NavItemGrouped }
+
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
 import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
@@ -133,8 +137,9 @@ function NavItemComponent({
   )
 }
 
-function groupByLevelMin(navItems: NavItemComputed[]) {
-  const navItemsGrouped: (NavItemComputed & { navItemChilds: NavItemComputed[] })[] = []
+type NavItemGrouped = ReturnType<typeof groupByLevelMin>[number]
+function groupByLevelMin<T extends NavItem>(navItems: T[]) {
+  const navItemsGrouped: (T & { navItemChilds: T[] })[] = []
   const levelMin: number = Math.min(...navItems.map((h) => h.level))
   navItems.forEach((navItem) => {
     if (navItem.level === levelMin) {

@@ -40,53 +40,6 @@ function hideNavigationFullScreen() {
   toggleNavExpend()
 }
 
-function determineColumns(columnsUnmerged: number[], maxNumberOfColumns: number): number[] {
-  const columnsMergingInit: ColumnMerging[] = columnsUnmerged.map((i, columnHeight) => ({
-    columnIdsMerged: [i],
-    heightTotal: columnHeight,
-  }))
-  const columnsMerged = mergeColumns(columnsMergingInit, maxNumberOfColumns)
-  const columnsIdMap: number[] = new Array(columnsUnmerged.length)
-  columnsMerged.forEach((columnMerged, columnMergedId) => {
-    columnMerged.columnIdsMerged.forEach((_, columnId) => {
-      columnsIdMap[columnId] = columnMergedId
-    })
-  })
-  return columnsIdMap
-}
-type ColumnMerging = { columnIdsMerged: number[]; heightTotal: number }
-function mergeColumns(columnsMerging: ColumnMerging[], maxNumberOfColumns: number): ColumnMerging[] {
-  if (columnsMerging.length < maxNumberOfColumns) return columnsMerging
-
-  let mergeCandidate: null | (ColumnMerging & { i: number }) = null
-  for (let i = 0; i <= columnsMerging.length - 2; i++) {
-    const column1 = columnsMerging[i + 0]
-    const column2 = columnsMerging[i + 1]
-    const heightTotal = column1.heightTotal + column2.heightTotal
-    if (!mergeCandidate || mergeCandidate.heightTotal > heightTotal) {
-      mergeCandidate = {
-        i,
-        columnIdsMerged: [
-          //
-          ...column1.columnIdsMerged,
-          ...column2.columnIdsMerged,
-        ],
-        heightTotal,
-      }
-    }
-  }
-  assert(mergeCandidate)
-
-  const { i } = mergeCandidate
-  assert(-1 < i && i < columnsMerging.length - 1)
-  const columnMergingMod = [...columnsMerging.slice(0, i), mergeCandidate, ...columnsMerging.slice(i + 2)]
-
-  assert(columnMergingMod.length === columnsMerging.length - 1)
-  mergeColumns(columnMergingMod, maxNumberOfColumns)
-
-  return columnsMerging
-}
-
 function initTopNavigation() {
   document.addEventListener('click', (ev) => {
     const linkTag = findLinkTag(ev.target as HTMLElement)

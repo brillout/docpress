@@ -87,10 +87,6 @@ function NavigationContent(props: {
           ))}
         </div>
       ))}
-      {/* TODO: remove
-      <div className="nav-column" style={{ position: 'relative' }}>
-      </div>
-      */}
     </div>
   )
 }

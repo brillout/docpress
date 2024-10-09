@@ -114,9 +114,6 @@ html.navigation-fullscreen .navigation-content {
   display: flex;
   margin: auto; /* A `max-width` is set by src/navigation/navigation-fullscreen/initNavigationFullscreen.ts */
 }
-html.navigation-fullscreen .nav-column > .nav-items-group:first-child > .nav-item-level-1:first-child {
-  margin-top: 0px;
-}
 html.navigation-fullscreen {
   /* disable scroll of main view */
   overflow: hidden !important;

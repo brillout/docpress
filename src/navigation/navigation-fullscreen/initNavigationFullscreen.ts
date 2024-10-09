@@ -45,17 +45,17 @@ function determineColumns(columnsUnmerged: number[], maxNumberOfColumns: number)
     columnIdsMerged: [i],
     heightTotal: columnHeight,
   }))
-  const columnsMerged = mergeColumnsTODO(columnsMergingInit, maxNumberOfColumns)
+  const columnsMerged = mergeColumns(columnsMergingInit, maxNumberOfColumns)
   const columnsIdMap: number[] = new Array(columnsUnmerged.length)
   columnsMerged.forEach((columnMerged, columnMergedId) => {
-    columnMerged.columnIdsMerged.forEach((i, columnId) => {
+    columnMerged.columnIdsMerged.forEach((_, columnId) => {
       columnsIdMap[columnId] = columnMergedId
     })
   })
   return columnsIdMap
 }
 type ColumnMerging = { columnIdsMerged: number[]; heightTotal: number }
-function mergeColumnsTODO(columnsMerging: ColumnMerging[], maxNumberOfColumns: number): ColumnMerging[] {
+function mergeColumns(columnsMerging: ColumnMerging[], maxNumberOfColumns: number): ColumnMerging[] {
   if (columnsMerging.length < maxNumberOfColumns) return columnsMerging
 
   let mergeCandidate: null | (ColumnMerging & { i: number }) = null
@@ -82,7 +82,7 @@ function mergeColumnsTODO(columnsMerging: ColumnMerging[], maxNumberOfColumns: n
   const columnMergingMod = [...columnsMerging.slice(0, i), mergeCandidate, ...columnsMerging.slice(i + 2)]
 
   assert(columnMergingMod.length === columnsMerging.length - 1)
-  mergeColumnsTODO(columnMergingMod, maxNumberOfColumns)
+  mergeColumns(columnMergingMod, maxNumberOfColumns)
 
   return columnsMerging
 }

@@ -79,16 +79,18 @@ function NavigationContent(props: {
 
   return (
     <div id={props.id} className="navigation-content">
+      {navItemsGrouped.map((navItemGroup, i) => (
+        <div className="nav-items-group" key={i}>
+          <NavItemComponent navItem={navItemGroup} />
+          {navItemGroup.navItemChilds.map((navItem, j) => (
+            <NavItemComponent navItem={navItem} key={j} />
+          ))}
+        </div>
+      ))}
+      {/* TODO: remove
       <div className="nav-column" style={{ position: 'relative' }}>
-        {navItemsGrouped.map((navItemGroup, i) => (
-          <div className="nav-items-group" key={i}>
-            <NavItemComponent navItem={navItemGroup} />
-            {navItemGroup.navItemChilds.map((navItem, j) => (
-              <NavItemComponent navItem={navItem} key={j} />
-            ))}
-          </div>
-        ))}
       </div>
+      */}
     </div>
   )
 }

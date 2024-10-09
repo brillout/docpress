@@ -89,39 +89,53 @@ function mergeColumns<T>(columns: { element: T; elementHeight: number }[][], max
   if (columns.length <= maxNumberOfColumns) {
     return columns
   }
+}
 
-  let mergeCandidate = {
-    i: -1,
-    mergeHeight: Infinity,
-  }
-  for (let i = 0; i <= columns.length - 2; i++) {
-    const column1 = columns[i + 0]
-    const column2 = columns[i + 1]
-    const column1Height = sum(column1.map((c) => c.elementHeight))
-    const column2Height = sum(column2.map((c) => c.elementHeight))
-    const mergeHeight = column1Height + column2Height
-    if (mergeCandidate.mergeHeight > mergeHeight) {
+function determineColumns(columnsUnmerged: number[], maxNumberOfColumns: number): number[] {
+  const columnsMergingInit: ColumnMerging[] = columnsUnmerged.map((i, columnHeight) => ({
+    columnIdsMerged: [i],
+    heightTotal: columnHeight,
+  }))
+  const columnsMerged = mergeColumnsTODO(columnsMergingInit, maxNumberOfColumns)
+  const columnsIdMap: number[] = new Array(columnsUnmerged.length)
+  columnsMerged.forEach((columnMerged, columnMergedId) => {
+    columnMerged.columnIdsMerged.forEach((i, columnId) => {
+      columnsIdMap[columnId] = columnMergedId
+    })
+  })
+  return columnsIdMap
+}
+type ColumnMerging = { columnIdsMerged: number[]; heightTotal: number }
+function mergeColumnsTODO(columnsMerging: ColumnMerging[], maxNumberOfColumns: number): ColumnMerging[] {
+  if (columnsMerging.length < maxNumberOfColumns) return columnsMerging
+
+  let mergeCandidate: null | (ColumnMerging & { i: number }) = null
+  for (let i = 0; i <= columnsMerging.length - 2; i++) {
+    const column1 = columnsMerging[i + 0]
+    const column2 = columnsMerging[i + 1]
+    const heightTotal = column1.heightTotal + column2.heightTotal
+    if (!mergeCandidate || mergeCandidate.heightTotal > heightTotal) {
       mergeCandidate = {
         i,
-        mergeHeight,
+        columnIdsMerged: [
+          //
+          ...column1.columnIdsMerged,
+          ...column2.columnIdsMerged,
+        ],
+        heightTotal,
       }
     }
   }
+  assert(mergeCandidate)
 
-  {
-    const { i } = mergeCandidate
-    assert(-1 < i && i < columns.length - 1)
-    columns[i] = [...columns[i], ...columns[i + 1]]
-    columns.splice(i + 1, 1)
-  }
+  const { i } = mergeCandidate
+  assert(-1 < i && i < columnsMerging.length - 1)
+  const columnMergingMod = [...columnsMerging.slice(0, i), mergeCandidate, ...columnsMerging.slice(i + 2)]
 
-  mergeColumns(columns, maxNumberOfColumns)
-}
+  assert(columnMergingMod.length === columnsMerging.length - 1)
+  mergeColumnsTODO(columnMergingMod, maxNumberOfColumns)
 
-function sum(arr: number[]): number {
-  let total = 0
-  arr.forEach((n) => (total += n))
-  return total
+  return columnsMerging
 }
 
 function initTopNavigation() {

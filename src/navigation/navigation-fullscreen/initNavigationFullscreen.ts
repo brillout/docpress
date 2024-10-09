@@ -47,7 +47,8 @@ function updateColumnWidth() {
   const navH1Groups = Array.from(document.querySelectorAll('#navigation-content-main .nav-items-group'))
   const numberOfColumnsMax = navH1Groups.length
 
-  const widthAvailable = getViewportWidth()
+  // `window.innerWidth` inlcudes scrollbar width: https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+  const widthAvailable = document.documentElement.clientWidth
   const numberOfColumns = Math.max(1, Math.min(numberOfColumnsMax, Math.floor(widthAvailable / navMinWidth)))
 
   let columns = navH1Groups.map((navH1Group) => {
@@ -81,10 +82,6 @@ function updateColumnWidth() {
   const navItemMaxWidth = 350
   navContent.style.maxWidth = `${numberOfColumns * navItemMaxWidth}px`
 }
-function getViewportWidth(): number {
-  // `window.innerWidth` inlcudes scrollbar width: https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-  return document.documentElement.clientWidth
-}
 
 function mergeColumns<T>(columns: { element: T; elementHeight: number }[][], maxNumberOfColumns: number) {
   assert(columns.length > 0)
@@ -113,7 +110,7 @@ function mergeColumns<T>(columns: { element: T; elementHeight: number }[][], max
 
   {
     const { i } = mergeCandidate
-    assert(-1 < i && i < columns.length - 1, { i, columnsLength: columns.length, maxNumberOfColumns })
+    assert(-1 < i && i < columns.length - 1)
     columns[i] = [...columns[i], ...columns[i + 1]]
     columns.splice(i + 1, 1)
   }

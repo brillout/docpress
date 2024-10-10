@@ -12,28 +12,27 @@ export { getCSSForResponsiveFullcreenNavItems }
 import assert from 'assert'
 import { type NavItemGrouped } from '../navigation/Navigation'
 
+const columnWidthMin = 300
+const columnWidthMax = 350
+
 function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[]) {
-  const columnWidthMin = 300
-  const columnWidthMax = 350
-  const columnsUnmerged = navItemsGrouped.map((navItem) => navItem.navItemChilds.length)
   let CSS = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
     let CSS_block: string[] = []
     CSS_block.push(
       ...[
-        //
         `  html.navigation-fullscreen #navigation-content-main {`,
         `    column-count: ${numberOfColumns};`,
         `    max-width: min(100%, ${columnWidthMax * numberOfColumns}px);`,
         `  }`,
       ],
     )
+    const columnsUnmerged = navItemsGrouped.map((navItem) => navItem.navItemChilds.length)
     const columnsIdMap = determineColumns(columnsUnmerged, numberOfColumns)
     const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
     columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
       CSS_block.push(
         ...[
-          //
           `  .nav-items-group:nth-child(${columnUngroupedId + 1}) {`,
           `    break-before: ${columnBreakPoint ? 'column' : 'avoid'};`,
           `  }`,
@@ -92,8 +91,8 @@ function determineColumns(columnsUnmerged: number[], numberOfColumns: number): n
   return columnsIdMap
 }
 type ColumnMerging = { columnIdsMerged: number[]; heightTotal: number }
-function mergeColumns(columnsMerging: ColumnMerging[], maxNumberOfColumns: number): ColumnMerging[] {
-  if (columnsMerging.length <= maxNumberOfColumns) return columnsMerging
+function mergeColumns(columnsMerging: ColumnMerging[], numberOfColumns: number): ColumnMerging[] {
+  if (columnsMerging.length <= numberOfColumns) return columnsMerging
 
   let mergeCandidate: null | (ColumnMerging & { i: number }) = null
   for (let i = 0; i <= columnsMerging.length - 2; i++) {
@@ -124,5 +123,5 @@ function mergeColumns(columnsMerging: ColumnMerging[], maxNumberOfColumns: numbe
   ]
 
   assert(columnsMergingMod.length === columnsMerging.length - 1)
-  return mergeColumns(columnsMergingMod, maxNumberOfColumns)
+  return mergeColumns(columnsMergingMod, numberOfColumns)
 }

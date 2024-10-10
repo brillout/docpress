@@ -21,8 +21,6 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
   const navItemsGrouped = groupByLevelMin(navItemsAll)
   const CSSResponsiveNavItems = getCSSForResponsiveFullcreenNavItems(navItemsGrouped)
 
-  pageContextResolved.navigationData.navItems
-
   const descriptionTag = pageContextResolved.isLandingPage
     ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)
     : ''

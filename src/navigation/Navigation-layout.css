@@ -110,22 +110,20 @@ html.navigation-fullscreen #navigation-content-detached,
 html.navigation-fullscreen #detached-note {
   display: none !important;
 }
-html.navigation-fullscreen .navigation-content {
-  display: flex;
-  margin: auto; /* A `max-width` is set by src/navigation/navigation-fullscreen/initNavigationFullscreen.ts */
-}
 html.navigation-fullscreen {
   /* disable scroll of main view */
   overflow: hidden !important;
 }
 html.navigation-fullscreen #navigation-body {
   display: flex;
+  justify-content: center;
 }
 html.navigation-fullscreen #navigation-content-main {
   flex-grow: 1;
-  display: grid;
   margin-top: -25px;
+  column-gap: 20px;
 }
 html.navigation-fullscreen .nav-items-group {
-  padding: 0 10px;
+  break-inside: avoid;
+  width: 100%;
 }

@@ -23,18 +23,19 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
       ...[
         //
         `  html.navigation-fullscreen #navigation-content-main {`,
-        `    max-width: ${columnWidthMax * numberOfColumns}px;`,
-        `    grid-template-columns: repeat(${numberOfColumns}, auto);`,
+        `    column-count: ${numberOfColumns};`,
+        `    max-width: min(100%, ${columnWidthMax * numberOfColumns}px);`,
         `  }`,
       ],
     )
     const columnsIdMap = determineColumns(columnsUnmerged, numberOfColumns)
-    columnsIdMap.forEach((columnGroupedId, columnUngroupedId) => {
+    const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
+    columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
       CSS_block.push(
         ...[
           //
           `  .nav-items-group:nth-child(${columnUngroupedId + 1}) {`,
-          `    grid-column: ${columnGroupedId + 1};`,
+          `    break-before: ${columnBreakPoint ? 'column' : 'avoid'};`,
           `  }`,
         ],
       )
@@ -54,6 +55,24 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
   return CSS
 }
 
+function determineColumnBreakPoints(columnsIdMap: number[]): boolean[] {
+  assert(columnsIdMap[0] === 0)
+  let columnGroupedIdBefore = -1
+  const columnBreakPoints = columnsIdMap.map((columnGroupedId) => {
+    assert(
+      [
+        //
+        columnGroupedIdBefore,
+        columnGroupedIdBefore + 1,
+      ].includes(columnGroupedId),
+    )
+    const val = columnGroupedId !== columnGroupedIdBefore
+    columnGroupedIdBefore = columnGroupedId
+    return val
+  })
+  return columnBreakPoints
+}
+
 function determineColumns(columnsUnmerged: number[], numberOfColumns: number): number[] {
   assert(numberOfColumns <= columnsUnmerged.length)
   const columnsMergingInit: ColumnMerging[] = columnsUnmerged.map((columnHeight, i) => ({
@@ -69,6 +88,7 @@ function determineColumns(columnsUnmerged: number[], numberOfColumns: number): n
     })
   })
   assert(columnsIdMap.length === columnsUnmerged.length)
+
   return columnsIdMap
 }
 type ColumnMerging = { columnIdsMerged: number[]; heightTotal: number }

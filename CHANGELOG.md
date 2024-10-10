@@ -1,3 +1,13 @@
+## [0.7.10](https://github.com/brillout/docpress/compare/v0.7.9...v0.7.10) (2024-10-10)
+
+
+### Bug Fixes
+
+* improve press on right click ([1acb79f](https://github.com/brillout/docpress/commit/1acb79f7bb960c96bd1ef830066dbd5e51b2cadf))
+* refactor fullscreen nav layout ([#14](https://github.com/brillout/docpress/issues/14)) ([4e7de62](https://github.com/brillout/docpress/commit/4e7de6223e7f952bde6a587b02a24aa68be77b0f))
+
+
+
 ## [0.7.9](https://github.com/brillout/docpress/compare/v0.7.8...v0.7.9) (2024-10-04)
 
 

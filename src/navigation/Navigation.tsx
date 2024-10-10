@@ -3,6 +3,10 @@ export { NavigationMask }
 export type { NavigationData }
 export type { NavItem }
 
+// TODO/refactor: do this only on the server side?
+export { groupByLevelMin }
+export type { NavItemGrouped }
+
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
 import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
@@ -75,16 +79,14 @@ function NavigationContent(props: {
 
   return (
     <div id={props.id} className="navigation-content">
-      <div className="nav-column" style={{ position: 'relative' }}>
-        {navItemsGrouped.map((navItemGroup, i) => (
-          <div className="nav-items-group" key={i}>
-            <NavItemComponent navItem={navItemGroup} />
-            {navItemGroup.navItemChilds.map((navItem, j) => (
-              <NavItemComponent navItem={navItem} key={j} />
-            ))}
-          </div>
-        ))}
-      </div>
+      {navItemsGrouped.map((navItemGroup, i) => (
+        <div className="nav-items-group" key={i}>
+          <NavItemComponent navItem={navItemGroup} />
+          {navItemGroup.navItemChilds.map((navItem, j) => (
+            <NavItemComponent navItem={navItem} key={j} />
+          ))}
+        </div>
+      ))}
     </div>
   )
 }
@@ -133,8 +135,9 @@ function NavItemComponent({
   )
 }
 
-function groupByLevelMin(navItems: NavItemComputed[]) {
-  const navItemsGrouped: (NavItemComputed & { navItemChilds: NavItemComputed[] })[] = []
+type NavItemGrouped = ReturnType<typeof groupByLevelMin>[number]
+function groupByLevelMin<T extends NavItem>(navItems: T[]) {
+  const navItemsGrouped: (T & { navItemChilds: T[] })[] = []
   const levelMin: number = Math.min(...navItems.map((h) => h.level))
   navItems.forEach((navItem) => {
     if (navItem.level === levelMin) {

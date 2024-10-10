@@ -22,9 +22,6 @@
   padding-right: 4px;
   text-decoration: none;
 }
-.nav-column:first-of-type > .nav-items-group:first-of-type > .nav-item-level-1:first-of-type {
-  margin-top: 20px;
-}
 .nav-item-level-1 {
   margin-top: 30px;
   font-size: 15.4px;

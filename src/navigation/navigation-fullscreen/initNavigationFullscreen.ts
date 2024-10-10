@@ -1,12 +1,12 @@
-export { initNavigationFullscreen }
+// TODO/refactor: rename file
+// TODO/refactor: rename function
 export { initNavigationFullscreenOnce }
-export { hideNavigationFullScreen }
+export { toggleMenu }
 
 import { navigate } from 'vike/client/router'
 import { assert } from '../../utils/client'
 
-let scrollPositionBeforeToggle: number
-let urlBeforeMenu: string = location.pathname === '/menu' ? '/' : location.href
+let urlBeforeMenu: string
 
 function initNavigationFullscreenOnce() {
   urlBeforeMenu = location.pathname === '/menu' ? '/' : location.href
@@ -18,13 +18,11 @@ function initKeyBindings() {
     'keydown',
     (ev) => {
       if (document.body.classList.contains('DocSearch--active')) return
-      //if (ev.key === 'Escape') toggleNavExpend()
       if (ev.key === 'Escape') toggleMenu()
       if (ev.key === 'm') toggleMenu()
     },
     false,
   )
-  initTopNavigation()
 }
 
 function toggleMenu() {
@@ -44,41 +42,4 @@ function toggleMenu() {
     navigate('/menu')
   }
   */
-}
-
-function initNavigationFullscreen() {
-  document.getElementById('navigation-fullscreen-button')!.onclick = toggleNavExpend
-  document.getElementById('navigation-fullscreen-close')!.onclick = toggleNavExpend
-}
-
-function toggleNavExpend() {
-  assert(scrollPositionBeforeToggle !== undefined)
-  const navContainer = document.getElementById('navigation-container')!
-  const scrollPos = navContainer.scrollTop
-  document.documentElement.classList.toggle('navigation-fullscreen')
-  navContainer.scrollTop = scrollPositionBeforeToggle
-  scrollPositionBeforeToggle = scrollPos
-}
-function hideNavigationFullScreen() {
-  if (!document.documentElement.classList.contains('navigation-fullscreen')) return
-  toggleNavExpend()
-}
-
-function initTopNavigation() {
-  document.addEventListener('click', (ev) => {
-    const linkTag = findLinkTag(ev.target as HTMLElement)
-    if (!linkTag) return
-    if (linkTag.id !== 'doclink') return
-    toggleNavExpend()
-  })
-}
-function findLinkTag(target: HTMLElement): null | HTMLElement {
-  while (target.tagName !== 'A') {
-    const { parentNode } = target
-    if (!parentNode) {
-      return null
-    }
-    target = parentNode as HTMLElement
-  }
-  return target
 }

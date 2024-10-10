@@ -52,8 +52,7 @@
   }
 }
 @media screen and (min-width: 1140px) {
-  html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-wrapper,
-  html:not(.navigation-fullscreen) .page-layout.noSideNavigation #navigation-fullscreen-button {
+  .page-layout.noSideNavigation #navigation-wrapper {
     display: none !important;
   }
   .noSideNavigation .page-wrapper {

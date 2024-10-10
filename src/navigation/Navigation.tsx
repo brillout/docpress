@@ -10,9 +10,8 @@ export type { NavItemGrouped }
 
 import React from 'react'
 import { NavigationHeader } from './NavigationHeader'
-import { assert, Emoji, assertWarning, jsxToTextContent } from '../utils/server'
+import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
-import { NavigationFullscreenClose } from './navigation-fullscreen/NavigationFullscreenButton'
 import { parseTitle } from '../parseTitle'
 import { autoScrollNav_SSR } from '../autoScrollNav'
 
@@ -35,17 +34,14 @@ function Navigation({
     <>
       <div id="navigation-container">
         <NavigationHeader />
-        <div id="navigation-body">
-          {isDetachedPage && (
-            <>
-              {navItems.length > 1 && (
-                <NavigationContent id="navigation-content-detached" navItems={navItems} currentUrl={currentUrl} />
-              )}
-              <DetachedPageNote />
-            </>
+        <div
+        // id="navigation-body"
+        >
+          {isDetachedPage ? (
+            <>{navItems.length > 1 && <NavigationContent navItems={navItems} currentUrl={currentUrl} />}</>
+          ) : (
+            <NavigationContent navItems={navItemsAll} currentUrl={currentUrl} />
           )}
-          <NavigationContent id="navigation-content-main" navItems={navItemsAll} currentUrl={currentUrl} />
-          <NavigationFullscreenClose />
         </div>
       </div>
       {/* Early scrolling, to avoid flashing */}
@@ -73,7 +69,6 @@ type NavItemComputed = NavItem & {
 }
 
 function NavigationContent(props: {
-  id: 'navigation-content-main' | 'navigation-content-detached'
   navItems: NavItem[]
   currentUrl: string
 }) {
@@ -81,7 +76,7 @@ function NavigationContent(props: {
   const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
 
   return (
-    <div id={props.id} className="navigation-content">
+    <div id="navigation-content">
       {navItemsGrouped.map((navItemGroup, i) => (
         <div className="nav-items-group" key={i}>
           <NavItemComponent navItem={navItemGroup} />
@@ -189,35 +184,4 @@ function addComputedProps(navItems: NavItem[], currentUrl: string): NavItemCompu
       isLastOfItsKind,
     }
   })
-}
-
-function DetachedPageNote() {
-  return (
-    <div
-      id="detached-note"
-      style={{
-        backgroundColor: 'var(--background-color)',
-        textAlign: 'left',
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 25,
-        marginBottom: -5,
-        borderRadius: 5,
-        padding: 10,
-      }}
-    >
-      <Emoji name="info" />{' '}
-      <b>
-        <em>Detached</em>
-      </b>
-      <span
-        style={{
-          opacity: 0.8,
-        }}
-      >
-        {' '}
-        &mdash; this page isn't listed in the navigation below.
-      </span>
-    </div>
-  )
 }

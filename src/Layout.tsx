@@ -5,11 +5,11 @@ import { Navigation, NavigationMask } from './navigation/Navigation'
 import { MobileHeader } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
 import './Layout.css'
-import { NavigationFullscreenButton } from './navigation/navigation-fullscreen/NavigationFullscreenButton'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './navigation/NavigationHeader'
 import { hotkeyLabel } from './navigation/navigation-fullscreen/hotkeyLabel'
+import { toggleMenu } from './navigation/navigation-fullscreen/initNavigationFullscreen'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -42,7 +42,15 @@ function Layout({ children }: { children: React.ReactNode }) {
             </a>
           )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <TopNavigationLink id="doclink" aria-label={hotkeyLabel} data-balloon-pos="left" data-balloon-blunt>
+            <TopNavigationLink
+              onClick={(ev) => {
+                ev.preventDefault()
+                toggleMenu()
+              }}
+              aria-label={hotkeyLabel}
+              data-balloon-pos="left"
+              data-balloon-blunt
+            >
               Documentation
             </TopNavigationLink>
             {topNavigationList.map(({ title, url }) => (
@@ -62,7 +70,6 @@ function Layout({ children }: { children: React.ReactNode }) {
         <div id="navigation-wrapper">
           <Navigation {...pageContext.navigationData} />
         </div>
-        <NavigationFullscreenButton />
         <div className="page-wrapper">
           <div className="page-container">
             <MobileHeader />

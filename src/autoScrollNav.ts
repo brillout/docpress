@@ -20,7 +20,7 @@ export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 //       ```
 
 function autoScrollNav() {
-  const navigationEl = document.getElementById('navigation-content-main')
+  const navigationEl = document.getElementById('navigation-content')
   if (!navigationEl) return
   const href = window.location.pathname
   const navLinks = Array.from(navigationEl.querySelectorAll(`a[href="${href}"]`))

@@ -5,11 +5,7 @@ import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import {
-  hideNavigationFullScreen,
-  initNavigationFullscreen,
-  initNavigationFullscreenOnce,
-} from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { initNavigationFullscreenOnce } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
@@ -56,7 +52,6 @@ function applyHead(pageContext: PageContextClient) {
 
 function onRenderStart() {
   hideMobileNavigation()
-  hideNavigationFullScreen()
 }
 
 function onRenderDone() {
@@ -66,8 +61,9 @@ function onRenderDone() {
   }
 
   autoScrollNav()
+  // TODO/refactor: use React?
   installSectionUrlHashs()
-  initNavigationFullscreen()
+  // TODO/refactor: use React?
   initMobileNavigation()
   initPressKit()
   setHydrationIsFinished()

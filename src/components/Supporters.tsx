@@ -89,7 +89,6 @@ function SupporterImg({
   imgAlt,
   width,
   height,
-  padding = 0,
 }: {
   imgSrc?: string
   avatarUrl?: string
@@ -97,7 +96,6 @@ function SupporterImg({
   imgAlt?: string
   width: number
   height: number
-  padding?: number
 }) {
   const size = Math.max(width, height)
   if (avatarUrl) {
@@ -107,13 +105,7 @@ function SupporterImg({
     imgSrc = imgSrc || `https://github.com/${username}.png?size=${size}`
     imgAlt = imgAlt || username
   }
-  return (
-    <img
-      style={{ width: `calc(100% - ${padding}px)`, height: height - padding, zIndex: 2, objectFit: 'contain' }}
-      src={imgSrc}
-      alt={imgAlt}
-    />
-  )
+  return <img style={{ width, height: height, zIndex: 2, objectFit: 'contain' }} src={imgSrc} alt={imgAlt} />
 }
 
 function CallToAction({ iconUrl, text, href }: { iconUrl: string; text: string; href: string }) {

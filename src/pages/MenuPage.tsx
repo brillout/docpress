@@ -10,7 +10,7 @@ function Page() {
   const { navigationData } = pageContext
   const { navItemsAll, currentUrl } = navigationData
   return (
-    <div id="menu-full" style={{ color: 'pink' }}>
+    <div id="menu-full-content" style={{ color: 'pink' }}>
       <NavigationFullscreenClose />
       <NavigationContent navItems={navItemsAll} currentUrl={currentUrl} />
       {/*

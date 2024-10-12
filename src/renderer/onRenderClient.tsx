@@ -55,7 +55,7 @@ function onRenderStart() {
 }
 
 function onRenderDone() {
-  if (document.getElementById('menu-full')) {
+  if (document.getElementById('menu-full-content')) {
     renderPromiseResolve()
     return
   }

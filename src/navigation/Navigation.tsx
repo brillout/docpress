@@ -17,7 +17,7 @@ import { autoScrollNav_SSR } from '../autoScrollNav'
 
 type NavigationData = Parameters<typeof Navigation>[0]
 
-// TODO: rename navigation => menu-full, and menu-left (or navigation-left?)
+// TODO: rename navigation => menu-full-content, and menu-left (or navigation-left?)
 // TODO: rename NavigationContent => Navigation (or nav-items or something else?)
 function Navigation({
   navItems,

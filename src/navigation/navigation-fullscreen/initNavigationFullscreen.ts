@@ -7,6 +7,7 @@ import { navigate } from 'vike/client/router'
 import { assert } from '../../utils/client'
 
 let urlBeforeMenu: string
+let menuFullModal: HTMLElement | null = null
 
 function initNavigationFullscreenOnce() {
   urlBeforeMenu = location.pathname === '/menu' ? '/' : location.href
@@ -26,6 +27,11 @@ function initKeyBindings() {
 }
 
 function toggleMenu() {
+  menuFullModal ||= document.getElementById('menu-full-modal')
+  if (menuFullModal) {
+    menuFullModal.classList.toggle('menu-full-modal-hide')
+    return
+  }
   assert(urlBeforeMenu !== undefined)
   if (location.pathname === '/menu') {
     navigate(urlBeforeMenu)

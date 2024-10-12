@@ -1,4 +1,5 @@
 export { getPageElement }
+export { Wrapper }
 
 import type { PageContext } from 'vike/types'
 import type { PageContextResolved } from '../config/resolvePageContext'
@@ -9,17 +10,27 @@ function getPageElement(pageContext: PageContext, pageContextResolved: PageConte
   const { Page } = pageContext
   const Layout = pageContext.config.Layout || PassThrough
   const page = (
+    <Wrapper {...{ pageContext, pageContextResolved }}>
+      <Layout pageContext={pageContextResolved} pageContext2={pageContext}>
+        <Page />
+      </Layout>
+    </Wrapper>
+  )
+  return page
+}
+
+function Wrapper({
+  children,
+  pageContext,
+  pageContextResolved,
+}: { children: React.ReactNode; pageContext: PageContext; pageContextResolved: PageContextResolved }) {
+  return (
     <React.StrictMode>
       <PageContextProvider2 pageContext={pageContext}>
-        <PageContextProvider pageContext={pageContextResolved}>
-          <Layout pageContext={pageContextResolved} pageContext2={pageContext}>
-            <Page />
-          </Layout>
-        </PageContextProvider>
+        <PageContextProvider pageContext={pageContextResolved}>{children}</PageContextProvider>
       </PageContextProvider2>
     </React.StrictMode>
   )
-  return page
 }
 
 function PassThrough({ children }: any) {

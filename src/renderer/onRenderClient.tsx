@@ -12,6 +12,7 @@ import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { prefetch } from 'vike/client/router'
+import { MenuFullModal } from '../pages/MenuPage'
 
 addEcosystemStamp()
 initNavigationFullscreenOnce()
@@ -40,6 +41,8 @@ async function onRenderClient(pageContext: PageContextClient) {
   }
   if (!pageContext.isHydration) {
     applyHead(pageContext)
+  } else {
+    initMenuFullModal(pageContext, pageContextResolved)
   }
   await renderPromise
 }
@@ -68,6 +71,14 @@ function onRenderDone() {
   initPressKit()
   setHydrationIsFinished()
   renderPromiseResolve()
+}
+
+function initMenuFullModal(pageContext: PageContextClient, pageContextResolved: PageContextResolved) {
+  const container = document.createElement('div')
+  document.body.appendChild(container)
+  const root = ReactDOM.createRoot(container)
+  const el = <MenuFullModal {...{ pageContext, pageContextResolved }} />
+  root.render(el)
 }
 
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {

@@ -10,7 +10,6 @@ import { toggleMenu } from './initNavigationFullscreen'
 function NavigationFullscreenClose() {
   return (
     <a
-      id="navigation-fullscreen-close"
       onClick={toggleMenu}
       style={{ position: 'absolute', top: 11, right: 11, zIndex: 10 }}
       aria-label={hotkeyLabel}

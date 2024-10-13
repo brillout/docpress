@@ -2,6 +2,7 @@
 // TODO/refactor: rename function
 export { initNavigationFullscreenOnce }
 export { toggleMenu }
+export { hideMenuModal }
 
 import { navigate } from 'vike/client/router'
 import { assert } from '../../utils/client'
@@ -26,10 +27,15 @@ function initKeyBindings() {
   )
 }
 
+function hideMenuModal() {
+  const modalToggle = getModalToggle()
+  if (modalToggle) modalToggle.hide()
+}
+
 function toggleMenu() {
-  menuFullModal ||= document.getElementById('menu-full-modal')
-  if (menuFullModal) {
-    menuFullModal.classList.toggle('menu-full-modal-hide')
+  const modalToggle = getModalToggle()
+  if (modalToggle) {
+    modalToggle.toggle()
     return
   }
   assert(urlBeforeMenu !== undefined)
@@ -48,4 +54,16 @@ function toggleMenu() {
     navigate('/menu')
   }
   */
+}
+
+function getModalToggle() {
+  // TODO/refactor: rename menu-full-modal => menu-modal ?
+  menuFullModal ||= document.getElementById('menu-full-modal')
+  if (!menuFullModal) return null
+  const { classList } = menuFullModal
+  const className = 'menu-full-modal-hide'
+  return {
+    toggle: () => classList.toggle(className),
+    hide: () => classList.add(className)
+  }
 }

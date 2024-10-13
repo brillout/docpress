@@ -64,6 +64,6 @@ function getModalToggle() {
   const className = 'menu-full-modal-hide'
   return {
     toggle: () => classList.toggle(className),
-    hide: () => classList.add(className)
+    hide: () => classList.add(className),
   }
 }

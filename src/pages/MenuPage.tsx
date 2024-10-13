@@ -6,7 +6,7 @@ import { usePageContext } from '../renderer/usePageContext'
 import { NavigationContent } from '../navigation/Navigation'
 import { NavigationFullscreenClose } from '../navigation/navigation-fullscreen/NavigationFullscreenButton'
 import { Wrapper } from '../renderer/getPageElement'
-import './ManuFullModal.css'
+import './MenuFullModal.css'
 
 function MenuFull() {
   const pageContext = usePageContext()

@@ -26,6 +26,7 @@ function SectionDescription({ children }: { children?: Children }) {
         display: 'inline-block',
         marginTop: 12,
         marginBottom: 12,
+        fontSize: '1.05em',
       }}
     >
       {children}

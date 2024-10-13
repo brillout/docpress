@@ -73,11 +73,11 @@ html.navigation-fullscreen .nav-item-level-3 {
 }
 /*
 .nav-item-level-2.is-active .nav-item-text{
-  background-color: var(--background-color);
+  background-color: var(--is-active-bg-color);
 }
 */
 .nav-item-level-2.is-active {
-  background-color: var(--background-color);
+  background-color: var(--is-active-bg-color);
 }
 .nav-item-level-3.is-active:before {
   display: block;
@@ -87,7 +87,7 @@ html.navigation-fullscreen .nav-item-level-3 {
   left: 0;
   top: 0;
   height: 100%;
-  background-color: var(--background-color);
+  background-color: var(--is-active-bg-color);
   z-index: 10;
 }
 .nav-item-level-3.is-active-last:after {
@@ -98,7 +98,7 @@ html.navigation-fullscreen .nav-item-level-3 {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: var(--background-color);
+  background-color: var(--is-active-bg-color);
   z-index: 10;
   border-bottom-left-radius: 5px;
 }

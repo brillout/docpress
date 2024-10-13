@@ -11,16 +11,12 @@ import './ManuFullModal.css'
 function MenuFull() {
   const pageContext = usePageContext()
   const { navigationData } = pageContext
-  const { navItemsAll, currentUrl } = navigationData
+  const { currentUrl } = navigationData
+  const navItems = navigationData.navItemsAll.filter((navItem) => navItem.level <= 2)
   return (
     <div id="menu-full-content" style={{ color: 'pink' }}>
       <NavigationFullscreenClose />
-      <NavigationContent navItems={navItemsAll} currentUrl={currentUrl} />
-      {/*
-      {navigationData.navItemsAll.map((navItem, i) => {
-        return <div key={i}>{navItem.title}</div>
-      })}
-      */}
+      <NavigationContent navItems={navItems} currentUrl={currentUrl} />
     </div>
   )
 }

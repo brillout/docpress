@@ -5,7 +5,7 @@ import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import { initNavigationFullscreenOnce } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { hideMenuModal, initNavigationFullscreenOnce } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
@@ -54,6 +54,7 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 function onRenderStart() {
+  hideMenuModal()
   hideMobileNavigation()
 }
 

@@ -71,6 +71,9 @@ html.navigation-fullscreen .nav-item-level-3 {
 .nav-item-level-3 {
   position: relative;
 }
+body {
+  --is-active-bg-color: #f0f0f0;
+}
 /*
 .nav-item-level-2.is-active .nav-item-text{
   background-color: var(--is-active-bg-color);

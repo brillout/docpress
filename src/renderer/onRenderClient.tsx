@@ -44,9 +44,8 @@ async function onRenderClient(pageContext: PageContextClient) {
   }
   if (!pageContext.isHydration) {
     applyHead(pageContext)
-  } else {
-    initMenuFullModal(pageContext, pageContextResolved)
   }
+  renderMenuModal(pageContext, pageContextResolved)
   await renderPromise
 }
 
@@ -77,12 +76,15 @@ function onRenderDone() {
   renderPromiseResolve()
 }
 
-function initMenuFullModal(pageContext: PageContextClient, pageContextResolved: PageContextResolved) {
-  const container = document.createElement('div')
-  document.body.appendChild(container)
-  const root = ReactDOM.createRoot(container)
+let rootMenuModal: ReactDOM.Root
+function renderMenuModal(pageContext: PageContextClient, pageContextResolved: PageContextResolved) {
+  if (!rootMenuModal) {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+    rootMenuModal = ReactDOM.createRoot(container)
+  }
   const el = <MenuFullModal {...{ pageContext, pageContextResolved }} />
-  root.render(el)
+  rootMenuModal.render(el)
 }
 
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {

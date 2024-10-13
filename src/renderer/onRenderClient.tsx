@@ -15,7 +15,6 @@ import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
-import { addFeatureClickHandlers, addTwitterWidgets } from '../components/FeatureList/FeatureList.client'
 
 addEcosystemStamp()
 initNavigationFullscreenOnce()
@@ -64,8 +63,6 @@ function onRenderDone() {
   initNavigationFullscreen()
   initMobileNavigation()
   initPressKit()
-  addFeatureClickHandlers()
-  addTwitterWidgets()
   setHydrationIsFinished()
   renderPromiseResolve()
 }

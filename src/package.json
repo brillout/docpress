@@ -46,10 +46,6 @@
     "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
     "./Layout": "./Layout.tsx",
     ".": "./index.ts",
-    "./FeatureList/FeatureList": "./components/FeatureList/FeatureList.tsx",
-    "./FeatureList/FeatureList.client": {
-      "browser": "./components/FeatureList/FeatureList.client.ts"
-    },
     "./vite-config": "./dist/vite.config.js",
     "./config": "./dist/+config.js",
     "./style": "./css/index.css",
@@ -70,9 +66,6 @@
       ],
       "config": [
         "./dist/+config.d.ts"
-      ],
-      "FeatureList/*": [
-        "./components/FeatureList/*"
       ]
     }
   },

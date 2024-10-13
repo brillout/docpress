@@ -17,7 +17,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(html).toContain('Introduction')
     expect(html).toContain('Feature 1')
     await page.goto(getServerUrl() + landingPageUrl)
-    const text = await page.textContent('body')
   })
 
   const orphanURL = '/orphan'

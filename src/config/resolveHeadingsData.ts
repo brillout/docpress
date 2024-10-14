@@ -14,6 +14,7 @@ import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseTitle } from '../parseTitle'
+import { menuUrl } from '../navigation/navigation-fullscreen/menuUrl'
 
 type PageSectionResolved = {
   url: string | null
@@ -241,10 +242,9 @@ function getHeadingsResolved(config: {
   })
 
   const headingsDetached = [...config.headingsDetached]
-  // Add /menu
   headingsDetached.push({
     title: 'Menu',
-    url: '/menu',
+    url: menuUrl,
   })
   const headingsDetachedResolved = headingsDetached.map((headingsDetached) => {
     const { url } = headingsDetached

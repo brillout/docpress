@@ -26,7 +26,6 @@ function MenuFullModal(props: Omit<Parameters<typeof Wrapper>[0], 'children'>) {
     <Wrapper {...props}>
       <div
         id="menu-full-modal"
-        className="menu-full-modal-hide"
         style={{
           width: '100%',
           height: '100vh',

@@ -60,10 +60,10 @@ function getModalToggle() {
   // TODO/refactor: rename menu-full-modal => menu-modal ?
   menuFullModal ||= document.getElementById('menu-full-modal')
   if (!menuFullModal) return null
-  const { classList } = menuFullModal
-  const className = 'menu-full-modal-hide'
+  const { classList } = document.body
+  const className = 'menu-modal-show'
   return {
     toggle: () => classList.toggle(className),
-    hide: () => classList.add(className),
+    hide: () => classList.remove(className),
   }
 }

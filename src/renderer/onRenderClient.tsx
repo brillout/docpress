@@ -1,4 +1,5 @@
 export { onRenderClient }
+export { getpageContextCurrent }
 
 import React, { useEffect } from 'react'
 import type { PageContextClient } from 'vike/types'
@@ -8,7 +9,9 @@ import { getPageElement } from './getPageElement'
 import {
   hideMenuModal,
   initNavigationFullscreenOnce,
+  isMenuUrl,
 } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { menuUrl } from '../navigation/navigation-fullscreen/menuUrl'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
@@ -16,37 +19,50 @@ import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { prefetch } from 'vike/client/router'
 import { MenuFullModal } from '../pages/MenuPage'
+import { getGlobalObject } from '../utils/client'
+
+const globalObject = getGlobalObject<{
+  root?: ReactDOM.Root
+  renderPromiseResolve?: () => void
+  pageContextCurrent?: PageContextClient
+}>('onRenderClient.ts', {})
 
 addEcosystemStamp()
 initNavigationFullscreenOnce()
 prefetchMenu()
 
-let root: ReactDOM.Root
-let renderPromiseResolve: () => void
 async function onRenderClient(pageContext: PageContextClient) {
+  globalObject.pageContextCurrent = pageContext
+
+  console.log('onRenderClient', window.location.pathname)
+
   onRenderStart()
 
   // TODO: stop using any
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
   const renderPromise = new Promise<void>((r) => {
-    renderPromiseResolve = r
+    globalObject.renderPromiseResolve = r
   })
   let page = getPageElement(pageContext, pageContextResolved)
   page = <OnRenderDoneHook>{page}</OnRenderDoneHook>
   const container = document.getElementById('page-view')!
   if (pageContext.isHydration) {
-    root = ReactDOM.hydrateRoot(container, page)
+    globalObject.root = ReactDOM.hydrateRoot(container, page)
   } else {
-    if (!root) {
-      root = ReactDOM.createRoot(container)
+    if (!globalObject.root) {
+      globalObject.root = ReactDOM.createRoot(container)
     }
-    root.render(page)
+    globalObject.root.render(page)
   }
   if (!pageContext.isHydration) {
     applyHead(pageContext)
   }
   renderMenuModal(pageContext, pageContextResolved)
   await renderPromise
+}
+
+function getpageContextCurrent(): undefined | PageContextClient {
+  return globalObject.pageContextCurrent
 }
 
 function applyHead(pageContext: PageContextClient) {
@@ -61,9 +77,10 @@ function onRenderStart() {
 }
 
 function onRenderDone() {
-  if (window.location.pathname === '/menu') {
+  console.log('onRenderDone', window.location.pathname)
+  if (isMenuUrl()) {
     setHydrationIsFinished()
-    renderPromiseResolve()
+    globalObject.renderPromiseResolve!()
     return
   }
 
@@ -74,7 +91,7 @@ function onRenderDone() {
   initMobileNavigation()
   initPressKit()
   setHydrationIsFinished()
-  renderPromiseResolve()
+  globalObject.renderPromiseResolve!()
 }
 
 let rootMenuModal: ReactDOM.Root
@@ -94,7 +111,7 @@ function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
 }
 
 async function prefetchMenu() {
-  await prefetch('/menu')
+  await prefetch(menuUrl)
 }
 
 function setHydrationIsFinished() {

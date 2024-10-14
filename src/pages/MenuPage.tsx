@@ -14,7 +14,7 @@ function MenuFull() {
   const { currentUrl } = navigationData
   const navItems = navigationData.navItemsAll.filter((navItem) => navItem.level <= 2)
   return (
-    <div id="menu-full-content" style={{ color: 'pink' }}>
+    <div id="menu-full-content">
       <NavigationFullscreenClose />
       <NavigationContent navItems={navItems} currentUrl={currentUrl} />
     </div>

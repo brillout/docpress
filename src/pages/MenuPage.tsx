@@ -27,12 +27,13 @@ function MenuFullModal(props: Omit<Parameters<typeof Wrapper>[0], 'children'>) {
       <div
         id="menu-full-modal"
         style={{
+          position: 'fixed',
           width: '100%',
           height: '100vh',
-          position: 'fixed',
-          zIndex: 9999,
           top: 0,
           left: 0,
+          zIndex: 9999,
+          overflow: 'scroll',
           backgroundColor: 'white',
         }}
       >

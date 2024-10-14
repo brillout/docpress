@@ -61,7 +61,8 @@ function onRenderStart() {
 }
 
 function onRenderDone() {
-  if (document.getElementById('menu-full-content')) {
+  if (window.location.pathname === '/menu') {
+    setHydrationIsFinished()
     renderPromiseResolve()
     return
   }

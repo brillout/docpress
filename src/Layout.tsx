@@ -45,6 +45,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <TopNavigationLink
               href={menuUrl}
+              rel="external"
               onClick={(ev) => {
                 ev.preventDefault()
                 toggleMenu()

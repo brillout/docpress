@@ -37,6 +37,8 @@ function initKeyBindings() {
 }
 
 async function toggleMenu() {
+  console.log('toggleMenu()')
+
   // Use modal
   if (isModalAvailable()) {
     toggleModal()
@@ -44,14 +46,8 @@ async function toggleMenu() {
   }
 
   // Use history
-  if (isMenuUrl() && typeof (window as any).navigation !== 'undefined' && (window as any).navigation.canGoBack) {
-    // The advantage of history over navigate() is that it restores the scroll position
-    /*
-    // Only Chrome: https://stackoverflow.com/questions/3588315/how-to-check-if-the-user-can-go-back-in-browser-history-or-not/75936209#75936209
-    (window as any).navigation.back()
-    return
-    //*/
-  }
+  // - The advantage of history over navigate() is that it restores the scroll position.
+  if (goBackIfPossible()) return
 
   // Use navigate()
   if (isMenuUrl()) {
@@ -61,6 +57,22 @@ async function toggleMenu() {
     setSateBeforeMenu()
     navigate(menuUrl)
   }
+}
+
+function goBackIfPossible() {
+  const { navigation } = window as any
+  if (
+    isMenuUrl() &&
+    navigation !== 'undefined' &&
+    // Only Chrome: https://stackoverflow.com/questions/3588315/how-to-check-if-the-user-can-go-back-in-browser-history-or-not/75936209#75936209
+    navigation.canGoBack
+  ) {
+    /*
+    navigation.back()
+    return true
+    //*/
+  }
+  return false
 }
 
 function getStateBeforeMenu(): StateBeforeMenu {
@@ -83,6 +95,7 @@ function setStateBeforeMenuSaved(stateBeforeMenu: StateBeforeMenu) {
 }
 
 function toggleModal() {
+  console.log('toggleModal()')
   assert(isModalAvailable())
   let urlNext: string
   let titleNext: string
@@ -95,13 +108,9 @@ function toggleModal() {
     urlNext = stateBeforeMenu.url
     titleNext = stateBeforeMenu.title
   }
-  console.log(
-    'pushState',
-    urlNext,
-    //new Error().stack
-  )
-  setModalShow()
+  console.log('pushState', urlNext)
   history.pushState(null, '', urlNext)
+  setModalShow()
   document.title = titleNext
 }
 function isModalAvailable() {
@@ -128,6 +137,7 @@ function initOnUrlChange() {
 }
 
 function setModalShow() {
+  console.log('setModalShow()')
   assert(isModalAvailable())
   const { classList } = document.body
   if (isMenuUrl()) {

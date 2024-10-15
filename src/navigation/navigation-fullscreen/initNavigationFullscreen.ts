@@ -2,17 +2,17 @@
 // TODO/refactor: rename function
 export { initNavigationFullscreenOnce }
 export { toggleMenu }
-export { hideMenuModal }
+export { hideMenuModalUponVikeClientSideNavigation }
 export { menuUrl }
 export { isMenuUrl }
 
-import { navigate } from 'vike/client/router'
+import { navigate, onPopState } from 'vike/client/router'
 import { assert } from '../../utils/client'
 import { getpageContextCurrent } from '../../renderer/onRenderClient'
 import { menuUrl } from './menuUrl'
 
 let stateBeforeMenuLocalMem: StateBeforeMenu | null = null
-let menuFullModal: HTMLElement | null = null
+let modalEl: HTMLElement | null = null
 const menuModalShow = 'menu-modal-show'
 const sessionStorageKey = '__docpress_stateBeforeMenu'
 
@@ -36,27 +36,18 @@ function initKeyBindings() {
   )
 }
 
-function hideMenuModal() {
-  document.body.classList.remove(menuModalShow)
-}
-
 async function toggleMenu() {
   // Use modal
-  const modal = getModal()
-  if (modal) {
-    const pageContext = getpageContextCurrent()
-    if (pageContext!.urlPathname !== menuUrl) {
-      modal.toggle()
-      return
-    }
+  if (isModalAvailable()) {
+    toggleModal()
+    return
   }
 
   // Use history
   if (isMenuUrl() && typeof (window as any).navigation !== 'undefined' && (window as any).navigation.canGoBack) {
     // The advantage of history over navigate() is that it restores the scroll position
-    // Only for Chrome:
-    // https://stackoverflow.com/questions/3588315/how-to-check-if-the-user-can-go-back-in-browser-history-or-not/75936209#75936209
     /*
+    // Only Chrome: https://stackoverflow.com/questions/3588315/how-to-check-if-the-user-can-go-back-in-browser-history-or-not/75936209#75936209
     (window as any).navigation.back()
     return
     //*/
@@ -91,68 +82,69 @@ function setStateBeforeMenuSaved(stateBeforeMenu: StateBeforeMenu) {
   sessionStorage.setItem(sessionStorageKey, JSON.stringify(stateBeforeMenu))
 }
 
-function getModal() {
-  // TODO/refactor: rename menu-full-modal => menu-modal ?
-  menuFullModal ||= document.getElementById('menu-full-modal')
-  if (!menuFullModal) return null
-
-  return {
-    toggle,
-    hide,
+function toggleModal() {
+  assert(isModalAvailable())
+  let urlNext: string
+  let titleNext: string
+  if (!isMenuUrl()) {
+    urlNext = menuUrl
+    titleNext = 'Menu'
+    setSateBeforeMenu()
+  } else {
+    const stateBeforeMenu = getStateBeforeMenu()
+    urlNext = stateBeforeMenu.url
+    titleNext = stateBeforeMenu.title
   }
-
-  function toggle() {
-    udpateUrl()
-  }
-  function hide() {
-    if (!isMenuUrl()) return
-    toggle()
-  }
-
-  function udpateUrl() {
-    let urlNew: string
-    let titleNew: string
-    if (!isMenuUrl()) {
-      urlNew = menuUrl
-      titleNew = 'Menu'
-      setSateBeforeMenu()
-    } else {
-      const stateBeforeMenu = getStateBeforeMenu()
-      urlNew = stateBeforeMenu.url
-      titleNew = stateBeforeMenu.title
-    }
-
-    console.log(
-      'pushState',
-      urlNew,
-      //new Error().stack
-    )
-    history.pushState(null, '', urlNew)
-    setModalShow()
-    document.title = titleNew
-  }
+  console.log(
+    'pushState',
+    urlNext,
+    //new Error().stack
+  )
+  setModalShow()
+  history.pushState(null, '', urlNext)
+  document.title = titleNext
+}
+function isModalAvailable() {
+  modalEl ||= document.getElementById(
+    // TODO/refactor: rename menu-full-modal => menu-modal ?
+    'menu-full-modal',
+  )
+  if (!modalEl) return false
+  if (isMenuPageContext() !== false) return false
+  return true
 }
 
 function initOnUrlChange() {
-  window.addEventListener('popstate', () => {
+  onPopState(({ previous }) => {
     console.log('popstate', window.history.state)
-    setModalShow(
-      // Let Vike make its client-side navigation
-      true,
-    )
+    // Let Vike handle it
+    if (previous.url !== menuUrl && !isMenuUrl()) return
+    if (!isModalAvailable()) return
+
+    // Use modal
+    setModalShow()
+    return true
   })
 }
 
-function setModalShow(doNotApplyAddEffect?: boolean) {
+function setModalShow() {
+  assert(isModalAvailable())
   const { classList } = document.body
   if (isMenuUrl()) {
-    if (doNotApplyAddEffect) return
     classList.add(menuModalShow)
   } else {
     classList.remove(menuModalShow)
   }
 }
+function hideMenuModalUponVikeClientSideNavigation() {
+  document.body.classList.remove(menuModalShow)
+}
 
 function isMenuUrl() {
   return window.location.pathname === menuUrl
+}
+function isMenuPageContext(): null | boolean {
+  const pageContext = getpageContextCurrent()
+  if (!pageContext) return null
+  return pageContext.urlPathname === menuUrl
 }

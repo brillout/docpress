@@ -67,10 +67,8 @@ function goBackIfPossible() {
     // Only Chrome: https://stackoverflow.com/questions/3588315/how-to-check-if-the-user-can-go-back-in-browser-history-or-not/75936209#75936209
     navigation.canGoBack
   ) {
-    /*
     navigation.back()
     return true
-    //*/
   }
   return false
 }

@@ -122,8 +122,11 @@ function isModalAvailable() {
 }
 
 function initOnUrlChange() {
+  window.addEventListener('popstate', () => {
+    console.log('popstate')
+  })
   onPopState(({ previous }) => {
-    console.log('popstate', window.history.state)
+    console.log('onPopState')
     // Let Vike handle it
     if (previous.url !== menuUrl && !isMenuUrl()) return
     if (!isModalAvailable()) return

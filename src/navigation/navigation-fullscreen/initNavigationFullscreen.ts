@@ -8,8 +8,8 @@ export { isMenuUrl }
 
 import { navigate, onPopState } from 'vike/client/router'
 import { assert } from '../../utils/client'
-import { getpageContextCurrent } from '../../renderer/onRenderClient'
 import { menuUrl } from './menuUrl'
+import { getpageContextCurrent } from '../../renderer/getPageContextCurrent'
 
 let stateBeforeMenuLocalMem: StateBeforeMenu | null = null
 let modalEl: HTMLElement | null = null

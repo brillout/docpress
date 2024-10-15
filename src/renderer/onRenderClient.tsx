@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import {
-  hideMenuModal,
+  hideMenuModalUponVikeClientSideNavigation,
   initNavigationFullscreenOnce,
   isMenuUrl,
 } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
@@ -72,7 +72,7 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 function onRenderStart() {
-  hideMenuModal()
+  hideMenuModalUponVikeClientSideNavigation()
   hideMobileNavigation()
 }
 

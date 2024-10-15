@@ -37,8 +37,6 @@ function initKeyBindings() {
 }
 
 async function toggleMenu() {
-  console.log('toggleMenu()')
-
   // Use modal
   if (isModalAvailable()) {
     toggleModal()
@@ -93,7 +91,6 @@ function setStateBeforeMenuSaved(stateBeforeMenu: StateBeforeMenu) {
 }
 
 function toggleModal() {
-  console.log('toggleModal()')
   assert(isModalAvailable())
   let urlNext: string
   let titleNext: string
@@ -106,7 +103,6 @@ function toggleModal() {
     urlNext = stateBeforeMenu.url
     titleNext = stateBeforeMenu.title
   }
-  console.log('pushState', urlNext)
   history.pushState(null, '', urlNext)
   setModalShow()
   document.title = titleNext
@@ -122,11 +118,7 @@ function isModalAvailable() {
 }
 
 function initOnUrlChange() {
-  window.addEventListener('popstate', () => {
-    console.log('popstate')
-  })
   onPopState(({ previous }) => {
-    console.log('onPopState')
     // Let Vike handle it
     if (previous.url !== menuUrl && !isMenuUrl()) return
     if (!isModalAvailable()) return
@@ -138,7 +130,6 @@ function initOnUrlChange() {
 }
 
 function setModalShow() {
-  console.log('setModalShow()')
   assert(isModalAvailable())
   const { classList } = document.body
   if (isMenuUrl()) {

@@ -33,8 +33,6 @@ prefetchMenu()
 async function onRenderClient(pageContext: PageContextClient) {
   setpageContextCurrent(pageContext)
 
-  console.log('onRenderClient', window.location.pathname)
-
   onRenderStart()
 
   // TODO: stop using any
@@ -72,7 +70,6 @@ function onRenderStart() {
 }
 
 function onRenderDone() {
-  console.log('onRenderDone', window.location.pathname)
   if (isMenuUrl()) {
     setHydrationIsFinished()
     globalObject.renderPromiseResolve!()

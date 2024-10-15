@@ -53,6 +53,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               aria-label={hotkeyLabel}
               data-balloon-pos="left"
               data-balloon-blunt
+              data-balloon-nofocus
             >
               Documentation
             </TopNavigationLink>

@@ -15,6 +15,7 @@ function NavigationFullscreenClose() {
       aria-label={hotkeyLabel}
       data-balloon-pos="left"
       data-balloon-blunt
+      data-balloon-nofocus
     >
       <img src={closeIcon} height={50} width={50} style={{ display: 'block' }} />
     </a>

@@ -1,5 +1,4 @@
 export { onRenderClient }
-export { getpageContextCurrent }
 
 import React, { useEffect } from 'react'
 import type { PageContextClient } from 'vike/types'
@@ -20,11 +19,11 @@ import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { prefetch } from 'vike/client/router'
 import { MenuFullModal } from '../pages/MenuPage'
 import { getGlobalObject } from '../utils/client'
+import { setpageContextCurrent } from './getPageContextCurrent'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
   renderPromiseResolve?: () => void
-  pageContextCurrent?: PageContextClient
 }>('onRenderClient.ts', {})
 
 addEcosystemStamp()
@@ -32,7 +31,7 @@ initNavigationFullscreenOnce()
 prefetchMenu()
 
 async function onRenderClient(pageContext: PageContextClient) {
-  globalObject.pageContextCurrent = pageContext
+  setpageContextCurrent(pageContext)
 
   console.log('onRenderClient', window.location.pathname)
 
@@ -59,10 +58,6 @@ async function onRenderClient(pageContext: PageContextClient) {
   }
   renderMenuModal(pageContext, pageContextResolved)
   await renderPromise
-}
-
-function getpageContextCurrent(): undefined | PageContextClient {
-  return globalObject.pageContextCurrent
 }
 
 function applyHead(pageContext: PageContextClient) {

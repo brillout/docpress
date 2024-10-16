@@ -1,1 +1,1 @@
-export const menuUrl = '/m'
+export const menuUrl = '/menu'

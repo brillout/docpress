@@ -6,20 +6,17 @@ import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import {
-  hideMenuModalUponVikeClientSideNavigation,
-  initNavigationFullscreenOnce,
-  isMenuUrl,
+  closeMenu,
 } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
-import { menuUrl } from '../navigation/navigation-fullscreen/menuUrl'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
-import { prefetch } from 'vike/client/router'
 import { getGlobalObject } from '../utils/client'
 import { setpageContextCurrent } from './getPageContextCurrent'
 import { initKeyBindings } from '../navigation/navigation-fullscreen/initKeyBindings'
+import {menuUrl} from '../navigation/navigation-fullscreen/menuUrl'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -28,8 +25,6 @@ const globalObject = getGlobalObject<{
 
 addEcosystemStamp()
 initKeyBindings()
-initNavigationFullscreenOnce()
-prefetchMenu()
 
 async function onRenderClient(pageContext: PageContextClient) {
   setpageContextCurrent(pageContext)
@@ -65,12 +60,12 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 function onRenderStart() {
-  hideMenuModalUponVikeClientSideNavigation()
+  closeMenu()
   hideMobileNavigation()
 }
 
 function onRenderDone() {
-  if (isMenuUrl()) {
+  if (window.location.pathname === menuUrl) {
     setHydrationIsFinished()
     globalObject.renderPromiseResolve!()
     return
@@ -89,10 +84,6 @@ function onRenderDone() {
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
   useEffect(onRenderDone)
   return children
-}
-
-async function prefetchMenu() {
-  await prefetch(menuUrl)
 }
 
 function setHydrationIsFinished() {

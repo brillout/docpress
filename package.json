@@ -4,7 +4,7 @@
     "// Develop docpress against demo/": "",
     "dev": "cd demo/ && pnpm run dev",
     "preview": "cd demo/ && pnpm run preview",
-    "types": "cd src/ && pnpm run types",
+    "typecheck": "cd src/ && pnpm run typecheck",
     "========= Test": "",
     "test": "test-e2e",
     "========= Build": "",

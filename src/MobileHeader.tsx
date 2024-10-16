@@ -7,7 +7,6 @@ export { MobileShowNavigationToggle }
 function MobileHeader() {
   const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
-  const { NavHeaderMobile } = pageContext2.config.NavHeader!
   return (
     <div
       id="mobile-header"
@@ -40,10 +39,9 @@ function MobileHeader() {
             alignItems: 'center',
             justifyContent: 'left',
             textDecoration: 'none',
-            ...pageContext2.config.NavHeader?.navHeaderMobileWrapperStyle,
           }}
         >
-          <NavHeaderMobile />
+          TODO
         </a>
       </div>
     </div>

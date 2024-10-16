@@ -11,14 +11,6 @@ export default {
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: ['pageContextResolved'],
-  meta: {
-    NavHeader: {
-      env: { client: true, server: true },
-    },
-    Layout: {
-      env: { client: true, server: true },
-    },
-  },
   prefetch: {
     staticAssets: 'hover',
     pageContext: Infinity,
@@ -34,12 +26,6 @@ declare global {
     }
     interface Config {
       Layout?: ReactComponent | null | ImportString
-      NavHeader?: {
-        NavHeader: ReactComponent
-        navHeaderWrapperStyle?: React.CSSProperties
-        NavHeaderMobile: ReactComponent
-        navHeaderMobileWrapperStyle?: React.CSSProperties
-      }
     }
   }
 }

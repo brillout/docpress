@@ -11,6 +11,7 @@ import { Links } from './navigation/NavigationHeader'
 import { hotkeyMenuOpen } from './navigation/navigation-fullscreen/hotkeyMenu'
 import { toggleMenu } from './navigation/navigation-fullscreen/initNavigationFullscreen'
 import { menuUrl } from './navigation/navigation-fullscreen/menuUrl'
+import { MenuFullModal } from './pages/MenuPage'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -87,6 +88,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           <NavigationMask />
         </div>
       </div>
+      <MenuFullModal {...{ pageContext: pageContext2, pageContextResolved: pageContext }} />
     </>
   )
 }

@@ -10,6 +10,7 @@ import { navigate, onPopState } from 'vike/client/router'
 import { assert } from '../../utils/client'
 import { menuUrl } from './menuUrl'
 import { getpageContextCurrent } from '../../renderer/getPageContextCurrent'
+import { closeDocsearchModal } from '../../algolia/closeDocsearchModal'
 
 let stateBeforeMenuLocalMem: StateBeforeMenu | null = null
 let modalEl: HTMLElement | null = null
@@ -29,7 +30,10 @@ function initKeyBindings() {
     'keydown',
     (ev) => {
       if (document.body.classList.contains('DocSearch--active')) return
-      if (ev.key === 'Escape') toggleMenu()
+      if (ev.key === 'Escape') {
+        closeDocsearchModal()
+        toggleMenu()
+      }
       if (ev.key === 'm') toggleMenu()
     },
     false,

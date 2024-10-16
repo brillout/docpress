@@ -2,6 +2,7 @@ import React from 'react'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 
 export { MobileHeader }
+export { MobileShowNavigationToggle }
 
 function MobileHeader() {
   const pageContext = usePageContext()
@@ -49,9 +50,10 @@ function MobileHeader() {
   )
 }
 
-function MobileShowNavigationToggle() {
+// TODO/refactor: rename & move
+function MobileShowNavigationToggle(props?: { style?: React.CSSProperties }) {
   return (
-    <div style={{ padding: 20, lineHeight: 0, cursor: 'pointer' }} id="mobile-show-navigation-toggle">
+    <div style={{ padding: 20, lineHeight: 0, cursor: 'pointer', ...props?.style }} id="mobile-show-navigation-toggle">
       <svg
         style={{ width: 20 }}
         className="icon"

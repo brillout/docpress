@@ -2,7 +2,7 @@ export { Layout }
 
 import React from 'react'
 import { Navigation, NavigationMask } from './navigation/Navigation'
-import { MobileHeader } from './MobileHeader'
+import { MobileHeader, MobileShowNavigationToggle } from './MobileHeader'
 import { EditPageNote } from './components/EditPageNote'
 import './Layout.css'
 import { parseTitle } from './parseTitle'
@@ -54,7 +54,8 @@ function Layout({ children }: { children: React.ReactNode }) {
               data-balloon-blunt
               data-balloon-nofocus
             >
-              Documentation
+              <MobileShowNavigationToggle style={{ padding: '0 11px' }} />
+              Menu
             </TopNavigationLink>
             {topNavigationList.map(({ title, url }) => (
               <TopNavigationLink href={url!} key={url}>

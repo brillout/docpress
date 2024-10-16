@@ -1,1 +1,1 @@
-export const hotkeyLabel = 'Hotkey <Esc>'
+export const hotkeyLabel = 'Hotkey: <Esc> or <m>'

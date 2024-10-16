@@ -20,6 +20,7 @@ import { prefetch } from 'vike/client/router'
 import { MenuFullModal } from '../pages/MenuPage'
 import { getGlobalObject } from '../utils/client'
 import { setpageContextCurrent } from './getPageContextCurrent'
+import { initKeyBindings } from '../navigation/navigation-fullscreen/initKeyBindings'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -27,6 +28,7 @@ const globalObject = getGlobalObject<{
 }>('onRenderClient.ts', {})
 
 addEcosystemStamp()
+initKeyBindings()
 initNavigationFullscreenOnce()
 prefetchMenu()
 

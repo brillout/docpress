@@ -30,18 +30,13 @@ function Layout({ children }: { children: React.ReactNode }) {
             display: 'flex',
             color: 'inherit',
             alignItems: 'center',
-            justifyContent: noSideNavigation === 'no-logo' ? 'center' : 'space-between',
+            justifyContent: 'center',
             textDecoration: 'none',
             marginBottom: 'var(--block-margin)',
             backgroundColor: 'var(--bg-color)',
             ...topNavigationStyle,
           }}
         >
-          {noSideNavigation !== 'no-logo' && (
-            <a href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}>
-              <NavHeader />
-            </a>
-          )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <TopNavigationLink
               rel="external"

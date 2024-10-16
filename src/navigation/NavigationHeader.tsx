@@ -15,7 +15,6 @@ export { Links }
 function NavigationHeader() {
   const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
-  const { NavHeader } = pageContext2.config.NavHeader!
   return (
     <div
       id="navigation-header"
@@ -37,11 +36,10 @@ function NavigationHeader() {
           textDecoration: 'none',
           paddingTop: 12,
           paddingBottom: 7,
-          ...pageContext2.config.NavHeader?.navHeaderWrapperStyle,
         }}
         href="/"
       >
-        <NavHeader />
+        TODO
       </a>
       <Links />
     </div>

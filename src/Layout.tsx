@@ -19,7 +19,6 @@ function Layout({ children }: { children: React.ReactNode }) {
     pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
-  const { NavHeader } = pageContext2.config.NavHeader!
   return (
     <>
       {noSideNavigation && (

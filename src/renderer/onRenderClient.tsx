@@ -17,7 +17,6 @@ import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { prefetch } from 'vike/client/router'
-import { MenuFullModal } from '../pages/MenuPage'
 import { getGlobalObject } from '../utils/client'
 import { setpageContextCurrent } from './getPageContextCurrent'
 import { initKeyBindings } from '../navigation/navigation-fullscreen/initKeyBindings'
@@ -56,7 +55,6 @@ async function onRenderClient(pageContext: PageContextClient) {
   if (!pageContext.isHydration) {
     applyHead(pageContext)
   }
-  renderMenuModal(pageContext, pageContextResolved)
   await renderPromise
 }
 
@@ -86,17 +84,6 @@ function onRenderDone() {
   initPressKit()
   setHydrationIsFinished()
   globalObject.renderPromiseResolve!()
-}
-
-let rootMenuModal: ReactDOM.Root
-function renderMenuModal(pageContext: PageContextClient, pageContextResolved: PageContextResolved) {
-  if (!rootMenuModal) {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-    rootMenuModal = ReactDOM.createRoot(container)
-  }
-  const el = <MenuFullModal {...{ pageContext, pageContextResolved }} />
-  rootMenuModal.render(el)
 }
 
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {

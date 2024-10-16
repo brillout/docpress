@@ -5,12 +5,12 @@ export { toggleMenu }
 export { hideMenuModalUponVikeClientSideNavigation }
 export { menuUrl }
 export { isMenuUrl }
+export { closeMenu }
 
 import { navigate, onPopState } from 'vike/client/router'
 import { assert } from '../../utils/client'
 import { menuUrl } from './menuUrl'
 import { getpageContextCurrent } from '../../renderer/getPageContextCurrent'
-import { closeDocsearchModal } from '../../algolia/closeDocsearchModal'
 
 let stateBeforeMenuLocalMem: StateBeforeMenu | null = null
 let modalEl: HTMLElement | null = null
@@ -21,26 +21,10 @@ type StateBeforeMenu = { url: string; title: string }
 
 function initNavigationFullscreenOnce() {
   if (!isMenuUrl()) setSateBeforeMenu()
-  initKeyBindings()
   initOnUrlChange()
 }
-function initKeyBindings() {
-  document.addEventListener(
-    // We don't use keydown to not interfere with user pressing `<Esc>` for closing the browser's `<Ctrl-F>` search diablog, see https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open
-    'keydown',
-    (ev) => {
-      if (document.body.classList.contains('DocSearch--active')) return
-      if (ev.key === 'Escape') {
-        closeDocsearchModal()
-        toggleMenu()
-      }
-      if (ev.key === 'm') toggleMenu()
-    },
-    false,
-  )
-}
 
-async function toggleMenu() {
+function toggleMenu() {
   // Use modal
   if (isModalAvailable()) {
     toggleModal()
@@ -59,6 +43,11 @@ async function toggleMenu() {
     setSateBeforeMenu()
     navigate(menuUrl)
   }
+}
+
+function closeMenu() {
+  if (!isMenuUrl()) return
+  toggleMenu()
 }
 
 function goBackIfPossible() {

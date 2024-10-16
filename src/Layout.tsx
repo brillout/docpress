@@ -8,7 +8,7 @@ import './Layout.css'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './navigation/NavigationHeader'
-import { hotkeyLabel } from './navigation/navigation-fullscreen/hotkeyLabel'
+import { hotkeyMenuOpen } from './navigation/navigation-fullscreen/hotkeyMenu'
 import { toggleMenu } from './navigation/navigation-fullscreen/initNavigationFullscreen'
 import { menuUrl } from './navigation/navigation-fullscreen/menuUrl'
 
@@ -50,7 +50,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 ev.preventDefault()
                 toggleMenu()
               }}
-              aria-label={hotkeyLabel}
+              aria-label={hotkeyMenuOpen}
               data-balloon-pos="left"
               data-balloon-blunt
               data-balloon-nofocus

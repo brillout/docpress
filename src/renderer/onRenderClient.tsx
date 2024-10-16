@@ -5,9 +5,7 @@ import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import {
-  closeMenu,
-} from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { closeMenu } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
@@ -16,7 +14,6 @@ import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { getGlobalObject } from '../utils/client'
 import { setpageContextCurrent } from './getPageContextCurrent'
 import { initKeyBindings } from '../navigation/navigation-fullscreen/initKeyBindings'
-import {menuUrl} from '../navigation/navigation-fullscreen/menuUrl'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -65,12 +62,6 @@ function onRenderStart() {
 }
 
 function onRenderDone() {
-  if (window.location.pathname === menuUrl) {
-    setHydrationIsFinished()
-    globalObject.renderPromiseResolve!()
-    return
-  }
-
   autoScrollNav()
   // TODO/refactor: use React?
   installSectionUrlHashs()

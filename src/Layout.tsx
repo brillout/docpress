@@ -10,7 +10,6 @@ import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './navigation/NavigationHeader'
 import { hotkeyMenuOpen } from './navigation/navigation-fullscreen/hotkeyMenu'
 import { toggleMenu } from './navigation/navigation-fullscreen/initNavigationFullscreen'
-import { menuUrl } from './navigation/navigation-fullscreen/menuUrl'
 import { MenuFullModal } from './pages/MenuPage'
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -45,7 +44,6 @@ function Layout({ children }: { children: React.ReactNode }) {
           )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <TopNavigationLink
-              href={menuUrl}
               rel="external"
               onClick={(ev) => {
                 ev.preventDefault()

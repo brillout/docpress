@@ -2,7 +2,7 @@ export { autoScrollNav }
 export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 
 // - We cannot use TypeScript syntax because of autoScrollNav_SSR
-// - We have to save & restore `dodocument.documentElement.scrollTop` because scrollIntoView() scrolls the main view. (I don't know why).
+// - We have to save & restore `document.documentElement.scrollTop` because scrollIntoView() scrolls the main view. (I don't know why).
 //   - Failed alternatives:
 //     - scrollIntoViewIfNeeded() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) would work (it doesn't scroll the main view) but Firefox doesn't support it.
 //     - Doesn't work: the scrolling is off by hundreds of px (I guess because this function runs too early while the page is still rendering).

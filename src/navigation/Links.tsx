@@ -4,47 +4,12 @@ import iconTwitter from '../icons/twitter.svg'
 import iconDiscord from '../icons/discord.svg'
 import iconChangelog from '../icons/changelog.svg'
 import iconLanguages from '../icons/languages.svg'
-import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
+import { usePageContext } from '../renderer/usePageContext'
 import { DocSearch } from '@docsearch/react'
 import { Hit } from '../components/Algolia/Hit'
 import '@docsearch/css'
 
-export { NavigationHeader }
 export { Links }
-
-function NavigationHeader() {
-  const pageContext = usePageContext()
-  const pageContext2 = usePageContext2()
-  return (
-    <div
-      id="navigation-header"
-      className={pageContext.config.pressKit && 'press-kit'}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: -5,
-      }}
-    >
-      <a
-        id="navigation-header-logo"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          color: 'inherit',
-          justifyContent: 'left',
-          textDecoration: 'none',
-          paddingTop: 12,
-          paddingBottom: 7,
-        }}
-        href="/"
-      >
-        TODO
-      </a>
-      <Links />
-    </div>
-  )
-}
 
 function Links({ style }: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()

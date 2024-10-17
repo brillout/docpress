@@ -1,35 +1,46 @@
+body {
+  /*
+  */
+  background-color: var(--bg-color);
+}
 .doc-page .page-container {
   padding-bottom: 100px;
 }
 
 .page-layout {
   display: flex;
-  justify-content: center;
-  width: 100%;
 }
-.page-layout > #navigation-wrapper,
-.page-layout > .page-wrapper {
+#navigation-wrapper {
   flex-grow: 1;
+}
+/* 1190 = 350 + 800 + 20 * 2 */
+@media screen and (min-width: 1190px) {
+  #navigation-wrapper {
+    width: var(--navigation-max-width) !important;
+  }
+  .page-wrapper {
+    flex-grow: 1;
+  }
 }
 /* Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926 */
 .page-layout > .page-wrapper {
   min-width: 0;
 }
 
-.doc-page .page-wrapper {
+.page-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+.page-wrapper {
   --main-view-max-width: 800px;
 }
-.landing-page .page-wrapper {
-  --main-view-max-width: 1010px;
-}
-.page-layout:not(.noSideNavigation) .page-wrapper {
+.page-layout:not(.noSideNavigation) .page-container {
   max-width: calc(var(--main-view-max-width) + 80px);
 }
 .page-layout:not(.noSideNavigation) .page-content {
   box-sizing: content-box;
   max-width: var(--main-view-max-width);
   padding: 20px var(--main-view-padding);
-  margin: auto;
 }
 
 .page-content {

@@ -7,7 +7,7 @@ import { EditPageNote } from './components/EditPageNote'
 import './Layout.css'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
-import { Links } from './navigation/NavigationHeader'
+import { Links } from './navigation/Links'
 import { hotkeyMenuOpen } from './navigation/navigation-fullscreen/hotkeyMenu'
 import { toggleMenu } from './navigation/navigation-fullscreen/initNavigationFullscreen'
 import { MenuFullModal } from './pages/MenuPage'
@@ -64,9 +64,24 @@ function Layout({ children }: { children: React.ReactNode }) {
         className={['page-layout', isLandingPage ? 'landing-page' : 'doc-page', noSideNavigation && 'noSideNavigation']
           .filter(Boolean)
           .join(' ')}
+        // style={{backgroundColor: 'var(--bg-color)'}}
       >
-        <div id="navigation-wrapper">
-          <Navigation {...pageContext.navigationData} />
+        <div
+          id="navigation-wrapper"
+          style={
+            {
+               borderRight: 'var(--block-margin) solid white',
+            }
+          }
+        >
+          <div
+            style={{
+              position: 'sticky',
+              top: 0,
+            }}
+          >
+            <Navigation {...pageContext.navigationData} />
+          </div>
         </div>
         <div className="page-wrapper">
           <div className="page-container">

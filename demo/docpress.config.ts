@@ -6,7 +6,7 @@ import { headings, headingsDetached } from './headings'
 
 const config: Config = {
   projectInfo: {
-    projectName: 'DocPress Demo' as const,
+    projectName: 'Demo' as const,
     projectVersion: '0.0.0',
     githubRepository: 'https://github.com/brillout/docpress' as const,
     githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
@@ -21,7 +21,7 @@ const config: Config = {
   },
   i18n: true,
   pressKit: true,
-  tagline: 'DocPress Demo',
+  tagline: 'DocPress Demonstration.',
   headings,
   headingsDetached,
   websiteUrl: 'fake-website.example.org',

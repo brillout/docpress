@@ -23,10 +23,20 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   objectAssign(pageContextResolved, resolveHeadingsData(pageContext))
 
   const config = getConfig()
-  const { faviconUrl, algolia, tagline, twitterHandle, bannerUrl, websiteUrl, topNavigationStyle } = config
+  const {
+    faviconUrl,
+    algolia,
+    tagline,
+    twitterHandle,
+    bannerUrl,
+    websiteUrl,
+    topNavigationStyle,
+    projectInfo: { projectName },
+  } = config
   objectAssign(pageContextResolved, {
     urlPathname: pageContext.urlPathname, // TODO: remove
     meta: {
+      projectName,
       faviconUrl,
       twitterHandle,
       bannerUrl,

@@ -1,18 +1,5 @@
 :root {
   --mobile-header-height: 60px;
-  --navigation-min-width: 300px;
-  --navigation-max-width: 350px;
-}
-#navigation-container,
-#navigation-header-content {
-  min-width: var(--navigation-min-width);
-  max-width: var(--navigation-max-width);
-  width: 100%;
-}
-#navigation-container {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding-bottom: 40px;
 }
 #navigation-content {
   margin-top: 20px;
@@ -31,12 +18,6 @@
 @media screen and (min-width: 1140px) {
   #mobile-header {
     display: none !important;
-  }
-  #navigation-container {
-    /*
-    height: calc(100vh - 50px - 3px);
-    top: 0;
-    */
   }
   #mobile-navigation-mask {
     display: none;

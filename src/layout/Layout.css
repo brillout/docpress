@@ -1,73 +1,14 @@
-body {
-  /*
-  */
-  background-color: var(--bg-color);
-}
-.doc-page .page-container {
-  padding-bottom: 100px;
-}
-
-.page-layout {
-  display: flex;
-}
-#navigation-wrapper {
-  flex-grow: 1;
-}
 /* 1190 = 350 + 800 + 20 * 2 */
 @media screen and (min-width: 1190px) {
-  #navigation-wrapper {
-    width: var(--navigation-max-width) !important;
-  }
   .page-wrapper {
     flex-grow: 1;
   }
 }
-/* Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926 */
-.page-layout > .page-wrapper {
-  min-width: 0;
-}
-
-.page-wrapper {
-  display: flex;
-  justify-content: flex-start;
-}
-.page-wrapper {
-  --main-view-max-width: 800px;
-}
-.page-layout:not(.noSideNavigation) .page-container {
-  max-width: calc(var(--main-view-max-width) + 80px);
-}
-.page-layout:not(.noSideNavigation) .page-content {
-  box-sizing: content-box;
-  max-width: var(--main-view-max-width);
-  padding: 20px var(--main-view-padding);
-}
-
-.page-content {
-  --main-view-padding: 20px;
-}
 @media screen and (max-width: 1139px) {
   .page-content {
-    --main-view-padding: 10px;
+    --main-view-padding: 10px !important;
   }
-}
-
-
-/* === noSideNavigation === */
-.page-layout:not(.noSideNavigation) #top-navigation {
-  display: none !important;
-}
-@media screen and (max-width: 1139px) {
   #top-navigation {
     display: none !important;
-  }
-}
-@media screen and (min-width: 1140px) {
-  .page-layout.noSideNavigation #navigation-wrapper {
-    display: none !important;
-  }
-  .noSideNavigation .page-wrapper {
-    /* Maybe we can remove this after we remove the vertical fullscreen navigation toggler? */
-    margin-left: 0 !important;
   }
 }

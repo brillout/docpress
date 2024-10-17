@@ -13,29 +13,35 @@ import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from '../autoScrollNav'
 import { SearchLink } from '../docsearch/SearchLink'
 
+const mainViewWidthMax = 800
+const mainViewPadding = 20
+const navWidthMax = 350
+const navWidthMin = 300
+const navWidth = {
+  minWidth: navWidthMin,
+  maxWidth: navWidthMax,
+  width: '100%',
+}
+
 function Layout(props: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-
   if (pageContext.isLandingPage) return <LayoutLandingPage {...props} />
-
   return <LayoutDoc {...props} />
 }
 
 function LayoutDoc({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext()
-  const { isLandingPage, noSideNavigation } = pageContext
   return (
     <>
-      {noSideNavigation && <TopNavigation />}
       <div
-        className={['page-layout', !isLandingPage && 'doc-page', noSideNavigation && 'noSideNavigation']
-          .filter(Boolean)
-          .join(' ')}
-        // style={{backgroundColor: 'var(--bg-color)'}}
+        className="page-layout doc-page"
+        style={{
+          display: 'flex',
+        }}
       >
         <div
           id="navigation-wrapper"
           style={{
+            flexGrow: 1,
             borderRight: 'var(--block-margin) solid white',
           }}
         >
@@ -60,8 +66,10 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
     <>
       <TopNavigation />
       <div
-        className={['page-layout', 'noSideNavigation'].filter(Boolean).join(' ')}
-        // style={{backgroundColor: 'var(--bg-color)'}}
+        className="page-layout"
+        style={{
+          display: 'flex',
+        }}
       >
         <PageContent>{children}</PageContent>
       </div>
@@ -75,11 +83,46 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const { isLandingPage, pageTitle } = pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
+  const pageContentStyle: React.CSSProperties = {}
+  const pageContainerStyle: React.CSSProperties = {}
+  const pageWrapperStyle: React.CSSProperties = {}
+  if (!isLandingPage) {
+    Object.assign(pageContentStyle, {
+      padding: '20px var(--main-view-padding)',
+      ['--main-view-padding']: `${mainViewPadding}px`,
+    })
+    Object.assign(pageContainerStyle, {
+      maxWidth: 'calc(var(--main-view-max-width) + 80px)',
+      ['--main-view-max-width']: `${mainViewWidthMax}px`,
+    })
+    Object.assign(pageWrapperStyle, {
+      paddingBottom: '100',
+    })
+  }
   return (
-    <div className="page-wrapper">
-      <div className="page-container">
+    <div
+      className="page-wrapper"
+      style={{
+        display: 'flex',
+        justifyContent: 'flex-start',
+        backgroundColor: 'var(--bg-color)',
+        // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
+        minWidth: 0,
+      }}
+    >
+      <div
+        className="page-container"
+        style={{
+          ...pageContainerStyle,
+        }}
+      >
         <MobileHeader />
-        <div className="page-content">
+        <div
+          className="page-content"
+          style={{
+            ...pageContentStyle,
+          }}
+        >
           {globalNote}
           {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
           {children}
@@ -164,6 +207,10 @@ function Navigation() {
           style={{
             top: 0,
             height: `calc(100vh - ${headerHeight}px - var(--block-margin))`,
+            overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            paddingBottom: 40,
+            ...navWidth,
           }}
         >
           {isDetachedPage ? (
@@ -199,6 +246,7 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
           display: 'flex',
           height: headerHeight,
           fontSize: '1.05em',
+          ...navWidth,
         }}
       >
         <a

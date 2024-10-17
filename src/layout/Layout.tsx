@@ -3,7 +3,6 @@ export { Layout }
 import React from 'react'
 import { NavigationContent } from '../navigation/Navigation'
 import { EditPageNote } from '../components/EditPageNote'
-import './Layout.css'
 import { parseTitle } from '../parseTitle'
 import { usePageContext } from '../renderer/usePageContext'
 import { Links } from '../navigation/Links'
@@ -22,6 +21,9 @@ const navWidth = {
   maxWidth: navWidthMax,
   width: '100%',
 }
+const mainViewMax = mainViewWidthMax + mainViewPadding * 2
+const mediaQuerySuperfluous = navWidthMax + mainViewMax
+const mediaQueryMobile = navWidthMin + mainViewMax
 
 function Layout(props: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -99,39 +101,57 @@ function PageContent({ children }: { children: React.ReactNode }) {
       paddingBottom: '100',
     })
   }
+  const mediaQuery = `
+@media screen and (min-width: ${mediaQuerySuperfluous}px) {
+  .page-wrapper {
+    flex-grow: 1;
+  }
+}
+@media screen and (max-width: ${mediaQueryMobile}px) {
+  .page-content {
+    --main-view-padding: 10px !important;
+  }
+  #top-navigation {
+    display: none !important;
+  }
+}
+`
   return (
-    <div
-      className="page-wrapper"
-      style={{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        backgroundColor: 'var(--bg-color)',
-        // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-        minWidth: 0,
-      }}
-    >
+    <>
+      <style>{mediaQuery}</style>
       <div
-        className="page-container"
+        className="page-wrapper"
         style={{
-          ...pageContainerStyle,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          backgroundColor: 'var(--bg-color)',
+          // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
+          minWidth: 0,
         }}
       >
-        <MobileHeader />
         <div
-          className="page-content"
+          className="page-container"
           style={{
-            ...pageContentStyle,
+            ...pageContainerStyle,
           }}
         >
-          {globalNote}
-          {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
-          {children}
-          {!isLandingPage && <EditPageNote pageContext={pageContext} />}
+          <MobileHeader />
+          <div
+            className="page-content"
+            style={{
+              ...pageContentStyle,
+            }}
+          >
+            {globalNote}
+            {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
+            {children}
+            {!isLandingPage && <EditPageNote pageContext={pageContext} />}
+          </div>
         </div>
+        {/* TODO: remove */}
+        <div id="mobile-navigation-mask" />
       </div>
-      {/* TODO: remove */}
-      <div id="mobile-navigation-mask" />
-    </div>
+    </>
   )
 }
 

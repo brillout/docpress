@@ -1,4 +1,4 @@
-body:not(.menu-modal-show) #menu-full-modal {
+body:not(.menu-modal-show) #menu-modal {
   display: none;
 }
 body.menu-modal-show {

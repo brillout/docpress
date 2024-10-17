@@ -17,7 +17,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
 
   const page = getPageElement(pageContext, pageContextResolved)
 
-  const { navItemsAll } = pageContextResolved.navigationData
+  const { navItemsAll } = pageContextResolved
   const navItemsGrouped = groupByLevelMin(navItemsAll)
   const CSSResponsiveNavItems = getCSSForResponsiveFullcreenNavItems(navItemsGrouped)
 

@@ -10,13 +10,11 @@ import './MenuFullModal.css'
 
 function MenuFull() {
   const pageContext = usePageContext()
-  const { navigationData } = pageContext
-  const { currentUrl } = navigationData
-  const navItems = navigationData.navItemsAll.filter((navItem) => navItem.level <= 2)
+  const navItems = pageContext.navItemsAll.filter((navItem) => navItem.level <= 2)
   return (
     <div id="menu-full-content">
       <NavigationFullscreenClose />
-      <NavigationContent navItems={navItems} currentUrl={currentUrl} />
+      <NavigationContent navItems={navItems} />
     </div>
   )
 }

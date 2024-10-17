@@ -49,7 +49,7 @@ function MobileHeader() {
 }
 
 // TODO/refactor: rename & move
-function MobileShowNavigationToggle(props?: { style?: React.CSSProperties, width?: number }) {
+function MobileShowNavigationToggle(props?: { style?: React.CSSProperties; width?: number }) {
   const width = props?.width ?? 20
   const height = width * (22.844 / 20)
   return (

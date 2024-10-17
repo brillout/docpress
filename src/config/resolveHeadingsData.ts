@@ -9,7 +9,7 @@ import type {
 } from '../types/Heading'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
-import { NavigationData, NavItem } from '../navigation/Navigation'
+import type { NavItem } from '../navigation/Navigation'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
@@ -47,35 +47,23 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
 
-  let navigationData: NavigationData
+  let navItems: NavItem[]
+  let navItemsAll: NavItem[]
   {
-    const currentUrl: string = pageContext.urlPathname
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
       .map(pageSectionToNavItem)
     if (isDetachedPage) {
-      const navItemsAll: NavItem[] = headingsResolved
-      const navItems: NavItem[] = [headingToNavItem(activeHeading), ...navItemsPageSections]
-      navigationData = {
-        isDetachedPage: true,
-        navItems,
-        navItemsAll,
-        currentUrl,
-      }
+      navItemsAll = headingsResolved
+      navItems = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
-      const navItemsAll: NavItem[] = headingsResolved.map(headingToNavItem)
-      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === currentUrl)
+      navItemsAll = headingsResolved.map(headingToNavItem)
+      navItems = navItemsAll
+      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === pageContext.urlPathname)
       assert(activeHeadingIndex >= 0)
       navItemsPageSections.forEach((navItem, i) => {
         navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
       })
-
-      navigationData = {
-        isDetachedPage: false,
-        navItems: navItemsAll,
-        navItemsAll,
-        currentUrl,
-      }
     }
   }
 
@@ -84,7 +72,9 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     .map((h) => ({ title: typeof h.topNavigation === 'string' ? h.topNavigation : h.title, url: h.url }))
 
   const pageContextAddendum = {
-    navigationData,
+    isDetachedPage,
+    navItems,
+    navItemsAll,
     linksAll,
     isLandingPage,
     pageTitle,

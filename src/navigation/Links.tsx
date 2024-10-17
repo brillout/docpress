@@ -5,8 +5,6 @@ import iconDiscord from '../icons/discord.svg'
 import iconChangelog from '../icons/changelog.svg'
 import iconLanguages from '../icons/languages.svg'
 import { usePageContext } from '../renderer/usePageContext'
-import { DocSearch } from '@docsearch/react'
-import { Hit } from '../components/Algolia/Hit'
 import '@docsearch/css'
 
 export { Links }
@@ -22,7 +20,6 @@ function Links({ style }: { style?: React.CSSProperties }) {
       style={{ height: 21, position: 'relative', top: 0, left: 0 }}
     />
   )
-  const { algolia } = pageContext.meta
   return (
     <div
       style={{
@@ -33,17 +30,6 @@ function Links({ style }: { style?: React.CSSProperties }) {
         ...style,
       }}
     >
-      {algolia && (
-        <div className="decolorize-6 colorize-on-hover">
-          <DocSearch
-            appId={algolia.appId}
-            indexName={algolia.indexName}
-            apiKey={algolia.apiKey}
-            insights={true}
-            hitComponent={Hit}
-          />
-        </div>
-      )}
       {iconI18n}
       {projectInfo.discordInvite && (
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />

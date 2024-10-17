@@ -4,6 +4,7 @@ import type { PageContext } from 'vike/types'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { PageContextProvider, PageContextProvider2 } from './usePageContext'
 import React from 'react'
+import { DocSearchInstall } from '../docsearch/DocSearchInstall'
 
 function getPageElement(pageContext: PageContext, pageContextResolved: PageContextResolved) {
   const { Page } = pageContext
@@ -13,6 +14,7 @@ function getPageElement(pageContext: PageContext, pageContextResolved: PageConte
       <Layout pageContext={pageContextResolved} pageContext2={pageContext}>
         <Page />
       </Layout>
+      <DocSearchInstall />
     </Wrapper>
   )
   return page

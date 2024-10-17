@@ -8,6 +8,5 @@
 @import './code.css';
 @import './table.css';
 @import './tooltip.css';
-@import '../algolia/DocSearch.css';
 @import '../components/Note.css';
 @import '../components/CodeBlockTransformer.css';

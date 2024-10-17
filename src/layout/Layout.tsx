@@ -95,65 +95,48 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function TopNavigation() {
   const pageContext = usePageContext()
   const { topNavigationList, topNavigationStyle } = pageContext
+  const paddingSize = 14
+  const padding = `0 ${paddingSize}px`
   return (
     <div
       id="top-navigation"
       style={{
         position: 'relative',
         display: 'flex',
-        color: 'inherit',
         alignItems: 'center',
         justifyContent: 'center',
         textDecoration: 'none',
         marginBottom: 'var(--block-margin)',
         backgroundColor: 'var(--bg-color)',
+        color: '#666',
         ...topNavigationStyle,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', height: 70 }}>
         {topNavigationList.map(({ title, url }) => (
-          <TopNavigationLink href={url!} key={url}>
+          <a
+            href={url!}
+            key={url}
+            style={{
+              color: 'inherit',
+              height: '100%',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              fontSize: '1.06em',
+              padding,
+              marginRight: 7,
+            }}
+          >
             {title}
-          </TopNavigationLink>
+          </a>
         ))}
-        <TopNavigationLink
-          rel="external"
-          onClick={(ev) => {
-            ev.preventDefault()
-            toggleMenu()
-          }}
-          aria-label={hotkeyMenuOpen}
-          data-balloon-pos="left"
-          data-balloon-blunt
-          data-balloon-nofocus
-        >
-          <MenuToggleIcon style={{ padding: '0 11px' }} />
-          Menu
-        </TopNavigationLink>
-        <TopNavigationLink>
-          <SearchLink />
-        </TopNavigationLink>
-        <Links style={{ display: 'inline-flex', marginLeft: 5 }} />
+        <MenuLink style={{ padding }} />
+        <SearchLink style={{ padding }} />
+        <Links style={{ display: 'inline-flex', padding, marginLeft: -8 }} />
       </div>
     </div>
-  )
-}
-
-function TopNavigationLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
-  return (
-    <a
-      style={{
-        height: '100%',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px 10px',
-        cursor: 'pointer',
-        color: '#666',
-        fontSize: '1.06em',
-      }}
-      {...props}
-    />
   )
 }
 
@@ -214,26 +197,20 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         id="navigation-header-content"
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
           height: headerHeight,
-          fontSize: '1.1em',
-          //borderBottom: 'var(--block-margin) solid white',
+          fontSize: '1.05em',
         }}
       >
         <a
           id="navigation-header-logo"
           style={{
+            flexGrow: 1,
             display: 'flex',
             alignItems: 'center',
             color: 'inherit',
             textDecoration: 'none',
             height: '100%',
-            /*
-            padding: `${padding}px 20px`,
-            */
             padding: `${headerPadding}px 4px`,
-            // borderLeft: 'var(--block-margin) solid white',
-            // borderRight: 'var(--block-margin) solid white',
           }}
           href="/"
         >
@@ -247,24 +224,8 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
             {pageContext.meta.projectName}
           </span>
         </a>
-        <SearchLink />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            height: '100%',
-            cursor: 'pointer',
-            paddingRight: 20,
-          }}
-          onClick={(ev) => {
-            ev.preventDefault()
-            toggleMenu()
-          }}
-        >
-          <MenuToggleIcon style={{ padding: '0 11px', display: 'inline-block' }} width={22} />
-          Menu
-        </div>
+        <SearchLink style={{ flexGrow: 1 }} />
+        <MenuLink style={{ flexGrow: 1 }} />
       </div>
     </div>
   )
@@ -294,7 +255,7 @@ function MobileHeader() {
           borderBottom: '1px solid #ddd',
         }}
       >
-        <MenuToggleIcon />
+        <MenuIcon />
         <a
           href="/"
           style={{
@@ -312,24 +273,45 @@ function MobileHeader() {
   )
 }
 
-function MenuToggleIcon(props?: { style?: React.CSSProperties; width?: number }) {
-  const width = props?.width ?? 20
-  const height = width * (22.844 / 20)
+type PropsDiv = React.HTMLProps<HTMLDivElement>
+function MenuLink(props: PropsDiv) {
   return (
-    <div style={{ padding: 20, lineHeight: 0, cursor: 'pointer', ...props?.style }} id="mobile-show-navigation-toggle">
-      <svg
-        style={{ width, height }}
-        className="icon"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        role="img"
-        viewBox="0 0 448 512"
-      >
-        <path
-          fill="currentColor"
-          d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
-        ></path>
-      </svg>
+    <div
+      {...props}
+      style={{
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+        ...props.style,
+      }}
+      className="colorize-on-hover"
+      onClick={(ev) => {
+        ev.preventDefault()
+        toggleMenu()
+      }}
+      aria-label={hotkeyMenuOpen}
+      data-balloon-pos="left"
+      data-balloon-blunt
+      data-balloon-nofocus
+    >
+      <MenuIcon />
+      Menu
     </div>
+  )
+}
+function MenuIcon() {
+  const size = '1.9em'
+  return (
+    <svg
+      style={{ paddingRight: 11, lineHeight: 0, width: size, height: size }}
+      className="decolorize-7"
+      viewBox="0 0 448 512"
+    >
+      <path
+        fill="currentColor"
+        d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
+      ></path>
+    </svg>
   )
 }

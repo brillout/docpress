@@ -3,37 +3,46 @@ export { SearchLink }
 import React from 'react'
 import { openDocsearchModal } from '../algolia/closeDocsearchModal'
 
-function SearchLink() {
+type PropsDiv = React.HTMLProps<HTMLDivElement>
+function SearchLink(props: PropsDiv) {
   return (
     <div
+      {...props}
       style={{
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
-        height: '100%',
         cursor: 'pointer',
+        ...props.style,
       }}
+      className="colorize-on-hover"
       onClick={(ev) => {
         ev.preventDefault()
         openDocsearchModal()
       }}
+      aria-label="Ctrl + K"
+      data-balloon-pos="left"
+      data-balloon-blunt
+      data-balloon-nofocus
     >
       <SearchIcon />
-      <span style={{ marginLeft: 7 }}>Search</span>
+      Search
     </div>
   )
 }
-
-function SearchIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function SearchIcon() {
+  const size = '1.9em'
   return (
-    <svg width="1em" height="1em" viewBox="0 0 20 20" {...props}>
+    <svg
+      style={{ paddingRight: 11, lineHeight: 0, width: size, height: size }}
+      className="decolorize-6"
+      viewBox="0 0 20 20"
+    >
       <path
         d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        fillRule="evenodd"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       ></path>
     </svg>
   )

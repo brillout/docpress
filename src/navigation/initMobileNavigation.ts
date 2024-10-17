@@ -2,6 +2,8 @@ export { initMobileNavigation }
 export { hideMobileNavigation }
 
 function initMobileNavigation() {
+  // TODO
+  return
   activateMobileShowNavigationToggle()
   activateMobileNavigationMask()
 }

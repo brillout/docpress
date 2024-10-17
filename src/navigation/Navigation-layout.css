@@ -81,16 +81,16 @@
   }
 }
 
-#menu-full-content {
+#menu-modal-content {
   display: flex;
   justify-content: center;
 }
-#menu-full-content #navigation-content {
+#menu-modal-content #navigation-content {
   flex-grow: 1;
   margin-top: -25px;
   column-gap: 20px;
 }
-#menu-full-content .nav-items-group {
+#menu-modal-content .nav-items-group {
   break-inside: avoid;
   width: 100%;
 }

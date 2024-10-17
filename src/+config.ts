@@ -11,6 +11,12 @@ export default {
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: ['pageContextResolved'],
+  meta: {
+    Layout: {
+      env: { client: true, server: true },
+    },
+  },
+
   prefetch: {
     staticAssets: 'hover',
     pageContext: Infinity,

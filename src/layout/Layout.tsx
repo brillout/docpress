@@ -11,7 +11,7 @@ import { hotkeyMenuOpen } from '../navigation/navigation-fullscreen/hotkeyMenu'
 import { toggleMenu } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from '../autoScrollNav'
-import { openDocsearchModal } from '../algolia/closeDocsearchModal'
+import { SearchLink } from '../docsearch/SearchLink'
 
 function Layout(props: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -111,6 +111,11 @@ function TopNavigation() {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
+        {topNavigationList.map(({ title, url }) => (
+          <TopNavigationLink href={url!} key={url}>
+            {title}
+          </TopNavigationLink>
+        ))}
         <TopNavigationLink
           rel="external"
           onClick={(ev) => {
@@ -125,11 +130,9 @@ function TopNavigation() {
           <MenuToggleIcon style={{ padding: '0 11px' }} />
           Menu
         </TopNavigationLink>
-        {topNavigationList.map(({ title, url }) => (
-          <TopNavigationLink href={url!} key={url}>
-            {title}
-          </TopNavigationLink>
-        ))}
+        <TopNavigationLink>
+          <SearchLink />
+        </TopNavigationLink>
         <Links style={{ display: 'inline-flex', marginLeft: 5 }} />
       </div>
     </div>
@@ -213,6 +216,7 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
           display: 'flex',
           justifyContent: 'space-between',
           height: headerHeight,
+          fontSize: '1.1em',
           //borderBottom: 'var(--block-margin) solid white',
         }}
       >
@@ -243,25 +247,7 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
             {pageContext.meta.projectName}
           </span>
         </a>
-        {/*
-        <div style={{ width: 2, height: 20, backgroundColor: 'white', position: 'relative', right: -34 }}></div>
-        */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: '100%',
-            cursor: 'pointer',
-            fontSize: '1.1em',
-          }}
-          onClick={(ev) => {
-            ev.preventDefault()
-            openDocsearchModal()
-          }}
-        >
-          <SearchIcon />
-          <span style={{ marginLeft: 7 }}>Search</span>
-        </div>
+        <SearchLink />
         <div
           style={{
             display: 'flex',
@@ -269,7 +255,6 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
             justifyContent: 'flex-end',
             height: '100%',
             cursor: 'pointer',
-            fontSize: '1.1em',
             paddingRight: 20,
           }}
           onClick={(ev) => {
@@ -346,22 +331,5 @@ function MenuToggleIcon(props?: { style?: React.CSSProperties; width?: number })
         ></path>
       </svg>
     </div>
-  )
-}
-
-// TODO: use this component instead of Algolia's button
-function SearchIcon() {
-  return (
-    <svg width="1em" height="1em" viewBox="0 0 20 20">
-      <path
-        d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        fillRule="evenodd"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
-    </svg>
   )
 }

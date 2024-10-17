@@ -9,11 +9,14 @@ export { groupByLevelMin }
 export type { NavItemGrouped }
 
 import React from 'react'
-import { NavigationHeader } from './NavigationHeader'
 import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { parseTitle } from '../parseTitle'
 import { autoScrollNav_SSR } from '../autoScrollNav'
+import { usePageContext } from '../renderer/usePageContext'
+import '@docsearch/css'
+import { MobileShowNavigationToggle } from '../MobileHeader'
+import { toggleMenu } from './navigation-fullscreen/initNavigationFullscreen'
 
 type NavigationData = Parameters<typeof Navigation>[0]
 
@@ -30,12 +33,26 @@ function Navigation({
   currentUrl: string
   isDetachedPage: boolean
 }) {
+  const headerHeight = 60
+  const headerPadding = 10
   return (
     <>
-      <div id="navigation-container">
-        <NavigationHeader />
-        <div
+      <NavigationHeader {...{ headerHeight, headerPadding }} />
+      <div
         // id="navigation-body"
+        style={{
+          backgroundColor: 'var(--bg-color)',
+          // marginTop: 'var(--block-margin)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <div
+          id="navigation-container"
+          style={{
+            top: 0,
+            height: `calc(100vh - ${headerHeight}px - var(--block-margin))`,
+          }}
         >
           {isDetachedPage ? (
             <>{navItems.length > 1 && <NavigationContent navItems={navItems} currentUrl={currentUrl} />}</>
@@ -184,4 +201,86 @@ function addComputedProps(navItems: NavItem[], currentUrl: string): NavItemCompu
       isLastOfItsKind,
     }
   })
+}
+
+function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: number; headerPadding: number }) {
+  const pageContext = usePageContext()
+  const iconSize = headerHeight - 2 * headerPadding
+  return (
+    <div
+      id="navigation-header"
+      className={pageContext.config.pressKit && 'press-kit'}
+      style={{
+        backgroundColor: 'var(--bg-color)',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        borderBottom: 'var(--block-margin) solid white',
+      }}
+    >
+      <div
+        id="navigation-header-content"
+        style={{
+          display: 'flex',
+          // justifyContent: 'center',
+          // alignItems: 'center',
+          height: headerHeight,
+          //borderBottom: 'var(--block-margin) solid white',
+        }}
+      >
+        <a
+          id="navigation-header-logo"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            color: 'inherit',
+            textDecoration: 'none',
+            height: '100%',
+            /*
+            padding: `${padding}px 20px`,
+            */
+            padding: `${headerPadding}px 4px`,
+            // borderLeft: 'var(--block-margin) solid white',
+            // borderRight: 'var(--block-margin) solid white',
+          }}
+          href="/"
+        >
+          <img src={pageContext.meta.faviconUrl} height={iconSize} width={iconSize} />
+          <span
+            style={{
+              fontSize: '1.25em',
+              marginLeft: 10,
+            }}
+          >
+            {pageContext.meta.projectName}
+          </span>
+        </a>
+        {/*
+        <div style={{ width: 2, height: 20, backgroundColor: 'white', position: 'relative', right: -34 }}></div>
+        */}
+        <div
+          style={{
+            /*
+            paddingLeft: 7,
+            /*/
+            flexGrow: 1,
+            paddingRight: 25,
+            //*/
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            height: '100%',
+            cursor: 'pointer',
+            fontSize: '1.1em',
+          }}
+          onClick={(ev) => {
+            ev.preventDefault()
+            toggleMenu()
+          }}
+        >
+          <MobileShowNavigationToggle style={{ padding: '0 11px', display: 'inline-block' }} width={22} />
+          Menu
+        </div>
+      </div>
+    </div>
+  )
 }

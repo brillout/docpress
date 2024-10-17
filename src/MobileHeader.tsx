@@ -49,11 +49,13 @@ function MobileHeader() {
 }
 
 // TODO/refactor: rename & move
-function MobileShowNavigationToggle(props?: { style?: React.CSSProperties }) {
+function MobileShowNavigationToggle(props?: { style?: React.CSSProperties, width?: number }) {
+  const width = props?.width ?? 20
+  const height = width * (22.844 / 20)
   return (
     <div style={{ padding: 20, lineHeight: 0, cursor: 'pointer', ...props?.style }} id="mobile-show-navigation-toggle">
       <svg
-        style={{ width: 20 }}
+        style={{ width, height }}
         className="icon"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"

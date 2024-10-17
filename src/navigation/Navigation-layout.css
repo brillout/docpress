@@ -3,23 +3,16 @@
   --navigation-min-width: 300px;
   --navigation-max-width: 350px;
 }
-#navigation-wrapper {
+#navigation-container,
+#navigation-header-content {
   min-width: var(--navigation-min-width);
-}
-.doc-page #navigation-wrapper {
   max-width: var(--navigation-max-width);
-}
-.landing-page #navigation-wrapper {
-  /* prettier-ignore */
-  max-width: min(var(--navigation-max-width), max(var(--navigation-min-width), calc(var(--navigation-min-width) + 100% - 1240px)));
+  width: 100%;
 }
 #navigation-container {
-  /* `position: fixed` doesn't inherit the parent's width */
-  position: sticky;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border-right: 1px solid #eee;
-  padding-bottom: 70px;
+  padding-bottom: 40px;
 }
 #navigation-content {
   margin-top: 20px;
@@ -40,8 +33,10 @@
     display: none !important;
   }
   #navigation-container {
-    height: 100vh;
+    /*
+    height: calc(100vh - 50px - 3px);
     top: 0;
+    */
   }
   #mobile-navigation-mask {
     display: none;
@@ -49,7 +44,6 @@
 }
 #navigation-container {
   transition: transform 0.25s ease;
-  background: white;
   z-index: 3;
 }
 @media screen and (max-width: 1139px) {

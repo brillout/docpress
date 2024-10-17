@@ -1,0 +1,7 @@
+body:not(.menu-modal-show) #menu-modal {
+  display: none;
+}
+body.menu-modal-show {
+  /* disable scroll of main view */
+  overflow: hidden !important;
+}

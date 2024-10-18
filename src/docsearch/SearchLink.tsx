@@ -31,10 +31,9 @@ function SearchLink(props: PropsDiv) {
   )
 }
 function SearchIcon() {
-  const size = '1.9em'
   return (
     <svg
-      style={{ paddingRight: 11, lineHeight: 0, width: size, height: size }}
+      style={{ marginRight: 'var(--icon-padding)', lineHeight: 0, width: '1.3em' }}
       className="decolorize-6"
       viewBox="0 0 20 20"
     >

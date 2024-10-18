@@ -22,6 +22,9 @@ const navWidth = {
   width: '100%',
 }
 const blockMargin = 3
+const mainViewMax = mainViewWidthMax + mainViewPadding * 2
+const mediaQuerySpacing = mainViewMax + navWidthMax + blockMargin
+const mediaQueryMobile = mainViewMax + navWidthMin
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -41,6 +44,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         style={{
           ['--bg-color']: '#f5f5f7',
           ['--block-margin']: `${blockMargin}px`,
+          ['--icon-padding']: '8px',
         }}
       >
         {content}
@@ -150,9 +154,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
 }
 
 function MediaQueries() {
-  const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-  const mediaQuerySpacing = mainViewMax + navWidthMax + blockMargin
-  const mediaQueryMobile = mainViewMax + navWidthMin - 1
   const mediaQuery = `
 @media screen and (min-width: ${mediaQuerySpacing}px) {
   .low-prio-grow {
@@ -162,7 +163,7 @@ function MediaQueries() {
     width: ${navWidthMax}px !important;
   }
 }
-@media screen and (max-width: ${mediaQueryMobile}px) {
+@media screen and (max-width: ${mediaQueryMobile - 1}px) {
   .page-content {
     --main-view-padding: 10px !important;
   }
@@ -190,6 +191,7 @@ function NavigationTop() {
         textDecoration: 'none',
         marginBottom: 'var(--block-margin)',
         backgroundColor: 'var(--bg-color)',
+        fontSize: '1.06em',
         color: '#666',
         ...topNavigationStyle,
       }}
@@ -206,7 +208,6 @@ function NavigationTop() {
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              fontSize: '1.06em',
               padding,
               marginRight: 7,
             }}
@@ -266,17 +267,59 @@ function Navigation() {
 function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: number; headerPadding: number }) {
   const pageContext = usePageContext()
   const iconSize = headerHeight - 2 * headerPadding
+  //const { projectName } = pageContext.meta
+  const projectName = 'Telefunc'
+  const projectNameIsShort = projectName.length <= 4
+  //*
+  const mediaQuery = `
+#nav-header-project-name {
+  font-size: calc(1.25em - var(--downscale) * ${projectNameIsShort ? '0.05' : '0.1'}em);
+  font-size: calc(21px - var(--downscale) * ${projectNameIsShort ? 1.5 : 3}px);
+  font-size: calc(21px - ((350px - 100cqw) / 50px) * ${projectNameIsShort ? 1.5 : 3}px);
+  font-size: calc(21px - ((350px - 300px) / 50px) * ${projectNameIsShort ? 1.5 : 3}px);
+  font-size: calc(21px - (10px / 10px) * ${projectNameIsShort ? 1.5 : 3}px);
+  font-size: calc(21px - 1 * ${projectNameIsShort ? 1.5 : 3}px);
+  font-size: 6cqw;
+}
+#navigation-header {
+  --downscale: calc((350px - 100cqw) / 50px);
+  --icon-padding: 1.5cqw;
+  font-size: 1.2cqw;
+}
+`
+  /*/
+  const mediaQuery = `
+#nav-header-project-name {
+  font-size: ${projectNameIsShort ? '1.2' : '1.15'}em;
+}
+#navigation-header {
+  --icon-padding: ${projectNameIsShort ? '6' : '4'}px;
+  font-size: ${projectNameIsShort ? '0.95' : '0.9'}em;
+}
+@media screen and (min-width: 1150px) {
+  #nav-header-project-name {
+    font-size: 1.25em;
+  }
+  #navigation-header {
+    --icon-padding: 10px;
+    font-size: 1em;
+  }
+}
+`
+//*/
   return (
     <div
       id="navigation-header"
       className={pageContext.config.pressKit && 'press-kit'}
       style={{
+        containerType: 'inline-size',
         backgroundColor: 'var(--bg-color)',
         display: 'flex',
         justifyContent: 'flex-end',
         borderBottom: 'var(--block-margin) solid white',
       }}
     >
+      <style>{mediaQuery}</style>
       <div
         id="navigation-header-content"
         style={{
@@ -302,12 +345,12 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         >
           <img src={pageContext.meta.faviconUrl} height={iconSize} width={iconSize} />
           <span
+            id="nav-header-project-name"
             style={{
-              fontSize: '1.25em',
-              marginLeft: 10,
+              marginLeft: `var(--icon-padding)`,
             }}
           >
-            {pageContext.meta.projectName}
+            {projectName}
           </span>
         </a>
         <SearchLink style={{ flexGrow: 1 }} />
@@ -387,10 +430,9 @@ function MenuLink(props: PropsDiv) {
   )
 }
 function MenuIcon() {
-  const size = '1.9em'
   return (
     <svg
-      style={{ paddingRight: 11, lineHeight: 0, width: size, height: size }}
+      style={{ marginRight: 'calc(var(--icon-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
       className="decolorize-7"
       viewBox="0 0 448 512"
     >

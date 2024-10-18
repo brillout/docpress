@@ -21,41 +21,22 @@ const navWidth = {
   maxWidth: navWidthMax,
   width: '100%',
 }
-const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-const mediaQuerySuperfluous = navWidthMax + mainViewMax
-const mediaQueryMobile = navWidthMin + mainViewMax
 
-function Layout(props: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  if (pageContext.isLandingPage) return <LayoutLandingPage {...props} />
-  return <LayoutDoc {...props} />
+  if (pageContext.isLandingPage) {
+    return <LayoutLandingPage>{children}</LayoutLandingPage>
+  } else {
+    return <LayoutDocsPage>{children}</LayoutDocsPage>
+  }
 }
 
-function LayoutDoc({ children }: { children: React.ReactNode }) {
+function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div
-        className="page-layout doc-page"
-        style={{
-          display: 'flex',
-        }}
-      >
-        <div
-          id="navigation-wrapper"
-          style={{
-            flexGrow: 1,
-            borderRight: 'var(--block-margin) solid white',
-          }}
-        >
-          <div
-            style={{
-              position: 'sticky',
-              top: 0,
-            }}
-          >
-            <Navigation />
-          </div>
-        </div>
+      <MediaQueries />
+      <div className="page-layout doc-page" style={{ display: 'flex' }}>
+        <NavigationLeft />
         <PageContent>{children}</PageContent>
       </div>
       <MenuModal />
@@ -66,17 +47,33 @@ function LayoutDoc({ children }: { children: React.ReactNode }) {
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <TopNavigation />
-      <div
-        className="page-layout"
-        style={{
-          display: 'flex',
-        }}
-      >
+      <NavigationTop />
+      <div className="page-layout" style={{ display: 'flex' }}>
         <PageContent>{children}</PageContent>
       </div>
       <MenuModal />
     </>
+  )
+}
+
+function NavigationLeft() {
+  return (
+    <div
+      id="navigation-wrapper"
+      style={{
+        flexGrow: 1,
+        borderRight: 'var(--block-margin) solid white',
+      }}
+    >
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+        }}
+      >
+        <Navigation />
+      </div>
+    </div>
   )
 }
 
@@ -101,24 +98,8 @@ function PageContent({ children }: { children: React.ReactNode }) {
       paddingBottom: '100',
     })
   }
-  const mediaQuery = `
-@media screen and (min-width: ${mediaQuerySuperfluous}px) {
-  .page-wrapper {
-    flex-grow: 1;
-  }
-}
-@media screen and (max-width: ${mediaQueryMobile}px) {
-  .page-content {
-    --main-view-padding: 10px !important;
-  }
-  #top-navigation {
-    display: none !important;
-  }
-}
-`
   return (
     <>
-      <style>{mediaQuery}</style>
       <div
         className="page-wrapper"
         style={{
@@ -155,7 +136,29 @@ function PageContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-function TopNavigation() {
+function MediaQueries() {
+  const mainViewMax = mainViewWidthMax + mainViewPadding * 2
+  const mediaQuerySuperfluous = navWidthMax + mainViewMax
+  const mediaQueryMobile = navWidthMin + mainViewMax
+  const mediaQuery = `
+@media screen and (min-width: ${mediaQuerySuperfluous}px) {
+  .page-wrapper {
+    flex-grow: 1;
+  }
+}
+@media screen and (max-width: ${mediaQueryMobile}px) {
+  .page-content {
+    --main-view-padding: 10px !important;
+  }
+  #top-navigation {
+    display: none !important;
+  }
+}
+`
+  return <style>{mediaQuery}</style>
+}
+
+function NavigationTop() {
   const pageContext = usePageContext()
   const { topNavigationList, topNavigationStyle } = pageContext
   const paddingSize = 14
@@ -214,10 +217,8 @@ function Navigation() {
     <>
       <NavigationHeader {...{ headerHeight, headerPadding }} />
       <div
-        // id="navigation-body"
         style={{
           backgroundColor: 'var(--bg-color)',
-          // marginTop: 'var(--block-margin)',
           display: 'flex',
           justifyContent: 'flex-end',
         }}

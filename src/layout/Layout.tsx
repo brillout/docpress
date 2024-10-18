@@ -267,22 +267,26 @@ function Navigation() {
 function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: number; headerPadding: number }) {
   const pageContext = usePageContext()
   const iconSize = headerHeight - 2 * headerPadding
-  //const { projectName } = pageContext.meta
-  const projectName = 'Telefunc'
-  const projectNameIsShort = projectName.length <= 4
   //*
+  const { projectName } = pageContext.meta
+  /*/
+  const projectName = 'Vike'
+  //*/
+  const isProjectNameShort = projectName.length <= 4
+  const childrenStyle: React.CSSProperties = {
+    flexGrow: 1,
+    fontSize: isProjectNameShort ? '4.8cqw' : '4.5cqw',
+    ['--icon-padding']: '1.8cqw',
+  }
   return (
     <div
       id="navigation-header"
       className={pageContext.config.pressKit && 'press-kit'}
       style={{
-        containerType: 'inline-size',
         backgroundColor: 'var(--bg-color)',
         display: 'flex',
         justifyContent: 'flex-end',
         borderBottom: 'var(--block-margin) solid white',
-        ['--icon-padding']: '1.5cqw',
-        fontSize: '1.2cqw',
       }}
     >
       <div
@@ -290,14 +294,13 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         style={{
           display: 'flex',
           height: headerHeight,
-          fontSize: '1.05em',
+          containerType: 'inline-size',
           ...navWidth,
         }}
       >
         <a
           id="navigation-header-logo"
           style={{
-            flexGrow: 1,
             display: 'flex',
             alignItems: 'center',
             color: 'inherit',
@@ -305,21 +308,32 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
             height: '100%',
             padding: `${headerPadding}px 0`,
             paddingLeft: 4,
+            ...childrenStyle,
           }}
           href="/"
         >
           <img src={pageContext.meta.faviconUrl} height={iconSize} width={iconSize} />
           <span
             style={{
-              marginLeft: `var(--icon-padding)`,
-              fontSize: '6cqw',
+              marginLeft: `calc(var(--icon-padding) + 2px)`,
+              fontSize: isProjectNameShort ? '1.7em' : '1.3em',
             }}
           >
             {projectName}
           </span>
         </a>
-        <SearchLink style={{ flexGrow: 1 }} />
-        <MenuLink style={{ flexGrow: 1 }} />
+        <SearchLink
+          style={{
+            //
+            ...childrenStyle,
+          }}
+        />
+        <MenuLink
+          style={{
+            //
+            ...childrenStyle,
+          }}
+        />
       </div>
     </div>
   )

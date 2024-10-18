@@ -271,42 +271,6 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
   const projectName = 'Telefunc'
   const projectNameIsShort = projectName.length <= 4
   //*
-  const mediaQuery = `
-#nav-header-project-name {
-  font-size: calc(1.25em - var(--downscale) * ${projectNameIsShort ? '0.05' : '0.1'}em);
-  font-size: calc(21px - var(--downscale) * ${projectNameIsShort ? 1.5 : 3}px);
-  font-size: calc(21px - ((350px - 100cqw) / 50px) * ${projectNameIsShort ? 1.5 : 3}px);
-  font-size: calc(21px - ((350px - 300px) / 50px) * ${projectNameIsShort ? 1.5 : 3}px);
-  font-size: calc(21px - (10px / 10px) * ${projectNameIsShort ? 1.5 : 3}px);
-  font-size: calc(21px - 1 * ${projectNameIsShort ? 1.5 : 3}px);
-  font-size: 6cqw;
-}
-#navigation-header {
-  --downscale: calc((350px - 100cqw) / 50px);
-  --icon-padding: 1.5cqw;
-  font-size: 1.2cqw;
-}
-`
-  /*/
-  const mediaQuery = `
-#nav-header-project-name {
-  font-size: ${projectNameIsShort ? '1.2' : '1.15'}em;
-}
-#navigation-header {
-  --icon-padding: ${projectNameIsShort ? '6' : '4'}px;
-  font-size: ${projectNameIsShort ? '0.95' : '0.9'}em;
-}
-@media screen and (min-width: 1150px) {
-  #nav-header-project-name {
-    font-size: 1.25em;
-  }
-  #navigation-header {
-    --icon-padding: 10px;
-    font-size: 1em;
-  }
-}
-`
-//*/
   return (
     <div
       id="navigation-header"
@@ -317,9 +281,10 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         display: 'flex',
         justifyContent: 'flex-end',
         borderBottom: 'var(--block-margin) solid white',
+        ['--icon-padding']: '1.5cqw',
+        fontSize: '1.2cqw',
       }}
     >
-      <style>{mediaQuery}</style>
       <div
         id="navigation-header-content"
         style={{
@@ -345,9 +310,9 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         >
           <img src={pageContext.meta.faviconUrl} height={iconSize} width={iconSize} />
           <span
-            id="nav-header-project-name"
             style={{
               marginLeft: `var(--icon-padding)`,
+              fontSize: '6cqw',
             }}
           >
             {projectName}

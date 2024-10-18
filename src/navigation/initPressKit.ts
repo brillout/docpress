@@ -8,7 +8,8 @@ function initPressKit() {
 }
 
 function navigationHeaderRightClickInterceptor() {
-  const navHeader = document.getElementById('navigation-header')!
+  const navHeader = document.getElementById('navigation-header')
+  if (!navHeader) return
   if (!navHeader.classList.contains('press-kit')) return
   if (window.location.pathname === '/press') return
   const navHeaderImg = document.querySelector('#navigation-header-logo img') as HTMLElement

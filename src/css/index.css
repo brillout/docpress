@@ -1,5 +1,4 @@
 @import './reset.css';
-@import './block-design.css';
 @import './colorize-on-hover.css';
 @import './heading.css';
 @import './button.css';
@@ -8,6 +7,5 @@
 @import './code.css';
 @import './table.css';
 @import './tooltip.css';
-@import '../algolia/DocSearch.css';
 @import '../components/Note.css';
 @import '../components/CodeBlockTransformer.css';

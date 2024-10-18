@@ -139,7 +139,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function MediaQueries() {
   const mainViewMax = mainViewWidthMax + mainViewPadding * 2
   const mediaQuerySuperfluous = navWidthMax + mainViewMax
-  const mediaQueryMobile = navWidthMin + mainViewMax
+  const mediaQueryMobile = navWidthMin + mainViewMax - 1
   const mediaQuery = `
 @media screen and (min-width: ${mediaQuerySuperfluous}px) {
   .page-wrapper {

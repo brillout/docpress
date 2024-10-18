@@ -14,33 +14,50 @@ import { SearchLink } from '../docsearch/SearchLink'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
-const navWidthMax = 350
+const navWidthMax = 370
 const navWidthMin = 300
 const navWidth = {
   minWidth: navWidthMin,
   maxWidth: navWidthMax,
   width: '100%',
 }
+const blockMargin = 3
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  if (pageContext.isLandingPage) {
-    return <LayoutLandingPage>{children}</LayoutLandingPage>
+  const { isLandingPage } = pageContext
+
+  let content: JSX.Element
+  if (isLandingPage) {
+    content = <LayoutLandingPage>{children}</LayoutLandingPage>
   } else {
-    return <LayoutDocsPage>{children}</LayoutDocsPage>
+    content = <LayoutDocsPage>{children}</LayoutDocsPage>
   }
+
+  return (
+    <>
+      <div
+        className={isLandingPage ? '' : 'doc-page'}
+        style={{
+          ['--bg-color']: '#f5f5f7',
+          ['--block-margin']: `${blockMargin}px`,
+        }}
+      >
+        {content}
+      </div>
+      <MenuModal />
+    </>
+  )
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div style={{ display: 'flex' }}>
       <MediaQueries />
-      <div className="page-layout doc-page" style={{ display: 'flex' }}>
-        <NavigationLeft />
-        <PageContent>{children}</PageContent>
-      </div>
-      <MenuModal />
-    </>
+      <NavigationLeft />
+      <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
+      <PageContent>{children}</PageContent>
+    </div>
   )
 }
 
@@ -48,10 +65,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
     <>
       <NavigationTop />
-      <div className="page-layout" style={{ display: 'flex' }}>
-        <PageContent>{children}</PageContent>
-      </div>
-      <MenuModal />
+      <PageContent>{children}</PageContent>
     </>
   )
 }
@@ -88,25 +102,26 @@ function PageContent({ children }: { children: React.ReactNode }) {
   if (!isLandingPage) {
     Object.assign(pageContentStyle, {
       padding: '20px var(--main-view-padding)',
-      ['--main-view-padding']: `${mainViewPadding}px`,
     })
     Object.assign(pageContainerStyle, {
-      maxWidth: 'calc(var(--main-view-max-width) + 80px)',
+      maxWidth: 'calc(var(--main-view-max-width) + 2 * var(--main-view-padding))',
       ['--main-view-max-width']: `${mainViewWidthMax}px`,
+      ['--main-view-padding']: `${mainViewPadding}px`,
     })
     Object.assign(pageWrapperStyle, {
-      paddingBottom: '100',
+      paddingBottom: 50,
     })
   }
   return (
     <div
-      className="page-wrapper"
+      className="page-wrapper low-prio-grow"
       style={{
         display: 'flex',
         justifyContent: 'flex-start',
         backgroundColor: 'var(--bg-color)',
         // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
+        ...pageWrapperStyle,
       }}
     >
       <div
@@ -136,12 +151,15 @@ function PageContent({ children }: { children: React.ReactNode }) {
 
 function MediaQueries() {
   const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-  const mediaQuerySpacing = mainViewMax + navWidthMax
+  const mediaQuerySpacing = mainViewMax + navWidthMax + blockMargin
   const mediaQueryMobile = mainViewMax + navWidthMin - 1
   const mediaQuery = `
 @media screen and (min-width: ${mediaQuerySpacing}px) {
-  .page-wrapper {
+  .low-prio-grow {
     flex-grow: 1;
+  }
+  #navigation-container {
+    width: ${navWidthMax}px !important;
   }
 }
 @media screen and (max-width: ${mediaQueryMobile}px) {
@@ -277,7 +295,8 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
             color: 'inherit',
             textDecoration: 'none',
             height: '100%',
-            padding: `${headerPadding}px 4px`,
+            padding: `${headerPadding}px 0`,
+            paddingLeft: 4,
           }}
           href="/"
         >

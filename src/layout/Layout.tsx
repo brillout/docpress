@@ -99,49 +99,47 @@ function PageContent({ children }: { children: React.ReactNode }) {
     })
   }
   return (
-    <>
+    <div
+      className="page-wrapper"
+      style={{
+        display: 'flex',
+        justifyContent: 'flex-start',
+        backgroundColor: 'var(--bg-color)',
+        // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
+        minWidth: 0,
+      }}
+    >
       <div
-        className="page-wrapper"
+        className="page-container"
         style={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          backgroundColor: 'var(--bg-color)',
-          // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-          minWidth: 0,
+          ...pageContainerStyle,
         }}
       >
+        <MobileHeader />
         <div
-          className="page-container"
+          className="page-content"
           style={{
-            ...pageContainerStyle,
+            ...pageContentStyle,
           }}
         >
-          <MobileHeader />
-          <div
-            className="page-content"
-            style={{
-              ...pageContentStyle,
-            }}
-          >
-            {globalNote}
-            {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
-            {children}
-            {!isLandingPage && <EditPageNote pageContext={pageContext} />}
-          </div>
+          {globalNote}
+          {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
+          {children}
+          {!isLandingPage && <EditPageNote pageContext={pageContext} />}
         </div>
-        {/* TODO: remove */}
-        <div id="mobile-navigation-mask" />
       </div>
-    </>
+      {/* TODO: remove */}
+      <div id="mobile-navigation-mask" />
+    </div>
   )
 }
 
 function MediaQueries() {
   const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-  const mediaQuerySuperfluous = navWidthMax + mainViewMax
-  const mediaQueryMobile = navWidthMin + mainViewMax - 1
+  const mediaQuerySpacing = mainViewMax + navWidthMax
+  const mediaQueryMobile = mainViewMax + navWidthMin - 1
   const mediaQuery = `
-@media screen and (min-width: ${mediaQuerySuperfluous}px) {
+@media screen and (min-width: ${mediaQuerySpacing}px) {
   .page-wrapper {
     flex-grow: 1;
   }

@@ -23,8 +23,8 @@ const navWidth = {
 }
 const blockMargin = 3
 const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-const mediaQuerySpacing = mainViewMax + navWidthMax + blockMargin
-const mediaQueryMobile = mainViewMax + navWidthMin
+const containerQuerySpacing = mainViewMax + navWidthMax + blockMargin
+const containerQueryMobile = mainViewMax + navWidthMin
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
@@ -57,7 +57,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ display: 'flex' }}>
-      <MediaQueries />
+      <ContainerQueries />
       <NavigationLeft />
       <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
       <PageContent>{children}</PageContent>
@@ -153,9 +153,9 @@ function PageContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-function MediaQueries() {
-  const mediaQuery = `
-@media screen and (min-width: ${mediaQuerySpacing}px) {
+function ContainerQueries() {
+  const containerQuery = `
+@container(min-width: ${containerQuerySpacing}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -163,7 +163,7 @@ function MediaQueries() {
     width: ${navWidthMax}px !important;
   }
 }
-@media screen and (max-width: ${mediaQueryMobile - 1}px) {
+@container(max-width: ${containerQueryMobile - 1}px) {
   .page-content {
     --main-view-padding: 10px !important;
   }
@@ -172,7 +172,7 @@ function MediaQueries() {
   }
 }
 `
-  return <style>{mediaQuery}</style>
+  return <style>{containerQuery}</style>
 }
 
 function NavigationTop() {

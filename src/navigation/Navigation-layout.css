@@ -1,3 +1,7 @@
+body {
+  container-type: inline-size;
+}
+
 :root {
   --mobile-header-height: 60px;
 }

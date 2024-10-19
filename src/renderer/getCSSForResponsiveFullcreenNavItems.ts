@@ -39,12 +39,12 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
         ],
       )
     })
-    const noMediaQuery = numberOfColumns === navItemsGrouped.length
-    if (!noMediaQuery) {
+    const noContainerQuery = numberOfColumns === navItemsGrouped.length
+    if (!noContainerQuery) {
       const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
       CSS_block = [
         //
-        `@media screen and (max-width: ${maxWidth}px) {`,
+        `@container(max-width: ${maxWidth}px) {`,
         ...CSS_block,
         `}`,
       ]

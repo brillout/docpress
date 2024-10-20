@@ -108,20 +108,14 @@ function PageContent({ children }: { children: React.ReactNode }) {
         backgroundColor: 'var(--bg-color)',
         // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
+        ['--main-view-padding']: `${mainViewPadding}px`,
+        width: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
         ...ifDocPage({
           paddingBottom: 50,
         }),
       }}
     >
-      <div
-        className="page-container"
-        style={{
-          ...ifDocPage({
-            maxWidth: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
-            ['--main-view-padding']: `${mainViewPadding}px`,
-          }),
-        }}
-      >
+      <div className="page-container">
         <MobileHeader />
         <div
           className="page-content"
@@ -153,13 +147,8 @@ function ContainerQueries() {
     width: ${navWidthMax}px !important;
   }
 }
-@container(min-width: ${containerQueryMobile}px) {
-  .page-wrapper {
-    min-width: ${mainViewWidthMax}px !important;
-  }
-}
 @container(max-width: ${containerQueryMobile - 1}px) {
-  .page-content {
+  .page-wrapper {
     --main-view-padding: 10px !important;
   }
   #top-navigation {

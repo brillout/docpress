@@ -6,12 +6,6 @@ body {
   margin-top: 20px;
 }
 
-@media screen and (max-width: 1139px) {
-  #navigation-wrapper {
-    display: none;
-  }
-}
-
 #menu-modal-content {
   display: flex;
   justify-content: center;

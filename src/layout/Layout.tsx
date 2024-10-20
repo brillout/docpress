@@ -27,6 +27,16 @@ const mainViewMax = mainViewWidthMax + mainViewPadding * 2
 const containerQuerySpacing = mainViewMax + navWidthMax + blockMargin
 const containerQueryMobile = mainViewMax + navWidthMin
 
+// Avoid blank whitespace at the bottom of the page with almost no content
+const blankBuster1: React.CSSProperties = {
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+}
+const blankBuster2: React.CSSProperties = {
+  flexGrow: 1,
+}
+
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext
@@ -46,6 +56,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           ['--bg-color']: '#f5f5f7',
           ['--block-margin']: `${blockMargin}px`,
           ['--icon-padding']: '8px',
+          ...blankBuster1,
         }}
       >
         {content}
@@ -58,23 +69,70 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ContainerQueries />
-      <div style={{ display: 'flex' }}>
+      <style>{getContainerQueries()}</style>
+      <NavMobile />
+      <div style={{ display: 'flex', ...blankBuster2 }}>
         <NavigationLeft />
         <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
         <PageContent>{children}</PageContent>
       </div>
     </>
   )
+  function getContainerQueries() {
+    return `
+@container(min-width: ${containerQuerySpacing}px) {
+  .low-prio-grow {
+    flex-grow: 1;
+  }
+  #navigation-container {
+    width: ${navWidthMax}px !important;
+  }
+}
+@container(min-width: ${containerQueryMobile}px) {
+  #nav-mobile {
+    display: none !important;
+  }
+}
+@container(max-width: ${containerQueryMobile - 1}px) {
+  #navigation-wrapper {
+    display: none;
+  }
+  .page-wrapper {
+    --main-view-padding: 10px !important;
+    flex-grow: 1;
+    align-items: center;
+  }
+  .page-content {
+    margin: auto;
+  }
+}
+`
+  }
 }
 
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
+  const containerQueryMobile = 700
   return (
     <>
+      <style>{getContainerQueries()}</style>
       <NavigationTop />
+      <NavMobile />
       <PageContent>{children}</PageContent>
     </>
   )
+  function getContainerQueries() {
+    return `
+@container(min-width: ${containerQueryMobile}px) {
+  #nav-mobile {
+    display: none !important;
+  }
+}
+@container(max-width: ${containerQueryMobile - 1}px) {
+  #top-navigation {
+    display: none !important;
+  }
+`
+  }
 }
 
 function NavigationLeft() {
@@ -111,52 +169,37 @@ function PageContent({ children }: { children: React.ReactNode }) {
         backgroundColor: 'var(--bg-color)',
         // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
-        ['--main-view-padding']: `${mainViewPadding}px`,
-        width: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
         ...ifDocPage({
           paddingBottom: 50,
         }),
       }}
     >
-      <div className="page-container">
-        <div
-          className="page-content"
-          style={{
-            ...ifDocPage({
-              padding: '20px var(--main-view-padding)',
-            }),
-          }}
-        >
-          {globalNote}
-          {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
-          {children}
-          {!isLandingPage && <EditPageNote pageContext={pageContext} />}
-        </div>
+      <div
+        className="page-content"
+        style={{
+          ...ifDocPage({
+            ['--main-view-padding']: `${mainViewPadding}px`,
+            width: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
+            maxWidth: '100%',
+            padding: '20px var(--main-view-padding)',
+          }),
+        }}
+      >
+        {globalNote}
+        {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
+        {children}
+        {!isLandingPage && <EditPageNote pageContext={pageContext} />}
       </div>
     </div>
   )
 }
 
-function ContainerQueries() {
-  const containerQuery = `
-@container(min-width: ${containerQuerySpacing}px) {
-  .low-prio-grow {
-    flex-grow: 1;
-  }
-  #navigation-container {
-    width: ${navWidthMax}px !important;
-  }
-}
-@container(max-width: ${containerQueryMobile - 1}px) {
-  #top-navigation {
-    display: none !important;
-  }
-  .page-wrapper {
-    --main-view-padding: 10px !important;
-  }
-}
-`
-  return <style>{containerQuery}</style>
+function NavMobile() {
+  return (
+    <div id="nav-mobile">
+      <NavigationHeader headerHeight={50} headerPadding={10} style={{ justifyContent: 'center' }} />
+    </div>
+  )
 }
 
 function NavigationTop() {
@@ -248,7 +291,11 @@ function Navigation() {
   )
 }
 
-function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: number; headerPadding: number }) {
+function NavigationHeader({
+  headerHeight,
+  headerPadding,
+  style,
+}: { headerHeight: number; headerPadding: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   const iconSize = headerHeight - 2 * headerPadding
   //*
@@ -269,6 +316,7 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         display: 'flex',
         justifyContent: 'flex-end',
         borderBottom: 'var(--block-margin) solid white',
+        ...style,
       }}
     >
       <div

@@ -27,7 +27,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain(`Same page link for orphan page: Some SecTion.`)
     {
       const html = await fetchHtml(orphanURL)
-      expect(getTitle(html)).toBe('Orphan Page | DocPress Demo')
+      expect(getTitle(html)).toBe('Orphan Page | Demo')
     }
   })
 
@@ -41,7 +41,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain('Basic (same-page link, sub heading)')
     {
       const html = await fetchHtml(featuresURL)
-      expect(getTitle(html)).toBe('Features | DocPress Demo')
+      expect(getTitle(html)).toBe('Features | Demo')
     }
   })
 }

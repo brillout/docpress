@@ -7,7 +7,6 @@ import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import { closeMenu } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
 import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
-import { initPressKit } from '../navigation/initPressKit'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
@@ -67,7 +66,6 @@ function onRenderDone() {
   installSectionUrlHashs()
   // TODO/refactor: use React?
   initMobileNavigation()
-  initPressKit()
   setHydrationIsFinished()
   globalObject.renderPromiseResolve!()
 }

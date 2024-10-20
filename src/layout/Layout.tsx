@@ -11,6 +11,7 @@ import { toggleMenu } from '../navigation/navigation-fullscreen/initNavigationFu
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from '../autoScrollNav'
 import { SearchLink } from '../docsearch/SearchLink'
+import { navigate } from 'vike/client/router'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
@@ -264,8 +265,6 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
   }
   return (
     <div
-      id="navigation-header"
-      className={pageContext.config.pressKit && 'press-kit'}
       style={{
         backgroundColor: 'var(--bg-color)',
         display: 'flex',
@@ -274,7 +273,6 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
       }}
     >
       <div
-        id="navigation-header-content"
         style={{
           display: 'flex',
           height: headerHeight,
@@ -283,7 +281,6 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
         }}
       >
         <a
-          id="navigation-header-logo"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -296,7 +293,17 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
           }}
           href="/"
         >
-          <img src={pageContext.meta.faviconUrl} height={iconSize} width={iconSize} />
+          <img
+            src={pageContext.meta.faviconUrl}
+            height={iconSize}
+            width={iconSize}
+            onContextMenu={(ev) => {
+              if (!pageContext.config.pressKit) return // no /press page
+              if (window.location.pathname === '/press') return
+              ev.preventDefault()
+              navigate('/press#logo')
+            }}
+          />
           <span
             style={{
               marginLeft: `calc(var(--icon-padding) + 2px)`,

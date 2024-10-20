@@ -32,7 +32,7 @@ function NavigationContent(props: { navItems: NavItem[] }) {
   const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
 
   return (
-    <div id="navigation-content">
+    <div id="navigation-content" style={{ marginTop: 20 }}>
       {navItemsGrouped.map((navItemGroup, i) => (
         <div className="nav-items-group" key={i}>
           <NavItemComponent navItem={navItemGroup} />

@@ -62,6 +62,10 @@ function Layout({ children }: { children: React.ReactNode }) {
         {content}
       </div>
       <MenuModal />
+      <style>{`body {
+  container-type: inline-size;
+}
+`}</style>
     </>
   )
 }

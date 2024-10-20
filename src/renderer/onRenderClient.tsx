@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import { closeMenu } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
-import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
@@ -57,15 +56,12 @@ function applyHead(pageContext: PageContextClient) {
 
 function onRenderStart() {
   closeMenu()
-  hideMobileNavigation()
 }
 
 function onRenderDone() {
   autoScrollNav()
   // TODO/refactor: use React?
   installSectionUrlHashs()
-  // TODO/refactor: use React?
-  initMobileNavigation()
   setHydrationIsFinished()
   globalObject.renderPromiseResolve!()
 }

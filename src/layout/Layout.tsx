@@ -119,7 +119,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
       }}
     >
       <div className="page-container">
-        <MobileHeader />
         <div
           className="page-content"
           style={{
@@ -134,8 +133,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
           {!isLandingPage && <EditPageNote pageContext={pageContext} />}
         </div>
       </div>
-      {/* TODO: remove */}
-      <div id="mobile-navigation-mask" />
     </div>
   )
 }
@@ -327,48 +324,6 @@ function NavigationHeader({ headerHeight, headerPadding }: { headerHeight: numbe
             ...childrenStyle,
           }}
         />
-      </div>
-    </div>
-  )
-}
-
-function MobileHeader() {
-  return (
-    <div
-      id="mobile-header"
-      style={{
-        height: 'var(--mobile-header-height)',
-        width: '100%',
-        position: 'relative',
-      }}
-    >
-      <div
-        style={{
-          position: 'fixed',
-          display: 'flex',
-          alignItems: 'center',
-          background: 'white',
-          zIndex: 99,
-          top: 0,
-          left: 0,
-          height: 'var(--mobile-header-height)',
-          width: '100%',
-          borderBottom: '1px solid #ddd',
-        }}
-      >
-        <MenuIcon />
-        <a
-          href="/"
-          style={{
-            color: 'inherit',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'left',
-            textDecoration: 'none',
-          }}
-        >
-          TODO
-        </a>
       </div>
     </div>
   )

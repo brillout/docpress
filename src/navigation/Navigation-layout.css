@@ -2,67 +2,13 @@ body {
   container-type: inline-size;
 }
 
-:root {
-  --mobile-header-height: 60px;
-}
 #navigation-content {
   margin-top: 20px;
 }
 
-#mobile-navigation-mask {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
-/* `1140px` is the breaking point that preserves the width of code blocks. */
-/* BEFORE EDITING THIS: also change the `1139px` value below */
-@media screen and (min-width: 1140px) {
-  #mobile-header {
-    display: none !important;
-  }
-  #mobile-navigation-mask {
-    display: none;
-  }
-}
-#navigation-container {
-  transition: transform 0.25s ease;
-  z-index: 3;
-}
 @media screen and (max-width: 1139px) {
-  #navigation-header-logo {
-    display: none !important;
-  }
   #navigation-wrapper {
-    min-width: 0px !important;
-    max-width: 0px !important;
-  }
-  .page-wrapper {
-    margin-left: 0 !important;
-  }
-  #navigation-container {
-    --width: min(100%, 350px);
-    width: var(--width);
-    left: 0;
-    height: calc(100vh - var(--mobile-header-height));
-    top: var(--mobile-header-height);
-    padding-top: 20px;
-    /* `position: sticky` doesn't seem to work on mobile */
-    position: fixed;
-  }
-  body:not(.mobile-show-navigation) #navigation-container {
-    transform: translateX(calc(-1 * var(--width)));
-  }
-  body:not(.mobile-show-navigation) #mobile-navigation-mask {
     display: none;
-  }
-  #mobile-header {
-    display: inherit;
-  }
-  .doc-page h2 {
-    --padding-top: calc(var(--mobile-header-height) + 12px) !important;
   }
 }
 

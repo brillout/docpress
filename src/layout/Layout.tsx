@@ -153,6 +153,11 @@ function ContainerQueries() {
     width: ${navWidthMax}px !important;
   }
 }
+@container(min-width: ${containerQueryMobile}px) {
+  .page-wrapper {
+    min-width: ${mainViewWidthMax}px !important;
+  }
+}
 @container(max-width: ${containerQueryMobile - 1}px) {
   .page-content {
     --main-view-padding: 10px !important;

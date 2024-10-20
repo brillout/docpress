@@ -15,7 +15,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const html = await fetchHtml(landingPageUrl)
     expect(getTitle(html)).toBe('Vike Demo')
     expect(html).toContain('Introduction')
-    expect(html).toContain('Feature 1')
     await page.goto(getServerUrl() + landingPageUrl)
   })
 

@@ -5,8 +5,8 @@ export { closeMenu }
 
 const menuModalShow = 'menu-modal-show'
 function toggleMenu() {
-  document.body.classList.toggle(menuModalShow)
+  document.documentElement.classList.toggle(menuModalShow)
 }
 function closeMenu() {
-  document.body.classList.remove(menuModalShow)
+  document.documentElement.classList.remove(menuModalShow)
 }

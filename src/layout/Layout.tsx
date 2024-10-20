@@ -177,8 +177,9 @@ function PageContent({ children }: { children: React.ReactNode }) {
       <div
         className="page-content"
         style={{
+          // Also define --main-view-padding for landing page because it's used by <Contributors> and <Sponsors>
+          ['--main-view-padding']: `${mainViewPadding}px`,
           ...ifDocPage({
-            ['--main-view-padding']: `${mainViewPadding}px`,
             width: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
             maxWidth: '100%',
             padding: '20px var(--main-view-padding)',

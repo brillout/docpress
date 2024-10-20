@@ -1,4 +1,3 @@
-- regression: full menu Scrolling => scrolls main view
 - team div overflows landing page
 
 - Navigation doesn't always scroll while developing vike.dev

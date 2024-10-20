@@ -120,8 +120,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
     <div
       className="page-wrapper low-prio-grow"
       style={{
-        display: 'flex',
-        justifyContent: 'flex-start',
         backgroundColor: 'var(--bg-color)',
         // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,

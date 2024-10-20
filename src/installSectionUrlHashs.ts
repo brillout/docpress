@@ -3,10 +3,11 @@ export { installSectionUrlHashs }
 import { assert } from './utils/client'
 
 function installSectionUrlHashs() {
-  const pageContainer = document.querySelector('.doc-page .page-container')
-  if (!pageContainer) {
-    assert(window.location.pathname === '/')
-    return
+  {
+    const isLandingPage = window.location.pathname === '/'
+    const isDocPage = !!document.querySelector('.doc-page')
+    assert(isLandingPage !== isDocPage)
+    if (!isDocPage) return
   }
   const headings = [...Array.from(document.querySelectorAll('h2')), ...Array.from(document.querySelectorAll('h3'))]
   headings.forEach((heading) => {

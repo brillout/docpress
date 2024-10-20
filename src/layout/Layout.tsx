@@ -57,12 +57,14 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex' }}>
+    <>
       <ContainerQueries />
-      <NavigationLeft />
-      <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
-      <PageContent>{children}</PageContent>
-    </div>
+      <div style={{ display: 'flex' }}>
+        <NavigationLeft />
+        <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
+        <PageContent>{children}</PageContent>
+      </div>
+    </>
   )
 }
 
@@ -149,11 +151,11 @@ function ContainerQueries() {
   }
 }
 @container(max-width: ${containerQueryMobile - 1}px) {
-  .page-wrapper {
-    --main-view-padding: 10px !important;
-  }
   #top-navigation {
     display: none !important;
+  }
+  .page-wrapper {
+    --main-view-padding: 10px !important;
   }
 }
 `

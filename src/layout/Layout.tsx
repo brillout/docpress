@@ -100,22 +100,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const { isLandingPage, pageTitle } = pageContext
   const pageTitleParsed = pageTitle && parseTitle(pageTitle)
   const { globalNote } = pageContext.config
-  const pageContentStyle: React.CSSProperties = {}
-  const pageContainerStyle: React.CSSProperties = {}
-  const pageWrapperStyle: React.CSSProperties = {}
-  if (!isLandingPage) {
-    Object.assign(pageContentStyle, {
-      padding: '20px var(--main-view-padding)',
-    })
-    Object.assign(pageContainerStyle, {
-      maxWidth: 'calc(var(--main-view-max-width) + 2 * var(--main-view-padding))',
-      ['--main-view-max-width']: `${mainViewWidthMax}px`,
-      ['--main-view-padding']: `${mainViewPadding}px`,
-    })
-    Object.assign(pageWrapperStyle, {
-      paddingBottom: 50,
-    })
-  }
+  const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
   return (
     <div
       className="page-wrapper low-prio-grow"
@@ -123,20 +108,28 @@ function PageContent({ children }: { children: React.ReactNode }) {
         backgroundColor: 'var(--bg-color)',
         // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
-        ...pageWrapperStyle,
+        ...ifDocPage({
+          paddingBottom: 50,
+        }),
       }}
     >
       <div
         className="page-container"
         style={{
-          ...pageContainerStyle,
+          ...ifDocPage({
+            maxWidth: 'calc(var(--main-view-max-width) + 2 * var(--main-view-padding))',
+            ['--main-view-max-width']: `${mainViewWidthMax}px`,
+            ['--main-view-padding']: `${mainViewPadding}px`,
+          }),
         }}
       >
         <MobileHeader />
         <div
           className="page-content"
           style={{
-            ...pageContentStyle,
+            ...ifDocPage({
+              padding: '20px var(--main-view-padding)',
+            }),
           }}
         >
           {globalNote}

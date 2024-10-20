@@ -117,8 +117,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         className="page-container"
         style={{
           ...ifDocPage({
-            maxWidth: 'calc(var(--main-view-max-width) + 2 * var(--main-view-padding))',
-            ['--main-view-max-width']: `${mainViewWidthMax}px`,
+            maxWidth: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
             ['--main-view-padding']: `${mainViewPadding}px`,
           }),
         }}

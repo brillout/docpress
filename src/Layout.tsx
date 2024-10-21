@@ -235,8 +235,8 @@ function NavigationTop() {
             {title}
           </a>
         ))}
-        <MenuLink style={{ padding }} />
         <SearchLink style={{ padding }} />
+        <MenuLink style={{ padding }} />
         <Links style={{ display: 'inline-flex', padding, marginLeft: -8 }} />
       </div>
     </div>

@@ -87,7 +87,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   .low-prio-grow {
     flex-grow: 1;
   }
-  .nav-item-content {
+  #navigation-container {
     width: ${navWidthMax}px !important;
   }
 }
@@ -267,18 +267,27 @@ function Navigation() {
       <div
         style={{
           backgroundColor: 'var(--bg-color)',
-          top: 0,
-          height: `calc(100vh - ${headerHeight}px - var(--block-margin))`,
-          overflowY: 'auto',
-          overscrollBehavior: 'contain',
-          paddingBottom: 40,
+          display: 'flex',
+          justifyContent: 'flex-end',
         }}
       >
-        {isDetachedPage ? (
-          <>{navItems.length > 1 && <NavigationContent navItems={navItems} />}</>
-        ) : (
-          <NavigationContent navItems={navItemsAll} />
-        )}
+        <div
+          id="navigation-container"
+          style={{
+            top: 0,
+            height: `calc(100vh - ${headerHeight}px - var(--block-margin))`,
+            overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            paddingBottom: 40,
+            ...navWidth,
+          }}
+        >
+          {isDetachedPage ? (
+            <>{navItems.length > 1 && <NavigationContent navItems={navItems} />}</>
+          ) : (
+            <NavigationContent navItems={navItemsAll} />
+          )}
+        </div>
       </div>
       {/* Early scrolling, to avoid flashing */}
       <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>

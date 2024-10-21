@@ -87,7 +87,8 @@ function NavItemComponent({
         .join(' ')}
       href={navItem.url ?? undefined}
     >
-      <div className="nav-item-content">{titleInNavJsx}</div>
+      {/* <span className="nav-item-text">{titleInNavJsx}</span> */}
+      {titleInNavJsx}
     </a>
   )
 }

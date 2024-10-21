@@ -12,6 +12,7 @@ import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from '../autoScrollNav'
 import { SearchLink } from '../docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
+import { css } from '../utils/css'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
@@ -62,10 +63,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {content}
       </div>
       <MenuModal />
-      <style>{`body {
-  container-type: inline-size;
-}
-`}</style>
+      <style>{css`body { container-type: inline-size; }`}</style>
     </>
   )
 }
@@ -73,7 +71,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <style>{getContainerQueries()}</style>
+      <style>{getStyle()}</style>
       <NavMobile />
       <div style={{ display: 'flex', ...blankBuster2 }}>
         <NavigationLeft />
@@ -82,8 +80,8 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       </div>
     </>
   )
-  function getContainerQueries() {
-    return `
+  function getStyle() {
+    return css`
 @container(min-width: ${containerQuerySpacing}px) {
   .low-prio-grow {
     flex-grow: 1;
@@ -118,14 +116,14 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   const containerQueryMobile = 700
   return (
     <>
-      <style>{getContainerQueries()}</style>
+      <style>{getStyle()}</style>
       <NavigationTop />
       <NavMobile />
       <PageContent>{children}</PageContent>
     </>
   )
-  function getContainerQueries() {
-    return `
+  function getStyle() {
+    return css`
 @container(min-width: ${containerQueryMobile}px) {
   #nav-mobile {
     display: none !important;

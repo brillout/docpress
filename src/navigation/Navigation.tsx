@@ -26,15 +26,19 @@ type NavItemComputed = NavItem & {
   isLastOfItsKind: boolean
 }
 
-function NavigationContent(props: { navItems: NavItem[] }) {
+function NavigationContent(props: {
+  navItems: NavItem[]
+  style?: React.CSSProperties
+  styleGroups?: React.CSSProperties
+}) {
   const pageContext = usePageContext()
   const navItemsWithComputed = addComputedProps(props.navItems, pageContext.urlPathname)
   const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
 
   return (
-    <div id="navigation-content" style={{ marginTop: 20 }}>
+    <div id="navigation-content" style={{ marginTop: 20, ...props.style }}>
       {navItemsGrouped.map((navItemGroup, i) => (
-        <div className="nav-items-group" key={i}>
+        <div className="nav-items-group" key={i} style={props.styleGroups}>
           <NavItemComponent navItem={navItemGroup} />
           {navItemGroup.navItemChilds.map((navItem, j) => (
             <NavItemComponent navItem={navItem} key={j} />

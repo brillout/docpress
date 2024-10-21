@@ -11,6 +11,7 @@ export { getCSSForResponsiveFullcreenNavItems }
 
 import assert from 'assert'
 import { type NavItemGrouped } from '../navigation/Navigation'
+import { css } from '../utils/css'
 
 const columnWidthMin = 300
 const columnWidthMax = 350
@@ -51,6 +52,7 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
     }
     CSS += CSS_block.join('\n') + '\n'
   }
+  CSS = css([CSS])
   return CSS
 }
 

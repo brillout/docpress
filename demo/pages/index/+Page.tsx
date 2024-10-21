@@ -9,8 +9,6 @@ function Page() {
     <>
       <Block noMargin>
         <Header />
-      </Block>
-      <Block>
         <Features />
       </Block>
       <Block>

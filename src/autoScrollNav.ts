@@ -19,10 +19,10 @@ export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 //       ```
 
 function autoScrollNav() {
-  const navigationEl = document.querySelector('#nav-left .navigation-content')
-  if (!navigationEl) return
+  const nav = document.querySelector('#nav-left .navigation-content')
+  if (!nav) return
   const href = window.location.pathname
-  const navLinks = Array.from(navigationEl.querySelectorAll(`a[href="${href}"]`))
+  const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
   const navLink = navLinks[0]
   if (!navLink) return
 

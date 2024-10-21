@@ -111,6 +111,25 @@ function CloseButton() {
 
 function toggleMenuModal() {
   document.documentElement.classList.toggle('menu-modal-show')
+  if (document.documentElement.classList.contains('menu-modal-show') && getViewportWidth() < containerQueryMobile) {
+    autoScroll()
+  }
+}
+function getViewportWidth(): number {
+  // `window.innerWidth` inlcudes scrollbar width: https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+  return document.documentElement.clientWidth
+}
+function autoScroll() {
+  const nav = document.querySelector('#menu-modal-content .navigation-content')!
+  const href = window.location.pathname
+  const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
+  const navLink = navLinks[0]
+  if (!navLink) return
+  navLink.scrollIntoView({
+    behavior: 'instant',
+    block: 'center',
+    inline: 'start',
+  })
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')

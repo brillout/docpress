@@ -93,7 +93,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   }
 }`
     let navLeftHide = css`
-#navigation-wrapper {
+#nav-left {
   display: none;
 }
 .page-wrapper {
@@ -249,49 +249,51 @@ function NavigationLeft() {
   const headerHeight = 60
   const headerPadding = 10
   return (
-    <div
-      id="navigation-wrapper"
-      style={{
-        flexGrow: 1,
-        borderRight: 'var(--block-margin) solid white',
-      }}
-    >
+    <>
       <div
+        id="nav-left"
         style={{
-          position: 'sticky',
-          top: 0,
+          flexGrow: 1,
+          borderRight: 'var(--block-margin) solid white',
         }}
       >
-        <NavigationHeader {...{ headerHeight, headerPadding }} />
         <div
           style={{
-            backgroundColor: 'var(--bg-color)',
-            display: 'flex',
-            justifyContent: 'flex-end',
+            position: 'sticky',
+            top: 0,
           }}
         >
+          <NavigationHeader {...{ headerHeight, headerPadding }} />
           <div
-            id="navigation-container"
             style={{
-              top: 0,
-              height: `calc(100vh - ${headerHeight}px - var(--block-margin))`,
-              overflowY: 'auto',
-              overscrollBehavior: 'contain',
-              paddingBottom: 40,
-              ...navWidth,
+              backgroundColor: 'var(--bg-color)',
+              display: 'flex',
+              justifyContent: 'flex-end',
             }}
           >
-            {isDetachedPage ? (
-              <NavigationContent navItems={navItems} />
-            ) : (
-              <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
-            )}
+            <div
+              id="navigation-container"
+              style={{
+                top: 0,
+                height: `calc(100vh - ${headerHeight}px - var(--block-margin))`,
+                overflowY: 'auto',
+                overscrollBehavior: 'contain',
+                paddingBottom: 40,
+                ...navWidth,
+              }}
+            >
+              {isDetachedPage ? (
+                <NavigationContent navItems={navItems} />
+              ) : (
+                <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
+              )}
+            </div>
           </div>
         </div>
-        {/* Early scrolling, to avoid flashing */}
-        <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
       </div>
-    </div>
+      {/* Early scrolling, to avoid flashing */}
+      <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
+    </>
   )
 }
 

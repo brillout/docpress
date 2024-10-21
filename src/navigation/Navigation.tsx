@@ -41,7 +41,7 @@ function NavigationContent(props: {
   })
 
   return (
-    <div id="navigation-content" style={{ marginTop: 20, ...props.style }}>
+    <div className="navigation-content" style={{ marginTop: 20, ...props.style }}>
       {navItemsGrouped
         .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isActive)
         .map((navItemGroup, i) => (

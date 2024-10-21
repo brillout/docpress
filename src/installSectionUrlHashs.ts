@@ -27,7 +27,7 @@ function installSectionUrlHashs() {
 }
 
 function assertNavLink(urlHash: string, heading: HTMLHeadingElement) {
-  const navigationEl = document.querySelector('#navigation-content')!
+  const navigationEl = document.querySelector('#nav-left .navigation-content')!
   {
     const { pathname } = window.location
     const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${pathname}"]`))

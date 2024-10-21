@@ -1,6 +1,6 @@
 blockquote {
   --color: 0, 0, 0;
-  --color-strengh-bg: 0.7;
+  --color-strengh-bg: 1.5;
   --color-strengh-border: 1.5;
   border-left: 8px solid rgba(var(--color), calc(0.06 * var(--color-strengh-border)));
   background-color: rgba(var(--color), calc(0.03 * var(--color-strengh-bg)));
@@ -9,12 +9,12 @@ blockquote {
   padding: 4px 16px;
 }
 blockquote.note-color-red {
-  --color-strengh-bg: 1.7;
+  --color-strengh-bg: 3.3;
   --color-strengh-border: 6;
-  --color: 190, 25, 49;
+  --color: 220, 25, 49;
 }
 blockquote.note-color-yellow {
-  --color-strengh-bg: 4;
+  --color-strengh-bg: 7;
   --color-strengh-border: 8;
   --color: 255, 204, 50;
 }

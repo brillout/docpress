@@ -8,7 +8,6 @@ type HeadingResolved = {
   level: number
   title: string
   titleInNav: string
-  noSideNavigation?: NoSideNavigation
   topNavigation?: true | string
   linkBreadcrumb: string[]
   sectionTitles?: string[]
@@ -32,14 +31,12 @@ type HeadingDetachedDefinition = HeadingDefinitionCommon & {
 type HeadingDefinition = HeadingDefinitionCommon & {
   url?: null | string
   titleInNav?: string
-  noSideNavigation?: NoSideNavigation
 } & HeadingDefinitionLevel &
   Tmp
 type IsCategory = {
   url?: undefined
   titleDocument?: undefined
   titleInNav?: undefined
-  noSideNavigation?: undefined
 }
 type HeadingDefinitionLevel =
   | ({ level: 1 } & IsCategory)
@@ -54,5 +51,3 @@ type Tmp = {
   // TODO: remove? Both Vike and Telefunc set it to the same value than docpress.config.js#projectInfo.projectName
   titleDocument?: string
 }
-
-type NoSideNavigation = true | 'no-logo'

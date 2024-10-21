@@ -5,40 +5,42 @@ import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import {
-  hideNavigationFullScreen,
-  initNavigationFullscreen,
-  initNavigationFullscreenOnce,
-} from '../navigation/navigation-fullscreen/initNavigationFullscreen'
-import { hideMobileNavigation, initMobileNavigation } from '../navigation/initMobileNavigation'
-import { initPressKit } from '../navigation/initPressKit'
+import { closeMenuModal } from '../MenuModal'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
+import { getGlobalObject } from '../utils/client'
+import { setpageContextCurrent } from './getPageContextCurrent'
+import { initKeyBindings } from '../initKeyBindings'
+
+const globalObject = getGlobalObject<{
+  root?: ReactDOM.Root
+  renderPromiseResolve?: () => void
+}>('onRenderClient.ts', {})
 
 addEcosystemStamp()
-initNavigationFullscreenOnce()
+initKeyBindings()
 
-let root: ReactDOM.Root
-let renderPromiseResolve: () => void
 async function onRenderClient(pageContext: PageContextClient) {
+  setpageContextCurrent(pageContext)
+
   onRenderStart()
 
   // TODO: stop using any
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
   const renderPromise = new Promise<void>((r) => {
-    renderPromiseResolve = r
+    globalObject.renderPromiseResolve = r
   })
   let page = getPageElement(pageContext, pageContextResolved)
   page = <OnRenderDoneHook>{page}</OnRenderDoneHook>
   const container = document.getElementById('page-view')!
   if (pageContext.isHydration) {
-    root = ReactDOM.hydrateRoot(container, page)
+    globalObject.root = ReactDOM.hydrateRoot(container, page)
   } else {
-    if (!root) {
-      root = ReactDOM.createRoot(container)
+    if (!globalObject.root) {
+      globalObject.root = ReactDOM.createRoot(container)
     }
-    root.render(page)
+    globalObject.root.render(page)
   }
   if (!pageContext.isHydration) {
     applyHead(pageContext)
@@ -53,18 +55,15 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 function onRenderStart() {
-  hideMobileNavigation()
-  hideNavigationFullScreen()
+  closeMenuModal()
 }
 
 function onRenderDone() {
   autoScrollNav()
+  // TODO/refactor: use React?
   installSectionUrlHashs()
-  initNavigationFullscreen()
-  initMobileNavigation()
-  initPressKit()
   setHydrationIsFinished()
-  renderPromiseResolve()
+  globalObject.renderPromiseResolve!()
 }
 
 function OnRenderDoneHook({ children }: { children: React.ReactNode }) {

@@ -1,52 +1,13 @@
 import React from 'react'
-import iconGithub from '../icons/github.svg'
-import iconTwitter from '../icons/twitter.svg'
-import iconDiscord from '../icons/discord.svg'
-import iconChangelog from '../icons/changelog.svg'
-import iconLanguages from '../icons/languages.svg'
-import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
-import { DocSearch } from '@docsearch/react'
-import { Hit } from '../components/Algolia/Hit'
+import iconGithub from './icons/github.svg'
+import iconTwitter from './icons/twitter.svg'
+import iconDiscord from './icons/discord.svg'
+import iconChangelog from './icons/changelog.svg'
+import iconLanguages from './icons/languages.svg'
+import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
-export { NavigationHeader }
 export { Links }
-
-function NavigationHeader() {
-  const pageContext = usePageContext()
-  const pageContext2 = usePageContext2()
-  const { NavHeader } = pageContext2.config.NavHeader!
-  return (
-    <div
-      id="navigation-header"
-      className={pageContext.config.pressKit && 'press-kit'}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: -5,
-      }}
-    >
-      <a
-        id="navigation-header-logo"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          color: 'inherit',
-          justifyContent: 'left',
-          textDecoration: 'none',
-          paddingTop: 12,
-          paddingBottom: 7,
-          ...pageContext2.config.NavHeader?.navHeaderWrapperStyle,
-        }}
-        href="/"
-      >
-        <NavHeader />
-      </a>
-      <Links />
-    </div>
-  )
-}
 
 function Links({ style }: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
@@ -59,7 +20,6 @@ function Links({ style }: { style?: React.CSSProperties }) {
       style={{ height: 21, position: 'relative', top: 0, left: 0 }}
     />
   )
-  const { algolia } = pageContext.meta
   return (
     <div
       style={{
@@ -70,17 +30,6 @@ function Links({ style }: { style?: React.CSSProperties }) {
         ...style,
       }}
     >
-      {algolia && (
-        <div className="decolorize-6 colorize-on-hover">
-          <DocSearch
-            appId={algolia.appId}
-            indexName={algolia.indexName}
-            apiKey={algolia.apiKey}
-            insights={true}
-            hitComponent={Hit}
-          />
-        </div>
-      )}
       {iconI18n}
       {projectInfo.discordInvite && (
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />

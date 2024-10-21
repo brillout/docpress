@@ -10,18 +10,21 @@ export { getCSSForResponsiveFullcreenNavItems }
 // - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
 
 import assert from 'assert'
-import { type NavItemGrouped } from '../navigation/Navigation'
+import { groupByLevelMin, NavItem } from '../navigation/Navigation'
+import { css } from '../utils/css'
 
 const columnWidthMin = 300
 const columnWidthMax = 350
 
-function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[]) {
+function getCSSForResponsiveFullcreenNavItems(navItems: NavItem[]) {
+  const navItemsGrouped = groupByLevelMin(navItems)
+
   let CSS = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
     let CSS_block: string[] = []
     CSS_block.push(
       ...[
-        `  html.navigation-fullscreen #navigation-content-main {`,
+        `  #menu-modal-content #navigation-content {`,
         `    column-count: ${numberOfColumns};`,
         `    max-width: min(100%, ${columnWidthMax * numberOfColumns}px);`,
         `  }`,
@@ -39,18 +42,19 @@ function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[])
         ],
       )
     })
-    const noMediaQuery = numberOfColumns === navItemsGrouped.length
-    if (!noMediaQuery) {
+    const noContainerQuery = numberOfColumns === navItemsGrouped.length
+    if (!noContainerQuery) {
       const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
       CSS_block = [
         //
-        `@media screen and (max-width: ${maxWidth}px) {`,
+        `@container(max-width: ${maxWidth}px) {`,
         ...CSS_block,
         `}`,
       ]
     }
     CSS += CSS_block.join('\n') + '\n'
   }
+  CSS = css([CSS])
   return CSS
 }
 

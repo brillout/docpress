@@ -5,13 +5,13 @@ import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import { closeMenu } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { closeMenuModal } from '../MenuModal'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { getGlobalObject } from '../utils/client'
 import { setpageContextCurrent } from './getPageContextCurrent'
-import { initKeyBindings } from '../navigation/navigation-fullscreen/initKeyBindings'
+import { initKeyBindings } from '../initKeyBindings'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -55,7 +55,7 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 function onRenderStart() {
-  closeMenu()
+  closeMenuModal()
 }
 
 function onRenderDone() {

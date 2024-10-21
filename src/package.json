@@ -44,7 +44,7 @@
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
     "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
-    "./Layout": "./layout/Layout.tsx",
+    "./Layout": "./Layout.tsx",
     ".": "./index.ts",
     "./vite-config": "./dist/vite.config.js",
     "./config": "./dist/+config.js",

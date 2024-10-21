@@ -1,7 +1,7 @@
 export { initKeyBindings }
 
-import { closeDocsearchModal } from '../../algolia/closeDocsearchModal'
-import { closeMenu, toggleMenu } from './initNavigationFullscreen'
+import { closeDocsearchModal } from './docsearch/closeDocsearchModal'
+import { closeMenuModal, toggleMenuModal } from './MenuModal'
 
 function initKeyBindings() {
   window.addEventListener(
@@ -10,7 +10,7 @@ function initKeyBindings() {
     (ev) => {
       if (ev.key === 'Escape') {
         closeDocsearchModal()
-        closeMenu()
+        closeMenuModal()
         return
       }
 
@@ -19,14 +19,14 @@ function initKeyBindings() {
       if (isCtrl && key === 'm') {
         ev.preventDefault()
         closeDocsearchModal()
-        toggleMenu()
+        toggleMenuModal()
         return
       }
 
       // Replicate https://github.com/algolia/docsearch/blob/90f3c6aabbc324fe49e9a1dfe0906fcd4d90f27b/packages/docsearch-react/src/useDocSearchKeyboardEvents.ts#L45-L49
       if ((isCtrl && key === 'k') || (key === '/' && !isEditingContent(ev))) {
         ev.preventDefault()
-        closeMenu()
+        closeMenuModal()
         return
       }
     },

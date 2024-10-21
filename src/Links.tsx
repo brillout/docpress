@@ -1,10 +1,10 @@
 import React from 'react'
-import iconGithub from '../icons/github.svg'
-import iconTwitter from '../icons/twitter.svg'
-import iconDiscord from '../icons/discord.svg'
-import iconChangelog from '../icons/changelog.svg'
-import iconLanguages from '../icons/languages.svg'
-import { usePageContext } from '../renderer/usePageContext'
+import iconGithub from './icons/github.svg'
+import iconTwitter from './icons/twitter.svg'
+import iconDiscord from './icons/discord.svg'
+import iconChangelog from './icons/changelog.svg'
+import iconLanguages from './icons/languages.svg'
+import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
 export { Links }

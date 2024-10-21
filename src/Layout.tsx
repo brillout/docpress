@@ -2,18 +2,17 @@ export { Layout }
 export { containerQueryMobile }
 
 import React from 'react'
-import { NavigationContent } from '../navigation/Navigation'
-import { EditPageNote } from '../components/EditPageNote'
-import { parseTitle } from '../parseTitle'
-import { usePageContext } from '../renderer/usePageContext'
-import { Links } from '../navigation/Links'
-import { hotkeyMenuOpen } from '../navigation/navigation-fullscreen/hotkeyMenu'
-import { toggleMenu } from '../navigation/navigation-fullscreen/initNavigationFullscreen'
+import { NavigationContent } from './navigation/Navigation'
+import { EditPageNote } from './components/EditPageNote'
+import { parseTitle } from './parseTitle'
+import { usePageContext } from './renderer/usePageContext'
+import { Links } from './Links'
+import { hotkeyMenuOpen, toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
-import { autoScrollNav_SSR } from '../autoScrollNav'
-import { SearchLink } from '../docsearch/SearchLink'
+import { autoScrollNav_SSR } from './autoScrollNav'
+import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
-import { css } from '../utils/css'
+import { css } from './utils/css'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
@@ -396,7 +395,7 @@ function MenuLink(props: PropsDiv) {
       className="colorize-on-hover"
       onClick={(ev) => {
         ev.preventDefault()
-        toggleMenu()
+        toggleMenuModal()
       }}
       aria-label={hotkeyMenuOpen}
       data-balloon-pos="left"

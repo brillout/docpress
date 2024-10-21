@@ -1,7 +1,7 @@
 export { SearchLink }
 
 import React from 'react'
-import { openDocsearchModal } from '../algolia/closeDocsearchModal'
+import { openDocsearchModal } from './closeDocsearchModal'
 
 type PropsDiv = React.HTMLProps<HTMLDivElement>
 function SearchLink(props: PropsDiv) {

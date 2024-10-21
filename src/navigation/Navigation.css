@@ -54,7 +54,12 @@
   text-decoration: none;
   --padding: 5px;
 
+  /* #ededed === rgb(237, 237, 237)
+   * #f5f5f5 === rgb(245, 245, 245)
+   * 1 - (237 / 245) === 0.03265306122
   background-color: #ededed;
+  */
+  background-color: rgba(0,0,0, 0.03265306122);
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + var(--padding-left-additional));
 }
@@ -88,5 +93,10 @@
   position: relative;
 }
 .nav-item-level-2.is-active {
+  /* #ededed === rgb(237, 237, 237)
+   * #f5f5f5 === rgb(245, 245, 245)
+   * 1 - (237 / 245) === 0.03265306122
   background-color: #ededed;
+  */
+  background-color: rgba(0,0,0, 0.03265306122);
 }

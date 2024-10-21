@@ -21,7 +21,7 @@ function NavigationFullscreenClose() {
           cx="11.45"
           cy="11.45"
           r="10.607"
-          fill="#e3e3e3"
+          fill="#ececec"
           stroke="#666"
           strokeDashoffset="251.44"
           strokeLinecap="round"

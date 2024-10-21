@@ -76,7 +76,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       <style>{getStyle()}</style>
       <NavMobile />
       <div style={{ display: 'flex', ...blankBuster2 }}>
-        <NavigationLeft />
+        <NavLeft />
         <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
         <PageContent>{children}</PageContent>
       </div>
@@ -128,7 +128,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style>{getStyle()}</style>
-      <NavigationTop />
+      <NavTop />
       <NavMobile />
       <PageContent>{children}</PageContent>
     </>
@@ -195,7 +195,7 @@ function NavMobile() {
   )
 }
 
-function NavigationTop() {
+function NavTop() {
   const pageContext = usePageContext()
   const { topNavigationList, topNavigationStyle } = pageContext
   const paddingSize = 14
@@ -243,7 +243,7 @@ function NavigationTop() {
   )
 }
 
-function NavigationLeft() {
+function NavLeft() {
   const pageContext = usePageContext()
   const { navItems, navItemsAll, isDetachedPage } = pageContext
   const headerHeight = 60

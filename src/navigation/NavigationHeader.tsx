@@ -7,7 +7,7 @@ import iconLanguages from '../icons/languages.svg'
 import { usePageContext, usePageContext2 } from '../renderer/usePageContext'
 import { DocSearch } from '@docsearch/react'
 import { Hit } from '../components/Algolia/Hit'
-import '@docsearch/css'
+import "../css/algolia.css"
 
 export { NavigationHeader }
 export { Links }

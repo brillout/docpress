@@ -79,7 +79,7 @@ function CloseButton() {
   return (
     <a
       onClick={toggleMenuModal}
-      style={{ position: 'absolute', top: 11, right: 11, zIndex: 10 }}
+      style={{ position: 'fixed', top: 11, right: 11, zIndex: 10 }}
       aria-label={hotkeyMenuClose}
       data-balloon-pos="left"
       data-balloon-blunt

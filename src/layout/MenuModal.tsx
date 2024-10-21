@@ -5,10 +5,11 @@ import { usePageContext } from '../renderer/usePageContext'
 import { NavigationContent } from '../navigation/Navigation'
 import { NavigationFullscreenClose } from '../navigation/navigation-fullscreen/NavigationFullscreenButton'
 import { css } from '../utils/css'
+import { containerQueryMobile } from './Layout'
 
 function MenuModal() {
   const pageContext = usePageContext()
-  const navItems = pageContext.navItemsAll.filter((navItem) => navItem.level <= 2)
+  const navItems = pageContext.navItemsAll
   return (
     <>
       <style>{getStyle()}</style>
@@ -58,6 +59,11 @@ html:not(.menu-modal-show) #menu-modal {
 // disable scroll of main view
 html.menu-modal-show {
   overflow: hidden !important;
+}
+@container(min-width: ${containerQueryMobile}px) {
+  #menu-modal-content .nav-item-level-3 {
+    display: none;
+  }
 }
 `
   }

@@ -1,4 +1,5 @@
 export { Layout }
+export { containerQueryMobile }
 
 import React from 'react'
 import { NavigationContent } from '../navigation/Navigation'

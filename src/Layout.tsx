@@ -113,7 +113,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
-  const containerQueryMobile = 700
+  const mobile = 700
   return (
     <>
       <style>{getStyle()}</style>
@@ -124,12 +124,12 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   )
   function getStyle() {
     return css`
-@container(min-width: ${containerQueryMobile}px) {
+@container(min-width: ${mobile}px) {
   #nav-mobile {
     display: none !important;
   }
 }
-@container(max-width: ${containerQueryMobile - 1}px) {
+@container(max-width: ${mobile - 1}px) {
   #top-navigation {
     display: none !important;
   }

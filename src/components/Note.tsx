@@ -15,9 +15,7 @@ export { Note }
 
 import React from 'react'
 import { assert } from '../utils/assert'
-/* Imorted in /src/css/index.css instead
 import './Note.css'
-*/
 
 type Props = {
   children: React.ReactNode

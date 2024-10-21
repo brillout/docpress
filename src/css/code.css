@@ -7,7 +7,7 @@ code {
   background-color: #f4f4f4;
   0.043137255 = 1 - (#f4 / #ff)
   */
-  background-color: rgba(0, 0, 0, 0.043137255);
+  background: rgba(0, 0, 0, 0.043137255);
   border-radius: 4px;
 }
 

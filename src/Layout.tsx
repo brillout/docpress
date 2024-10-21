@@ -282,7 +282,7 @@ function Navigation() {
           }}
         >
           {isDetachedPage ? (
-            <>{navItems.length > 1 && <NavigationContent navItems={navItems} />}</>
+            <NavigationContent navItems={navItems} />
           ) : (
             <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
           )}

@@ -23,7 +23,7 @@ function MenuModal() {
           left: 0,
           zIndex: 9999,
           overflow: 'scroll',
-          backgroundColor: 'white',
+          background: 'var(--bg-color)',
         }}
       >
         <div

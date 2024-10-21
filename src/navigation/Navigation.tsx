@@ -29,21 +29,29 @@ function NavigationContent(props: {
   navItems: NavItem[]
   style?: React.CSSProperties
   styleGroups?: React.CSSProperties
+  showOnlyRelevant?: true
 }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = addComputedProps(props.navItems, pageContext.urlPathname)
   const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
+  navItemsGrouped.forEach((navItemGroup) => {
+    navItemGroup.navItemChilds.forEach((navItem) => {
+      if (navItem.isActive) navItemGroup.isActive = true
+    })
+  })
 
   return (
     <div id="navigation-content" style={{ marginTop: 20, ...props.style }}>
-      {navItemsGrouped.map((navItemGroup, i) => (
-        <div className="nav-items-group" key={i} style={props.styleGroups}>
-          <NavItemComponent navItem={navItemGroup} />
-          {navItemGroup.navItemChilds.map((navItem, j) => (
-            <NavItemComponent navItem={navItem} key={j} />
-          ))}
-        </div>
-      ))}
+      {navItemsGrouped
+        .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isActive)
+        .map((navItemGroup, i) => (
+          <div className="nav-items-group" key={i} style={props.styleGroups}>
+            <NavItemComponent navItem={navItemGroup} />
+            {navItemGroup.navItemChilds.map((navItem, j) => (
+              <NavItemComponent navItem={navItem} key={j} />
+            ))}
+          </div>
+        ))}
     </div>
   )
 }

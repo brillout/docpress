@@ -19,7 +19,7 @@ const config: Config = {
     apiKey: 'FAKE_KEY',
     indexName: 'FAKE_INDEX',
   },
-  i18n: true,
+  // i18n: true,
   pressKit: true,
   tagline: 'DocPress Demonstration.',
   headings,

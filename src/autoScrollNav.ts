@@ -7,7 +7,6 @@ export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 //     - scrollIntoViewIfNeeded() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) would work (it doesn't scroll the main view) but Firefox doesn't support it.
 //     - Doesn't work: the scrolling is off by hundreds of px (I guess because this function runs too early while the page is still rendering).
 //       ```js
-//       const navigationContainerEl = document.getElementById("navigation-container")
 //       const offset = navLink.offsetTop - (window.innerHeight / 2)
 //       navigationContainerEl.scrollTop = offset
 //       ```

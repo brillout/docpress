@@ -54,66 +54,41 @@
   text-decoration: none;
   --padding: 5px;
 
-  background-color: #f9f9f9;
+  background-color: #dbdbdb;
+  background-color: #e9e9e9;
+  background-color: #e0e0e0;
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + var(--padding-left-additional));
 }
 #menu-modal-content .nav-item-level-3 {
   border-right: 4px solid #eee;
 }
+.nav-item {
+  --shadow-size: 9px;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --shadow-size-minus: calc(-1 * var(--shadow-size));
+  --shadow-top: inset 0px var(--shadow-size) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
+  --shadow-bottom: inset 0px var(--shadow-size-minus) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
+}
+/*
+.nav-item-level-2.is-active {
+  box-shadow: var(--shadow-top);
+}
+*/
 .nav-item-level-3.nav-item-first-of-its-kind {
   padding-top: calc(var(--padding) * 1.6);
+  box-shadow: var(--shadow-top);
 }
 .nav-item-level-3.nav-item-last-of-its-kind {
   padding-bottom: calc(var(--padding) * 2);
+  box-shadow: var(--shadow-bottom);
 }
 .nav-item-level-2,
 .nav-item-level-3 {
   position: relative;
 }
-body {
-  --is-active-bg-color: #f0f0f0;
-}
-/*
-.nav-item-level-2.is-active .nav-item-text{
-  background-color: var(--is-active-bg-color);
-}
-*/
 .nav-item-level-2.is-active {
-  background-color: var(--is-active-bg-color);
-}
-.nav-item-level-3.is-active:before {
-  display: block;
-  content: '';
-  position: absolute;
-  width: 4px;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background-color: var(--is-active-bg-color);
-  z-index: 10;
-}
-.nav-item-level-3.is-active-last:after {
-  display: block;
-  content: '';
-  position: absolute;
-  height: 4px;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: var(--is-active-bg-color);
-  z-index: 10;
-  border-bottom-left-radius: 5px;
-}
-#menu-modal-content .nav-item {
-  --expend-border-radius: 5px;
-}
-.nav-item.is-active-first {
-  border-top-left-radius: 5px;
-  border-top-right-radius: var(--expend-border-radius);
-}
-.nav-item.is-active-last,
-.nav-item.is-active-last:before {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: var(--expend-border-radius);
+  background-color: #e9e9e9;
+  background-color: #f0f0f0;
+  background-color: #e3e3e3;
 }

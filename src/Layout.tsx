@@ -124,7 +124,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
-  const mobile = 700
+  const mobile = 800
   return (
     <>
       <style>{getStyle()}</style>
@@ -198,7 +198,7 @@ function NavMobile() {
 function NavTop() {
   const pageContext = usePageContext()
   const { topNavigationList, topNavigationStyle } = pageContext
-  const paddingSize = 14
+  const paddingSize = 35
   const padding = `0 ${paddingSize}px`
   return (
     <div

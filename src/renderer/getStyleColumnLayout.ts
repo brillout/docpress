@@ -1,4 +1,4 @@
-export { getStyleMenuModalLayout }
+export { getStyleColumnLayout }
 
 // There doens't seem to be as simpler way to have a column layout that uses the whole width real estate.
 // - https://stackoverflow.com/questions/9683425/css-column-count-not-respected
@@ -16,45 +16,44 @@ assert(!isBrowser())
 const columnWidthMin = 300
 const columnWidthMax = 350
 
-function getStyleMenuModalLayout(navItems: NavItem[]) {
+function getStyleColumnLayout(navItems: NavItem[]) {
   const navItemsGrouped = groupByLevelMin(navItems)
 
   let style = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
-    let styleBlock: string[] = []
-    styleBlock.push(
-      ...[
-        `  #menu-modal .navigation-content {`,
-        `    column-count: ${numberOfColumns};`,
-        `    max-width: min(100%, ${columnWidthMax * numberOfColumns}px);`,
-        `  }`,
-      ],
+    let styleGivenWidth: string[] = []
+    styleGivenWidth.push(
+      css`
+.column-layout {
+  column-count: ${numberOfColumns};
+  max-width: min(100%, ${columnWidthMax * numberOfColumns}px);
+}
+`,
     )
     const columnsUnmerged = navItemsGrouped.map((navItem) => navItem.navItemChilds.length)
     const columnsIdMap = determineColumns(columnsUnmerged, numberOfColumns)
     const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
     columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
-      styleBlock.push(
-        ...[
-          `  .nav-items-group:nth-child(${columnUngroupedId + 1}) {`,
-          `    break-before: ${columnBreakPoint ? 'column' : 'avoid'};`,
-          `  }`,
-        ],
+      styleGivenWidth.push(
+        css`
+.column-layout-entry:nth-child(${columnUngroupedId + 1}) {
+  break-before: ${columnBreakPoint ? 'column' : 'avoid'};
+}
+`,
       )
     })
     const noContainerQuery = numberOfColumns === navItemsGrouped.length
     if (!noContainerQuery) {
       const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
-      styleBlock = [
+      styleGivenWidth = [
         //
         `@container(max-width: ${maxWidth}px) {`,
-        ...styleBlock,
+        ...styleGivenWidth,
         `}`,
       ]
     }
-    style += styleBlock.join('\n') + '\n'
+    style += styleGivenWidth.join('\n') + '\n'
   }
-  style = css([style])
   return style
 }
 

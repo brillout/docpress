@@ -6,7 +6,7 @@ import { assert } from '../utils/server'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import type { OnRenderHtmlAsync } from 'vike/types'
-import { getStyleMenuModalLayout } from './getStyleMenuModalLayout'
+import { getStyleColumnLayout } from './getStyleColumnLayout'
 
 const onRenderHtml: OnRenderHtmlAsync = async (
   pageContext,
@@ -16,7 +16,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
 
   const page = getPageElement(pageContext, pageContextResolved)
 
-  const styleMenuModalLayout = getStyleMenuModalLayout(pageContextResolved.navItemsAll)
+  const styleMenuModalLayout = getStyleColumnLayout(pageContextResolved.navItemsAll)
 
   const descriptionTag = pageContextResolved.isLandingPage
     ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)

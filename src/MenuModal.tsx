@@ -59,6 +59,7 @@ function Nav() {
       }}
     >
       <NavigationContent
+        columnLayout={true}
         navItems={navItems}
         style={{
           flexGrow: 1,

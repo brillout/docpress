@@ -30,6 +30,7 @@ function NavigationContent(props: {
   style?: React.CSSProperties
   styleGroups?: React.CSSProperties
   showOnlyRelevant?: true
+  columnLayout?: true
 }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = addComputedProps(props.navItems, pageContext.urlPathname)
@@ -41,11 +42,11 @@ function NavigationContent(props: {
   })
 
   return (
-    <div className="navigation-content" style={{ marginTop: 20, ...props.style }}>
+    <div className="navigation-content column-layout" style={{ marginTop: 20, ...props.style }}>
       {navItemsGrouped
         .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isActive)
         .map((navItemGroup, i) => (
-          <div className="nav-items-group" key={i} style={props.styleGroups}>
+          <div className="column-layout-entry" key={i} style={props.styleGroups}>
             <NavItemComponent navItem={navItemGroup} />
             {navItemGroup.navItemChilds.map((navItem, j) => (
               <NavItemComponent navItem={navItem} key={j} />

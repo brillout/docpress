@@ -69,6 +69,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
+  const pageContext = usePageContext()
+  const hideNavLeftAlways = pageContext.navItems.length <= 1
   return (
     <>
       <style>{getStyle()}</style>
@@ -81,7 +83,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     </>
   )
   function getStyle() {
-    return css`
+    let style = css`
 @container(min-width: ${containerQuerySpacing}px) {
   .low-prio-grow {
     flex-grow: 1;
@@ -89,26 +91,35 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   #navigation-container {
     width: ${navWidthMax}px !important;
   }
+}`
+    let navLeftHide = css`
+#navigation-wrapper {
+  display: none;
+}
+.page-wrapper {
+  --main-view-padding: 10px !important;
+  flex-grow: 1;
+  align-items: center;
+}
+.page-content {
+  margin: auto;
+}
+`
+    if (!hideNavLeftAlways) {
+      navLeftHide = css`
+@container(max-width: ${containerQueryMobile - 1}px) {
+  ${navLeftHide}
 }
 @container(min-width: ${containerQueryMobile}px) {
   #nav-mobile {
     display: none !important;
   }
 }
-@container(max-width: ${containerQueryMobile - 1}px) {
-  #navigation-wrapper {
-    display: none;
-  }
-  .page-wrapper {
-    --main-view-padding: 10px !important;
-    flex-grow: 1;
-    align-items: center;
-  }
-  .page-content {
-    margin: auto;
-  }
-}
 `
+    }
+    style += navLeftHide
+
+    return style
   }
 }
 

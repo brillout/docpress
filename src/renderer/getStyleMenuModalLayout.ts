@@ -1,4 +1,4 @@
-export { getCSSForResponsiveFullcreenNavItems }
+export { getStyleMenuModalLayout }
 
 // There doens't seem to be as simpler way to have a column layout that uses the whole width real estate.
 // - https://stackoverflow.com/questions/9683425/css-column-count-not-respected
@@ -16,13 +16,13 @@ import { css } from '../utils/css'
 const columnWidthMin = 300
 const columnWidthMax = 350
 
-function getCSSForResponsiveFullcreenNavItems(navItems: NavItem[]) {
+function getStyleMenuModalLayout(navItems: NavItem[]) {
   const navItemsGrouped = groupByLevelMin(navItems)
 
-  let CSS = '\n'
+  let style = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
-    let CSS_block: string[] = []
-    CSS_block.push(
+    let styleBlock: string[] = []
+    styleBlock.push(
       ...[
         `  #menu-modal .navigation-content {`,
         `    column-count: ${numberOfColumns};`,
@@ -34,7 +34,7 @@ function getCSSForResponsiveFullcreenNavItems(navItems: NavItem[]) {
     const columnsIdMap = determineColumns(columnsUnmerged, numberOfColumns)
     const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
     columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
-      CSS_block.push(
+      styleBlock.push(
         ...[
           `  .nav-items-group:nth-child(${columnUngroupedId + 1}) {`,
           `    break-before: ${columnBreakPoint ? 'column' : 'avoid'};`,
@@ -45,17 +45,17 @@ function getCSSForResponsiveFullcreenNavItems(navItems: NavItem[]) {
     const noContainerQuery = numberOfColumns === navItemsGrouped.length
     if (!noContainerQuery) {
       const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
-      CSS_block = [
+      styleBlock = [
         //
         `@container(max-width: ${maxWidth}px) {`,
-        ...CSS_block,
+        ...styleBlock,
         `}`,
       ]
     }
-    CSS += CSS_block.join('\n') + '\n'
+    style += styleBlock.join('\n') + '\n'
   }
-  CSS = css([CSS])
-  return CSS
+  style = css([style])
+  return style
 }
 
 function determineColumnBreakPoints(columnsIdMap: number[]): boolean[] {

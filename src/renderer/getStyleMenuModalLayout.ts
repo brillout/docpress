@@ -9,10 +9,10 @@ export { getStyleMenuModalLayout }
 // - https://stackoverflow.com/questions/27119691/how-to-start-a-new-column-in-flex-column-wrap-layout
 // - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
 
-import assert from 'assert'
 import { groupByLevelMin, NavItem } from '../navigation/Navigation'
 import { css } from '../utils/css'
-
+import { assert, isBrowser } from '../utils/server'
+assert(!isBrowser())
 const columnWidthMin = 300
 const columnWidthMax = 350
 

@@ -24,7 +24,7 @@ function getCSSForResponsiveFullcreenNavItems(navItems: NavItem[]) {
     let CSS_block: string[] = []
     CSS_block.push(
       ...[
-        `  #menu-modal-content .navigation-content {`,
+        `  #menu-modal .navigation-content {`,
         `    column-count: ${numberOfColumns};`,
         `    max-width: min(100%, ${columnWidthMax * numberOfColumns}px);`,
         `  }`,

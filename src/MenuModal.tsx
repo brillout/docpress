@@ -9,13 +9,12 @@ import { usePageContext } from './renderer/usePageContext'
 import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
 import { containerQueryMobile } from './Layout'
+import { Links } from './Links'
 
 const hotkeyMenuOpen = 'Ctrl + M'
 const hotkeyMenuClose = 'Ctrl+M or Escape'
 
 function MenuModal() {
-  const pageContext = usePageContext()
-  const navItems = pageContext.navItemsAll
   return (
     <>
       <style>{getStyle()}</style>
@@ -33,32 +32,64 @@ function MenuModal() {
         }}
       >
         <div
-          id="menu-modal-content"
           style={{
+            // Place <LinksBottom /> to the bottom
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            minHeight: '100vh',
+            justifyContent: 'space-between',
           }}
         >
-          <CloseButton />
-          <NavigationContent
-            navItems={navItems}
-            style={{
-              flexGrow: 1,
-              marginTop: -25,
-              columnGap: 20,
-            }}
-            styleGroups={{
-              breakInside: 'avoid',
-              width: '100%',
-            }}
-          />
+          <Nav />
+          <LinksBottom />
         </div>
+        <CloseButton />
       </div>
     </>
   )
+}
+function Nav() {
+  const pageContext = usePageContext()
+  const navItems = pageContext.navItemsAll
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <NavigationContent
+        navItems={navItems}
+        style={{
+          flexGrow: 1,
+          marginTop: -25,
+          columnGap: 20,
+        }}
+        styleGroups={{
+          breakInside: 'avoid',
+          width: '100%',
+        }}
+      />
+    </div>
+  )
+}
+function LinksBottom() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: 25,
+        marginBottom: 25,
+      }}
+    >
+      <Links />
+    </div>
+  )
+}
 
-  function getStyle() {
-    return css`
+function getStyle() {
+  return css`
 html:not(.menu-modal-show) #menu-modal {
   display: none;
 }
@@ -67,12 +98,11 @@ html.menu-modal-show {
   overflow: hidden !important;
 }
 @container(min-width: ${containerQueryMobile}px) {
-  #menu-modal-content .nav-item-level-3 {
+  #menu-modal .nav-item-level-3 {
     display: none;
   }
 }
 `
-  }
 }
 
 function CloseButton() {
@@ -120,7 +150,7 @@ function getViewportWidth(): number {
   return document.documentElement.clientWidth
 }
 function autoScroll() {
-  const nav = document.querySelector('#menu-modal-content .navigation-content')!
+  const nav = document.querySelector('#menu-modal .navigation-content')!
   const href = window.location.pathname
   const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
   const navLink = navLinks[0]

@@ -63,7 +63,7 @@
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + var(--padding-left-additional));
 }
-#menu-modal-content .nav-item-level-3 {
+#menu-modal .nav-item-level-3 {
   border-right: 4px solid #eee;
 }
 .nav-item {

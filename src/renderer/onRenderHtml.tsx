@@ -6,7 +6,6 @@ import { assert } from '../utils/server'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import type { OnRenderHtmlAsync } from 'vike/types'
-import { groupByLevelMin } from '../navigation/Navigation'
 import { getCSSForResponsiveFullcreenNavItems } from './getCSSForResponsiveFullcreenNavItems'
 
 const onRenderHtml: OnRenderHtmlAsync = async (
@@ -17,9 +16,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
 
   const page = getPageElement(pageContext, pageContextResolved)
 
-  const { navItemsAll } = pageContextResolved
-  const navItemsGrouped = groupByLevelMin(navItemsAll)
-  const CSSResponsiveNavItems = getCSSForResponsiveFullcreenNavItems(navItemsGrouped)
+  const CSSResponsiveNavItems = getCSSForResponsiveFullcreenNavItems(pageContextResolved.navItemsAll)
 
   const descriptionTag = pageContextResolved.isLandingPage
     ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)

@@ -2,7 +2,6 @@
 export { NavigationContent }
 // TODO/refactor: do this only on the server side?
 export { groupByLevelMin }
-export type { NavItemGrouped }
 export type { NavItem }
 
 import React from 'react'
@@ -93,7 +92,6 @@ function NavItemComponent({
   )
 }
 
-type NavItemGrouped = ReturnType<typeof groupByLevelMin>[number]
 function groupByLevelMin<T extends NavItem>(navItems: T[]) {
   const navItemsGrouped: (T & { navItemChilds: T[] })[] = []
   const levelMin: number = Math.min(...navItems.map((h) => h.level))

@@ -10,13 +10,15 @@ export { getCSSForResponsiveFullcreenNavItems }
 // - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
 
 import assert from 'assert'
-import { type NavItemGrouped } from '../navigation/Navigation'
+import { groupByLevelMin, NavItem } from '../navigation/Navigation'
 import { css } from '../utils/css'
 
 const columnWidthMin = 300
 const columnWidthMax = 350
 
-function getCSSForResponsiveFullcreenNavItems(navItemsGrouped: NavItemGrouped[]) {
+function getCSSForResponsiveFullcreenNavItems(navItems: NavItem[]) {
+  const navItemsGrouped = groupByLevelMin(navItems)
+
   let CSS = '\n'
   for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
     let CSS_block: string[] = []

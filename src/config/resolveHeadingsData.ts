@@ -1,6 +1,6 @@
 export { resolveHeadingsData }
 
-import { assert, jsxToTextContent } from '../utils/server'
+import { assert, isBrowser, jsxToTextContent } from '../utils/server'
 import type {
   HeadingDefinition,
   HeadingDetachedDefinition,
@@ -14,6 +14,7 @@ import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseTitle } from '../parseTitle'
+assert(!isBrowser())
 
 type PageSectionResolved = {
   url: string | null

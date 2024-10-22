@@ -28,6 +28,7 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]) {
   navItemsWithLength.forEach((navItem) => {
     if (navItem.level === 1) {
       navItemLevel1 = navItem
+      navItemLevel4 = undefined
       return
     }
     if (navItem.level === 4) {

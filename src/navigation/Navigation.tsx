@@ -19,7 +19,7 @@ type NavItem = {
   menuModalFullWidth?: true
 }
 type NavItemAll = NavItem & {
-  columnLayoutElement?: true
+  isColumnLayoutElement?: true
 }
 function NavigationContent(props: {
   navItems: NavItem[]
@@ -143,7 +143,7 @@ function groupByColumnLayout(navItems: NavItemComputed[]) {
       }
     }
     assert(isFullWidth !== undefined)
-    if (navItem.columnLayoutElement) {
+    if (navItem.isColumnLayoutElement) {
       assert(navItem.level === 1 || navItem.level === 4)
       const navItemColumnEntry = { ...navItem, navItemChilds: [] }
       navItemsColumnEntries.push(navItemColumnEntry)

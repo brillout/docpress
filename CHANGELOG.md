@@ -1,3 +1,12 @@
+## [0.8.1](https://github.com/brillout/docpress/compare/v0.8.0...v0.8.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* fix column layout for menuModalFullWidth ([fb7011e](https://github.com/brillout/docpress/commit/fb7011ed22560024539340f6f98559dcfc6b6ed7))
+
+
+
 # [0.8.0](https://github.com/brillout/docpress/compare/v0.7.10...v0.8.0) (2024-10-22)
 
 

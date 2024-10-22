@@ -66,7 +66,7 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]) {
     ) {
       assert(navItem.numberOfHeadings !== null)
       columns.push(navItem.numberOfHeadings)
-      navItems[i].columnLayoutEntry = true
+      navItems[i].columnLayoutElement = true
     }
   })
   columnLayouts.push(columns)

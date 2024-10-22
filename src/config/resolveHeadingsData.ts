@@ -9,11 +9,12 @@ import type {
 } from '../types/Heading'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
-import type { NavItem } from '../navigation/Navigation'
+import type { NavItem, NavItemAll } from '../navigation/Navigation'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseTitle } from '../parseTitle'
+import { determineColumnLayoutEntries } from '../renderer/getStyleColumnLayout'
 assert(!isBrowser())
 
 type PageSectionResolved = {
@@ -48,17 +49,20 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
 
+  // TODO/refactor: remove navItems
   let navItems: NavItem[]
-  let navItemsAll: NavItem[]
+  let navItemsAll: NavItemAll[]
+  let columns: number[]
   {
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
       .map(pageSectionToNavItem)
+    navItemsAll = headingsResolved.map(headingToNavItem)
+    const res = determineColumnLayoutEntries(navItemsAll)
+    columns = res.columns
     if (isDetachedPage) {
-      navItemsAll = headingsResolved
       navItems = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
-      navItemsAll = headingsResolved.map(headingToNavItem)
       navItems = navItemsAll
       const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === pageContext.urlPathname)
       assert(activeHeadingIndex >= 0)
@@ -81,6 +85,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     pageTitle,
     documentTitle,
     topNavigationList,
+    // TODO: don't pass to client-side
+    columns,
   }
   return pageContextAddendum
 }

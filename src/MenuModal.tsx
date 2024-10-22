@@ -63,7 +63,6 @@ function Nav() {
         navItems={navItems}
         style={{
           flexGrow: 1,
-          marginTop: -25,
           columnGap: 20,
         }}
         styleGroups={{

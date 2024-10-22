@@ -1,8 +1,8 @@
 // TODO/refactor: rename file and/or component
 export { NavigationContent }
 // TODO/refactor: do this only on the server side?
-export { groupByLevelMin }
 export type { NavItem }
+export type { NavItemAll }
 
 import React from 'react'
 import { assert, assertWarning, jsxToTextContent } from '../utils/server'
@@ -17,14 +17,9 @@ type NavItem = {
   title: string
   titleInNav: string
 }
-type NavItemComputed = NavItem & {
-  isActive: boolean
-  isActiveFirst: boolean
-  isActiveLast: boolean
-  isFirstOfItsKind: boolean
-  isLastOfItsKind: boolean
+type NavItemAll = NavItem & {
+  columnLayoutEntry?: [number, number]
 }
-
 function NavigationContent(props: {
   navItems: NavItem[]
   style?: React.CSSProperties
@@ -33,26 +28,32 @@ function NavigationContent(props: {
   columnLayout?: true
 }) {
   const pageContext = usePageContext()
-  const navItemsWithComputed = addComputedProps(props.navItems, pageContext.urlPathname)
-  const navItemsGrouped = groupByLevelMin(navItemsWithComputed)
-  navItemsGrouped.forEach((navItemGroup) => {
-    navItemGroup.navItemChilds.forEach((navItem) => {
-      if (navItem.isActive) navItemGroup.isActive = true
-    })
-  })
+  const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
+
+  let navContent: JSX.Element[]
+  if (!props.columnLayout) {
+    navContent = navItemsWithComputed
+      .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isRelevant)
+      .map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
+  } else {
+    assert(!props.showOnlyRelevant)
+    const navItemColumns = groupByColumnEntries(navItemsWithComputed)
+    navContent = navItemColumns.map((navItemGroup, i) => (
+      <div className="column-layout-entry" key={i} style={props.styleGroups}>
+        <NavItemComponent navItem={navItemGroup} />
+        {navItemGroup.navItemChilds.map((navItem, j) => (
+          <NavItemComponent navItem={navItem} key={j} />
+        ))}
+      </div>
+    ))
+  }
 
   return (
-    <div className="navigation-content column-layout" style={{ marginTop: 20, ...props.style }}>
-      {navItemsGrouped
-        .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isActive)
-        .map((navItemGroup, i) => (
-          <div className="column-layout-entry" key={i} style={props.styleGroups}>
-            <NavItemComponent navItem={navItemGroup} />
-            {navItemGroup.navItemChilds.map((navItem, j) => (
-              <NavItemComponent navItem={navItem} key={j} />
-            ))}
-          </div>
-        ))}
+    <div
+      className={'navigation-content' + (!props.columnLayout ? '' : ' column-layout')}
+      style={{ marginTop: 10, ...props.style }}
+    >
+      {navContent}
     </div>
   )
 }
@@ -86,8 +87,6 @@ function NavItemComponent({
         'nav-item',
         'nav-item-level-' + navItem.level,
         navItem.url && navItem.isActive && ' is-active',
-        navItem.url && navItem.isActiveFirst && ' is-active-first',
-        navItem.url && navItem.isActiveLast && ' is-active-last',
         navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
         navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
       ]
@@ -101,54 +100,62 @@ function NavItemComponent({
   )
 }
 
-function groupByLevelMin<T extends NavItem>(navItems: T[]) {
-  const navItemsGrouped: (T & { navItemChilds: T[] })[] = []
-  const levelMin: number = Math.min(...navItems.map((h) => h.level))
+type NavItemsColumnEntry = NavItemComputed & { navItemChilds: NavItemComputed[] }
+function groupByColumnEntries(navItems: NavItemComputed[]) {
+  const navItemsColumnEntries: NavItemsColumnEntry[] = []
   navItems.forEach((navItem) => {
-    if (navItem.level === levelMin) {
-      navItemsGrouped.push({ ...navItem, navItemChilds: [] })
+    if (navItem.columnLayoutEntry) {
+      navItemsColumnEntries.push({ ...navItem, navItemChilds: [] })
     } else {
-      navItemsGrouped[navItemsGrouped.length - 1].navItemChilds.push(navItem)
+      navItemsColumnEntries[navItemsColumnEntries.length - 1].navItemChilds.push(navItem)
     }
   })
-  return navItemsGrouped
+  return navItemsColumnEntries
 }
 
-function addComputedProps(navItems: NavItem[], currentUrl: string): NavItemComputed[] {
-  return navItems.map((navItem, i) => {
+type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
+function getNavItemsWithComputed(navItems: NavItemAll[], currentUrl: string) {
+  let navItemIdx: number | undefined
+  const navItemsWithComputed = navItems.map((navItem, i) => {
     assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
     const navItemPrevious = navItems[i - 1]
     const navItemNext = navItems[i + 1]
 
-    let isActiveFirst = false
-    let isActiveLast = false
     let isActive = false
     if (navItem.url === currentUrl) {
       assert(navItem.level === 2, { currentUrl })
+      assert(navItemIdx === undefined)
+      navItemIdx = i
       isActive = true
-      isActiveFirst = true
-      if (navItemNext?.level !== 3) {
-        isActiveLast = true
-      }
-    }
-    if (navItem.level === 3) {
-      isActive = true
-      if (navItemNext?.level !== 3) {
-        isActiveLast = true
-      }
     }
 
     const isFirstOfItsKind = navItem.level !== navItemPrevious?.level
     const isLastOfItsKind = navItem.level !== navItemNext?.level
 
-    return {
+    const navItemComputed = {
       ...navItem,
       isActive,
-      isActiveFirst,
-      isActiveLast,
+      isRelevant: false,
       isFirstOfItsKind,
       isLastOfItsKind,
     }
+
+    return navItemComputed
   })
+
+  // Set `isRelevant`
+  assert(navItemIdx !== undefined)
+  for (let i = navItemIdx; i >= 0; i--) {
+    const navItem = navItemsWithComputed[i]!
+    navItem.isRelevant = true
+    if (navItem.level === 1) break
+  }
+  for (let i = navItemIdx; i < navItemsWithComputed.length; i++) {
+    const navItem = navItemsWithComputed[i]!
+    if (navItem.level === 1) break
+    navItem.isRelevant = true
+  }
+
+  return navItemsWithComputed
 }

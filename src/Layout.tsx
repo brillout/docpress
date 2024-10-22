@@ -282,11 +282,14 @@ function NavLeft() {
                 ...navWidth,
               }}
             >
-              {isDetachedPage ? (
-                <NavigationContent navItems={navItems} />
-              ) : (
-                <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
-              )}
+              {
+                // TODO/refactor: simplify?
+                isDetachedPage ? (
+                  <NavigationContent navItems={navItems} />
+                ) : (
+                  <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
+                )
+              }
             </div>
           </div>
         </div>

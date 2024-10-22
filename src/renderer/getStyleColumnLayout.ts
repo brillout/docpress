@@ -1,4 +1,5 @@
 export { getStyleColumnLayout }
+export { determineColumnLayoutEntries }
 
 // There doens't seem to be as simpler way to have a column layout that uses the whole width real estate.
 // - https://stackoverflow.com/questions/9683425/css-column-count-not-respected
@@ -9,20 +10,58 @@ export { getStyleColumnLayout }
 // - https://stackoverflow.com/questions/27119691/how-to-start-a-new-column-in-flex-column-wrap-layout
 // - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
 
-import { groupByLevelMin, NavItem } from '../navigation/Navigation'
+import { type NavItemAll } from '../navigation/Navigation'
 import { css } from '../utils/css'
 import { assert, isBrowser } from '../utils/server'
 assert(!isBrowser())
 const columnWidthMin = 300
 const columnWidthMax = 350
 
-function getStyleColumnLayout(navItems: NavItem[]) {
-  const navItemsGrouped = groupByLevelMin(navItems)
+type NavItemWithLength = NavItemAll & { numberOfHeadings: number | null }
+function determineColumnLayoutEntries(navItems: NavItemAll[]) {
+  const navItemsWithLength: NavItemWithLength[] = navItems.map((navItem) => ({
+    ...navItem,
+    numberOfHeadings: navItem.level === 1 || navItem.level === 4 ? 0 : null,
+  }))
+  let navItemLevel1: NavItemWithLength | undefined
+  let navItemLevel4: NavItemWithLength | undefined
+  navItemsWithLength.forEach((navItem) => {
+    if (navItem.level === 1) {
+      navItemLevel1 = navItem
+      return
+    }
+    if (navItem.level === 4) {
+      navItemLevel4 = navItem
+      return
+    }
+    const bumpNavItemLength = (navItem: NavItemWithLength) => {
+      assert(navItem.numberOfHeadings !== null && navItem.numberOfHeadings >= 0)
+      navItem.numberOfHeadings++
+    }
+    assert(navItemLevel1)
+    bumpNavItemLength(navItemLevel1)
+    if (navItemLevel4) {
+      bumpNavItemLength(navItemLevel4)
+    }
+  })
 
+  const columns: number[] = []
+  navItemsWithLength.forEach((navItem, i) => {
+    if (navItem.level === 1) {
+      assert(navItem.numberOfHeadings !== null)
+      columns.push(navItem.numberOfHeadings)
+      navItems[i].columnLayoutEntry = [0, columns.length - 1]
+    }
+  })
+
+  return { columns }
+}
+
+function getStyleColumnLayout(columns: number[]): string {
   let style = '\n'
-  for (let numberOfColumns = navItemsGrouped.length; numberOfColumns >= 1; numberOfColumns--) {
-    let styleGivenWidth: string[] = []
-    styleGivenWidth.push(
+  for (let numberOfColumns = columns.length; numberOfColumns >= 1; numberOfColumns--) {
+    let styleGivenNumberOfColumns: string[] = []
+    styleGivenNumberOfColumns.push(
       css`
 .column-layout {
   column-count: ${numberOfColumns};
@@ -30,11 +69,10 @@ function getStyleColumnLayout(navItems: NavItem[]) {
 }
 `,
     )
-    const columnsUnmerged = navItemsGrouped.map((navItem) => navItem.navItemChilds.length)
-    const columnsIdMap = determineColumns(columnsUnmerged, numberOfColumns)
+    const columnsIdMap = determineColumns(columns, numberOfColumns)
     const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
     columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
-      styleGivenWidth.push(
+      styleGivenNumberOfColumns.push(
         css`
 .column-layout-entry:nth-child(${columnUngroupedId + 1}) {
   break-before: ${columnBreakPoint ? 'column' : 'avoid'};
@@ -42,17 +80,17 @@ function getStyleColumnLayout(navItems: NavItem[]) {
 `,
       )
     })
-    const noContainerQuery = numberOfColumns === navItemsGrouped.length
+    const noContainerQuery = numberOfColumns === columns.length
     if (!noContainerQuery) {
       const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
-      styleGivenWidth = [
+      styleGivenNumberOfColumns = [
         //
         `@container(max-width: ${maxWidth}px) {`,
-        ...styleGivenWidth,
+        ...styleGivenNumberOfColumns,
         `}`,
       ]
     }
-    style += styleGivenWidth.join('\n') + '\n'
+    style += styleGivenNumberOfColumns.join('\n') + '\n'
   }
   return style
 }

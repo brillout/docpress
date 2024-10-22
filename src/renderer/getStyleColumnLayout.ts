@@ -18,7 +18,7 @@ const columnWidthMin = 300
 const columnWidthMax = 350
 
 type NavItemWithLength = NavItemAll & { numberOfHeadings: number | null }
-function determineColumnLayoutEntries(navItems: NavItemAll[]) {
+function determineColumnLayoutEntries(navItems: NavItemAll[]): { columnLayouts: number[][] } {
   const navItemsWithLength: NavItemWithLength[] = navItems.map((navItem) => ({
     ...navItem,
     numberOfHeadings: navItem.level === 1 || navItem.level === 4 ? 0 : null,
@@ -36,7 +36,7 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]) {
       return
     }
     const bumpNavItemLength = (navItem: NavItemWithLength) => {
-      assert(navItem.numberOfHeadings !== null && navItem.numberOfHeadings >= 0)
+      assert(navItem.numberOfHeadings !== null)
       navItem.numberOfHeadings++
     }
     assert(navItemLevel1)
@@ -61,10 +61,15 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]) {
       }
     }
     if (
-      (!isFullWidth && navItem.level === 1) ||
-      (isFullWidth && navItem.level === 4 && navItemsWithLength[i - 1]!.level !== 1) ||
-      isFullWidthBegin
+      !isFullWidth
+        ? navItem.level === 1
+        : (navItem.level === 4 && navItemsWithLength[i - 1]!.level !== 1) || isFullWidthBegin
     ) {
+      if (isFullWidth) {
+        assert(navItem.level === 4 || (navItem.level === 1 && isFullWidthBegin))
+      } else {
+        assert(navItem.level === 1)
+      }
       assert(navItem.numberOfHeadings !== null)
       columns.push(navItem.numberOfHeadings)
       navItems[i].columnLayoutElement = true

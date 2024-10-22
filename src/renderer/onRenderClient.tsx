@@ -10,7 +10,6 @@ import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { getGlobalObject } from '../utils/client'
-import { setpageContextCurrent } from './getPageContextCurrent'
 import { initKeyBindings } from '../initKeyBindings'
 
 const globalObject = getGlobalObject<{
@@ -22,8 +21,6 @@ addEcosystemStamp()
 initKeyBindings()
 
 async function onRenderClient(pageContext: PageContextClient) {
-  setpageContextCurrent(pageContext)
-
   onRenderStart()
 
   // TODO: stop using any

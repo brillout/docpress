@@ -36,7 +36,7 @@ function NavigationContent(props: {
       .map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
   } else {
     assert(!props.showOnlyRelevant)
-    const navItemsColumnLayout = groupByColumns(navItemsWithComputed)
+    const navItemsColumnLayout = groupByColumnLayout(navItemsWithComputed)
     const paddingBottom = 40
     navContent = (
       <>
@@ -56,9 +56,9 @@ function NavigationContent(props: {
                 paddingBottom: isFullWidth ? paddingBottom : undefined,
               }}
             >
-              {navItemsColumnEntries.map((navItemColumnEntry, k) => (
+              {navItemsColumnEntries.map((navItemColumnEntry, j) => (
                 <div
-                  key={k}
+                  key={j}
                   className="column-layout-entry"
                   style={{
                     breakInside: 'avoid',
@@ -129,7 +129,7 @@ function NavItemComponent({
 }
 
 type NavItemsColumnEntry = NavItemComputed & { navItemChilds: NavItemComputed[] }
-function groupByColumns(navItems: NavItemComputed[]) {
+function groupByColumnLayout(navItems: NavItemComputed[]) {
   const navItemsColumnLayout: { navItemsColumnEntries: NavItemsColumnEntry[]; isFullWidth: boolean }[] = []
   let navItemsColumnEntries: NavItemsColumnEntry[] = []
   let isFullWidth: boolean | undefined

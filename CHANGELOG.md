@@ -1,3 +1,28 @@
+# [0.8.0](https://github.com/brillout/docpress/compare/v0.7.10...v0.8.0) (2024-10-22)
+
+
+### Bug Fixes
+
+* always use no-logo option ([1b03d7b](https://github.com/brillout/docpress/commit/1b03d7bb1712a3d4ef716c40519c999b45b5fdb3))
+* list missing breaking changes ([#16](https://github.com/brillout/docpress/issues/16)) ([fc812ff](https://github.com/brillout/docpress/commit/fc812ff1963cdd4f7f384b697e17be1394ac77f1))
+* minor ([aca6ee8](https://github.com/brillout/docpress/commit/aca6ee81ba7ecdcb2ae188b98801de1c6389a6f0))
+* remvove <FeatureList> ([4019cc7](https://github.com/brillout/docpress/commit/4019cc7b2cea61278ba00d6ad528a882325c7b82))
+
+
+### Features
+
+* menuModalFullWidth ([0b36ee2](https://github.com/brillout/docpress/commit/0b36ee29b2dd828d260e4a0489bb50207c8e8bee))
+
+
+### BREAKING CHANGES
+
+*  - landing page should implement block design
+ - `+NavHeader.js` removed
+* Replace `noSideNavigation: 'no-logo'` with `noSideNavigation: true`
+* Stop using `<FeatureList>`.
+
+
+
 ## [0.7.10](https://github.com/brillout/docpress/compare/v0.7.9...v0.7.10) (2024-10-10)
 
 

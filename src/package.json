@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.7.10",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "======== Build": "",

@@ -45,53 +45,72 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]) {
     }
   })
 
-  const columns: number[] = []
+  const columnLayouts: number[][] = []
+  let columns: number[] = []
+  let isFullWidth: boolean | undefined
   navItemsWithLength.forEach((navItem, i) => {
+    let isFullWidthBegin = false
     if (navItem.level === 1) {
+      const isFullWidthPrevious = isFullWidth
+      isFullWidth = !!navItem.menuModalFullWidth
+      if (isFullWidth) isFullWidthBegin = true
+      if (isFullWidthPrevious !== undefined && isFullWidthPrevious !== isFullWidth) {
+        columnLayouts.push(columns)
+        columns = []
+      }
+    }
+    if (
+      (!isFullWidth && navItem.level === 1) ||
+      (isFullWidth && navItem.level === 4 && navItemsWithLength[i - 1]!.level !== 1) ||
+      isFullWidthBegin
+    ) {
       assert(navItem.numberOfHeadings !== null)
       columns.push(navItem.numberOfHeadings)
-      navItems[i].columnLayoutEntry = [0, columns.length - 1]
+      navItems[i].columnLayoutEntry = true
     }
   })
+  columnLayouts.push(columns)
 
-  return { columns }
+  return { columnLayouts }
 }
 
-function getStyleColumnLayout(columns: number[]): string {
+function getStyleColumnLayout(columnLayouts: number[][]): string {
   let style = '\n'
-  for (let numberOfColumns = columns.length; numberOfColumns >= 1; numberOfColumns--) {
-    let styleGivenNumberOfColumns: string[] = []
-    styleGivenNumberOfColumns.push(
-      css`
-.column-layout {
+  columnLayouts.forEach((columns, i) => {
+    for (let numberOfColumns = columns.length; numberOfColumns >= 1; numberOfColumns--) {
+      let styleGivenNumberOfColumns: string[] = []
+      styleGivenNumberOfColumns.push(
+        css`
+.column-layout-${i} {
   column-count: ${numberOfColumns};
   max-width: min(100%, ${columnWidthMax * numberOfColumns}px);
 }
 `,
-    )
-    const columnsIdMap = determineColumns(columns, numberOfColumns)
-    const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
-    columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
-      styleGivenNumberOfColumns.push(
-        css`
-.column-layout-entry:nth-child(${columnUngroupedId + 1}) {
+      )
+      const columnsIdMap = determineColumns(columns, numberOfColumns)
+      const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
+      columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
+        styleGivenNumberOfColumns.push(
+          css`
+.column-layout-${i} .column-layout-entry:nth-child(${columnUngroupedId + 1}) {
   break-before: ${columnBreakPoint ? 'column' : 'avoid'};
 }
 `,
-      )
-    })
-    const noContainerQuery = numberOfColumns === columns.length
-    if (!noContainerQuery) {
-      const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
-      styleGivenNumberOfColumns = [
-        //
-        `@container(max-width: ${maxWidth}px) {`,
-        ...styleGivenNumberOfColumns,
-        `}`,
-      ]
+        )
+      })
+      const noContainerQuery = numberOfColumns === columns.length
+      if (!noContainerQuery) {
+        const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
+        styleGivenNumberOfColumns = [
+          //
+          `@container(max-width: ${maxWidth}px) {`,
+          ...styleGivenNumberOfColumns,
+          `}`,
+        ]
+      }
+      style += styleGivenNumberOfColumns.join('\n') + '\n'
     }
-    style += styleGivenNumberOfColumns.join('\n') + '\n'
-  }
+  })
   return style
 }
 

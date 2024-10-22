@@ -51,27 +51,7 @@ function MenuModal() {
 function Nav() {
   const pageContext = usePageContext()
   const navItems = pageContext.navItemsAll
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <NavigationContent
-        columnLayout={true}
-        navItems={navItems}
-        style={{
-          flexGrow: 1,
-          columnGap: 20,
-        }}
-        styleGroups={{
-          breakInside: 'avoid',
-          width: '100%',
-        }}
-      />
-    </div>
-  )
+  return <NavigationContent columnLayout={true} navItems={navItems} />
 }
 function LinksBottom() {
   return (
@@ -79,8 +59,8 @@ function LinksBottom() {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginTop: 25,
-        marginBottom: 25,
+        paddingTop: 10,
+        paddingBottom: 40,
       }}
     >
       <Links />

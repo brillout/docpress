@@ -16,7 +16,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
 
   const page = getPageElement(pageContext, pageContextResolved)
 
-  const styleMenuModalLayout = getStyleColumnLayout(pageContextResolved.columns)
+  const styleMenuModalLayout = getStyleColumnLayout(pageContextResolved.columnLayouts)
 
   const descriptionTag = pageContextResolved.isLandingPage
     ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)

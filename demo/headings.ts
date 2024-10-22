@@ -79,7 +79,8 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 1,
-    title: 'Third Section',
+    title: 'API',
+    menuModalFullWidth: true,
   },
   {
     level: 4,
@@ -98,5 +99,19 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Page 2',
     url: '/page-2',
+  },
+  {
+    level: 4,
+    title: 'Category 3',
+  },
+  {
+    level: 2,
+    title: 'Page 3',
+    url: '/page-3',
+  },
+  {
+    level: 2,
+    title: 'Page 4',
+    url: '/page-4',
   },
 ]

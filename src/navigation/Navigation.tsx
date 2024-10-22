@@ -16,43 +16,71 @@ type NavItem = {
   url?: string | null
   title: string
   titleInNav: string
+  menuModalFullWidth?: true
 }
 type NavItemAll = NavItem & {
-  columnLayoutEntry?: [number, number]
+  columnLayoutEntry?: true
 }
 function NavigationContent(props: {
   navItems: NavItem[]
-  style?: React.CSSProperties
-  styleGroups?: React.CSSProperties
   showOnlyRelevant?: true
   columnLayout?: true
 }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
-  let navContent: JSX.Element[]
+  let navContent: React.ReactNode
   if (!props.columnLayout) {
     navContent = navItemsWithComputed
       .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isRelevant)
       .map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
   } else {
     assert(!props.showOnlyRelevant)
-    const navItemColumns = groupByColumnEntries(navItemsWithComputed)
-    navContent = navItemColumns.map((navItemGroup, i) => (
-      <div className="column-layout-entry" key={i} style={props.styleGroups}>
-        <NavItemComponent navItem={navItemGroup} />
-        {navItemGroup.navItemChilds.map((navItem, j) => (
-          <NavItemComponent navItem={navItem} key={j} />
+    const navItemsColumnLayout = groupByColumns(navItemsWithComputed)
+    const paddingBottom = 40
+    navContent = (
+      <>
+        {navItemsColumnLayout.map(({ navItemsColumnEntries, isFullWidth }, i) => (
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              className={`column-layout-${i}`}
+              style={{
+                flexGrow: 1,
+                columnGap: 20,
+                paddingBottom: isFullWidth ? paddingBottom : undefined,
+              }}
+            >
+              {navItemsColumnEntries.map((navItemColumnEntry, k) => (
+                <div
+                  key={k}
+                  className="column-layout-entry"
+                  style={{
+                    breakInside: 'avoid',
+                    paddingBottom: !isFullWidth ? paddingBottom : undefined,
+                    width: '100%',
+                  }}
+                >
+                  <NavItemComponent navItem={navItemColumnEntry} />
+                  {navItemColumnEntry.navItemChilds.map((navItem, k) => (
+                    <NavItemComponent navItem={navItem} key={k} />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         ))}
-      </div>
-    ))
+      </>
+    )
   }
 
   return (
-    <div
-      className={'navigation-content' + (!props.columnLayout ? '' : ' column-layout')}
-      style={{ marginTop: 10, ...props.style }}
-    >
+    <div className="navigation-content" style={{ marginTop: 10 }}>
       {navContent}
     </div>
   )
@@ -101,16 +129,32 @@ function NavItemComponent({
 }
 
 type NavItemsColumnEntry = NavItemComputed & { navItemChilds: NavItemComputed[] }
-function groupByColumnEntries(navItems: NavItemComputed[]) {
-  const navItemsColumnEntries: NavItemsColumnEntry[] = []
+function groupByColumns(navItems: NavItemComputed[]) {
+  const navItemsColumnLayout: { navItemsColumnEntries: NavItemsColumnEntry[]; isFullWidth: boolean }[] = []
+  let navItemsColumnEntries: NavItemsColumnEntry[] = []
+  let isFullWidth: boolean | undefined
   navItems.forEach((navItem) => {
+    if (navItem.level === 1) {
+      const isFullWidthPrevious = isFullWidth
+      isFullWidth = !!navItem.menuModalFullWidth
+      if (isFullWidthPrevious !== undefined && isFullWidthPrevious !== isFullWidth) {
+        navItemsColumnLayout.push({ navItemsColumnEntries, isFullWidth: isFullWidthPrevious })
+        navItemsColumnEntries = []
+      }
+    }
+    assert(isFullWidth !== undefined)
     if (navItem.columnLayoutEntry) {
-      navItemsColumnEntries.push({ ...navItem, navItemChilds: [] })
+      assert(navItem.level === 1 || navItem.level === 4)
+      const navItemColumnEntry = { ...navItem, navItemChilds: [] }
+      navItemsColumnEntries.push(navItemColumnEntry)
     } else {
+      assert(navItem.level !== 1)
       navItemsColumnEntries[navItemsColumnEntries.length - 1].navItemChilds.push(navItem)
     }
   })
-  return navItemsColumnEntries
+  assert(isFullWidth !== undefined)
+  navItemsColumnLayout.push({ navItemsColumnEntries, isFullWidth })
+  return navItemsColumnLayout
 }
 
 type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
@@ -145,16 +189,17 @@ function getNavItemsWithComputed(navItems: NavItemAll[], currentUrl: string) {
   })
 
   // Set `isRelevant`
-  assert(navItemIdx !== undefined)
-  for (let i = navItemIdx; i >= 0; i--) {
-    const navItem = navItemsWithComputed[i]!
-    navItem.isRelevant = true
-    if (navItem.level === 1) break
-  }
-  for (let i = navItemIdx; i < navItemsWithComputed.length; i++) {
-    const navItem = navItemsWithComputed[i]!
-    if (navItem.level === 1) break
-    navItem.isRelevant = true
+  if (navItemIdx !== undefined) {
+    for (let i = navItemIdx; i >= 0; i--) {
+      const navItem = navItemsWithComputed[i]!
+      navItem.isRelevant = true
+      if (navItem.level === 1) break
+    }
+    for (let i = navItemIdx; i < navItemsWithComputed.length; i++) {
+      const navItem = navItemsWithComputed[i]!
+      if (navItem.level === 1) break
+      navItem.isRelevant = true
+    }
   }
 
   return navItemsWithComputed

@@ -11,6 +11,7 @@ type HeadingResolved = {
   topNavigation?: true | string
   linkBreadcrumb: string[]
   sectionTitles?: string[]
+  menuModalFullWidth?: true
 } & Tmp
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
@@ -21,6 +22,7 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
 type HeadingDefinitionCommon = {
   title: string
   topNavigation?: true | string
+  menuModalFullWidth?: true
 }
 
 type HeadingDetachedDefinition = HeadingDefinitionCommon & {

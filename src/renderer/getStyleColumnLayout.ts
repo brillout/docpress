@@ -12,7 +12,7 @@ export { determineColumnLayoutEntries }
 
 import { type NavItemAll } from '../navigation/Navigation'
 import { css } from '../utils/css'
-import { assert, isBrowser } from '../utils/server'
+import { assert, assertUsage, isBrowser } from '../utils/server'
 assert(!isBrowser())
 const columnWidthMin = 300
 const columnWidthMax = 350
@@ -60,18 +60,29 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]): { columnLayouts: 
         columns = []
       }
     }
+    const navItemPrevious = navItemsWithLength[i - 1]
+    const navItemNext = navItemsWithLength[i + 1]
     if (
-      !isFullWidth
-        ? navItem.level === 1
-        : (navItem.level === 4 && navItemsWithLength[i - 1]!.level !== 1) || isFullWidthBegin
+      !isFullWidth ? navItem.level === 1 : (navItem.level === 4 && navItemPrevious!.level !== 1) || isFullWidthBegin
     ) {
       if (isFullWidth) {
         assert(navItem.level === 4 || (navItem.level === 1 && isFullWidthBegin))
       } else {
         assert(navItem.level === 1)
       }
-      assert(navItem.numberOfHeadings !== null)
-      columns.push(navItem.numberOfHeadings)
+      let { numberOfHeadings } = navItem
+      assert(numberOfHeadings !== null)
+      if (isFullWidthBegin) {
+        assert(navItem.level === 1)
+        assertUsage(
+          navItemNext && navItemNext.level === 4,
+          // We can lift this requirement, but it isn't trivial to implement.
+          'level-1 headings with menuModalFullWidth need to be followed by a level-4 heading',
+        )
+        assert(navItemNext.numberOfHeadings)
+        numberOfHeadings = navItemNext.numberOfHeadings
+      }
+      columns.push(numberOfHeadings)
       navItems[i].isColumnLayoutElement = true
     }
   })

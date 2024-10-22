@@ -1,6 +1,6 @@
 export { initKeyBindings }
 
-import { closeDocsearchModal } from './docsearch/closeDocsearchModal'
+import { closeDocsearchModal } from './docsearch/toggleDocsearchModal'
 import { closeMenuModal, toggleMenuModal } from './MenuModal'
 
 function initKeyBindings() {

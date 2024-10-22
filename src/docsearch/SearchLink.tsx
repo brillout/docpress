@@ -1,7 +1,7 @@
 export { SearchLink }
 
 import React from 'react'
-import { openDocsearchModal } from './closeDocsearchModal'
+import { openDocsearchModal } from './toggleDocsearchModal'
 
 type PropsDiv = React.HTMLProps<HTMLDivElement>
 function SearchLink(props: PropsDiv) {

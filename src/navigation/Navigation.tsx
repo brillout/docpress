@@ -48,7 +48,6 @@ function NavigationContent(props: {
               justifyContent: 'center',
             }}
           >
-            {isFullWidth && <NavItemComponent navItem={isFullWidth} />}
             <div
               className={`column-layout-${i}`}
               style={{
@@ -131,14 +130,13 @@ function NavItemComponent({
 
 type NavItemsColumnEntry = NavItemComputed & { navItemChilds: NavItemComputed[] }
 function groupByColumnLayout(navItems: NavItemComputed[]) {
-  const navItemsColumnLayout: { navItemsColumnEntries: NavItemsColumnEntry[]; isFullWidth: false | NavItemComputed }[] =
-    []
+  const navItemsColumnLayout: { navItemsColumnEntries: NavItemsColumnEntry[]; isFullWidth: boolean }[] = []
   let navItemsColumnEntries: NavItemsColumnEntry[] = []
-  let isFullWidth: false | NavItemComputed | undefined
+  let isFullWidth: boolean | undefined
   navItems.forEach((navItem) => {
     if (navItem.level === 1) {
       const isFullWidthPrevious = isFullWidth
-      isFullWidth = !navItem.menuModalFullWidth ? false : navItem
+      isFullWidth = !!navItem.menuModalFullWidth
       if (isFullWidthPrevious !== undefined && isFullWidthPrevious !== isFullWidth) {
         navItemsColumnLayout.push({ navItemsColumnEntries, isFullWidth: isFullWidthPrevious })
         navItemsColumnEntries = []

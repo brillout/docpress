@@ -1,3 +1,14 @@
+## [0.8.3](https://github.com/brillout/docpress/compare/v0.8.2...v0.8.3) (2024-10-23)
+
+
+### Bug Fixes
+
+* drastically reduce Inter font size ([ef426c4](https://github.com/brillout/docpress/commit/ef426c4400cfb93045d1496cab96d4cbf7daba9c))
+* improve tooltip ([365ce57](https://github.com/brillout/docpress/commit/365ce57432d6e73ace7502c07e5cb02e1b453728))
+* make cursor pointer ([b1fc742](https://github.com/brillout/docpress/commit/b1fc7424ee1d104a41cea0379cc9f2882a41248b))
+
+
+
 ## [0.8.2](https://github.com/brillout/docpress/compare/v0.8.1...v0.8.2) (2024-10-23)
 
 

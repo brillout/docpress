@@ -15,7 +15,6 @@ function initKeyBindings() {
       }
 
       if (key === 'm' && (ev.ctrlKey || ev.metaKey)) {
-        ev.preventDefault()
         closeDocsearchModal()
         toggleMenuModal()
       }
@@ -26,7 +25,7 @@ function initKeyBindings() {
         closeMenuModal()
       }
     },
-    false,
+    { passive: true },
   )
 }
 function isEditingContent(event: KeyboardEvent): boolean {

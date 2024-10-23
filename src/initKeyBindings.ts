@@ -5,28 +5,25 @@ import { closeMenuModal, toggleMenuModal } from './MenuModal'
 
 function initKeyBindings() {
   window.addEventListener(
-    // Cannot use `keyup`: https://stackoverflow.com/questions/66595035/how-to-detect-escape-key-if-search-bar-of-browser-is-open/66600548#66600548
     'keydown',
     (ev) => {
-      if (ev.key === 'Escape') {
+      const key = (ev.key || '').toLowerCase()
+
+      if (key === 'escape') {
         closeDocsearchModal()
         closeMenuModal()
-        return
       }
 
-      const key = (ev.key || '').toLowerCase()
-      const isCtrl = ev.metaKey || ev.ctrlKey
-      if (isCtrl && key === 'm') {
+      if (key === 'm' && (ev.ctrlKey || ev.metaKey)) {
         ev.preventDefault()
         closeDocsearchModal()
         toggleMenuModal()
-        return
       }
 
-      // Replicate https://github.com/algolia/docsearch/blob/90f3c6aabbc324fe49e9a1dfe0906fcd4d90f27b/packages/docsearch-react/src/useDocSearchKeyboardEvents.ts#L45-L49
-      if ((isCtrl && key === 'k') || (key === '/' && !isEditingContent(ev))) {
+      // Replicates docsearch keybinding
+      // https://github.com/algolia/docsearch/blob/90f3c6aabbc324fe49e9a1dfe0906fcd4d90f27b/packages/docsearch-react/src/useDocSearchKeyboardEvents.ts#L45-L49
+      if ((key === 'k' && (ev.ctrlKey || ev.metaKey)) || (key === '/' && !isEditingContent(ev))) {
         closeMenuModal()
-        return
       }
     },
     false,

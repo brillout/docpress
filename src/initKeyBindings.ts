@@ -14,7 +14,7 @@ function initKeyBindings() {
         closeMenuModal()
       }
 
-      if (key === 'm' && (ev.ctrlKey || ev.metaKey)) {
+      if (key === 'm' && ev.ctrlKey) {
         closeDocsearchModal()
         toggleMenuModal()
       }

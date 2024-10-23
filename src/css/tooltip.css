@@ -1,11 +1,23 @@
-@import 'balloon-css';
-
-:root {
-  --balloon-color: #444;
-  --balloon-move: 2px;
-  --balloon-font-size: 14px;
-  --balloon-border-radius: 5px;
+[aria-label] {
+  position: relative;
 }
-[aria-label][data-balloon-pos]:after {
-  font-family: 'Inter';
+[aria-label]:hover::before {
+  font-family: monospace;
+  font-size: 12px;
+  content: attr(aria-label);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 5px;
+  background: #fdfdfd;
+  padding: 3px 10px;
+  box-shadow: rgb(0 0 0 / 8%) 2px 4px 7px 0px;
+  border-radius: 5px;
+  color: #333;
+  letter-spacing: -0.02em;
+  border: 1px solid #e3e3e3;
+}
+[data-label-shift]::before {
+  margin-left: -10px;
 }

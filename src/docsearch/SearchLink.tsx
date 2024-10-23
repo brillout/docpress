@@ -20,10 +20,7 @@ function SearchLink(props: PropsAnchor) {
         ev.preventDefault()
         openDocsearchModal()
       }}
-      aria-label="Ctrl + K"
-      data-balloon-pos="left"
-      data-balloon-blunt
-      data-balloon-nofocus
+      aria-label={'Ctrl\xa0+\xa0K'}
     >
       <SearchIcon />
       Search

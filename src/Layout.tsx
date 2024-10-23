@@ -410,10 +410,7 @@ function MenuLink(props: PropsAnchor) {
         ev.preventDefault()
         toggleMenuModal()
       }}
-      aria-label={hotkeyMenuOpen}
-      data-balloon-pos="left"
-      data-balloon-blunt
-      data-balloon-nofocus
+      aria-label={'Ctrl\xa0+\xa0M'}
     >
       <MenuIcon />
       Menu

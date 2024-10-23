@@ -90,9 +90,6 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^3.3.2
         version: 3.3.2(vite@demo+node_modules+vite)
-      balloon-css:
-        specifier: 1.2.0
-        version: 1.2.0
       rehype-pretty-code:
         specifier: 0.13.0
         version: 0.13.0(shiki@1.2.0)
@@ -875,9 +872,6 @@ packages:
 
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
-
-  balloon-css@1.2.0:
-    resolution: {integrity: sha512-urXwkHgwp6GsXVF+it01485Z2Cj4pnW02ICnM0TemOlkKmCNnDLmyy+ZZiRXBpwldUXO+aRNr7Hdia4CBvXJ5A==}
 
   braces@3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
@@ -2483,8 +2477,6 @@ snapshots:
   astring@1.8.3: {}
 
   bail@2.0.2: {}
-
-  balloon-css@1.2.0: {}
 
   braces@3.0.2:
     dependencies:

@@ -203,6 +203,7 @@ function NavTop() {
   return (
     <div
       id="top-navigation"
+      className="link-hover-animation"
       style={{
         position: 'relative',
         display: 'flex',
@@ -252,6 +253,7 @@ function NavLeft() {
     <>
       <div
         id="nav-left"
+        className="link-hover-animation"
         style={{
           flexGrow: 1,
           borderRight: 'var(--block-margin) solid white',
@@ -307,14 +309,14 @@ function NavigationHeader({
 }: { headerHeight: number; headerPadding: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   const iconSize = headerHeight - 2 * headerPadding
-  //*
-  const { projectName } = pageContext.meta
+  /*
+  const {projectName} = pageContext.meta
   /*/
   const projectName = 'Vike'
   //*/
   const isProjectNameShort = projectName.length <= 4
   const childrenStyle: React.CSSProperties = {
-    flexGrow: 1,
+    justifyContent: 'center',
     fontSize: isProjectNameShort ? '4.8cqw' : '4.5cqw',
     ['--icon-padding']: '1.8cqw',
   }
@@ -344,8 +346,11 @@ function NavigationHeader({
             textDecoration: 'none',
             height: '100%',
             padding: `${headerPadding}px 0`,
-            paddingLeft: 4,
+            paddingLeft: 4 + 10,
+            marginLeft: -10,
             ...childrenStyle,
+            justifyContent: 'flex-start',
+            flexGrow: 0.5,
           }}
           href="/"
         >
@@ -373,12 +378,14 @@ function NavigationHeader({
           style={{
             //
             ...childrenStyle,
+            flexGrow: 0.5,
           }}
         />
         <MenuLink
           style={{
             //
             ...childrenStyle,
+            flexGrow: 1,
           }}
         />
       </div>
@@ -386,10 +393,10 @@ function NavigationHeader({
   )
 }
 
-type PropsDiv = React.HTMLProps<HTMLDivElement>
-function MenuLink(props: PropsDiv) {
+type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
+function MenuLink(props: PropsAnchor) {
   return (
-    <div
+    <a
       {...props}
       style={{
         height: '100%',
@@ -410,14 +417,14 @@ function MenuLink(props: PropsDiv) {
     >
       <MenuIcon />
       Menu
-    </div>
+    </a>
   )
 }
 function MenuIcon() {
   return (
     <svg
       style={{ marginRight: 'calc(var(--icon-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
-      className="decolorize-7"
+      className="decolorize-6"
       viewBox="0 0 448 512"
     >
       <path

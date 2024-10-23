@@ -1,16 +1,8 @@
-/*
-:root {
-  --link-color: #4747ff;
-}
-*/
-
 a {
-  /*
-  color: inherit;
-  color: var(--link-color);
-  */
-  color: #4747ff;
   text-decoration: none;
+}
+a[href]:not(.nav-item) {
+  color: #4747ff;
 }
 a > button {
   color: var(--color-text);

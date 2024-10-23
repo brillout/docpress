@@ -92,8 +92,10 @@ function NavItemComponent({
   navItem: NavItemComputed
 }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
+
   const titleJsx = parseTitle(navItem.title)
   const titleInNavJsx = parseTitle(navItem.titleInNav)
+
   if (navItem.level === 1 || navItem.level === 4) {
     assert(navItem.url === undefined)
   } else {
@@ -109,23 +111,28 @@ function NavItemComponent({
       ].join(' '),
     )
   }
-  return (
-    <a
-      className={[
-        'nav-item',
-        'nav-item-level-' + navItem.level,
-        navItem.url && navItem.isActive && ' is-active',
-        navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
-        navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      href={navItem.url ?? undefined}
-    >
-      {/* <span className="nav-item-text">{titleInNavJsx}</span> */}
-      {titleInNavJsx}
-    </a>
-  )
+
+  const props: PropsAnchor & PropsSpan = {
+    href: navItem.url ?? undefined,
+    children: titleInNavJsx,
+    className: [
+      'nav-item',
+      'nav-item-level-' + navItem.level,
+      navItem.url && navItem.isActive && ' is-active',
+      navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
+      navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
+    ]
+      .filter(Boolean)
+      .join(' '),
+  }
+  type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
+  type PropsSpan = React.HTMLProps<HTMLSpanElement>
+
+  if (navItem.level === 2 || navItem.level === 3) {
+    return <a {...props} />
+  } else {
+    return <span {...props} />
+  }
 }
 
 type NavItemsColumnEntry = NavItemComputed & { navItemChilds: NavItemComputed[] }

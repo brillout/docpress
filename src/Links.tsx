@@ -27,6 +27,7 @@ function Links({ style }: { style?: React.CSSProperties }) {
         alignItems: 'center',
         paddingTop: 0,
         justifyContent: 'left',
+        height: '100%',
         ...style,
       }}
     >
@@ -47,20 +48,28 @@ function ChangelogButton() {
   return (
     <a
       href={`${projectInfo.githubRepository}/blob/main/CHANGELOG.md`}
-      className="button colorize-on-hover"
+      className="colorize-on-hover"
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: '2px 10px',
-        marginLeft: 10,
-        fontSize: '0.97em',
-        color: 'inherit',
+        padding: 10,
+        height: '100%',
       }}
     >
-      <span id="version-number" className="decolorize-7">
-        v{projectInfo.projectVersion}
-      </span>
-      <img className="decolorize-6" src={iconChangelog} height={16} style={{ marginLeft: 6 }} />
+      <div
+        className="button"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '2px 10px',
+          fontSize: '0.97em',
+        }}
+      >
+        <span id="version-number" className="decolorize-7">
+          v{projectInfo.projectVersion}
+        </span>
+        <img className="decolorize-6" src={iconChangelog} height={16} style={{ marginLeft: 6 }} />
+      </div>
     </a>
   )
 }
@@ -69,11 +78,11 @@ function LinkIcon({ className, icon, href, style }: { className: string; icon: s
   return (
     <>
       <a
-        className={'colorize-on-hover ' + className}
+        className="colorize-on-hover"
         href={href}
-        style={{ padding: 5, display: 'inline-block', lineHeight: 0 }}
+        style={{ padding: 5, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
       >
-        <img src={icon} height="20" style={style} />
+        <img className={className} src={icon} height="20" style={style} />
       </a>
     </>
   )

@@ -20,6 +20,7 @@ function MenuModal() {
       <style>{getStyle()}</style>
       <div
         id="menu-modal"
+        className="link-hover-animation"
         style={{
           position: 'fixed',
           width: '100%',
@@ -59,11 +60,9 @@ function LinksBottom() {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        paddingTop: 10,
-        paddingBottom: 40,
       }}
     >
-      <Links />
+      <Links style={{ height: 70 }} />
     </div>
   )
 }
@@ -87,9 +86,9 @@ html.menu-modal-show {
 
 function CloseButton() {
   return (
-    <a
+    <div
       onClick={toggleMenuModal}
-      style={{ position: 'fixed', top: 11, right: 11, zIndex: 10 }}
+      style={{ position: 'fixed', top: 0, right: 0, zIndex: 10, padding: 11 }}
       aria-label={hotkeyMenuClose}
       data-balloon-pos="left"
       data-balloon-blunt
@@ -115,7 +114,7 @@ function CloseButton() {
           strokeWidth=".11719"
         />
       </svg>
-    </a>
+    </div>
   )
 }
 

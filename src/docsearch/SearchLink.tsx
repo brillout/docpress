@@ -3,10 +3,10 @@ export { SearchLink }
 import React from 'react'
 import { openDocsearchModal } from './toggleDocsearchModal'
 
-type PropsDiv = React.HTMLProps<HTMLDivElement>
-function SearchLink(props: PropsDiv) {
+type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
+function SearchLink(props: PropsAnchor) {
   return (
-    <div
+    <a
       {...props}
       style={{
         height: '100%',
@@ -27,14 +27,14 @@ function SearchLink(props: PropsDiv) {
     >
       <SearchIcon />
       Search
-    </div>
+    </a>
   )
 }
 function SearchIcon() {
   return (
     <svg
       style={{ marginRight: 'var(--icon-padding)', lineHeight: 0, width: '1.3em' }}
-      className="decolorize-6"
+      className="decolorize-7"
       viewBox="0 0 20 20"
     >
       <path

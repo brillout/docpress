@@ -25,7 +25,6 @@ function initKeyBindings() {
 
       // Replicate https://github.com/algolia/docsearch/blob/90f3c6aabbc324fe49e9a1dfe0906fcd4d90f27b/packages/docsearch-react/src/useDocSearchKeyboardEvents.ts#L45-L49
       if ((isCtrl && key === 'k') || (key === '/' && !isEditingContent(ev))) {
-        ev.preventDefault()
         closeMenuModal()
         return
       }

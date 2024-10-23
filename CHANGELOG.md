@@ -1,3 +1,17 @@
+## [0.8.2](https://github.com/brillout/docpress/compare/v0.8.1...v0.8.2) (2024-10-23)
+
+
+### Bug Fixes
+
+* improve changelog btn ([ccedd74](https://github.com/brillout/docpress/commit/ccedd74d5a734298545cb5e004421b9c1e91bc81))
+* improve shadow of on-this-page nav ([9c8fa40](https://github.com/brillout/docpress/commit/9c8fa4004fb2a742ce9c3d6d19bb1fabe49fe498))
+* let docsearch prevent the default ctrl+k behavior ([d162932](https://github.com/brillout/docpress/commit/d1629327ad46c4dab0c0ac478bb4c1f8031051b8))
+* link hover animation ([0bc39dd](https://github.com/brillout/docpress/commit/0bc39dd1314625b79a1cb3ec08e19ba3dd0dd1a5))
+* only listen for ctrl+m and stop listening for cmd+m ([58d2399](https://github.com/brillout/docpress/commit/58d23991eceea1d7edc919b785bfb3a505909ed3))
+* stop preventing default ctrl+m behavior ([55d2771](https://github.com/brillout/docpress/commit/55d2771b7110cfc1c0918781348ab1224383f970))
+
+
+
 ## [0.8.1](https://github.com/brillout/docpress/compare/v0.8.0...v0.8.1) (2024-10-22)
 
 

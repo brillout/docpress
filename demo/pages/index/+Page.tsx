@@ -37,12 +37,15 @@ function Features() {
   return (
     <div>
       <p>
-        Praesent eu augue lacinia, tincidunt purus nec, ultrices ante. Donec dolor felis, ornare vel augue condimentum.
+        Praesent <em>eu augue lacinia</em>, tincidunt purus nec, ultrices ante. Donec dolor felis, ornare vel augue
+        condimentum.
       </p>
       <p>
         Mauris <code>foo</code> quis scelerisque erat.
       </p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p>
+        <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</i>
+      </p>
       <p>
         <b>Curabitur</b> gravida urna id ligula volutpat dapibus. Integer accumsan dignissim efficitur. Sed mauris
         tortor, lobortis at suscipit ac, ultricies eu nunc.

@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 body {
-  font-family: 'Inter';
+  font-family: 'Inter', sans-serif;
 }
 button {
   font-family: inherit;
@@ -8,18 +10,4 @@ body {
   --color-text: #323d48;
   color: var(--color-text);
   line-height: 1.5;
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-weight: 100 900;
-  font-stretch: 75% 125%;
-  font-style: oblique 0deg 12deg;
-  src: url('./Inter-Var.ttf') format('truetype-variations');
-}
-
-em,
-i {
-  font-variation-settings: 'slnt' -10;
-  font-style: normal;
 }

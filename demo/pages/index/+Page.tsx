@@ -28,7 +28,7 @@ function Page() {
 function Header() {
   return (
     <>
-      <h1 style={{ textAlign: 'center' }}>Introduction</h1>
+      <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>Next Generation<br/>Frontend Framework</h1>
     </>
   )
 }

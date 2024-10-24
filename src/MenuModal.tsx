@@ -24,6 +24,7 @@ function MenuModal() {
           width: '100%',
           /* Do this once Firefox supports `dvh`: https://caniuse.com/?search=dvh
            * - Then also replace all `vh` values with `dvh` values.
+           * - https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
           height: '100dh',
           /*/
           height: '100vh',

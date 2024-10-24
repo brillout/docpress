@@ -15,9 +15,9 @@ const config: Config = {
   },
   faviconUrl: logoUrl,
   algolia: {
-    appId: 'FAKE_ID',
-    apiKey: 'FAKE_KEY',
-    indexName: 'FAKE_INDEX',
+    appId: 'YMV9Y4B58S',
+    apiKey: '9ac178c1a29ba00e8afb98365015f677',
+    indexName: 'vike'
   },
   // i18n: true,
   pressKit: true,

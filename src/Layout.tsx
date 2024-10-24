@@ -50,21 +50,26 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <div
+      style={{
+        ['--bg-color']: '#f5f5f7',
+        ['--block-margin']: `${blockMargin}px`,
+        ['--icon-padding']: '8px',
+      }}
+    >
+      <MenuModal />
       <div
         className={isLandingPage ? '' : 'doc-page'}
         style={{
-          ['--bg-color']: '#f5f5f7',
-          ['--block-margin']: `${blockMargin}px`,
-          ['--icon-padding']: '8px',
+          // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
+          // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
+          containerType: 'inline-size',
           ...blankBuster1,
         }}
       >
         {content}
-        <MenuModal />
       </div>
-      <style>{css`body { container-type: inline-size; }`}</style>
-    </>
+    </div>
   )
 }
 

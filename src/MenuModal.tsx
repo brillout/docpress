@@ -37,6 +37,8 @@ function MenuModal() {
             flexDirection: 'column',
             minHeight: '100vh',
             justifyContent: 'space-between',
+            // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
+            containerType: 'inline-size',
           }}
         >
           <Nav />

@@ -4,9 +4,9 @@
 ### Bug Fixes
 
 * disable :hover on mobile devices ([b83dd78](https://github.com/brillout/docpress/commit/b83dd78cef33d1e7a8ed88b058317f490f4348e7))
-* don't hide <Links> in <MenuModal> on mobile ([ba83b70](https://github.com/brillout/docpress/commit/ba83b7094f8a8c54cdd24e18d475cd685e004eea))
+* don't hide `<Links>` in `<MenuModal>` on mobile ([ba83b70](https://github.com/brillout/docpress/commit/ba83b7094f8a8c54cdd24e18d475cd685e004eea))
 * ensure menu modal is closed upon clicking a link ([c33baeb](https://github.com/brillout/docpress/commit/c33baeb99ab48449f9e1ed887ff526e45447ee29))
-* fix <MenuModal> positioning on Firefox ([36ee26e](https://github.com/brillout/docpress/commit/36ee26eb2461d3fbf9c267a6a08270ea21787737))
+* fix `<MenuModal>` positioning on Firefox ([36ee26e](https://github.com/brillout/docpress/commit/36ee26eb2461d3fbf9c267a6a08270ea21787737))
 * fix edit emoji on firefox ([8a9074b](https://github.com/brillout/docpress/commit/8a9074b535cd90a433c95f647f5811cbaa25004f))
 * improve mobile nav height ([73c7fe8](https://github.com/brillout/docpress/commit/73c7fe8c6da7b624758105bd43c68588b9dcbbfd))
 
@@ -64,8 +64,8 @@
 
 ### BREAKING CHANGES
 
-*  - landing page should implement block design
- - `+NavHeader.js` removed
+* landing page should implement block design
+* `+NavHeader.js` removed
 * Replace `noSideNavigation: 'no-logo'` with `noSideNavigation: true`
 * Stop using `<FeatureList>`.
 

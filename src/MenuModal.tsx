@@ -8,6 +8,9 @@ import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
 import { containerQueryMobile } from './Layout'
 import { Links } from './Links'
+import { isBrowser } from './utils/isBrowser'
+
+initCloseListeners()
 
 function MenuModal() {
   return (
@@ -135,4 +138,30 @@ function autoScroll() {
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
+}
+
+function initCloseListeners() {
+  if (!isBrowser()) return
+  document.addEventListener('click', onLinkClick)
+  // It's redundant (and onLinkClick() is enough), but just to be sure.
+  addEventListener('hashchange', closeMenuModal)
+}
+function onLinkClick(ev: MouseEvent) {
+  if (ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return
+  const linkTag = findLinkTag(ev.target as HTMLElement)
+  if (!linkTag) return
+  const href = linkTag.getAttribute('href')
+  if (!href) return
+  if (!href.startsWith('/') && !href.startsWith('#')) return
+  closeMenuModal()
+}
+function findLinkTag(target: HTMLElement): null | HTMLElement {
+  while (target.tagName !== 'A') {
+    const { parentNode } = target
+    if (!parentNode) {
+      return null
+    }
+    target = parentNode as HTMLElement
+  }
+  return target
 }

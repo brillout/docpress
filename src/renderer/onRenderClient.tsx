@@ -52,6 +52,7 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 function onRenderStart() {
+  // It's redundant (and onLinkClick() is enough), but just to be sure.
   closeMenuModal()
 }
 

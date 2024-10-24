@@ -1,23 +1,29 @@
-[aria-label] {
-  position: relative;
-}
-[aria-label]:hover::before {
-  font-family: monospace;
-  font-size: 12px;
-  content: attr(aria-label);
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin-top: 5px;
-  background: #fdfdfd;
-  padding: 3px 10px;
-  box-shadow: rgb(0 0 0 / 8%) 2px 4px 7px 0px;
-  border-radius: 5px;
-  color: #333;
-  letter-spacing: -0.02em;
-  border: 1px solid #e3e3e3;
-}
-[data-label-shift]::before {
-  margin-left: -10px;
+/* `@media (pointer: fine)`
+ * - Don't show tooltip on mobile devices:
+ * - https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121
+ */
+@media (hover: hover) and (pointer: fine) {
+  [aria-label] {
+    position: relative;
+  }
+  [aria-label]:hover::before {
+    font-family: monospace;
+    font-size: 12px;
+    content: attr(aria-label);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-top: 5px;
+    background: #fdfdfd;
+    padding: 3px 10px;
+    box-shadow: rgb(0 0 0 / 8%) 2px 4px 7px 0px;
+    border-radius: 5px;
+    color: #333;
+    letter-spacing: -0.02em;
+    border: 1px solid #e3e3e3;
+  }
+  [data-label-shift]::before {
+    margin-left: -10px;
+  }
 }

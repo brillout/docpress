@@ -45,8 +45,8 @@
   border-radius: 6px;
   box-shadow: var(--docsearch-modal-shadow);
   flex-direction: column;
-  margin: 60px auto auto;
-  max-width: var(--docsearch-modal-width);
+  margin: auto;
+  width: 100%;
   position: relative;
 }
 
@@ -174,11 +174,7 @@
 /* Modal Dropdown */
 
 .DocSearch-Dropdown {
-  max-height: calc(
-    var(--docsearch-modal-height) - var(--docsearch-searchbox-height) - var(--docsearch-spacing) -
-      var(--docsearch-footer-height)
-  );
-  min-height: var(--docsearch-spacing);
+  height: 100vh;
   overflow-y: auto; /* firefox */
   overflow-y: overlay;
   padding: 0 var(--docsearch-spacing);

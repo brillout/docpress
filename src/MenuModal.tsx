@@ -22,7 +22,13 @@ function MenuModal() {
         style={{
           position: 'fixed',
           width: '100%',
+          /* Do this once Firefox supports `dvh`: https://caniuse.com/?search=dvh
+           * - Then also replace all `vh` values with `dvh` values.
+          height: '100dh',
+          /*/
           height: '100vh',
+          maxHeight: '100dvh',
+          //*/
           top: 0,
           left: 0,
           zIndex: 9999,
@@ -35,7 +41,7 @@ function MenuModal() {
             // Place <LinksBottom /> to the bottom
             display: 'flex',
             flexDirection: 'column',
-            minHeight: '100vh',
+            minHeight: '100dvh',
             justifyContent: 'space-between',
             // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
             containerType: 'inline-size',

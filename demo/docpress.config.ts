@@ -17,7 +17,7 @@ const config: Config = {
   algolia: {
     appId: 'YMV9Y4B58S',
     apiKey: '9ac178c1a29ba00e8afb98365015f677',
-    indexName: 'vike'
+    indexName: 'vike',
   },
   // i18n: true,
   pressKit: true,

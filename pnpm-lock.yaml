@@ -69,9 +69,6 @@ importers:
       '@brillout/picocolors':
         specifier: ^1.0.10
         version: 1.0.10
-      '@docsearch/css':
-        specifier: ^3.6.1
-        version: 3.6.1
       '@docsearch/react':
         specifier: 3.6.1
         version: 3.6.1(@algolia/client-search@4.24.0)(@types/react@demo+node_modules+@types+react)(react-dom@demo+node_modules+react-dom)(react@demo+node_modules+react)(search-insights@2.17.2)

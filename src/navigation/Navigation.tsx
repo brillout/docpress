@@ -9,7 +9,6 @@ import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { parseTitle } from '../parseTitle'
 import { usePageContext } from '../renderer/usePageContext'
-import '@docsearch/css'
 
 type NavItem = {
   level: number

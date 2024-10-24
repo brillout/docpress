@@ -28,13 +28,13 @@ const mainViewMax = mainViewWidthMax + mainViewPadding * 2
 const containerQuerySpacing = mainViewMax + navWidthMax + blockMargin
 const containerQueryMobile = mainViewMax + navWidthMin
 
-// Avoid blank whitespace at the bottom of the page with almost no content
-const blankBuster1: React.CSSProperties = {
+// Avoid whitespace at the bottom of pages with almost no content
+const whitespaceBuster1: React.CSSProperties = {
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
 }
-const blankBuster2: React.CSSProperties = {
+const whitespaceBuster2: React.CSSProperties = {
   flexGrow: 1,
 }
 
@@ -64,7 +64,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
           // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
           containerType: 'inline-size',
-          ...blankBuster1,
+          ...whitespaceBuster1,
         }}
       >
         {content}
@@ -80,7 +80,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     <>
       <style>{getStyle()}</style>
       <NavMobile />
-      <div style={{ display: 'flex', ...blankBuster2 }}>
+      <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
         <PageContent>{children}</PageContent>

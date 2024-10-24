@@ -4,6 +4,7 @@ import React from 'react'
 import { usePageContext } from '../renderer/usePageContext'
 import { DocSearch as DocSearchButton } from '@docsearch/react'
 import { Hit } from '../components/Algolia/Hit'
+import "./css/styles.css"
 
 function DocSearchInstall() {
   const pageContext = usePageContext()

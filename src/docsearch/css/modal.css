@@ -43,11 +43,11 @@
 .DocSearch-Modal {
   background: var(--docsearch-modal-background);
   border-radius: 6px;
-  box-shadow: var(--docsearch-modal-shadow);
   flex-direction: column;
-  margin: 60px auto auto;
-  max-width: var(--docsearch-modal-width);
-  position: relative;
+  margin: 0;
+  height: var(--docsearch-modal-height);
+  width: var(--docsearch-modal-width);
+  position: fixed;
 }
 
 /* Modal Searchbox */
@@ -168,7 +168,22 @@
 }
 
 .DocSearch-Cancel {
-  display: none;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: var(--docsearch-highlight-color);
+  cursor: pointer;
+  display: inline-block;
+  flex: none;
+  font: inherit;
+  font-size: 1em;
+  font-weight: 500;
+  margin-left: var(--docsearch-spacing);
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  user-select: none;
+  white-space: nowrap;
 }
 
 /* Modal Dropdown */
@@ -516,6 +531,8 @@ svg.DocSearch-Hit-Select-Icon {
   user-select: none;
   width: 100%;
   z-index: 300;
+  bottom: 0;
+  position: absolute;
 }
 
 .DocSearch-Commands {
@@ -582,8 +599,6 @@ assistive tech users */
 
   .DocSearch-Footer {
     border-radius: 0;
-    bottom: 0;
-    position: absolute;
   }
 
   .DocSearch-Hit-content-wrapper {
@@ -608,25 +623,6 @@ assistive tech users */
       var(--docsearch-vh, 1vh) * 100 - var(--docsearch-searchbox-height) - var(--docsearch-spacing) -
         var(--docsearch-footer-height)
     );
-  }
-
-  .DocSearch-Cancel {
-    appearance: none;
-    background: none;
-    border: 0;
-    color: var(--docsearch-highlight-color);
-    cursor: pointer;
-    display: inline-block;
-    flex: none;
-    font: inherit;
-    font-size: 1em;
-    font-weight: 500;
-    margin-left: var(--docsearch-spacing);
-    outline: none;
-    overflow: hidden;
-    padding: 0;
-    user-select: none;
-    white-space: nowrap;
   }
 
   .DocSearch-Commands {

@@ -195,7 +195,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavMobile() {
   return (
     <div id="nav-mobile">
-      <NavigationHeader headerHeight={70} iconSize={46} style={{ justifyContent: 'center' }} />
+      <NavigationHeader headerHeight={70} iconSize={46} paddingLeft={12} style={{ justifyContent: 'center' }} />
     </div>
   )
 }
@@ -235,7 +235,6 @@ function NavTop() {
               justifyContent: 'center',
               cursor: 'pointer',
               padding,
-              marginRight: 7,
             }}
           >
             {title}
@@ -269,7 +268,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavigationHeader headerHeight={headerHeight} iconSize={39} />
+          <NavigationHeader headerHeight={headerHeight} iconSize={39} paddingLeft={6} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -310,9 +309,10 @@ function NavigationHeader({
   headerHeight,
   iconSize,
   style,
-}: { headerHeight: number; iconSize: number; style?: React.CSSProperties }) {
+  paddingLeft,
+}: { headerHeight: number; iconSize: number; paddingLeft: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  //*
+  /*
   const {projectName} = pageContext.meta
   /*/
   const projectName = 'Vike'
@@ -323,6 +323,7 @@ function NavigationHeader({
     fontSize: isProjectNameShort ? '4.8cqw' : '4.5cqw',
     ['--icon-text-padding']: '1.8cqw',
   }
+  const marginLeft = -10
   return (
     <div
       style={{
@@ -348,8 +349,8 @@ function NavigationHeader({
             color: 'inherit',
             textDecoration: 'none',
             height: '100%',
-            paddingLeft: 6 + 10,
-            marginLeft: -10,
+            paddingLeft: paddingLeft + marginLeft * -1,
+            marginLeft: marginLeft,
             ...childrenStyle,
             justifyContent: 'flex-start',
             flexGrow: 0.5,

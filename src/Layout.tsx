@@ -253,7 +253,7 @@ function NavLeft() {
   const pageContext = usePageContext()
   const { navItems, navItemsAll, isDetachedPage } = pageContext
   const headerHeight = 60
-  const headerPadding = 10
+  const headerPadding = 10.5
   return (
     <>
       <div
@@ -373,7 +373,7 @@ function NavigationHeader({
           <span
             style={{
               marginLeft: `calc(var(--icon-padding) + 2px)`,
-              fontSize: isProjectNameShort ? '1.7em' : '1.3em',
+              fontSize: isProjectNameShort ? '1.65em' : '1.3em',
             }}
           >
             {projectName}

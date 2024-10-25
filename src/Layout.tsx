@@ -5,7 +5,7 @@ import React from 'react'
 import { NavigationContent } from './navigation/Navigation'
 import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
-import { usePageContext } from './renderer/usePageContext'
+import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './Links'
 import { toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
@@ -13,6 +13,7 @@ import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
+import { PassThrough } from './utils/PassTrough'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
@@ -201,10 +202,10 @@ function NavMobile() {
 }
 
 function NavTop() {
-  const pageContext = usePageContext()
-  const { topNavigationList, topNavigationStyle } = pageContext
+  const pageContext2 = usePageContext2()
   const paddingSize = 35
   const padding = `0 ${paddingSize}px`
+  const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   return (
     <div
       id="top-navigation"
@@ -217,29 +218,13 @@ function NavTop() {
         textDecoration: 'none',
         marginBottom: 'var(--block-margin)',
         backgroundColor: 'var(--bg-color)',
+        ['--padding-side']: `${paddingSize}px`,
         fontSize: '1.06em',
         color: '#666',
-        ...topNavigationStyle,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', height: 70 }}>
-        {topNavigationList.map(({ title, url }) => (
-          <a
-            href={url!}
-            key={url}
-            style={{
-              color: 'inherit',
-              height: '100%',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              padding,
-            }}
-          >
-            {title}
-          </a>
-        ))}
+        <TopNavigation />
         <SearchLink style={{ padding }} />
         <MenuLink style={{ padding }} />
         <Links style={{ display: 'inline-flex', padding, marginLeft: -8 }} />

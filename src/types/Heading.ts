@@ -8,7 +8,6 @@ type HeadingResolved = {
   level: number
   title: string
   titleInNav: string
-  topNavigation?: true | string
   linkBreadcrumb: string[]
   sectionTitles?: string[]
   menuModalFullWidth?: true
@@ -21,7 +20,6 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
 
 type HeadingDefinitionCommon = {
   title: string
-  topNavigation?: true | string
   menuModalFullWidth?: true
 }
 

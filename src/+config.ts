@@ -15,8 +15,10 @@ export default {
     Layout: {
       env: { client: true, server: true },
     },
+    TopNavigation: {
+      env: { client: true, server: true },
+    },
   },
-
   prefetch: {
     staticAssets: 'hover',
     pageContext: Infinity,
@@ -32,6 +34,7 @@ declare global {
     }
     interface Config {
       Layout?: ReactComponent | null | ImportString
+      TopNavigation?: ReactComponent
     }
   }
 }

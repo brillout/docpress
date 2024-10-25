@@ -72,10 +72,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
-  const topNavigationList = headingsResolved
-    .filter((heading) => heading.topNavigation)
-    .map((h) => ({ title: typeof h.topNavigation === 'string' ? h.topNavigation : h.title, url: h.url }))
-
   const pageContextAddendum = {
     isDetachedPage,
     navItems,
@@ -84,7 +80,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
-    topNavigationList,
     // TODO: don't pass to client-side
     columnLayouts,
   }

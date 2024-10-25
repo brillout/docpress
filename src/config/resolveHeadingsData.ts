@@ -37,7 +37,11 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const { headingsDetachedResolved } = resolved
   let { headingsResolved } = resolved
 
-  const { activeHeading, isDetachedPage } = getActiveHeading(headingsResolved, headingsDetachedResolved, pageContext)
+  const { activeHeading, isDetachedPage, activeCategory } = getActiveHeading(
+    headingsResolved,
+    headingsDetachedResolved,
+    pageContext,
+  )
 
   const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
@@ -82,6 +86,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     documentTitle,
     // TODO: don't pass to client-side
     columnLayouts,
+    // TODO: don't pass to client-side
+    activeCategory,
   }
   return pageContextAddendum
 }
@@ -148,14 +154,20 @@ function getActiveHeading(
   pageContext: { urlPathname: string; exports: Exports },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
+  let activeCategory: string | undefined
   const { urlPathname } = pageContext
   assert(urlPathname)
-  headingsResolved.forEach((heading) => {
+  for (const heading of headingsResolved) {
+    if (heading.level === 1) {
+      activeCategory = heading.title
+    }
     if (heading.url === urlPathname) {
       activeHeading = heading
+      assert(activeCategory)
       assert(heading.level === 2, { pageUrl: urlPathname, heading })
+      break
     }
-  })
+  }
   const isDetachedPage = !activeHeading
   if (!activeHeading) {
     activeHeading = headingsDetachedResolved.find(({ url }) => urlPathname === url) ?? null
@@ -173,7 +185,7 @@ function getActiveHeading(
       ].join('\n'),
     )
   }
-  return { activeHeading, isDetachedPage }
+  return { activeHeading, isDetachedPage, activeCategory }
 }
 
 function getPageSectionsResolved(

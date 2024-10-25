@@ -54,7 +54,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       style={{
         ['--bg-color']: '#f5f5f7',
         ['--block-margin']: `${blockMargin}px`,
-        ['--icon-padding']: '8px',
+        ['--icon-text-padding']: '8px',
       }}
     >
       <MenuModal />
@@ -323,7 +323,7 @@ function NavigationHeader({
   const childrenStyle: React.CSSProperties = {
     justifyContent: 'center',
     fontSize: isProjectNameShort ? '4.8cqw' : '4.5cqw',
-    ['--icon-padding']: '1.8cqw',
+    ['--icon-text-padding']: '1.8cqw',
   }
   return (
     <div
@@ -372,7 +372,7 @@ function NavigationHeader({
           />
           <span
             style={{
-              marginLeft: `calc(var(--icon-padding) + 2px)`,
+              marginLeft: `calc(var(--icon-text-padding) + 2px)`,
               fontSize: isProjectNameShort ? '1.65em' : '1.3em',
             }}
           >
@@ -425,7 +425,7 @@ function MenuLink(props: PropsAnchor) {
 function MenuIcon() {
   return (
     <svg
-      style={{ marginRight: 'calc(var(--icon-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
       className="decolorize-6"
       viewBox="0 0 448 512"
     >

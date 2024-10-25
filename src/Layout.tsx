@@ -312,7 +312,7 @@ function NavigationHeader({
   style,
 }: { headerHeight: number; iconSize: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  /*
+  //*
   const {projectName} = pageContext.meta
   /*/
   const projectName = 'Vike'
@@ -348,7 +348,7 @@ function NavigationHeader({
             color: 'inherit',
             textDecoration: 'none',
             height: '100%',
-            paddingLeft: 4 + 10,
+            paddingLeft: 6 + 10,
             marginLeft: -10,
             ...childrenStyle,
             justifyContent: 'flex-start',

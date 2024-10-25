@@ -195,7 +195,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavMobile() {
   return (
     <div id="nav-mobile">
-      <NavigationHeader headerHeight={70} headerPadding={12} style={{ justifyContent: 'center' }} />
+      <NavigationHeader headerHeight={70} iconSize={46} style={{ justifyContent: 'center' }} />
     </div>
   )
 }
@@ -253,7 +253,6 @@ function NavLeft() {
   const pageContext = usePageContext()
   const { navItems, navItemsAll, isDetachedPage } = pageContext
   const headerHeight = 60
-  const headerPadding = 10.5
   return (
     <>
       <div
@@ -270,7 +269,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavigationHeader {...{ headerHeight, headerPadding }} />
+          <NavigationHeader headerHeight={headerHeight} iconSize={39} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -309,11 +308,10 @@ function NavLeft() {
 
 function NavigationHeader({
   headerHeight,
-  headerPadding,
+  iconSize,
   style,
-}: { headerHeight: number; headerPadding: number; style?: React.CSSProperties }) {
+}: { headerHeight: number; iconSize: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const iconSize = headerHeight - 2 * headerPadding
   /*
   const {projectName} = pageContext.meta
   /*/
@@ -350,7 +348,6 @@ function NavigationHeader({
             color: 'inherit',
             textDecoration: 'none',
             height: '100%',
-            padding: `${headerPadding}px 0`,
             paddingLeft: 4 + 10,
             marginLeft: -10,
             ...childrenStyle,

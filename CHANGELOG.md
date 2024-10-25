@@ -1,3 +1,25 @@
+## [0.8.5](https://github.com/brillout/docpress/compare/v0.8.4...v0.8.5) (2024-10-25)
+
+
+### Bug Fixes
+
+* polish mobile header ([96e5b24](https://github.com/brillout/docpress/commit/96e5b24187ca45fcfcda4bcf1df1902e191a01f6))
+* polish mobile header ([3594029](https://github.com/brillout/docpress/commit/3594029ef003cb9a056c8ebfb2c4e2027628c26f))
+* polish nav header ([fffc4f7](https://github.com/brillout/docpress/commit/fffc4f7cfd5923e2991d81cc4cedabd677d13bd9))
+
+
+### Features
+
+* +TopNavigation.js ([3cd05fa](https://github.com/brillout/docpress/commit/3cd05fac1b037710f0c203b298e8f24adf2ae511))
+* add <meta name="docsearch:category"> ([886efe1](https://github.com/brillout/docpress/commit/886efe1a3994ac1ac9366b084e478ba7161b526f))
+
+
+### BREAKING CHANGES
+
+* Remove `topNavigation` setting in `headings.js` with `+TopNavigation.js`.
+
+
+
 ## [0.8.4](https://github.com/brillout/docpress/compare/v0.8.3...v0.8.4) (2024-10-24)
 
 

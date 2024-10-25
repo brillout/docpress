@@ -195,7 +195,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavMobile() {
   return (
     <div id="nav-mobile">
-      <NavigationHeader headerHeight={70} iconSize={46} paddingLeft={12} style={{ justifyContent: 'center' }} />
+      <NavigationHeader headerHeight={70} iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
     </div>
   )
 }

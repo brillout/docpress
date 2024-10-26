@@ -187,6 +187,7 @@ function getActiveHeading(
       ].join('\n'),
     )
   }
+  if (activeHeading.category) activeCategory = activeHeading.category
   return { activeHeading, isDetachedPage, activeCategory }
 }
 

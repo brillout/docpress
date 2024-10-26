@@ -11,6 +11,7 @@ type HeadingResolved = {
   linkBreadcrumb: string[]
   sectionTitles?: string[]
   menuModalFullWidth?: true
+  category?: string
 } & Tmp
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {

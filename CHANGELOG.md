@@ -1,3 +1,17 @@
+## [0.8.6](https://github.com/brillout/docpress/compare/v0.8.5...v0.8.6) (2024-10-26)
+
+
+### Bug Fixes
+
+* fix docsearch category ([7b4aaad](https://github.com/brillout/docpress/commit/7b4aaadd925af0fa6024b27b98c0b6e1ec5f2639))
+
+
+### Features
+
+* heading category ([33ed36e](https://github.com/brillout/docpress/commit/33ed36eb1e7ca0f1c72994bfb6092b02ea98b457))
+
+
+
 ## [0.8.5](https://github.com/brillout/docpress/compare/v0.8.4...v0.8.5) (2024-10-25)
 
 

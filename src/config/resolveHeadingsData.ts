@@ -154,16 +154,18 @@ function getActiveHeading(
   pageContext: { urlPathname: string; exports: Exports },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
-  let activeCategory: string | undefined
+  let activeCategory = 'Miscellaneous'
+  let headingCategory: string | undefined
   const { urlPathname } = pageContext
   assert(urlPathname)
   for (const heading of headingsResolved) {
     if (heading.level === 1) {
-      activeCategory = heading.title
+      headingCategory = heading.title
     }
     if (heading.url === urlPathname) {
       activeHeading = heading
-      assert(activeCategory)
+      assert(headingCategory)
+      activeCategory = headingCategory
       assert(heading.level === 2, { pageUrl: urlPathname, heading })
       break
     }

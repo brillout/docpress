@@ -12,6 +12,7 @@ type HeadingResolved = {
   sectionTitles?: string[]
   menuModalFullWidth?: true
   category?: string
+  color?: string
 } & Tmp
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
@@ -40,7 +41,7 @@ type IsCategory = {
   titleInNav?: undefined
 }
 type HeadingDefinitionLevel =
-  | ({ level: 1 } & IsCategory)
+  | ({ level: 1; color: string } & IsCategory)
   | ({ level: 4 } & IsCategory)
   | {
       level: 2

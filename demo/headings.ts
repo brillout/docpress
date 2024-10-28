@@ -26,6 +26,7 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Overview',
+    color: '#0d0',
   },
   {
     level: 2,
@@ -46,6 +47,7 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Another Section',
+    color: '#d00',
   },
   {
     level: 2,
@@ -79,6 +81,7 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'API',
+    color: '#00d',
     menuModalFullWidth: true,
   },
   {

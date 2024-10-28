@@ -10,10 +10,12 @@ import './Navigation.css'
 import { parseTitle } from '../parseTitle'
 import { usePageContext } from '../renderer/usePageContext'
 import '@docsearch/css'
+import '../global.d.ts'
 
 type NavItem = {
   level: number
   url?: string | null
+  color?: string
   title: string
   titleInNav: string
   menuModalFullWidth?: true
@@ -38,6 +40,7 @@ function NavigationContent(props: {
     assert(!props.showOnlyRelevant)
     const navItemsColumnLayout = groupByColumnLayout(navItemsWithComputed)
     const paddingBottom = 40
+    const categoryBorderParentPosition = 'relative'
     navContent = (
       <>
         {navItemsColumnLayout.map(({ navItemsColumnEntries, isFullWidth }, i) => (
@@ -54,8 +57,13 @@ function NavigationContent(props: {
                 flexGrow: 1,
                 columnGap: 20,
                 paddingBottom: isFullWidth ? paddingBottom : undefined,
+                position: categoryBorderParentPosition,
               }}
             >
+              <CategoryBorder
+                navItemLevel1={!isFullWidth ? undefined : navItemsColumnEntries[0]!}
+                paddingBottom={paddingBottom}
+              />
               {navItemsColumnEntries.map((navItemColumnEntry, j) => (
                 <div
                   key={j}
@@ -64,8 +72,13 @@ function NavigationContent(props: {
                     breakInside: 'avoid',
                     paddingBottom: !isFullWidth ? paddingBottom : undefined,
                     width: '100%',
+                    position: categoryBorderParentPosition,
                   }}
                 >
+                  <CategoryBorder
+                    navItemLevel1={isFullWidth ? undefined : navItemColumnEntry!}
+                    paddingBottom={paddingBottom}
+                  />
                   <NavItemComponent navItem={navItemColumnEntry} />
                   {navItemColumnEntry.navItemChilds.map((navItem, k) => (
                     <NavItemComponent navItem={navItem} key={k} />
@@ -83,6 +96,18 @@ function NavigationContent(props: {
     <div className="navigation-content" style={{ marginTop: 10 }}>
       {navContent}
     </div>
+  )
+}
+function CategoryBorder({ navItemLevel1, paddingBottom }: { navItemLevel1?: NavItemComputed; paddingBottom: number }) {
+  return !navItemLevel1 ? null : (
+    <div
+      className={'category-border' + ((navItemLevel1.isRelevant && ' is-relevant') || '')}
+      style={{
+        width: 6,
+        background: navItemLevel1.color!,
+        height: `calc(100% - ${paddingBottom}px - 19px)`,
+      }}
+    />
   )
 }
 
@@ -121,9 +146,15 @@ function NavItemComponent({
       navItem.url && navItem.isActive && ' is-active',
       navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
       navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
+      navItem.isRelevant && 'is-relevant',
     ]
       .filter(Boolean)
       .join(' '),
+  }
+  if (navItem.level === 1) {
+    props.style = {
+      ['--category-color']: navItem.color!,
+    }
   }
   type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
   type PropsSpan = React.HTMLProps<HTMLSpanElement>

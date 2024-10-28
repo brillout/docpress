@@ -99,6 +99,7 @@ function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): N
     title: heading.title,
     titleInNav: heading.titleInNav,
     menuModalFullWidth: heading.menuModalFullWidth,
+    color: heading.color,
   }
 }
 function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {

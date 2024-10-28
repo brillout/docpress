@@ -53,7 +53,7 @@
   --padding: 5px;
 
   padding: var(--padding) 0;
-  padding-left: calc(var(--padding-left-global) + 6px);
+  padding-left: calc(var(--padding-left-global) + 5px);
 }
 #menu-modal .nav-item-level-3 {
   border-right: 4px solid #eee;

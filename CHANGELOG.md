@@ -1,3 +1,17 @@
+## [0.8.7](https://github.com/brillout/docpress/compare/v0.8.6...v0.8.7) (2024-10-28)
+
+
+### Bug Fixes
+
+* add category colors ([e2ea9fc](https://github.com/brillout/docpress/commit/e2ea9fc55bd37b76f509ae2479d70499c0d5b707))
+
+
+### BREAKING CHANGES
+
+* Set `color` to all level 1 headings.
+
+
+
 ## [0.8.6](https://github.com/brillout/docpress/compare/v0.8.5...v0.8.6) (2024-10-26)
 
 

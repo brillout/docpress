@@ -98,7 +98,7 @@ function NavigationContent(props: {
 function CategoryBorder({ navItemLevel1, paddingBottom }: { navItemLevel1?: NavItemComputed; paddingBottom: number }) {
   return !navItemLevel1 ? null : (
     <div
-      className={'category-border' + ((navItemLevel1.isRelevant && ' is-relevant') || '')}
+      className="category-border"
       style={{
         width: 6,
         background: navItemLevel1.color!,
@@ -143,7 +143,6 @@ function NavItemComponent({
       navItem.url && navItem.isActive && ' is-active',
       navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
       navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
-      navItem.isRelevant && 'is-relevant',
     ]
       .filter(Boolean)
       .join(' '),

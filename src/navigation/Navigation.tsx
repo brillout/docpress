@@ -40,7 +40,6 @@ function NavigationContent(props: {
     assert(!props.showOnlyRelevant)
     const navItemsColumnLayout = groupByColumnLayout(navItemsWithComputed)
     const paddingBottom = 40
-    const categoryBorderParentPosition = 'relative'
     navContent = (
       <>
         {navItemsColumnLayout.map(({ navItemsColumnEntries, isFullWidth }, i) => (
@@ -52,12 +51,11 @@ function NavigationContent(props: {
             }}
           >
             <div
-              className={`column-layout-${i}`}
+              className={`column-layout-${i}` + (!isFullWidth ? '' : ' nav-category')}
               style={{
                 flexGrow: 1,
                 columnGap: 20,
                 paddingBottom: isFullWidth ? paddingBottom : undefined,
-                position: categoryBorderParentPosition,
               }}
             >
               <CategoryBorder
@@ -67,12 +65,11 @@ function NavigationContent(props: {
               {navItemsColumnEntries.map((navItemColumnEntry, j) => (
                 <div
                   key={j}
-                  className="column-layout-entry"
+                  className={'column-layout-entry' + (isFullWidth ? '' : ' nav-category')}
                   style={{
                     breakInside: 'avoid',
                     paddingBottom: !isFullWidth ? paddingBottom : undefined,
                     width: '100%',
-                    position: categoryBorderParentPosition,
                   }}
                 >
                   <CategoryBorder
@@ -105,7 +102,7 @@ function CategoryBorder({ navItemLevel1, paddingBottom }: { navItemLevel1?: NavI
       style={{
         width: 6,
         background: navItemLevel1.color!,
-        height: `calc(100% - ${paddingBottom}px - 19px)`,
+        height: `calc(100% - ${paddingBottom}px - 13px)`,
       }}
     />
   )

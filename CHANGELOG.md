@@ -1,3 +1,12 @@
+## [0.8.10](https://github.com/brillout/docpress/compare/v0.8.9...v0.8.10) (2024-10-28)
+
+
+### Bug Fixes
+
+* fix regression & improve category colorization ([b1808c8](https://github.com/brillout/docpress/commit/b1808c8b931aab041c0c5a2e9b6531310af3202e))
+
+
+
 ## [0.8.9](https://github.com/brillout/docpress/compare/v0.8.8...v0.8.9) (2024-10-28)
 
 

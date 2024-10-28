@@ -18,7 +18,7 @@ function SearchLink(props: PropsAnchor) {
       className="colorize-on-hover"
       onClick={(ev) => {
         ev.preventDefault()
-        openDocsearchModal()
+        openDocsearchModal(true)
       }}
       aria-label={'Ctrl\xa0+\xa0K'}
     >

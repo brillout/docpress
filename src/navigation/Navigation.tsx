@@ -58,10 +58,6 @@ function NavigationContent(props: {
                 paddingBottom: isFullWidth ? paddingBottom : undefined,
               }}
             >
-              <CategoryBorder
-                navItemLevel1={!isFullWidth ? undefined : navItemsColumnEntries[0]!}
-                paddingBottom={paddingBottom}
-              />
               {navItemsColumnEntries.map((navItemColumnEntry, j) => (
                 <div
                   key={j}
@@ -69,19 +65,24 @@ function NavigationContent(props: {
                   style={{
                     breakInside: 'avoid',
                     paddingBottom: !isFullWidth ? paddingBottom : undefined,
+                    paddingTop: isFullWidth ? undefined : 0,
                     width: '100%',
                   }}
                 >
-                  <CategoryBorder
-                    navItemLevel1={isFullWidth ? undefined : navItemColumnEntry!}
-                    paddingBottom={paddingBottom}
-                  />
                   <NavItemComponent navItem={navItemColumnEntry} />
                   {navItemColumnEntry.navItemChilds.map((navItem, k) => (
                     <NavItemComponent navItem={navItem} key={k} />
                   ))}
+                  <CategoryBorder
+                    navItemLevel1={isFullWidth ? undefined : navItemColumnEntry!}
+                    paddingBottom={paddingBottom}
+                  />
                 </div>
               ))}
+              <CategoryBorder
+                navItemLevel1={!isFullWidth ? undefined : navItemsColumnEntries[0]!}
+                paddingBottom={paddingBottom}
+              />
             </div>
           </div>
         ))}

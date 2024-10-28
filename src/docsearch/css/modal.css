@@ -42,10 +42,10 @@
 
 .DocSearch-Modal {
   background: var(--docsearch-modal-background);
-  border-radius: 6px;
   flex-direction: column;
   margin: 0;
   height: var(--docsearch-modal-height);
+  max-height: 100dvh;
   width: var(--docsearch-modal-width);
   position: fixed;
 }

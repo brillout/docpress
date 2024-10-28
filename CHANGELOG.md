@@ -1,3 +1,13 @@
+## [0.8.8](https://github.com/brillout/docpress/compare/v0.8.7...v0.8.8) (2024-10-28)
+
+
+### Bug Fixes
+
+* improve category color visualisation ([d2af6e0](https://github.com/brillout/docpress/commit/d2af6e07ac75430af213ddbd13ef976a11f75386))
+* remove category color :hover animation ([569ca99](https://github.com/brillout/docpress/commit/569ca993e550723bacac33e54a823602e747b1da))
+
+
+
 ## [0.8.7](https://github.com/brillout/docpress/compare/v0.8.6...v0.8.7) (2024-10-28)
 
 

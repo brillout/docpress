@@ -1,3 +1,12 @@
+## [0.8.9](https://github.com/brillout/docpress/compare/v0.8.8...v0.8.9) (2024-10-28)
+
+
+### Bug Fixes
+
+* polish category color visualisation ([1f9c495](https://github.com/brillout/docpress/commit/1f9c4950986f7e7257584651f553de8560b84e36))
+
+
+
 ## [0.8.8](https://github.com/brillout/docpress/compare/v0.8.7...v0.8.8) (2024-10-28)
 
 

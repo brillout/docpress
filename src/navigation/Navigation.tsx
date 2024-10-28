@@ -51,7 +51,7 @@ function NavigationContent(props: {
             }}
           >
             <div
-              className={`column-layout-${i}` + (!isFullWidth ? '' : ' nav-category')}
+              className={`column-layout-${i}` + (!isFullWidth ? '' : ' nav-category nav-category-full-width')}
               style={{
                 flexGrow: 1,
                 columnGap: 20,
@@ -100,9 +100,8 @@ function CategoryBorder({ navItemLevel1, paddingBottom }: { navItemLevel1?: NavI
     <div
       className="category-border"
       style={{
-        width: 6,
         background: navItemLevel1.color!,
-        height: `calc(100% - ${paddingBottom}px - 13px)`,
+        height: `calc(100% - ${paddingBottom}px - 53px)`,
       }}
     />
   )

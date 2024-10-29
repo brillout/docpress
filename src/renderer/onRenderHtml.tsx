@@ -34,6 +34,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
         <style>${dangerouslySkipEscape(styleMenuModalLayout)}</style>
+        <meta name="docsearch:category" content="${pageContextResolved.activeCategory}" />
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>

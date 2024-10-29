@@ -8,6 +8,9 @@ import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
 import { containerQueryMobile } from './Layout'
 import { Links } from './Links'
+import { isBrowser } from './utils/isBrowser'
+
+initCloseListeners()
 
 function MenuModal() {
   return (
@@ -19,7 +22,14 @@ function MenuModal() {
         style={{
           position: 'fixed',
           width: '100%',
+          /* Do this once Firefox supports `dvh`: https://caniuse.com/?search=dvh
+           * - Then also replace all `vh` values with `dvh` values.
+           * - https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
+          height: '100dh',
+          /*/
           height: '100vh',
+          maxHeight: '100dvh',
+          //*/
           top: 0,
           left: 0,
           zIndex: 9999,
@@ -32,8 +42,10 @@ function MenuModal() {
             // Place <LinksBottom /> to the bottom
             display: 'flex',
             flexDirection: 'column',
-            minHeight: '100vh',
+            minHeight: '100dvh',
             justifyContent: 'space-between',
+            // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
+            containerType: 'inline-size',
           }}
         >
           <Nav />
@@ -135,4 +147,30 @@ function autoScroll() {
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
+}
+
+function initCloseListeners() {
+  if (!isBrowser()) return
+  document.addEventListener('click', onLinkClick)
+  // It's redundant (and onLinkClick() is enough), but just to be sure.
+  addEventListener('hashchange', closeMenuModal)
+}
+function onLinkClick(ev: MouseEvent) {
+  if (ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return
+  const linkTag = findLinkTag(ev.target as HTMLElement)
+  if (!linkTag) return
+  const href = linkTag.getAttribute('href')
+  if (!href) return
+  if (!href.startsWith('/') && !href.startsWith('#')) return
+  closeMenuModal()
+}
+function findLinkTag(target: HTMLElement): null | HTMLElement {
+  while (target.tagName !== 'A') {
+    const { parentNode } = target
+    if (!parentNode) {
+      return null
+    }
+    target = parentNode as HTMLElement
+  }
+  return target
 }

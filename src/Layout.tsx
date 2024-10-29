@@ -5,14 +5,15 @@ import React from 'react'
 import { NavigationContent } from './navigation/Navigation'
 import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
-import { usePageContext } from './renderer/usePageContext'
+import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './Links'
-import { hotkeyMenuOpen, toggleMenuModal } from './MenuModal'
+import { toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
+import { PassThrough } from './utils/PassTrough'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
@@ -28,13 +29,13 @@ const mainViewMax = mainViewWidthMax + mainViewPadding * 2
 const containerQuerySpacing = mainViewMax + navWidthMax + blockMargin
 const containerQueryMobile = mainViewMax + navWidthMin
 
-// Avoid blank whitespace at the bottom of the page with almost no content
-const blankBuster1: React.CSSProperties = {
+// Avoid whitespace at the bottom of pages with almost no content
+const whitespaceBuster1: React.CSSProperties = {
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
 }
-const blankBuster2: React.CSSProperties = {
+const whitespaceBuster2: React.CSSProperties = {
   flexGrow: 1,
 }
 
@@ -50,21 +51,26 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <div
+      style={{
+        ['--bg-color']: '#f5f5f7',
+        ['--block-margin']: `${blockMargin}px`,
+        ['--icon-text-padding']: '8px',
+      }}
+    >
+      <MenuModal />
       <div
         className={isLandingPage ? '' : 'doc-page'}
         style={{
-          ['--bg-color']: '#f5f5f7',
-          ['--block-margin']: `${blockMargin}px`,
-          ['--icon-padding']: '8px',
-          ...blankBuster1,
+          // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
+          // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
+          containerType: 'inline-size',
+          ...whitespaceBuster1,
         }}
       >
         {content}
-        <MenuModal />
       </div>
-      <style>{css`body { container-type: inline-size; }`}</style>
-    </>
+    </div>
   )
 }
 
@@ -75,7 +81,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     <>
       <style>{getStyle()}</style>
       <NavMobile />
-      <div style={{ display: 'flex', ...blankBuster2 }}>
+      <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
         <PageContent>{children}</PageContent>
@@ -190,16 +196,16 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavMobile() {
   return (
     <div id="nav-mobile">
-      <NavigationHeader headerHeight={50} headerPadding={10} style={{ justifyContent: 'center' }} />
+      <NavigationHeader headerHeight={70} iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
     </div>
   )
 }
 
 function NavTop() {
-  const pageContext = usePageContext()
-  const { topNavigationList, topNavigationStyle } = pageContext
+  const pageContext2 = usePageContext2()
   const paddingSize = 35
   const padding = `0 ${paddingSize}px`
+  const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   return (
     <div
       id="top-navigation"
@@ -212,30 +218,13 @@ function NavTop() {
         textDecoration: 'none',
         marginBottom: 'var(--block-margin)',
         backgroundColor: 'var(--bg-color)',
+        ['--padding-side']: `${paddingSize}px`,
         fontSize: '1.06em',
         color: '#666',
-        ...topNavigationStyle,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', height: 70 }}>
-        {topNavigationList.map(({ title, url }) => (
-          <a
-            href={url!}
-            key={url}
-            style={{
-              color: 'inherit',
-              height: '100%',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              padding,
-              marginRight: 7,
-            }}
-          >
-            {title}
-          </a>
-        ))}
+        <TopNavigation />
         <SearchLink style={{ padding }} />
         <MenuLink style={{ padding }} />
         <Links style={{ display: 'inline-flex', padding, marginLeft: -8 }} />
@@ -248,7 +237,6 @@ function NavLeft() {
   const pageContext = usePageContext()
   const { navItems, navItemsAll, isDetachedPage } = pageContext
   const headerHeight = 60
-  const headerPadding = 10
   return (
     <>
       <div
@@ -265,7 +253,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavigationHeader {...{ headerHeight, headerPadding }} />
+          <NavigationHeader headerHeight={headerHeight} iconSize={39} paddingLeft={6} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -304,11 +292,11 @@ function NavLeft() {
 
 function NavigationHeader({
   headerHeight,
-  headerPadding,
+  iconSize,
   style,
-}: { headerHeight: number; headerPadding: number; style?: React.CSSProperties }) {
+  paddingLeft,
+}: { headerHeight: number; iconSize: number; paddingLeft: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const iconSize = headerHeight - 2 * headerPadding
   /*
   const {projectName} = pageContext.meta
   /*/
@@ -318,8 +306,9 @@ function NavigationHeader({
   const childrenStyle: React.CSSProperties = {
     justifyContent: 'center',
     fontSize: isProjectNameShort ? '4.8cqw' : '4.5cqw',
-    ['--icon-padding']: '1.8cqw',
+    ['--icon-text-padding']: '1.8cqw',
   }
+  const marginLeft = -10
   return (
     <div
       style={{
@@ -345,9 +334,8 @@ function NavigationHeader({
             color: 'inherit',
             textDecoration: 'none',
             height: '100%',
-            padding: `${headerPadding}px 0`,
-            paddingLeft: 4 + 10,
-            marginLeft: -10,
+            paddingLeft: paddingLeft + marginLeft * -1,
+            marginLeft: marginLeft,
             ...childrenStyle,
             justifyContent: 'flex-start',
             flexGrow: 0.5,
@@ -367,8 +355,8 @@ function NavigationHeader({
           />
           <span
             style={{
-              marginLeft: `calc(var(--icon-padding) + 2px)`,
-              fontSize: isProjectNameShort ? '1.7em' : '1.3em',
+              marginLeft: `calc(var(--icon-text-padding) + 2px)`,
+              fontSize: isProjectNameShort ? '1.65em' : '1.3em',
             }}
           >
             {projectName}
@@ -420,7 +408,7 @@ function MenuLink(props: PropsAnchor) {
 function MenuIcon() {
   return (
     <svg
-      style={{ marginRight: 'calc(var(--icon-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
       className="decolorize-6"
       viewBox="0 0 448 512"
     >

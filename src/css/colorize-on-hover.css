@@ -1,10 +1,21 @@
+/* `@media (pointer: fine)`
+ * - Don't show tooltip on mobile devices:
+ * - https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121
+ */
+@media (hover: hover) and (pointer: fine) {
+  .colorize-on-hover:hover [class^='decolorize-'],
+  .colorize-on-hover:hover [class*=' decolorize-'] {
+    filter: grayscale(0) opacity(1) !important;
+  }
+  .link-hover-animation a:hover {
+    color: black !important;
+    background-color: var(--active-color);
+  }
+}
+
 .colorize-on-hover [class^='decolorize-'],
 .colorize-on-hover [class*=' decolorize-'] {
   transition: filter 0.3s ease-in-out;
-}
-.colorize-on-hover:hover [class^='decolorize-'],
-.colorize-on-hover:hover [class*=' decolorize-'] {
-  filter: grayscale(0) opacity(1) !important;
 }
 
 .decolorize-7 {
@@ -23,10 +34,6 @@
 .link-hover-animation a {
   transition: all 0.3s ease-in-out !important;
   transition-property: color, background-color !important;
-}
-.link-hover-animation a:hover {
-  color: black !important;
-  background-color: var(--active-color);
 }
 body {
   --active-color: rgba(0, 0, 0, 0.03);

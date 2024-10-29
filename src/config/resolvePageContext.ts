@@ -30,7 +30,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     twitterHandle,
     bannerUrl,
     websiteUrl,
-    topNavigationStyle,
     projectInfo: { projectName },
   } = config
   objectAssign(pageContextResolved, {
@@ -44,7 +43,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
       tagline,
       algolia,
     },
-    topNavigationStyle,
     config,
   })
 

@@ -37,7 +37,11 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const { headingsDetachedResolved } = resolved
   let { headingsResolved } = resolved
 
-  const { activeHeading, isDetachedPage } = getActiveHeading(headingsResolved, headingsDetachedResolved, pageContext)
+  const { activeHeading, isDetachedPage, activeCategory } = getActiveHeading(
+    headingsResolved,
+    headingsDetachedResolved,
+    pageContext,
+  )
 
   const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
@@ -72,10 +76,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
-  const topNavigationList = headingsResolved
-    .filter((heading) => heading.topNavigation)
-    .map((h) => ({ title: typeof h.topNavigation === 'string' ? h.topNavigation : h.title, url: h.url }))
-
   const pageContextAddendum = {
     isDetachedPage,
     navItems,
@@ -84,9 +84,10 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
-    topNavigationList,
     // TODO: don't pass to client-side
     columnLayouts,
+    // TODO: don't pass to client-side
+    activeCategory,
   }
   return pageContextAddendum
 }
@@ -98,6 +99,7 @@ function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): N
     title: heading.title,
     titleInNav: heading.titleInNav,
     menuModalFullWidth: heading.menuModalFullWidth,
+    color: heading.color,
   }
 }
 function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {
@@ -153,14 +155,22 @@ function getActiveHeading(
   pageContext: { urlPathname: string; exports: Exports },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
+  let activeCategory = 'Miscellaneous'
+  let headingCategory: string | undefined
   const { urlPathname } = pageContext
   assert(urlPathname)
-  headingsResolved.forEach((heading) => {
+  for (const heading of headingsResolved) {
+    if (heading.level === 1) {
+      headingCategory = heading.title
+    }
     if (heading.url === urlPathname) {
       activeHeading = heading
+      assert(headingCategory)
+      activeCategory = headingCategory
       assert(heading.level === 2, { pageUrl: urlPathname, heading })
+      break
     }
-  })
+  }
   const isDetachedPage = !activeHeading
   if (!activeHeading) {
     activeHeading = headingsDetachedResolved.find(({ url }) => urlPathname === url) ?? null
@@ -178,7 +188,8 @@ function getActiveHeading(
       ].join('\n'),
     )
   }
-  return { activeHeading, isDetachedPage }
+  if (activeHeading.category) activeCategory = activeHeading.category
+  return { activeHeading, isDetachedPage, activeCategory }
 }
 
 function getPageSectionsResolved(

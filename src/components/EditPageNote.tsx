@@ -1,13 +1,12 @@
 import React from 'react'
 import { RepoLink } from './RepoLink'
-import { Emoji } from '../utils/server'
 
 export { EditPageNote }
 
 function EditPageNote({ pageContext }: { pageContext: { urlPathname: string } }) {
   const text = (
     <>
-      <Emoji name="writing-hang" /> Edit this page
+      <span style={{ fontFamily: 'emoji' }}>✍</span> Edit this page
     </>
   )
   return (

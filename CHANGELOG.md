@@ -1,3 +1,95 @@
+## [0.8.10](https://github.com/brillout/docpress/compare/v0.8.9...v0.8.10) (2024-10-28)
+
+
+### Bug Fixes
+
+* fix regression & improve category colorization ([b1808c8](https://github.com/brillout/docpress/commit/b1808c8b931aab041c0c5a2e9b6531310af3202e))
+
+
+
+## [0.8.9](https://github.com/brillout/docpress/compare/v0.8.8...v0.8.9) (2024-10-28)
+
+
+### Bug Fixes
+
+* polish category color visualisation ([1f9c495](https://github.com/brillout/docpress/commit/1f9c4950986f7e7257584651f553de8560b84e36))
+
+
+
+## [0.8.8](https://github.com/brillout/docpress/compare/v0.8.7...v0.8.8) (2024-10-28)
+
+
+### Bug Fixes
+
+* improve category color visualisation ([d2af6e0](https://github.com/brillout/docpress/commit/d2af6e07ac75430af213ddbd13ef976a11f75386))
+* remove category color :hover animation ([569ca99](https://github.com/brillout/docpress/commit/569ca993e550723bacac33e54a823602e747b1da))
+
+
+
+## [0.8.7](https://github.com/brillout/docpress/compare/v0.8.6...v0.8.7) (2024-10-28)
+
+
+### Bug Fixes
+
+* add category colors ([e2ea9fc](https://github.com/brillout/docpress/commit/e2ea9fc55bd37b76f509ae2479d70499c0d5b707))
+
+
+### BREAKING CHANGES
+
+* Set `color` to all level 1 headings.
+
+
+
+## [0.8.6](https://github.com/brillout/docpress/compare/v0.8.5...v0.8.6) (2024-10-26)
+
+
+### Bug Fixes
+
+* fix docsearch category ([7b4aaad](https://github.com/brillout/docpress/commit/7b4aaadd925af0fa6024b27b98c0b6e1ec5f2639))
+
+
+### Features
+
+* heading category ([33ed36e](https://github.com/brillout/docpress/commit/33ed36eb1e7ca0f1c72994bfb6092b02ea98b457))
+
+
+
+## [0.8.5](https://github.com/brillout/docpress/compare/v0.8.4...v0.8.5) (2024-10-25)
+
+
+### Bug Fixes
+
+* polish mobile header ([96e5b24](https://github.com/brillout/docpress/commit/96e5b24187ca45fcfcda4bcf1df1902e191a01f6))
+* polish mobile header ([3594029](https://github.com/brillout/docpress/commit/3594029ef003cb9a056c8ebfb2c4e2027628c26f))
+* polish nav header ([fffc4f7](https://github.com/brillout/docpress/commit/fffc4f7cfd5923e2991d81cc4cedabd677d13bd9))
+
+
+### Features
+
+* +TopNavigation.js ([3cd05fa](https://github.com/brillout/docpress/commit/3cd05fac1b037710f0c203b298e8f24adf2ae511))
+* add <meta name="docsearch:category"> ([886efe1](https://github.com/brillout/docpress/commit/886efe1a3994ac1ac9366b084e478ba7161b526f))
+
+
+### BREAKING CHANGES
+
+* Remove `topNavigation` setting in `headings.js` with `+TopNavigation.js`.
+
+
+
+## [0.8.4](https://github.com/brillout/docpress/compare/v0.8.3...v0.8.4) (2024-10-24)
+
+
+### Bug Fixes
+
+* disable :hover on mobile devices ([b83dd78](https://github.com/brillout/docpress/commit/b83dd78cef33d1e7a8ed88b058317f490f4348e7))
+* don't hide `<Links>` in `<MenuModal>` on mobile ([ba83b70](https://github.com/brillout/docpress/commit/ba83b7094f8a8c54cdd24e18d475cd685e004eea))
+* ensure menu modal is closed upon clicking a link ([c33baeb](https://github.com/brillout/docpress/commit/c33baeb99ab48449f9e1ed887ff526e45447ee29))
+* fix `<MenuModal>` positioning on Firefox ([36ee26e](https://github.com/brillout/docpress/commit/36ee26eb2461d3fbf9c267a6a08270ea21787737))
+* fix edit emoji on firefox ([8a9074b](https://github.com/brillout/docpress/commit/8a9074b535cd90a433c95f647f5811cbaa25004f))
+* improve mobile nav height ([73c7fe8](https://github.com/brillout/docpress/commit/73c7fe8c6da7b624758105bd43c68588b9dcbbfd))
+
+
+
 ## [0.8.3](https://github.com/brillout/docpress/compare/v0.8.2...v0.8.3) (2024-10-23)
 
 
@@ -50,8 +142,8 @@
 
 ### BREAKING CHANGES
 
-*  - landing page should implement block design
- - `+NavHeader.js` removed
+* landing page should implement block design
+* `+NavHeader.js` removed
 * Replace `noSideNavigation: 'no-logo'` with `noSideNavigation: true`
 * Stop using `<FeatureList>`.
 

@@ -30,7 +30,7 @@ function SearchLink(props: PropsAnchor) {
 function SearchIcon() {
   return (
     <svg
-      style={{ marginRight: 'var(--icon-padding)', lineHeight: 0, width: '1.3em' }}
+      style={{ marginRight: 'var(--icon-text-padding)', lineHeight: 0, width: '1.3em' }}
       className="decolorize-7"
       viewBox="0 0 20 20"
     >

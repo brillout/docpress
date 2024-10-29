@@ -62,10 +62,16 @@ h3 { font-size: 1.25em }
   padding-left: 26px;
   margin-left: -26px;
 }
-.doc-page h2[id]:hover::before,
-.doc-page h3[id]:hover::before {
-  content: '#';
-  position: absolute;
-  left: calc(-1 * (0.75em - 26px));
-  color: #aaa;
+/* `@media (pointer: fine)`
+ * - Don't show tooltip on mobile devices:
+ * - https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121
+ */
+@media (hover: hover) and (pointer: fine) {
+  .doc-page h2[id]:hover::before,
+  .doc-page h3[id]:hover::before {
+    content: '#';
+    position: absolute;
+    left: calc(-1 * (0.75em - 26px));
+    color: #aaa;
+  }
 }

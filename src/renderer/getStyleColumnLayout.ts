@@ -92,7 +92,14 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]): { columnLayouts: 
 }
 
 function getStyleColumnLayout(columnLayouts: number[][]): string {
-  let style = '\n'
+  let style =
+    '\n' +
+    css`
+.column-layout-entry {
+  break-before: avoid;
+}
+`
+  style += '\n'
   columnLayouts.forEach((columns, i) => {
     for (let numberOfColumns = columns.length; numberOfColumns >= 1; numberOfColumns--) {
       let styleGivenNumberOfColumns: string[] = []
@@ -107,23 +114,30 @@ function getStyleColumnLayout(columnLayouts: number[][]): string {
       const columnsIdMap = determineColumns(columns, numberOfColumns)
       const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
       columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
+        if (!columnBreakPoint) return
         styleGivenNumberOfColumns.push(
           css`
 .column-layout-${i} .column-layout-entry:nth-child(${columnUngroupedId + 1}) {
-  break-before: ${columnBreakPoint ? 'column' : 'avoid'};
+  break-before: column;
+  padding-top: 36px;
 }
 `,
         )
       })
-      const noContainerQuery = numberOfColumns === columns.length
-      if (!noContainerQuery) {
-        const maxWidth = (numberOfColumns + 1) * columnWidthMin - 1
-        styleGivenNumberOfColumns = [
-          //
-          `@container(max-width: ${maxWidth}px) {`,
-          ...styleGivenNumberOfColumns,
-          `}`,
+      {
+        assert(styleGivenNumberOfColumns.length > 0)
+        const getMaxWidth = (columns: number) => (columns + 1) * columnWidthMin - 1
+        const isFirst = numberOfColumns === 1
+        const isLast = numberOfColumns === columns.length
+        const query = [
+          !isFirst && `(min-width: ${getMaxWidth(numberOfColumns - 1) + 1}px)`,
+          !isLast && `(max-width: ${getMaxWidth(numberOfColumns)}px)`,
         ]
+          .filter(Boolean)
+          .join(' and ')
+        if (query) {
+          styleGivenNumberOfColumns = [`@container ${query} {`, ...styleGivenNumberOfColumns, `}`]
+        }
       }
       style += styleGivenNumberOfColumns.join('\n') + '\n'
     }
@@ -133,7 +147,7 @@ function getStyleColumnLayout(columnLayouts: number[][]): string {
 
 function determineColumnBreakPoints(columnsIdMap: number[]): boolean[] {
   assert(columnsIdMap[0] === 0)
-  let columnGroupedIdBefore = -1
+  let columnGroupedIdBefore = 0
   const columnBreakPoints = columnsIdMap.map((columnGroupedId) => {
     assert(
       [

@@ -4,14 +4,14 @@
   overflow-x: hidden;
   --padding-left-global: 9px;
 }
+#menu-modal .nav-item {
+  --padding-left-global: 15px;
+}
 .nav-item code {
   font-size: 0.9em;
 }
-.nav-item-level-1 + .nav-item-level-4 {
-  margin-top: -2px;
-}
 .nav-item-level-4 {
-  margin-top: 14px;
+  padding-top: 14px;
   margin-bottom: -1px;
   color: #999;
   font-size: 12px;
@@ -19,7 +19,10 @@
   letter-spacing: 0.15ch;
   padding-left: var(--padding-left-global);
   padding-right: 4px;
-  text-decoration: none;
+}
+.nav-item-level-1 + .nav-item-level-4 {
+  padding-top: 0;
+  margin-top: -2px;
 }
 .nav-item-level-1 {
   font-size: 19px;
@@ -30,10 +33,12 @@
   padding: 12px 0;
   padding-left: calc(var(--padding-left-global) - 2px);
   padding-right: 4px;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  text-decoration-color: var(--category-color);
+  text-decoration-thickness: 3px;
 }
 .nav-item-level-2 {
-  text-decoration: none;
   font-size: 14.4px;
   font-weight: 400;
   letter-spacing: 0.15ch;
@@ -49,11 +54,10 @@
   font-weight: 400;
   letter-spacing: 0.15ch;
   color: var(--color-text);
-  text-decoration: none;
   --padding: 5px;
 
   padding: var(--padding) 0;
-  padding-left: calc(var(--padding-left-global) + 6px);
+  padding-left: calc(var(--padding-left-global) + 5px);
 }
 #menu-modal .nav-item-level-3 {
   border-right: 4px solid #eee;
@@ -93,4 +97,16 @@
   left: 0;
   z-index: 1;
   content: "";
+}
+
+.nav-category {
+  position: relative
+}
+.category-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(0, 53px);
+  width: 3px;
+  z-index: 99;
 }

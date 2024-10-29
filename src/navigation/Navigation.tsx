@@ -9,10 +9,12 @@ import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { parseTitle } from '../parseTitle'
 import { usePageContext } from '../renderer/usePageContext'
+import '../global.d.ts'
 
 type NavItem = {
   level: number
   url?: string | null
+  color?: string
   title: string
   titleInNav: string
   menuModalFullWidth?: true
@@ -48,7 +50,7 @@ function NavigationContent(props: {
             }}
           >
             <div
-              className={`column-layout-${i}`}
+              className={`column-layout-${i}` + (!isFullWidth ? '' : ' nav-category nav-category-full-width')}
               style={{
                 flexGrow: 1,
                 columnGap: 20,
@@ -58,10 +60,11 @@ function NavigationContent(props: {
               {navItemsColumnEntries.map((navItemColumnEntry, j) => (
                 <div
                   key={j}
-                  className="column-layout-entry"
+                  className={'column-layout-entry' + (isFullWidth ? '' : ' nav-category')}
                   style={{
                     breakInside: 'avoid',
                     paddingBottom: !isFullWidth ? paddingBottom : undefined,
+                    paddingTop: isFullWidth ? undefined : 0,
                     width: '100%',
                   }}
                 >
@@ -69,8 +72,16 @@ function NavigationContent(props: {
                   {navItemColumnEntry.navItemChilds.map((navItem, k) => (
                     <NavItemComponent navItem={navItem} key={k} />
                   ))}
+                  <CategoryBorder
+                    navItemLevel1={isFullWidth ? undefined : navItemColumnEntry!}
+                    paddingBottom={paddingBottom}
+                  />
                 </div>
               ))}
+              <CategoryBorder
+                navItemLevel1={!isFullWidth ? undefined : navItemsColumnEntries[0]!}
+                paddingBottom={paddingBottom}
+              />
             </div>
           </div>
         ))}
@@ -82,6 +93,17 @@ function NavigationContent(props: {
     <div className="navigation-content" style={{ marginTop: 10 }}>
       {navContent}
     </div>
+  )
+}
+function CategoryBorder({ navItemLevel1, paddingBottom }: { navItemLevel1?: NavItemComputed; paddingBottom: number }) {
+  return !navItemLevel1 ? null : (
+    <div
+      className="category-border"
+      style={{
+        background: navItemLevel1.color!,
+        height: `calc(100% - ${paddingBottom}px - 53px)`,
+      }}
+    />
   )
 }
 
@@ -123,6 +145,11 @@ function NavItemComponent({
     ]
       .filter(Boolean)
       .join(' '),
+  }
+  if (navItem.level === 1) {
+    props.style = {
+      ['--category-color']: navItem.color!,
+    }
   }
   type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
   type PropsSpan = React.HTMLProps<HTMLSpanElement>

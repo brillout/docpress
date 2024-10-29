@@ -5,6 +5,7 @@ import type { PageContextResolved } from '../config/resolvePageContext'
 import { PageContextProvider, PageContextProvider2 } from './usePageContext'
 import React from 'react'
 import { DocSearchInstall } from '../docsearch/DocSearchInstall'
+import { PassThrough } from '../utils/PassTrough'
 
 function getPageElement(pageContext: PageContext, pageContextResolved: PageContextResolved) {
   const { Page } = pageContext
@@ -32,8 +33,4 @@ function Wrapper({
       </PageContextProvider2>
     </React.StrictMode>
   )
-}
-
-function PassThrough({ children }: any) {
-  return <>{children}</>
 }

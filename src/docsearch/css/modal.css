@@ -220,6 +220,19 @@
   margin: 0;
   padding: 0;
 }
+@media screen and (min-width: 768px) {
+  .DocSearch-Dropdown-Container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .DocSearch-Hits {
+    flex-grow: 1;
+    margin: 0 10px;
+  }
+}
 
 .DocSearch-Label {
   color: var(--docsearch-muted-color);
@@ -260,7 +273,7 @@
 
 .DocSearch-HitsFooter {
   color: var(--docsearch-muted-color);
-  display: flex;
+  display: none;
   font-size: 0.85em;
   justify-content: center;
   margin-bottom: var(--docsearch-spacing);

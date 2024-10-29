@@ -297,8 +297,8 @@ function NavigationHeader({
   paddingLeft,
 }: { headerHeight: number; iconSize: number; paddingLeft: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  /*
-  const {projectName} = pageContext.meta
+  //*
+  const { projectName } = pageContext.meta
   /*/
   const projectName = 'Vike'
   //*/

@@ -40,6 +40,7 @@ function DocSearchInstall() {
           insights={true}
           hitComponent={Hit}
           initialScrollY={window.scrollY}
+          maxResultsPerGroup={Infinity}
           onClose={onClose}
         />, document.body)}
     </>

@@ -1,3 +1,12 @@
+## [0.8.11](https://github.com/brillout/docpress/compare/v0.8.10...v0.8.11) (2024-10-29)
+
+
+### Bug Fixes
+
+* fix nav header project name ([ab9dcfa](https://github.com/brillout/docpress/commit/ab9dcface05c27b71c9b1f5df76d924766b1799d))
+
+
+
 ## [0.8.10](https://github.com/brillout/docpress/compare/v0.8.9...v0.8.10) (2024-10-28)
 
 

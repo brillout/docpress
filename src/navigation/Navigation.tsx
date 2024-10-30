@@ -24,7 +24,7 @@ type NavItem = {
 }
 type NavItemAll = NavItem & {
   // TODO/refactor: rename to isColumnLayoutEntry
-  isColumnLayoutElement?: ColumnMap
+  isColumnEntry?: ColumnMap
 }
 function NavigationContent(props: {
   navItems: NavItem[]
@@ -207,9 +207,9 @@ function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColu
       }
     }
     assert(isFullWidth !== undefined)
-    if (navItem.isColumnLayoutElement) {
+    if (navItem.isColumnEntry) {
       assert(navItem.level === 1 || navItem.level === 4)
-      columnEntry = { navItems: [navItem], columnMap: navItem.isColumnLayoutElement }
+      columnEntry = { navItems: [navItem], columnMap: navItem.isColumnEntry }
       columnEntries.push(columnEntry)
     } else {
       assert(navItem.level !== 1)

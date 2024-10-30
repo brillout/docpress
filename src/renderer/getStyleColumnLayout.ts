@@ -86,8 +86,8 @@ function determineColumnLayoutEntries(navItems: NavItemAll[]): undefined {
         numberOfColumns,
       )
       columnEntries.forEach((columnEntry, i) => {
-        columnEntry.navItemLeader.isColumnLayoutElement ??= {}
-        columnEntry.navItemLeader.isColumnLayoutElement[numberOfColumns] = columnsIdMap[i]
+        columnEntry.navItemLeader.isColumnEntry ??= {}
+        columnEntry.navItemLeader.isColumnEntry[numberOfColumns] = columnsIdMap[i]
       })
     }
   })

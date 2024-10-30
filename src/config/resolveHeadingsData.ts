@@ -14,7 +14,7 @@ import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseTitle } from '../parseTitle'
-import { determineColumnLayoutEntries } from '../renderer/getStyleColumnLayout'
+import { determineColumnEntries } from '../renderer/determineColumnEntries'
 assert(!isBrowser())
 
 type PageSectionResolved = {
@@ -56,14 +56,12 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   // TODO/refactor: remove navItems
   let navItems: NavItem[]
   let navItemsAll: NavItemAll[]
-  let columnLayouts: number[][]
   {
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
       .map(pageSectionToNavItem)
     navItemsAll = headingsResolved.map(headingToNavItem)
-    const res = determineColumnLayoutEntries(navItemsAll)
-    columnLayouts = res.columnLayouts
+    determineColumnEntries(navItemsAll)
     if (isDetachedPage) {
       navItems = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
@@ -84,8 +82,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
-    // TODO: don't pass to client-side
-    columnLayouts,
     // TODO: don't pass to client-side
     activeCategory,
   }

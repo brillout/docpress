@@ -6,7 +6,6 @@ import { assert } from '../utils/server'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import type { OnRenderHtmlAsync } from 'vike/types'
-import { getStyleColumnLayout } from './getStyleColumnLayout'
 
 const onRenderHtml: OnRenderHtmlAsync = async (
   pageContext,
@@ -15,8 +14,6 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
 
   const page = getPageElement(pageContext, pageContextResolved)
-
-  const styleMenuModalLayout = getStyleColumnLayout(pageContextResolved.columnLayouts)
 
   const descriptionTag = pageContextResolved.isLandingPage
     ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)
@@ -33,7 +30,6 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
-        <style>${dangerouslySkipEscape(styleMenuModalLayout)}</style>
         <meta name="docsearch:category" content="${pageContextResolved.activeCategory}" />
       </head>
       <body>

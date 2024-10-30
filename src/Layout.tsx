@@ -1,5 +1,7 @@
 export { Layout }
 export { containerQueryMobile }
+export { navWidthMin }
+export { navWidthMax }
 
 import React from 'react'
 import { NavigationContent } from './navigation/Navigation'

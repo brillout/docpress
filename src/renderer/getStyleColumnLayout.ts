@@ -1,14 +1,29 @@
 export { getStyleColumnLayout }
 export { determineColumnLayoutEntries }
 
-// There doens't seem to be as simpler way to have a column layout that uses the whole width real estate.
-// - https://stackoverflow.com/questions/9683425/css-column-count-not-respected
-// - https://stackoverflow.com/questions/25446921/get-flexbox-column-wrap-to-use-full-width-and-minimize-height
-// - https://stackoverflow.com/questions/74873283/how-to-create-a-css-grid-with-3-columns-having-column-flow
-// - https://stackoverflow.com/questions/50693793/3-columns-grid-top-to-bottom-using-grid-css
-// - https://stackoverflow.com/questions/9119347/html-css-vertical-flow-layout-columnar-style-how-to-implement
-// - https://stackoverflow.com/questions/27119691/how-to-start-a-new-column-in-flex-column-wrap-layout
-// - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
+// A CSS-only solution doesn't seem to exist.
+// - The CSS Column Layout (`column-count`) solution down below is hackish and not finished.
+//   - Maybe it doesn't even work in Safari.
+// - Cannot use flexbox.
+//   - We cannot control wrapping:
+//     - https://stackoverflow.com/questions/45862033/forcing-a-wrap-on-column-flex-box-layout
+//     - https://stackoverflow.com/questions/45337454/make-flex-items-wrap-to-create-a-new-column
+//     - https://stackoverflow.com/questions/27119691/how-to-start-a-new-column-in-flex-column-wrap-layout
+//     - https://stackoverflow.com/questions/55742578/force-flexbox-to-wrap-after-specific-item-direction-column
+//     - https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Mastering_wrapping_of_flex_items
+// - Cannot use grid layout.
+//   - Cannot use single row, as two elements cannot be put in the same cell:
+//     - https://stackoverflow.com/questions/45264354/is-it-possible-to-place-more-than-one-element-into-a-css-grid-cell-without-overl/49047281#49047281
+//   - Trying with mutliple rows seems to be messy(/impractical?) given the table nature of CSS grid.
+//     - https://stackoverflow.com/questions/45791809/different-height-of-css-grid-cells
+// - Couln't make it work with CSS `float`.
+//   - https://jsfiddle.net/brillout/3hrLk4am/5/
+// - Misc:
+//   - https://stackoverflow.com/questions/9683425/css-column-count-not-respected
+//   - https://stackoverflow.com/questions/25446921/get-flexbox-column-wrap-to-use-full-width-and-minimize-height
+//   - https://stackoverflow.com/questions/74873283/how-to-create-a-css-grid-with-3-columns-having-column-flow
+//   - https://stackoverflow.com/questions/50693793/3-columns-grid-top-to-bottom-using-grid-css
+//   - https://stackoverflow.com/questions/9119347/html-css-vertical-flow-layout-columnar-style-how-to-implement
 
 import { type NavItemAll } from '../navigation/Navigation'
 import { css } from '../utils/css'

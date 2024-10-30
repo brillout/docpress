@@ -99,7 +99,7 @@
   content: "";
 }
 
-.nav-category {
+:has(> .category-border) {
   position: relative
 }
 .category-border {
@@ -107,6 +107,7 @@
   top: 0;
   left: 0;
   transform: translate(0, 53px);
+  height: calc(100% - 53px);
   width: 3px;
   z-index: 99;
 }

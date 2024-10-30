@@ -23,7 +23,6 @@ type NavItem = {
   menuModalFullWidth?: true
 }
 type NavItemAll = NavItem & {
-  // TODO/refactor: rename to isColumnLayoutEntry
   isColumnEntry?: ColumnMap
 }
 function NavigationContent(props: {

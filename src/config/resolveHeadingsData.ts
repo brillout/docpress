@@ -56,14 +56,12 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   // TODO/refactor: remove navItems
   let navItems: NavItem[]
   let navItemsAll: NavItemAll[]
-  let columnLayouts: number[][]
   {
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
       .map(pageSectionToNavItem)
     navItemsAll = headingsResolved.map(headingToNavItem)
-    const res = determineColumnLayoutEntries(navItemsAll)
-    columnLayouts = res.columnLayouts
+    determineColumnLayoutEntries(navItemsAll)
     if (isDetachedPage) {
       navItems = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
@@ -84,8 +82,6 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
-    // TODO: don't pass to client-side
-    columnLayouts,
     // TODO: don't pass to client-side
     activeCategory,
   }

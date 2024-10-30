@@ -4,13 +4,14 @@ export { NavigationContent }
 export type { NavItem }
 export type { NavItemAll }
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { parseTitle } from '../parseTitle'
 import { usePageContext } from '../renderer/usePageContext'
 import '@docsearch/css'
 import '../global.d.ts'
+import { getViewportWidth } from '../utils/getViewportWidth'
 
 type NavItem = {
   level: number
@@ -38,52 +39,7 @@ function NavigationContent(props: {
       .map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
   } else {
     assert(!props.showOnlyRelevant)
-    const navItemsColumnLayout = groupByColumnLayout(navItemsWithComputed)
-    const paddingBottom = 40
-    navContent = (
-      <>
-        {navItemsColumnLayout.map(({ navItemsColumnEntries, isFullWidth }, i) => (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <div
-              className={`column-layout-${i}`}
-              style={{
-                flexGrow: 1,
-                columnGap: 20,
-                paddingBottom: isFullWidth ? paddingBottom : undefined,
-              }}
-            >
-              {navItemsColumnEntries.map((navItemColumnEntry, j) => (
-                <div
-                  key={j}
-                  className="column-layout-entry"
-                  style={{
-                    breakInside: 'avoid',
-                    paddingBottom: !isFullWidth ? paddingBottom : undefined,
-                    paddingTop: isFullWidth ? undefined : 0,
-                    width: '100%',
-                  }}
-                >
-                  <div>
-                    <NavItemComponent navItem={navItemColumnEntry} />
-                    {navItemColumnEntry.navItemChilds.map((navItem, k) => (
-                      <NavItemComponent navItem={navItem} key={k} />
-                    ))}
-                    <CategoryBorder navItemLevel1={isFullWidth ? undefined : navItemColumnEntry!} />
-                  </div>
-                </div>
-              ))}
-              <CategoryBorder navItemLevel1={!isFullWidth ? undefined : navItemsColumnEntries[0]!} />
-            </div>
-          </div>
-        ))}
-      </>
-    )
+    navContent = <NavigationColumnLayout navItemsWithComputed={navItemsWithComputed} />
   }
 
   return (
@@ -92,6 +48,57 @@ function NavigationContent(props: {
     </div>
   )
 }
+
+function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[] }) {
+  const navItemsColumnLayout = groupByColumnLayout(props.navItemsWithComputed)
+  const paddingBottom = 40
+
+  return (
+    <>
+      {navItemsColumnLayout.map(({ navItemsColumnEntries, isFullWidth }, i) => (
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            className={`column-layout-${i}`}
+            style={{
+              flexGrow: 1,
+              columnGap: 20,
+              paddingBottom: isFullWidth ? paddingBottom : undefined,
+            }}
+          >
+            {navItemsColumnEntries.map((navItemColumnEntry, j) => (
+              <div
+                key={j}
+                className="column-layout-entry"
+                style={{
+                  breakInside: 'avoid',
+                  paddingBottom: !isFullWidth ? paddingBottom : undefined,
+                  paddingTop: isFullWidth ? undefined : 0,
+                  width: '100%',
+                }}
+              >
+                <div>
+                  <NavItemComponent navItem={navItemColumnEntry} />
+                  {navItemColumnEntry.navItemChilds.map((navItem, k) => (
+                    <NavItemComponent navItem={navItem} key={k} />
+                  ))}
+                  <CategoryBorder navItemLevel1={isFullWidth ? undefined : navItemColumnEntry!} />
+                </div>
+              </div>
+            ))}
+            <CategoryBorder navItemLevel1={!isFullWidth ? undefined : navItemsColumnEntries[0]!} />
+          </div>
+        </div>
+      ))}
+    </>
+  )
+}
+
 function CategoryBorder({ navItemLevel1 }: { navItemLevel1?: NavItemComputed }) {
   return !navItemLevel1 ? null : (
     <div

@@ -9,6 +9,7 @@ import { css } from './utils/css'
 import { containerQueryMobile } from './Layout'
 import { Links } from './Links'
 import { isBrowser } from './utils/isBrowser'
+import { getViewportWidth } from './utils/getViewportWidth'
 
 initCloseListeners()
 
@@ -128,10 +129,6 @@ function toggleMenuModal() {
   if (document.documentElement.classList.contains('menu-modal-show') && getViewportWidth() < containerQueryMobile) {
     autoScroll()
   }
-}
-function getViewportWidth(): number {
-  // `window.innerWidth` inlcudes scrollbar width: https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-  return document.documentElement.clientWidth
 }
 function autoScroll() {
   const nav = document.querySelector('#menu-modal .navigation-content')!

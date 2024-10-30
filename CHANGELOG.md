@@ -1,3 +1,12 @@
+## [0.8.12](https://github.com/brillout/docpress/compare/v0.8.11...v0.8.12) (2024-10-30)
+
+
+### Bug Fixes
+
+* `<MenuModal>` column layout ([#19](https://github.com/brillout/docpress/issues/19)) ([76fc060](https://github.com/brillout/docpress/commit/76fc060bcbd34e00cd94780ad547f5e18cedc791))
+
+
+
 ## [0.8.11](https://github.com/brillout/docpress/compare/v0.8.10...v0.8.11) (2024-10-29)
 
 

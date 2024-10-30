@@ -113,13 +113,17 @@ function getStyleColumnLayout(columnLayouts: number[][]): string {
       )
       const columnsIdMap = determineColumns(columns, numberOfColumns)
       const columnBreakPoints = determineColumnBreakPoints(columnsIdMap)
-      columnBreakPoints.forEach((columnBreakPoint, columnUngroupedId) => {
-        if (!columnBreakPoint) return
+      columnBreakPoints.forEach((columnBreakPoint, j) => {
+        const columnBreakPointAfter = columnBreakPoints[j + 1] ?? false
+        if (!columnBreakPoint && !columnBreakPointAfter) return
+        // - `break-before: column` isn't supported by Firefox
+        // - `margin-bottom: 100%` trick only works in Firefox.
+        //   - TODO: apply `margin-bottom: 100%;` only for firefox as it breaks the layout in Chrome
         styleGivenNumberOfColumns.push(
           css`
-.column-layout-${i} .column-layout-entry:nth-child(${columnUngroupedId + 1}) {
-  break-before: column;
-  padding-top: 36px;
+.column-layout-${i} .column-layout-entry:nth-child(${j + 1}) {
+  ${!columnBreakPoint ? '' : 'break-before: column; padding-top: 36px;'}
+  ${!columnBreakPointAfter || /* TODO */ true ? '' : 'margin-bottom: 100%;'}
 }
 `,
         )

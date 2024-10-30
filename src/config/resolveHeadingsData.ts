@@ -14,7 +14,7 @@ import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseTitle } from '../parseTitle'
-import { determineColumnEntries } from '../renderer/getStyleColumnLayout'
+import { determineColumnEntries } from '../renderer/determineColumnEntries'
 assert(!isBrowser())
 
 type PageSectionResolved = {

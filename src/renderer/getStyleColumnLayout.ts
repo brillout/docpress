@@ -1,4 +1,4 @@
-export { determineColumnLayoutEntries }
+export { determineColumnEntries }
 
 // A CSS-only solution doesn't seem to exist.
 // - https://github.com/brillout/docpress/blob/2e41d8b9df098ff8312b02f7e9d41a202548e2b9/src/renderer/getStyleColumnLayout.ts#L4-L26
@@ -8,7 +8,7 @@ import { assert, assertUsage, isBrowser } from '../utils/server'
 assert(!isBrowser())
 
 type NavItemWithLength = NavItemAll & { numberOfHeadings: number | null }
-function determineColumnLayoutEntries(navItems: NavItemAll[]): undefined {
+function determineColumnEntries(navItems: NavItemAll[]): undefined {
   const navItemsWithLength: NavItemWithLength[] = navItems.map((navItem) => ({
     ...navItem,
     numberOfHeadings: navItem.level === 1 || navItem.level === 4 ? 0 : null,

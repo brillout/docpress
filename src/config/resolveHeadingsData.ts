@@ -14,7 +14,7 @@ import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseTitle } from '../parseTitle'
-import { determineColumnLayoutEntries } from '../renderer/getStyleColumnLayout'
+import { determineColumnEntries } from '../renderer/getStyleColumnLayout'
 assert(!isBrowser())
 
 type PageSectionResolved = {
@@ -61,7 +61,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
       .map(pageSectionToNavItem)
     navItemsAll = headingsResolved.map(headingToNavItem)
-    determineColumnLayoutEntries(navItemsAll)
+    determineColumnEntries(navItemsAll)
     if (isDetachedPage) {
       navItems = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {

@@ -59,6 +59,7 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
   })
 
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(props.navItemsWithComputed, viewportWidth)
+  const margin = 40
 
   return (
     <>
@@ -71,7 +72,8 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
             justifyContent: 'space-between',
             maxWidth: '100%',
             margin: 'auto',
-            marginBottom: 40,
+            marginTop: i === 0 ? -1 * margin : undefined,
+            marginBottom: margin,
           }}
         >
           {columns.map((columnEntry, j) => (
@@ -86,7 +88,7 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
               }}
             >
               {columnEntry.map((navItems, k) => (
-                <div key={k}>
+                <div key={k} style={{ marginTop: isFullWidth ? undefined : margin }}>
                   {navItems.map((navItem, l) => (
                     <NavItemComponent navItem={navItem} key={l} />
                   ))}

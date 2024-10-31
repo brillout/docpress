@@ -1,3 +1,13 @@
+## [0.8.13](https://github.com/brillout/docpress/compare/v0.8.12...v0.8.13) (2024-10-31)
+
+
+### Bug Fixes
+
+* fix menu margins ([e279777](https://github.com/brillout/docpress/commit/e279777b1c92df9ed56ea1583350f68527862c45))
+* use diff bg color for menu ([3c90942](https://github.com/brillout/docpress/commit/3c90942318018c19da51da63bbca643c22bb1bae))
+
+
+
 ## [0.8.12](https://github.com/brillout/docpress/compare/v0.8.11...v0.8.12) (2024-10-30)
 
 

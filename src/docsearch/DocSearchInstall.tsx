@@ -13,15 +13,15 @@ function DocSearchInstall() {
   const pageContext = usePageContext()
   const { algolia } = pageContext.meta
 
-  const onOpen = React.useCallback(() => {
+  const onOpen = () => {
     setIsOpen(true);
     openDocsearchModal()
-  }, [setIsOpen, openDocsearchModal]);
+  };
 
-  const onClose = React.useCallback(() => {
+  const onClose = () => {
     setIsOpen(false);
     closeDocsearchModal()
-  }, [setIsOpen, closeDocsearchModal]);
+  };
 
   useDocSearchKeyboardEvents({
     isOpen,

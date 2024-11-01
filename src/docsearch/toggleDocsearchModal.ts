@@ -27,10 +27,10 @@ function openDocsearchModal(isButton = false) {
 // }
 
 function isClosed() {
-  const test1 =
-    !document.body.classList.contains('DocSearch--active') &&
-    !document.documentElement.classList.contains('DocSearch--active')
-  const test2 = document.getElementsByClassName('DocSearch-Modal').length === 0
+  const test1 = !document.body.classList.contains('DocSearch--active')
+  const test2 = !document.documentElement.classList.contains('DocSearch--active')
+  const test3 = document.getElementsByClassName('DocSearch-Modal').length === 0
   assert(test1 === test2)
-  return test1 || test2
+  assert(test1 === test3)
+  return test1 || test2 || test3
 }

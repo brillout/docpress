@@ -5,7 +5,6 @@ import iconDiscord from './icons/discord.svg'
 import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
-import '@docsearch/css'
 
 export { Links }
 

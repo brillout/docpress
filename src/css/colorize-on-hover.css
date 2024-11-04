@@ -13,9 +13,17 @@
   }
 }
 
-.colorize-on-hover [class^='decolorize-'],
-.colorize-on-hover [class*=' decolorize-'] {
-  transition: filter 0.3s ease-in-out;
+[class^='decolorize-'],
+[class*=' decolorize-'],
+.link-hover-animation a {
+  transition: all 0.3s ease-in-out;
+}
+[class^='decolorize-'],
+[class*=' decolorize-'] {
+  transition-property: filter;
+}
+.link-hover-animation a {
+  transition-property: color, background-color;
 }
 
 .decolorize-7 {
@@ -31,10 +39,6 @@
   filter: grayscale(1) opacity(0.4);
 }
 
-.link-hover-animation a {
-  transition: all 0.3s ease-in-out !important;
-  transition-property: color, background-color !important;
-}
 body {
   --active-color: rgba(0, 0, 0, 0.03);
 }

@@ -1,3 +1,12 @@
+## [0.8.14](https://github.com/brillout/docpress/compare/v0.8.13...v0.8.14) (2024-11-04)
+
+
+### Bug Fixes
+
+* menu on hover ([35b26fb](https://github.com/brillout/docpress/commit/35b26fb736d869f94186f4d781445649c434362f))
+
+
+
 ## [0.8.13](https://github.com/brillout/docpress/compare/v0.8.12...v0.8.13) (2024-10-31)
 
 

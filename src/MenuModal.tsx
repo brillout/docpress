@@ -30,11 +30,6 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           zIndex: 9999,
           overflow: 'scroll',
           background: '#ededef',
-          /* TODO/now: remove
-          background: '#eaeaea',
-          boxShadow:
-            'rgb(6 24 44 / 8%) 0px 0px 0px 3px, rgba(6, 24, 44, 0.65) 0px 4px 13px -1px, rgba(255, 255, 255, 0.28) 0px 1px 0px inset',
-          */
           transitionProperty: 'opacity',
         }}
         onMouseOver={openMenuModal}

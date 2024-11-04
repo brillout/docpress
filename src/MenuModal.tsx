@@ -1,5 +1,6 @@
 export { MenuModal }
 export { toggleMenuModal }
+export { openMenuModal }
 export { closeMenuModal }
 
 import React from 'react'
@@ -13,46 +14,51 @@ import { getViewportWidth } from './utils/getViewportWidth'
 
 initCloseListeners()
 
-function MenuModal() {
+function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
     <>
       <style>{getStyle()}</style>
       <div
         id="menu-modal"
-        className="link-hover-animation"
+        className="link-hover-animation add-transition"
         style={{
-          position: 'fixed',
+          position: isTopNav ? 'absolute' : 'fixed',
           width: '100%',
-          /* Do this once Firefox supports `dvh`: https://caniuse.com/?search=dvh
-           * - Then also replace all `vh` values with `dvh` values.
-           * - https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
-          height: '100dh',
-          /*/
-          height: '100vh',
-          maxHeight: '100dvh',
-          //*/
-          top: 0,
+          height: 'calc(100vh - var(--top-nav-height))',
+          top: 'var(--top-nav-height)',
           left: 0,
           zIndex: 9999,
           overflow: 'scroll',
+          background: '#ededef',
+          /* TODO/now: remove
           background: '#eaeaea',
+          boxShadow:
+            'rgb(6 24 44 / 8%) 0px 0px 0px 3px, rgba(6, 24, 44, 0.65) 0px 4px 13px -1px, rgba(255, 255, 255, 0.28) 0px 1px 0px inset',
+          */
+          transitionProperty: 'opacity',
         }}
+        onMouseOver={openMenuModal}
+        onMouseLeave={closeMenuModal}
       >
         <div
           style={{
             // Place <LinksBottom /> to the bottom
             display: 'flex',
             flexDirection: 'column',
-            minHeight: '100dvh',
+            minHeight: 'calc(100vh - var(--top-nav-height))',
             justifyContent: 'space-between',
             // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
             containerType: 'inline-size',
           }}
         >
           <Nav />
+          {/* TODO/now: use for mobile
           <LinksBottom />
+          */}
         </div>
+        {/* TODO/now: use for mobile
         <CloseButton />
+        */}
       </div>
     </>
   )
@@ -78,7 +84,8 @@ function LinksBottom() {
 function getStyle() {
   return css`
 html:not(.menu-modal-show) #menu-modal {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 // disable scroll of main view
 html.menu-modal-show {
@@ -141,6 +148,9 @@ function autoScroll() {
     block: 'center',
     inline: 'start',
   })
+}
+function openMenuModal() {
+  document.documentElement.classList.add('menu-modal-show')
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')

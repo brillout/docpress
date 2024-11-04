@@ -1,7 +1,7 @@
 export { initKeyBindings }
 
 import { closeDocsearchModal } from './docsearch/toggleDocsearchModal'
-import { closeMenuModal, toggleMenuModal } from './MenuModal'
+import { closeMenuModal } from './MenuModal'
 
 function initKeyBindings() {
   window.addEventListener(
@@ -12,11 +12,6 @@ function initKeyBindings() {
       if (key === 'escape') {
         closeDocsearchModal()
         closeMenuModal()
-      }
-
-      if (key === 'm' && ev.ctrlKey) {
-        closeDocsearchModal()
-        toggleMenuModal()
       }
 
       // Replicates docsearch keybinding

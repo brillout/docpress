@@ -9,7 +9,7 @@ import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { Links } from './Links'
-import { toggleMenuModal } from './MenuModal'
+import { closeMenuModal, openMenuModal, toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
@@ -58,9 +58,10 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--bg-color']: '#f5f5f7',
         ['--block-margin']: `${blockMargin}px`,
         ['--icon-text-padding']: '8px',
+        ['--top-nav-height']: `${isLandingPage ? 70 : 60}px`,
       }}
     >
-      <MenuModal />
+      <MenuModal isTopNav={isLandingPage} />
       <div
         className={isLandingPage ? '' : 'doc-page'}
         style={{
@@ -111,6 +112,9 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 }
 .page-content {
   margin: auto;
+}
+#menu-modal {
+  position: absolute !important;
 }
 `
     if (!hideNavLeftAlways) {
@@ -198,7 +202,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavMobile() {
   return (
     <div id="nav-mobile">
-      <NavigationHeader headerHeight={70} iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
+      <NavigationHeader iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
     </div>
   )
 }
@@ -255,7 +259,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavigationHeader headerHeight={headerHeight} iconSize={39} paddingLeft={6} />
+          <NavigationHeader iconSize={39} paddingLeft={6} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -293,11 +297,10 @@ function NavLeft() {
 }
 
 function NavigationHeader({
-  headerHeight,
   iconSize,
   style,
   paddingLeft,
-}: { headerHeight: number; iconSize: number; paddingLeft: number; style?: React.CSSProperties }) {
+}: { iconSize: number; paddingLeft: number; style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   //*
   const { projectName } = pageContext.meta
@@ -324,8 +327,9 @@ function NavigationHeader({
       <div
         style={{
           display: 'flex',
-          height: headerHeight,
+          height: 'var(--top-nav-height)',
           containerType: 'inline-size',
+          alignItems: 'center',
           ...navWidth,
         }}
       >
@@ -383,30 +387,52 @@ function NavigationHeader({
   )
 }
 
-type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
-function MenuLink(props: PropsAnchor) {
+let onMouseIgnore: ReturnType<typeof setTimeout> | undefined
+function MenuLink({ style }: { style: React.CSSProperties }) {
   return (
-    <a
-      {...props}
+    <div
       style={{
         height: '100%',
         display: 'flex',
         alignItems: 'center',
-        cursor: 'pointer',
-        ...props.style,
+        cursor: 'default',
+        ...style,
       }}
-      className="colorize-on-hover"
+      className="colorize-on-hover menu-toggle"
       onClick={(ev) => {
         ev.preventDefault()
         toggleMenuModal()
       }}
-      aria-label={'Ctrl\xa0+\xa0M'}
+      onMouseOver={() => {
+        if (onMouseIgnore) return
+        openMenuModal()
+      }}
+      onMouseLeave={() => {
+        if (onMouseIgnore) return
+        closeMenuModal()
+      }}
+      onTouchStart={() => {
+        onMouseIgnore = setTimeout(() => {
+          onMouseIgnore = undefined
+        }, 1000)
+      }}
     >
-      <MenuIcon />
-      Menu
-    </a>
+      <DocsIcon />
+      Docs
+    </div>
   )
 }
+function DocsIcon() {
+  return (
+    <span
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
+      className="decolorize-6"
+    >
+      📚
+    </span>
+  )
+}
+/* TODO/now: use for mobile
 function MenuIcon() {
   return (
     <svg
@@ -420,4 +446,9 @@ function MenuIcon() {
       ></path>
     </svg>
   )
+}
+*/
+
+function Style({ children }: { children: string }) {
+  return <style dangerouslySetInnerHTML={{ __html: children }} />
 }

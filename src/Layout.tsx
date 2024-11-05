@@ -275,7 +275,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
           maxWidth: isNavLeft && navWidthMax,
         }}
       >
-        {!isLandingPage && <NavLogo className="nav-logo" iconSize={39} paddingLeft={5} style={childrenStyle} />}
+        <NavLogo className="nav-logo" iconSize={39} paddingLeft={5} style={childrenStyle} />
         <div className="top-links" style={{ ...childrenStyle, padding: 0 }}>
           <TopNavigation />
         </div>
@@ -303,7 +303,12 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
           }}
         />
       </div>
-      <Style>{css`
+      <Style>{getStyle()}</Style>
+    </div>
+  )
+
+  function getStyle() {
+    let style = css`
 @container(max-width: 500px) {
   .menu-link {
     flex-grow: 1;
@@ -327,10 +332,17 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
     display: none !important;
   }
 }
-
-        `}</Style>
-    </div>
-  )
+`
+    if (isLandingPage)
+      style += css`
+@container(min-width: 951px) {
+  .nav-logo {
+    display: none !important;
+  }
+}
+`
+    return style
+  }
 }
 
 function NavLogo({

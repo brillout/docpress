@@ -153,7 +153,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   }
 }
 @container(max-width: ${mobile - 1}px) {
-  #top-navigation {
+  #nav-header-top {
     display: none !important;
   }
 `
@@ -214,7 +214,7 @@ function NavHeaderTop() {
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   return (
     <div
-      id="top-navigation"
+      id="nav-header-top"
       className="link-hover-animation"
       style={{
         position: 'relative',

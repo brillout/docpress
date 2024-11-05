@@ -13,6 +13,7 @@ import '@docsearch/css'
 import '../global.d.ts'
 import { getViewportWidth } from '../utils/getViewportWidth'
 import { navWidthMax, navWidthMin } from '../Layout'
+import { throttle } from '../utils/throttle'
 
 type NavItem = {
   level: number
@@ -55,7 +56,7 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
   const updateviewportwidth = () => setViewportWidth(getViewportWidth())
   useEffect(() => {
     updateviewportwidth()
-    window.addEventListener('resize', updateviewportwidth, { passive: true })
+    window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
   })
 
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(props.navItemsWithComputed, viewportWidth)

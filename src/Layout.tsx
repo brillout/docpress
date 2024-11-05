@@ -19,13 +19,9 @@ import { PassThrough } from './utils/PassTrough'
 
 const mainViewWidthMax = 800
 const mainViewPadding = 20
+// TODO/refactor: rename
 const navWidthMax = 370
 const navWidthMin = 300
-const navWidth = {
-  minWidth: navWidthMin,
-  maxWidth: navWidthMax,
-  width: '100%',
-}
 const blockMargin = 3
 const mainViewMax = mainViewWidthMax + mainViewPadding * 2
 const containerQuerySpacing = mainViewMax + navWidthMax + blockMargin
@@ -71,6 +67,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           ...whitespaceBuster1,
         }}
       >
+        <NavHeader />
         {content}
       </div>
     </div>
@@ -83,7 +80,6 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style>{getStyle()}</style>
-      <NavMobile />
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
@@ -123,7 +119,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   ${navLeftHide}
 }
 @container(min-width: ${containerQueryMobile}px) {
-  #nav-mobile {
+  #nav-header-top {
     display: none !important;
   }
 }
@@ -136,28 +132,11 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
-  const mobile = 800
   return (
     <>
-      <style>{getStyle()}</style>
-      <NavHeaderTop />
-      <NavMobile />
       <PageContent>{children}</PageContent>
     </>
   )
-  function getStyle() {
-    return css`
-@container(min-width: ${mobile}px) {
-  #nav-mobile {
-    display: none !important;
-  }
-}
-@container(max-width: ${mobile - 1}px) {
-  #nav-header-top {
-    display: none !important;
-  }
-`
-  }
 }
 
 function PageContent({ children }: { children: React.ReactNode }) {
@@ -199,46 +178,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-function NavMobile() {
-  return (
-    <div id="nav-mobile">
-      <NavHeaderLeft iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
-    </div>
-  )
-}
-
-function NavHeaderTop() {
-  const pageContext2 = usePageContext2()
-  const paddingSize = 35
-  const padding = `0 ${paddingSize}px`
-  const TopNavigation = pageContext2.config.TopNavigation || PassThrough
-  return (
-    <div
-      id="nav-header-top"
-      className="link-hover-animation"
-      style={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textDecoration: 'none',
-        marginBottom: 'var(--block-margin)',
-        backgroundColor: 'var(--bg-color)',
-        ['--padding-side']: `${paddingSize}px`,
-        fontSize: '1.06em',
-        color: '#666',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', height: 70 }}>
-        <TopNavigation />
-        <SearchLink style={{ padding }} />
-        <MenuLink style={{ padding }} />
-        <NavLinks style={{ display: 'inline-flex', padding, marginLeft: -8 }} />
-      </div>
-    </div>
-  )
-}
-
 function NavLeft() {
   const pageContext = usePageContext()
   const { navItems, navItemsAll, isDetachedPage } = pageContext
@@ -259,7 +198,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavHeaderLeft iconSize={39} paddingLeft={6} />
+          <NavHeader isNavLeft={true} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -275,7 +214,9 @@ function NavLeft() {
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
-                ...navWidth,
+                minWidth: navWidthMin,
+                maxWidth: navWidthMax,
+                width: '100%',
               }}
             >
               {
@@ -296,110 +237,166 @@ function NavLeft() {
   )
 }
 
-function NavHeaderLeft({
-  iconSize,
-  style,
-  paddingLeft,
-}: { iconSize: number; paddingLeft: number; style?: React.CSSProperties }) {
+function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
-  //*
   const { projectName } = pageContext.meta
-  /*/
-  const projectName = 'Vike'
-  //*/
-  const isProjectNameShort = projectName.length <= 4
+  const { isLandingPage } = pageContext
   const childrenStyle: React.CSSProperties = {
     justifyContent: 'center',
-    fontSize: isProjectNameShort ? '4.8cqw' : '4.5cqw',
-    ['--icon-text-padding']: '1.8cqw',
+    fontSize: `min(16.96px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
+    ['--icon-text-padding']: 'min(8px, 1.8cqw)',
+    height: '100%',
+    padding: '0 var(--padding-side)',
   }
-  const marginLeft = -10
+  const pageContext2 = usePageContext2()
+  const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   return (
     <div
+      id={isNavLeft ? undefined : 'nav-header-top'}
+      className="link-hover-animation nav-header"
       style={{
         backgroundColor: 'var(--bg-color)',
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: isNavLeft ? 'flex-end' : 'center',
         borderBottom: 'var(--block-margin) solid white',
-        ...style,
+        color: '#666',
       }}
     >
       <div
+        className="nav-header-container"
         style={{
           display: 'flex',
           height: 'var(--top-nav-height)',
           containerType: 'inline-size',
+          justifyContent: 'center',
           alignItems: 'center',
-          ...navWidth,
+          width: '100%',
+          minWidth: isNavLeft && navWidthMin,
+          maxWidth: isNavLeft && navWidthMax,
         }}
       >
-        <a
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            color: 'inherit',
-            textDecoration: 'none',
-            height: '100%',
-            paddingLeft: paddingLeft + marginLeft * -1,
-            marginLeft: marginLeft,
-            ...childrenStyle,
-            justifyContent: 'flex-start',
-            flexGrow: 0.5,
-          }}
-          href="/"
-        >
-          <img
-            src={pageContext.meta.faviconUrl}
-            height={iconSize}
-            width={iconSize}
-            onContextMenu={(ev) => {
-              if (!pageContext.config.pressKit) return // no /press page
-              if (window.location.pathname === '/press') return
-              ev.preventDefault()
-              navigate('/press#logo')
-            }}
-          />
-          <span
-            style={{
-              marginLeft: `calc(var(--icon-text-padding) + 2px)`,
-              fontSize: isProjectNameShort ? '1.65em' : '1.3em',
-            }}
-          >
-            {projectName}
-          </span>
-        </a>
+        {!isLandingPage && <NavLogo className="nav-logo" iconSize={39} paddingLeft={5} style={childrenStyle} />}
+        <div className="top-links" style={{ ...childrenStyle, padding: 0 }}>
+          <TopNavigation />
+        </div>
         <SearchLink
+          className="search-link"
           style={{
             //
             ...childrenStyle,
-            flexGrow: 0.5,
           }}
         />
         <MenuLink
+          className="menu-link"
           style={{
             //
             ...childrenStyle,
-            flexGrow: 1,
+          }}
+        />
+        <NavLinks
+          className="nav-links"
+          style={{
+            display: 'inline-flex',
+            marginLeft: -8,
+            fontSize: '1.06em',
+            padding: '0 var(--padding-side)',
           }}
         />
       </div>
+      <Style>{css`
+@container(max-width: 500px) {
+  .menu-link {
+    flex-grow: 1;
+  }
+  .search-link,
+  .nav-logo {
+    flex-grow: 0.5;
+  }
+}
+.nav-header-container > * {
+  --padding-side: 0px;
+}
+@container(min-width: 501px) {
+  .nav-header-container > * {
+    --padding-side: 35px;
+  }
+}
+@container(max-width: 950px) {
+  .nav-links,
+  .top-links {
+    display: none !important;
+  }
+}
+
+        `}</Style>
     </div>
   )
 }
 
+function NavLogo({
+  iconSize,
+  paddingLeft,
+  ...props
+}: { iconSize: number; paddingLeft: number; style?: React.CSSProperties; id?: string; className?: string }) {
+  const marginLeft = -10
+  const pageContext = usePageContext()
+  const { projectName } = pageContext.meta
+  return (
+    <a
+      {...props}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        color: 'inherit',
+        height: '100%',
+        ...props.style,
+        paddingLeft: paddingLeft + marginLeft * -1,
+        marginLeft: marginLeft,
+        justifyContent: 'flex-start',
+      }}
+      href="/"
+    >
+      <img
+        src={pageContext.meta.faviconUrl}
+        height={iconSize}
+        width={iconSize}
+        onContextMenu={(ev) => {
+          if (!pageContext.config.pressKit) return // no /press page
+          if (window.location.pathname === '/press') return
+          ev.preventDefault()
+          navigate('/press#logo')
+        }}
+      />
+      <span
+        style={{
+          marginLeft: `calc(var(--icon-text-padding) + 2px)`,
+          fontSize: isProjectNameShort(projectName) ? '1.65em' : '1.3em',
+        }}
+      >
+        {projectName}
+      </span>
+    </a>
+  )
+}
+function isProjectNameShort(projectName: string) {
+  return projectName.length <= 4
+}
+
 let onMouseIgnore: ReturnType<typeof setTimeout> | undefined
-function MenuLink({ style }: { style: React.CSSProperties }) {
+type PropsDiv = React.HTMLProps<HTMLDivElement>
+function MenuLink(props: PropsDiv) {
   return (
     <div
+      {...props}
       style={{
         height: '100%',
         display: 'flex',
         alignItems: 'center',
         cursor: 'default',
         userSelect: 'none',
-        ...style,
+        ...props.style,
       }}
-      className="colorize-on-hover menu-toggle"
+      className={['colorize-on-hover menu-toggle', props.className].filter(Boolean).join(' ')}
       onClick={(ev) => {
         ev.preventDefault()
         toggleMenuModal()

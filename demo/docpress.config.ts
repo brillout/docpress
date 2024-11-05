@@ -7,7 +7,7 @@ import { headings, headingsDetached } from './headings'
 const config: Config = {
   projectInfo: {
     projectName: 'Demo' as const,
-    projectVersion: '0.0.0',
+    projectVersion: '0.4.200',
     githubRepository: 'https://github.com/brillout/docpress' as const,
     githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
     twitterProfile: 'https://twitter.com/brillout' as const,

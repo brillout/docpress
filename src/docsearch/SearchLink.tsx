@@ -15,7 +15,7 @@ function SearchLink(props: PropsAnchor) {
         cursor: 'pointer',
         ...props.style,
       }}
-      className="colorize-on-hover"
+      className={['colorize-on-hover', props.className].filter(Boolean).join(' ')}
       onClick={(ev) => {
         ev.preventDefault()
         openDocsearchModal()

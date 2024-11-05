@@ -9,7 +9,7 @@ import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
-function NavLinks({ style }: { style?: React.CSSProperties }) {
+function NavLinks(props: { style?: React.CSSProperties; className?: string }) {
   const pageContext = usePageContext()
   const { projectInfo, i18n } = pageContext.config
   const iconI18n = !i18n ? null : (
@@ -22,13 +22,14 @@ function NavLinks({ style }: { style?: React.CSSProperties }) {
   )
   return (
     <div
+      {...props}
       style={{
         display: 'flex',
         alignItems: 'center',
         paddingTop: 0,
         justifyContent: 'left',
         height: '100%',
-        ...style,
+        ...props.style,
       }}
     >
       {iconI18n}
@@ -52,7 +53,7 @@ function ChangelogButton() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: 10,
+        padding: '0 5px',
         height: '100%',
       }}
     >

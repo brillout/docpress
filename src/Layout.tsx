@@ -8,7 +8,7 @@ import { NavigationContent } from './navigation/Navigation'
 import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
-import { Links } from './Links'
+import { NavLinks } from './NavLinks'
 import { closeMenuModal, openMenuModal, toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
@@ -233,7 +233,7 @@ function NavTop() {
         <TopNavigation />
         <SearchLink style={{ padding }} />
         <MenuLink style={{ padding }} />
-        <Links style={{ display: 'inline-flex', padding, marginLeft: -8 }} />
+        <NavLinks style={{ display: 'inline-flex', padding, marginLeft: -8 }} />
       </div>
     </div>
   )

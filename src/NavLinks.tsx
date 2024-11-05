@@ -1,5 +1,4 @@
-// TODO/refactor: rename
-export { Links }
+export { NavLinks }
 
 import React from 'react'
 import iconGithub from './icons/github.svg'
@@ -10,7 +9,7 @@ import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
-function Links({ style }: { style?: React.CSSProperties }) {
+function NavLinks({ style }: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   const { projectInfo, i18n } = pageContext.config
   const iconI18n = !i18n ? null : (

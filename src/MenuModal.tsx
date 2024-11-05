@@ -8,7 +8,7 @@ import { usePageContext } from './renderer/usePageContext'
 import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
 import { containerQueryMobile } from './Layout'
-import { Links } from './Links'
+import { NavLinks } from './NavLinks'
 import { isBrowser } from './utils/isBrowser'
 import { getViewportWidth } from './utils/getViewportWidth'
 
@@ -71,7 +71,7 @@ function LinksBottom() {
         justifyContent: 'center',
       }}
     >
-      <Links style={{ height: 70 }} />
+      <NavLinks style={{ height: 70 }} />
     </div>
   )
 }

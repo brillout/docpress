@@ -140,7 +140,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style>{getStyle()}</style>
-      <NavTop />
+      <NavHeaderTop />
       <NavMobile />
       <PageContent>{children}</PageContent>
     </>
@@ -202,12 +202,12 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavMobile() {
   return (
     <div id="nav-mobile">
-      <NavigationHeader iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
+      <NavHeaderLeft iconSize={40} paddingLeft={12} style={{ justifyContent: 'center' }} />
     </div>
   )
 }
 
-function NavTop() {
+function NavHeaderTop() {
   const pageContext2 = usePageContext2()
   const paddingSize = 35
   const padding = `0 ${paddingSize}px`
@@ -259,7 +259,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavigationHeader iconSize={39} paddingLeft={6} />
+          <NavHeaderLeft iconSize={39} paddingLeft={6} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -296,7 +296,7 @@ function NavLeft() {
   )
 }
 
-function NavigationHeader({
+function NavHeaderLeft({
   iconSize,
   style,
   paddingLeft,

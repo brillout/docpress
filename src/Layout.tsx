@@ -396,6 +396,7 @@ function MenuLink({ style }: { style: React.CSSProperties }) {
         display: 'flex',
         alignItems: 'center',
         cursor: 'default',
+        userSelect: 'none',
         ...style,
       }}
       className="colorize-on-hover menu-toggle"

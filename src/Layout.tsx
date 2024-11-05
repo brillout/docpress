@@ -1,7 +1,7 @@
 export { Layout }
 export { containerQueryMobile }
-export { navWidthMin }
-export { navWidthMax }
+export { navLeftWidthMin }
+export { navLeftWidthMax }
 
 import React from 'react'
 import { NavigationContent } from './navigation/Navigation'
@@ -17,15 +17,14 @@ import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
 
+const navLeftWidthMax = 370
+const navLeftWidthMin = 300
 const mainViewWidthMax = 800
 const mainViewPadding = 20
-// TODO/refactor: rename
-const navWidthMax = 370
-const navWidthMin = 300
-const blockMargin = 3
 const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-const containerQuerySpacing = mainViewMax + navWidthMax + blockMargin
-const containerQueryMobile = mainViewMax + navWidthMin
+const blockMargin = 3
+const containerQuerySpacing = mainViewMax + navLeftWidthMax + blockMargin
+const containerQueryMobile = mainViewMax + navLeftWidthMin
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -94,7 +93,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     flex-grow: 1;
   }
   #navigation-container {
-    width: ${navWidthMax}px !important;
+    width: ${navLeftWidthMax}px !important;
   }
 }`
     let navLeftHide = css`
@@ -214,8 +213,8 @@ function NavLeft() {
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
-                minWidth: navWidthMin,
-                maxWidth: navWidthMax,
+                minWidth: navLeftWidthMin,
+                maxWidth: navLeftWidthMax,
                 width: '100%',
               }}
             >
@@ -271,8 +270,8 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
-          minWidth: isNavLeft && navWidthMin,
-          maxWidth: isNavLeft && navWidthMax,
+          minWidth: isNavLeft && navLeftWidthMin,
+          maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
         <NavLogo className="nav-logo" iconSize={39} paddingLeft={5} style={childrenStyle} />

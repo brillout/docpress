@@ -12,7 +12,7 @@ import { usePageContext } from '../renderer/usePageContext'
 import '@docsearch/css'
 import '../global.d.ts'
 import { getViewportWidth } from '../utils/getViewportWidth'
-import { navWidthMax, navWidthMin } from '../Layout'
+import { navLeftWidthMax, navLeftWidthMin } from '../Layout'
 import { throttle } from '../utils/throttle'
 
 type NavItem = {
@@ -69,7 +69,7 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
           key={i}
           style={{
             display: 'flex',
-            width: columns.length * (navWidthMax + 20),
+            width: columns.length * (navLeftWidthMax + 20),
             justifyContent: 'space-between',
             maxWidth: '100%',
             margin: 'auto',
@@ -82,7 +82,7 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
               key={j}
               style={{
                 flexGrow: 1,
-                maxWidth: navWidthMax,
+                maxWidth: navLeftWidthMax,
                 display: 'flex',
                 flexDirection: 'column',
                 paddingTop: isFullWidth && j !== 0 ? 36 : undefined,
@@ -173,7 +173,7 @@ function NavItemComponent({
 type NavItemsByColumnLayout = { columns: NavItemComputed[][][]; isFullWidth: boolean }
 function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: number = 0): NavItemsByColumnLayout[] {
   const navItemsByColumnEntries = getNavItemsByColumnEntries(navItems)
-  const numberOfColumnsMax = Math.floor(viewportWidth / navWidthMin) || 1
+  const numberOfColumnsMax = Math.floor(viewportWidth / navLeftWidthMin) || 1
   const navItemsByColumnLayouts: NavItemsByColumnLayout[] = navItemsByColumnEntries.map(
     ({ columnEntries, isFullWidth }) => {
       const numberOfColumns = Math.min(numberOfColumnsMax, columnEntries.length)

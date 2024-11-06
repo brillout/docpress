@@ -26,9 +26,6 @@ function NavLinks(props: { style?: React.CSSProperties; className?: string }) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        paddingTop: 0,
-        justifyContent: 'left',
-        height: '100%',
         ...props.style,
       }}
     >

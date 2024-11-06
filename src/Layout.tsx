@@ -118,7 +118,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   ${navLeftHide}
 }
 @container(min-width: ${containerQueryMobile}px) {
-  #nav-header-top {
+  .nav-header-top {
     display: none !important;
   }
 }
@@ -189,6 +189,7 @@ function NavLeft() {
         style={{
           flexGrow: 1,
           borderRight: 'var(--block-margin) solid white',
+          zIndex: 1,
         }}
       >
         <div
@@ -238,96 +239,117 @@ function NavLeft() {
 
 function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
+  const pageContext2 = usePageContext2()
   const { projectName } = pageContext.meta
   const { isLandingPage } = pageContext
-  const childrenStyle: React.CSSProperties = {
-    justifyContent: 'center',
-    fontSize: `min(16.96px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
-    ['--icon-text-padding']: 'min(8px, 1.8cqw)',
+
+  const linkStyle: React.CSSProperties = {
     height: '100%',
     padding: '0 var(--padding-side)',
+    justifyContent: 'center',
   }
-  const pageContext2 = usePageContext2()
+
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
-  return (
+  const navExtra = (
     <div
-      id={isNavLeft ? undefined : 'nav-header-top'}
-      className="link-hover-animation nav-header"
+      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink'}
       style={{
-        backgroundColor: 'var(--bg-color)',
+        padding: 0,
         display: 'flex',
-        justifyContent: isNavLeft ? 'flex-end' : 'center',
-        borderBottom: 'var(--block-margin) solid white',
-        color: '#666',
+        height: '100%',
+        ...(!isNavLeft
+          ? {}
+          : {
+              position: 'absolute',
+              left: '100%',
+              top: 0,
+              paddingLeft: 'var(--block-margin)',
+              '--padding-side': '20px',
+              width: mainViewMax, // guaranteed real estate
+            }),
       }}
     >
-      <div
-        className="nav-header-container"
+      <TopNavigation />
+      <NavLinks
         style={{
-          display: 'flex',
-          height: 'var(--top-nav-height)',
+          display: 'inline-flex',
+          fontSize: '1.06em',
+          padding: '0 var(--padding-side)',
+          marginLeft: -8,
+        }}
+      />
+    </div>
+  )
+
+  return (
+    <div
+      className={cls(['nav-header-full-width', !isNavLeft && 'nav-header-top', 'link-hover-animation'])}
+      style={{
+        display: 'flex',
+        justifyContent: isNavLeft ? 'flex-end' : 'center',
+        backgroundColor: 'var(--bg-color)',
+        borderBottom: 'var(--block-margin) solid white',
+        position: 'relative',
+      }}
+    >
+      {isNavLeft && <NavHeaderLeftFullWidthBackground />}
+      <div
+        style={{
           containerType: 'inline-size',
-          justifyContent: 'center',
-          alignItems: 'center',
           width: '100%',
           minWidth: isNavLeft && navLeftWidthMin,
           maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
-        <NavLogo className="nav-logo" iconSize={39} paddingLeft={5} style={childrenStyle} />
-        <div className="top-links" style={{ ...childrenStyle, padding: 0 }}>
-          <TopNavigation />
+        <div
+          className="nav-header-content"
+          style={{
+            width: '100%',
+            height: 'var(--top-nav-height)',
+            fontSize: `min(16.96px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
+            color: '#666',
+            ['--icon-text-padding']: 'min(8px, 1.8cqw)',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <NavLogo className="grow-half" />
+          <SearchLink className="grow-half" style={linkStyle} />
+          <MenuLink className="grow-full" style={linkStyle} />
+          {navExtra}
         </div>
-        <SearchLink
-          className="search-link"
-          style={{
-            //
-            ...childrenStyle,
-          }}
-        />
-        <MenuLink
-          className="menu-link"
-          style={{
-            //
-            ...childrenStyle,
-          }}
-        />
-        <NavLinks
-          className="nav-links"
-          style={{
-            display: 'inline-flex',
-            marginLeft: -8,
-            fontSize: '1.06em',
-            padding: '0 var(--padding-side)',
-          }}
-        />
       </div>
-      <Style>{getStyle()}</Style>
+      {getStyle()}
     </div>
   )
 
   function getStyle() {
     let style = css`
 @container(max-width: 500px) {
-  .menu-link {
+  .grow-full {
     flex-grow: 1;
   }
-  .search-link,
-  .nav-logo {
+  .grow-half {
     flex-grow: 0.5;
   }
-}
-.nav-header-container > * {
-  --padding-side: 0px;
-}
-@container(min-width: 501px) {
-  .nav-header-container > * {
-    --padding-side: 35px;
+  .nav-header-content {
+    --padding-side: 0px;
+  }
+  .nav-logo {
+    padding-left: 15px;
+    margin-left: -10px;
   }
 }
-@container(max-width: 950px) {
-  .nav-links,
-  .top-links {
+@container(min-width: 501px) {
+  .nav-header-content {
+    --padding-side: 35px;
+  }
+  .nav-logo {
+    padding: 0 var(--padding-side);
+  }
+}
+@container(max-width: 1000px) {
+  .hide-on-shrink {
     display: none !important;
   }
 }
@@ -340,29 +362,57 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
   }
 }
 `
-    return style
+    if (isNavLeft) {
+      style += css`
+
+.show-on-nav-hover {
+  opacity: 0;
+  transition-property: opacity;
+  pointer-events: none;
+}
+:has(.nav-header-full-width:hover) .show-on-nav-hover,
+:has(.show-on-nav-hover:hover) .show-on-nav-hover,
+html.menu-modal-show .show-on-nav-hover {
+  opacity: 1;
+  pointer-events: all;
+}
+`
+    }
+    return <Style>{style}</Style>
   }
 }
 
-function NavLogo({
-  iconSize,
-  paddingLeft,
-  ...props
-}: { iconSize: number; paddingLeft: number; style?: React.CSSProperties; id?: string; className?: string }) {
-  const marginLeft = -10
+function NavHeaderLeftFullWidthBackground() {
+  return (
+    <div
+      className="show-on-nav-hover add-transition"
+      style={{
+        height: '100%',
+        width: '100vw',
+        zIndex: -1,
+        background: 'var(--bg-color)',
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        boxSizing: 'content-box',
+        borderBottom: 'var(--block-margin) solid white',
+      }}
+    />
+  )
+}
+
+function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
+  const iconSize = 39
   const { projectName } = pageContext.meta
   return (
     <a
-      {...props}
+      className={cls(['nav-logo', className])}
       style={{
         display: 'flex',
         alignItems: 'center',
         color: 'inherit',
         height: '100%',
-        ...props.style,
-        paddingLeft: paddingLeft + marginLeft * -1,
-        marginLeft: marginLeft,
         justifyContent: 'flex-start',
       }}
       href="/"
@@ -433,10 +483,7 @@ function MenuLink(props: PropsDiv) {
 }
 function DocsIcon() {
   return (
-    <span
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
-      className="decolorize-6"
-    >
+    <span style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', width: '1.3em' }} className="decolorize-6">
       📚
     </span>
   )
@@ -460,4 +507,8 @@ function MenuIcon() {
 
 function Style({ children }: { children: string }) {
   return <style dangerouslySetInnerHTML={{ __html: children }} />
+}
+
+function cls(className: (string | boolean | undefined)[]): string {
+  return className.filter(Boolean).join(' ')
 }

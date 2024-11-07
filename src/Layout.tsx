@@ -363,7 +363,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (isLandingPage)
       style += css`
-@container container-viewport (min-width: 951px) {
+@media(min-width: ${containerQueryMobileMenu + 1}px) {
   .nav-logo {
     display: none !important;
   }

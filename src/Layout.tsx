@@ -61,7 +61,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--bg-color']: '#f5f5f7',
         ['--block-margin']: `${blockMargin}px`,
         ['--icon-text-padding']: '8px',
-        ['--top-nav-height']: `${isLandingPage ? 70 : 60}px`,
+        ['--nav-head-height']: `${isLandingPage ? 70 : 60}px`,
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
@@ -217,7 +217,7 @@ function NavLeft() {
               id="navigation-container"
               style={{
                 top: 0,
-                height: `calc(100vh - var(--top-nav-height) - var(--block-margin))`,
+                height: `calc(100vh - var(--nav-head-height) - var(--block-margin))`,
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
@@ -312,7 +312,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           className="nav-head-content"
           style={{
             width: '100%',
-            height: 'var(--top-nav-height)',
+            height: 'var(--nav-head-height)',
             fontSize: `min(16.96px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
             ['--icon-text-padding']: 'min(8px, 1.8cqw)',

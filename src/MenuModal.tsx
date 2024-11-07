@@ -22,8 +22,8 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
         style={{
           position: isTopNav ? 'absolute' : 'fixed',
           width: '100%',
-          height: 'calc(100vh - var(--top-nav-height))',
-          top: 'var(--top-nav-height)',
+          height: 'calc(100vh - var(--nav-head-height))',
+          top: 'var(--nav-head-height)',
           left: 0,
           zIndex: 9999,
           overflow: 'scroll',
@@ -38,7 +38,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             // Place <LinksBottom /> to the bottom
             display: 'flex',
             flexDirection: 'column',
-            minHeight: 'calc(100vh - var(--top-nav-height))',
+            minHeight: 'calc(100vh - var(--nav-head-height))',
             justifyContent: 'space-between',
             // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
@@ -88,7 +88,7 @@ html.menu-modal-show {
 }
 @media(max-width: ${containerQueryMobileMenu}px) {
   #menu-modal {
-    --top-nav-height: 0px !important;
+    --nav-head-height: 0px !important;
   }
 }
 @media(min-width: ${containerQueryMobileMenu + 1}px) {

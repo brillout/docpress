@@ -154,7 +154,7 @@ function closeMenuModal() {
 function initCloseListeners() {
   if (!isBrowser()) return
   document.addEventListener('click', onLinkClick)
-  // It's redundant (and onLinkClick() is enough), but just to be sure.
+  // It's redundant as onLinkClick() should be enough, but just to be sure.
   addEventListener('hashchange', closeMenuModal)
 }
 function onLinkClick(ev: MouseEvent) {

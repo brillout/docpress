@@ -11,6 +11,7 @@ import { autoScrollNav } from '../autoScrollNav'
 import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { getGlobalObject } from '../utils/client'
 import { initKeyBindings } from '../initKeyBindings'
+import { initOnNavigation } from './initOnNavigation'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -19,6 +20,7 @@ const globalObject = getGlobalObject<{
 
 addEcosystemStamp()
 initKeyBindings()
+initOnNavigation()
 
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()

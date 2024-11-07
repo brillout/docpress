@@ -9,10 +9,7 @@ import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
 import { containerQueryMobile } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
-import { isBrowser } from './utils/isBrowser'
 import { getViewportWidth } from './utils/getViewportWidth'
-
-initCloseListeners()
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
@@ -149,30 +146,4 @@ function openMenuModal() {
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
-}
-
-function initCloseListeners() {
-  if (!isBrowser()) return
-  document.addEventListener('click', onLinkClick)
-  // It's redundant as onLinkClick() should be enough, but just to be sure.
-  addEventListener('hashchange', closeMenuModal)
-}
-function onLinkClick(ev: MouseEvent) {
-  if (ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return
-  const linkTag = findLinkTag(ev.target as HTMLElement)
-  if (!linkTag) return
-  const href = linkTag.getAttribute('href')
-  if (!href) return
-  if (!href.startsWith('/') && !href.startsWith('#')) return
-  closeMenuModal()
-}
-function findLinkTag(target: HTMLElement): null | HTMLElement {
-  while (target.tagName !== 'A') {
-    const { parentNode } = target
-    if (!parentNode) {
-      return null
-    }
-    target = parentNode as HTMLElement
-  }
-  return target
 }

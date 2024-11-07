@@ -45,7 +45,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           }}
         >
           <Nav />
-          <LinksBottom className="show-for-mobile-menu" />
+          <NavSecondary className="show-for-mobile-menu" />
         </div>
         <CloseButton className="show-for-mobile-menu" />
       </div>
@@ -57,13 +57,14 @@ function Nav() {
   const navItems = pageContext.navItemsAll
   return <NavigationContent columnLayout={true} navItems={navItems} />
 }
-function LinksBottom({ className }: { className: string }) {
+function NavSecondary({ className }: { className: string }) {
   return (
     <div
       className={className}
       style={{
         display: 'flex',
         justifyContent: 'center',
+        marginTop: -15,
       }}
     >
       <NavSecondaryContent style={{ height: 70 }} />

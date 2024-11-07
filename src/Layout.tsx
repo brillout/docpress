@@ -332,7 +332,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   function getStyle() {
     let style = css`
-@container container-nav-head (max-width: 500px) {
+@container container-nav-head (max-width: 550px) {
   .grow-full {
     flex-grow: 1;
   }

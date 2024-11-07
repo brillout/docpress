@@ -74,7 +74,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           ...whitespaceBuster1,
         }}
       >
-        <NavHeader />
+        <NavHead />
         {content}
       </div>
     </div>
@@ -206,7 +206,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavHeader isNavLeft={true} />
+          <NavHead isNavLeft={true} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -245,7 +245,7 @@ function NavLeft() {
   )
 }
 
-function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
+function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
   const { projectName } = pageContext.meta

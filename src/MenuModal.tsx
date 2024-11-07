@@ -7,7 +7,7 @@ import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
-import { containerQueryMobile } from './Layout'
+import { containerQueryMobileLayout } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { getViewportWidth } from './utils/getViewportWidth'
 
@@ -83,7 +83,7 @@ html:not(.menu-modal-show) #menu-modal {
 html.menu-modal-show {
   overflow: hidden !important;
 }
-@container(min-width: ${containerQueryMobile}px) {
+@container(min-width: ${containerQueryMobileLayout}px) {
   #menu-modal .nav-item-level-3 {
     display: none;
   }
@@ -125,7 +125,10 @@ function CloseButton() {
 
 function toggleMenuModal() {
   document.documentElement.classList.toggle('menu-modal-show')
-  if (document.documentElement.classList.contains('menu-modal-show') && getViewportWidth() < containerQueryMobile) {
+  if (
+    document.documentElement.classList.contains('menu-modal-show') &&
+    getViewportWidth() < containerQueryMobileLayout
+  ) {
     autoScroll()
   }
 }

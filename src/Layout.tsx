@@ -1,5 +1,5 @@
 export { Layout }
-export { containerQueryMobile }
+export { containerQueryMobileLayout }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
@@ -18,14 +18,18 @@ import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
 
+const blockMargin = 3
+const mainViewPadding = 20
+const mainViewWidthMax = 800
 const navLeftWidthMax = 370
 const navLeftWidthMin = 300
-const mainViewWidthMax = 800
-const mainViewPadding = 20
+// 840 = 800 + 20 * 2
 const mainViewMax = mainViewWidthMax + mainViewPadding * 2
-const blockMargin = 3
-const containerQuerySpacing = mainViewMax + navLeftWidthMax + blockMargin
-const containerQueryMobile = mainViewMax + navLeftWidthMin
+const containerQueryMobileMenu = 1000
+// 1143 = 840 + 300
+const containerQueryMobileLayout = mainViewMax + navLeftWidthMin
+// 1213 = 840 + 370 + 3
+const containerQueryExtraSpace = mainViewMax + navLeftWidthMax + blockMargin
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -89,7 +93,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   )
   function getStyle() {
     let style = css`
-@container(min-width: ${containerQuerySpacing}px) {
+@container(min-width: ${containerQueryExtraSpace}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -115,10 +119,10 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 `
     if (!hideNavLeftAlways) {
       navLeftHide = css`
-@container(max-width: ${containerQueryMobile - 1}px) {
+@container(max-width: ${containerQueryMobileLayout - 1}px) {
   ${navLeftHide}
 }
-@container(min-width: ${containerQueryMobile}px) {
+@container(min-width: ${containerQueryMobileLayout}px) {
   .nav-header-top {
     display: none !important;
   }
@@ -349,7 +353,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
     padding: 0 var(--padding-side);
   }
 }
-@container(max-width: 1000px) {
+@container(max-width: ${containerQueryMobileMenu}px) {
   .hide-on-shrink {
     display: none !important;
   }

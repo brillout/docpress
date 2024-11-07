@@ -356,7 +356,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
     padding: 0 var(--padding-side);
   }
 }
-@container(max-width: ${containerQueryMobileMenu}px) {
+@media(max-width: ${containerQueryMobileMenu}px) {
   .hide-on-shrink {
     display: none !important;
   }
@@ -497,28 +497,14 @@ function MenuLink(props: PropsDiv) {
       <span className="text-menu">
         <MenuIcon /> Menu
       </span>
-      <span className="text-close">
-        <CloseIcon /> Close
-      </span>
       <Style>{css`
-@container container-viewport (max-width: ${containerQueryMobileMenu}px) {
+@media(max-width: ${containerQueryMobileMenu}px) {
   .text-docs {
     display: none;
   }
-  html.menu-modal-show {
-    .text-menu {
-      display: none;
-    }
-  }
-  html:not(.menu-modal-show) {
-    .text-close {
-      display: none;
-    }
-  }
 }
-@container container-viewport (min-width: ${containerQueryMobileMenu + 1}px) {
-  .text-menu,
-  .text-close {
+@media(min-width: ${containerQueryMobileMenu + 1}px) {
+  .text-menu {
     display: none;
   }
 }
@@ -544,19 +530,6 @@ function MenuIcon() {
         fill="currentColor"
         d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
       ></path>
-    </svg>
-  )
-}
-function CloseIcon() {
-  return (
-    <svg
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'text-top', width: '1.3em' }}
-      className="decolorize-6"
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <line x1="2" y1="2" x2="98" y2="98" stroke="black" strokeWidth="10" />
-      <line x1="2" y1="98" x2="98" y2="2" stroke="black" strokeWidth="10" />
     </svg>
   )
 }

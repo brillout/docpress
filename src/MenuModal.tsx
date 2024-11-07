@@ -45,13 +45,9 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           }}
         >
           <Nav />
-          {/* TODO/now: use for mobile
-          <LinksBottom />
-          */}
+          <LinksBottom className="show-for-mobile-menu" />
         </div>
-        {/* TODO/now: use for mobile
-        <CloseButton />
-        */}
+        <CloseButton className="show-for-mobile-menu" />
       </div>
     </>
   )
@@ -61,9 +57,10 @@ function Nav() {
   const navItems = pageContext.navItemsAll
   return <NavigationContent columnLayout={true} navItems={navItems} />
 }
-function LinksBottom() {
+function LinksBottom({ className }: { className: string }) {
   return (
     <div
+      className={className}
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -89,12 +86,23 @@ html.menu-modal-show {
     display: none;
   }
 }
+@media(max-width: ${containerQueryMobileMenu}px) {
+  #menu-modal {
+    --top-nav-height: 0px !important;
+  }
+}
+@media(min-width: ${containerQueryMobileMenu + 1}px) {
+  .show-for-mobile-menu {
+    display: none;
+  }
+}
 `
 }
 
-function CloseButton() {
+function CloseButton({ className }: { className: string }) {
   return (
     <div
+      className={className}
       onClick={toggleMenuModal}
       style={{ position: 'fixed', top: 0, right: 0, zIndex: 10, padding: 11, cursor: 'pointer' }}
       aria-label={'Escape\nCtrl\xa0+\xa0M'}

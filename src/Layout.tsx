@@ -2,6 +2,7 @@ export { Layout }
 export { containerQueryMobile }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
+export { unexpandNav }
 
 import React from 'react'
 import { NavigationContent } from './navigation/Navigation'
@@ -370,9 +371,9 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
   transition-property: opacity;
   pointer-events: none;
 }
-:has(.nav-header-full-width:hover) .show-on-nav-hover,
-:has(.show-on-nav-hover:hover) .show-on-nav-hover,
-html.menu-modal-show .show-on-nav-hover {
+html:not(.unexpand-nav) :has(.nav-header-full-width:hover) .show-on-nav-hover,
+html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
+html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
   opacity: 1;
   pointer-events: all;
 }
@@ -380,6 +381,13 @@ html.menu-modal-show .show-on-nav-hover {
     }
     return <Style>{style}</Style>
   }
+}
+function unexpandNav() {
+  document.documentElement.classList.add('unexpand-nav')
+  // Using setTimeout() because requestAnimationFrame() doesn't delay enough
+  setTimeout(() => {
+    document.documentElement.classList.remove('unexpand-nav')
+  }, 1000)
 }
 
 function NavHeaderLeftFullWidthBackground() {

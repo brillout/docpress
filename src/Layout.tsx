@@ -8,7 +8,7 @@ import { NavigationContent } from './navigation/Navigation'
 import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
-import { NavLinks } from './NavLinks'
+import { NavSecondaryContent } from './NavSecondaryContent'
 import { closeMenuModal, openMenuModal, toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
@@ -250,7 +250,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
   }
 
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
-  const navExtra = (
+  const navSecondaryContent = (
     <div
       className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink'}
       style={{
@@ -270,7 +270,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
       }}
     >
       <TopNavigation />
-      <NavLinks
+      <NavSecondaryContent
         style={{
           display: 'inline-flex',
           fontSize: '1.06em',
@@ -316,7 +316,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
           <NavLogo className="grow-half" />
           <SearchLink className="grow-half" style={linkStyle} />
           <MenuLink className="grow-full" style={linkStyle} />
-          {navExtra}
+          {navSecondaryContent}
         </div>
       </div>
       {getStyle()}

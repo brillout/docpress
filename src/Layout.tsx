@@ -188,7 +188,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
 function NavLeft() {
   const pageContext = usePageContext()
   const { navItems, navItemsAll, isDetachedPage } = pageContext
-  const headHeight = 60
   return (
     <>
       <div
@@ -218,7 +217,7 @@ function NavLeft() {
               id="navigation-container"
               style={{
                 top: 0,
-                height: `calc(100vh - ${headHeight}px - var(--block-margin))`,
+                height: `calc(100vh - var(--top-nav-height) - var(--block-margin))`,
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,

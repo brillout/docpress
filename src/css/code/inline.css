@@ -8,7 +8,7 @@ code {
  *  - Allow them on mobile
  *  - Allow them for `<code long>`
  */
-@container(max-width: 500px) {
+@container container-viewport (max-width: 500px) {
   code {
     word-break: break-word;
   }

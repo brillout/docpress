@@ -96,7 +96,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   )
   function getStyle() {
     let style = css`
-@container(min-width: ${containerQueryExtraSpace}px) {
+@container container-viewport (min-width: ${containerQueryExtraSpace}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -122,10 +122,10 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 `
     if (!hideNavLeftAlways) {
       navLeftHide = css`
-@container(max-width: ${containerQueryMobileLayout - 1}px) {
+@container container-viewport (max-width: ${containerQueryMobileLayout - 1}px) {
   ${navLeftHide}
 }
-@container(min-width: ${containerQueryMobileLayout}px) {
+@container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   .nav-header-top {
     display: none !important;
   }
@@ -303,7 +303,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
       {isNavLeft && <NavHeaderLeftFullWidthBackground />}
       <div
         style={{
-          container: 'container-left-nav / inline-size',
+          container: 'container-nav-head / inline-size',
           width: '100%',
           minWidth: isNavLeft && navLeftWidthMin,
           maxWidth: isNavLeft && navLeftWidthMax,
@@ -333,7 +333,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
 
   function getStyle() {
     let style = css`
-@container(max-width: 500px) {
+@container container-nav-head (max-width: 500px) {
   .grow-full {
     flex-grow: 1;
   }
@@ -348,7 +348,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
     margin-left: -10px;
   }
 }
-@container(min-width: 501px) {
+@container container-nav-head (min-width: 501px) {
   .nav-header-content {
     --padding-side: 35px;
   }
@@ -364,7 +364,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (isLandingPage)
       style += css`
-@container(min-width: 951px) {
+@container container-viewport (min-width: 951px) {
   .nav-logo {
     display: none !important;
   }

@@ -22,27 +22,27 @@ figure[data-rehype-pretty-code-figure] {
 }
 
 /* 821px screen width => the width of code blocks isn't shrinked anymore => no need to reduce the font-size of code blocks */
-@container(max-width: 820px) {
+@container container-viewport (max-width: 820px) {
   pre > code {
     font-size: 0.9em !important;
   }
 }
-@container(max-width: 720px) {
+@container container-viewport (max-width: 720px) {
   pre > code {
     font-size: 0.8em !important;
   }
 }
-@container(max-width: 620px) {
+@container container-viewport (max-width: 620px) {
   pre > code {
     font-size: 0.7em !important;
   }
 }
-@container(max-width: 550px) {
+@container container-viewport (max-width: 550px) {
   pre > code {
     font-size: 0.6em !important;
   }
 }
-@container(max-width: 450px) {
+@container container-viewport (max-width: 450px) {
   pre > code {
     font-size: 0.5em !important;
   }

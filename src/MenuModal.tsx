@@ -81,7 +81,7 @@ html:not(.menu-modal-show) #menu-modal {
 html.menu-modal-show {
   overflow: hidden !important;
 }
-@container(min-width: ${containerQueryMobileLayout}px) {
+@container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   #menu-modal .nav-item-level-3 {
     display: none;
   }

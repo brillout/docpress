@@ -7,14 +7,15 @@ import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
-import { containerQueryMobileLayout } from './Layout'
+import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { getViewportWidth } from './utils/getViewportWidth'
+import { Style } from './utils/Style'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
     <>
-      <style>{getStyle()}</style>
+      <Style>{getStyle()}</Style>
       <div
         id="menu-modal"
         className="link-hover-animation add-transition"
@@ -40,7 +41,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             minHeight: 'calc(100vh - var(--top-nav-height))',
             justifyContent: 'space-between',
             // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
-            containerType: 'inline-size',
+            container: 'container-viewport / inline-size',
           }}
         >
           <Nav />

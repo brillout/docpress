@@ -1,5 +1,6 @@
 export { Layout }
 export { containerQueryMobileLayout }
+export { containerQueryMobileMenu }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
@@ -17,6 +18,8 @@ import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
+import { Style } from './utils/Style'
+import { cls } from './utils/cls'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -67,7 +70,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         style={{
           // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
           // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
-          containerType: 'inline-size',
+          container: 'container-viewport / inline-size',
           ...whitespaceBuster1,
         }}
       >
@@ -300,7 +303,7 @@ function NavHeader({ isNavLeft }: { isNavLeft?: true }) {
       {isNavLeft && <NavHeaderLeftFullWidthBackground />}
       <div
         style={{
-          containerType: 'inline-size',
+          container: 'container-left-nav / inline-size',
           width: '100%',
           minWidth: isNavLeft && navLeftWidthMin,
           maxWidth: isNavLeft && navLeftWidthMax,
@@ -488,23 +491,52 @@ function MenuLink(props: PropsDiv) {
         }, 1000)
       }}
     >
-      <DocsIcon />
-      Docs
+      <span className="text-docs">
+        <DocsIcon /> Docs
+      </span>
+      <span className="text-menu">
+        <MenuIcon /> Menu
+      </span>
+      <span className="text-close">
+        <CloseIcon /> Close
+      </span>
+      <Style>{css`
+@container container-viewport (max-width: ${containerQueryMobileMenu}px) {
+  .text-docs {
+    display: none;
+  }
+  html.menu-modal-show {
+    .text-menu {
+      display: none;
+    }
+  }
+  html:not(.menu-modal-show) {
+    .text-close {
+      display: none;
+    }
+  }
+}
+@container container-viewport (min-width: ${containerQueryMobileMenu + 1}px) {
+  .text-menu,
+  .text-close {
+    display: none;
+  }
+}
+`}</Style>
     </div>
   )
 }
 function DocsIcon() {
   return (
-    <span style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', width: '1.3em' }} className="decolorize-6">
+    <span style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }} className="decolorize-6">
       📚
     </span>
   )
 }
-/* TODO/now: use for mobile
 function MenuIcon() {
   return (
     <svg
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', lineHeight: 0, width: '1.3em' }}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'top', width: '1.3em' }}
       className="decolorize-6"
       viewBox="0 0 448 512"
     >
@@ -515,12 +547,16 @@ function MenuIcon() {
     </svg>
   )
 }
-*/
-
-function Style({ children }: { children: string }) {
-  return <style dangerouslySetInnerHTML={{ __html: children }} />
-}
-
-function cls(className: (string | boolean | undefined)[]): string {
-  return className.filter(Boolean).join(' ')
+function CloseIcon() {
+  return (
+    <svg
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'text-top', width: '1.3em' }}
+      className="decolorize-6"
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <line x1="2" y1="2" x2="98" y2="98" stroke="black" strokeWidth="10" />
+      <line x1="2" y1="98" x2="98" y2="2" stroke="black" strokeWidth="10" />
+    </svg>
+  )
 }

@@ -45,9 +45,9 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           }}
         >
           <Nav />
-          <NavSecondary className="show-for-mobile-menu" />
+          <NavSecondary className="show-only-for-mobile" />
         </div>
-        <CloseButton className="show-for-mobile-menu" />
+        <CloseButton className="show-only-for-mobile" />
       </div>
     </>
   )
@@ -93,7 +93,7 @@ html.menu-modal-show {
   }
 }
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  .show-for-mobile-menu {
+  .show-only-for-mobile {
     display: none !important;
   }
 }

@@ -70,40 +70,41 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
           }}
         >
           {columnLayout.isFullWidthCategory ? (
-            <div style={{ marginTop: categoryMargin }}>
-              <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
-                <Collapsible
-                  head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
-            disabled={false}
-                >
-                  <ColumnsLayout className="collapsible">
-                    {columnLayout.columns.map((column, j) => (
-                      <Column key={j}>
-                        {column.navItems.map((navItem, k) => (
-                          <NavItemComponent key={k} navItem={navItem} />
-                        ))}
-                      </Column>
-                    ))}
-                    <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
-                  </ColumnsLayout>
-                </Collapsible>
-              </ColumnsWrapper>
-            </div>
+            <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
+              <Collapsible
+                head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
+                disabled={columnLayout.columns.length > 1 || columnLayout.navItemLevel1.isRelevant}
+                marginTop={categoryMargin}
+              >
+                <ColumnsLayout className="collapsible">
+                  {columnLayout.columns.map((column, j) => (
+                    <Column key={j}>
+                      {column.navItems.map((navItem, k) => (
+                        <NavItemComponent key={k} navItem={navItem} />
+                      ))}
+                    </Column>
+                  ))}
+                  <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
+                </ColumnsLayout>
+              </Collapsible>
+            </ColumnsWrapper>
           ) : (
             <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
               <ColumnsLayout>
                 {columnLayout.columns.map((column, j) => (
                   <Column key={j}>
                     {column.categories.map((category, k) => (
-                      <div key={k} style={{ marginTop: categoryMargin }}>
-                        <NavItemComponent navItem={category.navItemLevel1} />
-                        <div className="collapsible">
-                          {category.navItems.map((navItem, l) => (
-                            <NavItemComponent key={l} navItem={navItem} />
-                          ))}
-                          <CategoryBorder navItemLevel1={category.navItemLevel1} />
-                        </div>
-                      </div>
+                      <Collapsible
+                        key={k}
+                        head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
+                        disabled={columnLayout.columns.length > 1 || category.navItemLevel1.isRelevant}
+                        marginTop={categoryMargin}
+                      >
+                        {category.navItems.map((navItem, l) => (
+                          <NavItemComponent key={l} navItem={navItem} />
+                        ))}
+                        <CategoryBorder navItemLevel1={category.navItemLevel1} />
+                      </Collapsible>
                     ))}
                   </Column>
                 ))}
@@ -159,51 +160,26 @@ function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)
   return <div className="category-border" style={{ background: navItemLevel1.color! }} />
 }
-function CollapsibleOld({
-  head,
-  children,
-}: { head: (onClick: () => void) => React.ReactNode; children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState<false | number>(false)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const onClick = () => {
-    setCollapsed(contentHeight)
-    contentRef.current!.classList.toggle('expand')
-  }
-  let contentHeight: number
-  useEffect(() => {
-    contentHeight = contentRef.current!.clientHeight
-  })
-  return (
-    <>
-      {head(onClick)}
-      <div
-        className="collapsible"
-        ref={contentRef}
-        style={{
-          height: collapsed === false ? undefined : 0,
-        }}
-      >
-        {children}
-      </div>
-    </>
-  )
-}
 
 function Collapsible({
   head,
   children,
-  disabled
+  disabled,
+  marginTop,
 }: {
   head: (onClick: () => void) => React.ReactNode
   children: React.ReactNode
   disabled: boolean
+  marginTop: number
 }) {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onClick = () => {
-    setCollapsed((prev) => !prev)
+    if (!disabled) {
+      setCollapsed((prev) => !prev)
+    }
   }
 
   useEffect(() => {
@@ -212,17 +188,21 @@ function Collapsible({
     }
   }, [children])
 
+  const showContent = disabled ? true : !collapsed
+
   return (
     <>
       {head(onClick)}
       <div
         ref={contentRef}
         style={{
-          height: collapsed ? 0 : contentHeight,
+          height: showContent ? contentHeight : 0,
           overflow: 'hidden',
-          transition: 'height 0.3s ease',
+          transition: 'none 0.3s ease',
+          transitionProperty: 'height, margin-top',
+          marginTop: showContent ? marginTop : 0,
         }}
-        aria-expanded={!collapsed}
+        aria-expanded={showContent}
       >
         {children}
       </div>

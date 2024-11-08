@@ -110,14 +110,3 @@
   width: 3px;
   z-index: 99;
 }
-
-/*
-.collapsible {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: all 200ms ease-in-out;
-}
-.collapsible.expand {
-  grid-template-rows: 1fr;
-}
-*/

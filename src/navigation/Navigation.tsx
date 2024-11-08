@@ -74,6 +74,7 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
               <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
                 <Collapsible
                   head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
+            disabled={false}
                 >
                   <ColumnsLayout className="collapsible">
                     {columnLayout.columns.map((column, j) => (
@@ -158,19 +159,71 @@ function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)
   return <div className="category-border" style={{ background: navItemLevel1.color! }} />
 }
-function Collapsible({
+function CollapsibleOld({
   head,
   children,
 }: { head: (onClick: () => void) => React.ReactNode; children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const [collapsed, setCollapsed] = useState<false | number>(false)
+  const contentRef = useRef<HTMLDivElement>(null)
   const onClick = () => {
-    ref.current!.classList.toggle('expand')
+    setCollapsed(contentHeight)
+    contentRef.current!.classList.toggle('expand')
   }
-  const headEl = head(onClick)
+  let contentHeight: number
+  useEffect(() => {
+    contentHeight = contentRef.current!.clientHeight
+  })
   return (
     <>
-      {headEl}
-      <div className="collapsible" ref={ref}>
+      {head(onClick)}
+      <div
+        className="collapsible"
+        ref={contentRef}
+        style={{
+          height: collapsed === false ? undefined : 0,
+        }}
+      >
+        {children}
+      </div>
+    </>
+  )
+}
+
+function Collapsible({
+  head,
+  children,
+  disabled
+}: {
+  head: (onClick: () => void) => React.ReactNode
+  children: React.ReactNode
+  disabled: boolean
+}) {
+  const [collapsed, setCollapsed] = useState(false)
+  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  const onClick = () => {
+    setCollapsed((prev) => !prev)
+  }
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight)
+    }
+  }, [children])
+
+  return (
+    <>
+      {head(onClick)}
+      <div
+        ref={contentRef}
+        style={{
+          height: collapsed ? 0 : contentHeight,
+          overflow: 'hidden',
+          transition: 'height 0.3s ease',
+        }}
+        aria-expanded={!collapsed}
+      >
         {children}
       </div>
     </>

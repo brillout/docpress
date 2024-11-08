@@ -111,6 +111,7 @@
   z-index: 99;
 }
 
+/*
 .collapsible {
   display: grid;
   grid-template-rows: 0fr;
@@ -119,3 +120,4 @@
 .collapsible.expand {
   grid-template-rows: 1fr;
 }
+*/

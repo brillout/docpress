@@ -74,7 +74,8 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
               <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
                 <Collapsible
                   head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
-                  disabled={columnLayout.columns.length > 1 || columnLayout.navItemLevel1.isRelevant}
+                  disabled={columnLayout.columns.length > 1}
+                  collapsedInit={!columnLayout.navItemLevel1.isRelevant}
                 >
                   <ColumnsLayout className="collapsible">
                     {columnLayout.columns.map((column, j) => (
@@ -98,7 +99,8 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
                       <div key={k} style={{ marginTop: categoryMargin }}>
                         <Collapsible
                           head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
-                          disabled={columnLayout.columns.length > 1 || category.navItemLevel1.isRelevant}
+                          disabled={columnLayout.columns.length > 1}
+                          collapsedInit={!category.navItemLevel1.isRelevant}
                         >
                           {category.navItems.map((navItem, l) => (
                             <NavItemComponent key={l} navItem={navItem} />
@@ -166,12 +168,14 @@ function Collapsible({
   head,
   children,
   disabled = false,
+  collapsedInit,
 }: {
   head: (onClick: () => void) => React.ReactNode
   children: React.ReactNode
-  disabled?: boolean
+  disabled: boolean
+  collapsedInit: boolean
 }) {
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(collapsedInit)
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
   const contentRef = useRef<HTMLDivElement>(null)
 

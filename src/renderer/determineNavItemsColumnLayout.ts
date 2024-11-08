@@ -8,22 +8,22 @@ import { assert, assertUsage, isBrowser } from '../utils/server'
 assert(!isBrowser())
 
 function determineNavItemsColumnLayout(navItems: NavItem[]): undefined {
-  const columnLayouts = getColumnLayouts(navItems)
+  const columnLayouts = getColumnEntries(navItems)
   columnLayouts.forEach((columnEntries) => {
     for (let numberOfColumns = columnEntries.length; numberOfColumns >= 1; numberOfColumns--) {
-      const columnsIdMap = determineColumns(
+      const columnMapping = determineColumnLayout(
         columnEntries.map((columnEntry) => columnEntry.numberOfEntries),
         numberOfColumns,
       )
       columnEntries.forEach((columnEntry, i) => {
         columnEntry.navItemLeader.isColumnEntry ??= {}
-        columnEntry.navItemLeader.isColumnEntry[numberOfColumns] = columnsIdMap[i]
+        columnEntry.navItemLeader.isColumnEntry[numberOfColumns] = columnMapping[i]
       })
     }
   })
 }
 
-function getColumnLayouts(navItems: NavItem[]) {
+function getColumnEntries(navItems: NavItem[]) {
   type NavItemWithLength = NavItem & { numberOfHeadings: number | null }
   const navItemsWithLength: NavItemWithLength[] = navItems.map((navItem) => ({
     ...navItem,
@@ -99,7 +99,7 @@ function getColumnLayouts(navItems: NavItem[]) {
   return columnLayouts
 }
 
-function determineColumns(columnsUnmerged: number[], numberOfColumns: number): number[] {
+function determineColumnLayout(columnsUnmerged: number[], numberOfColumns: number): number[] {
   assert(numberOfColumns <= columnsUnmerged.length)
   const columnsMergingInit: ColumnMerging[] = columnsUnmerged.map((columnHeight, i) => ({
     columnIdsMerged: [i],

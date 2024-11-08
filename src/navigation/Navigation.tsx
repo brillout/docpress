@@ -2,7 +2,6 @@
 export { NavigationContent }
 // TODO/refactor: do this only on the server side?
 export type { NavItem }
-export type { NavItemAll }
 
 import React, { useEffect, useState } from 'react'
 import { assert, assertWarning, jsxToTextContent } from '../utils/server'
@@ -22,8 +21,6 @@ type NavItem = {
   title: string
   titleInNav: string
   menuModalFullWidth?: true
-}
-type NavItemAll = NavItem & {
   isColumnEntry?: ColumnMap
 }
 function NavigationContent(props: {
@@ -224,7 +221,7 @@ function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColu
 }
 
 type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
-function getNavItemsWithComputed(navItems: NavItemAll[], currentUrl: string) {
+function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
   let navItemIdx: number | undefined
   const navItemsWithComputed = navItems.map((navItem, i) => {
     assert([1, 2, 3, 4].includes(navItem.level), navItem)

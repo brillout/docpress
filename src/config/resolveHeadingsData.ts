@@ -9,7 +9,7 @@ import type {
 } from '../types/Heading'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
-import type { NavItem, NavItemAll } from '../navigation/Navigation'
+import type { NavItem } from '../navigation/Navigation'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
@@ -55,7 +55,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
 
   // TODO/refactor: remove navItems
   let navItems: NavItem[]
-  let navItemsAll: NavItemAll[]
+  let navItemsAll: NavItem[]
   {
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)

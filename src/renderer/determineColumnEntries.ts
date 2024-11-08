@@ -3,12 +3,12 @@ export { determineColumnEntries }
 // A CSS-only solution doesn't seem to exist.
 // - https://github.com/brillout/docpress/blob/2e41d8b9df098ff8312b02f7e9d41a202548e2b9/src/renderer/getStyleColumnLayout.ts#L4-L26
 
-import { type NavItemAll } from '../navigation/Navigation'
+import { type NavItem } from '../navigation/Navigation'
 import { assert, assertUsage, isBrowser } from '../utils/server'
 assert(!isBrowser())
 
-type NavItemWithLength = NavItemAll & { numberOfHeadings: number | null }
-function determineColumnEntries(navItems: NavItemAll[]): undefined {
+type NavItemWithLength = NavItem & { numberOfHeadings: number | null }
+function determineColumnEntries(navItems: NavItem[]): undefined {
   const navItemsWithLength: NavItemWithLength[] = navItems.map((navItem) => ({
     ...navItem,
     numberOfHeadings: navItem.level === 1 || navItem.level === 4 ? 0 : null,
@@ -36,7 +36,7 @@ function determineColumnEntries(navItems: NavItemAll[]): undefined {
     }
   })
 
-  type ColumnEntry = { navItemLeader: NavItemAll; numberOfEntries: number }
+  type ColumnEntry = { navItemLeader: NavItem; numberOfEntries: number }
   const columnLayouts: ColumnEntry[][] = []
   let columnEntries: ColumnEntry[] = []
   let isFullWidthCategory: boolean | undefined

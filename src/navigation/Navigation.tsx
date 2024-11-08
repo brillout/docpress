@@ -38,7 +38,7 @@ function NavigationContent(props: {
     navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
   } else {
     assert(!props.showOnlyRelevant)
-    navContent = <NavigationColumnLayout navItemsWithComputed={navItemsWithComputed} />
+    navContent = <NavigationWithColumnLayout navItemsWithComputed={navItemsWithComputed} />
   }
 
   return (
@@ -48,7 +48,7 @@ function NavigationContent(props: {
   )
 }
 
-function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[] }) {
+function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComputed[] }) {
   let [viewportWidth, setViewportWidth] = useState<number | undefined>()
   const updateviewportwidth = () => setViewportWidth(getViewportWidth())
   useEffect(() => {

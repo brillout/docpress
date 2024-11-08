@@ -57,48 +57,97 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
   })
 
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(props.navItemsWithComputed, viewportWidth)
-  const margin = 40
+  const categoryMargin = 40
 
   return (
     <>
-      {navItemsByColumnLayouts.map(({ columns, isFullWidthCategory }, i) => (
+      {navItemsByColumnLayouts.map((columnLayout, i) => (
         <div
           key={i}
           style={{
-            display: 'flex',
-            width: columns.length * (navLeftWidthMax + 20),
-            justifyContent: 'space-between',
-            maxWidth: '100%',
-            margin: 'auto',
-            marginTop: i === 0 ? -1 * margin : undefined,
-            marginBottom: margin,
+            marginTop: i === 0 ? -1 * categoryMargin : undefined,
+            marginBottom: categoryMargin,
           }}
         >
-          {columns.map((columnEntry, j) => (
-            <div
-              key={j}
-              style={{
-                flexGrow: 1,
-                maxWidth: navLeftWidthMax,
-                display: 'flex',
-                flexDirection: 'column',
-                paddingTop: isFullWidthCategory && j !== 0 ? 36 : undefined,
-              }}
-            >
-              {columnEntry.map((navItems, k) => (
-                <div key={k} style={{ marginTop: isFullWidthCategory ? undefined : margin }}>
-                  {navItems.map((navItem, l) => (
-                    <NavItemComponent navItem={navItem} key={l} />
+          {columnLayout.isFullWidthCategory ? (
+            <div style={{ marginTop: categoryMargin }}>
+              <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
+                <NavItemComponent navItem={columnLayout.navItemLevel1} />
+                <ColumnsLayout>
+                  {columnLayout.columns.map((column, j) => (
+                    <Column key={j}>
+                      {column.navItems.map((navItem, k) => (
+                        <NavItemComponent key={k} navItem={navItem} />
+                      ))}
+                    </Column>
                   ))}
-                  {!isFullWidthCategory && <CategoryBorder navItemLevel1={navItems[0]!} />}
-                </div>
-              ))}
+                  <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
+                </ColumnsLayout>
+              </ColumnsWrapper>
             </div>
-          ))}
-          {isFullWidthCategory && <CategoryBorder navItemLevel1={columns[0][0][0]!} />}
+          ) : (
+            <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
+              <ColumnsLayout>
+                {columnLayout.columns.map((column, j) => (
+                  <Column key={j}>
+                    {column.categories.map((category, k) => (
+                      <div key={k} style={{ marginTop: categoryMargin }}>
+                        <NavItemComponent navItem={category.navItemLevel1} />
+                        <div>
+                          {category.navItems.map((navItem, l) => (
+                            <NavItemComponent key={l} navItem={navItem} />
+                          ))}
+                          <CategoryBorder navItemLevel1={category.navItemLevel1} />
+                        </div>
+                      </div>
+                    ))}
+                  </Column>
+                ))}
+              </ColumnsLayout>
+            </ColumnsWrapper>
+          )}
         </div>
       ))}
     </>
+  )
+}
+function Column({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        flexGrow: 1,
+        maxWidth: navLeftWidthMax,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+function ColumnsWrapper({ children, numberOfColumns }: { children: React.ReactNode; numberOfColumns: number }) {
+  return (
+    <div
+      style={{
+        width: numberOfColumns * (navLeftWidthMax + 20),
+        maxWidth: '100%',
+        margin: 'auto',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+function ColumnsLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      {children}
+    </div>
   )
 }
 
@@ -161,27 +210,70 @@ function NavItemComponent({
   }
 }
 
-type NavItemsByColumnLayout = { columns: NavItemComputed[][][]; isFullWidthCategory: boolean }
+type NavItemsByColumnLayout =
+  | {
+      columns: {
+        categories: {
+          navItemLevel1: NavItemComputed
+          navItems: NavItemComputed[]
+        }[]
+      }[]
+      isFullWidthCategory: false
+    }
+  | {
+      navItemLevel1: NavItemComputed
+      columns: { navItems: NavItemComputed[] }[]
+      isFullWidthCategory: true
+    }
+type NavItemsByColumnLayout2 = { columns: NavItemComputed[][][]; isFullWidthCategory: boolean }
 function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: number = 0): NavItemsByColumnLayout[] {
   const navItemsByColumnEntries = getNavItemsByColumnEntries(navItems)
   const numberOfColumnsMax = Math.floor(viewportWidth / navLeftWidthMin) || 1
   const navItemsByColumnLayouts: NavItemsByColumnLayout[] = navItemsByColumnEntries.map(
     ({ columnEntries, isFullWidthCategory }) => {
       const numberOfColumns = Math.min(numberOfColumnsMax, columnEntries.length)
-      const columns: NavItemComputed[][][] = []
-      columnEntries.forEach((columnEntry) => {
-        const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
-        assert(idx >= 0)
-        columns[idx] ??= []
-        columns[idx].push(columnEntry.navItems)
-      })
-      const navItemsByColumnLayout: NavItemsByColumnLayout = { columns, isFullWidthCategory }
-      return navItemsByColumnLayout
+      if (!isFullWidthCategory) {
+        const columns: {
+          categories: {
+            navItemLevel1: NavItemComputed
+            navItems: NavItemComputed[]
+          }[]
+        }[] = []
+        columnEntries.forEach((columnEntry) => {
+          const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
+          assert(idx >= 0)
+          columns[idx] ??= { categories: [] }
+          const navItemLevel1 = columnEntry.navItems[0]
+          const navItems = columnEntry.navItems.slice(1)
+          columns[idx].categories.push({ navItemLevel1, navItems })
+        })
+        const navItemsByColumnLayout: NavItemsByColumnLayout = { columns, isFullWidthCategory }
+        return navItemsByColumnLayout
+      } else {
+        let navItemLevel1: NavItemComputed
+        const columns: { navItems: NavItemComputed[] }[] = []
+        columnEntries.forEach((columnEntry, i) => {
+          const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
+          assert(idx >= 0)
+          columns[idx] ??= { navItems: [] }
+          let { navItems } = columnEntry
+          if (i === 0) {
+            navItemLevel1 = navItems[0]
+            navItems = navItems.slice(1)
+          }
+          columns[idx].navItems.push(...navItems)
+        })
+        const navItemsByColumnLayout: NavItemsByColumnLayout = {
+          columns,
+          navItemLevel1: navItemLevel1!,
+          isFullWidthCategory,
+        }
+        return navItemsByColumnLayout
+      }
     },
   )
   return navItemsByColumnLayouts
 }
-
 type NavItemsByColumnEntries = { columnEntries: ColumnEntry[]; isFullWidthCategory: boolean }[]
 type ColumnEntry = { navItems: NavItemComputed[]; columnMap: ColumnMap }
 type ColumnMap = Record<number, number>

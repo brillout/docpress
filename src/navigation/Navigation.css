@@ -20,7 +20,7 @@
   padding-left: var(--padding-left-global);
   padding-right: 4px;
 }
-.nav-item-level-1 + .nav-item-level-4 {
+.nav-item-level-4:first-child {
   padding-top: 0;
   margin-top: -2px;
 }
@@ -106,8 +106,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(0, 53px);
-  height: calc(100% - 53px);
+  height: 100%;
   width: 3px;
   z-index: 99;
 }

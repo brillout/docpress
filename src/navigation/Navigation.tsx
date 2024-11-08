@@ -3,7 +3,7 @@ export { NavigationContent }
 // TODO/refactor: do this only on the server side?
 export type { NavItem }
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { parseTitle } from '../parseTitle'
@@ -72,17 +72,20 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
           {columnLayout.isFullWidthCategory ? (
             <div style={{ marginTop: categoryMargin }}>
               <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
-                <NavItemComponent navItem={columnLayout.navItemLevel1} />
-                <ColumnsLayout>
-                  {columnLayout.columns.map((column, j) => (
-                    <Column key={j}>
-                      {column.navItems.map((navItem, k) => (
-                        <NavItemComponent key={k} navItem={navItem} />
-                      ))}
-                    </Column>
-                  ))}
-                  <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
-                </ColumnsLayout>
+                <Collapsible
+                  head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
+                >
+                  <ColumnsLayout className="collapsible">
+                    {columnLayout.columns.map((column, j) => (
+                      <Column key={j}>
+                        {column.navItems.map((navItem, k) => (
+                          <NavItemComponent key={k} navItem={navItem} />
+                        ))}
+                      </Column>
+                    ))}
+                    <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
+                  </ColumnsLayout>
+                </Collapsible>
               </ColumnsWrapper>
             </div>
           ) : (
@@ -93,7 +96,7 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
                     {column.categories.map((category, k) => (
                       <div key={k} style={{ marginTop: categoryMargin }}>
                         <NavItemComponent navItem={category.navItemLevel1} />
-                        <div>
+                        <div className="collapsible">
                           {category.navItems.map((navItem, l) => (
                             <NavItemComponent key={l} navItem={navItem} />
                           ))}
@@ -138,9 +141,10 @@ function ColumnsWrapper({ children, numberOfColumns }: { children: React.ReactNo
     </div>
   )
 }
-function ColumnsLayout({ children }: { children: React.ReactNode }) {
+function ColumnsLayout({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div
+      className={className}
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -150,16 +154,38 @@ function ColumnsLayout({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
-
 function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)
   return <div className="category-border" style={{ background: navItemLevel1.color! }} />
 }
+function Collapsible({
+  head,
+  children,
+}: { head: (onClick: () => void) => React.ReactNode; children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const onClick = () => {
+    ref.current!.classList.toggle('expand')
+  }
+  const headEl = head(onClick)
+  return (
+    <>
+      {headEl}
+      <div className="collapsible" ref={ref}>
+        {children}
+      </div>
+    </>
+  )
+}
 
+type PropsNavItem = PropsAnchor & PropsSpan
+type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
+type PropsSpan = React.HTMLProps<HTMLSpanElement>
 function NavItemComponent({
   navItem,
+  onClick,
 }: {
   navItem: NavItemComputed
+  onClick?: PropsNavItem['onClick']
 }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
@@ -182,9 +208,10 @@ function NavItemComponent({
     )
   }
 
-  const props: PropsAnchor & PropsSpan = {
+  const props: PropsNavItem = {
     href: navItem.url ?? undefined,
     children: titleInNavJsx,
+    onClick,
     className: [
       'nav-item',
       'nav-item-level-' + navItem.level,
@@ -200,8 +227,6 @@ function NavItemComponent({
       ['--category-color']: navItem.color!,
     }
   }
-  type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
-  type PropsSpan = React.HTMLProps<HTMLSpanElement>
 
   if (navItem.level === 2 || navItem.level === 3) {
     return <a {...props} />

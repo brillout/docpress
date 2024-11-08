@@ -66,7 +66,6 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
           key={i}
           style={{
             marginTop: i === 0 ? -1 * categoryMargin : undefined,
-            marginBottom: categoryMargin,
           }}
         >
           {columnLayout.isFullWidthCategory ? (
@@ -191,22 +190,25 @@ function Collapsible({
   const showContent = disabled ? true : !collapsed
 
   return (
-    <>
+    <div
+      style={{
+        transition: 'margin-bottom 0.3s ease',
+        marginBottom: showContent ? marginTop : 0,
+      }}
+    >
       {head(onClick)}
       <div
         ref={contentRef}
         style={{
           height: showContent ? contentHeight : 0,
           overflow: 'hidden',
-          transition: 'none 0.3s ease',
-          transitionProperty: 'height, margin-top',
-          marginTop: showContent ? marginTop : 0,
+          transition: 'height 0.3s ease',
         }}
         aria-expanded={showContent}
       >
         {children}
       </div>
-    </>
+    </div>
   )
 }
 

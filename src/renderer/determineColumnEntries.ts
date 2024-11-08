@@ -39,14 +39,14 @@ function determineColumnEntries(navItems: NavItemAll[]): undefined {
   type ColumnEntry = { navItemLeader: NavItemAll; numberOfEntries: number }
   const columnLayouts: ColumnEntry[][] = []
   let columnEntries: ColumnEntry[] = []
-  let isFullWidth: boolean | undefined
+  let isFullWidthCategory: boolean | undefined
   navItemsWithLength.forEach((navItem, i) => {
-    let isFullWidthBegin = false
+    let isFullWidthCategoryBegin = false
     if (navItem.level === 1) {
-      const isFullWidthPrevious = isFullWidth
-      isFullWidth = !!navItem.menuModalFullWidth
-      if (isFullWidth) isFullWidthBegin = true
-      if (isFullWidthPrevious !== undefined && isFullWidthPrevious !== isFullWidth) {
+      const isFullWidthCategoryPrevious = isFullWidthCategory
+      isFullWidthCategory = !!navItem.menuModalFullWidth
+      if (isFullWidthCategory) isFullWidthCategoryBegin = true
+      if (isFullWidthCategoryPrevious !== undefined && isFullWidthCategoryPrevious !== isFullWidthCategory) {
         columnLayouts.push(columnEntries)
         columnEntries = []
       }
@@ -54,16 +54,18 @@ function determineColumnEntries(navItems: NavItemAll[]): undefined {
     const navItemPrevious = navItemsWithLength[i - 1]
     const navItemNext = navItemsWithLength[i + 1]
     if (
-      !isFullWidth ? navItem.level === 1 : (navItem.level === 4 && navItemPrevious!.level !== 1) || isFullWidthBegin
+      !isFullWidthCategory
+        ? navItem.level === 1
+        : (navItem.level === 4 && navItemPrevious!.level !== 1) || isFullWidthCategoryBegin
     ) {
-      if (isFullWidth) {
-        assert(navItem.level === 4 || (navItem.level === 1 && isFullWidthBegin))
+      if (isFullWidthCategory) {
+        assert(navItem.level === 4 || (navItem.level === 1 && isFullWidthCategoryBegin))
       } else {
         assert(navItem.level === 1)
       }
       let { numberOfHeadings } = navItem
       assert(numberOfHeadings !== null)
-      if (isFullWidthBegin) {
+      if (isFullWidthCategoryBegin) {
         assert(navItem.level === 1)
         assertUsage(
           navItemNext && navItemNext.level === 4,

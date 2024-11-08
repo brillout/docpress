@@ -64,7 +64,7 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
 
   return (
     <>
-      {navItemsByColumnLayouts.map(({ columns, isFullWidth }, i) => (
+      {navItemsByColumnLayouts.map(({ columns, isFullWidthCategory }, i) => (
         <div
           key={i}
           style={{
@@ -85,20 +85,20 @@ function NavigationColumnLayout(props: { navItemsWithComputed: NavItemComputed[]
                 maxWidth: navLeftWidthMax,
                 display: 'flex',
                 flexDirection: 'column',
-                paddingTop: isFullWidth && j !== 0 ? 36 : undefined,
+                paddingTop: isFullWidthCategory && j !== 0 ? 36 : undefined,
               }}
             >
               {columnEntry.map((navItems, k) => (
-                <div key={k} style={{ marginTop: isFullWidth ? undefined : margin }}>
+                <div key={k} style={{ marginTop: isFullWidthCategory ? undefined : margin }}>
                   {navItems.map((navItem, l) => (
                     <NavItemComponent navItem={navItem} key={l} />
                   ))}
-                  <CategoryBorder navItemLevel1={isFullWidth ? undefined : navItems[0]!} />
+                  <CategoryBorder navItemLevel1={isFullWidthCategory ? undefined : navItems[0]!} />
                 </div>
               ))}
             </div>
           ))}
-          <CategoryBorder navItemLevel1={!isFullWidth ? undefined : columns[0][0][0]!} />
+          <CategoryBorder navItemLevel1={!isFullWidthCategory ? undefined : columns[0][0][0]!} />
         </div>
       ))}
     </>
@@ -170,12 +170,12 @@ function NavItemComponent({
   }
 }
 
-type NavItemsByColumnLayout = { columns: NavItemComputed[][][]; isFullWidth: boolean }
+type NavItemsByColumnLayout = { columns: NavItemComputed[][][]; isFullWidthCategory: boolean }
 function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: number = 0): NavItemsByColumnLayout[] {
   const navItemsByColumnEntries = getNavItemsByColumnEntries(navItems)
   const numberOfColumnsMax = Math.floor(viewportWidth / navLeftWidthMin) || 1
   const navItemsByColumnLayouts: NavItemsByColumnLayout[] = navItemsByColumnEntries.map(
-    ({ columnEntries, isFullWidth }) => {
+    ({ columnEntries, isFullWidthCategory }) => {
       const numberOfColumns = Math.min(numberOfColumnsMax, columnEntries.length)
       const columns: NavItemComputed[][][] = []
       columnEntries.forEach((columnEntry) => {
@@ -184,31 +184,31 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: 
         columns[idx] ??= []
         columns[idx].push(columnEntry.navItems)
       })
-      const navItemsByColumnLayout: NavItemsByColumnLayout = { columns, isFullWidth }
+      const navItemsByColumnLayout: NavItemsByColumnLayout = { columns, isFullWidthCategory }
       return navItemsByColumnLayout
     },
   )
   return navItemsByColumnLayouts
 }
 
-type NavItemsByColumnEntries = { columnEntries: ColumnEntry[]; isFullWidth: boolean }[]
+type NavItemsByColumnEntries = { columnEntries: ColumnEntry[]; isFullWidthCategory: boolean }[]
 type ColumnEntry = { navItems: NavItemComputed[]; columnMap: ColumnMap }
 type ColumnMap = Record<number, number>
 function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColumnEntries {
   const navItemsByColumnEntries: NavItemsByColumnEntries = []
   let columnEntries: ColumnEntry[] = []
   let columnEntry: ColumnEntry
-  let isFullWidth: boolean | undefined
+  let isFullWidthCategory: boolean | undefined
   navItems.forEach((navItem) => {
     if (navItem.level === 1) {
-      const isFullWidthPrevious = isFullWidth
-      isFullWidth = !!navItem.menuModalFullWidth
-      if (isFullWidthPrevious !== undefined && isFullWidthPrevious !== isFullWidth) {
-        navItemsByColumnEntries.push({ columnEntries, isFullWidth: isFullWidthPrevious })
+      const isFullWidthCategoryPrevious = isFullWidthCategory
+      isFullWidthCategory = !!navItem.menuModalFullWidth
+      if (isFullWidthCategoryPrevious !== undefined && isFullWidthCategoryPrevious !== isFullWidthCategory) {
+        navItemsByColumnEntries.push({ columnEntries, isFullWidthCategory: isFullWidthCategoryPrevious })
         columnEntries = []
       }
     }
-    assert(isFullWidth !== undefined)
+    assert(isFullWidthCategory !== undefined)
     if (navItem.isColumnEntry) {
       assert(navItem.level === 1 || navItem.level === 4)
       columnEntry = { navItems: [navItem], columnMap: navItem.isColumnEntry }
@@ -218,8 +218,8 @@ function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColu
       columnEntry.navItems.push(navItem)
     }
   })
-  assert(isFullWidth !== undefined)
-  navItemsByColumnEntries.push({ columnEntries, isFullWidth })
+  assert(isFullWidthCategory !== undefined)
+  navItemsByColumnEntries.push({ columnEntries, isFullWidthCategory })
   return navItemsByColumnEntries
 }
 

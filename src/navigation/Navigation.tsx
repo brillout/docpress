@@ -90,27 +90,21 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
                   {navItems.map((navItem, l) => (
                     <NavItemComponent navItem={navItem} key={l} />
                   ))}
-                  <CategoryBorder navItemLevel1={isFullWidthCategory ? undefined : navItems[0]!} />
+                  {!isFullWidthCategory && <CategoryBorder navItemLevel1={navItems[0]!} />}
                 </div>
               ))}
             </div>
           ))}
-          <CategoryBorder navItemLevel1={!isFullWidthCategory ? undefined : columns[0][0][0]!} />
+          {isFullWidthCategory && <CategoryBorder navItemLevel1={columns[0][0][0]!} />}
         </div>
       ))}
     </>
   )
 }
 
-function CategoryBorder({ navItemLevel1 }: { navItemLevel1?: NavItemComputed }) {
-  return !navItemLevel1 ? null : (
-    <div
-      className="category-border"
-      style={{
-        background: navItemLevel1.color!,
-      }}
-    />
-  )
+function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
+  assert(navItemLevel1.level === 1)
+  return <div className="category-border" style={{ background: navItemLevel1.color! }} />
 }
 
 function NavItemComponent({

@@ -83,7 +83,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const hideNavLeftAlways = pageContext.navItems.length <= 1
+  const hideNavLeftAlways = pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1
   return (
     <>
       <style>{getStyle()}</style>
@@ -187,7 +187,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 
 function NavLeft() {
   const pageContext = usePageContext()
-  const { navItems, navItemsAll, isDetachedPage } = pageContext
+  const { navItemsAll, navItemsDetached } = pageContext
   return (
     <>
       <div
@@ -226,14 +226,11 @@ function NavLeft() {
                 width: '100%',
               }}
             >
-              {
-                // TODO/refactor: simplify?
-                isDetachedPage ? (
-                  <NavigationContent navItems={navItems} />
-                ) : (
-                  <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
-                )
-              }
+              {navItemsDetached ? (
+                <NavigationContent navItems={navItemsDetached} />
+              ) : (
+                <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
+              )}
             </div>
           </div>
         </div>

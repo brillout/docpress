@@ -53,9 +53,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
 
-  // TODO/refactor: remove navItems
-  let navItems: NavItem[]
   let navItemsAll: NavItem[]
+  let navItemsDetached: NavItem[] | undefined
   {
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
@@ -63,9 +62,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     navItemsAll = headingsResolved.map(headingToNavItem)
     determineColumnEntries(navItemsAll)
     if (isDetachedPage) {
-      navItems = [headingToNavItem(activeHeading), ...navItemsPageSections]
+      navItemsDetached = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
-      navItems = navItemsAll
       const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === pageContext.urlPathname)
       assert(activeHeadingIndex >= 0)
       navItemsPageSections.forEach((navItem, i) => {
@@ -75,9 +73,8 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   }
 
   const pageContextAddendum = {
-    isDetachedPage,
-    navItems,
     navItemsAll,
+    navItemsDetached,
     linksAll,
     isLandingPage,
     pageTitle,

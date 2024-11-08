@@ -33,9 +33,9 @@ function NavigationContent(props: {
 
   let navContent: React.ReactNode
   if (!props.columnLayout) {
-    navContent = navItemsWithComputed
-      .filter((navItemGroup) => !props.showOnlyRelevant || navItemGroup.isRelevant)
-      .map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
+    let navItemsRelevant = navItemsWithComputed
+    if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
+    navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
   } else {
     assert(!props.showOnlyRelevant)
     navContent = <NavigationColumnLayout navItemsWithComputed={navItemsWithComputed} />

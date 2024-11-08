@@ -94,7 +94,7 @@ html.menu-modal-show {
 }
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
   .show-for-mobile-menu {
-    display: none;
+    display: none !important;
   }
 }
 `

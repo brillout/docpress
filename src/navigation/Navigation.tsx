@@ -66,44 +66,46 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
           key={i}
           style={{
             marginTop: i === 0 ? -1 * categoryMargin : undefined,
+            marginBottom: categoryMargin,
           }}
         >
           {columnLayout.isFullWidthCategory ? (
-            <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
-              <Collapsible
-                head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
-                disabled={columnLayout.columns.length > 1 || columnLayout.navItemLevel1.isRelevant}
-                marginTop={categoryMargin}
-              >
-                <ColumnsLayout className="collapsible">
-                  {columnLayout.columns.map((column, j) => (
-                    <Column key={j}>
-                      {column.navItems.map((navItem, k) => (
-                        <NavItemComponent key={k} navItem={navItem} />
-                      ))}
-                    </Column>
-                  ))}
-                  <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
-                </ColumnsLayout>
-              </Collapsible>
-            </ColumnsWrapper>
+            <div style={{ marginTop: categoryMargin }}>
+              <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
+                <Collapsible
+                  head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
+                  disabled={columnLayout.columns.length > 1 || columnLayout.navItemLevel1.isRelevant}
+                >
+                  <ColumnsLayout className="collapsible">
+                    {columnLayout.columns.map((column, j) => (
+                      <Column key={j}>
+                        {column.navItems.map((navItem, k) => (
+                          <NavItemComponent key={k} navItem={navItem} />
+                        ))}
+                      </Column>
+                    ))}
+                    <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
+                  </ColumnsLayout>
+                </Collapsible>
+              </ColumnsWrapper>
+            </div>
           ) : (
             <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
               <ColumnsLayout>
                 {columnLayout.columns.map((column, j) => (
                   <Column key={j}>
                     {column.categories.map((category, k) => (
-                      <Collapsible
-                        key={k}
-                        head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
-                        disabled={columnLayout.columns.length > 1 || category.navItemLevel1.isRelevant}
-                        marginTop={categoryMargin}
-                      >
-                        {category.navItems.map((navItem, l) => (
-                          <NavItemComponent key={l} navItem={navItem} />
-                        ))}
-                        <CategoryBorder navItemLevel1={category.navItemLevel1} />
-                      </Collapsible>
+                      <div key={k} style={{ marginTop: categoryMargin }}>
+                        <Collapsible
+                          head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
+                          disabled={columnLayout.columns.length > 1 || category.navItemLevel1.isRelevant}
+                        >
+                          {category.navItems.map((navItem, l) => (
+                            <NavItemComponent key={l} navItem={navItem} />
+                          ))}
+                          <CategoryBorder navItemLevel1={category.navItemLevel1} />
+                        </Collapsible>
+                      </div>
                     ))}
                   </Column>
                 ))}
@@ -163,13 +165,11 @@ function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
 function Collapsible({
   head,
   children,
-  disabled,
-  marginTop,
+  disabled = false,
 }: {
   head: (onClick: () => void) => React.ReactNode
   children: React.ReactNode
-  disabled: boolean
-  marginTop: number
+  disabled?: boolean
 }) {
   const [collapsed, setCollapsed] = useState(true)
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
@@ -190,25 +190,22 @@ function Collapsible({
   const showContent = disabled ? true : !collapsed
 
   return (
-    <div
-      style={{
-        transition: 'margin-bottom 0.3s ease',
-        marginBottom: showContent ? marginTop : 0,
-      }}
-    >
+    <>
       {head(onClick)}
       <div
         ref={contentRef}
         style={{
           height: showContent ? contentHeight : 0,
           overflow: 'hidden',
-          transition: 'height 0.3s ease',
+          transition: 'none 0.3s ease',
+          transitionProperty: 'height, margin-bottom',
+          marginBottom: showContent ? 0 : -40,
         }}
         aria-expanded={showContent}
       >
         {children}
       </div>
-    </div>
+    </>
   )
 }
 

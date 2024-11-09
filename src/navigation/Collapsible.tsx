@@ -1,27 +1,42 @@
 export { Collapsible }
+export { CollapsibleProvider }
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+
+type CollapsibleKey = object
+type CollapsibleStates = WeakMap<CollapsibleKey, boolean>
+const Context = React.createContext<CollapsibleStates>(undefined as any)
 
 function Collapsible({
   head,
   children,
   disabled = false,
   collapsedInit,
+<<<<<<< Updated upstream
   marginBottomOnExpand,
+=======
+  key
+>>>>>>> Stashed changes
 }: {
   head: (onClick: () => void) => React.ReactNode
   children: React.ReactNode
   disabled: boolean
   collapsedInit: boolean
+<<<<<<< Updated upstream
   marginBottomOnExpand?: number
+=======
+  key: CollapsibleKey
+>>>>>>> Stashed changes
 }) {
-  const [collapsed, setCollapsed] = useState(collapsedInit)
+  const collapsibleStates = useCollapsibleStates()
+  const [collapsed, setCollapsedLocal] = useState(collapsedInit)
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onClick = () => {
     if (!disabled) {
-      setCollapsed((prev) => !prev)
+      setCollapsedLocal(!collapsed)
+      setCollapsedShared(key, !collapsed)
     }
   }
 
@@ -52,3 +67,17 @@ function Collapsible({
     </>
   )
 }
+
+function useCollapsibleStates() {
+  const collapsibleStates = useContext(Context)
+  return collapsibleStates
+}
+function CollapsibleProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const [collapsibleStates, setCollapsibleStates] = useState(new WeakMap())
+  return <Context.Provider value={isPreviousCollapsed, setCollapsibleState}}>{children}</Context.Provider>
+}
+

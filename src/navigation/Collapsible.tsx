@@ -36,8 +36,10 @@ function Collapsible({
   const showContent = disabled ? true : !collapsed
 
   return (
-    <>
-      <div className={cls(!disabled && (showContent ? 'expanded' : 'collapsed'))}>{head(onClick)}</div>
+    <div
+      className={cls(['collapsible', !disabled && (showContent ? 'collapsible-expanded' : 'collapsible-collapsed')])}
+    >
+      {head(onClick)}
       <div
         ref={contentRef}
         style={{
@@ -51,6 +53,6 @@ function Collapsible({
       >
         {children}
       </div>
-    </>
+    </div>
   )
 }

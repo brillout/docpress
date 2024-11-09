@@ -146,13 +146,23 @@ function autoScroll() {
   const nav = document.querySelector('#menu-modal .navigation-content')!
   const href = window.location.pathname
   const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
-  const navLink = navLinks[0]
+  const navLink = navLinks[0] as HTMLElement | undefined
   if (!navLink) return
+  // None of the following seemes to be working: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
+  if (findCollapsibleEl(navLink)!.classList.contains('collapsible-collapsed')) return
   navLink.scrollIntoView({
     behavior: 'instant',
     block: 'center',
     inline: 'start',
   })
+}
+function findCollapsibleEl(navLink: HTMLElement | undefined) {
+  let parentEl: HTMLElement | null | undefined = navLink
+  while (parentEl) {
+    if (parentEl.classList.contains('collapsible')) return parentEl
+    parentEl = parentEl.parentElement
+  }
+  return null
 }
 function openMenuModal() {
   document.documentElement.classList.add('menu-modal-show')

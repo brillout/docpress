@@ -194,7 +194,7 @@ function NavItemComponent({
     children = (
       <>
         {children}
-        <Chevron className="collapsible-icon" height={8} />
+        <Chevron className="collapsible-icon" height={9} />
       </>
     )
   }
@@ -372,10 +372,10 @@ function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
 
 function Chevron(props: React.HTMLProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 512.05 292.52" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 512 292.52" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         fill="#aaa"
-        d="M10.725 62.42l219.4 219.4c6.8 6.8 16.2 10.7 25.9 10.7s19.1-3.9 25.9-10.7l219.4-219.4c14.3-14.3 14.3-37.4 0-51.7s-37.4-14.3-51.7 0L256.025 204.3 62.425 10.725c-14.3-14.3-37.4-14.3-51.7 0s-14.3 37.5 0 51.7z"
+        d="M10.725 82.42L230.125 261.82c6.8 6.8 16.2 10.7 25.9 10.7s19.1-3.9 25.9-10.7l219.4-179.4c14.3-14.3 14.3-37.4 0-51.7s-37.4-14.3-51.7 0l-193.6 153.6-193.6-153.6c-14.3-14.3-37.4-14.3-51.7 0s-14.3 37.5 0 51.7z"
       />
     </svg>
   )

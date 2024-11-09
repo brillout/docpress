@@ -64,7 +64,7 @@ function NavSecondary({ className }: { className: string }) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginTop: -15,
+        marginTop: 20,
       }}
     >
       <NavSecondaryContent style={{ height: 70 }} />

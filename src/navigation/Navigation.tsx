@@ -56,27 +56,19 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
     updateviewportwidth()
     window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
   })
-
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(props.navItemsWithComputed, viewportWidth)
-  const categoryMargin = 40
-
   return (
     <>
       {navItemsByColumnLayouts.map((columnLayout, i) => (
-        <div
-          key={i}
-          style={{
-            marginTop: i === 0 ? -1 * categoryMargin : undefined,
-            marginBottom: categoryMargin,
-          }}
-        >
+        <div key={i}>
           {columnLayout.isFullWidthCategory ? (
-            <div style={{ marginTop: categoryMargin }}>
+            <div style={{ marginTop: 0 }}>
               <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
                 <Collapsible
                   head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
                   disabled={columnLayout.columns.length > 1}
                   collapsedInit={!columnLayout.navItemLevel1.isRelevant}
+                  marginBottomOnExpand={10}
                 >
                   <ColumnsLayout className="collapsible">
                     {columnLayout.columns.map((column, j) => (
@@ -97,11 +89,12 @@ function NavigationWithColumnLayout(props: { navItemsWithComputed: NavItemComput
                 {columnLayout.columns.map((column, j) => (
                   <Column key={j}>
                     {column.categories.map((category, k) => (
-                      <div key={k} style={{ marginTop: categoryMargin }}>
+                      <div key={k} style={{ marginBottom: 0 }}>
                         <Collapsible
                           head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
                           disabled={columnLayout.columns.length > 1}
                           collapsedInit={!category.navItemLevel1.isRelevant}
+                          marginBottomOnExpand={40}
                         >
                           {category.navItems.map((navItem, l) => (
                             <NavItemComponent key={l} navItem={navItem} />

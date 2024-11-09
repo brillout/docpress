@@ -7,11 +7,13 @@ function Collapsible({
   children,
   disabled = false,
   collapsedInit,
+  marginBottomOnExpand,
 }: {
   head: (onClick: () => void) => React.ReactNode
   children: React.ReactNode
   disabled: boolean
   collapsedInit: boolean
+  marginBottomOnExpand?: number
 }) {
   const [collapsed, setCollapsed] = useState(collapsedInit)
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
@@ -41,7 +43,7 @@ function Collapsible({
           overflow: 'hidden',
           transition: 'none 0.3s ease',
           transitionProperty: 'height, margin-bottom',
-          marginBottom: showContent ? 0 : -40,
+          marginBottom: (showContent && marginBottomOnExpand) || undefined,
         }}
         aria-expanded={showContent}
       >

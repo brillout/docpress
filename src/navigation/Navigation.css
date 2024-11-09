@@ -59,9 +59,6 @@
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + 5px);
 }
-#menu-modal .nav-item-level-3 {
-  border-right: 4px solid #eee;
-}
 .nav-item-level-3 {
   --shadow-size: 9px;
   --shadow-color: rgba(0, 0, 0, 0.11);

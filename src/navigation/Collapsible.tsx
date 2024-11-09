@@ -1,6 +1,6 @@
 export { Collapsible }
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { cls } from '../utils/cls'
 import './Collapsible.css'
 
@@ -18,18 +18,25 @@ function Collapsible({
   marginBottomOnExpand?: number
 }) {
   const [collapsed, setCollapsed] = useState(collapsedInit)
-  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
+  const [isAnimating, setIsAnimating] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onClick = () => {
     if (!disabled) {
+      setIsAnimating(true)
+      if (!collapsed) {
+        // If expanding, set height to current scroll height before animation
+        contentRef.current!.style.height = `${contentRef.current!.scrollHeight}px`
+        // Force a reflow
+        contentRef.current!.offsetHeight
+      }
       setCollapsed((prev) => !prev)
     }
   }
 
-  useEffect(() => {
-    setContentHeight(contentRef.current!.scrollHeight)
-  }, [children])
+  const onTransitionEnd = () => {
+    setIsAnimating(false)
+  }
 
   const showContent = disabled ? true : !collapsed
 
@@ -40,8 +47,9 @@ function Collapsible({
       {head(onClick)}
       <div
         ref={contentRef}
+        onTransitionEnd={onTransitionEnd}
         style={{
-          height: showContent ? contentHeight : 0,
+          height: !showContent ? 0 : isAnimating ? contentRef.current!.scrollHeight : 'auto',
           overflow: 'hidden',
           transition: 'none 0.3s ease',
           transitionProperty: 'height, margin-bottom',

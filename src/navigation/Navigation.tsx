@@ -3,7 +3,7 @@ export { NavigationContent }
 // TODO/refactor: do this only on the server side?
 export type { NavItem }
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { assert, assertWarning, jsxToTextContent } from '../utils/server'
 import './Navigation.css'
 import { parseTitle } from '../parseTitle'
@@ -13,6 +13,7 @@ import '../global.d.ts'
 import { getViewportWidth } from '../utils/getViewportWidth'
 import { navLeftWidthMax, navLeftWidthMin } from '../Layout'
 import { throttle } from '../utils/throttle'
+import { Collapsible } from './Collapsible'
 
 type NavItem = {
   level: number
@@ -162,55 +163,6 @@ function ColumnsLayout({ children, className }: { children: React.ReactNode; cla
 function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)
   return <div className="category-border" style={{ background: navItemLevel1.color! }} />
-}
-
-function Collapsible({
-  head,
-  children,
-  disabled = false,
-  collapsedInit,
-}: {
-  head: (onClick: () => void) => React.ReactNode
-  children: React.ReactNode
-  disabled: boolean
-  collapsedInit: boolean
-}) {
-  const [collapsed, setCollapsed] = useState(collapsedInit)
-  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  const onClick = () => {
-    if (!disabled) {
-      setCollapsed((prev) => !prev)
-    }
-  }
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight)
-    }
-  }, [children])
-
-  const showContent = disabled ? true : !collapsed
-
-  return (
-    <>
-      {head(onClick)}
-      <div
-        ref={contentRef}
-        style={{
-          height: showContent ? contentHeight : 0,
-          overflow: 'hidden',
-          transition: 'none 0.3s ease',
-          transitionProperty: 'height, margin-bottom',
-          marginBottom: showContent ? 0 : -40,
-        }}
-        aria-expanded={showContent}
-      >
-        {children}
-      </div>
-    </>
-  )
 }
 
 type PropsNavItem = PropsAnchor & PropsSpan

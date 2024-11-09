@@ -28,9 +28,7 @@ function Collapsible({
   }
 
   useEffect(() => {
-    if (contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight)
-    }
+    setContentHeight(contentRef.current!.scrollHeight)
   }, [children])
 
   const showContent = disabled ? true : !collapsed

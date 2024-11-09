@@ -1,6 +1,8 @@
 export { Collapsible }
 
 import React, { useEffect, useRef, useState } from 'react'
+import { cls } from '../utils/cls'
+import './Collapsible.css'
 
 function Collapsible({
   head,
@@ -35,7 +37,7 @@ function Collapsible({
 
   return (
     <>
-      {head(onClick)}
+      <div className={cls(!disabled && (showContent ? 'expanded' : 'collapsed'))}>{head(onClick)}</div>
       <div
         ref={contentRef}
         style={{

@@ -189,9 +189,19 @@ function NavItemComponent({
     )
   }
 
+  let children: JSX.Element = titleInNavJsx
+  if (navItem.level === 1) {
+    children = (
+      <>
+        {children}
+        <Chevron className="collapsible-icon" height={8} />
+      </>
+    )
+  }
+
   const props: PropsNavItem = {
     href: navItem.url ?? undefined,
-    children: titleInNavJsx,
+    children,
     onClick,
     className: [
       'nav-item',
@@ -358,4 +368,15 @@ function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
   }
 
   return navItemsWithComputed
+}
+
+function Chevron(props: React.HTMLProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 512 292.52" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        fill="#aaa"
+        d="M10.725 42.42L230.125 291.82c6.8 6.8 16.2 10.7 25.9 10.7s19.1-3.9 25.9-10.7l219.4-249.4c14.3-14.3 14.3-37.4 0-51.7s-37.4-14.3-51.7 0l-193.6 223.6-193.6-223.6c-14.3-14.3-37.4-14.3-51.7 0s-14.3 37.5 0 51.7z"
+      />
+    </svg>
+  )
 }

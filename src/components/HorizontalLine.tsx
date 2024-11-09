@@ -5,7 +5,7 @@ import { cls } from '../utils/cls'
 
 function HorizontalLine({ primary }: { primary?: true }) {
   return (
-    <div className={cls([primary && 'primary'])} style={{ textAlign: 'center' }}>
+    <div className={cls(primary && 'primary')} style={{ textAlign: 'center' }}>
       <hr
         style={{
           display: 'inline-block',

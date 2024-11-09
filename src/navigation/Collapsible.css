@@ -1,0 +1,11 @@
+.collapsible-icon {
+  display: none;
+}
+.expanded .collapsible-icon,
+.collapsed .collapsible-icon {
+  transition: transform 0.3s ease-in-out !important;
+  display: initial;
+}
+.collapsed .collapsible-icon {
+  transform: rotate(-90deg);
+}

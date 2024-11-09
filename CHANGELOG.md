@@ -1,3 +1,24 @@
+## [0.8.15](https://github.com/brillout/docpress/compare/v0.8.14...v0.8.15) (2024-11-09)
+
+
+### Bug Fixes
+
+* add Collapsible icon ([65839e4](https://github.com/brillout/docpress/commit/65839e448892a561d19f4ae37d117bc69f6d3c7b))
+* don't auto scroll menu modal if target isn't visible ([f33f9de](https://github.com/brillout/docpress/commit/f33f9defd614f21f1590fb95359c96e4ad68f27e))
+* expand left nav on hover ([ff9d2d2](https://github.com/brillout/docpress/commit/ff9d2d2ad713ec4d2a988f639d4085f4359d6603))
+* fix collapsbile animation ([550111a](https://github.com/brillout/docpress/commit/550111a15a0e38d78a0aa0cbf730b8b58f641a81))
+* fix nav logo regression ([763afe3](https://github.com/brillout/docpress/commit/763afe3de91874f2c38c4ce30f6d53c688702bfa))
+* improve menu margins ([0e4a503](https://github.com/brillout/docpress/commit/0e4a5037a56f61191581df0f200d9454e1d596cc))
+* make menu categories collapsible on mobile ([#21](https://github.com/brillout/docpress/issues/21)) ([7049db1](https://github.com/brillout/docpress/commit/7049db1517cf6cf46c18fe76ddeeeed4fff64db7))
+* minor ([058b089](https://github.com/brillout/docpress/commit/058b089b9e08e8a9b10b7108fe9c165ac27025f3))
+* misc ([ad9f99d](https://github.com/brillout/docpress/commit/ad9f99db2f843efd14b84b422798eaaee6eb41a0))
+* remove outdated nav item border ([bfb5e50](https://github.com/brillout/docpress/commit/bfb5e50ffd8695ddefbcfd597cc37697d6f37442))
+* show menu fullscreen on mobile ([da67fcb](https://github.com/brillout/docpress/commit/da67fcb7debca0bd19ccd1284be5cb3ad3e15f3f))
+* toggle menu/docs icon/text ([dd1e617](https://github.com/brillout/docpress/commit/dd1e617e93badd08b901364dc918f01f905e107b))
+* unexpand nav upon navigation ([3a5b89c](https://github.com/brillout/docpress/commit/3a5b89cbb85d3d695e925a0279c781f33953141d))
+
+
+
 ## [0.8.14](https://github.com/brillout/docpress/compare/v0.8.13...v0.8.14) (2024-11-04)
 
 

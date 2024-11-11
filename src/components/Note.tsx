@@ -93,8 +93,12 @@ function NoteGeneric({
   return (
     <blockquote className={className} style={style}>
       <div style={{ marginBottom: 20 }} />
-      <span style={{ fontFamily: 'emoji' }}>{icon}</span>
-      <span style={{ width: iconMargin ?? undefined, display: 'inline-block' }}></span>{' '}
+      {icon && (
+        <>
+          <span style={{ fontFamily: 'emoji' }}>{icon}</span>
+          <span style={{ width: iconMargin ?? undefined, display: 'inline-block' }}></span>{' '}
+        </>
+      )}
       <div className="blockquote-content">{children}</div>
       <div style={{ marginTop: 20 }} />
     </blockquote>

@@ -22,7 +22,14 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
         style={{
           position: isTopNav ? 'absolute' : 'fixed',
           width: '100%',
+          /* Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh
+           * - Always use `dvh` instead of `vh` once Firefox supports it.
+           * - We use dvh because of mobile: https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
+          height: 'calc(100dvh - var(--nav-head-height))',
+          /*/
           height: 'calc(100vh - var(--nav-head-height))',
+          maxHeight: 'calc(100dvh - var(--nav-head-height))',
+          //*/
           top: 'var(--nav-head-height)',
           left: 0,
           zIndex: 9999,
@@ -38,7 +45,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             // Place <LinksBottom /> to the bottom
             display: 'flex',
             flexDirection: 'column',
-            minHeight: 'calc(100vh - var(--nav-head-height))',
+            minHeight: 'calc(100dvh - var(--nav-head-height))',
             justifyContent: 'space-between',
             // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',

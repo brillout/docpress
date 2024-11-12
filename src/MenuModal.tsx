@@ -81,9 +81,23 @@ function NavSecondary({ className }: { className: string }) {
 
 function getStyle() {
   return css`
+.menu-modal-show #menu-modal {
+  opacity: 1;
+  pointer-events: auto;
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    pointer-events: none;
+  }
+  100% {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
 html:not(.menu-modal-show) #menu-modal {
-  opacity: 0;
-  pointer-events: none;
+  animation: fade-out 300ms forwards;
+  animation-delay: 200ms;
 }
 // disable scroll of main view
 html.menu-modal-show {

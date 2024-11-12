@@ -1,3 +1,14 @@
+## [0.8.16](https://github.com/brillout/docpress/compare/v0.8.15...v0.8.16) (2024-11-12)
+
+
+### Bug Fixes
+
+* add menu modal closing delay to workaround UX paper cut ([1441467](https://github.com/brillout/docpress/commit/1441467f2dd94e7b41a604b0227f1facc18f0ee3))
+* fix menu modal height on mobile ([c593274](https://github.com/brillout/docpress/commit/c5932740efda6731bf21b981e8f067a6772facad))
+* remove whitespace ([#22](https://github.com/brillout/docpress/issues/22)) ([ee90470](https://github.com/brillout/docpress/commit/ee90470162fd07f69cbbabbd6b30cf7275221fe6))
+
+
+
 ## [0.8.15](https://github.com/brillout/docpress/compare/v0.8.14...v0.8.15) (2024-11-09)
 
 

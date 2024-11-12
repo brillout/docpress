@@ -13,7 +13,7 @@
     "react-dom": "^18.3.1",
     "typescript": "^5.6.2",
     "vike": "^0.4.199",
-    "vite": "^5.4.6"
+    "vite": "^5.4.11"
   },
   "// Help Vite resolve the dependencies of @brillout/docpress for optimizeDeps": "",
   "devDependencies": {

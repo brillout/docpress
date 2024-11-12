@@ -11,7 +11,7 @@ import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { NavSecondaryContent } from './NavSecondaryContent'
-import { closeMenuModal, openMenuModal, toggleMenuModal } from './MenuModal'
+import { closeMenuModalWithDelay, openMenuModal, toggleMenuModal } from './MenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
@@ -479,7 +479,7 @@ function MenuLink(props: PropsDiv) {
       }}
       onMouseLeave={() => {
         if (onMouseIgnore) return
-        closeMenuModal()
+        closeMenuModalWithDelay(100)
       }}
       onTouchStart={() => {
         onMouseIgnore = setTimeout(() => {

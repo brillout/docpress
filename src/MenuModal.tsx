@@ -2,6 +2,7 @@ export { MenuModal }
 export { toggleMenuModal }
 export { openMenuModal }
 export { closeMenuModal }
+export { closeMenuModalWithDelay }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
@@ -11,6 +12,8 @@ import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { getViewportWidth } from './utils/getViewportWidth'
 import { Style } from './utils/Style'
+
+let closeMenuModalPending: NodeJS.Timeout
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
@@ -172,8 +175,12 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
   return null
 }
 function openMenuModal() {
+  clearTimeout(closeMenuModalPending)
   document.documentElement.classList.add('menu-modal-show')
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
+}
+function closeMenuModalWithDelay(delay: number) {
+  closeMenuModalPending = setTimeout(closeMenuModal, delay)
 }

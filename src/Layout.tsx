@@ -395,20 +395,22 @@ function unexpandNav() {
 
 function NavHeaderLeftFullWidthBackground() {
   return (
-    <div
-      className="show-on-nav-hover add-transition"
-      style={{
-        height: '100%',
-        width: '100vw',
-        zIndex: -1,
-        background: 'var(--bg-color)',
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        boxSizing: 'content-box',
-        borderBottom: 'var(--block-margin) solid white',
-      }}
-    />
+    <>
+      <div
+        className="show-on-nav-hover add-transition"
+        style={{
+          height: '100%',
+          width: '100cqw',
+          zIndex: -1,
+          background: 'var(--bg-color)',
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          boxSizing: 'content-box',
+          borderBottom: 'var(--block-margin) solid white',
+        }}
+      />
+    </>
   )
 }
 

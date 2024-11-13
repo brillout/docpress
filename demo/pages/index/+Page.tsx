@@ -17,9 +17,7 @@ function Page() {
 function Header() {
   return (
     <>
-      <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>
-        Next Generation Docs
-      </h1>
+      <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>Next Generation Docs</h1>
     </>
   )
 }

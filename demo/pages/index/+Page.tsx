@@ -18,9 +18,7 @@ function Header() {
   return (
     <>
       <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>
-        Next Generation
-        <br />
-        Frontend Framework
+        Next Generation Docs
       </h1>
     </>
   )

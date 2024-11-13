@@ -1,3 +1,14 @@
+## [0.9.1](https://github.com/brillout/docpress/compare/v0.9.0...v0.9.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* avoid scroll left-right jumping (fix [#23](https://github.com/brillout/docpress/issues/23)) ([7658782](https://github.com/brillout/docpress/commit/7658782357e7484c4acf841080337de0ff32cccb))
+* remove vike-contributors ([f13f8e4](https://github.com/brillout/docpress/commit/f13f8e4f3ab25718322e13cf36948c0881a4872c))
+* void nav background overflow ([305a635](https://github.com/brillout/docpress/commit/305a6351f64a85df0750b7f5f93e2774875fd2ab))
+
+
+
 # [0.9.0](https://github.com/brillout/docpress/compare/v0.8.16...v0.9.0) (2024-11-13)
 
 

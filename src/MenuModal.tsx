@@ -39,6 +39,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           overflow: 'scroll',
           background: '#ededef',
           transitionProperty: 'opacity',
+          // https://github.com/brillout/docpress/issues/23
           overscrollBehavior: 'none',
         }}
         onMouseOver={openMenuModal}

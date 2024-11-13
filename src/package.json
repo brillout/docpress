@@ -26,8 +26,7 @@
     "@vitejs/plugin-react-swc": "^3.3.2",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
-    "shiki": "1.2.0",
-    "vike-contributors": "^0.0.9"
+    "shiki": "1.2.0"
   },
   "peerDependencies": {
     "@types/node": "*",

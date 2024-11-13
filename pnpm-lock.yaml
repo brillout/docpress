@@ -99,9 +99,6 @@ importers:
       shiki:
         specifier: 1.2.0
         version: 1.2.0
-      vike-contributors:
-        specifier: ^0.0.9
-        version: 0.0.9
     devDependencies:
       '@brillout/release-me':
         specifier: ^0.4.2
@@ -1797,9 +1794,6 @@ packages:
 
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
-
-  vike-contributors@0.0.9:
-    resolution: {integrity: sha512-uOvGIv5XZZ7Gm9BdQty/K2f22641+ZTBH1Ccq7Qh/uvH2gI+SA8npSSS6zwdVlSWFsvecZqSn45AYKrAYSIMNg==}
 
   vike@0.4.199:
     resolution: {integrity: sha512-SOLv0cqThcH9Fux1j7Bfw/AsrUsUw9obB2EMIbWeA+HoChUC6dI0QK/t8ZU4V3ARDVo7qBnLxZCqkFnYeA4Hrg==}
@@ -3792,8 +3786,6 @@ snapshots:
       '@types/unist': 3.0.2
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
-
-  vike-contributors@0.0.9: {}
 
   vike@0.4.199(vite@5.4.11(@types/node@22.5.5)):
     dependencies:

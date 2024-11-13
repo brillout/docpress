@@ -6,7 +6,6 @@ export {
   FileRemoved,
   ImportMeta,
   Emoji,
-  ReadingRecommendation,
 } from './components'
 export * from './components/Note'
 export { assert } from './utils/assert'

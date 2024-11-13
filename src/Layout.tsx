@@ -397,10 +397,9 @@ function NavHeaderLeftFullWidthBackground() {
   return (
     <>
       <div
-        className="show-on-nav-hover add-transition"
+        className="nav-bg show-on-nav-hover add-transition"
         style={{
           height: '100%',
-          width: '100cqw',
           zIndex: -1,
           background: 'var(--bg-color)',
           position: 'absolute',
@@ -410,6 +409,16 @@ function NavHeaderLeftFullWidthBackground() {
           borderBottom: 'var(--block-margin) solid white',
         }}
       />
+      <Style>{
+        // (min-width: 0px) => trick to always apply => @container seems to always require a condition
+        css`
+@container container-viewport (min-width: 0px) {
+  .nav-bg {
+     width: 100cqw;
+  }
+}
+`
+      }</Style>
     </>
   )
 }

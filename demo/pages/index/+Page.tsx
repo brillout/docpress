@@ -1,8 +1,6 @@
 export { Page }
 
 import React from 'react'
-import { Contributors, Emoji, Sponsors, Consulting } from '@brillout/docpress'
-import CodeBlock from './CodeBlock.mdx'
 
 function Page() {
   return (
@@ -10,15 +8,6 @@ function Page() {
       <Block noMargin>
         <Header />
         <Features />
-      </Block>
-      <Block>
-        <Sponsors />
-      </Block>
-      <Block>
-        <Contributors />
-      </Block>
-      <Block>
-        <Consulting />
         <div style={{ height: 30 }} />
       </Block>
     </>

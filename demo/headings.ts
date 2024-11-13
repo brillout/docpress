@@ -13,10 +13,6 @@ const headingsDetached: HeadingDetachedDefinition[] = [
     url: '/orphan-2',
   },
   {
-    title: 'Consulting',
-    url: '/consulting',
-  },
-  {
     title: 'Languages',
     url: '/languages',
   },

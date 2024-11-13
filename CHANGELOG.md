@@ -1,3 +1,19 @@
+# [0.9.0](https://github.com/brillout/docpress/compare/v0.8.16...v0.9.0) (2024-11-13)
+
+
+### Bug Fixes
+
+* remove `<ReadingRecommendation>` ([6fa1d19](https://github.com/brillout/docpress/commit/6fa1d197e29ea6eabd562b1cc5eb19ad193d4ac9))
+* remove `<Supporters>` and `<Contributors>` ([5edc9d0](https://github.com/brillout/docpress/commit/5edc9d02810e6fe8a8564f25c4acb3d8c1b26f94))
+
+
+### BREAKING CHANGES
+
+* Make sure to eject `<ReadingRecommendation>`.
+* Make sure to eject `<Supporters>` and `<Contributors>`.
+
+
+
 ## [0.8.16](https://github.com/brillout/docpress/compare/v0.8.15...v0.8.16) (2024-11-12)
 
 

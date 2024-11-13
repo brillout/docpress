@@ -39,6 +39,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           overflow: 'scroll',
           background: '#ededef',
           transitionProperty: 'opacity',
+          overscrollBehavior: 'none',
         }}
         onMouseOver={openMenuModal}
         onMouseLeave={closeMenuModal}
@@ -87,10 +88,6 @@ function getStyle() {
 html:not(.menu-modal-show) #menu-modal {
   opacity: 0;
   pointer-events: none;
-}
-// disable scroll of main view
-html.menu-modal-show {
-  overflow: hidden !important;
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   #menu-modal .nav-item-level-3 {

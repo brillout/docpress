@@ -40,6 +40,8 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           background: '#ededef',
           transitionProperty: 'opacity',
           // https://github.com/brillout/docpress/issues/23
+          // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
+          // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
           overscrollBehavior: 'none',
         }}
         onMouseOver={openMenuModal}

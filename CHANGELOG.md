@@ -1,3 +1,12 @@
+## [0.9.2](https://github.com/brillout/docpress/compare/v0.9.1...v0.9.2) (2024-11-29)
+
+
+### Bug Fixes
+
+* remove anchor color style for landing page ([3ce0cce](https://github.com/brillout/docpress/commit/3ce0cce71344ac328620046da3291f7c3539108a))
+
+
+
 ## [0.9.1](https://github.com/brillout/docpress/compare/v0.9.0...v0.9.1) (2024-11-13)
 
 

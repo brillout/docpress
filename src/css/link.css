@@ -1,9 +1,6 @@
 a {
   text-decoration: none;
 }
-a[href]:not(.nav-item) {
+.doc-page a[href]:not(.nav-item) {
   color: #4747ff;
-}
-a > button {
-  color: var(--color-text);
 }

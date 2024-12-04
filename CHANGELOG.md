@@ -1,3 +1,17 @@
+## [0.9.3](https://github.com/brillout/docpress/compare/v0.9.2...v0.9.3) (2024-12-04)
+
+
+### Bug Fixes
+
+* also hide nav left margin ([1985777](https://github.com/brillout/docpress/commit/19857773f6d4c5e3b61de4a92ea27fa0a975f0ba))
+
+
+### Features
+
+* expose usePageContext() ([e51f781](https://github.com/brillout/docpress/commit/e51f781133ff09b792343228e61549b53d2436d4))
+
+
+
 ## [0.9.2](https://github.com/brillout/docpress/compare/v0.9.1...v0.9.2) (2024-11-29)
 
 

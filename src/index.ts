@@ -7,6 +7,7 @@ export {
   ImportMeta,
   Emoji,
 } from './components'
+export { usePageContext } from './renderer/usePageContext'
 export * from './components/Note'
 export { assert } from './utils/assert'
 export type { Config } from './types/Config'

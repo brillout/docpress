@@ -1,3 +1,12 @@
+## [0.9.4](https://github.com/brillout/docpress/compare/v0.9.3...v0.9.4) (2024-12-04)
+
+
+### Bug Fixes
+
+* fix public usePageContext() usage ([c826e9b](https://github.com/brillout/docpress/commit/c826e9bbbc6a6e58e641702d3b96e65816dcb38a))
+
+
+
 ## [0.9.3](https://github.com/brillout/docpress/compare/v0.9.2...v0.9.3) (2024-12-04)
 
 

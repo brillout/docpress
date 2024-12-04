@@ -89,7 +89,11 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       <style>{getStyle()}</style>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
-        <div id='nav-left-margin' className="low-prio-grow" style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }} />
+        <div
+          id="nav-left-margin"
+          className="low-prio-grow"
+          style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }}
+        />
         <PageContent>{children}</PageContent>
       </div>
     </>

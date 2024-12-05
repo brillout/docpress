@@ -247,6 +247,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext2 = usePageContext2()
   const { projectName } = pageContext.meta
   const { isLandingPage } = pageContext
+  const { navMaxWidth } = pageContext.config
 
   const linkStyle: React.CSSProperties = {
     height: '100%',
@@ -257,7 +258,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   const navSecondaryContent = (
     <div
-      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink'}
+      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}
       style={{
         padding: 0,
         display: 'flex',
@@ -275,6 +276,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       }}
     >
       <TopNavigation />
+      <div className="desktop-grow" />
       <NavSecondaryContent
         style={{
           display: 'inline-flex',
@@ -310,6 +312,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           className="nav-head-content"
           style={{
             width: '100%',
+            maxWidth: navMaxWidth,
+            margin: 'auto',
             height: 'var(--nav-head-height)',
             fontSize: `min(16.96px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
@@ -319,6 +323,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           }}
         >
           <NavLogo className="mobile-grow-half" />
+          <div className="desktop-grow" />
           <SearchLink className="mobile-grow-half" style={linkStyle} />
           <MenuLink className="mobile-grow-full" style={linkStyle} />
           {navSecondaryContent}
@@ -359,7 +364,23 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   }
 }
 `
-    if (isLandingPage)
+    if (navMaxWidth) {
+      style += css`
+@media(min-width: ${containerQueryMobileMenu + 1}px) {
+  .desktop-grow {
+    flex-grow: 1;
+  }
+  .desktop-fade {
+    transition: opacity 0.3s ease-in-out !important;
+  }
+  html:not(.menu-modal-show) .nav-head-top:not(:hover) .desktop-fade {
+    transition: opacity 0.3s ease-in-out !important;
+    opacity: 0.5;
+  }
+}
+`
+    }
+    if (isLandingPage && !navMaxWidth)
       style += css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
   .nav-logo {
@@ -522,7 +543,7 @@ function MenuLink(props: PropsDiv) {
 }
 function DocsIcon() {
   return (
-    <span style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }} className="decolorize-6">
+    <span style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }} className="decolorize-6 desktop-fade">
       📚
     </span>
   )
@@ -531,7 +552,7 @@ function MenuIcon() {
   return (
     <svg
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'top', width: '1.3em' }}
-      className="decolorize-6"
+      className="decolorize-6 desktop-fade"
       viewBox="0 0 448 512"
     >
       <path

@@ -29,7 +29,7 @@ function SearchLink(props: PropsAnchor) {
 }
 function SearchIcon() {
   return (
-    <span style={{ marginRight: 'var(--icon-text-padding)', fontSize: '1.1em' }} className="decolorize-7">
+    <span style={{ marginRight: 'var(--icon-text-padding)', fontSize: '1.1em' }} className="decolorize-7 desktop-fade">
       🔍
     </span>
   )

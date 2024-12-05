@@ -29,4 +29,5 @@ type Config = {
   i18n?: true
   pressKit?: true
   sponsorGithubAccount?: string
+  navMaxWidth?: number
 }

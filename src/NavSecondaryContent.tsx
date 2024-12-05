@@ -9,7 +9,7 @@ import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
-function NavSecondaryContent(props: { style?: React.CSSProperties; className?: string }) {
+function NavSecondaryContent(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   const { projectInfo, i18n } = pageContext.config
   const iconI18n = !i18n ? null : (
@@ -28,6 +28,7 @@ function NavSecondaryContent(props: { style?: React.CSSProperties; className?: s
         alignItems: 'center',
         ...props.style,
       }}
+      className="desktop-fade"
     >
       {iconI18n}
       {projectInfo.discordInvite && (

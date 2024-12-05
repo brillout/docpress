@@ -277,7 +277,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       }}
     >
       <TopNavigation />
-      <div className="desktop-grow" />
+      {!isNavLeft && <div className="desktop-grow" />}
       <NavSecondaryContent
         style={{
           display: 'inline-flex',
@@ -324,7 +324,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           }}
         >
           <NavLogo className="mobile-grow-half" />
-          <div className="desktop-grow" />
+          {!isNavLeft && <div className="desktop-grow" />}
           <SearchLink className="mobile-grow-half" style={linkStyle} />
           <MenuLink className="mobile-grow-full" style={linkStyle} />
           {navSecondaryContent}

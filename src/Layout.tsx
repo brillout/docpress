@@ -448,7 +448,7 @@ function NavHeaderLeftFullWidthBackground() {
 
 function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
-  const iconSize = 39
+  const iconSize = pageContext.config.navLogoSize ?? 39
   const { projectName } = pageContext.meta
   return (
     <a
@@ -477,6 +477,7 @@ function NavLogo({ className }: { className: string }) {
         style={{
           marginLeft: `calc(var(--icon-text-padding) + 2px)`,
           fontSize: isProjectNameShort(projectName) ? '1.65em' : '1.3em',
+          ...pageContext.config.navLogoTextStyle,
         }}
       >
         {projectName}

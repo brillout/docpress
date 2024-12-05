@@ -30,4 +30,6 @@ type Config = {
   pressKit?: true
   sponsorGithubAccount?: string
   navMaxWidth?: number
+  navLogoSize?: number
+  navLogoTextStyle?: React.CSSProperties
 }

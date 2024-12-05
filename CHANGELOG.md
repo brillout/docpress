@@ -1,3 +1,12 @@
+## [0.9.7](https://github.com/brillout/docpress/compare/v0.9.6...v0.9.7) (2024-12-05)
+
+
+### Features
+
+* add logo control settings ([dbf6555](https://github.com/brillout/docpress/commit/dbf655526fb0c10a3e46e33908cf45e68a06e74b))
+
+
+
 ## [0.9.6](https://github.com/brillout/docpress/compare/v0.9.5...v0.9.6) (2024-12-05)
 
 

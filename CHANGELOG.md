@@ -1,3 +1,18 @@
+## [0.9.5](https://github.com/brillout/docpress/compare/v0.9.4...v0.9.5) (2024-12-05)
+
+
+### Bug Fixes
+
+* stop growing top nav height for landing page ([3ca677d](https://github.com/brillout/docpress/commit/3ca677de7d2c1070e249870bb1fea9d14ef7c80a))
+* update edit link ([c18254b](https://github.com/brillout/docpress/commit/c18254b1d886cef7788c9d87c193a6525539e9de))
+
+
+### Features
+
+* new setting navMaxWidth ([f2ce0cd](https://github.com/brillout/docpress/commit/f2ce0cd15dfa8d0d818e5911973a2132f9db3f96))
+
+
+
 ## [0.9.4](https://github.com/brillout/docpress/compare/v0.9.3...v0.9.4) (2024-12-04)
 
 

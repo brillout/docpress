@@ -58,7 +58,8 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--bg-color']: '#f5f5f7',
         ['--block-margin']: `${blockMargin}px`,
         ['--icon-text-padding']: '8px',
-        ['--nav-head-height']: `${isLandingPage ? 70 : 60}px`,
+        // ['--nav-head-height']: `${isLandingPage ? 70 : 60}px`,
+        ['--nav-head-height']: `60px`,
       }}
     >
       <MenuModal isTopNav={isLandingPage} />

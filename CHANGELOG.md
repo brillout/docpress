@@ -1,3 +1,12 @@
+## [0.9.6](https://github.com/brillout/docpress/compare/v0.9.5...v0.9.6) (2024-12-05)
+
+
+### Bug Fixes
+
+* fix left nav layout regression ([05985d1](https://github.com/brillout/docpress/commit/05985d1d39ad3a3db99fd2ff0077a3567405fb67))
+
+
+
 ## [0.9.5](https://github.com/brillout/docpress/compare/v0.9.4...v0.9.5) (2024-12-05)
 
 

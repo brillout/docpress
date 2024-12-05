@@ -26,13 +26,10 @@ const mainViewPadding = 20
 const mainViewWidthMax = 800
 const navLeftWidthMax = 370
 const navLeftWidthMin = 300
-// 840 = 800 + 20 * 2
-const mainViewMax = mainViewWidthMax + mainViewPadding * 2
+const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const containerQueryMobileMenu = 1000
-// 1143 = 840 + 300
-const containerQueryMobileLayout = mainViewMax + navLeftWidthMin
-// 1213 = 840 + 370 + 3
-const containerQueryExtraSpace = mainViewMax + navLeftWidthMax + blockMargin
+const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1143 // 1143 = 840 + 300
+const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -321,9 +318,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          <NavLogo className="grow-half" />
-          <SearchLink className="grow-half" style={linkStyle} />
-          <MenuLink className="grow-full" style={linkStyle} />
+          <NavLogo className="mobile-grow-half" />
+          <SearchLink className="mobile-grow-half" style={linkStyle} />
+          <MenuLink className="mobile-grow-full" style={linkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -334,10 +331,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   function getStyle() {
     let style = css`
 @container container-nav-head (max-width: 550px) {
-  .grow-full {
+  .mobile-grow-full {
     flex-grow: 1;
   }
-  .grow-half {
+  .mobile-grow-half {
     flex-grow: 0.5;
   }
   .nav-head-content {

@@ -41,7 +41,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           borderBottomLeftRadius: 15,
           */
         }}
-        onMouseOver={openMenuModal}
+        onMouseOver={() => openMenuModal()}
         onMouseLeave={closeMenuModal}
       >
         <div
@@ -75,7 +75,7 @@ function NavSecondary({ className }: { className: string }) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginTop: 20,
+        marginTop: 10,
       }}
     >
       <NavSecondaryContent style={{ height: 70 }} />
@@ -127,7 +127,7 @@ function CloseButton({ className }: { className: string }) {
   return (
     <div
       className={className}
-      onClick={toggleMenuModal}
+      onClick={closeMenuModal}
       style={{ position: 'fixed', top: 0, right: 0, zIndex: 10, padding: 11, cursor: 'pointer' }}
       aria-label={'Escape\nCtrl\xa0+\xa0M'}
       data-label-shift
@@ -156,13 +156,13 @@ function CloseButton({ className }: { className: string }) {
   )
 }
 
-function toggleMenuModal() {
-  document.documentElement.classList.toggle('menu-modal-show')
-  if (
-    document.documentElement.classList.contains('menu-modal-show') &&
-    getViewportWidth() < containerQueryMobileLayout
-  ) {
-    autoScroll()
+function toggleMenuModal(menuNumber: number) {
+  const { classList } = document.documentElement
+  if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuNumber}`)) {
+    closeMenuModal()
+  } else {
+    openMenuModal(menuNumber)
+    if (getViewportWidth() < containerQueryMobileLayout) autoScroll()
   }
 }
 function autoScroll() {
@@ -188,9 +188,16 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
   return null
 }
 let closeMenuModalPending: NodeJS.Timeout
-function openMenuModal() {
+function openMenuModal(menuNavigationId?: number) {
   clearTimeout(closeMenuModalPending)
-  document.documentElement.classList.add('menu-modal-show')
+  const { classList } = document.documentElement
+  classList.add('menu-modal-show')
+  if (menuNavigationId !== undefined) {
+    classList.forEach((cls) => {
+      if (cls.startsWith('menu-modal-show-')) classList.remove(cls)
+    })
+    classList.add(`menu-modal-show-${menuNavigationId}`)
+  }
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')

@@ -3,13 +3,16 @@ export { NavigationWithColumnLayout }
 import React, { useEffect, useState } from 'react'
 import { assert } from '../utils/server'
 import { getViewportWidth } from '../utils/getViewportWidth'
-import { navLeftWidthMax, navLeftWidthMin } from '../Layout'
+import { containerQueryMobileMenu, navLeftWidthMax, navLeftWidthMin } from '../Layout'
 import { throttle } from '../utils/throttle'
 import { Collapsible } from './Collapsible'
 import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent'
 import { usePageContext } from '../renderer/usePageContext'
 import './NavigationWithColumnLayout.css'
+import { Style } from '../utils/Style'
+import { css } from '../utils/css'
 
+const marginBottomOnExpand = 30
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
@@ -22,9 +25,10 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, viewportWidth)
   return (
     <>
+      <Style>{getStyle()}</Style>
       <div className="navigation-content" style={{ marginTop: 10 }}>
         {navItemsByColumnLayouts.map((columnLayout, i) => (
-          <div key={i}>
+          <div id={`menu-navigation-${i}`} className="menu-navigation" key={i}>
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
                 <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
@@ -32,7 +36,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                     head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
                     disabled={columnLayout.columns.length > 1}
                     collapsedInit={!columnLayout.navItemLevel1.isRelevant}
-                    marginBottomOnExpand={10}
+                    marginBottomOnExpand={marginBottomOnExpand}
                   >
                     <ColumnsLayout className="collapsible">
                       {columnLayout.columns.map((column, j) => (
@@ -58,7 +62,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                             head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
                             disabled={columnLayout.columns.length > 1}
                             collapsedInit={!category.navItemLevel1.isRelevant}
-                            marginBottomOnExpand={40}
+                            marginBottomOnExpand={marginBottomOnExpand}
                           >
                             {category.navItems.map((navItem, l) => (
                               <NavItemComponent key={l} navItem={navItem} />
@@ -77,6 +81,34 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
       </div>
     </>
   )
+
+  function getStyle() {
+    const style = css`
+@media(min-width: ${containerQueryMobileMenu + 1}px) {
+ ${navItemsByColumnLayouts
+   .map(
+     (_, i) =>
+       css`
+html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  html.menu-modal-show.menu-modal-show-${i} .menu-toggle-${i} [class^='decolorize-'],
+  html.menu-modal-show.menu-modal-show-${i} .menu-toggle-${i} [class*=' decolorize-'] {
+    filter: grayscale(0) opacity(1) !important;
+  }
+  html.menu-modal-show.menu-modal-show-${i} .menu-toggle-${i} {
+    color: black !important;
+    background-color: var(--active-color);
+  }
+}
+`,
+   )
+   .join('')}
+}
+`
+    return style
+  }
 }
 function Column({ children }: { children: React.ReactNode }) {
   return (

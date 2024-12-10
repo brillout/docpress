@@ -4,14 +4,11 @@
  */
 @media (hover: hover) and (pointer: fine) {
   .colorize-on-hover:hover [class^='decolorize-'],
-  .colorize-on-hover:hover [class*=' decolorize-'],
-  html.menu-modal-show .menu-toggle [class^='decolorize-'],
-  html.menu-modal-show .menu-toggle [class*=' decolorize-'] {
+  .colorize-on-hover:hover [class*=' decolorize-'] {
     filter: grayscale(0) opacity(1) !important;
   }
   .link-hover-animation a:hover,
-  .link-hover-animation .menu-toggle:hover,
-  html.menu-modal-show .menu-toggle {
+  .link-hover-animation .menu-toggle:hover {
     color: black !important;
     background-color: var(--active-color);
   }

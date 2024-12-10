@@ -293,6 +293,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             }),
       }}
     >
+      <MenuToggle style={linkStyle} menuNumber={1}>
+        API
+      </MenuToggle>
       <TopNavigation />
       {!isNavLeft && <div className="desktop-grow" />}
       <NavSecondaryContent
@@ -343,7 +346,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           <NavLogo className="mobile-grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
           <SearchLink className="mobile-grow-half" style={linkStyle} />
-          <MenuLink className="mobile-grow-full" style={linkStyle} />
+          <MenuToggleMain className="mobile-grow-full" style={linkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -508,37 +511,9 @@ function isProjectNameShort(projectName: string) {
 
 let onMouseIgnore: ReturnType<typeof setTimeout> | undefined
 type PropsDiv = React.HTMLProps<HTMLDivElement>
-function MenuLink(props: PropsDiv) {
+function MenuToggleMain(props: PropsDiv) {
   return (
-    <div
-      {...props}
-      style={{
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'default',
-        userSelect: 'none',
-        ...props.style,
-      }}
-      className={['colorize-on-hover menu-toggle', props.className].filter(Boolean).join(' ')}
-      onClick={(ev) => {
-        ev.preventDefault()
-        toggleMenuModal()
-      }}
-      onMouseEnter={() => {
-        if (onMouseIgnore) return
-        openMenuModal()
-      }}
-      onMouseLeave={() => {
-        if (onMouseIgnore) return
-        closeMenuModalWithDelay(100)
-      }}
-      onTouchStart={() => {
-        onMouseIgnore = setTimeout(() => {
-          onMouseIgnore = undefined
-        }, 1000)
-      }}
-    >
+    <MenuToggle menuNumber={0} {...props}>
       <span className="text-docs">
         <DocsIcon /> Docs
       </span>
@@ -557,6 +532,41 @@ function MenuLink(props: PropsDiv) {
   }
 }
 `}</Style>
+    </MenuToggle>
+  )
+}
+function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number }) {
+  return (
+    <div
+      {...props}
+      style={{
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'default',
+        userSelect: 'none',
+        ...props.style,
+      }}
+      className={[`colorize-on-hover menu-toggle menu-toggle-${menuNumber}`, props.className].filter(Boolean).join(' ')}
+      onClick={(ev) => {
+        ev.preventDefault()
+        toggleMenuModal(menuNumber)
+      }}
+      onMouseEnter={() => {
+        if (onMouseIgnore) return
+        openMenuModal(menuNumber)
+      }}
+      onMouseLeave={() => {
+        if (onMouseIgnore) return
+        closeMenuModalWithDelay(100)
+      }}
+      onTouchStart={() => {
+        onMouseIgnore = setTimeout(() => {
+          onMouseIgnore = undefined
+        }, 1000)
+      }}
+    >
+      {props.children}
     </div>
   )
 }

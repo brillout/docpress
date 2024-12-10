@@ -9,7 +9,7 @@ import type {
 } from '../types/Heading'
 import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
-import type { NavItem } from '../navigation/Navigation'
+import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'

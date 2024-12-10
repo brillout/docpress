@@ -1,5 +1,12 @@
 .collapsible-icon {
   display: none;
+  position: absolute;
+  top: calc(100% / 2 - 6px);
+  margin-left: 9px;
+  vertical-align: middle;
+}
+:has(> .collapsible-icon) {
+  position: relative;
 }
 .collapsible-expanded .collapsible-icon,
 .collapsible-collapsed .collapsible-icon {

@@ -6,7 +6,7 @@ export { navLeftWidthMax }
 export { unexpandNav }
 
 import React from 'react'
-import { NavigationContent } from './navigation/Navigation'
+import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
@@ -240,6 +240,23 @@ function NavLeft() {
       {/* Early scrolling, to avoid flashing */}
       <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
     </>
+  )
+}
+function NavigationContent(props: {
+  navItems: NavItem[]
+  showOnlyRelevant?: true
+}) {
+  const pageContext = usePageContext()
+  const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
+
+  let navItemsRelevant = navItemsWithComputed
+  if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
+  const navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
+
+  return (
+    <div className="navigation-content" style={{ marginTop: 10 }}>
+      {navContent}
+    </div>
   )
 }
 

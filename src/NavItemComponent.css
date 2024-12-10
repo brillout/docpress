@@ -95,25 +95,3 @@
   z-index: 1;
   content: "";
 }
-
-:has(> .category-border) {
-  position: relative
-}
-.category-border {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 3px;
-  z-index: 99;
-}
-
-:has(> .collapsible-icon) {
-  position: relative;
-}
-.collapsible-icon {
-  position: absolute;
-  top: calc(100% / 2 - 6px);
-  margin-left: 9px;
-  vertical-align: middle;
-}

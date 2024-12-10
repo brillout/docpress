@@ -6,12 +6,12 @@ export { closeMenuModalWithDelay }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
-import { NavigationContent } from './navigation/Navigation'
 import { css } from './utils/css'
 import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { getViewportWidth } from './utils/getViewportWidth'
 import { Style } from './utils/Style'
+import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
 
 let closeMenuModalPending: NodeJS.Timeout
 
@@ -69,7 +69,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
 function Nav() {
   const pageContext = usePageContext()
   const navItems = pageContext.navItemsAll
-  return <NavigationContent columnLayout={true} navItems={navItems} />
+  return <NavigationWithColumnLayout navItems={navItems} />
 }
 function NavSecondary({ className }: { className: string }) {
   return (

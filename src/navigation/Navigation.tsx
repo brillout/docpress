@@ -241,7 +241,6 @@ type NavItemsByColumnLayout =
       columns: { navItems: NavItemComputed[] }[]
       isFullWidthCategory: true
     }
-type NavItemsByColumnLayout2 = { columns: NavItemComputed[][][]; isFullWidthCategory: boolean }
 function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: number = 0): NavItemsByColumnLayout[] {
   const navItemsByColumnEntries = getNavItemsByColumnEntries(navItems)
   const numberOfColumnsMax = Math.floor(viewportWidth / navLeftWidthMin) || 1

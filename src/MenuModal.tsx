@@ -12,6 +12,9 @@ import { NavSecondaryContent } from './NavSecondaryContent'
 import { getViewportWidth } from './utils/getViewportWidth'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
+import { isBrowser } from './utils/isBrowser'
+
+initScrollListener()
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
@@ -23,35 +26,31 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
         style={{
           position: isTopNav ? 'absolute' : 'fixed',
           width: '100%',
-          /* Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh
-           * - Always use `dvh` instead of `vh` once Firefox supports it.
-           * - We use dvh because of mobile: https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
-          height: 'calc(100dvh - var(--nav-head-height))',
-          /*/
-          height: 'calc(100vh - var(--nav-head-height))',
-          maxHeight: 'calc(100dvh - var(--nav-head-height))',
-          //*/
           top: 'var(--nav-head-height)',
           left: 0,
           zIndex: 9999,
-          overflow: 'scroll',
+          overflowY: 'scroll',
           background: '#ededef',
           transitionProperty: 'opacity',
           // https://github.com/brillout/docpress/issues/23
           // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
           // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
           overscrollBehavior: 'none',
+          /*
+          borderBottomRightRadius: 15,
+          borderBottomLeftRadius: 15,
+          */
         }}
         onMouseOver={openMenuModal}
         onMouseLeave={closeMenuModal}
       >
         <div
           style={{
-            // Place <LinksBottom /> to the bottom
+            // Place <NavSecondary /> to the bottom
             display: 'flex',
             flexDirection: 'column',
-            minHeight: 'calc(100dvh - var(--nav-head-height))',
             justifyContent: 'space-between',
+            minHeight: '100%',
             // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
           }}
@@ -85,7 +84,23 @@ function NavSecondary({ className }: { className: string }) {
 }
 
 function getStyle() {
+  // Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh
+  // - We use dvh because of mobile: https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
+  // - Let's always use `dvh` instead of `vh` once Firefox supports it.
   return css`
+#menu-modal {
+  max-height:  calc(100vh - var(--nav-head-height));
+  max-height: calc(100dvh - var(--nav-head-height));
+}
+@media(max-width: ${containerQueryMobileMenu}px) {
+  #menu-modal {
+    height:  calc(100vh);
+    height: calc(100dvh);
+  }
+  html.menu-modal-show {
+    overflow: hidden !important;
+  }
+}
 html:not(.menu-modal-show) #menu-modal {
   opacity: 0;
   pointer-events: none;
@@ -182,4 +197,9 @@ function closeMenuModal() {
 }
 function closeMenuModalWithDelay(delay: number) {
   closeMenuModalPending = setTimeout(closeMenuModal, delay)
+}
+
+function initScrollListener() {
+  if (!isBrowser()) return
+  window.addEventListener('scroll', closeMenuModal, { passive: true })
 }

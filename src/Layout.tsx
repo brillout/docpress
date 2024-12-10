@@ -525,7 +525,7 @@ function MenuLink(props: PropsDiv) {
         ev.preventDefault()
         toggleMenuModal()
       }}
-      onMouseOver={() => {
+      onMouseEnter={() => {
         if (onMouseIgnore) return
         openMenuModal()
       }}

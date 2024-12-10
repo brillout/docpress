@@ -8,6 +8,7 @@ function Page() {
       <Block noMargin>
         <Header />
         <Features />
+        <Features />
         <div style={{ height: 30 }} />
       </Block>
     </>

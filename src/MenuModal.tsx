@@ -13,8 +13,6 @@ import { getViewportWidth } from './utils/getViewportWidth'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
 
-let closeMenuModalPending: NodeJS.Timeout
-
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
     <>
@@ -174,6 +172,7 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
   }
   return null
 }
+let closeMenuModalPending: NodeJS.Timeout
 function openMenuModal() {
   clearTimeout(closeMenuModalPending)
   document.documentElement.classList.add('menu-modal-show')

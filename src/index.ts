@@ -7,6 +7,7 @@ export {
   ImportMeta,
   Emoji,
 } from './components'
+export { MenuToggle } from './Layout'
 export { usePageContext } from './renderer/usePageContext'
 export * from './components/Note'
 export * from './icons/index'

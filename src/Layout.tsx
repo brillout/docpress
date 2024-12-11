@@ -1,4 +1,5 @@
 export { Layout }
+export { MenuToggle }
 export { containerQueryMobileLayout }
 export { containerQueryMobileMenu }
 export { navLeftWidthMin }
@@ -21,7 +22,7 @@ import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
-import { iconBooks, iconGear } from './icons'
+import { iconBooks } from './icons'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -262,18 +263,18 @@ function NavigationContent(props: {
   )
 }
 
+const menuLinkStyle: React.CSSProperties = {
+  height: '100%',
+  padding: '0 var(--padding-side)',
+  justifyContent: 'center',
+}
+
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
   const { projectName } = pageContext.meta
   const { isLandingPage } = pageContext
   const { navMaxWidth } = pageContext.config
-
-  const linkStyle: React.CSSProperties = {
-    height: '100%',
-    padding: '0 var(--padding-side)',
-    justifyContent: 'center',
-  }
 
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   const navSecondaryContent = (
@@ -294,15 +295,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             }),
       }}
     >
-      <MenuToggle style={linkStyle} menuNumber={1}>
-        <img
-          src={iconGear}
-          width={21}
-          style={{ marginRight: 'calc(var(--icon-text-padding))' }}
-          className="decolorize-8 desktop-fade"
-        />{' '}
-        API
-      </MenuToggle>
       <TopNavigation />
       {!isNavLeft && <div className="desktop-grow" />}
       <NavSecondaryContent
@@ -352,8 +344,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         >
           <NavLogo className="mobile-grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
-          <SearchLink className="mobile-grow-half" style={linkStyle} />
-          <MenuToggleMain className="mobile-grow-full" style={linkStyle} />
+          <SearchLink className="mobile-grow-half" style={menuLinkStyle} />
+          <MenuToggleMain className="mobile-grow-full" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -557,6 +549,7 @@ function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number })
         alignItems: 'center',
         cursor: 'pointer',
         userSelect: 'none',
+        ...menuLinkStyle,
         ...props.style,
       }}
       className={[`colorize-on-hover menu-toggle menu-toggle-${menuNumber}`, props.className].filter(Boolean).join(' ')}

@@ -12,7 +12,6 @@ import { installSectionUrlHashs } from '../installSectionUrlHashs'
 import { getGlobalObject } from '../utils/client'
 import { initKeyBindings } from '../initKeyBindings'
 import { initOnNavigation } from './initOnNavigation'
-import { cssStopDedupe } from '../utils/css'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -64,7 +63,6 @@ function onRenderDone() {
   // TODO/refactor: use React?
   installSectionUrlHashs()
   setHydrationIsFinished()
-  cssStopDedupe()
   globalObject.renderPromiseResolve!()
 }
 

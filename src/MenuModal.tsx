@@ -204,15 +204,25 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
   }
   return null
 }
-let closeMenuModalPending: NodeJS.Timeout
+
 function openMenuModal(menuNavigationId?: number) {
-  clearTimeout(closeMenuModalPending)
+  if (menuModalLock) {
+    if (menuNavigationId === undefined) {
+      clearTimeout(menuModalLock?.timeout)
+      menuModalLock = undefined
+      return
+    }
+    menuModalLock.idNext = menuNavigationId
+    return
+  }
   const { classList } = document.documentElement
   classList.add('menu-modal-show')
   if (menuNavigationId !== undefined) {
-    classList.forEach((cls) => {
-      if (cls.startsWith('menu-modal-show-')) classList.remove(cls)
-    })
+    const currentModalId = getCurrentMenuId()
+    if (currentModalId === menuNavigationId) return
+    if (currentModalId !== null) {
+      classList.remove(`menu-modal-show-${currentModalId}`)
+    }
     classList.add(`menu-modal-show-${menuNavigationId}`)
   }
   listener?.()
@@ -224,8 +234,40 @@ function addListenerOpenMenuModal(cb: () => void) {
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
 }
-function closeMenuModalWithDelay(delay: number) {
-  closeMenuModalPending = setTimeout(closeMenuModal, delay)
+
+let menuModalLock:
+  | {
+      idCurrent: number
+      idNext: number | undefined
+      timeout: NodeJS.Timeout
+    }
+  | undefined
+function closeMenuModalWithDelay() {
+  const currentModalId = getCurrentMenuId()
+  if (currentModalId === null) return
+  const timeout = setTimeout(() => {
+    const { idCurrent, idNext } = menuModalLock!
+    menuModalLock = undefined
+    if (idNext === idCurrent) return
+    if (idNext === undefined) {
+      closeMenuModal()
+    } else {
+      openMenuModal(idNext)
+    }
+  }, 100)
+  clearTimeout(menuModalLock?.timeout)
+  menuModalLock = {
+    idCurrent: currentModalId,
+    idNext: undefined,
+    timeout,
+  }
+}
+function getCurrentMenuId(): null | number {
+  const { classList } = document.documentElement
+  const prefix = 'menu-modal-show-'
+  const cls = Array.from(classList).find((cls) => cls.startsWith(prefix))
+  if (!cls) return null
+  return parseInt(cls.slice(prefix.length), 10)
 }
 
 function initScrollListener() {

@@ -21,6 +21,7 @@ import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
+import { iconBooks, iconGear } from './icons'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -295,6 +296,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       }}
     >
       <MenuToggle style={linkStyle} menuNumber={1}>
+        <img
+          src={iconGear}
+          width={21}
+          style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
+          className="decolorize-7 desktop-fade"
+        />{' '}
         API
       </MenuToggle>
       <TopNavigation />
@@ -515,7 +522,7 @@ type PropsDiv = React.HTMLProps<HTMLDivElement>
 function MenuToggleMain(props: PropsDiv) {
   return (
     <MenuToggle menuNumber={0} {...props}>
-      <span className="text-docs">
+      <span className="text-docs" style={{ display: 'flex' }}>
         <DocsIcon /> Docs
       </span>
       <span className="text-menu">
@@ -524,7 +531,7 @@ function MenuToggleMain(props: PropsDiv) {
       <Style>{css`
 @media(max-width: ${containerQueryMobileMenu}px) {
   .text-docs {
-    display: none;
+    display: none !important;
   }
 }
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
@@ -598,9 +605,12 @@ function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number })
 }
 function DocsIcon() {
   return (
-    <span style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }} className="decolorize-6 desktop-fade">
-      📚
-    </span>
+    <img
+      src={iconBooks}
+      width={21}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
+      className="decolorize-6 desktop-fade"
+    />
   )
 }
 function MenuIcon() {

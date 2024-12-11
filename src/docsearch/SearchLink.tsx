@@ -2,6 +2,7 @@ export { SearchLink }
 
 import React from 'react'
 import { openDocsearchModal } from './toggleDocsearchModal'
+import { iconMagnifyingGlass } from '../icons'
 
 type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
 function SearchLink(props: PropsAnchor) {
@@ -29,8 +30,11 @@ function SearchLink(props: PropsAnchor) {
 }
 function SearchIcon() {
   return (
-    <span style={{ marginRight: 'var(--icon-text-padding)', fontSize: '1.1em' }} className="decolorize-7 desktop-fade">
-      🔍
-    </span>
+    <img
+      src={iconMagnifyingGlass}
+      width={21}
+      style={{ marginRight: 'var(--icon-text-padding)' }}
+      className="decolorize-7 desktop-fade"
+    />
   )
 }

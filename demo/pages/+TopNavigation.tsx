@@ -1,5 +1,6 @@
 export { TopNavigation }
 
+import { iconSeedling } from '@brillout/docpress'
 import React from 'react'
 
 function TopNavigation() {
@@ -10,19 +11,18 @@ function TopNavigation() {
       style={{
         color: 'inherit',
         height: '100%',
-        display: 'inline-flex',
+        display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
         cursor: 'pointer',
         padding: '0 var(--padding-side)',
       }}
     >
-      <span
+      <img
+        src={iconSeedling}
+        width={21}
+        style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: -1 }}
         className="decolorize-7 desktop-fade"
-        style={{ height: 23, marginRight: 8, fontFamily: 'emoji', position: 'relative', top: -2 }}
-      >
-        🌱
-      </span>{' '}
+      />
       Get Started
     </a>
   )

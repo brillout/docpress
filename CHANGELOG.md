@@ -1,3 +1,12 @@
+## [0.10.1](https://github.com/brillout/docpress/compare/v0.10.0...v0.10.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* make escaping menu modal easier ([2257600](https://github.com/brillout/docpress/commit/22576005b557cecaf32c8b7a143170b322ad8ce0))
+
+
+
 # [0.10.0](https://github.com/brillout/docpress/compare/v0.9.8...v0.10.0) (2024-12-11)
 
 

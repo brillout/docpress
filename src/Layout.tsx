@@ -389,7 +389,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     flex-grow: 1;
   }
   .desktop-fade {
-    transition: opacity 0.3s ease-in-out !important;
+    transition: opacity 0.4s ease-in-out;
   }
   html:not(.menu-modal-show) .nav-head-top:not(:hover) .desktop-fade {
     transition: opacity 0.3s ease-in-out !important;

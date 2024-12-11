@@ -289,7 +289,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
               position: 'absolute',
               left: '100%',
               top: 0,
-              paddingLeft: 'var(--block-margin)',
               '--padding-side': '20px',
               width: mainViewMax, // guaranteed real estate
             }),

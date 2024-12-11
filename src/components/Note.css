@@ -46,7 +46,6 @@ blockquote.custom-icon > .blockquote-content > :first-child {
 /*** Icon Positioning ***/
 /************************/
 blockquote > p:first-child::before,
-/* blockquote > p:first-of-type::before, */
 blockquote > div.paragraph:first-child::before {
   font-family: emoji;
   content: 'ℹ️';

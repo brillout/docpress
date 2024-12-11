@@ -25,6 +25,6 @@ pre > code {
   font-size: 1em;
 }
 /* Workaround for shiki regression */
-pre>code:not([data-language]) {
+pre > code:not([data-language]) {
   padding: 16px !important;
 }

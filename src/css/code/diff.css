@@ -2,13 +2,15 @@
 
 pre.has-diff .diff.remove,
 /* For <FileRemoved> */
-.diff-entire-file-removed code {
+  /* biome-ignore format: */
+  .diff-entire-file-removed code {
   background-color: #fbdcda !important;
 }
 
 pre.has-diff .diff.add,
 /* For <FileAdded> */
-.diff-entire-file-added code {
+  /* biome-ignore format: */
+  .diff-entire-file-added code {
   background-color: #d7ecdf !important;
 }
 
@@ -19,14 +21,16 @@ pre.has-diff [data-line].diff,
 
 pre.has-diff .diff::before,
 /* For <FileRemoved> / <FileAdded> */
-.diff-entire-file [data-line]::before {
+  /* biome-ignore format: */
+  .diff-entire-file [data-line]::before {
   position: absolute;
   font-weight: 500;
 }
 
 pre.has-diff .diff.add::before,
 /* For <FileAdded> */
-.diff-entire-file-added [data-line]::before {
+  /* biome-ignore format: */
+  .diff-entire-file-added [data-line]::before {
   content: '+';
   color: #89d189;
   font-size: 1.2em;
@@ -36,7 +40,8 @@ pre.has-diff .diff.add::before,
 
 pre.has-diff .diff.remove::before,
 /* For <FileRemoved> */
-.diff-entire-file-removed [data-line]::before {
+  /* biome-ignore format: */
+  .diff-entire-file-removed [data-line]::before {
   content: '-';
   color: #f18383;
   font-size: 1.4em;

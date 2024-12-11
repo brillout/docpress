@@ -93,13 +93,15 @@ html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
   display: none;
 }
 @media (hover: hover) and (pointer: fine) {
-  html.menu-modal-show.menu-modal-show-${i} .menu-toggle-${i} [class^='decolorize-'],
-  html.menu-modal-show.menu-modal-show-${i} .menu-toggle-${i} [class*=' decolorize-'] {
-    filter: grayscale(0) opacity(1) !important;
-  }
-  html.menu-modal-show.menu-modal-show-${i} .menu-toggle-${i} {
-    color: black !important;
-    background-color: var(--active-color);
+  html.menu-modal-show.menu-modal-show-${i} {
+    .menu-toggle-${i} {
+      color: black !important;
+      background-color: var(--active-color);
+      [class^='decolorize-'],
+      [class*=' decolorize-'] {
+        filter: grayscale(0) opacity(1) !important;
+      }
+    }
   }
 }
 `,

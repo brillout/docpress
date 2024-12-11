@@ -11,7 +11,7 @@ import { isBrowser } from '../utils/isBrowser'
 initScrollListener()
 
 function openMenuModal(menuNavigationId?: number) {
-  if (openIsForbidden) return
+  if (keepOpenIsDisabled) return
   if (menuModalLock) {
     if (menuNavigationId === undefined) {
       clearTimeout(menuModalLock?.timeout)
@@ -40,13 +40,13 @@ function addListenerOpenMenuModal(cb: () => void) {
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
 }
-let openIsForbidden: true | undefined
-function closeMenuModalAndBlock() {
+let keepOpenIsDisabled: true | undefined
+function closeAndForbidKeepOpen() {
   if (!document.documentElement.classList.contains('menu-modal-show')) return
-  openIsForbidden = true
+  keepOpenIsDisabled = true
   closeMenuModal()
   setTimeout(() => {
-    openIsForbidden = undefined
+    keepOpenIsDisabled = undefined
   }, 430)
 }
 
@@ -87,18 +87,18 @@ function getCurrentMenuId(): null | number {
 
 function initScrollListener() {
   if (!isBrowser()) return
-  window.addEventListener('scroll', closeMenuModalAndBlock, { passive: true })
+  window.addEventListener('scroll', closeAndForbidKeepOpen, { passive: true })
   window.addEventListener(
     'mousemove',
     () => {
-      openIsForbidden = undefined
+      keepOpenIsDisabled = undefined
     },
     { passive: true },
   )
 }
 
 function toggleMenuModal(menuId: number) {
-  openIsForbidden = undefined
+  keepOpenIsDisabled = undefined
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuId}`)) {
     closeMenuModal()

@@ -7,8 +7,7 @@
   .colorize-on-hover:hover [class*=' decolorize-'] {
     filter: grayscale(0) opacity(1) !important;
   }
-  .link-hover-animation a:hover,
-  .link-hover-animation .menu-toggle:hover {
+  .link-hover-animation a:hover {
     color: black !important;
     background-color: var(--active-color);
   }

@@ -544,7 +544,7 @@ function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number })
         height: '100%',
         display: 'flex',
         alignItems: 'center',
-        cursor: 'default',
+        cursor: 'pointer',
         userSelect: 'none',
         ...props.style,
       }}
@@ -567,9 +567,34 @@ function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number })
         }, 1000)
       }}
     >
+      <Style>{getAnimation()}</Style>
       {props.children}
     </div>
   )
+
+  function getAnimation() {
+    return css`
+.menu-toggle {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  .link-hover-animation &:hover::before {
+    top: 0;
+  }
+  &::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: var(--nav-head-height);
+    background-color: var(--active-color);
+    transition-property: top !important;
+    transition: top 0.4s ease !important;
+    z-index: -1;
+  }
+}
+    `
+  }
 }
 function DocsIcon() {
   return (

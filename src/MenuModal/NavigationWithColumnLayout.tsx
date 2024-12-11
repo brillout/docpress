@@ -96,10 +96,13 @@ html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
   html.menu-modal-show.menu-modal-show-${i} {
     .menu-toggle-${i} {
       color: black !important;
-      background-color: var(--active-color);
+      cursor: default !important;
       [class^='decolorize-'],
       [class*=' decolorize-'] {
         filter: grayscale(0) opacity(1) !important;
+      }
+      &::before {
+        top: 0;
       }
     }
   }

@@ -381,10 +381,15 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 @container container-nav-head (min-width: 501px) {
   .nav-head-content {
-    --padding-side: 35px;
+    --padding-side: 24px;
   }
   .nav-logo {
     padding: 0 var(--padding-side);
+  }
+}
+@container container-nav-head (min-width: ${containerQueryMobileMenu + 100}px) {
+  .nav-head-content {
+    --padding-side: 35px;
   }
 }
 @media(max-width: ${containerQueryMobileMenu}px) {

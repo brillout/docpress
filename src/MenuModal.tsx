@@ -174,6 +174,7 @@ function CloseButton({ className }: { className: string }) {
 }
 
 function toggleMenuModal(menuNumber: number) {
+  openIsForbidden = undefined
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuNumber}`)) {
     closeMenuModal()
@@ -206,6 +207,7 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
 }
 
 function openMenuModal(menuNavigationId?: number) {
+  if (openIsForbidden) return
   if (menuModalLock) {
     if (menuNavigationId === undefined) {
       clearTimeout(menuModalLock?.timeout)
@@ -233,6 +235,15 @@ function addListenerOpenMenuModal(cb: () => void) {
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')
+}
+let openIsForbidden: true | undefined
+function closeMenuModalAndBlock() {
+  if (!document.documentElement.classList.contains('menu-modal-show')) return
+  openIsForbidden = true
+  closeMenuModal()
+  setTimeout(() => {
+    openIsForbidden = undefined
+  }, 430)
 }
 
 let menuModalLock:
@@ -272,5 +283,12 @@ function getCurrentMenuId(): null | number {
 
 function initScrollListener() {
   if (!isBrowser()) return
-  window.addEventListener('scroll', closeMenuModal, { passive: true })
+  window.addEventListener('scroll', closeMenuModalAndBlock, { passive: true })
+  window.addEventListener(
+    'mousemove',
+    () => {
+      openIsForbidden = undefined
+    },
+    { passive: true },
+  )
 }

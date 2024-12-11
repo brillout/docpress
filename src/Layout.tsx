@@ -4,6 +4,7 @@ export { containerQueryMobileMenu }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
+export { blockMargin }
 
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'

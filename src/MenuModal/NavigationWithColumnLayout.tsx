@@ -26,7 +26,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div className="navigation-content" style={{ marginTop: 10 }}>
+      <div className="navigation-content" style={{ paddingTop: 10 }}>
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div id={`menu-navigation-${i}`} className="menu-navigation" key={i}>
             {columnLayout.isFullWidthCategory ? (

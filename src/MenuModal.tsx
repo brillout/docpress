@@ -3,11 +3,12 @@ export { toggleMenuModal }
 export { openMenuModal }
 export { closeMenuModal }
 export { closeMenuModalWithDelay }
+export { addListenerOpenMenuModal }
 
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
-import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
+import { blockMargin, containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { getViewportWidth } from './utils/getViewportWidth'
 import { Style } from './utils/Style'
@@ -17,6 +18,16 @@ import { isBrowser } from './utils/isBrowser'
 initScrollListener()
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState<number | undefined>(undefined)
+  useEffect(() => {
+    const updateHeight = () => {
+      const { scrollHeight } = ref!.current!.querySelector('.navigation-content')!
+      if (height !== scrollHeight) setHeight(scrollHeight + blockMargin)
+    }
+    addListenerOpenMenuModal(updateHeight)
+    updateHeight()
+  })
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -31,16 +42,15 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           zIndex: 9999,
           overflowY: 'scroll',
           background: '#ededef',
-          transitionProperty: 'opacity',
+          transitionProperty: 'height',
+          transitionTimingFunction: 'ease',
           // https://github.com/brillout/docpress/issues/23
           // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
           // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
           overscrollBehavior: 'none',
-          /*
-          borderBottomRightRadius: 15,
-          borderBottomLeftRadius: 15,
-          */
+          height,
         }}
+        ref={ref}
         onMouseOver={() => openMenuModal()}
         onMouseLeave={closeMenuModal}
       >
@@ -59,6 +69,9 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           <NavSecondary className="show-only-for-mobile" />
         </div>
         <CloseButton className="show-only-for-mobile" />
+        <div
+          style={{ position: 'absolute', background: '#fff', height: 'var(--block-margin)', width: '100%', bottom: 0 }}
+        />
       </div>
     </>
   )
@@ -84,40 +97,44 @@ function NavSecondary({ className }: { className: string }) {
 }
 
 function getStyle() {
-  // Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh
-  // - We use dvh because of mobile: https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072
-  // - Let's always use `dvh` instead of `vh` once Firefox supports it.
   return css`
-#menu-modal {
-  max-height:  calc(100vh - var(--nav-head-height));
-  max-height: calc(100dvh - var(--nav-head-height));
+@media(min-width: ${containerQueryMobileMenu + 1}px) {
+  #menu-modal {
+    ${/* Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
+    ${/* Let's always use `dvh` instead of `vh` once Firefox supports it */ ''}
+    max-height:  calc(100vh - var(--nav-head-height));
+    ${/* We use dvh because of mobile */ ''}
+    ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
+    max-height: calc(100dvh - var(--nav-head-height));
+  }
+  html:not(.menu-modal-show) #menu-modal {
+    height: 0 !important;
+  }
+  .show-only-for-mobile {
+    display: none !important;
+  }
 }
 @media(max-width: ${containerQueryMobileMenu}px) {
   #menu-modal {
-    height:  calc(100vh);
-    height: calc(100dvh);
+    height:  calc(100vh) !important;
+    height: calc(100dvh) !important;
+    border: none !important;
   }
+  html:not(.menu-modal-show) #menu-modal {
+    opacity: 0;
+    pointer-events: none;
+  }
+  ${/* Disable scrolling of main view */ ''}
   html.menu-modal-show {
     overflow: hidden !important;
   }
-}
-html:not(.menu-modal-show) #menu-modal {
-  opacity: 0;
-  pointer-events: none;
-}
-@container container-viewport (min-width: ${containerQueryMobileLayout}px) {
-  #menu-modal .nav-item-level-3 {
-    display: none;
-  }
-}
-@media(max-width: ${containerQueryMobileMenu}px) {
   #menu-modal {
     --nav-head-height: 0px !important;
   }
 }
-@media(min-width: ${containerQueryMobileMenu + 1}px) {
-  .show-only-for-mobile {
-    display: none !important;
+@container container-viewport (min-width: ${containerQueryMobileLayout}px) {
+  #menu-modal .nav-item-level-3 {
+    display: none;
   }
 }
 `
@@ -198,6 +215,11 @@ function openMenuModal(menuNavigationId?: number) {
     })
     classList.add(`menu-modal-show-${menuNavigationId}`)
   }
+  listener?.()
+}
+let listener: () => void | undefined
+function addListenerOpenMenuModal(cb: () => void) {
+  listener = cb
 }
 function closeMenuModal() {
   document.documentElement.classList.remove('menu-modal-show')

@@ -12,7 +12,13 @@
       "semicolons": "asNeeded",
       "lineWidth": 120,
       "quoteStyle": "single",
-      "trailingComma": "all"
+      "trailingCommas": "all"
+    }
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single",
+      "lineWidth": 120
     }
   },
   "linter": {

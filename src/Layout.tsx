@@ -585,8 +585,10 @@ function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number })
   position: relative;
   overflow: hidden;
   z-index: 0;
-  .link-hover-animation &:hover::before {
-    top: 0;
+  @media (hover: hover) and (pointer: fine) {
+    .link-hover-animation &:hover::before {
+      top: 0;
+    }
   }
   &::before {
     position: absolute;

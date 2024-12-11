@@ -6,12 +6,15 @@ import { assert } from '../utils/server'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import type { OnRenderHtmlAsync } from 'vike/types'
+import { cssResetDedupe } from '../utils/css'
 
 const onRenderHtml: OnRenderHtmlAsync = async (
   pageContext,
 ): // TODO: Why is Promise<Awaited<>> needed?
 Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
+
+  cssResetDedupe()
 
   const page = getPageElement(pageContext, pageContextResolved)
 

@@ -53,19 +53,26 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             flexDirection: 'column',
             justifyContent: 'space-between',
             minHeight: '100%',
-            // We don't set `container` to parent beacuse of a Chrome bug (showing a blank <MenuModal>)
+            position: 'relative',
+            // We don't set `container` to the parent #menu-modal beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
           }}
         >
           <Nav />
           <NavSecondary className="show-only-for-mobile" />
+          <BorderBottom />
         </div>
         <CloseButton className="show-only-for-mobile" />
-        <div
-          style={{ position: 'absolute', background: '#fff', height: 'var(--block-margin)', width: '100%', bottom: 0 }}
-        />
       </div>
     </>
+  )
+}
+function BorderBottom() {
+  return (
+    <div
+      id="border-bottom"
+      style={{ position: 'absolute', background: '#fff', height: 'var(--block-margin)', width: '100%', bottom: 0 }}
+    />
   )
 }
 function Nav() {
@@ -110,7 +117,9 @@ function getStyle() {
   #menu-modal {
     height:  calc(100vh) !important;
     height: calc(100dvh) !important;
-    border: none !important;
+  }
+  #border-bottom {
+    display: none;
   }
   html:not(.menu-modal-show) #menu-modal {
     opacity: 0;

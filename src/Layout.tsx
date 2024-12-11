@@ -299,8 +299,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         <img
           src={iconGear}
           width={21}
-          style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
-          className="decolorize-7 desktop-fade"
+          style={{ marginRight: 'calc(var(--icon-text-padding))' }}
+          className="decolorize-8 desktop-fade"
         />{' '}
         API
       </MenuToggle>
@@ -609,7 +609,7 @@ function DocsIcon() {
       src={iconBooks}
       width={21}
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
-      className="decolorize-6 desktop-fade"
+      className="decolorize-5 desktop-fade"
     />
   )
 }

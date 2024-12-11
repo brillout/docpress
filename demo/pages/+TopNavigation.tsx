@@ -21,7 +21,7 @@ function TopNavigation() {
         src={iconSeedling}
         width={21}
         style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: -1 }}
-        className="decolorize-7 desktop-fade"
+        className="decolorize-8 desktop-fade"
       />
       Get Started
     </a>

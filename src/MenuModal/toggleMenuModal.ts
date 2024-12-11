@@ -1,7 +1,8 @@
 export { toggleMenuModal }
 export { openMenuModal }
+export { keepMenuModalOpen }
 export { closeMenuModal }
-export { closeMenuModalWithDelay }
+export { closeMenuOnMouseLeave }
 export { addListenerOpenMenuModal }
 
 import { containerQueryMobileLayout } from '../Layout'
@@ -10,8 +11,14 @@ import { isBrowser } from '../utils/isBrowser'
 
 initScrollListener()
 
-function openMenuModal(menuNavigationId?: number) {
+function keepMenuModalOpen() {
   if (keepOpenIsDisabled) return
+  open()
+}
+function openMenuModal(menuNavigationId: number) {
+  open(menuNavigationId)
+}
+function open(menuNavigationId?: number) {
   if (menuModalLock) {
     if (menuNavigationId === undefined) {
       clearTimeout(menuModalLock?.timeout)
@@ -47,7 +54,7 @@ function closeAndForbidKeepOpen() {
   closeMenuModal()
   setTimeout(() => {
     keepOpenIsDisabled = undefined
-  }, 430)
+  }, 500)
 }
 
 let menuModalLock:
@@ -57,7 +64,7 @@ let menuModalLock:
       timeout: NodeJS.Timeout
     }
   | undefined
-function closeMenuModalWithDelay() {
+function closeMenuOnMouseLeave() {
   const currentModalId = getCurrentMenuId()
   if (currentModalId === null) return
   const timeout = setTimeout(() => {
@@ -65,7 +72,7 @@ function closeMenuModalWithDelay() {
     menuModalLock = undefined
     if (idNext === idCurrent) return
     if (idNext === undefined) {
-      closeMenuModal()
+      closeAndForbidKeepOpen()
     } else {
       openMenuModal(idNext)
     }
@@ -88,13 +95,6 @@ function getCurrentMenuId(): null | number {
 function initScrollListener() {
   if (!isBrowser()) return
   window.addEventListener('scroll', closeAndForbidKeepOpen, { passive: true })
-  window.addEventListener(
-    'mousemove',
-    () => {
-      keepOpenIsDisabled = undefined
-    },
-    { passive: true },
-  )
 }
 
 function toggleMenuModal(menuId: number) {

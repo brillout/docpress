@@ -7,7 +7,7 @@ import { blockMargin, containerQueryMobileLayout, containerQueryMobileMenu } fro
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
-import { addListenerOpenMenuModal, closeMenuModal, openMenuModal } from './MenuModal/toggleMenuModal'
+import { addListenerOpenMenuModal, closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -43,7 +43,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           height,
         }}
         ref={ref}
-        onMouseOver={() => openMenuModal()}
+        onMouseOver={() => keepMenuModalOpen()}
         onMouseLeave={closeMenuModal}
       >
         <div

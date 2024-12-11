@@ -13,7 +13,7 @@ import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { NavSecondaryContent } from './NavSecondaryContent'
-import { closeMenuModalWithDelay, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
+import { closeMenuOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
@@ -563,7 +563,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       }}
       onMouseLeave={() => {
         if (onMouseIgnore) return
-        closeMenuModalWithDelay()
+        closeMenuOnMouseLeave()
       }}
       onTouchStart={() => {
         onMouseIgnore = setTimeout(() => {

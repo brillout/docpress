@@ -1,3 +1,31 @@
+# [0.10.0](https://github.com/brillout/docpress/compare/v0.9.8...v0.10.0) (2024-12-11)
+
+
+### Bug Fixes
+
+* new menu animation ([11b74aa](https://github.com/brillout/docpress/commit/11b74aa22a96a2b365e696acd92c2d4f276310f6))
+* new menu toggle animation ([368b77a](https://github.com/brillout/docpress/commit/368b77a9e2a48ba6947a0ac3afc4499b0538f994))
+* reduce KB ([21e063b](https://github.com/brillout/docpress/commit/21e063b1dd682e782bde6c56dfff2f9e4aac706e))
+* split menu ([6bbe41d](https://github.com/brillout/docpress/commit/6bbe41d9a4bc8e1172b4f9bdd0def0958e4b3e2b))
+* stop making menu modal always fullscreen ([269ad47](https://github.com/brillout/docpress/commit/269ad47614ad0a4a8400fb7faa7224febceda464))
+
+
+* add breaking change ([33f31b7](https://github.com/brillout/docpress/commit/33f31b78a1b5f0e474ff7312003d6e8eddeef621))
+
+
+### Features
+
+* add icons ([6d747d4](https://github.com/brillout/docpress/commit/6d747d468e29ae91b4f78afd90eec8d44fff4e8b))
+* MenuToggle ([59fc634](https://github.com/brillout/docpress/commit/59fc634f2d56458ec1c6f6a73caaa094553cc3fc))
+
+
+### BREAKING CHANGES
+
+* if using `menuModalFullWidth: true` then make sure to
+add a new `<MenuToggle>` to `+TopNavigation.js`
+
+
+
 ## [0.9.8](https://github.com/brillout/docpress/compare/v0.9.7...v0.9.8) (2024-12-06)
 
 

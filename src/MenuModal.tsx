@@ -1,21 +1,13 @@
 export { MenuModal }
-export { toggleMenuModal }
-export { openMenuModal }
-export { closeMenuModal }
-export { closeMenuModalWithDelay }
-export { addListenerOpenMenuModal }
 
 import React, { useEffect, useRef, useState } from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
 import { blockMargin, containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
-import { getViewportWidth } from './utils/getViewportWidth'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
-import { isBrowser } from './utils/isBrowser'
-
-initScrollListener()
+import { addListenerOpenMenuModal, closeMenuModal, openMenuModal } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -170,125 +162,5 @@ function CloseButton({ className }: { className: string }) {
         />
       </svg>
     </div>
-  )
-}
-
-function toggleMenuModal(menuNumber: number) {
-  openIsForbidden = undefined
-  const { classList } = document.documentElement
-  if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuNumber}`)) {
-    closeMenuModal()
-  } else {
-    openMenuModal(menuNumber)
-    if (getViewportWidth() < containerQueryMobileLayout) autoScroll()
-  }
-}
-function autoScroll() {
-  const nav = document.querySelector('#menu-modal .navigation-content')!
-  const href = window.location.pathname
-  const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
-  const navLink = navLinks[0] as HTMLElement | undefined
-  if (!navLink) return
-  // None of the following seemes to be working: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
-  if (findCollapsibleEl(navLink)!.classList.contains('collapsible-collapsed')) return
-  navLink.scrollIntoView({
-    behavior: 'instant',
-    block: 'center',
-    inline: 'start',
-  })
-}
-function findCollapsibleEl(navLink: HTMLElement | undefined) {
-  let parentEl: HTMLElement | null | undefined = navLink
-  while (parentEl) {
-    if (parentEl.classList.contains('collapsible')) return parentEl
-    parentEl = parentEl.parentElement
-  }
-  return null
-}
-
-function openMenuModal(menuNavigationId?: number) {
-  if (openIsForbidden) return
-  if (menuModalLock) {
-    if (menuNavigationId === undefined) {
-      clearTimeout(menuModalLock?.timeout)
-      menuModalLock = undefined
-      return
-    }
-    menuModalLock.idNext = menuNavigationId
-    return
-  }
-  const { classList } = document.documentElement
-  classList.add('menu-modal-show')
-  if (menuNavigationId !== undefined) {
-    const currentModalId = getCurrentMenuId()
-    if (currentModalId === menuNavigationId) return
-    if (currentModalId !== null) {
-      classList.remove(`menu-modal-show-${currentModalId}`)
-    }
-    classList.add(`menu-modal-show-${menuNavigationId}`)
-  }
-  listener?.()
-}
-let listener: () => void | undefined
-function addListenerOpenMenuModal(cb: () => void) {
-  listener = cb
-}
-function closeMenuModal() {
-  document.documentElement.classList.remove('menu-modal-show')
-}
-let openIsForbidden: true | undefined
-function closeMenuModalAndBlock() {
-  if (!document.documentElement.classList.contains('menu-modal-show')) return
-  openIsForbidden = true
-  closeMenuModal()
-  setTimeout(() => {
-    openIsForbidden = undefined
-  }, 430)
-}
-
-let menuModalLock:
-  | {
-      idCurrent: number
-      idNext: number | undefined
-      timeout: NodeJS.Timeout
-    }
-  | undefined
-function closeMenuModalWithDelay() {
-  const currentModalId = getCurrentMenuId()
-  if (currentModalId === null) return
-  const timeout = setTimeout(() => {
-    const { idCurrent, idNext } = menuModalLock!
-    menuModalLock = undefined
-    if (idNext === idCurrent) return
-    if (idNext === undefined) {
-      closeMenuModal()
-    } else {
-      openMenuModal(idNext)
-    }
-  }, 100)
-  clearTimeout(menuModalLock?.timeout)
-  menuModalLock = {
-    idCurrent: currentModalId,
-    idNext: undefined,
-    timeout,
-  }
-}
-function getCurrentMenuId(): null | number {
-  const { classList } = document.documentElement
-  const prefix = 'menu-modal-show-'
-  const cls = Array.from(classList).find((cls) => cls.startsWith(prefix))
-  if (!cls) return null
-  return parseInt(cls.slice(prefix.length), 10)
-}
-
-function initScrollListener() {
-  if (!isBrowser()) return
-  window.addEventListener('scroll', closeMenuModalAndBlock, { passive: true })
-  window.addEventListener(
-    'mousemove',
-    () => {
-      openIsForbidden = undefined
-    },
-    { passive: true },
   )
 }

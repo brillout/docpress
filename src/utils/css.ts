@@ -10,12 +10,6 @@ export function css(strings: TemplateStringsArray | string[], ...values: (string
     })
     .join('')
 
-  // Remove comments
-  result = result
-    .split('\n')
-    .filter((line) => !line.startsWith('// '))
-    .join('\n')
-
   // Minifiy
   result = result
     .replace(/\s+/g, ' ') // Replace all whitespace sequences with a single space

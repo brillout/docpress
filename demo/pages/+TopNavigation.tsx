@@ -6,7 +6,7 @@ import React from 'react'
 function TopNavigation() {
   return (
     <>
-      <MenuToggle menuNumber={1}>
+      <MenuToggle menuId={1}>
         <img
           src={iconGear}
           width={21}

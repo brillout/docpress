@@ -517,7 +517,7 @@ let onMouseIgnore: ReturnType<typeof setTimeout> | undefined
 type PropsDiv = React.HTMLProps<HTMLDivElement>
 function MenuToggleMain(props: PropsDiv) {
   return (
-    <MenuToggle menuNumber={0} {...props}>
+    <MenuToggle menuId={0} {...props}>
       <span className="text-docs" style={{ display: 'flex' }}>
         <DocsIcon /> Docs
       </span>
@@ -539,7 +539,7 @@ function MenuToggleMain(props: PropsDiv) {
     </MenuToggle>
   )
 }
-function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number }) {
+function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
   return (
     <div
       {...props}
@@ -552,14 +552,14 @@ function MenuToggle({ menuNumber, ...props }: PropsDiv & { menuNumber: number })
         ...menuLinkStyle,
         ...props.style,
       }}
-      className={[`colorize-on-hover menu-toggle menu-toggle-${menuNumber}`, props.className].filter(Boolean).join(' ')}
+      className={[`colorize-on-hover menu-toggle menu-toggle-${menuId}`, props.className].filter(Boolean).join(' ')}
       onClick={(ev) => {
         ev.preventDefault()
-        toggleMenuModal(menuNumber)
+        toggleMenuModal(menuId)
       }}
       onMouseEnter={() => {
         if (onMouseIgnore) return
-        openMenuModal(menuNumber)
+        openMenuModal(menuId)
       }}
       onMouseLeave={() => {
         if (onMouseIgnore) return

@@ -97,13 +97,13 @@ function initScrollListener() {
   )
 }
 
-function toggleMenuModal(menuNumber: number) {
+function toggleMenuModal(menuId: number) {
   openIsForbidden = undefined
   const { classList } = document.documentElement
-  if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuNumber}`)) {
+  if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuId}`)) {
     closeMenuModal()
   } else {
-    openMenuModal(menuNumber)
+    openMenuModal(menuId)
     if (getViewportWidth() < containerQueryMobileLayout) autoScroll()
   }
 }

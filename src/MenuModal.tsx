@@ -70,7 +70,6 @@ function BorderBottom() {
         height: 'var(--block-margin)',
         width: '100%',
         bottom: 0,
-        zIndex: 200,
       }}
     />
   )

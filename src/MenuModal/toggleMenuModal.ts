@@ -36,6 +36,8 @@ function open(menuNavigationId?: number) {
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
     classList.add(`menu-modal-show-${menuNavigationId}`)
+    const height = window.getComputedStyle(document.getElementById(`menu-navigation-${menuNavigationId}`)!).height
+    document.getElementById('menu-navigation-container')!.style.height = height
   }
   listener?.()
 }

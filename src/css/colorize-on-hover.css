@@ -18,7 +18,7 @@
 .link-hover-animation a,
 .link-hover-animation .menu-toggle,
 .add-transition {
-  transition: none 2.4s ease-in-out;
+  transition: none 0.4s ease-in-out;
 }
 [class^='decolorize-'],
 [class*=' decolorize-'] {

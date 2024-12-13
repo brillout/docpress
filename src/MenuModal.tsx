@@ -24,7 +24,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
-        className="link-hover-animation add-transition"
+        className="link-hover-animation add-transition show-on-nav-hover"
         style={{
           position: isTopNav ? 'absolute' : 'fixed',
           width: '100%',
@@ -32,7 +32,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           left: 0,
           zIndex: 9999,
           background: '#ededef',
-          transitionProperty: 'height',
+          transitionProperty: 'height, opacity',
           transitionTimingFunction: 'ease',
           height,
           overflow: 'hidden',

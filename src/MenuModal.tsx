@@ -43,10 +43,6 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           id="menu-modal-scroll-container"
           style={{
             overflowY: 'scroll',
-            // https://github.com/brillout/docpress/issues/23
-            // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
-            // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
-            overscrollBehavior: 'none',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}
@@ -100,6 +96,12 @@ function getStyle() {
   #menu-modal-scroll-container,
   #menu-modal-wrapper {
     max-height: calc(100vh - var(--nav-head-height));
+  }
+  #menu-modal-scroll-container {
+    ${/* https://github.com/brillout/docpress/issues/23 */ ''}
+    ${/* https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow */ ''}
+    ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
+    overscroll-behavior: none;
   }
   html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* 3px */ ''}

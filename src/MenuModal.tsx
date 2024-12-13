@@ -137,6 +137,10 @@ function getStyle() {
   #menu-modal-wrapper {
     --nav-head-height: 0px !important;
   }
+  #menu-modal-wrapper,
+  #menu-navigation-container {
+    height: auto!important;
+  }
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   #menu-modal-wrapper .nav-item-level-3 {

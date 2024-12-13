@@ -26,21 +26,9 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div
-        id="menu-navigation-container"
-        className="navigation-content"
-        style={{ position: 'relative', overflow: 'hidden' }}
-      >
+      <div id="menu-navigation-container" className="navigation-content">
         {navItemsByColumnLayouts.map((columnLayout, i) => (
-          <div
-            id={`menu-navigation-${i}`}
-            style={{
-              paddingTop: 10,
-              position: 'absolute',
-              width: '100%',
-            }}
-            key={i}
-          >
+          <div id={`menu-navigation-${i}`} className="menu-navigation-content" style={{ paddingTop: 10 }} key={i}>
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
                 <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
@@ -97,6 +85,14 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   function getStyle() {
     const style = css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
+  #menu-navigation-container {
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-navigation-content {
+    position: absolute;
+    width: 100%;
+  }
  ${navItemsByColumnLayouts
    .map(
      (_, i) =>

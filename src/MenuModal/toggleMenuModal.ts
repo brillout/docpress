@@ -6,6 +6,7 @@ export { closeMenuOnMouseLeave }
 export { addListenerOpenMenuModal }
 
 import { containerQueryMobileLayout } from '../Layout'
+import { getHydrationPromise } from '../renderer/getHydrationPromise'
 import { getViewportWidth } from '../utils/getViewportWidth'
 import { isBrowser } from '../utils/isBrowser'
 
@@ -17,7 +18,7 @@ function keepMenuModalOpen() {
 function openMenuModal(menuNavigationId: number) {
   open(menuNavigationId)
 }
-function open(menuNavigationId?: number) {
+async function open(menuNavigationId?: number) {
   if (menuModalLock) {
     if (menuNavigationId === undefined) {
       clearTimeout(menuModalLock?.timeout)
@@ -36,6 +37,7 @@ function open(menuNavigationId?: number) {
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
     classList.add(`menu-modal-show-${menuNavigationId}`)
+    await getHydrationPromise()
     const height = window.getComputedStyle(document.getElementById(`menu-navigation-${menuNavigationId}`)!).height
     document.getElementById('menu-navigation-container')!.style.height = height
   }

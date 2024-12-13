@@ -54,7 +54,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             justifyContent: 'space-between',
             minHeight: '100%',
             position: 'relative',
-            // We don't set `container` to the parent #menu-modal-container beacuse of a Chrome bug (showing a blank <MenuModal>)
+            // We don't set `container` to the parent #menu-modal-container beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-container has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}
         >
@@ -99,8 +99,8 @@ function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
   #menu-modal-container {
-    ${/* Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
-    ${/* Let's always use `dvh` instead of `vh` once Firefox supports it */ ''}
+    ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
+    ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
     max-height:  calc(100vh - var(--nav-head-height));
     ${/* We use dvh because of mobile */ ''}
     ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}

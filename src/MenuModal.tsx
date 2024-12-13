@@ -10,14 +10,13 @@ import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayo
 import { addListenerOpenMenuModal, closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
-  const [height, setHeight] = useState<number | undefined>(undefined)
+  const [height, setHeight] = useState(0)
   useEffect(() => {
-    const updateHeight = () => {
+    addListenerOpenMenuModal(() => {
       const { scrollHeight } = document.getElementById('menu-modal-scroll-container')!
-      if (height !== scrollHeight) setHeight(scrollHeight + blockMargin)
-    }
-    addListenerOpenMenuModal(updateHeight)
-    updateHeight()
+      const heightNew = scrollHeight + blockMargin
+      if (height !== heightNew) setHeight(heightNew)
+    })
   })
   return (
     <>

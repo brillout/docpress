@@ -97,12 +97,7 @@ function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
   #menu-modal-scroll-container {
-    ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
-    ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
-    max-height:  calc(100vh - var(--nav-head-height));
-    ${/* We use dvh because of mobile */ ''}
-    ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
-    max-height: calc(100dvh - var(--nav-head-height));
+    max-height: calc(100vh - var(--nav-head-height));
   }
   html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* 3px */ ''}
@@ -115,7 +110,11 @@ function getStyle() {
 }
 @media(max-width: ${containerQueryMobileMenu}px) {
   #menu-modal-scroll-container {
+    ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
+    ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
     height:  calc(100vh) !important;
+    ${/* We use dvh because of mobile */ ''}
+    ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
     height: calc(100dvh) !important;
   }
   #border-bottom {

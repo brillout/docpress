@@ -1,6 +1,6 @@
 export { MenuModal }
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
 import { blockMargin, containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
@@ -10,11 +10,10 @@ import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayo
 import { addListenerOpenMenuModal, closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
-  const ref = useRef<HTMLDivElement>(null)
   const [height, setHeight] = useState<number | undefined>(undefined)
   useEffect(() => {
     const updateHeight = () => {
-      const { scrollHeight } = ref!.current!.querySelector('.navigation-content')!
+      const { scrollHeight } = document.getElementById('menu-modal-scroll-container')!
       if (height !== scrollHeight) setHeight(scrollHeight + blockMargin)
     }
     addListenerOpenMenuModal(updateHeight)
@@ -32,36 +31,35 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           top: 'var(--nav-head-height)',
           left: 0,
           zIndex: 9999,
-          overflowY: 'scroll',
           background: '#ededef',
           transitionProperty: 'height',
           transitionTimingFunction: 'ease',
-          // https://github.com/brillout/docpress/issues/23
-          // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
-          // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
-          overscrollBehavior: 'none',
           height,
+          overflow: 'hidden',
         }}
-        ref={ref}
         onMouseOver={() => keepMenuModalOpen()}
         onMouseLeave={closeMenuModal}
       >
         <div
+          id="menu-modal-scroll-container"
           style={{
+            overflowY: 'scroll',
+            // https://github.com/brillout/docpress/issues/23
+            // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
+            // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
+            overscrollBehavior: 'none',
             // Place <NavSecondary /> to the bottom
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            minHeight: '100%',
-            position: 'relative',
             // We don't set `container` to the parent #menu-modal-container beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-container has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}
         >
           <Nav />
           <NavSecondary className="show-only-for-mobile" />
-          <BorderBottom />
         </div>
+        <BorderBottom />
         <CloseButton className="show-only-for-mobile" />
       </div>
     </>
@@ -98,7 +96,7 @@ function NavSecondary({ className }: { className: string }) {
 function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  #menu-modal-container {
+  #menu-modal-scroll-container {
     ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
     ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
     max-height:  calc(100vh - var(--nav-head-height));
@@ -107,14 +105,15 @@ function getStyle() {
     max-height: calc(100dvh - var(--nav-head-height));
   }
   html:not(.menu-modal-show) #menu-modal-container {
-    height: 0 !important;
+    ${/* 3px */ ''}
+    height: var(--block-margin) !important;
   }
   .show-only-for-mobile {
     display: none !important;
   }
 }
 @media(max-width: ${containerQueryMobileMenu}px) {
-  #menu-modal-container {
+  #menu-modal-scroll-container {
     height:  calc(100vh) !important;
     height: calc(100dvh) !important;
   }

@@ -107,6 +107,7 @@ function getStyle() {
   html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* 3px */ ''}
     height: var(--block-margin) !important;
+    pointer-events: none;
   }
   .show-only-for-mobile {
     display: none !important;

@@ -31,9 +31,10 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           left: 0,
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: '#ededef',
-          transitionProperty: 'height, opacity',
+          transitionProperty: 'max-height, opacity',
           transitionTimingFunction: 'ease',
-          height,
+          maxHeight: height,
+          willChange: 'max-height',
           overflow: 'hidden',
         }}
         onMouseOver={() => keepMenuModalOpen()}
@@ -93,8 +94,10 @@ function NavSecondary({ className }: { className: string }) {
 function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  #menu-modal-scroll-container,
   #menu-modal-wrapper {
+    height: calc(100vh - var(--nav-head-height));
+  }
+  #menu-modal-scroll-container {
     max-height: calc(100vh - var(--nav-head-height));
   }
   #menu-modal-scroll-container {
@@ -105,7 +108,7 @@ function getStyle() {
   }
   html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* 3px */ ''}
-    height: var(--block-margin) !important;
+    max-height: var(--block-margin) !important;
     pointer-events: none;
   }
   .show-only-for-mobile {

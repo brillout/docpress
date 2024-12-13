@@ -4,7 +4,7 @@
   overflow-x: hidden;
   --padding-left-global: 9px;
 }
-#menu-modal .nav-item {
+#menu-modal-container .nav-item {
   --padding-left-global: 15px;
 }
 .nav-item code {

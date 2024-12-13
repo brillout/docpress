@@ -24,7 +24,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
     <>
       <Style>{getStyle()}</Style>
       <div
-        id="menu-modal"
+        id="menu-modal-container"
         className="link-hover-animation add-transition"
         style={{
           position: isTopNav ? 'absolute' : 'fixed',
@@ -54,7 +54,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             justifyContent: 'space-between',
             minHeight: '100%',
             position: 'relative',
-            // We don't set `container` to the parent #menu-modal beacuse of a Chrome bug (showing a blank <MenuModal>)
+            // We don't set `container` to the parent #menu-modal-container beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
           }}
         >
@@ -98,7 +98,7 @@ function NavSecondary({ className }: { className: string }) {
 function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  #menu-modal {
+  #menu-modal-container {
     ${/* Firefox doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
     ${/* Let's always use `dvh` instead of `vh` once Firefox supports it */ ''}
     max-height:  calc(100vh - var(--nav-head-height));
@@ -106,7 +106,7 @@ function getStyle() {
     ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
     max-height: calc(100dvh - var(--nav-head-height));
   }
-  html:not(.menu-modal-show) #menu-modal {
+  html:not(.menu-modal-show) #menu-modal-container {
     height: 0 !important;
   }
   .show-only-for-mobile {
@@ -114,14 +114,14 @@ function getStyle() {
   }
 }
 @media(max-width: ${containerQueryMobileMenu}px) {
-  #menu-modal {
+  #menu-modal-container {
     height:  calc(100vh) !important;
     height: calc(100dvh) !important;
   }
   #border-bottom {
     display: none;
   }
-  html:not(.menu-modal-show) #menu-modal {
+  html:not(.menu-modal-show) #menu-modal-container {
     opacity: 0;
     pointer-events: none;
   }
@@ -129,12 +129,12 @@ function getStyle() {
   html.menu-modal-show {
     overflow: hidden !important;
   }
-  #menu-modal {
+  #menu-modal-container {
     --nav-head-height: 0px !important;
   }
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
-  #menu-modal .nav-item-level-3 {
+  #menu-modal-container .nav-item-level-3 {
     display: none;
   }
 }

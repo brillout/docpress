@@ -109,7 +109,7 @@ function toggleMenuModal(menuId: number) {
 }
 
 function autoScroll() {
-  const nav = document.querySelector('#menu-modal-container .navigation-content')!
+  const nav = document.querySelector('#menu-modal-wrapper .navigation-content')!
   const href = window.location.pathname
   const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
   const navLink = navLinks[0] as HTMLElement | undefined

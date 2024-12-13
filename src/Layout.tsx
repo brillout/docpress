@@ -121,7 +121,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 .page-content {
   margin: auto;
 }
-#menu-modal-container {
+#menu-modal-wrapper {
   position: absolute !important;
 }
 `

@@ -23,7 +23,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
     <>
       <Style>{getStyle()}</Style>
       <div
-        id="menu-modal-container"
+        id="menu-modal-wrapper"
         className="link-hover-animation add-transition"
         style={{
           position: isTopNav ? 'absolute' : 'fixed',
@@ -52,7 +52,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            // We don't set `container` to the parent #menu-modal-container beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-container has `position: fixed`.
+            // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}
         >
@@ -104,7 +104,7 @@ function getStyle() {
     ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
     max-height: calc(100dvh - var(--nav-head-height));
   }
-  html:not(.menu-modal-show) #menu-modal-container {
+  html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* 3px */ ''}
     height: var(--block-margin) !important;
   }
@@ -120,7 +120,7 @@ function getStyle() {
   #border-bottom {
     display: none;
   }
-  html:not(.menu-modal-show) #menu-modal-container {
+  html:not(.menu-modal-show) #menu-modal-wrapper {
     opacity: 0;
     pointer-events: none;
   }
@@ -128,12 +128,12 @@ function getStyle() {
   html.menu-modal-show {
     overflow: hidden !important;
   }
-  #menu-modal-container {
+  #menu-modal-wrapper {
     --nav-head-height: 0px !important;
   }
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
-  #menu-modal-container .nav-item-level-3 {
+  #menu-modal-wrapper .nav-item-level-3 {
     display: none;
   }
 }

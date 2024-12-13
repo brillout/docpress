@@ -26,7 +26,11 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div id="menu-navigation-container" className="navigation-content" style={{ position: 'relative' }}>
+      <div
+        id="menu-navigation-container"
+        className="navigation-content"
+        style={{ position: 'relative', overflow: 'hidden' }}
+      >
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div
             id={`menu-navigation-${i}`}

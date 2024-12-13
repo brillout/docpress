@@ -29,7 +29,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           width: '100%',
           top: 'var(--nav-head-height)',
           left: 0,
-          zIndex: 9999,
+          zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: '#ededef',
           transitionProperty: 'height, opacity',
           transitionTimingFunction: 'ease',
@@ -47,10 +47,6 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             // https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow
             // https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened
             overscrollBehavior: 'none',
-            // Place <NavSecondary /> to the bottom
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}
@@ -68,7 +64,14 @@ function BorderBottom() {
   return (
     <div
       id="border-bottom"
-      style={{ position: 'absolute', background: '#fff', height: 'var(--block-margin)', width: '100%', bottom: 0 }}
+      style={{
+        position: 'absolute',
+        background: '#fff',
+        height: 'var(--block-margin)',
+        width: '100%',
+        bottom: 0,
+        zIndex: 200,
+      }}
     />
   )
 }
@@ -95,7 +98,8 @@ function NavSecondary({ className }: { className: string }) {
 function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  #menu-modal-scroll-container {
+  #menu-modal-scroll-container,
+  #menu-modal-wrapper {
     max-height: calc(100vh - var(--nav-head-height));
   }
   html:not(.menu-modal-show) #menu-modal-wrapper {
@@ -115,6 +119,10 @@ function getStyle() {
     ${/* We use dvh because of mobile */ ''}
     ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
     height: calc(100dvh) !important;
+    ${/* Place <NavSecondary /> to the bottom */ ''}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   #border-bottom {
     display: none;

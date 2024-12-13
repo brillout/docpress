@@ -15,7 +15,6 @@ import { initOnNavigation } from './initOnNavigation'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
-  renderPromiseResolve?: () => void
 }>('onRenderClient.ts', {})
 
 addEcosystemStamp()
@@ -27,11 +26,12 @@ async function onRenderClient(pageContext: PageContextClient) {
 
   // TODO: stop using any
   const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
+  let renderPromiseResolve!: () => void
   const renderPromise = new Promise<void>((r) => {
-    globalObject.renderPromiseResolve = r
+    renderPromiseResolve = r
   })
   let page = getPageElement(pageContext, pageContextResolved)
-  page = <OnRenderDoneHook>{page}</OnRenderDoneHook>
+  page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
   const container = document.getElementById('page-view')!
   if (pageContext.isHydration) {
     globalObject.root = ReactDOM.hydrateRoot(container, page)
@@ -58,16 +58,19 @@ function onRenderStart() {
   closeMenuModal()
 }
 
-function onRenderDone() {
+function onRenderDone(renderPromiseResolve: () => void) {
   autoScrollNav()
   // TODO/refactor: use React?
   installSectionUrlHashs()
   setHydrationIsFinished()
-  globalObject.renderPromiseResolve!()
+  renderPromiseResolve()
 }
 
-function OnRenderDoneHook({ children }: { children: React.ReactNode }) {
-  useEffect(onRenderDone)
+function OnRenderDoneHook({
+  renderPromiseResolve,
+  children,
+}: { renderPromiseResolve: () => void; children: React.ReactNode }) {
+  useEffect(() => onRenderDone(renderPromiseResolve))
   return children
 }
 

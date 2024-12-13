@@ -26,17 +26,9 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div className="navigation-content" style={{ paddingTop: 10, display: 'grid' }}>
+      <div className="navigation-content" style={{ paddingTop: 10 }}>
         {navItemsByColumnLayouts.map((columnLayout, i) => (
-          <div
-            id={`menu-navigation-${i}`}
-            style={{
-              // Trick to superpose all menu contents: place them all in the same single grid cell.
-              gridRow: 1,
-              gridColumn: 1,
-            }}
-            key={i}
-          >
+          <div id={`menu-navigation-${i}`} key={i}>
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
                 <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
@@ -98,8 +90,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
      (_, i) =>
        css`
 html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
-  opacity: 0;
-  pointer-events: none;
+  display: none;
 }
 html.menu-modal-show.menu-modal-show-${i} {
   .menu-toggle-${i} {

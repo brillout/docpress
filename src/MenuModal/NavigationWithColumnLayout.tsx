@@ -98,7 +98,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
      (_, i) =>
        css`
 html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
-  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 html.menu-modal-show.menu-modal-show-${i} {

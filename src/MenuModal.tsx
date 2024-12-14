@@ -10,7 +10,6 @@ import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayo
 import { addListenerOpenMenuModal, closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
-  /*
   const [height, setHeight] = useState(0)
   useEffect(() => {
     addListenerOpenMenuModal(() => {
@@ -19,7 +18,6 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
       if (height !== heightNew) setHeight(heightNew)
     })
   })
-  */
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -33,11 +31,10 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           left: 0,
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: '#ededef',
-          transitionProperty: 'clip-path, opacity',
+          transitionProperty: 'height, opacity',
           transitionTimingFunction: 'ease',
-          // transitionDuration: '2s',
-          // height,
-          // overflow: 'hidden',
+          height,
+          overflow: 'hidden',
         }}
         onMouseOver={() => keepMenuModalOpen()}
         onMouseLeave={closeMenuModal}
@@ -99,7 +96,6 @@ function getStyle() {
   #menu-modal-scroll-container,
   #menu-modal-wrapper {
     max-height: calc(100vh - var(--nav-head-height));
-    clip-path: inset(0 0 0 0);
   }
   #menu-modal-scroll-container {
     ${/* https://github.com/brillout/docpress/issues/23 */ ''}
@@ -109,8 +105,8 @@ function getStyle() {
   }
   html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* 3px */ ''}
+    height: var(--block-margin) !important;
     pointer-events: none;
-    clip-path: inset(0 0 100% 0); /* Fully hidden */
   }
   .show-only-for-mobile {
     display: none !important;

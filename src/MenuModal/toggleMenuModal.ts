@@ -29,11 +29,13 @@ async function open(menuNavigationId?: number) {
     return
   }
   const { classList } = document.documentElement
+  const isModalShown = classList.contains('menu-modal-show')
   classList.add('menu-modal-show')
   if (menuNavigationId !== undefined) {
     const currentModalId = getCurrentMenuId()
     if (currentModalId === menuNavigationId) return
     if (currentModalId !== null) {
+      if (isModalShown) classList.add('menu-modal-switching')
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
     classList.add(`menu-modal-show-${menuNavigationId}`)
@@ -48,7 +50,9 @@ function addListenerOpenMenuModal(cb: () => void) {
   listener = cb
 }
 function closeMenuModal() {
-  document.documentElement.classList.remove('menu-modal-show')
+  const { classList } = document.documentElement
+  classList.remove('menu-modal-switching')
+  classList.remove('menu-modal-show')
 }
 
 let menuModalLock:

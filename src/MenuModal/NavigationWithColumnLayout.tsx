@@ -99,18 +99,20 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
      const isFirst = i === 0
      const isLast = i === navItemsByColumnLayouts.length - 1
      return css`
-html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
-  opacity: 0;
-  pointer-events: none;
+#menu-navigation-${i} {
+  html:not(.menu-modal-show-${i}) & {
+    opacity: 0;
+    pointer-events: none;
+  }
+  html:not(.menu-modal-show-${i}).menu-modal-show & {
+    ${!isFirst && !isLast ? '' : `transform: translate(${isFirst ? '-' : ''}50px, 0);`}
+  }
+  html.menu-modal-opening-or-closing:not(.menu-modal-show-${i}) & {
+    display: none;
+  }
 }
-html:not(.menu-modal-show-${i}).menu-modal-show #menu-navigation-${i} {
-  ${!isFirst && !isLast ? '' : `transform: translate(${isFirst ? '-' : ''}50px, 0);`}
-}
-html.menu-modal-opening-or-closing:not(.menu-modal-show-${i}) #menu-navigation-${i} {
-  display: none;
-}
-html.menu-modal-show.menu-modal-show-${i} {
-  .menu-toggle-${i} {
+.menu-toggle-${i} {
+  html.menu-modal-show.menu-modal-show-${i} & {
     color: black !important;
     cursor: default !important;
     [class^='decolorize-'],

@@ -10,6 +10,7 @@ import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayo
 import { addListenerOpenMenuModal, closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
+  // `transition: height` doesn't work on `height: auto` => we have to manually set and change `height` to a fixed size.
   const [height, setHeight] = useState(0)
   useEffect(() => {
     addListenerOpenMenuModal(() => {

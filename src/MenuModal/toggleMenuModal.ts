@@ -41,6 +41,7 @@ async function open(menuNavigationId?: number) {
     }
     classList.add(`menu-modal-show-${menuNavigationId}`)
     await getHydrationPromise()
+    // Because all `.menu-navigation-content` are `position: absolute` we have to propagate the content height ourselves.
     const height = window.getComputedStyle(document.getElementById(`menu-navigation-${menuNavigationId}`)!).height
     document.getElementById('menu-navigation-container')!.style.height = height
   }

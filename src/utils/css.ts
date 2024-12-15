@@ -1,5 +1,5 @@
 export function css(strings: TemplateStringsArray | string[], ...values: (string | number)[]): string {
-  // The boring part
+  // The boring part: just concatenate
   let result = strings
     .map((str, i) => {
       let s = str

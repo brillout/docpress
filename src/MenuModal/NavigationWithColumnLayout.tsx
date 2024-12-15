@@ -28,7 +28,12 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
       <Style>{getStyle()}</Style>
       <div id="menu-navigation-container" className="navigation-content">
         {navItemsByColumnLayouts.map((columnLayout, i) => (
-          <div id={`menu-navigation-${i}`} className="menu-navigation-content" style={{ paddingTop: 10 }} key={i}>
+          <div
+            id={`menu-navigation-${i}`}
+            className="menu-navigation-content add-transition"
+            style={{ paddingTop: 10, transitionProperty: 'opacity' }}
+            key={i}
+          >
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
                 <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
@@ -85,10 +90,6 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   function getStyle() {
     const style = css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  #menu-navigation-container {
-    position: relative;
-    overflow: hidden;
-  }
   .menu-navigation-content {
     position: absolute;
     width: 100%;
@@ -98,7 +99,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
      (_, i) =>
        css`
 html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
-  visibility: hidden;
+  opacity: 0;
   pointer-events: none;
 }
 html.menu-modal-opening-or-closing:not(.menu-modal-show-${i}) #menu-navigation-${i} {

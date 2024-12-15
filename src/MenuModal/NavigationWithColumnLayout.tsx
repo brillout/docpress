@@ -93,16 +93,6 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     position: absolute;
     width: 100%;
   }
-  @keyframes display-none {
-    from, to {
-      display: none;
-    }
-  }
-  @keyframes display-none-2 {
-    from, to {
-      display: none;
-    }
-  }
  ${navItemsByColumnLayouts
    .map(
      (_, i) =>
@@ -111,11 +101,8 @@ html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
   visibility: hidden;
   pointer-events: none;
 }
-html:not(.menu-modal-switching).menu-modal-show.menu-modal-show-${i} .menu-navigation-content:not(#menu-navigation-${i}) {
-  animation: display-none 0.4s linear;
-}
-html:not(.menu-modal-switching):not(.menu-modal-show).menu-modal-show-${i} .menu-navigation-content:not(#menu-navigation-${i}) {
-  animation: display-none-2 0.4s linear;
+html.menu-modal-opening-or-closing:not(.menu-modal-show-${i}) #menu-navigation-${i} {
+  display: none;
 }
 html.menu-modal-show.menu-modal-show-${i} {
   .menu-toggle-${i} {

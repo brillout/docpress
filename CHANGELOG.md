@@ -1,3 +1,14 @@
+## [0.10.2](https://github.com/brillout/docpress/compare/v0.10.1...v0.10.2) (2024-12-15)
+
+
+### Bug Fixes
+
+* add menu sliding animation ([1c2ed28](https://github.com/brillout/docpress/commit/1c2ed2827d3a9b60e4551fb13d64704baa7d2b8b))
+* add menu switch animation ([b94a947](https://github.com/brillout/docpress/commit/b94a9472a31aa2f75ef64b88d89a453ad3aa08c3))
+* avoid scrollbar grow upon menu unfolding ([98d8111](https://github.com/brillout/docpress/commit/98d81116ec76700582c42efbf3974253798f07c7))
+
+
+
 ## [0.10.1](https://github.com/brillout/docpress/compare/v0.10.0...v0.10.1) (2024-12-11)
 
 

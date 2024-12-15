@@ -119,7 +119,6 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 .menu-toggle-${i} {
   html.menu-modal-show.menu-modal-show-${i} & {
     color: black !important;
-    cursor: default !important;
     [class^='decolorize-'],
     [class*=' decolorize-'] {
       filter: grayscale(0) opacity(1) !important;
@@ -127,6 +126,9 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     &::before {
       top: 0;
     }
+  }
+  html.menu-modal-show & {
+    cursor: default !important;
   }
 }
 `

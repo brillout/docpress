@@ -30,7 +30,7 @@ async function open(menuNavigationId?: number) {
   }
   const { classList } = document.documentElement
   if (!classList.contains('menu-modal-show')) {
-    onModalOpeningOrClosing()
+    onBeforeOpeningOrClosing()
     classList.add('menu-modal-show')
   }
   if (menuNavigationId !== undefined) {
@@ -53,17 +53,28 @@ function addListenerOpenMenuModal(cb: () => void) {
 function closeMenuModal() {
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show')) {
-    onModalOpeningOrClosing()
+    onBeforeOpeningOrClosing(() => {
+      // Remove:
+      //   menu-modal-show-0
+      //   menu-modal-show-1
+      //   ...
+      classList.forEach((className) => {
+        if (className.startsWith('menu-modal-show-')) {
+          classList.remove(className)
+        }
+      })
+    })
     classList.remove('menu-modal-show')
   }
 }
 let timeoutModalAnimation: NodeJS.Timeout | undefined
-function onModalOpeningOrClosing() {
+function onBeforeOpeningOrClosing(cb?: () => void) {
   const { classList } = document.documentElement
   classList.add('menu-modal-opening-or-closing')
   clearTimeout(timeoutModalAnimation)
   timeoutModalAnimation = setTimeout(() => {
     classList.remove('menu-modal-opening-or-closing')
+    cb?.()
   }, 450)
 }
 

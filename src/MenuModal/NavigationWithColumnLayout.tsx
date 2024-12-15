@@ -30,8 +30,8 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div
             id={`menu-navigation-${i}`}
-            className="menu-navigation-content add-transition"
-            style={{ paddingTop: 10, transitionProperty: 'opacity' }}
+            className="menu-navigation-content"
+            style={{ paddingTop: 10, transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform' }}
             key={i}
           >
             {columnLayout.isFullWidthCategory ? (
@@ -95,12 +95,16 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     width: 100%;
   }
  ${navItemsByColumnLayouts
-   .map(
-     (_, i) =>
-       css`
+   .map((_, i) => {
+     const isFirst = i === 0
+     const isLast = i === navItemsByColumnLayouts.length - 1
+     return css`
 html:not(.menu-modal-show-${i}) #menu-navigation-${i} {
   opacity: 0;
   pointer-events: none;
+}
+html:not(.menu-modal-show-${i}).menu-modal-show #menu-navigation-${i} {
+  ${!isFirst && !isLast ? '' : `transform: translate(${isFirst ? '-' : ''}50px, 0);`}
 }
 html.menu-modal-opening-or-closing:not(.menu-modal-show-${i}) #menu-navigation-${i} {
   display: none;
@@ -118,8 +122,8 @@ html.menu-modal-show.menu-modal-show-${i} {
     }
   }
 }
-`,
-   )
+`
+   })
    .join('')}
 }
 `

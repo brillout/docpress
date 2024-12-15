@@ -1,3 +1,12 @@
+## [0.10.3](https://github.com/brillout/docpress/compare/v0.10.2...v0.10.3) (2024-12-15)
+
+
+### Bug Fixes
+
+* small cursor fix ([50c7171](https://github.com/brillout/docpress/commit/50c71718f29b263b422b1b78876f0ed2e270d199))
+
+
+
 ## [0.10.2](https://github.com/brillout/docpress/compare/v0.10.1...v0.10.2) (2024-12-15)
 
 

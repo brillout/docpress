@@ -22,7 +22,7 @@ import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks, iconPencil } from './icons'
-import { getRepoHref, RepoLink } from './components'
+import { getRepoHref } from './components'
 
 const blockMargin = 3
 const mainViewPadding = 20

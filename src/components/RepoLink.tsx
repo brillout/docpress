@@ -4,15 +4,21 @@ import { usePageContext } from '../renderer/usePageContext'
 
 export { RepoLink }
 export { isRepoLink }
+export { getRepoHref }
 
 function isRepoLink(href: string) {
   return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/'].some((start) => href.startsWith(start))
 }
 
 function RepoLink({ path, text, editMode }: { path: string; text?: string | JSX.Element; editMode?: true }) {
+  text = text || path
+  const href = getRepoHref(path, editMode)
+  return <a href={href}>{text}</a>
+}
+
+function getRepoHref(path: string, editMode?: true) {
   const pageContext = usePageContext()
   assert(isRepoLink(path), { path })
-  text = text || path
   if (!path.startsWith('/')) {
     path = '/' + path
   }
@@ -21,5 +27,5 @@ function RepoLink({ path, text, editMode }: { path: string; text?: string | JSX.
   assert(githubRepository.startsWith('https://github.com/'))
   let href = `${githubRepository}/${viewMode}/main${path}`
   if (editMode) href += '?plain=1'
-  return <a href={href}>{text}</a>
+  return href
 }

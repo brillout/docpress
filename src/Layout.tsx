@@ -21,8 +21,8 @@ import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
-import { iconBooks } from './icons'
-import { RepoLink } from './components'
+import { iconBooks, iconPencil } from './icons'
+import { getRepoHref, RepoLink } from './components'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -182,9 +182,13 @@ function PageContent({ children }: { children: React.ReactNode }) {
         }}
       >
         {globalNote}
-        {pageTitleParsed && <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>}
+        {pageTitleParsed && (
+          <div>
+            <EditPageNote />
+            <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>
+          </div>
+        )}
         {children}
-        {!isLandingPage && <EditPageNote pageContext={pageContext} />}
       </div>
     </div>
   )
@@ -620,15 +624,38 @@ function MenuIcon() {
   )
 }
 
-function EditPageNote({ pageContext }: { pageContext: { urlPathname: string } }) {
-  const text = (
-    <>
-      <span style={{ fontFamily: 'emoji' }}>✍</span> Edit this page
-    </>
+function EditPageNote() {
+  const pageContext = usePageContext()
+  const iconSize = 17
+  const icon = (
+    <img
+      src={iconPencil}
+      width={iconSize}
+      height={iconSize}
+      style={{
+        marginRight: 9,
+        position: 'relative',
+        top: -1,
+      }}
+    />
   )
+  const editLink = getRepoHref('/docs/pages' + pageContext.urlPathname + '/+Page.mdx', true)
   return (
-    <div style={{ marginTop: 50 }}>
-      <RepoLink path={'/docs/pages' + pageContext.urlPathname + '/+Page.mdx'} text={text} editMode={true} />
-    </div>
+    <a
+      href={editLink}
+      id="edit-link"
+      style={{ float: 'right', marginTop: 7, padding: 10, display: 'flex', alignItems: 'center' }}
+    >
+      {icon} Edit this page
+      <Style>{getStyle()}</Style>
+    </a>
   )
+  function getStyle() {
+    return css`
+@container container-viewport (max-width: 800px) {
+  #edit-link {
+    display: none !important;
+  }
+}`
+  }
 }

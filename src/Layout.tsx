@@ -644,7 +644,7 @@ function EditPageNote() {
     <a
       href={editLink}
       id="edit-link"
-      style={{ float: 'right', marginTop: 7, padding: 10, display: 'flex', alignItems: 'center' }}
+      style={{ float: 'right', marginTop: 6, padding: 10, display: 'flex', alignItems: 'center' }}
     >
       {icon} Edit this page
       <Style>{getStyle()}</Style>

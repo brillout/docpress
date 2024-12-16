@@ -9,7 +9,6 @@ export { blockMargin }
 
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
-import { EditPageNote } from './components/EditPageNote'
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { NavSecondaryContent } from './NavSecondaryContent'
@@ -23,6 +22,7 @@ import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
+import { RepoLink } from './components'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -617,5 +617,18 @@ function MenuIcon() {
         d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
       ></path>
     </svg>
+  )
+}
+
+function EditPageNote({ pageContext }: { pageContext: { urlPathname: string } }) {
+  const text = (
+    <>
+      <span style={{ fontFamily: 'emoji' }}>✍</span> Edit this page
+    </>
+  )
+  return (
+    <div style={{ marginTop: 50 }}>
+      <RepoLink path={'/docs/pages' + pageContext.urlPathname + '/+Page.mdx'} text={text} editMode={true} />
+    </div>
   )
 }

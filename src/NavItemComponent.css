@@ -19,9 +19,9 @@
   letter-spacing: 0.15ch;
   padding-left: var(--padding-left-global);
   padding-right: 4px;
-}
-.nav-item-level-4:first-child {
-  padding-top: 5px;
+  &:first-child {
+    padding-top: 5px;
+  }
 }
 .nav-item-level-1 {
   display: inline-flex;

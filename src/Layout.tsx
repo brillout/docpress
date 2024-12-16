@@ -87,7 +87,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const hideNavLeftAlways = pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1
   return (
     <>
-      <style>{getStyle()}</style>
+      <Style>{getStyle()}</Style>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div
@@ -349,7 +349,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           {navSecondaryContent}
         </div>
       </div>
-      {getStyle()}
+      <Style>{getStyle()}</Style>
     </div>
   )
 
@@ -422,7 +422,7 @@ html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
 }
 `
     }
-    return <Style>{style}</Style>
+    return style
   }
 }
 function unexpandNav() {

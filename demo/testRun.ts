@@ -13,7 +13,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const landingPageUrl = '/'
   test(landingPageUrl, async () => {
     const html = await fetchHtml(landingPageUrl)
-    expect(getTitle(html)).toBe('Vike Demo')
+    expect(getTitle(html)).toBe('DocPress Demo')
     expect(html).toContain('Introduction')
     await page.goto(getServerUrl() + landingPageUrl)
   })

@@ -27,7 +27,7 @@ const headings: HeadingDefinition[] = [
   {
     level: 2,
     title: 'Introduction',
-    titleDocument: 'Vike Demo',
+    titleDocument: 'DocPress Demo',
     url: '/',
   },
   {

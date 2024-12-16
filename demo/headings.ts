@@ -2,7 +2,7 @@ export { headings }
 export { headingsDetached }
 
 import {
-  iconBooks,
+  iconScroll,
   iconCompass,
   iconGear,
   type HeadingDefinition,
@@ -49,7 +49,7 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 1,
-    titleIcon: iconBooks,
+    titleIcon: iconScroll,
     title: 'Another Section',
     color: '#d00',
   },

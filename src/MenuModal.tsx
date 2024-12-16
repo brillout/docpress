@@ -44,6 +44,8 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           id="menu-modal-scroll-container"
           style={{
             overflowY: 'scroll',
+            // Workaround for bug with Firefox 128.1.0
+            overflowX: 'hidden',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}

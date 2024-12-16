@@ -1,3 +1,15 @@
+## [0.10.4](https://github.com/brillout/docpress/compare/v0.10.3...v0.10.4) (2024-12-16)
+
+
+### Bug Fixes
+
+* fix & improve menu modal padding ([6aa25c3](https://github.com/brillout/docpress/commit/6aa25c3b67f63fbaaa8848b0daa7bd07170641cd))
+* improve edit note ([2e833f5](https://github.com/brillout/docpress/commit/2e833f5dcb970f9422d655291e7b12316dc1b8d7))
+* remove desktop-fade ([195b80b](https://github.com/brillout/docpress/commit/195b80bccd4e2ea0148285d4a92ba60ab6ec81c9))
+* workaround for Firefox bug ([3a06f00](https://github.com/brillout/docpress/commit/3a06f0059a228635634f47708a78a204d6df9396))
+
+
+
 ## [0.10.3](https://github.com/brillout/docpress/compare/v0.10.2...v0.10.3) (2024-12-15)
 
 

@@ -12,7 +12,7 @@ import './NavigationWithColumnLayout.css'
 import { Style } from '../utils/Style'
 import { css } from '../utils/css'
 
-const marginBottomOnExpand = 30
+const marginBottomOnExpand = 20
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
@@ -31,7 +31,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           <div
             id={`menu-navigation-${i}`}
             className="menu-navigation-content"
-            style={{ paddingTop: 10, transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform' }}
+            style={{ transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform' }}
             key={i}
           >
             {columnLayout.isFullWidthCategory ? (

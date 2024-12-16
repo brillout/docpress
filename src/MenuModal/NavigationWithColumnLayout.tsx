@@ -12,7 +12,7 @@ import './NavigationWithColumnLayout.css'
 import { Style } from '../utils/Style'
 import { css } from '../utils/css'
 
-const marginBottomOnExpand = 20
+const marginBottomOnExpand = 15
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)

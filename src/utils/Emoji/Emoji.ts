@@ -1,7 +1,7 @@
 import React from 'react'
 import { assert } from '../assert'
 
-import { iconMechanicalArm, iconCompass, iconShield, iconTypescript, iconEngine } from './assets'
+import { iconMechanicalArm, iconShield, iconTypescript, iconEngine } from './assets'
 
 export { Emoji }
 export type { EmojiName }
@@ -14,7 +14,6 @@ type EmojiName =
   | 'mountain'
   | 'rocket'
   | 'wrench'
-  | 'compass'
   | 'seedling'
   | 'books'
   | 'plug'
@@ -112,11 +111,6 @@ function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }
     // https://emojipedia.org/wrench/
     // https://www.unicompat.com/1F527 => 94.1%
     (name === 'wrench' && Unicode(0x1f527)) ||
-    // ***
-    // U+1F9ED
-    // https://iconify.design/icon-sets/noto/compass.html
-    // https://www.unicompat.com/1F9ED => 67.1%
-    (name === 'compass' && Img(iconCompass, '1.4em')) ||
     // ***
     // U+1F331
     // https://www.unicompat.com/1F331 => 94.1%

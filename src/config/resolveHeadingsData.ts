@@ -93,6 +93,8 @@ function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): N
     titleInNav: heading.titleInNav,
     menuModalFullWidth: heading.menuModalFullWidth,
     color: heading.color,
+    titleIcon: heading.titleIcon,
+    titleIconStyle: heading.titleIconStyle,
   }
 }
 function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {

@@ -15,6 +15,8 @@ type NavItem = {
   level: number
   url?: string | null
   color?: string
+  titleIcon?: string
+  titleIconStyle?: React.CSSProperties
   title: string
   titleInNav: string
   menuModalFullWidth?: true
@@ -37,6 +39,14 @@ function NavItemComponent({
   const titleJsx = parseTitle(navItem.title)
   const titleInNavJsx = parseTitle(navItem.titleInNav)
 
+  const iconSize = 25
+  const icon = navItem.titleIcon && (
+    <img
+      src={navItem.titleIcon}
+      style={{ height: iconSize, width: iconSize, marginRight: 8, ...navItem.titleIconStyle }}
+    />
+  )
+
   if (navItem.level === 1 || navItem.level === 4) {
     assert(navItem.url === undefined)
   } else {
@@ -57,6 +67,7 @@ function NavItemComponent({
   if (navItem.level === 1) {
     children = (
       <>
+        {icon}
         {children}
         <Chevron className="collapsible-icon" height={9} />
       </>

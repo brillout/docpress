@@ -21,22 +21,26 @@
   padding-right: 4px;
 }
 .nav-item-level-4:first-child {
-  padding-top: 0;
-  margin-top: -2px;
+  padding-top: 5px;
 }
 .nav-item-level-1 {
+  display: inline-flex;
   font-size: 19px;
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.14ch;
   color: var(--color-text);
-  padding: 12px 0;
-  padding-left: calc(var(--padding-left-global) - 2px);
-  padding-right: 4px;
-  text-decoration: underline;
-  text-underline-offset: .2em;
-  text-decoration-color: var(--category-color);
-  text-decoration-thickness: 3px;
+  padding-top: 12px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 2px;
+  border-bottom: 3px solid var(--category-color);
+}
+#nav-left {
+  .nav-item-level-1 {
+    padding-bottom: 0;
+    margin-bottom: 10px;
+  }
 }
 .nav-item-level-2 {
   font-size: 14.4px;

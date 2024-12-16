@@ -1,7 +1,13 @@
 export { headings }
 export { headingsDetached }
 
-import type { HeadingDefinition, HeadingDetachedDefinition } from '@brillout/docpress'
+import {
+  iconBooks,
+  iconCompass,
+  iconGear,
+  type HeadingDefinition,
+  type HeadingDetachedDefinition,
+} from '@brillout/docpress'
 
 const headingsDetached: HeadingDetachedDefinition[] = [
   {
@@ -22,6 +28,7 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'Overview',
+    titleIcon: iconCompass,
     color: '#0d0',
   },
   {
@@ -42,6 +49,7 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 1,
+    titleIcon: iconBooks,
     title: 'Another Section',
     color: '#d00',
   },
@@ -77,6 +85,7 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     title: 'API',
+    titleIcon: iconGear,
     color: '#00d',
     menuModalFullWidth: true,
   },

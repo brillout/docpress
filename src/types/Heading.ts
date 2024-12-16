@@ -13,6 +13,8 @@ type HeadingResolved = {
   menuModalFullWidth?: true
   category?: string
   color?: string
+  titleIcon?: string
+  titleIconStyle?: React.CSSProperties
 } & Tmp
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
@@ -41,7 +43,7 @@ type IsCategory = {
   titleInNav?: undefined
 }
 type HeadingDefinitionLevel =
-  | ({ level: 1; color: string } & IsCategory)
+  | ({ level: 1; color: string; titleIcon?: string; titleIconStyle?: React.CSSProperties } & IsCategory)
   | ({ level: 4 } & IsCategory)
   | {
       level: 2

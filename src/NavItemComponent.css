@@ -19,7 +19,8 @@
   letter-spacing: 0.15ch;
   padding-left: var(--padding-left-global);
   padding-right: 4px;
-  &:first-child {
+  &:first-child,
+  .nav-item-level-1 + & {
     padding-top: 5px;
   }
 }

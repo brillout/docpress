@@ -28,7 +28,6 @@ function NavSecondaryContent(props: { style?: React.CSSProperties }) {
         alignItems: 'center',
         ...props.style,
       }}
-      className="desktop-fade"
     >
       {iconI18n}
       {projectInfo.discordInvite && (

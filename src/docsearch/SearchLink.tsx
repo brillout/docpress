@@ -34,7 +34,7 @@ function SearchIcon() {
       src={iconMagnifyingGlass}
       width={21}
       style={{ marginRight: 'var(--icon-text-padding)' }}
-      className="decolorize-7 desktop-fade"
+      className="decolorize-7"
     />
   )
 }

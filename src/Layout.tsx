@@ -395,13 +395,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   .desktop-grow {
     flex-grow: 1;
   }
-  .desktop-fade {
-    transition: opacity 0.4s ease-in-out;
-  }
-  html:not(.menu-modal-show) .nav-head-top:not(:hover) .desktop-fade {
-    transition: opacity 0.3s ease-in-out !important;
-    opacity: 0.5;
-  }
 }
 `
     }
@@ -608,7 +601,7 @@ function DocsIcon() {
       src={iconBooks}
       width={21}
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
-      className="decolorize-5 desktop-fade"
+      className="decolorize-5"
     />
   )
 }
@@ -616,7 +609,7 @@ function MenuIcon() {
   return (
     <svg
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'top', width: '1.3em' }}
-      className="decolorize-6 desktop-fade"
+      className="decolorize-6"
       viewBox="0 0 448 512"
     >
       <path

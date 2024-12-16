@@ -1,3 +1,13 @@
+## [0.10.5](https://github.com/brillout/docpress/compare/v0.10.4...v0.10.5) (2024-12-16)
+
+
+### Features
+
+* add icons ([4697739](https://github.com/brillout/docpress/commit/4697739a09111f942d437940ca6fae54d8653700))
+* revive titleIcon ([f15bf36](https://github.com/brillout/docpress/commit/f15bf36497c1e32884e612d6109747831d050878))
+
+
+
 ## [0.10.4](https://github.com/brillout/docpress/compare/v0.10.3...v0.10.4) (2024-12-16)
 
 

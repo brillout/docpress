@@ -8,10 +8,12 @@
 :has(> .collapsible-icon) {
   position: relative;
 }
-.collapsible-expanded .collapsible-icon,
-.collapsible-collapsed .collapsible-icon {
-  transition: transform 0.3s ease-in-out !important;
-  display: initial;
+.collapsible-expanded,
+.collapsible-collapsed {
+  .collapsible-icon {
+    transition: transform 0.3s ease-in-out !important;
+    display: initial;
+  }
 }
 .collapsible-collapsed .collapsible-icon {
   transform: rotate(-90deg);

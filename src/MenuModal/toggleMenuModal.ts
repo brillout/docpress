@@ -29,10 +29,12 @@ async function open(menuNavigationId?: number) {
     return
   }
   const { classList } = document.documentElement
-  if (!classList.contains('menu-modal-show')) {
+  if (classList.contains('menu-modal-display-only-one')) {
+    classList.remove('menu-modal-display-only-one')
+  } else if (!classList.contains('menu-modal-show')) {
     enableDisplayOnlyOne()
-    classList.add('menu-modal-show')
   }
+  classList.add('menu-modal-show')
   if (menuNavigationId !== undefined) {
     const currentModalId = getCurrentMenuId()
     if (currentModalId === menuNavigationId) return
@@ -60,7 +62,7 @@ function enableDisplayOnlyOne() {
   clearTimeout(timeoutModalAnimation)
   timeoutModalAnimation = setTimeout(() => {
     classList.remove('menu-modal-display-only-one')
-  }, 450)
+  }, 430)
 }
 
 let toggleLock:

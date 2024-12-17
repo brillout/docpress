@@ -165,6 +165,7 @@ function ColumnsWrapper({ children, numberOfColumns }: { children: React.ReactNo
       style={{
         width: numberOfColumns * (navLeftWidthMax + 20),
         maxWidth: '100%',
+        paddingLeft: 3,
         margin: 'auto',
       }}
     >

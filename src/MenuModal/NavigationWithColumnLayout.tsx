@@ -26,7 +26,11 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div id="menu-navigation-container" className="navigation-content">
+      <div
+        id="menu-navigation-container"
+        className="navigation-content add-transition"
+        style={{ transitionProperty: 'height' }}
+      >
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div
             id={`menu-navigation-${i}`}
@@ -93,6 +97,10 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   .menu-navigation-content {
     position: absolute;
     width: 100%;
+  }
+  #menu-navigation-container {
+    position: relative;
+    overflow: hidden;
   }
  ${navItemsByColumnLayouts
    .map((_, i) => {

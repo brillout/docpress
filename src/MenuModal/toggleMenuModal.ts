@@ -3,7 +3,6 @@ export { openMenuModal }
 export { keepMenuModalOpen }
 export { closeMenuModal }
 export { closeMenuOnMouseLeave }
-export { addListenerOpenMenuModal }
 
 import { containerQueryMobileLayout } from '../Layout'
 import { getHydrationPromise } from '../renderer/getHydrationPromise'
@@ -45,11 +44,6 @@ async function open(menuNavigationId?: number) {
     const height = window.getComputedStyle(document.getElementById(`menu-navigation-${menuNavigationId}`)!).height
     document.getElementById('menu-navigation-container')!.style.height = height
   }
-  listener?.()
-}
-let listener: () => void | undefined
-function addListenerOpenMenuModal(cb: () => void) {
-  listener = cb
 }
 function closeMenuModal() {
   const { classList } = document.documentElement

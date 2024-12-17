@@ -1,24 +1,15 @@
 export { MenuModal }
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
-import { blockMargin, containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
+import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
-import { addListenerOpenMenuModal, closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
+import { closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
-  // `transition: height` doesn't work on `height: auto` => we have to manually set and change `height` to a fixed size.
-  const [height, setHeight] = useState(0)
-  useEffect(() => {
-    addListenerOpenMenuModal(() => {
-      const { scrollHeight } = document.getElementById('menu-modal-scroll-container')!
-      const heightNew = scrollHeight + blockMargin
-      if (height !== heightNew) setHeight(heightNew)
-    })
-  })
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -32,10 +23,8 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           left: 0,
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: '#ededef',
-          transitionProperty: 'height, opacity',
+          transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
-          height,
-          overflow: 'hidden',
         }}
         onMouseOver={() => keepMenuModalOpen()}
         onMouseLeave={closeMenuModal}
@@ -43,9 +32,8 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
         <div
           id="menu-modal-scroll-container"
           style={{
-            overflowY: 'scroll',
-            // Workaround for bug with Firefox 128.1.0
             overflowX: 'hidden',
+            overflowY: 'scroll',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
           }}
@@ -53,8 +41,8 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           <Nav />
           <NavSecondary className="show-only-for-mobile" />
         </div>
-        <BorderBottom />
         <CloseButton className="show-only-for-mobile" />
+        <BorderBottom />
       </div>
     </>
   )
@@ -64,11 +52,9 @@ function BorderBottom() {
     <div
       id="border-bottom"
       style={{
-        position: 'absolute',
         background: '#fff',
         height: 'var(--block-margin)',
         width: '100%',
-        bottom: 0,
       }}
     />
   )
@@ -96,20 +82,20 @@ function NavSecondary({ className }: { className: string }) {
 function getStyle() {
   return css`
 @media(min-width: ${containerQueryMobileMenu + 1}px) {
-  #menu-modal-scroll-container,
-  #menu-modal-wrapper {
-    max-height: calc(100vh - var(--nav-head-height));
-  }
   #menu-modal-scroll-container {
+    max-height: calc(100vh - var(--nav-head-height) - var(--block-margin));
     ${/* https://github.com/brillout/docpress/issues/23 */ ''}
     ${/* https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow */ ''}
     ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
     overscroll-behavior: none;
   }
-  html:not(.menu-modal-show) #menu-modal-wrapper {
-    ${/* 3px */ ''}
-    height: var(--block-margin) !important;
-    pointer-events: none;
+  html:not(.menu-modal-show) {
+    #menu-navigation-container {
+      height: 0 !important;
+    }
+    #menu-modal-wrapper {
+      pointer-events: none;
+    }
   }
   .show-only-for-mobile {
     display: none !important;
@@ -142,9 +128,8 @@ function getStyle() {
   #menu-modal-wrapper {
     --nav-head-height: 0px !important;
   }
-  #menu-modal-wrapper,
   #menu-navigation-container {
-    height: auto!important;
+    height: auto !important;
   }
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {

@@ -136,9 +136,6 @@ ${/* Button style */ ''}
       top: 0;
     }
   }
-  html.menu-modal-show & {
-    cursor: default !important;
-  }
 }
 `
    })

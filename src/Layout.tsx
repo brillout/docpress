@@ -583,6 +583,9 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     .link-hover-animation &:hover::before {
       top: 0;
     }
+    html.menu-modal-show & {
+      cursor: default !important;
+    }
   }
   &::before {
     position: absolute;

@@ -29,7 +29,7 @@ const headings: HeadingDefinition[] = [
     level: 1,
     title: 'Overview',
     titleIcon: iconCompass,
-    color: '#0d0',
+    color: '#dfa727',
   },
   {
     level: 2,
@@ -50,8 +50,8 @@ const headings: HeadingDefinition[] = [
   {
     level: 1,
     titleIcon: iconScroll,
-    title: 'Another Section',
-    color: '#d00',
+    title: 'Guides',
+    color: '#fbe046',
   },
   {
     level: 2,
@@ -86,7 +86,7 @@ const headings: HeadingDefinition[] = [
     level: 1,
     title: 'API',
     titleIcon: iconGear,
-    color: '#00d',
+    color: '#80c1db',
     menuModalFullWidth: true,
   },
   {

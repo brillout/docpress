@@ -36,16 +36,12 @@
   padding-top: 6px;
   padding-bottom: 6px;
   border-left: 3px solid var(--category-color);
-}
-#nav-left {
-  .nav-item-level-1 {
+  #nav-left & {
     padding-bottom: 0;
     margin-bottom: 10px;
   }
-}
-.collapsible-expanded,
-.collapsible-collapsed {
-  .nav-item-level-1 {
+  .collapsible-expanded &,
+  .collapsible-collapsed & {
     border: 0;
     margin: 0;
     text-decoration: underline;

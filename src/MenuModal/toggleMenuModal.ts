@@ -18,13 +18,14 @@ function openMenuModal(menuNavigationId: number) {
   open(menuNavigationId)
 }
 async function open(menuNavigationId?: number) {
-  if (menuModalLock) {
+  if (toggleLock) {
     if (menuNavigationId === undefined) {
-      clearTimeout(menuModalLock?.timeout)
-      menuModalLock = undefined
-      return
+      clearTimeout(toggleLock?.timeoutAction)
+      toggleLock = undefined
+    } else {
+      // Register open() operation to be applied later, after the lock has resolved.
+      toggleLock.idToOpen = menuNavigationId
     }
-    menuModalLock.idNext = menuNavigationId
     return
   }
   const { classList } = document.documentElement
@@ -73,31 +74,33 @@ function onBeforeOpeningOrClosing(cb?: () => void) {
   }, 450)
 }
 
-let menuModalLock:
+let toggleLock:
   | {
       idCurrent: number
-      idNext: number | undefined
-      timeout: NodeJS.Timeout
+      idToOpen: number | undefined
+      timeoutAction: NodeJS.Timeout
     }
   | undefined
 function closeMenuOnMouseLeave() {
   const currentModalId = getCurrentMenuId()
   if (currentModalId === null) return
-  const timeout = setTimeout(() => {
-    const { idCurrent, idNext } = menuModalLock!
-    menuModalLock = undefined
+  clearTimeout(toggleLock?.timeoutAction)
+  const timeoutAction = setTimeout(action, 100)
+  toggleLock = {
+    idCurrent: currentModalId,
+    idToOpen: undefined,
+    timeoutAction,
+  }
+  return
+  function action() {
+    const { idCurrent, idToOpen: idNext } = toggleLock!
+    toggleLock = undefined
     if (idNext === idCurrent) return
     if (idNext === undefined) {
       closeMenuModal()
     } else {
       openMenuModal(idNext)
     }
-  }, 100)
-  clearTimeout(menuModalLock?.timeout)
-  menuModalLock = {
-    idCurrent: currentModalId,
-    idNext: undefined,
-    timeout,
   }
 }
 function getCurrentMenuId(): null | number {

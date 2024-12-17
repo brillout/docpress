@@ -124,6 +124,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     display: none;
   }
 }
+${/* Button style */ ''}
 .menu-toggle-${i} {
   html.menu-modal-show.menu-modal-show-${i} & {
     color: black !important;

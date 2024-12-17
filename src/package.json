@@ -23,7 +23,7 @@
     "@mdx-js/react": "3.0.1",
     "@mdx-js/rollup": "3.0.1",
     "@shikijs/transformers": "1.2.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
+    "@vitejs/plugin-react-swc": "^3.7.2",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0"

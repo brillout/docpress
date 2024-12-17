@@ -66,10 +66,10 @@ function closeMenuModal() {
 let timeoutModalAnimation: NodeJS.Timeout | undefined
 function onBeforeOpeningOrClosing(cb?: () => void) {
   const { classList } = document.documentElement
-  classList.add('menu-modal-opening-or-closing')
+  classList.add('menu-modal-display-only-one')
   clearTimeout(timeoutModalAnimation)
   timeoutModalAnimation = setTimeout(() => {
-    classList.remove('menu-modal-opening-or-closing')
+    classList.remove('menu-modal-display-only-one')
     cb?.()
   }, 450)
 }

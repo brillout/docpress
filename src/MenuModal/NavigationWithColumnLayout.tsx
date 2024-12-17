@@ -120,7 +120,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   ${/* Performance optimization. */ ''}
   ${/* - Using clip-path transition instead of height transition doesn't make a difference: https://github.com/brillout/docpress/commit/005cba0b4cba9c1b526e8e26901ee04129d79715 */ ''}
   ${/* - Suprisingly, this is a performance regression when transitioning from one menu to another (the menu is kept open). Thus we apply this only when the menu is being closed/opened. */ ''}
-  html:not(.menu-modal-show-${i}).menu-modal-opening-or-closing & {
+  html:not(.menu-modal-show-${i}).menu-modal-display-only-one & {
     display: none;
   }
 }

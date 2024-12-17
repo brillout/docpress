@@ -81,13 +81,11 @@ let toggleLock:
       timeoutAction: NodeJS.Timeout
     }
   | undefined
-function coseMenuModalOnMouseLeave() {
-  const currentModalId = getCurrentMenuId()
-  if (currentModalId === null) return
+function coseMenuModalOnMouseLeave(menuId: number) {
   clearTimeout(toggleLock?.timeoutAction)
   const timeoutAction = setTimeout(action, 100)
   toggleLock = {
-    idCurrent: currentModalId,
+    idCurrent: menuId,
     idToOpen: undefined,
     timeoutAction,
   }

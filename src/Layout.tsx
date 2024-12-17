@@ -560,7 +560,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       }}
       onMouseLeave={() => {
         if (onMouseIgnore) return
-        coseMenuModalOnMouseLeave()
+        coseMenuModalOnMouseLeave(menuId)
       }}
       onTouchStart={() => {
         onMouseIgnore = setTimeout(() => {

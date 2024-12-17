@@ -132,6 +132,8 @@ function getStyle() {
     height: auto !important;
   }
 }
+
+${/* Hide same-page headings navigation */ ''}
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   #menu-modal-wrapper .nav-item-level-3 {
     display: none;

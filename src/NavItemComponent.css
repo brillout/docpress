@@ -31,28 +31,32 @@
   font-weight: 600;
   letter-spacing: 0.14ch;
   color: var(--color-text);
-  margin-top: 10px;
-  padding-left: 9px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  border-left: 3px solid var(--category-color);
-  #nav-left & {
-    padding-bottom: 0;
-    margin-bottom: 10px;
-  }
-  .collapsible-expanded &,
-  .collapsible-collapsed & {
-    border: 0;
-    margin: 0;
-    text-decoration: underline;
-    text-decoration-color: var(--category-color);
-    text-decoration-thickness: 3px;
-    text-underline-offset: .3em;
-    padding: 10px;
-    padding-left: 14px;
-    img {
-      display: none;
+  #menu-modal-wrapper & {
+    margin-top: 10px;
+    padding-left: 9px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-left: 3px solid var(--category-color);
+    .collapsible-expanded &,
+    .collapsible-collapsed & {
+      text-decoration: underline;
+      text-decoration-color: var(--category-color);
+      text-decoration-thickness: 3px;
+      text-underline-offset: .3em;
+      border: 0;
+      margin: 0;
+      padding: 10px;
+      padding-left: 14px;
+      img {
+        display: none;
+      }
     }
+  }
+  #nav-left & {
+    border-bottom: 3px solid var(--category-color);
+    padding-bottom: 2px;
+    margin-top: 3px;
+    margin-bottom: 10px;
   }
 }
 .nav-item-level-2 {

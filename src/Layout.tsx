@@ -9,7 +9,7 @@ export { blockMargin }
 
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
-import { parseTitle } from './parseTitle'
+import { parseMarkdownMini } from './parseMarkdownMini'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { NavSecondaryContent } from './NavSecondaryContent'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
@@ -154,7 +154,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
 function PageContent({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const { isLandingPage, pageTitle } = pageContext
-  const pageTitleParsed = pageTitle && parseTitle(pageTitle)
+  const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
   const { globalNote } = pageContext.config
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
   return (

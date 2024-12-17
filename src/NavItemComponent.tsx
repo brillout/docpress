@@ -7,7 +7,7 @@ export type { ColumnMap }
 import React from 'react'
 import { assert, assertWarning, jsxToTextContent } from './utils/server'
 import './NavItemComponent.css'
-import { parseTitle } from './parseTitle'
+import { parseMarkdownMini } from './parseMarkdownMini'
 import './global.d.ts'
 
 type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
@@ -36,8 +36,8 @@ function NavItemComponent({
 }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
-  const titleJsx = parseTitle(navItem.title)
-  const titleInNavJsx = parseTitle(navItem.titleInNav)
+  const titleJsx = parseMarkdownMini(navItem.title)
+  const titleInNavJsx = parseMarkdownMini(navItem.titleInNav)
 
   const iconSize = 25
   const icon = navItem.titleIcon && (

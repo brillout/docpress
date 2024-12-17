@@ -86,7 +86,7 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
   }
   const pageSectionId = determineSectionUrlHash(anchor)
 
-  const titleParsed = parseTitle(pageSectionTitle)
+  const titleParsed = parseMarkdownMini(pageSectionTitle)
   assert(pageSectionId === null || pageSectionId.length > 0)
   const headingId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
   const headingHtml = `<h${pageSectionLevel}${headingId}>${titleParsed}</h${pageSectionLevel}>`
@@ -95,7 +95,7 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
   return pageSection
 }
 
-function parseTitle(titleMarkdown: string): string {
+function parseMarkdownMini(titleMarkdown: string): string {
   type Part = { nodeType: 'text' | 'code'; content: string }
   const parts: Part[] = []
   let current: Part | undefined

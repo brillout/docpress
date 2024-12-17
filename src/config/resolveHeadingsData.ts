@@ -13,7 +13,7 @@ import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
 import pc from '@brillout/picocolors'
-import { parseTitle } from '../parseTitle'
+import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
 assert(!isBrowser())
 
@@ -131,7 +131,7 @@ function getTitles(
 
   const { title } = activeHeading
   let pageTitle = isLandingPage ? null : title
-  let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseTitle(title))
+  let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseMarkdownMini(title))
 
   if (!isLandingPage) {
     documentTitle += ' | ' + config.projectInfo.projectName

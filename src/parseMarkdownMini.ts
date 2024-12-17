@@ -1,12 +1,12 @@
-export { parseTitle }
+export { parseMarkdownMini }
 
 import React from 'react'
 
-function parseTitle(title: string): JSX.Element {
+function parseMarkdownMini(markdown: string): JSX.Element {
   type Part = { nodeType: 'text' | 'code'; content: string }
   const parts: Part[] = []
   let current: Part | undefined
-  title.split('').forEach((letter) => {
+  markdown.split('').forEach((letter) => {
     if (letter === '`') {
       if (current?.nodeType === 'code') {
         // </code>
@@ -30,7 +30,7 @@ function parseTitle(title: string): JSX.Element {
     parts.push(current)
   }
 
-  const titleJsx = React.createElement(
+  const parsed = React.createElement(
     React.Fragment,
     {},
     ...parts.map((part, i) =>
@@ -38,5 +38,5 @@ function parseTitle(title: string): JSX.Element {
     ),
   )
 
-  return titleJsx
+  return parsed
 }

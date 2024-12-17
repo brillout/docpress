@@ -6,7 +6,7 @@ import { isRepoLink, RepoLink } from './RepoLink'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
-import { parseTitle } from '../parseTitle'
+import { parseMarkdownMini } from '../parseMarkdownMini'
 import pc from '@brillout/picocolors'
 
 function Link({
@@ -57,20 +57,20 @@ function getLinkText({
 
   const breadcrumbParts: JSX.Element[] = []
   if (linkData.linkBreadcrumb) {
-    breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse().map(parseTitle))
+    breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse().map(parseMarkdownMini))
   }
-  breadcrumbParts.push(parseTitle(linkData.title))
+  breadcrumbParts.push(parseMarkdownMini(linkData.title))
 
   if (hrefHash) {
     let sectionTitle: JSX.Element | undefined = undefined
     assert(!hrefHash.startsWith('#'))
     if (isLinkOnSamePage) {
       const linkDataPageSection = findLinkData(`#${hrefHash}`, pageContext)
-      sectionTitle = parseTitle(linkDataPageSection.title)
+      sectionTitle = parseMarkdownMini(linkDataPageSection.title)
     } else if ('sectionTitles' in linkData && linkData.sectionTitles) {
       linkData.sectionTitles.forEach((title) => {
         if (determineSectionUrlHash(title) === hrefHash) {
-          sectionTitle = parseTitle(title)
+          sectionTitle = parseMarkdownMini(title)
         }
       })
     }

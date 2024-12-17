@@ -31,11 +31,11 @@
   font-weight: 600;
   letter-spacing: 0.14ch;
   color: var(--color-text);
-  padding-top: 12px;
-  padding-right: 5px;
-  padding-left: 5px;
-  padding-bottom: 2px;
-  border-bottom: 3px solid var(--category-color);
+  margin-top: 15px;
+  padding-left: 9px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-left: 3px solid var(--category-color);
 }
 #nav-left {
   .nav-item-level-1 {
@@ -47,6 +47,7 @@
 .collapsible-collapsed {
   .nav-item-level-1 {
     border: 0;
+    margin: 0;
     text-decoration: underline;
     text-decoration-color: var(--category-color);
     text-decoration-thickness: 3px;

@@ -1,3 +1,26 @@
+## [0.10.6](https://github.com/brillout/docpress/compare/v0.10.5...v0.10.6) (2024-12-17)
+
+
+### Bug Fixes
+
+* add left padding ([6fd72a5](https://github.com/brillout/docpress/commit/6fd72a5699f8bf083da3dac4bcb51cddadf5138f))
+* enable autoScroll() only for mobile menu ([b385c95](https://github.com/brillout/docpress/commit/b385c9521bdb7831f52bae6ed1aba38a01c52f84))
+* ensure height animation on first menu unrolling ([57a73fc](https://github.com/brillout/docpress/commit/57a73fce3f65d185a37b14e5cae3b1fcb128e46a))
+* fix desktop menu section style ([8afecac](https://github.com/brillout/docpress/commit/8afecac32df27d4bc163daf9bf5b077215f7d133))
+* fix level-4 first padding ([f6dd342](https://github.com/brillout/docpress/commit/f6dd342336e2bb673e6c25c2134608a66d344dd8))
+* fix menu animation ([ef1847d](https://github.com/brillout/docpress/commit/ef1847d26df919dd4882fa2a364b7ee0015c6e03))
+* fix menu scrolling on desktop ([204a12a](https://github.com/brillout/docpress/commit/204a12a01be8f043cb02f346d9433f796e4913e0))
+* fix mobile menu section style ([95cd198](https://github.com/brillout/docpress/commit/95cd198bc66910950da431597b8afe33c91858dd))
+* improve menu category style ([3307dd0](https://github.com/brillout/docpress/commit/3307dd09a62dd1b2bc8c8f6be600b41ca3935689))
+* minor ([b2d2630](https://github.com/brillout/docpress/commit/b2d26308eab25cf0af61da420eaec025b56f16fb))
+
+
+### Features
+
+* expose `parseMarkdownMini()` ([d629fc2](https://github.com/brillout/docpress/commit/d629fc2bac6116652a2d51fdf3ec63ee74f59cf3))
+
+
+
 ## [0.10.5](https://github.com/brillout/docpress/compare/v0.10.4...v0.10.5) (2024-12-16)
 
 

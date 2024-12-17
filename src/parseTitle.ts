@@ -1,8 +1,6 @@
 export { parseTitle }
-export { withEmoji }
 
 import React from 'react'
-import { Emoji, EmojiName } from './utils/server'
 
 function parseTitle(title: string): JSX.Element {
   type Part = { nodeType: 'text' | 'code'; content: string }
@@ -41,16 +39,4 @@ function parseTitle(title: string): JSX.Element {
   )
 
   return titleJsx
-}
-
-function withEmoji(name: EmojiName, title: string | JSX.Element): JSX.Element {
-  const style = { fontSize: '1.4em' }
-  //return React.createElement(React.Fragment, null, Emoji({ name, style }), ' ', title)
-  return React.createElement(
-    'span',
-    { style },
-    Emoji({ name }),
-    ' ',
-    React.createElement('span', { style: { fontSize: '1rem' } }, title),
-  )
 }

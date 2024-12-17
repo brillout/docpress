@@ -1,3 +1,5 @@
+// Let's eventually remove this. Telefunc is still using this as of 2024-12.
+
 import React from 'react'
 import { assert } from '../assert'
 

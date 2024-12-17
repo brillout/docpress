@@ -29,7 +29,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
       <div
         id="menu-navigation-container"
         className="navigation-content add-transition"
-        style={{ transitionProperty: 'height' }}
+        style={{ transitionProperty: 'height', height: 0 }}
       >
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div

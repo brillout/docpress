@@ -1,3 +1,12 @@
+## [0.10.7](https://github.com/brillout/docpress/compare/v0.10.6...v0.10.7) (2024-12-17)
+
+
+### Bug Fixes
+
+* fix toolip z-index ([ff35c3c](https://github.com/brillout/docpress/commit/ff35c3c6f89eb7eb869f71be2c2d63cea6e0edd0))
+
+
+
 ## [0.10.6](https://github.com/brillout/docpress/compare/v0.10.5...v0.10.6) (2024-12-17)
 
 

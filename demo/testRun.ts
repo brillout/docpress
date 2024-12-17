@@ -35,7 +35,10 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   test(featuresURL, async () => {
     await page.goto(getServerUrl() + featuresURL)
     const text = await page.textContent('body')
-    expect(text).toContain('Another Section > Some Page (basic link)')
+    expect(text).toContain('Features')
+    expect(text).toContain('Edit this page')
+    expect(text).toContain('This page is for testing/developing DocPress features.')
+    expect(text).toContain('Guides > Some Page (basic link)')
     expect(text).toContain('Orphan Page (link to detached page)')
     expect(text).toContain('<Link> (same-page link, non-inferred original heading title without needing sectionTitles)')
     expect(text).toContain('Basic (same-page link, sub heading)')

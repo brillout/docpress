@@ -43,6 +43,21 @@
     margin-bottom: 10px;
   }
 }
+.collapsible-expanded,
+.collapsible-collapsed {
+  .nav-item-level-1 {
+    border: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--category-color);
+    text-decoration-thickness: 3px;
+    text-underline-offset: .3em;
+    padding: 10px;
+    padding-left: 14px;
+    img {
+      display: none;
+    }
+  }
+}
 .nav-item-level-2 {
   font-size: 14.4px;
   font-weight: 400;

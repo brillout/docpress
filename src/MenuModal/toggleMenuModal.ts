@@ -30,7 +30,7 @@ async function open(menuNavigationId?: number) {
   }
   const { classList } = document.documentElement
   if (!classList.contains('menu-modal-show')) {
-    onBeforeOpeningOrClosing()
+    enableDisplayOnlyOne()
     classList.add('menu-modal-show')
   }
   if (menuNavigationId !== undefined) {
@@ -49,12 +49,12 @@ async function open(menuNavigationId?: number) {
 function closeMenuModal() {
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show')) {
-    onBeforeOpeningOrClosing()
+    enableDisplayOnlyOne()
     classList.remove('menu-modal-show')
   }
 }
 let timeoutModalAnimation: NodeJS.Timeout | undefined
-function onBeforeOpeningOrClosing() {
+function enableDisplayOnlyOne() {
   const { classList } = document.documentElement
   classList.add('menu-modal-display-only-one')
   clearTimeout(timeoutModalAnimation)

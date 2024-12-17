@@ -12,7 +12,7 @@ import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemCom
 import { parseTitle } from './parseTitle'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
 import { NavSecondaryContent } from './NavSecondaryContent'
-import { closeMenuOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
+import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
@@ -560,7 +560,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       }}
       onMouseLeave={() => {
         if (onMouseIgnore) return
-        closeMenuOnMouseLeave()
+        coseMenuModalOnMouseLeave()
       }}
       onTouchStart={() => {
         onMouseIgnore = setTimeout(() => {

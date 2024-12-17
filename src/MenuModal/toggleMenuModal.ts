@@ -2,7 +2,7 @@ export { toggleMenuModal }
 export { openMenuModal }
 export { keepMenuModalOpen }
 export { closeMenuModal }
-export { closeMenuOnMouseLeave }
+export { coseMenuModalOnMouseLeave }
 
 import { containerQueryMobileMenu } from '../Layout'
 import { getHydrationPromise } from '../renderer/getHydrationPromise'
@@ -81,7 +81,7 @@ let toggleLock:
       timeoutAction: NodeJS.Timeout
     }
   | undefined
-function closeMenuOnMouseLeave() {
+function coseMenuModalOnMouseLeave() {
   const currentModalId = getCurrentMenuId()
   if (currentModalId === null) return
   clearTimeout(toggleLock?.timeoutAction)

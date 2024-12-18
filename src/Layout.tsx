@@ -58,7 +58,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        ['--bg-color']: '#f5f5f7',
+        ['--bg-color']: '#f5f5f5',
         ['--block-margin']: `${blockMargin}px`,
         ['--icon-text-padding']: '8px',
         // ['--nav-head-height']: `${isLandingPage ? 70 : 60}px`,

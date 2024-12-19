@@ -21,11 +21,13 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
+  const faviconUrl = pageContextResolved.config.faviconUrl ?? pageContextResolved.config.logoUrl
+
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="${pageContextResolved.meta.faviconUrl}" />
+        <link rel="icon" href="${faviconUrl}" />
         <title>${pageContextResolved.documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />

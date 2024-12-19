@@ -484,7 +484,7 @@ function NavLogo({ className }: { className: string }) {
       href="/"
     >
       <img
-        src={pageContext.meta.faviconUrl}
+        src={pageContext.meta.logoUrl}
         height={iconSize}
         width={iconSize}
         onContextMenu={(ev) => {

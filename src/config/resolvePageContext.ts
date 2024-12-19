@@ -24,7 +24,6 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 
   const config = getConfig()
   const {
-    faviconUrl,
     algolia,
     tagline,
     twitterHandle,
@@ -32,11 +31,12 @@ function resolvePageContext(pageContext: PageContextOriginal) {
     websiteUrl,
     projectInfo: { projectName },
   } = config
+  const logoUrl = config.logoUrl ?? config.faviconUrl
   objectAssign(pageContextResolved, {
     urlPathname: pageContext.urlPathname, // TODO: remove
     meta: {
       projectName,
-      faviconUrl,
+      logoUrl,
       twitterHandle,
       bannerUrl,
       websiteUrl,

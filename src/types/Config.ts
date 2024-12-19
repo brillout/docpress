@@ -12,7 +12,8 @@ type Config = {
     discordInvite?: string
     twitterProfile: string
   }
-  faviconUrl: string
+  logoUrl?: string
+  faviconUrl?: string
   algolia: null | {
     appId: string
     apiKey: string

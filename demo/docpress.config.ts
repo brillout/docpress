@@ -1,7 +1,8 @@
 export { config }
 
 import type { Config } from '@brillout/docpress'
-import logoUrl from './images/logo.svg'
+import logoUrl from './assets/logo.svg'
+import faviconUrl from './assets/favicon.svg'
 import { headings, headingsDetached } from './headings'
 
 const config: Config = {
@@ -13,7 +14,8 @@ const config: Config = {
     twitterProfile: 'https://twitter.com/brillout' as const,
     discordInvite: 'https://example.org/some-discord-invite',
   },
-  faviconUrl: logoUrl,
+  logoUrl,
+  faviconUrl,
   algolia: {
     appId: 'YMV9Y4B58S',
     apiKey: '9ac178c1a29ba00e8afb98365015f677',

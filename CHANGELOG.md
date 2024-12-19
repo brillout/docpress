@@ -1,3 +1,17 @@
+## [0.10.8](https://github.com/brillout/docpress/compare/v0.10.7...v0.10.8) (2024-12-19)
+
+
+### Bug Fixes
+
+* improve --bg-color ([b18c6d5](https://github.com/brillout/docpress/commit/b18c6d5a057725bae305114637d6702728494f60))
+
+
+### Features
+
+* different logoUrl / faviconUrl ([8084bd8](https://github.com/brillout/docpress/commit/8084bd858253e349c980fa9cd7ee65518bdedf02))
+
+
+
 ## [0.10.7](https://github.com/brillout/docpress/compare/v0.10.6...v0.10.7) (2024-12-17)
 
 

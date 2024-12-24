@@ -32,5 +32,6 @@ type Config = {
   sponsorGithubAccount?: string
   navMaxWidth?: number
   navLogoSize?: number
+  navLogoStyle?: React.CSSProperties
   navLogoTextStyle?: React.CSSProperties
 }

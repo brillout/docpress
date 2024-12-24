@@ -485,8 +485,11 @@ function NavLogo({ className }: { className: string }) {
     >
       <img
         src={pageContext.meta.logoUrl}
-        height={iconSize}
-        width={iconSize}
+        style={{
+          height: iconSize,
+          width: iconSize,
+          ...pageContext.config.navLogoStyle,
+        }}
         onContextMenu={(ev) => {
           if (!pageContext.config.pressKit) return // no /press page
           if (window.location.pathname === '/press') return

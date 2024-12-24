@@ -1,3 +1,12 @@
+## [0.10.9](https://github.com/brillout/docpress/compare/v0.10.8...v0.10.9) (2024-12-24)
+
+
+### Features
+
+* navLogoStyle ([0638eb4](https://github.com/brillout/docpress/commit/0638eb41e336756dc6ad6e96a65e29748e98599f))
+
+
+
 ## [0.10.8](https://github.com/brillout/docpress/compare/v0.10.7...v0.10.8) (2024-12-19)
 
 

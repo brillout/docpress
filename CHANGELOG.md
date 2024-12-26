@@ -1,3 +1,14 @@
+## [0.10.10](https://github.com/brillout/docpress/compare/v0.10.9...v0.10.10) (2024-12-26)
+
+
+### Bug Fixes
+
+* add deprecation warning ([04b0e84](https://github.com/brillout/docpress/commit/04b0e84252964ddbe30c68d715f136ed21712be5))
+* improve dev mode ([8e4595b](https://github.com/brillout/docpress/commit/8e4595bbdd10f4cd84d2275b6d5701f44bd66087))
+* refactor & improve link assertion ([6ed5cae](https://github.com/brillout/docpress/commit/6ed5cae358de8fec96b9eb6d80822860f89ef6c3))
+
+
+
 ## [0.10.9](https://github.com/brillout/docpress/compare/v0.10.8...v0.10.9) (2024-12-24)
 
 

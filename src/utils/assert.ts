@@ -15,11 +15,11 @@ if (isBrowser()) {
       .filter(Boolean)
       .join(' '),
   )
-  if (isDevMode()) {
-    window.onerror = (err) => {
-      window.alert(err)
-      window.onerror = null
-    }
+}
+if (isDevMode()) {
+  window.onerror = (err) => {
+    window.alert(err)
+    window.onerror = null
   }
 }
 
@@ -54,7 +54,7 @@ function isBrowser() {
   return typeof window !== 'undefined'
 }
 function isDevMode() {
-  return !!window.localStorage[devModeKey] || isLocalhost()
+  return isBrowser() && (!!window.localStorage[devModeKey] || isLocalhost())
 }
 function isLocalhost() {
   return window?.location?.port !== ''
@@ -75,9 +75,9 @@ function assertWarning(condition: unknown, msg: string) {
     return
   }
   msg = '[DocPress][Warning] ' + msg
-  if (isBrowser() && isDevMode()) {
-    throw new Error(msg)
-  } else {
-    console.warn(msg)
+  const err = new Error(msg)
+  console.warn(err)
+  if (isDevMode()) {
+    window.alert(err)
   }
 }

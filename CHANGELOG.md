@@ -1,3 +1,13 @@
+## [0.10.12](https://github.com/brillout/docpress/compare/v0.10.11...v0.10.12) (2024-12-26)
+
+
+### Bug Fixes
+
+* rename JSX.Element => React.JSX.Element ([df29c11](https://github.com/brillout/docpress/commit/df29c118aa9c23e0afce02a264c2518b139e7307))
+* revert text deprecated warning ([8110636](https://github.com/brillout/docpress/commit/8110636078389dcf6e2838601accdd9d49e0379b))
+
+
+
 ## [0.10.11](https://github.com/brillout/docpress/compare/v0.10.10...v0.10.11) (2024-12-26)
 
 

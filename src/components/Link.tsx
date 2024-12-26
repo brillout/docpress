@@ -28,7 +28,7 @@ function Link({
     `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`,
   )
   assertUsage(!text || !children, 'Cannot use both `text` or `children`')
-  assertWarning(!text, 'prop `text` is deprecated')
+  // assertWarning(!text, 'prop `text` is deprecated')
   text = text ?? children
 
   if (isRepoLink(href)) {

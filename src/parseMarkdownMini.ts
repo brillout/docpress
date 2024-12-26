@@ -2,7 +2,7 @@ export { parseMarkdownMini }
 
 import React from 'react'
 
-function parseMarkdownMini(markdown: string): JSX.Element {
+function parseMarkdownMini(markdown: string): React.JSX.Element {
   type Part = { nodeType: 'text' | 'code'; content: string }
   const parts: Part[] = []
   let current: Part | undefined

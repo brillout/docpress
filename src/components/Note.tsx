@@ -39,7 +39,7 @@ function Danger(props: Props) {
 function NoteWithoutIcon(props: Props) {
   return <NoteGeneric icon={null} {...props} />
 }
-type CustomIcon = JSX.Element | string
+type CustomIcon = React.JSX.Element | string
 function NoteWithCustomIcon(props: Props & { icon: CustomIcon }) {
   const { icon } = props
   if (!icon) throw new Error(`<NoteWithCustomIcon icon={/*...*/}> property 'icon' is \`${icon}\` which is forbidden`)

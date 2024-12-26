@@ -37,7 +37,7 @@ type EmojiName =
   | 'trophy'
   | 'ribbon'
 
-function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }): JSX.Element {
+function Emoji({ name, style }: { name: EmojiName; style?: React.CSSProperties }): React.JSX.Element {
   const emoji =
     // ***
     // U+26A0

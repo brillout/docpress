@@ -55,10 +55,10 @@ function getLinkText({
 }: {
   noBreadcrumb: true | undefined
   linkData: LinkData
-  sectionTitle: JSX.Element | null
+  sectionTitle: React.JSX.Element | null
   isLinkOnSamePage: boolean
-}): JSX.Element {
-  const breadcrumbParts: JSX.Element[] = []
+}): React.JSX.Element {
+  const breadcrumbParts: React.JSX.Element[] = []
   if (linkData.linkBreadcrumb) {
     breadcrumbParts.push(...(linkData.linkBreadcrumb ?? []).slice().reverse().map(parseMarkdownMini))
   }
@@ -91,7 +91,7 @@ function getLinkTextData(href: string, pageContext: PageContextResolved, doNotIn
   const isLinkOnSamePage = linkData.url === pageContext.urlPathname
   if (!hrefPathname) assert(isLinkOnSamePage)
 
-  let sectionTitle: JSX.Element | null = null
+  let sectionTitle: React.JSX.Element | null = null
   if (hrefHash) {
     assert(!hrefHash.startsWith('#'))
     if (isLinkOnSamePage) {

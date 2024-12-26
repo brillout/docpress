@@ -49,7 +49,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext
 
-  let content: JSX.Element
+  let content: React.JSX.Element
   if (isLandingPage) {
     content = <LayoutLandingPage>{children}</LayoutLandingPage>
   } else {

@@ -63,7 +63,7 @@ function NavItemComponent({
     )
   }
 
-  let children: JSX.Element = titleInNavJsx
+  let children: React.JSX.Element = titleInNavJsx
   if (navItem.level === 1) {
     children = (
       <>

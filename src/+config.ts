@@ -25,7 +25,7 @@ export default {
   },
 } satisfies Config
 
-type ReactComponent = () => JSX.Element
+type ReactComponent = () => React.JSX.Element
 declare global {
   namespace Vike {
     interface PageContext {

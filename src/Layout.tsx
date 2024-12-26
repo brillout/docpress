@@ -1,7 +1,7 @@
 export { Layout }
 export { MenuToggle }
 export { containerQueryMobileLayout }
-export { containerQueryMobileMenu }
+export { containerQueryMobileNav as containerQueryMobileMenu }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
@@ -27,11 +27,11 @@ import { getRepoHref } from './components'
 const blockMargin = 3
 const mainViewPadding = 20
 const mainViewWidthMax = 800
-const navLeftWidthMax = 370
-const navLeftWidthMin = 300
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
-const containerQueryMobileMenu = 1000
-const containerQueryMobileNav = 550
+const navLeftWidthMin = 300
+const navLeftWidthMax = 370
+const containerQuerySmallNav = 550
+const containerQueryMobileNav = 1000
 const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1143 // 1143 = 840 + 300
 const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
@@ -347,10 +347,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          <NavLogo className="mobile-grow-half" />
+          <NavLogo className="grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
-          <SearchLink className="mobile-grow-half" style={menuLinkStyle} />
-          <MenuToggleMain className="mobile-grow-full" style={menuLinkStyle} />
+          <SearchLink className="grow-half" style={menuLinkStyle} />
+          <MenuToggleMain className="grow-full" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -360,11 +360,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   function getStyle() {
     let style = css`
-@container container-nav-head (max-width: ${containerQueryMobileNav}px) {
-  .mobile-grow-full {
+@container container-nav-head (max-width: ${containerQuerySmallNav}px) {
+  .grow-full {
     flex-grow: 1;
   }
-  .mobile-grow-half {
+  .grow-half {
     flex-grow: 0.5;
   }
   .nav-head-content {
@@ -376,8 +376,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     margin-left: -10px;
   }
 }
-@container container-viewport (max-width: ${containerQueryMobileNav}px) {
-  .mobile-grow-half {
+@container container-viewport (max-width: ${containerQuerySmallNav}px) {
+  .grow-half {
     flex-grow: 1 !important;
   }
   .nav-logo {
@@ -394,12 +394,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     padding: 0 var(--padding-side);
   }
 }
-@container container-nav-head (min-width: ${containerQueryMobileMenu + 100}px) {
+@container container-nav-head (min-width: ${containerQueryMobileNav + 100}px) {
   .nav-head-content {
     --padding-side: 35px;
   }
 }
-@media(max-width: ${containerQueryMobileMenu}px) {
+@media(max-width: ${containerQueryMobileNav}px) {
   .hide-on-shrink {
     display: none !important;
   }
@@ -407,7 +407,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (navMaxWidth) {
       style += css`
-@media(min-width: ${containerQueryMobileMenu + 1}px) {
+@media(min-width: ${containerQueryMobileNav + 1}px) {
   .desktop-grow {
     flex-grow: 1;
   }
@@ -416,7 +416,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
     if (isLandingPage && !navMaxWidth)
       style += css`
-@media(min-width: ${containerQueryMobileMenu + 1}px) {
+@media(min-width: ${containerQueryMobileNav + 1}px) {
   .nav-logo {
     display: none !important;
   }
@@ -536,12 +536,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@media(max-width: ${containerQueryMobileMenu}px) {
+@media(max-width: ${containerQueryMobileNav}px) {
   .text-docs {
     display: none !important;
   }
 }
-@media(min-width: ${containerQueryMobileMenu + 1}px) {
+@media(min-width: ${containerQueryMobileNav + 1}px) {
   .text-menu {
     display: none;
   }

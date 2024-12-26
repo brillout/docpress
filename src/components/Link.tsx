@@ -5,7 +5,7 @@ import React from 'react'
 import { isRepoLink, RepoLink } from './RepoLink'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
-import { assert, assertUsage, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
+import { assert, assertUsage, assertWarning, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import pc from '@brillout/picocolors'
 
@@ -27,6 +27,7 @@ function Link({
     `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`,
   )
   assertUsage(!text || !children, 'Cannot use both `text` or `children`')
+  assertWarning(!text, 'prop `text` is deprecated')
 
   if (isRepoLink(href)) {
     return <RepoLink path={href} text={text} />

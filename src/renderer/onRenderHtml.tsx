@@ -27,7 +27,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
     <html>
       <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="${faviconUrl}" />
+        <link rel="icon" href="${faviconUrl ?? ''}" />
         <title>${pageContextResolved.documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />

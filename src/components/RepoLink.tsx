@@ -10,7 +10,7 @@ function isRepoLink(href: string) {
   return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/'].some((start) => href.startsWith(start))
 }
 
-function RepoLink({ path, text, editMode }: { path: string; text?: string | JSX.Element; editMode?: true }) {
+function RepoLink({ path, text, editMode }: { path: string; text?: string | React.ReactNode; editMode?: true }) {
   text = text || path
   const href = getRepoHref(path, editMode)
   return <a href={href}>{text}</a>

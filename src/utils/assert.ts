@@ -70,7 +70,7 @@ function toggleDevMode() {
   console.log(`DEV MODE ${isEnabled() ? 'enabled' : 'disabled'}`)
 }
 
-function assertWarning(condition: unknown, msg: string): asserts condition {
+function assertWarning(condition: unknown, msg: string) {
   if (condition) {
     return
   }

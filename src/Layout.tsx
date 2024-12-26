@@ -31,6 +31,7 @@ const navLeftWidthMax = 370
 const navLeftWidthMin = 300
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const containerQueryMobileMenu = 1000
+const containerQueryMobileNav = 550
 const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1143 // 1143 = 840 + 300
 const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
@@ -359,7 +360,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   function getStyle() {
     let style = css`
-@container container-nav-head (max-width: 550px) {
+@container container-nav-head (max-width: ${containerQueryMobileNav}px) {
   .mobile-grow-full {
     flex-grow: 1;
   }
@@ -370,8 +371,19 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     --padding-side: 0px;
   }
   .nav-logo {
+    justify-content: flex-start;
     padding-left: 15px;
     margin-left: -10px;
+  }
+}
+@container container-viewport (max-width: ${containerQueryMobileNav}px) {
+  .mobile-grow-half {
+    flex-grow: 1 !important;
+  }
+  .nav-logo {
+    justify-content: center;
+    padding: 0;
+    margin: 0;
   }
 }
 @container container-nav-head (min-width: 501px) {
@@ -477,9 +489,8 @@ function NavLogo({ className }: { className: string }) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        color: 'inherit',
         height: '100%',
-        justifyContent: 'flex-start',
+        color: 'inherit',
       }}
       href="/"
     >

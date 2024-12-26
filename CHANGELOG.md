@@ -1,3 +1,12 @@
+## [0.10.11](https://github.com/brillout/docpress/compare/v0.10.10...v0.10.11) (2024-12-26)
+
+
+### Bug Fixes
+
+* improve mobile top nav ([47daa2b](https://github.com/brillout/docpress/commit/47daa2b6beee5799c3f227599d37d742f674e37c))
+
+
+
 ## [0.10.10](https://github.com/brillout/docpress/compare/v0.10.9...v0.10.10) (2024-12-26)
 
 

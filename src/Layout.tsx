@@ -132,7 +132,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   ${navLeftHide}
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
-  .nav-head-top {
+  .nav-head-full-width {
     display: none !important;
   }
 }
@@ -315,7 +315,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head-full-width', !isNavLeft && 'nav-head-top', 'link-hover-animation'])}
+      className={cls(['nav-head-top', !isNavLeft && 'nav-head-full-width', 'link-hover-animation'])}
       style={{
         display: 'flex',
         justifyContent: isNavLeft ? 'flex-end' : 'center',
@@ -431,7 +431,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   transition-property: opacity;
   pointer-events: none;
 }
-html:not(.unexpand-nav) :has(.nav-head-full-width:hover) .show-on-nav-hover,
+html:not(.unexpand-nav) :has(.nav-head-top:hover) .show-on-nav-hover,
 html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
 html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
   opacity: 1;

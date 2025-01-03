@@ -32,7 +32,7 @@ const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const containerQuerySmallNav = 550
 const containerQueryMobileNav = 1000
-const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1143 // 1143 = 840 + 300
+const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content

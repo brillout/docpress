@@ -110,7 +110,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     width: ${navLeftWidthMax}px !important;
   }
 }`
-    let navLeftHide = css`
+    let navLeftHidden = css`
 #nav-left, #nav-left-margin {
   display: none;
 }
@@ -127,9 +127,9 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 }
 `
     if (!hideNavLeftAlways) {
-      navLeftHide = css`
+      navLeftHidden = css`
 @container container-viewport (max-width: ${containerQueryMobileLayout - 1}px) {
-  ${navLeftHide}
+  ${navLeftHidden}
 }
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   .nav-head-full-width {
@@ -138,7 +138,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 }
 `
     }
-    style += navLeftHide
+    style += navLeftHidden
 
     return style
   }

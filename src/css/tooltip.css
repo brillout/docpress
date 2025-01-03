@@ -7,6 +7,12 @@
     position: relative;
   }
   [aria-label]:hover::before {
+    opacity: 1;
+  }
+  [aria-label]::before {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
     font-family: monospace;
     font-size: 12px;
     content: attr(aria-label);

@@ -12,7 +12,7 @@ function HorizontalLine({ primary }: { primary?: true }) {
           margin: 0,
           border: 0,
           // Same as `.doc-page h2::after`
-          borderTop: '1px solid #eaeaea',
+          borderTop: '1px solid rgba(0, 0, 0, 0.1)',
           maxWidth: 500,
           width: '80%',
         }}

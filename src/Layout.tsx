@@ -322,6 +322,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         backgroundColor: 'var(--bg-color)',
         borderBottom: 'var(--block-margin) solid white',
         position: 'relative',
+        marginBottom: !isNavLeft ? -10 : 0,
       }}
     >
       {isNavLeft && <NavHeaderLeftFullWidthBackground />}

@@ -43,7 +43,7 @@ function NavItemComponent({
   const icon = navItem.titleIcon && (
     <img
       src={navItem.titleIcon}
-      style={{ height: iconSize, width: iconSize, marginRight: 8, ...navItem.titleIconStyle }}
+      style={{ height: iconSize, width: iconSize, marginRight: 8, marginLeft: 4, ...navItem.titleIconStyle }}
     />
   )
 

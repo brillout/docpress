@@ -9,7 +9,7 @@ h3 {
 }
 
 .doc-page h1 {
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 20px;
 }
 
@@ -27,7 +27,7 @@ h3 {
   height: 1px;
   top: -45px;
   /* Same as <HorizontalLine> */
-  background-color: #eaeaea;
+  background-color: rgba(0, 0, 0, 0.1);
   --width: min(80%, 500px);
   width: var(--width);
   left: calc((100% - var(--width)) / 2);

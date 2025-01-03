@@ -1,3 +1,13 @@
+## [0.10.14](https://github.com/brillout/docpress/compare/v0.10.13...v0.10.14) (2025-01-03)
+
+
+### Bug Fixes
+
+* minor ([60032d5](https://github.com/brillout/docpress/commit/60032d57c9f3f57d528a8b942547f267983ffa9f))
+* minor ([da57fb6](https://github.com/brillout/docpress/commit/da57fb6d642e447819f30f6177ac91f74fc8aab5))
+
+
+
 ## [0.10.13](https://github.com/brillout/docpress/compare/v0.10.12...v0.10.13) (2025-01-03)
 
 

@@ -24,7 +24,4 @@
     border: 1px solid #e3e3e3;
     z-index: 1;
   }
-  [data-label-shift]::before {
-    margin-left: -10px;
-  }
 }

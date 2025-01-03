@@ -23,5 +23,9 @@
     letter-spacing: -0.02em;
     border: 1px solid #e3e3e3;
     z-index: 1;
+    /* Atlernative: https://stackoverflow.com/questions/30086913/css-positioned-absolute-element-automatic-width-outside-of-parents-bounds/57379329#57379329
+    width: max-content;
+    */
+    white-space: nowrap;
   }
 }

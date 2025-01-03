@@ -1,3 +1,13 @@
+## [0.10.13](https://github.com/brillout/docpress/compare/v0.10.12...v0.10.13) (2025-01-03)
+
+
+### Bug Fixes
+
+* add tooltip animation ([3791b2f](https://github.com/brillout/docpress/commit/3791b2fdb7e21d737dbc41fe63edbe588e71f23c))
+* fix tooltip width ([776236e](https://github.com/brillout/docpress/commit/776236e8a95758f2c909151dd325d3a978022f9e))
+
+
+
 ## [0.10.12](https://github.com/brillout/docpress/compare/v0.10.11...v0.10.12) (2024-12-26)
 
 

@@ -1,3 +1,12 @@
+## [0.10.16](https://github.com/brillout/docpress/compare/v0.10.15...v0.10.16) (2025-01-05)
+
+
+### Features
+
+* add bluesky link ([44e5b40](https://github.com/brillout/docpress/commit/44e5b400cdc1b6c667adf6a1464600d73e26f663))
+
+
+
 ## [0.10.15](https://github.com/brillout/docpress/compare/v0.10.14...v0.10.15) (2025-01-05)
 
 

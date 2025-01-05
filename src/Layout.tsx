@@ -322,7 +322,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         backgroundColor: 'var(--bg-color)',
         borderBottom: 'var(--block-margin) solid white',
         position: 'relative',
-        marginBottom: !isNavLeft ? -5 : 0,
       }}
     >
       {isNavLeft && <NavHeaderLeftFullWidthBackground />}
@@ -385,9 +384,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     justify-content: center;
     padding: 0;
     margin: 0;
-  }
-  .nav-head-top {
-    margin-bottom: -15px !important;
   }
 }
 @container container-nav-head (min-width: 501px) {

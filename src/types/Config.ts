@@ -11,6 +11,7 @@ type Config = {
     projectVersion: string
     discordInvite?: string
     twitterProfile: string
+    blueskyHandle?: string
   }
   logoUrl?: string
   faviconUrl?: string

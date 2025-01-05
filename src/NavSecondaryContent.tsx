@@ -4,6 +4,7 @@ import React from 'react'
 import iconGithub from './icons/github.svg'
 import iconTwitter from './icons/twitter.svg'
 import iconDiscord from './icons/discord.svg'
+import iconBluesky from './icons/bluesky.svg'
 import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
@@ -34,6 +35,13 @@ function NavSecondaryContent(props: { style?: React.CSSProperties }) {
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
       )}
       <LinkIcon className="decolorize-4" icon={iconTwitter} href={projectInfo.twitterProfile} />
+      {projectInfo.blueskyHandle && (
+        <LinkIcon
+          className="decolorize-6"
+          icon={iconBluesky}
+          href={`https://bsky.app/profile/${projectInfo.blueskyHandle}`}
+        />
+      )}
       <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
       <ChangelogButton />
     </div>

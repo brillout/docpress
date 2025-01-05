@@ -394,7 +394,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     padding: 0 var(--padding-side);
   }
 }
-@container container-nav-head (min-width: ${containerQueryMobileNav + 100}px) {
+@container container-nav-head (min-width: ${containerQueryMobileNav + 150}px) {
   .nav-head-content {
     --padding-side: 35px;
   }

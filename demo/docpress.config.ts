@@ -13,6 +13,7 @@ const config: Config = {
     githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
     twitterProfile: 'https://twitter.com/brillout' as const,
     discordInvite: 'https://example.org/some-discord-invite',
+    blueskyHandle: 'vike.dev',
   },
   logoUrl,
   faviconUrl,
@@ -29,7 +30,7 @@ const config: Config = {
   websiteUrl: 'fake-website.example.org',
   twitterHandle: 'fake-twitter-handle',
   // globalNote: <GlobalNoteWarning />,
-  navMaxWidth: 1100,
+  navMaxWidth: 1140,
 }
 
 /*

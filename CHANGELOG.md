@@ -1,3 +1,12 @@
+## [0.10.15](https://github.com/brillout/docpress/compare/v0.10.14...v0.10.15) (2025-01-05)
+
+
+### Bug Fixes
+
+* simplify h1 margin logic ([6d98e76](https://github.com/brillout/docpress/commit/6d98e764127ed59fb885975b4090f51dc01b4feb))
+
+
+
 ## [0.10.14](https://github.com/brillout/docpress/compare/v0.10.13...v0.10.14) (2025-01-03)
 
 

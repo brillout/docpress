@@ -1,3 +1,12 @@
+## [0.10.17](https://github.com/brillout/docpress/compare/v0.10.16...v0.10.17) (2025-01-06)
+
+
+### Bug Fixes
+
+* improve viewport meta tag ([814ac27](https://github.com/brillout/docpress/commit/814ac27d506a8ae80fda7d2e3ca86d4f5ff4ebf0))
+
+
+
 ## [0.10.16](https://github.com/brillout/docpress/compare/v0.10.15...v0.10.16) (2025-01-05)
 
 

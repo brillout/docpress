@@ -30,7 +30,7 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
         <link rel="icon" href="${faviconUrl ?? ''}" />
         <title>${pageContextResolved.documentTitle}</title>
         ${descriptionTag}
-        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
         <meta name="docsearch:category" content="${pageContextResolved.activeCategory}" />
       </head>

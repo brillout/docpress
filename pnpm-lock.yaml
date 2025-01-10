@@ -84,17 +84,8 @@ importers:
       '@shikijs/transformers':
         specifier: 1.2.0
         version: 1.2.0
-      '@types/node':
-        specifier: '*'
-        version: 22.5.5
-      '@types/react':
-        specifier: '*'
-        version: 18.3.8
-      '@types/react-dom':
-        specifier: '*'
-        version: 18.3.0
       '@vitejs/plugin-react-swc':
-        specifier: ^3.7.2
+        specifier: '>=3.0.0'
         version: 3.7.2(vite@5.4.11(@types/node@22.5.5))
       react:
         specifier: '>=18.0.0'
@@ -112,11 +103,11 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       typescript:
-        specifier: '*'
+        specifier: '>=5.0.0'
         version: 5.6.2
       vike:
-        specifier: '>=0.4.198'
-        version: 0.4.210(vite@5.4.11(@types/node@22.5.5))
+        specifier: '>=0.4.213'
+        version: 0.4.213(vite@5.4.11(@types/node@22.5.5))
       vite:
         specifier: '>=5.2.0'
         version: 5.4.11(@types/node@22.5.5)
@@ -124,6 +115,15 @@ importers:
       '@brillout/release-me':
         specifier: ^0.4.2
         version: 0.4.2
+      '@types/node':
+        specifier: ^22.5.5
+        version: 22.5.5
+      '@types/react':
+        specifier: ^18.3.8
+        version: 18.3.8
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
 
 packages:
 
@@ -1491,6 +1491,11 @@ packages:
   json-stringify-safe@5.0.1:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
 
+  json5@2.2.3:
+    resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
+    engines: {node: '>=6'}
+    hasBin: true
+
   jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
@@ -2044,6 +2049,17 @@ packages:
 
   vike@0.4.210:
     resolution: {integrity: sha512-+X2Gl1OJz0L6GIDSk+1wlkFSDY/BCqLihbTsO76HukxOq6JIHLC0wYb9UgNek3ruU4jSUtwSe4nOdchyiy8+kw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    peerDependencies:
+      react-streaming: '>=0.3.42'
+      vite: '>=5.1.0'
+    peerDependenciesMeta:
+      react-streaming:
+        optional: true
+
+  vike@0.4.213:
+    resolution: {integrity: sha512-FRpDUIFrPZTwfJK3nMmL044XFOHxDc10BKQbgQnQZbvs+CM5FUbtM74oM6MA6FnOHLcTZxpoBAFhMq2hU1AAIQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -3389,6 +3405,8 @@ snapshots:
 
   json-stringify-safe@5.0.1: {}
 
+  json5@2.2.3: {}
+
   jsonparse@1.3.1: {}
 
   lines-and-columns@2.0.4: {}
@@ -4263,22 +4281,6 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vike@0.4.210(vite@5.4.11(@types/node@22.5.5)):
-    dependencies:
-      '@brillout/import': 0.2.3
-      '@brillout/json-serializer': 0.5.15
-      '@brillout/picocolors': 1.0.15
-      '@brillout/require-shim': 0.1.2
-      '@brillout/vite-plugin-server-entry': 0.5.6
-      acorn: 8.8.2
-      cac: 6.7.14
-      es-module-lexer: 1.3.1
-      esbuild: 0.24.0
-      fast-glob: 3.2.12
-      semver: 7.6.2
-      source-map-support: 0.5.21
-      vite: 5.4.11(@types/node@22.5.5)
-
   vike@0.4.210(vite@6.0.3(@types/node@22.5.5)):
     dependencies:
       '@brillout/import': 0.2.3
@@ -4294,6 +4296,23 @@ snapshots:
       semver: 7.6.2
       source-map-support: 0.5.21
       vite: 6.0.3(@types/node@22.5.5)
+
+  vike@0.4.213(vite@5.4.11(@types/node@22.5.5)):
+    dependencies:
+      '@brillout/import': 0.2.3
+      '@brillout/json-serializer': 0.5.15
+      '@brillout/picocolors': 1.0.15
+      '@brillout/require-shim': 0.1.2
+      '@brillout/vite-plugin-server-entry': 0.5.6
+      acorn: 8.8.2
+      cac: 6.7.14
+      es-module-lexer: 1.3.1
+      esbuild: 0.24.0
+      fast-glob: 3.2.12
+      json5: 2.2.3
+      semver: 7.6.2
+      source-map-support: 0.5.21
+      vite: 5.4.11(@types/node@22.5.5)
 
   vite@5.4.11(@types/node@22.5.5):
     dependencies:

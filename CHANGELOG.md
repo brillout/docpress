@@ -1,3 +1,12 @@
+## [0.10.18](https://github.com/brillout/docpress/compare/v0.10.17...v0.10.18) (2025-01-10)
+
+
+### Bug Fixes
+
+* enable user to change dependency version ([66102fa](https://github.com/brillout/docpress/commit/66102fa1f204a019a2469028d50a7bafe2c229db))
+
+
+
 ## [0.10.17](https://github.com/brillout/docpress/compare/v0.10.16...v0.10.17) (2025-01-06)
 
 

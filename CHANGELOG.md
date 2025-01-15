@@ -1,3 +1,12 @@
+## [0.10.19](https://github.com/brillout/docpress/compare/v0.10.18...v0.10.19) (2025-01-15)
+
+
+### Bug Fixes
+
+* add category type ([eebb6c5](https://github.com/brillout/docpress/commit/eebb6c5902171751d798cef664384a5a40fd64ce))
+
+
+
 ## [0.10.18](https://github.com/brillout/docpress/compare/v0.10.17...v0.10.18) (2025-01-10)
 
 

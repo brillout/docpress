@@ -13,10 +13,12 @@ const headingsDetached: HeadingDetachedDefinition[] = [
   {
     title: 'Orphan Page',
     url: '/orphan',
+    category: 'Guides',
   },
   {
     title: 'Orphan Page Without Headings',
     url: '/orphan-2',
+    category: 'Guides 2',
   },
   {
     title: 'Languages',
@@ -49,8 +51,8 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 1,
-    titleIcon: iconScroll,
     title: 'Guides',
+    titleIcon: iconScroll,
     color: '#fbe046',
   },
   {

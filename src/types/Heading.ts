@@ -30,6 +30,7 @@ type HeadingDefinitionCommon = {
 type HeadingDetachedDefinition = HeadingDefinitionCommon & {
   url: string
   sectionTitles?: string[]
+  category?: string
 }
 
 type HeadingDefinition = HeadingDefinitionCommon & {

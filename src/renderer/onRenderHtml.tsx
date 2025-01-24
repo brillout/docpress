@@ -6,6 +6,7 @@ import { assert } from '../utils/server'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import type { OnRenderHtmlAsync } from 'vike/types'
+import { ActiveCategory } from '../config/resolveHeadingsData'
 
 const onRenderHtml: OnRenderHtmlAsync = async (
   pageContext,
@@ -32,12 +33,21 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1">
         ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
-        <meta name="docsearch:category" content="${pageContextResolved.activeCategoryName}" />
+        ${getAlgoliaTags(pageContextResolved.activeCategory)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
       </body>
     </html>`
+}
+
+function getAlgoliaTags(activeCategory: ActiveCategory) {
+  const categoryNameTag = escapeInject`<meta name="algolia:category" content="${activeCategory.name}">`
+  if (activeCategory.hide) {
+    return escapeInject`${categoryNameTag}<meta name="algolia:category:hide"> `
+  } else {
+    return escapeInject`${categoryNameTag}<meta name="algolia:category:order" content="${activeCategory.order.toString()}"> `
+  }
 }
 
 function getOpenGraphTags(

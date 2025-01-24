@@ -1,4 +1,5 @@
 export { resolveHeadingsData }
+export type { ActiveCategory }
 
 import { assert, isBrowser, jsxToTextContent } from '../utils/server'
 import type {
@@ -7,7 +8,7 @@ import type {
   HeadingResolved,
   HeadingDetachedResolved,
 } from '../types/Heading'
-import type { Config } from '../types/Config'
+import type { Category, Config } from '../types/Config'
 import { getConfig } from './getConfig'
 import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
@@ -23,6 +24,12 @@ type PageSectionResolved = {
   titleInNav: string
   linkBreadcrumb: string[]
   pageSectionLevel: number
+}
+
+type ActiveCategory = {
+  name: string
+  order: NonNullable<Category['order']>
+  hide: Category['hide']
 }
 
 function resolveHeadingsData(pageContext: PageContextOriginal) {
@@ -72,6 +79,13 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
+  const categoryInfo = config.categories?.[activeCategoryName]
+  const activeCategory: ActiveCategory = {
+    name: activeCategoryName,
+    order: categoryInfo?.order ?? 0,
+    hide: categoryInfo?.hide,
+  }
+
   const pageContextAddendum = {
     navItemsAll,
     navItemsDetached,
@@ -80,7 +94,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     pageTitle,
     documentTitle,
     // TODO: don't pass to client-side
-    activeCategoryName,
+    activeCategory,
   }
   return pageContextAddendum
 }

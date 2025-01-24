@@ -1,5 +1,6 @@
 export { headings }
 export { headingsDetached }
+export { categories }
 
 import {
   iconScroll,
@@ -8,6 +9,12 @@ import {
   type HeadingDefinition,
   type HeadingDetachedDefinition,
 } from '@brillout/docpress'
+
+const categories = {
+  Guides: { order: -2 },
+  Overview: { order: -1 },
+  'Guides 2': { hide: true },
+}
 
 const headingsDetached: HeadingDetachedDefinition[] = [
   {

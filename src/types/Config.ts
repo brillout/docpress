@@ -1,4 +1,5 @@
 export type { Config }
+export type { Category }
 
 import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading'
 
@@ -22,6 +23,7 @@ type Config = {
   }
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]
+  categories?: Record<string, Category>
   /** Sets `<meta name="description" content="${tagline}" />` */
   tagline: string
   websiteUrl: string
@@ -35,4 +37,11 @@ type Config = {
   navLogoSize?: number
   navLogoStyle?: React.CSSProperties
   navLogoTextStyle?: React.CSSProperties
+}
+
+type Category = {
+  /** Order in Algolia search results */
+  order?: number
+  /** Hide from Algolia search */
+  hide?: boolean
 }

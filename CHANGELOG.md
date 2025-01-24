@@ -1,3 +1,12 @@
+## [0.10.21](https://github.com/brillout/docpress/compare/v0.10.20...v0.10.21) (2025-01-24)
+
+
+### Bug Fixes
+
+* improve categories data structure ([fc29aef](https://github.com/brillout/docpress/commit/fc29aef113b1b4ee87131d22f6fbc40f4cd93eb4))
+
+
+
 ## [0.10.20](https://github.com/brillout/docpress/compare/v0.10.19...v0.10.20) (2025-01-24)
 
 

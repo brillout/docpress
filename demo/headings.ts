@@ -8,13 +8,15 @@ import {
   iconGear,
   type HeadingDefinition,
   type HeadingDetachedDefinition,
+  type Config,
 } from '@brillout/docpress'
 
-const categories = {
-  Guides: { order: -2 },
-  Overview: { order: -1 },
-  'Guides 2': { hide: true },
-}
+const categories: Config['categories'] = [
+  //
+  'Guides',
+  'Overview',
+  { name: 'Guides 2', hide: true },
+]
 
 const headingsDetached: HeadingDetachedDefinition[] = [
   {

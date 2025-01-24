@@ -8,7 +8,7 @@ import type {
   HeadingResolved,
   HeadingDetachedResolved,
 } from '../types/Heading'
-import type { Category, Config } from '../types/Config'
+import type { Config } from '../types/Config'
 import { getConfig } from './getConfig'
 import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
@@ -28,8 +28,8 @@ type PageSectionResolved = {
 
 type ActiveCategory = {
   name: string
-  order: NonNullable<Category['order']>
-  hide: Category['hide']
+  order: number
+  hide?: boolean
 }
 
 function resolveHeadingsData(pageContext: PageContextOriginal) {
@@ -79,11 +79,15 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
-  const categoryInfo = config.categories?.[activeCategoryName]
-  const activeCategory: ActiveCategory = {
+  const activeCategory: ActiveCategory = config.categories
+    // normalize
+    ?.map((c, i) => ({
+      order: i,
+      ...(typeof c === 'string' ? { name: c } : c),
+    }))
+    .find((c) => c.name === activeCategoryName) ?? {
     name: activeCategoryName,
-    order: categoryInfo?.order ?? 0,
-    hide: categoryInfo?.hide,
+    order: 99999999999,
   }
 
   const pageContextAddendum = {

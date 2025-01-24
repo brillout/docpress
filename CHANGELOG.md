@@ -1,3 +1,12 @@
+## [0.10.20](https://github.com/brillout/docpress/compare/v0.10.19...v0.10.20) (2025-01-24)
+
+
+### Features
+
+* add algolia category order & hide tags ([3b09a81](https://github.com/brillout/docpress/commit/3b09a81826cc2c72ecc419beacd1b32289f469a1))
+
+
+
 ## [0.10.19](https://github.com/brillout/docpress/compare/v0.10.18...v0.10.19) (2025-01-15)
 
 

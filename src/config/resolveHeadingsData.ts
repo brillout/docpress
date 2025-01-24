@@ -37,7 +37,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const { headingsDetachedResolved } = resolved
   let { headingsResolved } = resolved
 
-  const { activeHeading, isDetachedPage, activeCategory } = getActiveHeading(
+  const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,
     headingsDetachedResolved,
     pageContext,
@@ -80,7 +80,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     pageTitle,
     documentTitle,
     // TODO: don't pass to client-side
-    activeCategory,
+    activeCategoryName,
   }
   return pageContextAddendum
 }
@@ -150,7 +150,7 @@ function getActiveHeading(
   pageContext: { urlPathname: string; exports: Exports },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
-  let activeCategory = 'Miscellaneous'
+  let activeCategoryName = 'Miscellaneous'
   let headingCategory: string | undefined
   const { urlPathname } = pageContext
   assert(urlPathname)
@@ -161,7 +161,7 @@ function getActiveHeading(
     if (heading.url === urlPathname) {
       activeHeading = heading
       assert(headingCategory)
-      activeCategory = headingCategory
+      activeCategoryName = headingCategory
       assert(heading.level === 2, { pageUrl: urlPathname, heading })
       break
     }
@@ -183,8 +183,8 @@ function getActiveHeading(
       ].join('\n'),
     )
   }
-  if (activeHeading.category) activeCategory = activeHeading.category
-  return { activeHeading, isDetachedPage, activeCategory }
+  if (activeHeading.category) activeCategoryName = activeHeading.category
+  return { activeHeading, isDetachedPage, activeCategoryName }
 }
 
 function getPageSectionsResolved(

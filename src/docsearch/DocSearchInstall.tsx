@@ -17,6 +17,7 @@ function DocSearchInstall() {
         apiKey={algolia.apiKey}
         insights={true}
         hitComponent={Hit}
+        maxResultsPerGroup={Infinity}
       />
     </div>
   )

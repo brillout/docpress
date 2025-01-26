@@ -1,3 +1,12 @@
+## [0.10.22](https://github.com/brillout/docpress/compare/v0.10.21...v0.10.22) (2025-01-26)
+
+
+### Bug Fixes
+
+* show all result `maxResultsPerGroup={Infinity} ([#24](https://github.com/brillout/docpress/issues/24)) ([fc5409b](https://github.com/brillout/docpress/commit/fc5409b691fd428c23f5ce8eb72b67b8dd6903fc))
+
+
+
 ## [0.10.21](https://github.com/brillout/docpress/compare/v0.10.20...v0.10.21) (2025-01-24)
 
 

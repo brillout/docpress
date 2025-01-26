@@ -1,3 +1,12 @@
+## [0.10.23](https://github.com/brillout/docpress/compare/v0.10.22...v0.10.23) (2025-01-26)
+
+
+### Bug Fixes
+
+* parse text highlight links ([e6eb123](https://github.com/brillout/docpress/commit/e6eb1232ce991b3809a0ac2712e36a40ef4ae440))
+
+
+
 ## [0.10.22](https://github.com/brillout/docpress/compare/v0.10.21...v0.10.22) (2025-01-26)
 
 

@@ -167,5 +167,7 @@ function parseHref(href: string) {
   }
   assert(hrefPathname !== null || hrefHash !== null)
   assert(hrefPathname || hrefHash)
+  // Text highlight links e,g.  #metadata:~:text=global%20or%20local.-,Global%20metadata,-.
+  if (hrefHash) hrefHash = hrefHash.split(':~:text')[0]!
   return { hrefPathname, hrefHash }
 }

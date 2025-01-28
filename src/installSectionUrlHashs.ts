@@ -31,7 +31,7 @@ function assertNavLink(urlHash: string, heading: HTMLHeadingElement) {
   {
     const { pathname } = window.location
     const parentNavLinkMatch = Array.from(navigationEl.querySelectorAll(`a[href="${pathname}"]`))
-    assert(parentNavLinkMatch.length === 1)
+    assert(parentNavLinkMatch.length === 1, { parentNavLinkMatch, pathname })
   }
   {
     const navLinks: HTMLElement[] = Array.from(navigationEl.querySelectorAll(`a[href="${urlHash}"]`))

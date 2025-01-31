@@ -21,8 +21,8 @@ import { css } from './utils/css'
 import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
-import { iconBooks, iconPencil } from './icons'
-import { getRepoHref } from './components'
+import { iconBooks } from './icons'
+import { EditLink } from './EditLink'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -639,40 +639,4 @@ function MenuIcon() {
       ></path>
     </svg>
   )
-}
-
-function EditLink() {
-  const pageContext = usePageContext()
-  const iconSize = 17
-  const icon = (
-    <img
-      src={iconPencil}
-      width={iconSize}
-      height={iconSize}
-      style={{
-        marginRight: 9,
-        position: 'relative',
-        top: -1,
-      }}
-    />
-  )
-  const editLink = getRepoHref('/docs/pages' + pageContext.urlPathname + '/+Page.mdx', true)
-  return (
-    <a
-      href={editLink}
-      id="edit-link"
-      style={{ float: 'right', marginTop: 6, padding: 10, display: 'flex', alignItems: 'center' }}
-    >
-      {icon} Edit this page
-      <Style>{getStyle()}</Style>
-    </a>
-  )
-  function getStyle() {
-    return css`
-@container container-viewport (max-width: 800px) {
-  #edit-link {
-    display: none !important;
-  }
-}`
-  }
 }

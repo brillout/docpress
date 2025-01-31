@@ -40,12 +40,17 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           }}
         >
           <Nav />
-          <div>
-            <NavSecondary className="show-only-on-mobile" />
-            <EditLink
-              className="show-only-on-mobile"
-              style={{ justifyContent: 'center', padding: 10, marginTop: 0, marginBottom: 13 }}
-            />
+          <div className="show-only-on-mobile">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: 10,
+              }}
+            >
+              <ExternalLinks style={{ height: 50 }} />
+            </div>
+            <EditLink style={{ justifyContent: 'center', padding: 10, marginTop: 0, marginBottom: 13 }} />
           </div>
         </div>
         <CloseButton className="show-only-on-mobile" />
@@ -70,20 +75,6 @@ function Nav() {
   const pageContext = usePageContext()
   const navItems = pageContext.navItemsAll
   return <NavigationWithColumnLayout navItems={navItems} />
-}
-function NavSecondary({ className }: { className: string }) {
-  return (
-    <div
-      className={className}
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: 10,
-      }}
-    >
-      <ExternalLinks style={{ height: 50 }} />
-    </div>
-  )
 }
 
 function getStyle() {
@@ -116,7 +107,7 @@ function getStyle() {
     ${/* We use dvh because of mobile */ ''}
     ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
     height: calc(100dvh) !important;
-    ${/* Place <NavSecondary /> to the bottom */ ''}
+    ${/* Place <ExternalLinks> and <EditLink> to the bottom */ ''}
     display: flex;
     flex-direction: column;
     justify-content: space-between;

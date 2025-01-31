@@ -22,7 +22,9 @@ function EditLink() {
       }}
     />
   )
-  const editLink = getRepoHref('/docs/pages' + pageContext.urlPathname + '/+Page.mdx', true)
+  const { urlPathname } = pageContext
+  const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
+  const editLink = getRepoHref(`/docs/pages${fsPath}`, true)
   return (
     <a
       href={editLink}

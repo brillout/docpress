@@ -39,9 +39,9 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           }}
         >
           <Nav />
-          <NavSecondary className="show-only-for-mobile" />
+          <NavSecondary className="show-only-on-mobile" />
         </div>
-        <CloseButton className="show-only-for-mobile" />
+        <CloseButton className="show-only-on-mobile" />
         <BorderBottom />
       </div>
     </>
@@ -97,7 +97,7 @@ function getStyle() {
       pointer-events: none;
     }
   }
-  .show-only-for-mobile {
+  .show-only-on-mobile {
     display: none !important;
   }
 }

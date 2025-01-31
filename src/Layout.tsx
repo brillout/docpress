@@ -185,7 +185,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         {globalNote}
         {pageTitleParsed && (
           <div>
-            <EditPageNote />
+            <EditLink />
             <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>
           </div>
         )}
@@ -641,7 +641,7 @@ function MenuIcon() {
   )
 }
 
-function EditPageNote() {
+function EditLink() {
   const pageContext = usePageContext()
   const iconSize = 17
   const icon = (

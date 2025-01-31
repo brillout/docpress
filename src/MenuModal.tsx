@@ -8,6 +8,7 @@ import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
 import { closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
+import { EditLink } from './EditLink'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
   return (
@@ -39,7 +40,13 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           }}
         >
           <Nav />
-          <NavSecondary className="show-only-on-mobile" />
+          <div>
+            <NavSecondary className="show-only-on-mobile" />
+            <EditLink
+              className="show-only-on-mobile"
+              style={{ justifyContent: 'center', padding: 10, marginTop: 0, marginBottom: 13 }}
+            />
+          </div>
         </div>
         <CloseButton className="show-only-on-mobile" />
         <BorderBottom />
@@ -74,7 +81,7 @@ function NavSecondary({ className }: { className: string }) {
         marginTop: 10,
       }}
     >
-      <ExternalLinks style={{ height: 70 }} />
+      <ExternalLinks style={{ height: 50 }} />
     </div>
   )
 }
@@ -130,6 +137,9 @@ function getStyle() {
   }
   #menu-navigation-container {
     height: auto !important;
+  }
+  .show-only-on-desktop {
+    display: none !important;
   }
 }
 

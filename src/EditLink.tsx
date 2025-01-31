@@ -4,10 +4,8 @@ import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { iconPencil } from './icons'
 import { getRepoHref } from './components'
-import { Style } from './utils/Style'
-import { css } from './utils/css'
 
-function EditLink() {
+function EditLink({ className, style }: { className?: string; style: React.CSSProperties }) {
   const pageContext = usePageContext()
   const iconSize = 17
   const icon = (
@@ -26,21 +24,8 @@ function EditLink() {
   const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
   const editLink = getRepoHref(`/docs/pages${fsPath}`, true)
   return (
-    <a
-      href={editLink}
-      id="edit-link"
-      style={{ float: 'right', marginTop: 6, padding: 10, display: 'flex', alignItems: 'center' }}
-    >
+    <a href={editLink} className={className} style={{ display: 'flex', alignItems: 'center', ...style }}>
       {icon} Edit this page
-      <Style>{getStyle()}</Style>
     </a>
   )
-  function getStyle() {
-    return css`
-@container container-viewport (max-width: 800px) {
-  #edit-link {
-    display: none !important;
-  }
-}`
-  }
 }

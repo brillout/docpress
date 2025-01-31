@@ -185,7 +185,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         {globalNote}
         {pageTitleParsed && (
           <div>
-            <EditLink />
+            <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 6, padding: 10 }} />
             <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>
           </div>
         )}

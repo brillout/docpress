@@ -4,7 +4,7 @@ import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
 import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
-import { NavSecondaryContent } from './NavSecondaryContent'
+import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
 import { closeMenuModal, keepMenuModalOpen } from './MenuModal/toggleMenuModal'
@@ -74,7 +74,7 @@ function NavSecondary({ className }: { className: string }) {
         marginTop: 10,
       }}
     >
-      <NavSecondaryContent style={{ height: 70 }} />
+      <ExternalLinks style={{ height: 70 }} />
     </div>
   )
 }

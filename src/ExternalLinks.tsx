@@ -1,4 +1,4 @@
-export { NavSecondaryContent }
+export { ExternalLinks }
 
 import React from 'react'
 import iconGithub from './icons/github.svg'
@@ -10,7 +10,7 @@ import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
-function NavSecondaryContent(props: { style?: React.CSSProperties }) {
+function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
   const { projectInfo, i18n } = pageContext.config
   const iconI18n = !i18n ? null : (

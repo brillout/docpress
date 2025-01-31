@@ -11,7 +11,7 @@ import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { parseMarkdownMini } from './parseMarkdownMini'
 import { usePageContext, usePageContext2 } from './renderer/usePageContext'
-import { NavSecondaryContent } from './NavSecondaryContent'
+import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
@@ -302,7 +302,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     >
       <TopNavigation />
       {!isNavLeft && <div className="desktop-grow" />}
-      <NavSecondaryContent
+      <ExternalLinks
         style={{
           display: 'inline-flex',
           fontSize: '1.06em',

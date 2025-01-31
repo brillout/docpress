@@ -1,3 +1,14 @@
+## [0.10.24](https://github.com/brillout/docpress/compare/v0.10.23...v0.10.24) (2025-01-31)
+
+
+### Bug Fixes
+
+* add edit link on mobile ([a7eaacb](https://github.com/brillout/docpress/commit/a7eaacb5abf26c50ef96be3764815cb7c823e234))
+* correct edit link for landing page ([07d5abf](https://github.com/brillout/docpress/commit/07d5abff6a920b8a827b1323111bb3400b84aa6b))
+* inspect bug ([8077f90](https://github.com/brillout/docpress/commit/8077f901f7712c44c72a5d89450d39dbca54e57f))
+
+
+
 ## [0.10.23](https://github.com/brillout/docpress/compare/v0.10.22...v0.10.23) (2025-01-26)
 
 

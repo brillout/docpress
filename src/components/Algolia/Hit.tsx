@@ -54,8 +54,8 @@ const Hit: HitProps = ({ hit }) => {
 
         {hit.type === 'content' && (
           <div className="DocSearch-Hit-content-wrapper">
-            <Snippet className="DocSearch-Hit-title" hit={hit} attribute="content" />
-            <Snippet className="DocSearch-Hit-path" hit={hit} attribute="hierarchy.lvl1" />
+            <Snippet className="DocSearch-Hit-title" hit={hit} attribute="hierarchy.lvl1" />
+            <Snippet className="DocSearch-Hit-path" hit={hit} attribute="content" />
           </div>
         )}
         <div className="DocSearch-Hit-action">

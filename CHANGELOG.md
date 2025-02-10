@@ -1,3 +1,13 @@
+## [0.10.25](https://github.com/brillout/docpress/compare/v0.10.24...v0.10.25) (2025-02-10)
+
+
+### Bug Fixes
+
+* add `is_available:true` filter to hide unwanted results ([3f95c7f](https://github.com/brillout/docpress/commit/3f95c7f8de53c95ec8780a266a70488c1ee30004))
+* ensure content result is always displayed in the second line ([f533465](https://github.com/brillout/docpress/commit/f5334656c19b4a3a45bfdda6ea67fde61fb9b458))
+
+
+
 ## [0.10.24](https://github.com/brillout/docpress/compare/v0.10.23...v0.10.24) (2025-01-31)
 
 

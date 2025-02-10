@@ -18,6 +18,9 @@ function DocSearchInstall() {
         insights={true}
         hitComponent={Hit}
         maxResultsPerGroup={Infinity}
+        searchParameters={{
+          filters: 'is_available:true',
+        }}
       />
     </div>
   )

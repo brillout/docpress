@@ -28,5 +28,10 @@ const config: UserConfig = {
   ssr: {
     noExternal: ['@brillout/docpress', '@docsearch/react'],
   },
+  // Suppress following warning:
+  // ```
+  // ▲ [WARNING] Transforming this CSS nesting syntax is not supported in the configured target environment ("chrome87", "edge88", "es2020", "firefox78", "safari14") [unsupported-css-nesting]
+  // ```
+  build: { target: 'es2022' },
   clearScreen: false,
 }

@@ -76,8 +76,10 @@ function assertWarning(condition: unknown, msg: string) {
   }
   msg = '[DocPress][Warning] ' + msg
   const err = new Error(msg)
-  console.warn(err)
-  if (isDevMode()) {
-    window.alert(err)
+  if (import.meta.env.DEV) {
+    console.warn(err)
+    if (isDevMode()) window.alert(err)
+  } else {
+    throw err
   }
 }

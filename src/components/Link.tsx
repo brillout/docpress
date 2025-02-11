@@ -2,7 +2,6 @@ export { Link }
 export type { LinkData }
 
 import React from 'react'
-import { isRepoLink, RepoLink } from './RepoLink'
 import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, assertWarning, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
@@ -31,9 +30,6 @@ function Link({
   // assertWarning(!text, 'prop `text` is deprecated')
   text = text ?? children
 
-  if (isRepoLink(href)) {
-    return <RepoLink path={href} text={text} />
-  } else {
     const linkTextData = getLinkTextData(href, pageContext, doNotInferSectionTitle)
     if (!linkTextData) {
       text = 'LINK-TARGET-NOT-FOUND'
@@ -44,7 +40,6 @@ function Link({
       })
     }
     return <a href={href}>{text}</a>
-  }
 }
 
 function getLinkText({

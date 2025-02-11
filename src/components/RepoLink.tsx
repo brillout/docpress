@@ -3,7 +3,6 @@ import { assert } from '../utils/server'
 import { usePageContext } from '../renderer/usePageContext'
 
 export { RepoLink }
-export { isRepoLink }
 export { getRepoHref }
 
 function isRepoLink(href: string) {

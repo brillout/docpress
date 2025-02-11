@@ -30,16 +30,16 @@ function Link({
   // assertWarning(!text, 'prop `text` is deprecated')
   text = text ?? children
 
-    const linkTextData = getLinkTextData(href, pageContext, doNotInferSectionTitle)
-    if (!linkTextData) {
-      text = 'LINK-TARGET-NOT-FOUND'
-    } else if (!text) {
-      text = getLinkText({
-        noBreadcrumb,
-        ...linkTextData,
-      })
-    }
-    return <a href={href}>{text}</a>
+  const linkTextData = getLinkTextData(href, pageContext, doNotInferSectionTitle)
+  if (!linkTextData) {
+    text = 'LINK-TARGET-NOT-FOUND'
+  } else if (!text) {
+    text = getLinkText({
+      noBreadcrumb,
+      ...linkTextData,
+    })
+  }
+  return <a href={href}>{text}</a>
 }
 
 function getLinkText({

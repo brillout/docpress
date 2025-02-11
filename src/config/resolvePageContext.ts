@@ -6,7 +6,6 @@ export type { Exports }
 import { objectAssign } from '../utils/server'
 import type { PageContextServer } from 'vike/types'
 import type { PageSection } from '../parsePageSections'
-import { getConfig } from './getConfig'
 import { resolveHeadingsData } from './resolveHeadingsData'
 
 type Exports = {
@@ -22,7 +21,7 @@ function resolvePageContext(pageContext: PageContextOriginal) {
 
   objectAssign(pageContextResolved, resolveHeadingsData(pageContext))
 
-  const config = getConfig()
+  const config = pageContext.config.docpress!
   const {
     algolia,
     tagline,

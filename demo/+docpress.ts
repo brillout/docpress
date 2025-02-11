@@ -1,4 +1,4 @@
-export { config }
+export { config as default }
 
 import type { Config } from '@brillout/docpress'
 import logoUrl from './assets/logo.svg'

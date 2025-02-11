@@ -3,6 +3,7 @@ export { config }
 import type { Config, ImportString } from 'vike/types'
 import type { Exports } from './config/resolvePageContext'
 import { viteConfig } from './vite.config.js'
+import type { Config as DocpressConfig } from './types/Config'
 
 const config = {
   name: '@brillout/docpress',
@@ -23,6 +24,10 @@ const config = {
     TopNavigation: {
       env: { client: true, server: true },
     },
+    docpress: {
+      env: { server: true },
+      global: true,
+    },
   },
   prefetch: {
     staticAssets: 'hover',
@@ -40,6 +45,7 @@ declare global {
     interface Config {
       Layout?: ReactComponent | null | ImportString
       TopNavigation?: ReactComponent
+      docpress?: DocpressConfig
     }
   }
 }

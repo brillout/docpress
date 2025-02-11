@@ -9,7 +9,6 @@ import type {
   HeadingDetachedResolved,
 } from '../types/Heading'
 import type { Config } from '../types/Config'
-import { getConfig } from './getConfig'
 import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
 import type { Exports, PageContextOriginal } from './resolvePageContext'
@@ -33,7 +32,7 @@ type ActiveCategory = {
 }
 
 function resolveHeadingsData(pageContext: PageContextOriginal) {
-  const config = getConfig()
+  const config = pageContext.config.docpress!
 
   {
     const { headings, headingsDetached } = config

@@ -1,7 +1,9 @@
+export { config }
+
 import type { Config, ImportString } from 'vike/types'
 import type { Exports } from './config/resolvePageContext'
 
-export default {
+const config = {
   name: '@brillout/docpress',
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',

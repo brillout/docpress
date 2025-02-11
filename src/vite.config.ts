@@ -19,12 +19,7 @@ const config: UserConfig = {
     mdx({ rehypePlugins, remarkPlugins }),
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
     react(),
-    vike({
-      prerender: {
-        noExtraDir: true,
-      },
-      includeAssetsImportedByServer: true,
-    }),
+    vike(),
   ],
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-dom/client'],

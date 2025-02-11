@@ -5,6 +5,8 @@ import type { Exports } from './config/resolvePageContext'
 
 const config = {
   name: '@brillout/docpress',
+  require: { vike: '>=0.4.221' },
+  prerender: { noExtraDir: true },
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
   onBeforeRender: 'import:@brillout/docpress/renderer/onBeforeRender:onBeforeRender',

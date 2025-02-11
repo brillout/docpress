@@ -1,6 +1,7 @@
 export { parsePageSections }
 export type { PageSection }
 
+import type { PluginOption } from 'vite'
 import { assert } from './utils/assert.js'
 import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
 import os from 'os'
@@ -11,7 +12,7 @@ type PageSection = {
   pageSectionLevel: number
 }
 
-function parsePageSections() {
+function parsePageSections(): PluginOption {
   return {
     name: '@brillout/docpress:parsePageSections',
     enforce: 'pre',

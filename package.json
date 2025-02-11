@@ -34,7 +34,7 @@
   "pnpm": {
     "overrides": {
       "@brillout/docpress": "link:./src/",
-      "vike": "0.4.221",
+      "vike": "0.4.221-commit-ab9e52a",
       "vite": "6.1.0"
     }
   }

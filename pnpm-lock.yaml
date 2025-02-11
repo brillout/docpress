@@ -51,8 +51,8 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
       vike:
-        specifier: ^0.4.213
-        version: 0.4.213(vite@6.0.3(@types/node@22.5.5))
+        specifier: ^0.4.221
+        version: 0.4.221(vite@6.0.3(@types/node@22.5.5))
     devDependencies:
       '@docsearch/react':
         specifier: link:../src/node_modules/@docsearch/react/
@@ -103,8 +103,8 @@ importers:
         specifier: '>=5.0.0'
         version: 5.6.2
       vike:
-        specifier: '>=0.4.213'
-        version: 0.4.213(vite@5.4.11(@types/node@22.5.5))
+        specifier: '>=0.4.221'
+        version: 0.4.221(vite@5.4.11(@types/node@22.5.5))
       vite:
         specifier: '>=5.2.0'
         version: 5.4.11(@types/node@22.5.5)
@@ -280,8 +280,8 @@ packages:
     resolution: {integrity: sha512-YetEtr6tn1GsWQSWZ2U8Wtrc69O7Me6Bp9EzYOUP2juAMMUG5yP2hS5m6C04WaN+b2veFqQgOC8zXmFkEhsfkw==}
     hasBin: true
 
-  '@brillout/vite-plugin-server-entry@0.5.6':
-    resolution: {integrity: sha512-lxgvTQhQBucZehhkvq9x2C7IUfrkAhp+YkW8S0MVR5EYkf6EWBg+bYZWB0//mDfbmUcc8aAEe3uRto7pOg35Ig==}
+  '@brillout/vite-plugin-server-entry@0.6.0':
+    resolution: {integrity: sha512-ELqCpB3l4dCZviobZKcHcNvuSPG86ZfBAHUYQWnf3K28PToBrXEagwPBEU/63ITcdpK9m7DOamQPcShtitTx5g==}
 
   '@docsearch/css@3.6.1':
     resolution: {integrity: sha512-VtVb5DS+0hRIprU2CO6ZQjK2Zg4QU5HrDM1+ix6rT0umsYvFvatMAnf97NHZlVWDaaLlx7GRfR/7FikANiM2Fg==}
@@ -2044,8 +2044,8 @@ packages:
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
 
-  vike@0.4.213:
-    resolution: {integrity: sha512-FRpDUIFrPZTwfJK3nMmL044XFOHxDc10BKQbgQnQZbvs+CM5FUbtM74oM6MA6FnOHLcTZxpoBAFhMq2hU1AAIQ==}
+  vike@0.4.221:
+    resolution: {integrity: sha512-oi5DPfhWlflJHpZNDuW1rBAhgefaZ0bV7mdi4GP66m3JDQRifJpMTb4zr1bMxk74tyCdSVsgoK+37aRVLy0++Q==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -2053,6 +2053,8 @@ packages:
       vite: '>=5.1.0'
     peerDependenciesMeta:
       react-streaming:
+        optional: true
+      vite:
         optional: true
 
   vite@5.4.11:
@@ -2340,7 +2342,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@brillout/vite-plugin-server-entry@0.5.6':
+  '@brillout/vite-plugin-server-entry@0.6.0':
     dependencies:
       '@brillout/import': 0.2.3
       '@brillout/picocolors': 1.0.15
@@ -3930,7 +3932,8 @@ snapshots:
 
   picocolors@1.1.0: {}
 
-  picocolors@1.1.1: {}
+  picocolors@1.1.1:
+    optional: true
 
   picomatch@2.3.1: {}
 
@@ -3965,6 +3968,7 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.1.1
       source-map-js: 1.2.1
+    optional: true
 
   prettier@2.8.8: {}
 
@@ -4267,13 +4271,13 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vike@0.4.213(vite@5.4.11(@types/node@22.5.5)):
+  vike@0.4.221(vite@5.4.11(@types/node@22.5.5)):
     dependencies:
       '@brillout/import': 0.2.3
       '@brillout/json-serializer': 0.5.15
       '@brillout/picocolors': 1.0.15
       '@brillout/require-shim': 0.1.2
-      '@brillout/vite-plugin-server-entry': 0.5.6
+      '@brillout/vite-plugin-server-entry': 0.6.0
       acorn: 8.8.2
       cac: 6.7.14
       es-module-lexer: 1.3.1
@@ -4282,15 +4286,16 @@ snapshots:
       json5: 2.2.3
       semver: 7.6.2
       source-map-support: 0.5.21
+    optionalDependencies:
       vite: 5.4.11(@types/node@22.5.5)
 
-  vike@0.4.213(vite@6.0.3(@types/node@22.5.5)):
+  vike@0.4.221(vite@6.0.3(@types/node@22.5.5)):
     dependencies:
       '@brillout/import': 0.2.3
       '@brillout/json-serializer': 0.5.15
       '@brillout/picocolors': 1.0.15
       '@brillout/require-shim': 0.1.2
-      '@brillout/vite-plugin-server-entry': 0.5.6
+      '@brillout/vite-plugin-server-entry': 0.6.0
       acorn: 8.8.2
       cac: 6.7.14
       es-module-lexer: 1.3.1
@@ -4299,6 +4304,7 @@ snapshots:
       json5: 2.2.3
       semver: 7.6.2
       source-map-support: 0.5.21
+    optionalDependencies:
       vite: 6.0.3(@types/node@22.5.5)
 
   vite@5.4.11(@types/node@22.5.5):
@@ -4318,6 +4324,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.5.5
       fsevents: 2.3.3
+    optional: true
 
   web-namespaces@2.0.1: {}
 

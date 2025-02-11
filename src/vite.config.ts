@@ -1,3 +1,5 @@
+export { config as viteConfig }
+
 import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react-swc'
 import type { PluginOption, UserConfig } from 'vite'
@@ -28,5 +30,3 @@ const config: UserConfig = {
   },
   clearScreen: false,
 }
-
-export default config

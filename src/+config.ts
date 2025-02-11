@@ -2,10 +2,12 @@ export { config }
 
 import type { Config, ImportString } from 'vike/types'
 import type { Exports } from './config/resolvePageContext'
+import { viteConfig } from './vite.config.js'
 
 const config = {
   name: '@brillout/docpress',
   require: { vike: '>=0.4.221' },
+  vite: viteConfig,
   prerender: { noExtraDir: true },
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',

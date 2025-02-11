@@ -51,7 +51,6 @@
     "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
     "./Layout": "./Layout.tsx",
     ".": "./index.ts",
-    "./vite-config": "./dist/vite.config.js",
     "./config": "./dist/+config.js",
     "./style": "./css/index.css",
     "./types": {
@@ -65,9 +64,6 @@
       ],
       "types": [
         "./types.d.ts"
-      ],
-      "vite-config": [
-        "./dist/vite.config.d.ts"
       ],
       "config": [
         "./dist/+config.d.ts"

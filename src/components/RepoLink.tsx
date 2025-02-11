@@ -1,9 +1,9 @@
+export { RepoLink }
+export { getRepoHref }
+
 import React from 'react'
 import { assert } from '../utils/server'
 import { usePageContext } from '../renderer/usePageContext'
-
-export { RepoLink }
-export { getRepoHref }
 
 function isRepoLink(href: string) {
   return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/'].some((start) => href.startsWith(start))

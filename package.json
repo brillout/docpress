@@ -30,9 +30,12 @@
     "playwright": "^1.47.0",
     "prettier": "^2.8.7"
   },
+  "// pnpm.overrides.{vike,vite} to dedupe node_modules/vike": "",
   "pnpm": {
     "overrides": {
-      "@brillout/docpress": "link:./src/"
+      "@brillout/docpress": "link:./src/",
+      "vike": "0.4.221",
+      "vite": "6.1.0"
     }
   }
 }

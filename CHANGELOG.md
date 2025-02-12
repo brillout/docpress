@@ -1,3 +1,30 @@
+# [0.11.0](https://github.com/brillout/docpress/compare/v0.10.25...v0.11.0) (2025-02-12)
+
+
+### Bug Fixes
+
+* +docpress ([c0a16fe](https://github.com/brillout/docpress/commit/c0a16fe249644202e8bebf05b6fa2855aa3aa0bd))
+* bump vike ([31feab6](https://github.com/brillout/docpress/commit/31feab6af72a3a26ebea136ace689ba402a995a9))
+* stop supporting repo links for `<Link>` ([fcb676b](https://github.com/brillout/docpress/commit/fcb676bb4f7948d45338fc16d0f48e686dc01f14))
+* supress CSS warning ([f6a4e94](https://github.com/brillout/docpress/commit/f6a4e945f951f3e88e8d8f6be9a9a0ca0524bfb6))
+* turn warnings into errors upon building ([10180fb](https://github.com/brillout/docpress/commit/10180fbb844e5e7c2cea0a43419c44544b5769d7))
+* use +vite ([f1e1fd2](https://github.com/brillout/docpress/commit/f1e1fd2258803dbc851eef9ee50ba201c9940748))
+
+
+* enforce vike 0.4.222 ([a41ba82](https://github.com/brillout/docpress/commit/a41ba82897aaeeda1b2d7c8d6b2944cc46b9907d))
+
+
+### BREAKING CHANGES
+
+* Rename `docpress.config.js` to `+docpress.js` (and
+`export { config as default }`)
+* use `vike@0.4.222` or above
+* rewrite your `vite.config.js`
+* use latest Vike version
+* use `<RepoLink path="/some/path" />` instead
+
+
+
 ## [0.10.25](https://github.com/brillout/docpress/compare/v0.10.24...v0.10.25) (2025-02-10)
 
 

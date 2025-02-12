@@ -1,3 +1,12 @@
+## [0.11.2](https://github.com/brillout/docpress/compare/v0.11.1...v0.11.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* avoid Vite type mismatch ([fbef121](https://github.com/brillout/docpress/commit/fbef121e4ff36e9445de0e8850fb23d6d800614b))
+
+
+
 ## [0.11.1](https://github.com/brillout/docpress/compare/v0.11.0...v0.11.1) (2025-02-12)
 
 

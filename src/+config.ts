@@ -1,4 +1,4 @@
-export { config }
+export { config as default }
 
 import type { Config, ImportString } from 'vike/types'
 import type { Exports } from './config/resolvePageContext'

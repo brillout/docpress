@@ -6,7 +6,7 @@ import { viteConfig } from './vite.config.js'
 
 const config = {
   name: '@brillout/docpress',
-  require: { vike: '>=0.4.221' },
+  require: { vike: '>=0.4.222' },
   vite: viteConfig,
   prerender: { noExtraDir: true },
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',

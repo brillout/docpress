@@ -8,7 +8,7 @@ import type { Config as DocpressConfig } from './types/Config'
 const config = {
   name: '@brillout/docpress',
   require: { vike: '>=0.4.222' },
-  vite: viteConfig,
+  vite: viteConfig as Record<string, unknown>,
   prerender: { noExtraDir: true },
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',

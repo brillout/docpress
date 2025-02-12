@@ -1,3 +1,12 @@
+## [0.11.1](https://github.com/brillout/docpress/compare/v0.11.0...v0.11.1) (2025-02-12)
+
+
+### Bug Fixes
+
+* type export regression ([f7caf1d](https://github.com/brillout/docpress/commit/f7caf1ded438a1cb857a3b48e50bf17b51e89380))
+
+
+
 # [0.11.0](https://github.com/brillout/docpress/compare/v0.10.25...v0.11.0) (2025-02-12)
 
 

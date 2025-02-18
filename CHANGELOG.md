@@ -1,3 +1,12 @@
+## [0.11.3](https://github.com/brillout/docpress/compare/v0.11.2...v0.11.3) (2025-02-18)
+
+
+### Features
+
+* hideMenuLeft ([20d723d](https://github.com/brillout/docpress/commit/20d723d2c4721b19cda0f21bf540e2d2ed4ae2e3))
+
+
+
 ## [0.11.2](https://github.com/brillout/docpress/compare/v0.11.1...v0.11.2) (2025-02-12)
 
 

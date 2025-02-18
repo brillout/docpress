@@ -23,10 +23,26 @@ export function Snippet<TItem extends StoredDocSearchHit>({
   tagName = 'span',
   ...rest
 }: SnippetProps<TItem>) {
+  let title = ''
+  let lvl2 = ''
+
+  if (!hit.__docsearch_parent && hit.type !== 'lvl1' && attribute !== 'content') {
+    if (hit.type === 'content') {
+      const lvl0 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl0.value`) || getPropertyByPath(hit, 'hierarchy.lvl0')
+      title = lvl0 ? `${lvl0} > ` : ''
+
+      lvl2 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl2.value`) || getPropertyByPath(hit, 'hierarchy.lvl2')
+      lvl2 = lvl2 ? ` > ${lvl2}` : ''
+    } else {
+      const lvl1 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl1.value`) || getPropertyByPath(hit, 'hierarchy.lvl1')
+      title = lvl1 ? `${lvl1} > ` : ''
+    }
+  }
+
   return createElement(tagName, {
     ...rest,
     dangerouslySetInnerHTML: {
-      __html: getPropertyByPath(hit, `_snippetResult.${attribute}.value`) || getPropertyByPath(hit, attribute),
+      __html: `${title}${getPropertyByPath(hit, `_snippetResult.${attribute}.value`) || getPropertyByPath(hit, attribute)}${lvl2}`,
     },
   })
 }

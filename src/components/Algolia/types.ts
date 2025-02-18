@@ -1,8 +1,8 @@
 export type InternalDocSearchHit = DocSearchHit & {
-  __docsearch_parent: InternalDocSearchHit | null
+  __docsearch_parent?: InternalDocSearchHit | null
 }
 
-export type StoredDocSearchHit = Omit<DocSearchHit, '_highlightResult' | '_snippetResult'>
+export type StoredDocSearchHit = Omit<InternalDocSearchHit, '_highlightResult' | '_snippetResult'>
 
 type ContentType = 'content' | 'lvl0' | 'lvl1' | 'lvl2' | 'lvl3' | 'lvl4' | 'lvl5' | 'lvl6'
 

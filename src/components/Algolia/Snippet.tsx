@@ -28,13 +28,15 @@ export function Snippet<TItem extends StoredDocSearchHit>({
 
   if (!hit.__docsearch_parent && hit.type !== 'lvl1' && attribute !== 'content') {
     if (hit.type === 'content') {
-      const lvl0 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl0.value`) || getPropertyByPath(hit, 'hierarchy.lvl0')
+      const lvl0 =
+        getPropertyByPath(hit, `_snippetResult.hierarchy.lvl0.value`) || getPropertyByPath(hit, 'hierarchy.lvl0')
       title = lvl0 ? `${lvl0} > ` : ''
 
       lvl2 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl2.value`) || getPropertyByPath(hit, 'hierarchy.lvl2')
       lvl2 = lvl2 ? ` > ${lvl2}` : ''
     } else {
-      const lvl1 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl1.value`) || getPropertyByPath(hit, 'hierarchy.lvl1')
+      const lvl1 =
+        getPropertyByPath(hit, `_snippetResult.hierarchy.lvl1.value`) || getPropertyByPath(hit, 'hierarchy.lvl1')
       title = lvl1 ? `${lvl1} > ` : ''
     }
   }

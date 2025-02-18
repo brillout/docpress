@@ -11,12 +11,18 @@ type HeadingResolved = {
   linkBreadcrumb: string[]
   sectionTitles?: string[]
   menuModalFullWidth?: true
-  hideMenuLeft?: true
+  pageDesign?: PageDesign
   category?: string
   color?: string
   titleIcon?: string
   titleIconStyle?: React.CSSProperties
 } & Tmp
+
+type PageDesign = {
+  hideTitle?: true
+  hideMenuLeft?: true
+  contentMaxWidth?: number
+}
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
   level: 2
@@ -26,7 +32,7 @@ type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'>
 type HeadingDefinitionCommon = {
   title: string
   menuModalFullWidth?: true
-  hideMenuLeft?: true
+  pageDesign?: PageDesign
 }
 
 type HeadingDetachedDefinition = HeadingDefinitionCommon & {

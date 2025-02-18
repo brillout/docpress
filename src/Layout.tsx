@@ -86,7 +86,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const hideNavLeftAlways =
-    pageContext.hideMenuLeft || (pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1)
+    pageContext.pageDesign?.hideMenuLeft || (pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1)
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -159,6 +159,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
   const { globalNote } = pageContext.config
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
+  const contentMaxWidth = pageContext.pageDesign?.contentMaxWidth ?? mainViewWidthMax
   return (
     <div
       className="page-wrapper low-prio-grow"
@@ -177,14 +178,14 @@ function PageContent({ children }: { children: React.ReactNode }) {
           // Also define --main-view-padding for landing page because it's used by <Contributors> and <Sponsors>
           ['--main-view-padding']: `${mainViewPadding}px`,
           ...ifDocPage({
-            width: `calc(${mainViewWidthMax}px + 2 * var(--main-view-padding))`,
+            width: `calc(${contentMaxWidth}px + 2 * var(--main-view-padding))`,
             maxWidth: '100%',
             padding: '20px var(--main-view-padding)',
           }),
         }}
       >
         {globalNote}
-        {pageTitleParsed && (
+        {pageTitleParsed && !pageContext.pageDesign?.hideTitle && (
           <div>
             <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 6, padding: 10 }} />
             <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>

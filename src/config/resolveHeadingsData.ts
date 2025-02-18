@@ -92,7 +92,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const pageContextAddendum = {
     navItemsAll,
     navItemsDetached,
-    hideMenuLeft: activeHeading.hideMenuLeft,
+    pageDesign: activeHeading.pageDesign,
     linksAll,
     isLandingPage,
     pageTitle,

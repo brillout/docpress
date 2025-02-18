@@ -77,7 +77,11 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Tiny Page',
     url: '/tiny',
-    hideMenuLeft: true,
+    pageDesign: {
+      hideTitle: true,
+      hideMenuLeft: true,
+      contentMaxWidth: 4000,
+    },
   },
   {
     level: 2,

@@ -85,7 +85,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const hideNavLeftAlways = pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1
+  const hideNavLeftAlways =
+    pageContext.hideMenuLeft || (pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1)
   return (
     <>
       <Style>{getStyle()}</Style>

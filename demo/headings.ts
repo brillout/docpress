@@ -77,6 +77,7 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Tiny Page',
     url: '/tiny',
+    hideMenuLeft: true,
   },
   {
     level: 2,

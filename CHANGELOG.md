@@ -1,3 +1,12 @@
+## [0.11.4](https://github.com/brillout/docpress/compare/v0.11.3...v0.11.4) (2025-02-18)
+
+
+### Features
+
+* `pageDesign` ([efccfd1](https://github.com/brillout/docpress/commit/efccfd16c9cb6dc8fc85d158f0810e450bec38ff))
+
+
+
 ## [0.11.3](https://github.com/brillout/docpress/compare/v0.11.2...v0.11.3) (2025-02-18)
 
 

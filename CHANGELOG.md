@@ -1,3 +1,12 @@
+## [0.11.5](https://github.com/brillout/docpress/compare/v0.11.4...v0.11.5) (2025-02-23)
+
+
+### Bug Fixes
+
+* add the breadcrumbs to the algolia search result ([#27](https://github.com/brillout/docpress/issues/27)) ([ca1be94](https://github.com/brillout/docpress/commit/ca1be94251aa3bec4dfd6054f40f4f4a8bd15b28))
+
+
+
 ## [0.11.4](https://github.com/brillout/docpress/compare/v0.11.3...v0.11.4) (2025-02-18)
 
 

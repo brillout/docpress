@@ -12,7 +12,7 @@ type ContentType = 'lvl0' | 'lvl1' | 'lvl2' | 'lvl3' | 'lvl4' | 'lvl5' | 'lvl6'
 
 const Hit: HitProps = ({ hit }) => {
   return (
-    <a href={hit.url}>
+    <a href={hit.type === 'lvl1' ? hit.url.split('#')[0] : hit.url}>
       <div className="DocSearch-Hit-Container">
         {(hit as InternalDocSearchHit).__docsearch_parent && (
           <svg className="DocSearch-Hit-Tree" viewBox="0 0 24 54">

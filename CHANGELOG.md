@@ -1,3 +1,12 @@
+## [0.11.6](https://github.com/brillout/docpress/compare/v0.11.5...v0.11.6) (2025-02-24)
+
+
+### Bug Fixes
+
+* remove unnecessary hash from search results ([497241f](https://github.com/brillout/docpress/commit/497241f9c5b5e3b042f4ffdcd75ba5d3d52567da))
+
+
+
 ## [0.11.5](https://github.com/brillout/docpress/compare/v0.11.4...v0.11.5) (2025-02-23)
 
 

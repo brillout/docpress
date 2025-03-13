@@ -1,3 +1,12 @@
+# [0.12.0](https://github.com/brillout/docpress/compare/v0.11.6...v0.12.0) (2025-03-13)
+
+
+### Bug Fixes
+
+* avoid using `lvl0` as title in breadcrumbs when `hit.type === 'content'` ([#36](https://github.com/brillout/docpress/issues/36)) ([84af91a](https://github.com/brillout/docpress/commit/84af91aad99ff422421d436e24889aa3c36b10e0))
+
+
+
 ## [0.11.6](https://github.com/brillout/docpress/compare/v0.11.5...v0.11.6) (2025-02-24)
 
 

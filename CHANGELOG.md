@@ -1,3 +1,12 @@
+## [0.12.1](https://github.com/brillout/docpress/compare/v0.12.0...v0.12.1) (2025-03-14)
+
+
+### Features
+
+* usePageContext2 ([ba4065e](https://github.com/brillout/docpress/commit/ba4065e24063e5a930449ae61fdf186129772e83))
+
+
+
 # [0.12.0](https://github.com/brillout/docpress/compare/v0.11.6...v0.12.0) (2025-03-13)
 
 

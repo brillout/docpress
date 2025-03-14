@@ -8,7 +8,7 @@ export {
   Emoji,
 } from './components'
 export { MenuToggle } from './Layout'
-export { usePageContext } from './renderer/usePageContext'
+export { usePageContext, usePageContext2 } from './renderer/usePageContext'
 export * from './components/Note'
 export * from './icons/index'
 export { assert } from './utils/assert'

@@ -1,5 +1,5 @@
 import { createElement } from 'react'
-import { StoredDocSearchHit } from './types'
+import { InternalDocSearchHit, StoredDocSearchHit } from '@docsearch/react'
 
 function getPropertyByPath(object: Record<string, any>, path: string): any {
   const parts = path.split('.')
@@ -17,7 +17,7 @@ interface SnippetProps<TItem> {
   [prop: string]: unknown
 }
 
-export function Snippet<TItem extends StoredDocSearchHit>({
+export function Snippet<TItem extends InternalDocSearchHit | StoredDocSearchHit>({
   hit,
   attribute,
   tagName = 'span',
@@ -26,7 +26,7 @@ export function Snippet<TItem extends StoredDocSearchHit>({
   let title = ''
   let lvl2 = ''
 
-  if (!hit.__docsearch_parent && hit.type !== 'lvl1' && attribute !== 'content') {
+  if (!(hit as InternalDocSearchHit).__docsearch_parent && hit.type !== 'lvl1' && attribute !== 'content') {
     if (hit.type === 'content') {
       lvl2 = getPropertyByPath(hit, `_snippetResult.hierarchy.lvl2.value`) || getPropertyByPath(hit, 'hierarchy.lvl2')
       lvl2 = lvl2 ? ` > ${lvl2}` : ''

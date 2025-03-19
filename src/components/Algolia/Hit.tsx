@@ -1,16 +1,18 @@
 export { Hit }
 
 import React from 'react'
-import { DocSearch } from '@docsearch/react'
-import type { InternalDocSearchHit } from './types'
+import type { DocSearchHit, InternalDocSearchHit, StoredDocSearchHit } from '@docsearch/react'
 import { Snippet } from './Snippet'
 import { SourceIcon } from './SourceIcon'
 import { SelectIcon } from './SelectIcon'
 
-type HitProps = Parameters<typeof DocSearch>[0]['hitComponent']
-type ContentType = 'lvl0' | 'lvl1' | 'lvl2' | 'lvl3' | 'lvl4' | 'lvl5' | 'lvl6'
+type HitProps = {
+  hit: InternalDocSearchHit | StoredDocSearchHit
+  children: React.ReactNode
+}
+type HierarchyType = Exclude<DocSearchHit['type'], 'content'>
 
-const Hit: HitProps = ({ hit }) => {
+function Hit({ hit }: HitProps) {
   return (
     <a href={hit.type === 'lvl1' ? hit.url.split('#')[0] : hit.url}>
       <div className="DocSearch-Hit-Container">
@@ -29,14 +31,14 @@ const Hit: HitProps = ({ hit }) => {
         <div className="DocSearch-Hit-icon">
           <SourceIcon type={hit.type} />
         </div>
-        {hit.hierarchy[hit.type as ContentType] && hit.type === 'lvl1' && (
+        {hit.hierarchy[hit.type as HierarchyType] && hit.type === 'lvl1' && (
           <div className="DocSearch-Hit-content-wrapper">
             <Snippet className="DocSearch-Hit-title" hit={hit} attribute="hierarchy.lvl1" />
             {hit.content && <Snippet className="DocSearch-Hit-path" hit={hit} attribute="content" />}
           </div>
         )}
 
-        {hit.hierarchy[hit.type as ContentType] &&
+        {hit.hierarchy[hit.type as HierarchyType] &&
           (hit.type === 'lvl2' ||
             hit.type === 'lvl3' ||
             hit.type === 'lvl4' ||

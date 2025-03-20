@@ -1,3 +1,12 @@
+## [0.12.2](https://github.com/brillout/docpress/compare/v0.12.1...v0.12.2) (2025-03-20)
+
+
+### Bug Fixes
+
+* bump `@docsearch/css` and `@docsearch/react` to v3.9.0 ([#37](https://github.com/brillout/docpress/issues/37)) ([5cb8ee5](https://github.com/brillout/docpress/commit/5cb8ee575ee5c76295bba8da18e7193d509fb796))
+
+
+
 ## [0.12.1](https://github.com/brillout/docpress/compare/v0.12.0...v0.12.1) (2025-03-14)
 
 

@@ -2,7 +2,11 @@ export { assert }
 export { assertUsage }
 export { assertWarning }
 
+import { getGlobalObject } from './getGlobalObject'
 const devModeKey = '__docpress_dev_mode'
+const globalObject = getGlobalObject('utils/assert.ts', {
+  alreadyLogged: new Set<string>(),
+})
 
 if (isBrowser()) {
   ;(window as any).toggleDevMode = toggleDevMode
@@ -70,16 +74,30 @@ function toggleDevMode() {
   console.log(`DEV MODE ${isEnabled() ? 'enabled' : 'disabled'}`)
 }
 
-function assertWarning(condition: unknown, msg: string) {
+function assertWarning(
+  condition: unknown,
+  msg: string,
+  { onlyOnce, showStackTrace }: { onlyOnce?: true | string; showStackTrace?: true } = {},
+) {
   if (condition) {
     return
   }
-  msg = '[DocPress][Warning] ' + msg
   const err = new Error(msg)
-  if (import.meta.env.DEV) {
-    console.warn(err)
-    if (isDevMode()) window.alert(err)
-  } else {
+  if (!import.meta.env.DEV) {
     throw err
+  } else {
+    if (onlyOnce) {
+      const { alreadyLogged } = globalObject
+      const key = onlyOnce === true ? msg : onlyOnce
+      if (alreadyLogged.has(key)) return
+      alreadyLogged.add(key)
+    }
+    msg = '[DocPress][Warning] ' + msg
+    if (!showStackTrace) {
+      console.warn(msg)
+    } else {
+      console.warn(err)
+    }
+    if (isDevMode()) window.alert(err)
   }
 }

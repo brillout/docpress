@@ -1,3 +1,12 @@
+## [0.12.3](https://github.com/brillout/docpress/compare/v0.12.2...v0.12.3) (2025-03-25)
+
+
+### Bug Fixes
+
+* improve warnings ([047c677](https://github.com/brillout/docpress/commit/047c677eead9db7b5daa50f0562d9587d7c46501))
+
+
+
 ## [0.12.2](https://github.com/brillout/docpress/compare/v0.12.1...v0.12.2) (2025-03-20)
 
 

@@ -1,3 +1,12 @@
+## [0.12.4](https://github.com/brillout/docpress/compare/v0.12.3...v0.12.4) (2025-03-25)
+
+
+### Bug Fixes
+
+* fix import ([4cb5ec2](https://github.com/brillout/docpress/commit/4cb5ec20880731470b118d681fb0a71f9de4e0dd))
+
+
+
 ## [0.12.3](https://github.com/brillout/docpress/compare/v0.12.2...v0.12.3) (2025-03-25)
 
 

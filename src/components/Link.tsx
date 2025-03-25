@@ -82,7 +82,7 @@ function getLinkTextData(href: string, pageContext: PageContextResolved, doNotIn
   const { hrefPathname, hrefHash } = parseHref(href)
 
   const linkData = findLinkData(hrefPathname || pageContext.urlPathname, pageContext)
-  assert(linkData)
+  if (!linkData) return null
   const isLinkOnSamePage = linkData.url === pageContext.urlPathname
   if (!hrefPathname) assert(isLinkOnSamePage)
 

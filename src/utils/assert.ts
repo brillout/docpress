@@ -77,7 +77,7 @@ function toggleDevMode() {
 function assertWarning(
   condition: unknown,
   msg: string,
-  { onlyOnce, showStackTrace }: { onlyOnce?: true | string; showStackTrace?: true } = {},
+  { onlyOnce = true, showStackTrace }: { onlyOnce?: boolean | string; showStackTrace?: true } = {},
 ) {
   if (condition) {
     return

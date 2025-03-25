@@ -2,7 +2,7 @@ export { assert }
 export { assertUsage }
 export { assertWarning }
 
-import { getGlobalObject } from './getGlobalObject'
+import { getGlobalObject } from './getGlobalObject.js'
 const devModeKey = '__docpress_dev_mode'
 const globalObject = getGlobalObject('utils/assert.ts', {
   alreadyLogged: new Set<string>(),

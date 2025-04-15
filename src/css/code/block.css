@@ -32,18 +32,21 @@ figure[data-rehype-pretty-code-figure] {
     font-size: 0.8em !important;
   }
 }
-@container container-viewport (max-width: 620px) {
-  pre > code {
-    font-size: 0.7em !important;
+/* `@media (pointer: fine)`: https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121 */
+@media not all and (hover: hover) and (pointer: fine) {
+  @container container-viewport (max-width: 620px) {
+    pre > code {
+      font-size: 0.7em !important;
+    }
   }
-}
-@container container-viewport (max-width: 550px) {
-  pre > code {
-    font-size: 0.6em !important;
+  @container container-viewport (max-width: 550px) {
+    pre > code {
+      font-size: 0.6em !important;
+    }
   }
-}
-@container container-viewport (max-width: 450px) {
-  pre > code {
-    font-size: 0.5em !important;
+  @container container-viewport (max-width: 450px) {
+    pre > code {
+      font-size: 0.5em !important;
+    }
   }
 }

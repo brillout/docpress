@@ -21,6 +21,14 @@ function DocSearchInstall() {
         searchParameters={{
           filters: 'is_available:true',
         }}
+        transformItems={(hits) => {
+          hits.map((hit) => {
+            if (hit.type === 'lvl1') {
+              hit.url = hit.url.split('#')[0]
+            }
+          })
+          return hits
+        }}
       />
     </div>
   )

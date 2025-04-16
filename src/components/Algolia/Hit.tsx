@@ -14,7 +14,7 @@ type HierarchyType = Exclude<DocSearchHit['type'], 'content'>
 
 function Hit({ hit }: HitProps) {
   return (
-    <a href={hit.type === 'lvl1' ? hit.url.split('#')[0] : hit.url}>
+    <a href={hit.url}>
       <div className="DocSearch-Hit-Container">
         {(hit as InternalDocSearchHit).__docsearch_parent && (
           <svg className="DocSearch-Hit-Tree" viewBox="0 0 24 54">

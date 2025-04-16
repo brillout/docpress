@@ -1,3 +1,13 @@
+## [0.12.5](https://github.com/brillout/docpress/compare/v0.12.4...v0.12.5) (2025-04-16)
+
+
+### Bug Fixes
+
+* apply small code block font size only on mobile (fix vikejs/vike[#2369](https://github.com/brillout/docpress/issues/2369)) ([737e36e](https://github.com/brillout/docpress/commit/737e36e663308cbe3640e164c458ef90c9793a97))
+* remove URL hash from search results for `lvl1` hits ([#38](https://github.com/brillout/docpress/issues/38)) ([bb73f40](https://github.com/brillout/docpress/commit/bb73f40f955fc7b330d1aba4a06fe3b77427ae4b))
+
+
+
 ## [0.12.4](https://github.com/brillout/docpress/compare/v0.12.3...v0.12.4) (2025-03-25)
 
 

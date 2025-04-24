@@ -1,3 +1,12 @@
+## [0.12.6](https://github.com/brillout/docpress/compare/v0.12.5...v0.12.6) (2025-04-24)
+
+
+### Features
+
+* noWarning ([3b66eb0](https://github.com/brillout/docpress/commit/3b66eb0cdc51fcab369e04c05a1886fed6e0fd42))
+
+
+
 ## [0.12.5](https://github.com/brillout/docpress/compare/v0.12.4...v0.12.5) (2025-04-16)
 
 

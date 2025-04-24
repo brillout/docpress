@@ -17,8 +17,8 @@ function Link({
 }: {
   href: string
   text?: string | React.ReactNode
-  noBreadcrumb?: true
-  doNotInferSectionTitle?: true
+  noBreadcrumb?: boolean
+  doNotInferSectionTitle?: boolean
   children?: React.ReactNode
 }) {
   const pageContext = usePageContext()
@@ -30,15 +30,18 @@ function Link({
   // assertWarning(!text, 'prop `text` is deprecated')
   text = text ?? children
 
-  const linkTextData = getLinkTextData(href, pageContext, doNotInferSectionTitle)
-  if (!linkTextData) {
-    text = 'LINK-TARGET-NOT-FOUND'
-  } else if (!text) {
-    text = getLinkText({
-      noBreadcrumb,
-      ...linkTextData,
-    })
+  const linkTextData = getLinkTextData({ href, pageContext, doNotInferSectionTitle })
+  if (!text) {
+    if (linkTextData) {
+      text = getLinkText({
+        noBreadcrumb,
+        ...linkTextData,
+      })
+    } else {
+      text = 'LINK-TARGET-NOT-FOUND'
+    }
   }
+
   return <a href={href}>{text}</a>
 }
 
@@ -48,7 +51,7 @@ function getLinkText({
   sectionTitle,
   isLinkOnSamePage,
 }: {
-  noBreadcrumb: true | undefined
+  noBreadcrumb: boolean | undefined
   linkData: LinkData
   sectionTitle: React.JSX.Element | null
   isLinkOnSamePage: boolean
@@ -78,10 +81,18 @@ function getLinkText({
   )
 }
 
-function getLinkTextData(href: string, pageContext: PageContextResolved, doNotInferSectionTitle?: boolean) {
+function getLinkTextData({
+  href,
+  pageContext,
+  doNotInferSectionTitle,
+}: {
+  href: string
+  pageContext: PageContextResolved
+  doNotInferSectionTitle?: boolean
+}) {
   const { hrefPathname, hrefHash } = parseHref(href)
 
-  const linkData = findLinkData(hrefPathname || pageContext.urlPathname, pageContext)
+  const linkData = findLinkData(hrefPathname || pageContext.urlPathname, { pageContext })
   if (!linkData) return null
   const isLinkOnSamePage = linkData.url === pageContext.urlPathname
   if (!hrefPathname) assert(isLinkOnSamePage)
@@ -90,7 +101,7 @@ function getLinkTextData(href: string, pageContext: PageContextResolved, doNotIn
   if (hrefHash) {
     assert(!hrefHash.startsWith('#'))
     if (isLinkOnSamePage) {
-      const linkDataPageSection = findLinkData(`#${hrefHash}`, pageContext)
+      const linkDataPageSection = findLinkData(`#${hrefHash}`, { pageContext })
       if (!linkDataPageSection) return null
       sectionTitle = parseMarkdownMini(linkDataPageSection.title)
     } else if ('sectionTitles' in linkData && linkData.sectionTitles) {
@@ -121,7 +132,7 @@ type LinkData = {
   linkBreadcrumb: null | string[]
   sectionTitles?: string[]
 }
-function findLinkData(href: string, pageContext: PageContextResolved): LinkData | null {
+function findLinkData(href: string, { pageContext }: { pageContext: PageContextResolved }): LinkData | null {
   assert(href.startsWith('/') || href.startsWith('#'))
   const { linksAll } = pageContext
   const linkData = linksAll.find(({ url }) => href === url)

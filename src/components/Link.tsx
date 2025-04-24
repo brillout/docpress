@@ -136,32 +136,35 @@ type LinkData = {
   linkBreadcrumb: null | string[]
   sectionTitles?: string[]
 }
-function findLinkData(href: string, { pageContext, noWarning }: { pageContext: PageContextResolved, noWarning?: boolean }): LinkData | null {
+function findLinkData(
+  href: string,
+  { pageContext, noWarning }: { pageContext: PageContextResolved; noWarning?: boolean },
+): LinkData | null {
   assert(href.startsWith('/') || href.startsWith('#'))
   const { linksAll } = pageContext
   const linkData = linksAll.find(({ url }) => href === url)
   if (href.startsWith('#')) {
     if (!noWarning) {
-    assertWarning(linkData, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
+      assertWarning(linkData, `Couldn't find ${href} in ${pageContext.urlPathname}, does it exist?`)
     }
   } else {
     if (!noWarning) {
       assertWarning(
-      linkData,
-      [
-        `Couldn't find page with URL ${pc.bold(href)}`,
-        `— did you define it in`,
+        linkData,
         [
-          pc.cyan('docpress.config.js'),
-          pc.dim('#{'),
-          pc.cyan('headings'),
-          pc.dim(','),
-          pc.cyan('headingsDetached'),
-          pc.dim('}'),
-          '?',
-        ].join(''),
-      ].join(' '),
-    )
+          `Couldn't find page with URL ${pc.bold(href)}`,
+          `— did you define it in`,
+          [
+            pc.cyan('docpress.config.js'),
+            pc.dim('#{'),
+            pc.cyan('headings'),
+            pc.dim(','),
+            pc.cyan('headingsDetached'),
+            pc.dim('}'),
+            '?',
+          ].join(''),
+        ].join(' '),
+      )
     }
   }
   return linkData ?? null

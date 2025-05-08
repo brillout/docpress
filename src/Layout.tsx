@@ -623,7 +623,13 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     z-index: -1;
   }
   & .caret-icon {
-    transition: transform 0.4s ease !important;
+    transition: transform .4s cubic-bezier(.4,0, .2, 1);
+  }
+  & .caret-icon-left {
+    transform-origin: 25% 50%;
+  }
+  & .caret-icon-right {
+    transform-origin: 75% 50%;
   }
 }
     `
@@ -632,16 +638,35 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
 function CaretIcon({ style }: { style: React.CSSProperties }) {
   return (
     <svg
-      className="caret-icon"
       xmlns="http://www.w3.org/2000/svg"
-      style={style}
-      version="1"
       viewBox="0 0 60.547 36.153"
+      style={{
+        paddingTop: 5,
+        paddingBottom: 5,
+        overflow: 'visible',
+        ...style,
+      }}
     >
-      <path
-        d="m1.713 10.022 24.329 24.329c.026.027.034.065.061.091a5.86 5.86 0 0 0 4.17 1.711 5.85 5.85 0 0 0 4.17-1.711c.027-.027.034-.064.061-.091l24.329-24.329c2.285-2.285 2.285-6.024 0-8.308s-6.024-2.285-8.308 0L30.272 21.965 10.021 1.714c-2.285-2.285-6.024-2.285-8.308 0s-2.285 6.024 0 8.308"
-        fill="currentColor"
-      ></path>
+      <g className="caret-icon caret-icon-left">
+        <clipPath id="left-half">
+          <path d="M0 0h30.273v36.153H0z"></path>
+        </clipPath>
+        <path
+          fill="currentColor"
+          d="m1.713 10.022 24.329 24.329c.026.027.034.065.061.091a5.86 5.86 0 0 0 4.17 1.711 5.85 5.85 0 0 0 4.17-1.711c.027-.027.034-.064.061-.091l24.329-24.329c2.285-2.285 2.285-6.024 0-8.308s-6.024-2.285-8.308 0L30.272 21.965 10.021 1.714c-2.285-2.285-6.024-2.285-8.308 0s-2.285 6.024 0 8.308"
+          clipPath="url(#left-half)"
+        ></path>
+      </g>
+      <g className="caret-icon caret-icon-right">
+        <clipPath id="right-half">
+          <path d="M30.273 0h30.273v36.153H30.273z"></path>
+        </clipPath>
+        <path
+          fill="currentColor"
+          d="m1.713 10.022 24.329 24.329c.026.027.034.065.061.091a5.86 5.86 0 0 0 4.17 1.711 5.85 5.85 0 0 0 4.17-1.711c.027-.027.034-.064.061-.091l24.329-24.329c2.285-2.285 2.285-6.024 0-8.308s-6.024-2.285-8.308 0L30.272 21.965 10.021 1.714c-2.285-2.285-6.024-2.285-8.308 0s-2.285 6.024 0 8.308"
+          clipPath="url(#right-half)"
+        ></path>
+      </g>
     </svg>
   )
 }

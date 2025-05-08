@@ -639,33 +639,20 @@ function CaretIcon({ style }: { style: React.CSSProperties }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 60.547 36.153"
+      viewBox="0 0 9.24 5.858"
       style={{
-        paddingTop: 5,
-        paddingBottom: 5,
         overflow: 'visible',
         ...style,
       }}
     >
       <g className="caret-icon caret-icon-left">
-        <clipPath id="left-half">
-          <path d="M0 0h30.273v36.153H0z"></path>
-        </clipPath>
         <path
           fill="currentColor"
-          d="m1.713 10.022 24.329 24.329c.026.027.034.065.061.091a5.86 5.86 0 0 0 4.17 1.711 5.85 5.85 0 0 0 4.17-1.711c.027-.027.034-.064.061-.091l24.329-24.329c2.285-2.285 2.285-6.024 0-8.308s-6.024-2.285-8.308 0L30.272 21.965 10.021 1.714c-2.285-2.285-6.024-2.285-8.308 0s-2.285 6.024 0 8.308"
-          clipPath="url(#left-half)"
+          d="m4.001 5.24.619.618 1.237-1.237-.618-.619L4 5.241zm-4-4 4 4L5.24 4.001l-4-4L0 1.241z"
         ></path>
       </g>
       <g className="caret-icon caret-icon-right">
-        <clipPath id="right-half">
-          <path d="M30.273 0h30.273v36.153H30.273z"></path>
-        </clipPath>
-        <path
-          fill="currentColor"
-          d="m1.713 10.022 24.329 24.329c.026.027.034.065.061.091a5.86 5.86 0 0 0 4.17 1.711 5.85 5.85 0 0 0 4.17-1.711c.027-.027.034-.064.061-.091l24.329-24.329c2.285-2.285 2.285-6.024 0-8.308s-6.024-2.285-8.308 0L30.272 21.965 10.021 1.714c-2.285-2.285-6.024-2.285-8.308 0s-2.285 6.024 0 8.308"
-          clipPath="url(#right-half)"
-        ></path>
+        <path fill="currentColor" d="m5.239 5.239-.619.618L3.383 4.62l.618-.619L5.24 5.24Zm4-4-4 4L4 4l4-4z"></path>
       </g>
     </svg>
   )

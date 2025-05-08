@@ -135,6 +135,9 @@ ${/* Button style */ ''}
     &::before {
       top: 0;
     }
+    & .caret-icon {
+      transform: scaleY(-1);
+    }
   }
 }
 `

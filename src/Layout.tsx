@@ -342,7 +342,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             maxWidth: navMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
-            fontSize: `min(16.96px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
+            fontSize: `min(15.2px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
             ['--icon-text-padding']: 'min(8px, 1.8cqw)',
             display: 'flex',
@@ -398,7 +398,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 150}px) {
   .nav-head-content {
-    --padding-side: 35px;
+    --padding-side: 25px;
   }
 }
 @media(max-width: ${containerQueryMobileNav}px) {
@@ -666,7 +666,7 @@ function DocsIcon() {
   return (
     <img
       src={iconBooks}
-      width={21}
+      width={18}
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
       className="decolorize-5"
     />

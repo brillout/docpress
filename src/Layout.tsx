@@ -637,6 +637,11 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
 }
 function CaretIcon({ style }: { style: React.CSSProperties }) {
   return (
+    // - Inspired by stripe.com
+    // - Alternative caret SVGs: https://gist.github.com/brillout/dbf05e1fb79a34169cc2d0d5eaf58c01
+    // - The rounded caret (`caret.svg`) doesn't look nice when flipped:
+    // -   https://github.com/brillout/docpress/commit/0ff937d8caf5fc439887ef495e2d2a700234dfb1
+    // - https://github.com/brillout/docpress/pull/39
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 9.24 5.858"

@@ -539,7 +539,7 @@ function MenuToggleMain(props: PropsDiv) {
       </span>
       <Style>{css`
 @media(max-width: ${containerQueryMobileNav}px) {
-  .text-docs {
+  .text-docs, .caret-icon {
     display: none !important;
   }
 }
@@ -622,7 +622,8 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     transition: top 0.4s ease !important;
     z-index: -1;
   }
-  & .caret-icon {
+  & .caret-icon-left,
+  & .caret-icon-right {
     transition: transform .4s cubic-bezier(.4,0, .2, 1);
   }
   & .caret-icon-left {
@@ -649,14 +650,15 @@ function CaretIcon({ style }: { style: React.CSSProperties }) {
         overflow: 'visible',
         ...style,
       }}
+      className="caret-icon"
     >
-      <g className="caret-icon caret-icon-left">
+      <g className="caret-icon-left">
         <path
           fill="currentColor"
           d="m4.001 5.24.619.618 1.237-1.237-.618-.619L4 5.241zm-4-4 4 4L5.24 4.001l-4-4L0 1.241z"
         ></path>
       </g>
-      <g className="caret-icon caret-icon-right">
+      <g className="caret-icon-right">
         <path fill="currentColor" d="m5.239 5.239-.619.618L3.383 4.62l.618-.619L5.24 5.24Zm4-4-4 4L4 4l4-4z"></path>
       </g>
     </svg>

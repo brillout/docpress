@@ -586,6 +586,14 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     >
       <Style>{getAnimation()}</Style>
       {props.children}
+      <CaretIcon
+        style={{
+          width: 11,
+          marginLeft: 10,
+          flexShrink: 0,
+          color: '#888',
+        }}
+      />
     </div>
   )
 
@@ -614,9 +622,45 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     transition: top 0.4s ease !important;
     z-index: -1;
   }
+  & .caret-icon {
+    transition: transform .4s cubic-bezier(.4,0, .2, 1);
+  }
+  & .caret-icon-left {
+    transform-origin: 25% 50%;
+  }
+  & .caret-icon-right {
+    transform-origin: 75% 50%;
+  }
 }
     `
   }
+}
+function CaretIcon({ style }: { style: React.CSSProperties }) {
+  return (
+    // - Inspired by stripe.com
+    // - Alternative caret SVGs: https://gist.github.com/brillout/dbf05e1fb79a34169cc2d0d5eaf58c01
+    // - The rounded caret (`caret.svg`) doesn't look nice when flipped:
+    // -   https://github.com/brillout/docpress/commit/0ff937d8caf5fc439887ef495e2d2a700234dfb1
+    // - https://github.com/brillout/docpress/pull/39
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 9.24 5.858"
+      style={{
+        overflow: 'visible',
+        ...style,
+      }}
+    >
+      <g className="caret-icon caret-icon-left">
+        <path
+          fill="currentColor"
+          d="m4.001 5.24.619.618 1.237-1.237-.618-.619L4 5.241zm-4-4 4 4L5.24 4.001l-4-4L0 1.241z"
+        ></path>
+      </g>
+      <g className="caret-icon caret-icon-right">
+        <path fill="currentColor" d="m5.239 5.239-.619.618L3.383 4.62l.618-.619L5.24 5.24Zm4-4-4 4L4 4l4-4z"></path>
+      </g>
+    </svg>
+  )
 }
 function DocsIcon() {
   return (

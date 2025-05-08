@@ -135,6 +135,12 @@ ${/* Button style */ ''}
     &::before {
       top: 0;
     }
+    & .caret-icon-left {
+      transform: rotate(-90deg);
+    }
+    & .caret-icon-right {
+      transform: rotate(90deg);
+    }
   }
 }
 `

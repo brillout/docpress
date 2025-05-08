@@ -1,3 +1,18 @@
+# [0.13.0](https://github.com/brillout/docpress/compare/v0.12.6...v0.13.0) (2025-05-08)
+
+
+### Bug Fixes
+
+* add caret ([#39](https://github.com/brillout/docpress/issues/39)) ([640392a](https://github.com/brillout/docpress/commit/640392a929ddefb7b1a1ba0561a0dc4c16fcccf9))
+* adjust navigation element size ([7d0dcc9](https://github.com/brillout/docpress/commit/7d0dcc918c427f28ef1698badba9f05a383a89f1))
+
+
+### BREAKING CHANGES
+
+* Update `<MenuToggle>` usage.
+
+
+
 ## [0.12.6](https://github.com/brillout/docpress/compare/v0.12.5...v0.12.6) (2025-04-24)
 
 

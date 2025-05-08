@@ -588,8 +588,8 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       {props.children}
       <CaretIcon
         style={{
-          width: 20,
-          paddingLeft: 10,
+          width: 11,
+          marginLeft: 10,
           flexShrink: 0,
           color: '#888',
         }}

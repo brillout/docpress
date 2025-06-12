@@ -13,6 +13,7 @@ type Config = {
     twitterProfile: string
     blueskyHandle?: string
   }
+  docsDir?: string
   logoUrl?: string
   faviconUrl?: string
   algolia: null | {

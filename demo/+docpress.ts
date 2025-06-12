@@ -15,6 +15,7 @@ const config: Config = {
     discordInvite: 'https://example.org/some-discord-invite',
     blueskyHandle: 'vike.dev',
   },
+  docsDir: 'packages/example.org',
   logoUrl,
   faviconUrl,
   algolia: {

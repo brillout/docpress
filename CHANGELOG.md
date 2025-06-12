@@ -1,3 +1,12 @@
+## [0.13.2](https://github.com/brillout/docpress/compare/v0.13.1...v0.13.2) (2025-06-12)
+
+
+### Features
+
+* +docpress.docsDir ([d403688](https://github.com/brillout/docpress/commit/d403688ac5be01bd4cef277e8224249eb8308790))
+
+
+
 ## [0.13.1](https://github.com/brillout/docpress/compare/v0.13.0...v0.13.1) (2025-06-12)
 
 

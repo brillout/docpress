@@ -6,7 +6,9 @@ import { assert } from '../utils/server'
 import { usePageContext } from '../renderer/usePageContext'
 
 function isRepoLink(href: string) {
-  return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/'].some((start) => href.startsWith(start))
+  return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/', '/packages/'].some((start) =>
+    href.startsWith(start),
+  )
 }
 
 function RepoLink({ path, text, editMode }: { path: string; text?: string | React.ReactNode; editMode?: true }) {

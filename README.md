@@ -102,7 +102,6 @@ Don't use this: this package isn't meant for others to use. It's only meant to b
        attributesToRetrieve: [
          "hierarchy",
          "content",
-@@ -44,6 +68,8 @@ new Crawler({
          "url",
          "url_without_anchor",
          "type",
@@ -111,7 +110,6 @@ Don't use this: this package isn't meant for others to use. It's only meant to b
        ],
        attributesToHighlight: ["hierarchy", "content"],
        attributesToSnippet: ["content:10"],
-@@ -54,36 +80,34 @@ new Crawler({
          "unordered(hierarchy.lvl2)",
          "unordered(hierarchy.lvl3)",
          "unordered(hierarchy.lvl4)",

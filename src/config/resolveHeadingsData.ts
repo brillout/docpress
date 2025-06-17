@@ -34,6 +34,8 @@ type ActiveCategory = {
 
 function resolveHeadingsData(pageContext: PageContextServer) {
   const config = pageContext.globalContext.configDocpress
+  const { urlPathname } = pageContext
+  const pageSections = pageContext.config.pageSectionsExport ?? []
 
   {
     const { headings, headingsDetached } = config
@@ -47,12 +49,12 @@ function resolveHeadingsData(pageContext: PageContextServer) {
   const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,
     headingsDetachedResolved,
-    pageContext,
+    urlPathname,
   )
 
-  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
+  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, urlPathname, config)
 
-  const pageSectionsResolved = getPageSectionsResolved(pageContext.config.pageSectionsExport ?? [], activeHeading)
+  const pageSectionsResolved = getPageSectionsResolved(pageSections, activeHeading)
 
   const linksAll: LinkData[] = [
     ...pageSectionsResolved.map(pageSectionToLinkData),
@@ -71,7 +73,7 @@ function resolveHeadingsData(pageContext: PageContextServer) {
     if (isDetachedPage) {
       navItemsDetached = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
-      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === pageContext.urlPathname)
+      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === urlPathname)
       assert(activeHeadingIndex >= 0)
       navItemsPageSections.forEach((navItem, i) => {
         navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
@@ -140,13 +142,8 @@ function pageSectionToLinkData(pageSection: PageSectionResolved): LinkData {
   }
 }
 
-function getTitles(
-  activeHeading: HeadingResolved | HeadingDetachedResolved,
-  pageContext: { urlPathname: string },
-  config: Config,
-) {
-  const url = pageContext.urlPathname
-  const isLandingPage = url === '/'
+function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, urlPathname: string, config: Config) {
+  const isLandingPage = urlPathname === '/'
 
   const { title } = activeHeading
   let pageTitle = isLandingPage ? null : title
@@ -166,12 +163,11 @@ function getTitles(
 function getActiveHeading(
   headingsResolved: HeadingResolved[],
   headingsDetachedResolved: HeadingDetachedResolved[],
-  pageContext: { urlPathname: string },
+  urlPathname: string,
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   let activeCategoryName = 'Miscellaneous'
   let headingCategory: string | undefined
-  const { urlPathname } = pageContext
   assert(urlPathname)
   for (const heading of headingsResolved) {
     if (heading.level === 1) {

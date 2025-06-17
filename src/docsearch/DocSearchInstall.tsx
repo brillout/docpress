@@ -6,8 +6,8 @@ import { DocSearch as DocSearchButton } from '@docsearch/react'
 import { Hit } from '../components/Algolia/Hit'
 
 function DocSearchInstall() {
-  const pageContext = usePageContext2().pageContextResolved
-  const { algolia } = pageContext.meta
+  const pageContext = usePageContext2()
+  const { algolia } = pageContext.globalContext.configDocpress
   if (!algolia) return null
   return (
     <div style={{ display: 'none' }}>

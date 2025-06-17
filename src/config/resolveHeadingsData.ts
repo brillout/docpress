@@ -1,21 +1,23 @@
 export { resolveHeadingsData }
 export type { ActiveCategory }
 
-import { assert, isBrowser, jsxToTextContent } from '../utils/server'
+import type { Config } from '../types/Config'
+import type { NavItem } from '../NavItemComponent'
+import type { LinkData } from '../components'
+import type { PageContextServer } from 'vike/types'
+import type { PageSection } from '../parsePageSections'
 import type {
   HeadingDefinition,
   HeadingDetachedDefinition,
   HeadingResolved,
   HeadingDetachedResolved,
 } from '../types/Heading'
-import type { Config } from '../types/Config'
-import type { NavItem } from '../NavItemComponent'
-import type { LinkData } from '../components'
+import { assert } from '../utils/assert'
+import { isBrowser } from '../utils/isBrowser'
+import { jsxToTextContent } from '../utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
-import type { PageContextServer } from 'vike/types'
-import type { PageSection } from '../parsePageSections'
 assert(!isBrowser())
 
 type PageSectionResolved = {

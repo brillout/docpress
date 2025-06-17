@@ -38,7 +38,7 @@ type Exports = {
 }
 
 function resolveHeadingsData(pageContext: PageContextServer) {
-  const config = pageContext.config.docpress!
+  const config = pageContext.globalContext.configDocpress
 
   {
     const { headings, headingsDetached } = config

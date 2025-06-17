@@ -3,7 +3,7 @@ export type { LinkData }
 
 import React from 'react'
 import type { PageContextResolved } from '../config/resolvePageContext'
-import { usePageContext } from '../renderer/usePageContext'
+import { usePageContext2 } from '../renderer/usePageContext'
 import { assert, assertUsage, assertWarning, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import pc from '@brillout/picocolors'
@@ -23,7 +23,7 @@ function Link({
   noWarning?: boolean
   children?: React.ReactNode
 }) {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   assertUsage(
     href.startsWith('/') || href.startsWith('#'),
     `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`,

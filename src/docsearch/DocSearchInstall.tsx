@@ -1,12 +1,12 @@
 export { DocSearchInstall }
 
 import React from 'react'
-import { usePageContext } from '../renderer/usePageContext'
+import { usePageContext2 } from '../renderer/usePageContext'
 import { DocSearch as DocSearchButton } from '@docsearch/react'
 import { Hit } from '../components/Algolia/Hit'
 
 function DocSearchInstall() {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const { algolia } = pageContext.meta
   if (!algolia) return null
   return (

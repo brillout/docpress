@@ -7,14 +7,14 @@ import { containerQueryMobileMenu, navLeftWidthMax, navLeftWidthMin } from '../L
 import { throttle } from '../utils/throttle'
 import { Collapsible } from './Collapsible'
 import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent'
-import { usePageContext } from '../renderer/usePageContext'
+import { usePageContext2 } from '../renderer/usePageContext'
 import './NavigationWithColumnLayout.css'
 import { Style } from '../utils/Style'
 import { css } from '../utils/css'
 
 const marginBottomOnExpand = 15
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
   let [viewportWidth, setViewportWidth] = useState<number | undefined>()
   const updateviewportwidth = () => setViewportWidth(getViewportWidth())

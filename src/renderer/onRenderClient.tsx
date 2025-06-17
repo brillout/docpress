@@ -3,7 +3,6 @@ export { onRenderClient }
 import React, { useEffect } from 'react'
 import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
-import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import { closeMenuModal } from '../MenuModal/toggleMenuModal'
 import '../css/index.css'
@@ -47,9 +46,7 @@ async function onRenderClient(pageContext: PageContextClient) {
 }
 
 function applyHead(pageContext: PageContextClient) {
-  // TODO: stop using any
-  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
-  document.title = pageContextResolved.documentTitle
+  document.title = pageContext.pageContextResolved.documentTitle
 }
 
 function onRenderStart() {

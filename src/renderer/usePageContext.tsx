@@ -1,4 +1,7 @@
+export { PageContextProvider2 }
 export { usePageContext }
+// TODO/refactor: rename to usePageContext and remove old implementation
+export { usePageContext2 }
 
 import React, { useContext } from 'react'
 import type { PageContextResolved } from '../config/resolvePageContext'
@@ -14,10 +17,6 @@ function usePageContext(): PageContextResolved {
   const pageContext = useContext(Context2)
   return pageContext.pageContextResolved
 }
-
-export { PageContextProvider2 }
-// TODO/refactor: rename to usePageContext and remove old implementation
-export { usePageContext2 }
 
 function usePageContext2(): PageContext {
   const pageContext = useContext(globalObject.Context2)

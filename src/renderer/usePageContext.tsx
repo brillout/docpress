@@ -1,5 +1,4 @@
 export { usePageContext }
-export { PageContextProvider }
 
 import React, { useContext } from 'react'
 import type { PageContextResolved } from '../config/resolvePageContext'
@@ -7,25 +6,13 @@ import type { PageContext } from 'vike/types'
 import { getGlobalObject } from '../utils/getGlobalObject'
 
 const globalObject = getGlobalObject('usePageContext.ts', {
-  Context: React.createContext<PageContextResolved>(undefined as any),
   Context2: React.createContext<PageContext>(undefined as any),
 })
 
-function PageContextProvider({
-  pageContext,
-  children,
-}: {
-  pageContext: PageContextResolved
-  children: React.ReactNode
-}) {
-  const { Context } = globalObject
-  return <Context.Provider value={pageContext}>{children}</Context.Provider>
-}
-
 function usePageContext(): PageContextResolved {
-  const { Context } = globalObject
-  const pageContext = useContext(Context)
-  return pageContext
+  const { Context2 } = globalObject
+  const pageContext = useContext(Context2)
+  return pageContext.pageContextResolved
 }
 
 export { PageContextProvider2 }

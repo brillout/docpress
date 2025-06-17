@@ -60,5 +60,9 @@ declare global {
     interface ConfigResolved {
       docpress: DocpressConfig
     }
+    interface GlobalContext {
+      // Passed to client
+      configDocpress: DocpressConfig
+    }
   }
 }

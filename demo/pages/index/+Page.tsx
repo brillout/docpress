@@ -8,6 +8,7 @@ function Page() {
     <>
       <Block noMargin>
         <Header />
+        <p>This demo is used for testing and developing DocPress.</p>
         <LoremIpsum />
         <LoremIpsum />
         <div style={{ height: 30 }} />

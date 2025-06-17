@@ -1,6 +1,6 @@
 export { testRun }
 
-import { test, expect, run, fetchHtml, page, getServerUrl } from '@brillout/test-e2e'
+import { test, expect, run, fetchHtml, page, getServerUrl, autoRetry } from '@brillout/test-e2e'
 
 function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   {
@@ -13,10 +13,16 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const landingPageUrl = '/'
   test(landingPageUrl, async () => {
     const html = await fetchHtml(landingPageUrl)
-    expect(getTitle(html)).toBe('DocPress Demo')
+    expect(getTitleHtml(html)).toBe('DocPress Demo')
     expect(html).toContain('Introduction')
     await page.goto(getServerUrl() + landingPageUrl)
+    await testLandingPage()
   })
+  async function testLandingPage() {
+    expect(await page.textContent('h1')).toBe('Next Generation Docs')
+    expect(await page.textContent('body')).toContain('This demo is used for testing and developing DocPress.')
+    expect(await getTitleClient()).toBe('DocPress Demo')
+  }
 
   const orphanURL = '/orphan'
   test(orphanURL, async () => {
@@ -27,7 +33,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain(`Same page link for orphan page: Some SecTion.`)
     {
       const html = await fetchHtml(orphanURL)
-      expect(getTitle(html)).toBe('Orphan Page | Demo')
+      expect(getTitleHtml(html)).toBe('Orphan Page | Demo')
     }
   })
 
@@ -44,12 +50,27 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain('Basic (same-page link, sub heading)')
     {
       const html = await fetchHtml(featuresURL)
-      expect(getTitle(html)).toBe('Features | Demo')
+      expect(getTitleHtml(html)).toBe('Features | Demo')
+      expect(await getTitleClient()).toBe('Features | Demo')
     }
+  })
+
+  test('client-side navigation', async () => {
+    await page.click('#nav-left a[href="/"]')
+    await autoRetry(
+      async () => {
+        await testLandingPage()
+      },
+      { timeout: 5 * 1000 },
+    )
   })
 }
 
-function getTitle(html: string) {
-  const title = html.match(/<title>(.*?)<\/title>/i)?.[1]
-  return title
+function getTitleHtml(html: string) {
+  const titleHtml = html.match(/<title>(.*?)<\/title>/i)?.[1]
+  return titleHtml
+}
+async function getTitleClient() {
+  const titleClient = await page.evaluate(() => window.document.title)
+  return titleClient
 }

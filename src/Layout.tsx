@@ -279,9 +279,8 @@ const menuLinkStyle: React.CSSProperties = {
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext2 = usePageContext2()
   const pageContext = pageContext2.pageContextResolved
-  const { projectName } = pageContext.meta
   const { isLandingPage } = pageContext
-  const { navMaxWidth } = pageContext.config
+  const { navMaxWidth, projectInfo: { projectName } } = pageContext.config
 
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   const navSecondaryContent = (
@@ -484,7 +483,7 @@ function NavHeaderLeftFullWidthBackground() {
 function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
   const iconSize = pageContext.config.navLogoSize ?? 39
-  const { projectName } = pageContext.meta
+  const { projectName } = pageContext.config.projectInfo
   return (
     <a
       className={cls(['nav-logo', className])}

@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@brillout/docpress': link:./src/
-  vike: ^0.4.232
+  vike: 0.4.232-commit-134207d
   vite: 6.1.0
 
 importers:
@@ -53,8 +53,8 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
       vike:
-        specifier: ^0.4.232
-        version: 0.4.232(vite@6.1.0(@types/node@22.5.5))
+        specifier: 0.4.232-commit-134207d
+        version: 0.4.232-commit-134207d(vite@6.1.0(@types/node@22.5.5))
     devDependencies:
       '@docsearch/react':
         specifier: link:../src/node_modules/@docsearch/react/
@@ -105,8 +105,8 @@ importers:
         specifier: '>=5.0.0'
         version: 5.6.2
       vike:
-        specifier: ^0.4.232
-        version: 0.4.232(vite@6.1.0(@types/node@22.5.5))
+        specifier: 0.4.232-commit-134207d
+        version: 0.4.232-commit-134207d(vite@6.1.0(@types/node@22.5.5))
       vite:
         specifier: 6.1.0
         version: 6.1.0(@types/node@22.5.5)
@@ -1877,8 +1877,8 @@ packages:
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
 
-  vike@0.4.232:
-    resolution: {integrity: sha512-p5nE5QkTt8DysoGGL9eAnlT7gH9hNZTeyRVAy0boxM7acnmjqw0bQMfUtcAdUA0BnVkmD3H4DiguklkeegAMaA==}
+  vike@0.4.232-commit-134207d:
+    resolution: {integrity: sha512-FCPMpByhlRIWJNCoenTbm2vJP9ionRqdtG8NhAdlQxlsMhPdxRtVC9CBf11KlWzTg+rUycoUMqwKssV4SlKmUA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -3940,7 +3940,7 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vike@0.4.232(vite@6.1.0(@types/node@22.5.5)):
+  vike@0.4.232-commit-134207d(vite@6.1.0(@types/node@22.5.5)):
     dependencies:
       '@brillout/import': 0.2.6
       '@brillout/json-serializer': 0.5.15

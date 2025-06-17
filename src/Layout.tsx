@@ -280,15 +280,14 @@ const menuLinkStyle: React.CSSProperties = {
 }
 
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
-  const pageContext2 = usePageContext2()
-  const pageContext = pageContext2.pageContextResolved
-  const { isLandingPage } = pageContext
+  const pageContext = usePageContext2()
+  const { isLandingPage } = pageContext.pageContextResolved
   const {
     navMaxWidth,
     projectInfo: { projectName },
-  } = pageContext.config
+  } = pageContext.globalContext.configDocpress
 
-  const TopNavigation = pageContext2.config.TopNavigation || PassThrough
+  const TopNavigation = pageContext.config.TopNavigation || PassThrough
   const navSecondaryContent = (
     <div
       className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}

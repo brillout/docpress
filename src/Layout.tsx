@@ -84,9 +84,10 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext2().pageContextResolved
+  const pageContext = usePageContext2()
   const hideNavLeftAlways =
-    pageContext.pageDesign?.hideMenuLeft || (pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1)
+    pageContext.pageContextResolved.pageDesign?.hideMenuLeft ||
+    (pageContext.pageContextResolved.navItemsDetached && pageContext.pageContextResolved.navItemsDetached.length <= 1)
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -486,9 +487,9 @@ function NavHeaderLeftFullWidthBackground() {
 }
 
 function NavLogo({ className }: { className: string }) {
-  const pageContext = usePageContext2().pageContextResolved
-  const iconSize = pageContext.config.navLogoSize ?? 39
-  const { projectName } = pageContext.config.projectInfo
+  const pageContext = usePageContext2()
+  const iconSize = pageContext.globalContext.configDocpress.navLogoSize ?? 39
+  const { projectName } = pageContext.globalContext.configDocpress.projectInfo
   return (
     <a
       className={cls(['nav-logo', className])}
@@ -501,14 +502,14 @@ function NavLogo({ className }: { className: string }) {
       href="/"
     >
       <img
-        src={pageContext.meta.logoUrl}
+        src={pageContext.globalContext.configDocpress.logoUrl}
         style={{
           height: iconSize,
           width: iconSize,
-          ...pageContext.config.navLogoStyle,
+          ...pageContext.globalContext.configDocpress.navLogoStyle,
         }}
         onContextMenu={(ev) => {
-          if (!pageContext.config.pressKit) return // no /press page
+          if (!pageContext.globalContext.configDocpress.pressKit) return // no /press page
           if (window.location.pathname === '/press') return
           ev.preventDefault()
           navigate('/press#logo')
@@ -518,7 +519,7 @@ function NavLogo({ className }: { className: string }) {
         style={{
           marginLeft: `calc(var(--icon-text-padding) + 2px)`,
           fontSize: isProjectNameShort(projectName) ? '1.65em' : '1.3em',
-          ...pageContext.config.navLogoTextStyle,
+          ...pageContext.globalContext.configDocpress.navLogoTextStyle,
         }}
       >
         {projectName}

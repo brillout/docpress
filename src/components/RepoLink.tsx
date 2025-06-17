@@ -18,13 +18,13 @@ function RepoLink({ path, text }: { path: string; text?: string | React.ReactNod
 }
 
 function getRepoHref(path: string, editMode = false) {
-  const pageContext = usePageContext2().pageContextResolved
+  const pageContext = usePageContext2()
   assert(isRepoLink(path), { path })
   if (!path.startsWith('/')) {
     path = '/' + path
   }
   const viewMode = path.endsWith('/') && !editMode ? 'tree' : 'blob'
-  const { githubRepository } = pageContext.config.projectInfo
+  const { githubRepository } = pageContext.globalContext.configDocpress.projectInfo
   assert(githubRepository.startsWith('https://github.com/'))
   let href = `${githubRepository}/${viewMode}/main${path}`
   if (editMode) href += '?plain=1'

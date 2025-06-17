@@ -13,10 +13,15 @@ const config = {
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
   onBeforeRender: 'import:@brillout/docpress/renderer/onBeforeRender:onBeforeRender',
+  onCreateGlobalContext: 'import:@brillout/docpress/renderer/onCreateGlobalContext:onCreateGlobalContext',
   Layout: 'import:@brillout/docpress/Layout:Layout',
   clientRouting: true,
   hydrationCanBeAborted: true,
-  passToClient: ['pageContextResolved'],
+  passToClient: [
+    'pageContextResolved',
+    // TODO: pass subset?
+    'configDocpress',
+  ],
   meta: {
     // TODO: remove?
     Layout: {
@@ -50,6 +55,9 @@ declare global {
       Layout?: ReactComponent | null | ImportString
       TopNavigation?: ReactComponent
       docpress?: DocpressConfig
+    }
+    interface ConfigResolved {
+      docpress: DocpressConfig
     }
   }
 }

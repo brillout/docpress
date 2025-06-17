@@ -27,7 +27,7 @@ const config = {
       env: { client: true, server: true },
     },
     docpress: {
-      env: { server: true },
+      env: { client: true, server: true },
       global: true,
     },
   },

@@ -1,10 +1,7 @@
 {
   "scripts": {
     "========= Develop": "",
-    "// Develop docpress against demo/": "",
-    "dev": "cd demo/ && pnpm run dev",
-    "preview": "cd demo/ && pnpm run preview",
-    "typecheck": "cd src/ && pnpm run typecheck",
+    "dev": "cd src/ && pnpm run dev",
     "========= Test": "",
     "test": "test-e2e",
     "========= Build": "",

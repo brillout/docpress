@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
     "jsx": "react",
     "module": "ES2020",
     "moduleResolution": "Bundler",

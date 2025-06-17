@@ -11,8 +11,8 @@ import { usePageContext2 } from './renderer/usePageContext'
 import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
-  const pageContext = usePageContext2().pageContextResolved
-  const { projectInfo, i18n } = pageContext.config
+  const pageContext = usePageContext2()
+  const { projectInfo, i18n } = pageContext.globalContext.configDocpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
@@ -49,8 +49,8 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
 }
 
 function ChangelogButton() {
-  const pageContext = usePageContext2().pageContextResolved
-  const { projectInfo } = pageContext.config
+  const pageContext = usePageContext2()
+  const { projectInfo } = pageContext.globalContext.configDocpress
   return (
     <a
       href={`${projectInfo.githubRepository}/blob/main/CHANGELOG.md`}

@@ -22,29 +22,5 @@ function resolvePageContext(pageContext: PageContextOriginal) {
   const pageContextHeadingsData = resolveHeadingsData(pageContext)
   objectAssign(pageContextResolved, pageContextHeadingsData)
 
-  const config = pageContext.config.docpress!
-  const {
-    algolia,
-    tagline,
-    twitterHandle,
-    bannerUrl,
-    websiteUrl,
-    projectInfo: { projectName },
-  } = config
-  const logoUrl = config.logoUrl ?? config.faviconUrl
-  objectAssign(pageContextResolved, {
-    urlPathname: pageContext.urlPathname, // TODO: remove
-    meta: {
-      projectName,
-      logoUrl,
-      twitterHandle,
-      bannerUrl,
-      websiteUrl,
-      tagline,
-      algolia,
-    },
-    config,
-  })
-
   return pageContextResolved
 }

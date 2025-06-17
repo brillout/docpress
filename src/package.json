@@ -49,6 +49,7 @@
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
     "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
     "./renderer/onCreateGlobalContext": "./renderer/onCreateGlobalContext.server.ts",
+    "./renderer/onCreatePageContext": "./renderer/onCreatePageContext.ts",
     "./Layout": "./Layout.tsx",
     ".": "./index.ts",
     "./config": "./dist/+config.js",

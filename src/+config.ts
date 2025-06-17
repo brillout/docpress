@@ -15,6 +15,7 @@ const config = {
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
   onBeforeRender: 'import:@brillout/docpress/renderer/onBeforeRender:onBeforeRender',
   onCreateGlobalContext: 'import:@brillout/docpress/renderer/onCreateGlobalContext:onCreateGlobalContext',
+  onCreatePageContext: 'import:@brillout/docpress/renderer/onCreatePageContext:onCreatePageContext',
   Layout: 'import:@brillout/docpress/Layout:Layout',
   clientRouting: true,
   hydrationCanBeAborted: true,

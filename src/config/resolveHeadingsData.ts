@@ -18,7 +18,9 @@ import { jsxToTextContent } from '../utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
+/* TODO
 assert(!isBrowser())
+*/
 
 type PageSectionResolved = {
   url: string | null

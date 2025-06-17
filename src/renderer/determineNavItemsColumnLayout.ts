@@ -6,7 +6,9 @@ export { determineNavItemsColumnLayout }
 import type { NavItem } from '../NavItemComponent'
 import { assert, assertUsage } from '../utils/assert'
 import { isBrowser } from '../utils/isBrowser'
+/* TODO/now
 assert(!isBrowser())
+*/
 
 function determineNavItemsColumnLayout(navItems: NavItem[]): undefined {
   const columnLayouts = getColumnEntries(navItems)

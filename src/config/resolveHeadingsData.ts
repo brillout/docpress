@@ -1,6 +1,5 @@
 export { resolveHeadingsData }
 export type { ActiveCategory }
-export type { Exports }
 
 import { assert, isBrowser, jsxToTextContent } from '../utils/server'
 import type {
@@ -33,10 +32,6 @@ type ActiveCategory = {
   hide?: boolean
 }
 
-type Exports = {
-  pageSectionsExport?: PageSection[]
-}
-
 function resolveHeadingsData(pageContext: PageContextServer) {
   const config = pageContext.globalContext.configDocpress
 
@@ -57,7 +52,7 @@ function resolveHeadingsData(pageContext: PageContextServer) {
 
   const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
 
-  const pageSectionsResolved = getPageSectionsResolved(pageContext, activeHeading)
+  const pageSectionsResolved = getPageSectionsResolved(pageContext.config.pageSectionsExport ?? [], activeHeading)
 
   const linksAll: LinkData[] = [
     ...pageSectionsResolved.map(pageSectionToLinkData),
@@ -171,7 +166,7 @@ function getTitles(
 function getActiveHeading(
   headingsResolved: HeadingResolved[],
   headingsDetachedResolved: HeadingDetachedResolved[],
-  pageContext: { urlPathname: string; exports: Exports },
+  pageContext: { urlPathname: string },
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   let activeCategoryName = 'Miscellaneous'
@@ -212,12 +207,9 @@ function getActiveHeading(
 }
 
 function getPageSectionsResolved(
-  pageContext: { exports: Exports },
+  pageSections: PageSection[],
   activeHeading: HeadingResolved | HeadingDetachedResolved,
 ): PageSectionResolved[] {
-  // @ts-ignore
-  const pageSections = (pageContext.config as any as (typeof pageContext)['exports']).pageSectionsExport ?? []
-
   const pageSectionsResolved = pageSections.map((pageSection) => {
     const { pageSectionTitle } = pageSection
     const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId

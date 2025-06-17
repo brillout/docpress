@@ -10,7 +10,7 @@ export { blockMargin }
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { parseMarkdownMini } from './parseMarkdownMini'
-import { usePageContext, usePageContext2 } from './renderer/usePageContext'
+import { usePageContext2 } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
@@ -46,8 +46,8 @@ const whitespaceBuster2: React.CSSProperties = {
 }
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext()
-  const { isLandingPage } = pageContext
+  const pageContext = usePageContext2()
+  const { isLandingPage } = pageContext.pageContextResolved
 
   let content: React.JSX.Element
   if (isLandingPage) {
@@ -84,7 +84,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const hideNavLeftAlways =
     pageContext.pageDesign?.hideMenuLeft || (pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1)
   return (
@@ -154,7 +154,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
 }
 
 function PageContent({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const { isLandingPage, pageTitle } = pageContext
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
   const { globalNote } = pageContext.config
@@ -198,7 +198,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 }
 
 function NavLeft() {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const { navItemsAll, navItemsDetached } = pageContext
   return (
     <>
@@ -256,7 +256,7 @@ function NavigationContent(props: {
   navItems: NavItem[]
   showOnlyRelevant?: true
 }) {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
   let navItemsRelevant = navItemsWithComputed
@@ -280,7 +280,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext2 = usePageContext2()
   const pageContext = pageContext2.pageContextResolved
   const { isLandingPage } = pageContext
-  const { navMaxWidth, projectInfo: { projectName } } = pageContext.config
+  const {
+    navMaxWidth,
+    projectInfo: { projectName },
+  } = pageContext.config
 
   const TopNavigation = pageContext2.config.TopNavigation || PassThrough
   const navSecondaryContent = (
@@ -481,7 +484,7 @@ function NavHeaderLeftFullWidthBackground() {
 }
 
 function NavLogo({ className }: { className: string }) {
-  const pageContext = usePageContext()
+  const pageContext = usePageContext2().pageContextResolved
   const iconSize = pageContext.config.navLogoSize ?? 39
   const { projectName } = pageContext.config.projectInfo
   return (

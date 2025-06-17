@@ -14,7 +14,7 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   assert(typeof isLandingPage === 'boolean')
   const { tagline } = pageContext.globalContext.configDocpress
   assert(tagline)
-  const descriptionTag = isLandingPage ? dangerouslySkipEscape(`<meta name="description" content="${tagline}" />`) : ''
+  const descriptionTag = isLandingPage ? escapeInject`<meta name="description" content="${tagline}" />` : ''
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
@@ -57,18 +57,26 @@ function getOpenGraphTags(
   meta: { tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string },
 ) {
   const { tagline, websiteUrl, twitterHandle, bannerUrl } = meta
-
   assert(url.startsWith('/'))
-  if (!bannerUrl) return ''
 
+  const metaBanner = !bannerUrl
+    ? ''
+    : escapeInject`
+    <meta property="og:image" content="${bannerUrl}">
+    <meta name="twitter:card" content="summary_large_image">
+  `
+  const metaTwitter = !twitterHandle
+    ? ''
+    : escapeInject`
+    <meta name="twitter:site" content="${twitterHandle}">
+  `
   // See view-source:https://vitejs.dev/
   return escapeInject`
     <meta property="og:type" content="website">
     <meta property="og:title" content="${documentTitle}">
-    <meta property="og:image" content="${bannerUrl}">
     <meta property="og:url" content="${websiteUrl}">
     <meta property="og:description" content="${tagline}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="${twitterHandle}">
+    ${metaBanner}
+    ${metaTwitter}
   `
 }

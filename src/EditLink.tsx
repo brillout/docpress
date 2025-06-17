@@ -6,7 +6,7 @@ import { iconPencil } from './icons'
 import { getRepoHref } from './components'
 
 function EditLink({ className, style }: { className?: string; style: React.CSSProperties }) {
-  const pageContext = usePageContext2().pageContextResolved
+  const pageContext = usePageContext2()
   const iconSize = 17
   const icon = (
     <img
@@ -22,7 +22,7 @@ function EditLink({ className, style }: { className?: string; style: React.CSSPr
   )
   const { urlPathname } = pageContext
   const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
-  const docsDir = pageContext.config.docsDir ?? 'docs'
+  const docsDir = pageContext.globalContext.configDocpress.docsDir ?? 'docs'
   const editLink = getRepoHref(`/${docsDir}/pages${fsPath}`, true)
   return (
     <a href={editLink} className={className} style={{ display: 'flex', alignItems: 'center', ...style }}>

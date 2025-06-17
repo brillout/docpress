@@ -1,5 +1,6 @@
 export { resolveHeadingsData }
 export type { ActiveCategory }
+export type { Exports }
 
 import { assert, isBrowser, jsxToTextContent } from '../utils/server'
 import type {
@@ -11,11 +12,11 @@ import type {
 import type { Config } from '../types/Config'
 import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
-import type { Exports } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
 import type { PageContextServer } from 'vike/types'
+import type { PageSection } from '../parsePageSections'
 assert(!isBrowser())
 
 type PageSectionResolved = {
@@ -30,6 +31,10 @@ type ActiveCategory = {
   name: string
   order: number
   hide?: boolean
+}
+
+type Exports = {
+  pageSectionsExport?: PageSection[]
 }
 
 function resolveHeadingsData(pageContext: PageContextServer) {

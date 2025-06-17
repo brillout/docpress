@@ -1,9 +1,10 @@
 export { config as default }
 
 import type { Config, ImportString } from 'vike/types'
-import type { Exports, PageContextResolved } from './config/resolvePageContext'
+import type { PageContextResolved } from './config/resolvePageContext'
 import { viteConfig } from './vite.config.js'
 import type { Config as DocpressConfig } from './types/Config'
+import type { Exports } from './config/resolveHeadingsData'
 
 const config = {
   name: '@brillout/docpress',

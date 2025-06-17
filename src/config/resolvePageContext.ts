@@ -19,7 +19,8 @@ type PageContextResolved = ReturnType<typeof resolvePageContext>
 function resolvePageContext(pageContext: PageContextOriginal) {
   const pageContextResolved = {}
 
-  objectAssign(pageContextResolved, resolveHeadingsData(pageContext))
+  const pageContextHeadingsData = resolveHeadingsData(pageContext)
+  objectAssign(pageContextResolved, pageContextHeadingsData)
 
   const config = pageContext.config.docpress!
   const {

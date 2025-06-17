@@ -18,9 +18,11 @@ const config = {
   hydrationCanBeAborted: true,
   passToClient: ['pageContextResolved'],
   meta: {
+    // TODO: remove?
     Layout: {
       env: { client: true, server: true },
     },
+    // TODO: remove?
     TopNavigation: {
       env: { client: true, server: true },
     },

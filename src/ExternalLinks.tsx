@@ -7,11 +7,11 @@ import iconDiscord from './icons/discord.svg'
 import iconBluesky from './icons/bluesky.svg'
 import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
-import { usePageContext2 } from './renderer/usePageContext'
+import { usePageContext } from './renderer/usePageContext'
 import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const { projectInfo, i18n } = pageContext.globalContext.configDocpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
@@ -49,7 +49,7 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
 }
 
 function ChangelogButton() {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const { projectInfo } = pageContext.globalContext.configDocpress
   return (
     <a

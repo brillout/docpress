@@ -10,7 +10,7 @@ export { blockMargin }
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { parseMarkdownMini } from './parseMarkdownMini'
-import { usePageContext2 } from './renderer/usePageContext'
+import { usePageContext } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
@@ -46,7 +46,7 @@ const whitespaceBuster2: React.CSSProperties = {
 }
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const { isLandingPage } = pageContext.pageContextResolved // TODO/now
 
   let content: React.JSX.Element
@@ -84,7 +84,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const hideNavLeftAlways =
     pageContext.pageContextResolved.pageDesign?.hideMenuLeft ||
     (pageContext.pageContextResolved.navItemsDetached && pageContext.pageContextResolved.navItemsDetached.length <= 1)
@@ -155,7 +155,7 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
 }
 
 function PageContent({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const { isLandingPage, pageTitle } = pageContext.pageContextResolved
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
   /*
@@ -201,7 +201,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 }
 
 function NavLeft() {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const { navItemsAll, navItemsDetached } = pageContext.pageContextResolved
   return (
     <>
@@ -259,7 +259,7 @@ function NavigationContent(props: {
   navItems: NavItem[]
   showOnlyRelevant?: true
 }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
   let navItemsRelevant = navItemsWithComputed
@@ -280,7 +280,7 @@ const menuLinkStyle: React.CSSProperties = {
 }
 
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const { isLandingPage } = pageContext.pageContextResolved
   const {
     navMaxWidth,
@@ -486,7 +486,7 @@ function NavHeaderLeftFullWidthBackground() {
 }
 
 function NavLogo({ className }: { className: string }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const iconSize = pageContext.globalContext.configDocpress.navLogoSize ?? 39
   const { projectName } = pageContext.globalContext.configDocpress.projectInfo
   return (

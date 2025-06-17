@@ -1,12 +1,12 @@
 export { EditLink }
 
 import React from 'react'
-import { usePageContext2 } from './renderer/usePageContext'
+import { usePageContext } from './renderer/usePageContext'
 import { iconPencil } from './icons'
 import { getRepoHref } from './components'
 
 function EditLink({ className, style }: { className?: string; style: React.CSSProperties }) {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const iconSize = 17
   const icon = (
     <img

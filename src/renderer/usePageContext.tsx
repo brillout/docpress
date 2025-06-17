@@ -1,5 +1,5 @@
 export { PageContextProvider }
-export { usePageContext2 }
+export { usePageContext }
 export { usePageContextLegacy }
 
 import React, { useContext } from 'react'
@@ -17,7 +17,7 @@ function usePageContextLegacy(): PageContextResolved {
   return pageContext.pageContextResolved
 }
 
-function usePageContext2(): PageContext {
+function usePageContext(): PageContext {
   const pageContext = useContext(globalObject.Ctx)
   return pageContext
 }

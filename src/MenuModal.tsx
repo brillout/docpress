@@ -1,7 +1,7 @@
 export { MenuModal }
 
 import React from 'react'
-import { usePageContext2 } from './renderer/usePageContext'
+import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
 import { containerQueryMobileLayout, containerQueryMobileMenu } from './Layout'
 import { ExternalLinks } from './ExternalLinks'
@@ -72,7 +72,7 @@ function BorderBottom() {
   )
 }
 function Nav() {
-  const pageContext = usePageContext2()
+  const pageContext = usePageContext()
   const navItems = pageContext.pageContextResolved.navItemsAll
   return <NavigationWithColumnLayout navItems={navItems} />
 }

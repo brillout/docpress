@@ -6,7 +6,7 @@ function onBeforeRender(pageContextOriginal: PageContextOriginal) {
   const pageContextResolved = resolvePageContext(pageContextOriginal)
   return {
     pageContext: {
-      pageContextResolved,
+      // pageContextResolved,
     },
   }
 }

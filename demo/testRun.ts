@@ -12,13 +12,24 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
   const landingPageUrl = '/'
   test(landingPageUrl, async () => {
+    await testLandingPageHtml()
+    await page.goto(getServerUrl() + landingPageUrl)
+    await testLandingPageClient()
+  })
+  async function testLandingPageHtml() {
     const html = await fetchHtml(landingPageUrl)
     expect(getTitleHtml(html)).toBe('DocPress Demo')
     expect(html).toContain('Introduction')
-    await page.goto(getServerUrl() + landingPageUrl)
-    await testLandingPage()
-  })
-  async function testLandingPage() {
+    expect(html).toContain('<meta property="og:type" content="website">')
+    expect(html).toContain('<meta property="og:title" content="DocPress Demo">')
+    expect(html).toContain('<meta property="og:url" content="fake-website.example.org">')
+    expect(html).toContain('<meta property="og:description" content="DocPress Demonstration.">')
+    expect(html).toContain('<meta name="twitter:site" content="fake-twitter-handle">')
+    expect(html).toContain(
+      '<meta name="algolia:category" content="Overview"><meta name="algolia:category:order" content="1">',
+    )
+  }
+  async function testLandingPageClient() {
     expect(await page.textContent('h1')).toBe('Next Generation Docs')
     expect(await page.textContent('body')).toContain('This demo is used for testing and developing DocPress.')
     expect(await getTitleClient()).toBe('DocPress Demo')
@@ -59,7 +70,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.click('#nav-left a[href="/"]')
     await autoRetry(
       async () => {
-        await testLandingPage()
+        await testLandingPageClient()
       },
       { timeout: 5 * 1000 },
     )

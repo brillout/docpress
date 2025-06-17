@@ -1,4 +1,4 @@
-export { PageContextProvider2 }
+export { PageContextProvider }
 export { usePageContext }
 // TODO/refactor: rename to usePageContext and remove old implementation
 export { usePageContext2 }
@@ -22,7 +22,7 @@ function usePageContext2(): PageContext {
   const pageContext = useContext(globalObject.Context2)
   return pageContext
 }
-function PageContextProvider2({
+function PageContextProvider({
   pageContext,
   children,
 }: {

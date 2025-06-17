@@ -2,7 +2,7 @@ export { getPageElement }
 
 import type { PageContext } from 'vike/types'
 import type { PageContextResolved } from '../config/resolvePageContext'
-import { PageContextProvider2 } from './usePageContext'
+import { PageContextProvider } from './usePageContext'
 import React from 'react'
 import { DocSearchInstall } from '../docsearch/DocSearchInstall'
 import { PassThrough } from '../utils/PassTrough'
@@ -24,7 +24,7 @@ function getPageElement(pageContext: PageContext, pageContextResolved: PageConte
 function Wrapper({ children, pageContext }: { children: React.ReactNode; pageContext: PageContext }) {
   return (
     <React.StrictMode>
-      <PageContextProvider2 pageContext={pageContext}>{children}</PageContextProvider2>
+      <PageContextProvider pageContext={pageContext}>{children}</PageContextProvider>
     </React.StrictMode>
   )
 }

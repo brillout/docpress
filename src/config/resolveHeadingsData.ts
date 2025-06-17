@@ -215,7 +215,8 @@ function getPageSectionsResolved(
   pageContext: { exports: Exports },
   activeHeading: HeadingResolved | HeadingDetachedResolved,
 ): PageSectionResolved[] {
-  const pageSections = pageContext.exports.pageSectionsExport ?? []
+  // @ts-ignore
+  const pageSections = (pageContext.config as any as (typeof pageContext)['exports']).pageSectionsExport ?? []
 
   const pageSectionsResolved = pageSections.map((pageSection) => {
     const { pageSectionTitle } = pageSection

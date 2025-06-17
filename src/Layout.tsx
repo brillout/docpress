@@ -47,7 +47,7 @@ const whitespaceBuster2: React.CSSProperties = {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext2()
-  const { isLandingPage } = pageContext.pageContextResolved
+  const { isLandingPage } = pageContext.pageContextResolved // TODO/now
 
   let content: React.JSX.Element
   if (isLandingPage) {
@@ -154,12 +154,14 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
 }
 
 function PageContent({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext2().pageContextResolved
-  const { isLandingPage, pageTitle } = pageContext
+  const pageContext = usePageContext2()
+  const { isLandingPage, pageTitle } = pageContext.pageContextResolved
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
-  const { globalNote } = pageContext.config
+  /*
+  const { globalNote } = pageContext.globalContext.config.docpress
+  */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
-  const contentMaxWidth = pageContext.pageDesign?.contentMaxWidth ?? mainViewWidthMax
+  const contentMaxWidth = pageContext.pageContextResolved.pageDesign?.contentMaxWidth ?? mainViewWidthMax
   return (
     <div
       className="page-wrapper low-prio-grow"
@@ -184,8 +186,8 @@ function PageContent({ children }: { children: React.ReactNode }) {
           }),
         }}
       >
-        {globalNote}
-        {pageTitleParsed && !pageContext.pageDesign?.hideTitle && (
+        {/* globalNote */}
+        {pageTitleParsed && !pageContext.pageContextResolved.pageDesign?.hideTitle && (
           <div>
             <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 6, padding: 10 }} />
             <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>

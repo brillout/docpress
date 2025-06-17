@@ -14,7 +14,7 @@ import { css } from '../utils/css'
 
 const marginBottomOnExpand = 15
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
-  const pageContext = usePageContext2().pageContextResolved
+  const pageContext = usePageContext2()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
   let [viewportWidth, setViewportWidth] = useState<number | undefined>()
   const updateviewportwidth = () => setViewportWidth(getViewportWidth())

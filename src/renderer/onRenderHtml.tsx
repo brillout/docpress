@@ -3,37 +3,38 @@ export { onRenderHtml }
 import ReactDOMServer from 'react-dom/server'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert } from '../utils/server'
-import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import type { OnRenderHtmlAsync } from 'vike/types'
+import type { PageContextServer } from 'vike/types'
 import { ActiveCategory } from '../config/resolveHeadingsData'
 
-const onRenderHtml: OnRenderHtmlAsync = async (
-  pageContext,
-): // TODO: Why is Promise<Awaited<>> needed?
-Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
-  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
+async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
+  const page = getPageElement(pageContext)
 
-  const page = getPageElement(pageContext, pageContextResolved)
-
-  const descriptionTag = pageContextResolved.isLandingPage
-    ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)
-    : ''
+  const { isLandingPage } = pageContext.pageContextResolved
+  assert(typeof isLandingPage === 'boolean')
+  const { tagline } = pageContext.globalContext.configDocpress
+  assert(tagline)
+  const descriptionTag = isLandingPage ? dangerouslySkipEscape(`<meta name="description" content="${tagline}" />`) : ''
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
-  const faviconUrl = pageContextResolved.config.faviconUrl ?? pageContextResolved.config.logoUrl
+  const faviconUrl =
+    pageContext.globalContext.configDocpress.faviconUrl ?? pageContext.globalContext.configDocpress.logoUrl
+  assert(faviconUrl)
 
+  const { documentTitle, activeCategory } = pageContext.pageContextResolved
+  assert(documentTitle)
+  assert(activeCategory)
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
         <link rel="icon" href="${faviconUrl ?? ''}" />
-        <title>${pageContextResolved.documentTitle}</title>
+        <title>${documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
-        ${getAlgoliaTags(pageContextResolved.activeCategory)}
+        ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.configDocpress)}
+        ${getAlgoliaTags(activeCategory)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>

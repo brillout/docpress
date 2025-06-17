@@ -1,18 +1,17 @@
 export { getPageElement }
 
 import type { PageContext } from 'vike/types'
-import type { PageContextResolved } from '../config/resolvePageContext'
 import { PageContextProvider } from './usePageContext'
 import React from 'react'
 import { DocSearchInstall } from '../docsearch/DocSearchInstall'
 import { PassThrough } from '../utils/PassTrough'
 
-function getPageElement(pageContext: PageContext, pageContextResolved: PageContextResolved) {
+function getPageElement(pageContext: PageContext) {
   const { Page } = pageContext
   const Layout = pageContext.config.Layout || PassThrough
   const page = (
     <Wrapper {...{ pageContext }}>
-      <Layout pageContext={pageContextResolved} pageContext2={pageContext}>
+      <Layout>
         <Page />
       </Layout>
       <DocSearchInstall />

@@ -25,13 +25,11 @@ initOnNavigation()
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()
 
-  // TODO: stop using any
-  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
   let renderPromiseResolve!: () => void
   const renderPromise = new Promise<void>((r) => {
     renderPromiseResolve = r
   })
-  let page = getPageElement(pageContext, pageContextResolved)
+  let page = getPageElement(pageContext)
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
   const container = document.getElementById('page-view')!
   if (pageContext.isHydration) {

@@ -200,8 +200,8 @@ function PageContent({ children }: { children: React.ReactNode }) {
 }
 
 function NavLeft() {
-  const pageContext = usePageContext2().pageContextResolved
-  const { navItemsAll, navItemsDetached } = pageContext
+  const pageContext = usePageContext2()
+  const { navItemsAll, navItemsDetached } = pageContext.pageContextResolved
   return (
     <>
       <div
@@ -258,7 +258,7 @@ function NavigationContent(props: {
   navItems: NavItem[]
   showOnlyRelevant?: true
 }) {
-  const pageContext = usePageContext2().pageContextResolved
+  const pageContext = usePageContext2()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
   let navItemsRelevant = navItemsWithComputed

@@ -1,5 +1,4 @@
 export { resolvePageContext }
-export type { PageContextOriginal }
 export type { PageContextResolved }
 export type { Exports }
 
@@ -11,12 +10,9 @@ import { resolveHeadingsData } from './resolveHeadingsData'
 type Exports = {
   pageSectionsExport?: PageSection[]
 }
-// TODO/refactor: remove PageContextOriginal in favor of using PageContextServer
-type PageContextOriginal = PageContextServer
-
 type PageContextResolved = ReturnType<typeof resolvePageContext>
 
-function resolvePageContext(pageContext: PageContextOriginal) {
+function resolvePageContext(pageContext: PageContextServer) {
   const pageContextResolved = {}
 
   const pageContextHeadingsData = resolveHeadingsData(pageContext)

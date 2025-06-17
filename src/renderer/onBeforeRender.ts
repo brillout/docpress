@@ -1,9 +1,10 @@
 export { onBeforeRender }
 
-import { resolvePageContext, type PageContextOriginal } from '../config/resolvePageContext'
+import type { PageContextServer } from 'vike/types'
+import { resolvePageContext } from '../config/resolvePageContext'
 
-function onBeforeRender(pageContextOriginal: PageContextOriginal) {
-  const pageContextResolved = resolvePageContext(pageContextOriginal)
+function onBeforeRender(pageContext: PageContextServer) {
+  const pageContextResolved = resolvePageContext(pageContext)
   return {
     pageContext: {
       pageContextResolved,

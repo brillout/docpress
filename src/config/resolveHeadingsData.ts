@@ -11,10 +11,11 @@ import type {
 import type { Config } from '../types/Config'
 import type { NavItem } from '../NavItemComponent'
 import type { LinkData } from '../components'
-import type { Exports, PageContextOriginal } from './resolvePageContext'
+import type { Exports } from './resolvePageContext'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
+import type { PageContextServer } from 'vike/types'
 assert(!isBrowser())
 
 type PageSectionResolved = {
@@ -31,7 +32,7 @@ type ActiveCategory = {
   hide?: boolean
 }
 
-function resolveHeadingsData(pageContext: PageContextOriginal) {
+function resolveHeadingsData(pageContext: PageContextServer) {
   const config = pageContext.config.docpress!
 
   {

@@ -1,7 +1,7 @@
 export { config as default }
 
 import type { Config, ImportString } from 'vike/types'
-import type { Exports } from './config/resolvePageContext'
+import type { Exports, PageContextResolved } from './config/resolvePageContext'
 import { viteConfig } from './vite.config.js'
 import type { Config as DocpressConfig } from './types/Config'
 
@@ -40,7 +40,9 @@ declare global {
   namespace Vike {
     interface PageContext {
       Page: ReactComponent
+      // TODO: stop using exports
       exports: Exports
+      pageContextResolved: PageContextResolved
     }
     interface Config {
       Layout?: ReactComponent | null | ImportString

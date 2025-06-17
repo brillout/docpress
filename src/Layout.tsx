@@ -277,8 +277,8 @@ const menuLinkStyle: React.CSSProperties = {
 }
 
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
-  const pageContext = usePageContext()
   const pageContext2 = usePageContext2()
+  const pageContext = pageContext2.pageContextResolved
   const { projectName } = pageContext.meta
   const { isLandingPage } = pageContext
   const { navMaxWidth } = pageContext.config

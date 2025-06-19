@@ -16,7 +16,8 @@ type HeadingResolved = {
   color?: string
   titleIcon?: string
   titleIconStyle?: React.CSSProperties
-} & Tmp
+  titleDocument?: string
+}
 
 type PageDesign = {
   hideTitle?: true
@@ -44,8 +45,8 @@ type HeadingDetachedDefinition = HeadingDefinitionCommon & {
 type HeadingDefinition = HeadingDefinitionCommon & {
   url?: null | string
   titleInNav?: string
-} & HeadingDefinitionLevel &
-  Tmp
+  titleDocument?: string
+} & HeadingDefinitionLevel
 type IsCategory = {
   url?: undefined
   titleDocument?: undefined
@@ -59,8 +60,3 @@ type HeadingDefinitionLevel =
       sectionTitles?: string[]
       url: null | string
     }
-
-type Tmp = {
-  // TODO: remove? Both Vike and Telefunc set it to the same value than docpress.config.js#projectInfo.projectName
-  titleDocument?: string
-}

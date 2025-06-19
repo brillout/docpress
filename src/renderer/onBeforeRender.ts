@@ -1,5 +1,7 @@
 export { onBeforeRender }
 
+// TODO: remove
+
 import type { PageContextServer } from 'vike/types'
 import { resolvePageContext } from '../config/resolvePageContext'
 

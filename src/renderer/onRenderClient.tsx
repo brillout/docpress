@@ -56,7 +56,6 @@ function onRenderStart() {
 
 function onRenderDone(renderPromiseResolve: () => void) {
   autoScrollNav()
-  // TODO/refactor: use React?
   installSectionUrlHashs()
   setHydrationIsFinished()
   renderPromiseResolve()

@@ -5,7 +5,6 @@ import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert } from '../utils/server'
 import { getPageElement } from './getPageElement'
 import type { PageContextServer } from 'vike/types'
-import { ActiveCategory } from '../resolveConf'
 
 async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   const page = getPageElement(pageContext)
@@ -49,6 +48,11 @@ function getAlgoliaTags(pageContext: PageContextServer) {
   } else {
     return escapeInject`${categoryNameTag}<meta name="algolia:category:order" content="${activeCategory.order.toString()}"> `
   }
+}
+type ActiveCategory = {
+  name: string
+  order: number
+  hide?: boolean
 }
 function getActiveCategory(pageContext: PageContextServer) {
   const config = pageContext.globalContext.configDocpress

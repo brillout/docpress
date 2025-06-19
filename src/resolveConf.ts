@@ -1,5 +1,4 @@
 export { resolveConf }
-export type { ActiveCategory }
 export type { Conf }
 
 import type { Config } from './types/Config'
@@ -27,12 +26,6 @@ type PageSectionResolved = {
   titleInNav: string
   linkBreadcrumb: string[]
   pageSectionLevel: number
-}
-
-type ActiveCategory = {
-  name: string
-  order: number
-  hide?: boolean
 }
 
 function resolveConf(pageContext: PageContextServer) {

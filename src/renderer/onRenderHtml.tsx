@@ -22,9 +22,8 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
     pageContext.globalContext.configDocpress.faviconUrl ?? pageContext.globalContext.configDocpress.logoUrl
   assert(faviconUrl)
 
-  const { documentTitle, activeCategory } = pageContext.conf
+  const { documentTitle } = pageContext.conf
   assert(documentTitle)
-  assert(activeCategory)
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
@@ -34,7 +33,7 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1">
         ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.configDocpress)}
-        ${getAlgoliaTags(activeCategory)}
+        ${getAlgoliaTags(pageContext)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
@@ -42,13 +41,31 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
     </html>`
 }
 
-function getAlgoliaTags(activeCategory: ActiveCategory) {
+function getAlgoliaTags(pageContext: PageContextServer) {
+  const activeCategory = getActiveCategory(pageContext)
   const categoryNameTag = escapeInject`<meta name="algolia:category" content="${activeCategory.name}">`
   if (activeCategory.hide) {
     return escapeInject`${categoryNameTag}<meta name="algolia:category:hide"> `
   } else {
     return escapeInject`${categoryNameTag}<meta name="algolia:category:order" content="${activeCategory.order.toString()}"> `
   }
+}
+function getActiveCategory(pageContext: PageContextServer) {
+  const config = pageContext.globalContext.configDocpress
+  const { activeCategoryName } = pageContext.conf
+
+  const activeCategory: ActiveCategory = config.categories
+    // normalize
+    ?.map((c, i) => ({
+      order: i,
+      ...(typeof c === 'string' ? { name: c } : c),
+    }))
+    .find((c) => c.name === activeCategoryName) ?? {
+    name: activeCategoryName,
+    order: 99999999999,
+  }
+
+  return activeCategory
 }
 
 function getOpenGraphTags(

@@ -85,17 +85,6 @@ function resolveConf(pageContext: PageContextServer) {
     }
   }
 
-  const activeCategory: ActiveCategory = config.categories
-    // normalize
-    ?.map((c, i) => ({
-      order: i,
-      ...(typeof c === 'string' ? { name: c } : c),
-    }))
-    .find((c) => c.name === activeCategoryName) ?? {
-    name: activeCategoryName,
-    order: 99999999999,
-  }
-
   const conf = {
     navItemsAll,
     navItemsDetached,
@@ -104,8 +93,7 @@ function resolveConf(pageContext: PageContextServer) {
     isLandingPage,
     pageTitle,
     documentTitle,
-    // TODO: don't pass to client-side
-    activeCategory,
+    activeCategoryName,
   }
   return conf
 }

@@ -5,7 +5,7 @@ import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert } from '../utils/server'
 import { getPageElement } from './getPageElement'
 import type { PageContextServer } from 'vike/types'
-import { ActiveCategory } from '../resolveConfig'
+import { ActiveCategory } from '../resolveConf'
 
 async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   const page = getPageElement(pageContext)

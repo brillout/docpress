@@ -1,4 +1,4 @@
-export { resolveHeadings }
+export { resolveConfig }
 export type { ActiveCategory }
 export type { PageContextResolved }
 
@@ -20,7 +20,7 @@ import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../determineNavItemsColumnLayout'
 
 // TODO rename/remove
-type PageContextResolved = ReturnType<typeof resolveHeadings>
+type PageContextResolved = ReturnType<typeof resolveConfig>
 
 type PageSectionResolved = {
   url: string | null
@@ -36,7 +36,7 @@ type ActiveCategory = {
   hide?: boolean
 }
 
-function resolveHeadings(pageContext: PageContextServer) {
+function resolveConfig(pageContext: PageContextServer) {
   const config = pageContext.globalContext.configDocpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []

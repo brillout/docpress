@@ -8,26 +8,17 @@ import type { Conf } from './resolveConf.js'
 
 const config = {
   name: '@brillout/docpress',
-  require: { vike: '>=0.4.233' },
+  require: { vike: '>=0.4.234' },
   vite: viteConfig as Record<string, unknown>,
   prerender: { noExtraDir: true },
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
-  onCreateGlobalContext: 'import:@brillout/docpress/renderer/onCreateGlobalContext:onCreateGlobalContext',
   onCreatePageContext: 'import:@brillout/docpress/renderer/onCreatePageContext:onCreatePageContext',
   clientRouting: true,
   hydrationCanBeAborted: true,
-  passToClient: [
-    // TODO/now/+docpress-isomorphic: remove
-    'configDocpress',
-  ],
   meta: {
-    // TODO/now/+docpress-isomorphic: remove
-    TopNavigation: {
-      env: { client: true, server: true },
-    },
     docpress: {
-      env: { server: true },
+      env: { server: true, client: true },
       global: true,
     },
   },
@@ -45,16 +36,11 @@ declare global {
       conf: Conf
     }
     interface Config {
-      TopNavigation?: ReactComponent
       docpress?: DocpressConfig
     }
     interface ConfigResolved {
       docpress: DocpressConfig
       pageSectionsExport: PageSection[] | undefined
-    }
-    interface GlobalContext {
-      // Passed to client
-      configDocpress: DocpressConfig
     }
   }
 }

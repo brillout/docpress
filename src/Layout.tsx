@@ -285,9 +285,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const {
     navMaxWidth,
     projectInfo: { projectName },
-  } = pageContext.globalContext.configDocpress
+  } = pageContext.globalContext.config.docpress
 
-  const TopNavigation = pageContext.config.TopNavigation || PassThrough
   const navSecondaryContent = (
     <div
       className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}
@@ -306,7 +305,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             }),
       }}
     >
-      <TopNavigation />
+      {pageContext.globalContext.config.docpress.topNavigation}
       {!isNavLeft && <div className="desktop-grow" />}
       <ExternalLinks
         style={{
@@ -487,8 +486,8 @@ function NavHeaderLeftFullWidthBackground() {
 
 function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
-  const iconSize = pageContext.globalContext.configDocpress.navLogoSize ?? 39
-  const { projectName } = pageContext.globalContext.configDocpress.projectInfo
+  const iconSize = pageContext.globalContext.config.docpress.navLogoSize ?? 39
+  const { projectName } = pageContext.globalContext.config.docpress.projectInfo
   return (
     <a
       className={cls(['nav-logo', className])}
@@ -501,14 +500,14 @@ function NavLogo({ className }: { className: string }) {
       href="/"
     >
       <img
-        src={pageContext.globalContext.configDocpress.logoUrl}
+        src={pageContext.globalContext.config.docpress.logoUrl}
         style={{
           height: iconSize,
           width: iconSize,
-          ...pageContext.globalContext.configDocpress.navLogoStyle,
+          ...pageContext.globalContext.config.docpress.navLogoStyle,
         }}
         onContextMenu={(ev) => {
-          if (!pageContext.globalContext.configDocpress.pressKit) return // no /press page
+          if (!pageContext.globalContext.config.docpress.pressKit) return // no /press page
           if (window.location.pathname === '/press') return
           ev.preventDefault()
           navigate('/press#logo')
@@ -518,7 +517,7 @@ function NavLogo({ className }: { className: string }) {
         style={{
           marginLeft: `calc(var(--icon-text-padding) + 2px)`,
           fontSize: isProjectNameShort(projectName) ? '1.65em' : '1.3em',
-          ...pageContext.globalContext.configDocpress.navLogoTextStyle,
+          ...pageContext.globalContext.config.docpress.navLogoTextStyle,
         }}
       >
         {projectName}

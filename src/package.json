@@ -33,7 +33,7 @@
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "typescript": ">=5.0.0",
-    "vike": ">=0.4.233",
+    "vike": ">=0.4.234",
     "vite": ">=5.2.0"
   },
   "peerDependenciesMeta": {
@@ -47,7 +47,6 @@
   "exports": {
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
-    "./renderer/onCreateGlobalContext": "./renderer/onCreateGlobalContext.server.ts",
     "./renderer/onCreatePageContext": "./renderer/onCreatePageContext.ts",
     ".": "./index.ts",
     "./config": "./dist/+config.js",

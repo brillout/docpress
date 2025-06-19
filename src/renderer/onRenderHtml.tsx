@@ -11,14 +11,14 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
 
   const { isLandingPage } = pageContext.conf
   assert(typeof isLandingPage === 'boolean')
-  const { tagline } = pageContext.globalContext.configDocpress
+  const { tagline } = pageContext.globalContext.config.docpress
   assert(tagline)
   const descriptionTag = isLandingPage ? escapeInject`<meta name="description" content="${tagline}" />` : ''
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
   const faviconUrl =
-    pageContext.globalContext.configDocpress.faviconUrl ?? pageContext.globalContext.configDocpress.logoUrl
+    pageContext.globalContext.config.docpress.faviconUrl ?? pageContext.globalContext.config.docpress.logoUrl
   assert(faviconUrl)
 
   const { documentTitle } = pageContext.conf
@@ -31,7 +31,7 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
         <title>${documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.configDocpress)}
+        ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.config.docpress)}
         ${getAlgoliaTags(pageContext)}
       </head>
       <body>
@@ -55,7 +55,7 @@ type ActiveCategory = {
   hide?: boolean
 }
 function getActiveCategory(pageContext: PageContextServer) {
-  const config = pageContext.globalContext.configDocpress
+  const config = pageContext.globalContext.config.docpress
   const { activeCategoryName } = pageContext.conf
 
   const activeCategory: ActiveCategory = config.categories

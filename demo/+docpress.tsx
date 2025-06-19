@@ -4,6 +4,8 @@ import type { Config } from '@brillout/docpress'
 import logoUrl from './assets/logo.svg'
 import faviconUrl from './assets/favicon.svg'
 import { headings, headingsDetached, categories } from './headings'
+import { TopNavigation } from './pages/TopNavigation'
+import React from 'react'
 
 const config: Config = {
   projectInfo: {
@@ -32,6 +34,7 @@ const config: Config = {
   websiteUrl: 'fake-website.example.org',
   twitterHandle: 'fake-twitter-handle',
   // globalNote: <GlobalNoteWarning />,
+  topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
 }
 

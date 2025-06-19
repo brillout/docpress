@@ -33,6 +33,25 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(await getTitleClient()).toBe('DocPress Demo')
   }
 
+  const featuresURL = '/features'
+  test(featuresURL, async () => {
+    await page.goto(getServerUrl() + featuresURL)
+    const text = await page.textContent('body')
+    expect(text).toContain('Features')
+    expect(text).toContain('Edit this page')
+    expect(text).toContain('This page is for testing/developing DocPress features.')
+    expect(text).toContain('Guides > Some Page (basic link)')
+    expect(text).toContain('Orphan Page (link to detached page)')
+    expect(text).toContain('<Link> (same-page link, non-inferred original heading title without needing sectionTitles)')
+    expect(text).toContain('Basic (same-page link, sub heading)')
+    {
+      const html = await fetchHtml(featuresURL)
+      expect(getTitleHtml(html)).toBe('Features | Demo')
+      expect(await getTitleClient()).toBe('Features | Demo')
+      expectAlgoliaCategory(html, 'Overview', 1)
+    }
+  })
+
   const orphanURL = '/orphan'
   test(orphanURL, async () => {
     await page.goto(getServerUrl() + orphanURL)
@@ -51,25 +70,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   test(orphan2URL, async () => {
     const html = await fetchHtml(orphanURL)
     expect(html).toContain('<meta name="algolia:category" content="Guides 2"><meta name="algolia:category:hide">')
-  })
-
-  const featuresURL = '/features'
-  test(featuresURL, async () => {
-    await page.goto(getServerUrl() + featuresURL)
-    const text = await page.textContent('body')
-    expect(text).toContain('Features')
-    expect(text).toContain('Edit this page')
-    expect(text).toContain('This page is for testing/developing DocPress features.')
-    expect(text).toContain('Guides > Some Page (basic link)')
-    expect(text).toContain('Orphan Page (link to detached page)')
-    expect(text).toContain('<Link> (same-page link, non-inferred original heading title without needing sectionTitles)')
-    expect(text).toContain('Basic (same-page link, sub heading)')
-    {
-      const html = await fetchHtml(featuresURL)
-      expect(getTitleHtml(html)).toBe('Features | Demo')
-      expect(await getTitleClient()).toBe('Features | Demo')
-      expectAlgoliaCategory(html, 'Overview', 1)
-    }
   })
 
   test('client-side navigation', async () => {

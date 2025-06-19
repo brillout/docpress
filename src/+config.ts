@@ -19,15 +19,15 @@ const config = {
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: [
-    // TODO: pass subset?
+    // TODO/now: pass subset?
     'configDocpress',
   ],
   meta: {
-    // TODO: remove?
+    // TODO/now: remove?
     Layout: {
       env: { client: true, server: true },
     },
-    // TODO: remove?
+    // TODO/now: remove?
     TopNavigation: {
       env: { client: true, server: true },
     },

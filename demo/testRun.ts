@@ -69,6 +69,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const orphan2URL = '/orphan-2'
   test(orphan2URL, async () => {
     const html = await fetchHtml(orphan2URL)
+    expect(getTitleHtml(html)).toBe('Orphan Page Without Headings | Demo')
+    expect(html).toContain('Orphan Page Without Heading')
     expect(html).toContain('<meta name="algolia:category" content="Guides 2"><meta name="algolia:category:hide">')
   })
 

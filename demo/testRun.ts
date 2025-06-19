@@ -25,9 +25,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(html).toContain('<meta property="og:url" content="fake-website.example.org">')
     expect(html).toContain('<meta property="og:description" content="DocPress Demonstration.">')
     expect(html).toContain('<meta name="twitter:site" content="fake-twitter-handle">')
-    expect(html).toContain(
-      '<meta name="algolia:category" content="Overview"><meta name="algolia:category:order" content="1">',
-    )
+    expectAlgoliaCategory(html, 'Overview', 1)
   }
   async function testLandingPageClient() {
     expect(await page.textContent('h1')).toBe('Next Generation Docs')
@@ -84,4 +82,10 @@ function getTitleHtml(html: string) {
 async function getTitleClient() {
   const titleClient = await page.evaluate(() => window.document.title)
   return titleClient
+}
+
+function expectAlgoliaCategory(html: string, category: string, order: number) {
+  expect(html).toContain(
+    `<meta name="algolia:category" content="${category}"><meta name="algolia:category:order" content="${order}">`,
+  )
 }

@@ -17,7 +17,7 @@ import { assert } from '../utils/assert'
 import { jsxToTextContent } from '../utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from '../parseMarkdownMini'
-import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
+import { determineNavItemsColumnLayout } from '../determineNavItemsColumnLayout'
 
 // TODO rename/remove
 type PageContextResolved = ReturnType<typeof resolveHeadings>

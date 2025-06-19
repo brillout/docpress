@@ -17,10 +17,6 @@ const config = {
   onCreatePageContext: 'import:@brillout/docpress/renderer/onCreatePageContext:onCreatePageContext',
   clientRouting: true,
   hydrationCanBeAborted: true,
-  passToClient: [
-    // TODO/now/+docpress-isomorphic: remove
-    'config.docpress',
-  ],
   meta: {
     docpress: {
       env: { server: true, client: true },
@@ -46,10 +42,6 @@ declare global {
     interface ConfigResolved {
       docpress: DocpressConfig
       pageSectionsExport: PageSection[] | undefined
-    }
-    interface GlobalContext {
-      // Passed to client
-      config.docpress: DocpressConfig
     }
   }
 }

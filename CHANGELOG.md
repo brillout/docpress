@@ -1,3 +1,24 @@
+# [0.14.0](https://github.com/brillout/docpress/compare/v0.13.2...v0.14.0) (2025-06-19)
+
+
+* refactor 2 (#42) ([79012ab](https://github.com/brillout/docpress/commit/79012abbe0d63c89c24ae4799b36f13ff395e328)), closes [#42](https://github.com/brillout/docpress/issues/42)
+* refactor (#41) ([d2736ca](https://github.com/brillout/docpress/commit/d2736ca9719fd1ab3390d42e5e422dba87ee02f2)), closes [#41](https://github.com/brillout/docpress/issues/41)
+
+
+### Bug Fixes
+
+* export new `usePageContext()` ([93aea43](https://github.com/brillout/docpress/commit/93aea4374cff747717e0177ad9d88c51e6f7ce4d))
+
+
+### BREAKING CHANGES
+
+* update to `vike@0.4.234` or above
+* +TopNavigation removed in favor of +docpress.topNavigation
+* update `usePageContext()` usage
+* update to `vike@0.4.233` or above
+
+
+
 ## [0.13.2](https://github.com/brillout/docpress/compare/v0.13.1...v0.13.2) (2025-06-12)
 
 

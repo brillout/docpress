@@ -40,7 +40,6 @@ function resolveHeadingsData(pageContext: PageContextServer) {
   const config = pageContext.globalContext.configDocpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []
-  console.log(urlPathname, pageSections)
 
   {
     const { headings, headingsDetached } = config

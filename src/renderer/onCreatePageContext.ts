@@ -6,5 +6,5 @@ import { objectAssign } from '../utils/objectAssign'
 
 function onCreatePageContext(pageContext: PageContextServer) {
   const pageContextAddendum = resolveHeadingsData(pageContext)
-  // objectAssign(pageContext, { pageContextResolved: pageContextAddendum })
+  objectAssign(pageContext, { pageContextResolved: pageContextAddendum })
 }

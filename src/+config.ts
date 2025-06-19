@@ -19,7 +19,7 @@ const config = {
   hydrationCanBeAborted: true,
   passToClient: [
     // TODO/now/+docpress-isomorphic: remove
-    'configDocpress',
+    'config.docpress',
   ],
   meta: {
     docpress: {
@@ -49,7 +49,7 @@ declare global {
     }
     interface GlobalContext {
       // Passed to client
-      configDocpress: DocpressConfig
+      config.docpress: DocpressConfig
     }
   }
 }

@@ -27,7 +27,7 @@ type PageSectionResolved = {
 }
 
 function resolveConf(pageContext: PageContextServer) {
-  const config = pageContext.globalContext.configDocpress
+  const config = pageContext.globalContext.config.docpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []
 

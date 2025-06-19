@@ -22,7 +22,7 @@ function EditLink({ className, style }: { className?: string; style: React.CSSPr
   )
   const { urlPathname } = pageContext
   const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
-  const docsDir = pageContext.globalContext.configDocpress.docsDir ?? 'docs'
+  const docsDir = pageContext.globalContext.config.docpress.docsDir ?? 'docs'
   const editLink = getRepoHref(`/${docsDir}/pages${fsPath}`, true)
   return (
     <a href={editLink} className={className} style={{ display: 'flex', alignItems: 'center', ...style }}>

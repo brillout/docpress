@@ -12,7 +12,7 @@ import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const { projectInfo, i18n } = pageContext.globalContext.configDocpress
+  const { projectInfo, i18n } = pageContext.globalContext.config.docpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
@@ -50,7 +50,7 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
 
 function ChangelogButton() {
   const pageContext = usePageContext()
-  const { projectInfo } = pageContext.globalContext.configDocpress
+  const { projectInfo } = pageContext.globalContext.config.docpress
   return (
     <a
       href={`${projectInfo.githubRepository}/blob/main/CHANGELOG.md`}

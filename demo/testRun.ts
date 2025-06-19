@@ -43,7 +43,14 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     {
       const html = await fetchHtml(orphanURL)
       expect(getTitleHtml(html)).toBe('Orphan Page | Demo')
+      expectAlgoliaCategory(html, 'Guides', 0)
     }
+  })
+
+  const orphan2URL = '/orphan-2'
+  test(orphan2URL, async () => {
+    const html = await fetchHtml(orphanURL)
+    expect(html).toContain('<meta name="algolia:category" content="Guides 2"><meta name="algolia:category:hide">')
   })
 
   const featuresURL = '/features'
@@ -61,6 +68,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       const html = await fetchHtml(featuresURL)
       expect(getTitleHtml(html)).toBe('Features | Demo')
       expect(await getTitleClient()).toBe('Features | Demo')
+      expectAlgoliaCategory(html, 'Overview', 1)
     }
   })
 

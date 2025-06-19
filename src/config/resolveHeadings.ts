@@ -68,8 +68,8 @@ function resolveHeadings(pageContext: PageContextServer) {
     ...headingsResolved.map(headingToLinkData),
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
-  const linksPage = pageSectionsResolved.map(pageSectionToLinkData)
-  const linksAll: LinkData[] = [...linksPage, ...linksGlobal]
+  const linksPage: LinkData[] = pageSectionsResolved.map(pageSectionToLinkData)
+  const linksAll = [...linksPage, ...linksGlobal]
 
   let navItemsAll: NavItem[]
   let navItemsDetached: NavItem[] | undefined

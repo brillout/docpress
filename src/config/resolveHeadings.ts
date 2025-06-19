@@ -23,6 +23,7 @@ import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColu
 assert(!isBrowser())
 */
 
+// TODO rename/remove
 type PageContextResolved = ReturnType<typeof resolveHeadings>
 
 type PageSectionResolved = {

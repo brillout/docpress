@@ -1,6 +1,6 @@
 export { resolveConf }
 export type { ActiveCategory }
-export type { PageContextResolved }
+export type { Conf }
 
 import type { Config } from './types/Config'
 import type { NavItem } from './NavItemComponent'
@@ -20,7 +20,7 @@ import { parseMarkdownMini } from './parseMarkdownMini'
 import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
 
 // TODO rename/remove
-type PageContextResolved = ReturnType<typeof resolveConf>
+type Conf = ReturnType<typeof resolveConf>
 
 type PageSectionResolved = {
   url: string | null

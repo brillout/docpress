@@ -4,7 +4,7 @@ import type { Config, ImportString } from 'vike/types'
 import { viteConfig } from './vite.config.js'
 import type { Config as DocpressConfig } from './types/Config'
 import type { PageSection } from './parsePageSections'
-import type { PageContextResolved } from './resolveConf.js'
+import type { Conf } from './resolveConf.js'
 
 const config = {
   name: '@brillout/docpress',
@@ -47,7 +47,7 @@ declare global {
   namespace Vike {
     interface PageContext {
       Page: ReactComponent
-      conf: PageContextResolved
+      conf: Conf
     }
     interface Config {
       Layout?: ReactComponent | null | ImportString

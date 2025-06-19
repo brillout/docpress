@@ -141,7 +141,7 @@ function findLinkData(
   { pageContext, noWarning }: { pageContext: PageContext; noWarning?: boolean },
 ): LinkData | null {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { linksAll } = pageContext.pageContextResolved
+  const { linksAll } = pageContext.conf
   const linkData = linksAll.find(({ url }) => href === url)
   if (href.startsWith('#')) {
     if (!noWarning) {

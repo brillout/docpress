@@ -10,7 +10,7 @@ import { ActiveCategory } from '../resolveConf'
 async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   const page = getPageElement(pageContext)
 
-  const { isLandingPage } = pageContext.pageContextResolved
+  const { isLandingPage } = pageContext.conf
   assert(typeof isLandingPage === 'boolean')
   const { tagline } = pageContext.globalContext.configDocpress
   assert(tagline)
@@ -22,7 +22,7 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
     pageContext.globalContext.configDocpress.faviconUrl ?? pageContext.globalContext.configDocpress.logoUrl
   assert(faviconUrl)
 
-  const { documentTitle, activeCategory } = pageContext.pageContextResolved
+  const { documentTitle, activeCategory } = pageContext.conf
   assert(documentTitle)
   assert(activeCategory)
   return escapeInject`<!DOCTYPE html>

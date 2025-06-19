@@ -47,7 +47,7 @@ declare global {
   namespace Vike {
     interface PageContext {
       Page: ReactComponent
-      pageContextResolved: PageContextResolved
+      conf: PageContextResolved
     }
     interface Config {
       Layout?: ReactComponent | null | ImportString

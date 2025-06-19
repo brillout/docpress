@@ -47,7 +47,7 @@ const whitespaceBuster2: React.CSSProperties = {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.pageContextResolved // TODO/now
+  const { isLandingPage } = pageContext.conf // TODO/now
 
   let content: React.JSX.Element
   if (isLandingPage) {
@@ -86,8 +86,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const hideNavLeftAlways =
-    pageContext.pageContextResolved.pageDesign?.hideMenuLeft ||
-    (pageContext.pageContextResolved.navItemsDetached && pageContext.pageContextResolved.navItemsDetached.length <= 1)
+    pageContext.conf.pageDesign?.hideMenuLeft ||
+    (pageContext.conf.navItemsDetached && pageContext.conf.navItemsDetached.length <= 1)
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -156,13 +156,13 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
 
 function PageContent({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage, pageTitle } = pageContext.pageContextResolved
+  const { isLandingPage, pageTitle } = pageContext.conf
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
   /*
   const { globalNote } = pageContext.globalContext.config.docpress
   */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
-  const contentMaxWidth = pageContext.pageContextResolved.pageDesign?.contentMaxWidth ?? mainViewWidthMax
+  const contentMaxWidth = pageContext.conf.pageDesign?.contentMaxWidth ?? mainViewWidthMax
   return (
     <div
       className="page-wrapper low-prio-grow"
@@ -188,7 +188,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         }}
       >
         {/* globalNote */}
-        {pageTitleParsed && !pageContext.pageContextResolved.pageDesign?.hideTitle && (
+        {pageTitleParsed && !pageContext.conf.pageDesign?.hideTitle && (
           <div>
             <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 6, padding: 10 }} />
             <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>
@@ -202,7 +202,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 
 function NavLeft() {
   const pageContext = usePageContext()
-  const { navItemsAll, navItemsDetached } = pageContext.pageContextResolved
+  const { navItemsAll, navItemsDetached } = pageContext.conf
   return (
     <>
       <div
@@ -281,7 +281,7 @@ const menuLinkStyle: React.CSSProperties = {
 
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.pageContextResolved
+  const { isLandingPage } = pageContext.conf
   const {
     navMaxWidth,
     projectInfo: { projectName },

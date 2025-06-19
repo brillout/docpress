@@ -13,7 +13,7 @@ const globalObject = getGlobalObject('usePageContext.ts', {
 function usePageContextLegacy() {
   const { Ctx } = globalObject
   const pageContext = useContext(Ctx)
-  return pageContext.pageContextResolved
+  return pageContext.conf
 }
 
 function usePageContext(): PageContext {

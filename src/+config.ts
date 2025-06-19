@@ -8,6 +8,7 @@ import type { Conf } from './resolveConf.js'
 
 const config = {
   name: '@brillout/docpress',
+  // TODO/now: bump, also peerDependencies
   require: { vike: '>=0.4.222' },
   vite: viteConfig as Record<string, unknown>,
   prerender: { noExtraDir: true },

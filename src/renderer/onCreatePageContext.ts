@@ -6,5 +6,5 @@ import { objectAssign } from '../utils/objectAssign'
 
 function onCreatePageContext(pageContext: PageContextServer) {
   const conf = resolveConf(pageContext)
-  objectAssign(pageContext, { conf: conf })
+  objectAssign(pageContext, { conf })
 }

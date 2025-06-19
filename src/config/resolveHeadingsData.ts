@@ -1,5 +1,6 @@
 export { resolveHeadingsData }
 export type { ActiveCategory }
+export type { PageContextResolved }
 
 import type { Config } from '../types/Config'
 import type { NavItem } from '../NavItemComponent'
@@ -21,6 +22,8 @@ import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColu
 /* TODO
 assert(!isBrowser())
 */
+
+type PageContextResolved = ReturnType<typeof resolveHeadingsData>
 
 type PageSectionResolved = {
   url: string | null

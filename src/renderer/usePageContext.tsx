@@ -3,7 +3,6 @@ export { usePageContext }
 export { usePageContextLegacy }
 
 import React, { useContext } from 'react'
-import type { PageContextResolved } from '../config/resolvePageContext'
 import type { PageContext } from 'vike/types'
 import { getGlobalObject } from '../utils/getGlobalObject'
 
@@ -11,7 +10,7 @@ const globalObject = getGlobalObject('usePageContext.ts', {
   Ctx: React.createContext<PageContext>(undefined as any),
 })
 
-function usePageContextLegacy(): PageContextResolved {
+function usePageContextLegacy() {
   const { Ctx } = globalObject
   const pageContext = useContext(Ctx)
   return pageContext.pageContextResolved

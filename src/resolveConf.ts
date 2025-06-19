@@ -97,7 +97,7 @@ function resolveConf(pageContext: PageContextServer) {
     order: 99999999999,
   }
 
-  const pageContextAddendum = {
+  const conf = {
     navItemsAll,
     navItemsDetached,
     pageDesign: activeHeading.pageDesign,
@@ -108,7 +108,7 @@ function resolveConf(pageContext: PageContextServer) {
     // TODO: don't pass to client-side
     activeCategory,
   }
-  return pageContextAddendum
+  return conf
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {

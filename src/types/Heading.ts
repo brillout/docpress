@@ -42,21 +42,18 @@ type HeadingDetachedDefinition = HeadingDefinitionCommon & {
   category?: string
 }
 
-type HeadingDefinition = HeadingDefinitionCommon & {
-  url?: null | string
-  titleInNav?: string
-  titleDocument?: string
-} & HeadingDefinitionLevel
+type HeadingDefinition = HeadingDefinitionCommon & {} & (
+    | ({ level: 1; color: string; titleIcon?: string; titleIconStyle?: React.CSSProperties } & IsCategory)
+    | ({ level: 4 } & IsCategory)
+    | {
+        level: 2
+        titleInNav?: string
+        titleDocument?: string
+        sectionTitles?: string[]
+        url: null | string
+      }
+  )
 type IsCategory = {
   url?: undefined
-  titleDocument?: undefined
   titleInNav?: undefined
 }
-type HeadingDefinitionLevel =
-  | ({ level: 1; color: string; titleIcon?: string; titleIconStyle?: React.CSSProperties } & IsCategory)
-  | ({ level: 4 } & IsCategory)
-  | {
-      level: 2
-      sectionTitles?: string[]
-      url: null | string
-    }

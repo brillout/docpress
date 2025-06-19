@@ -2,22 +2,22 @@ export { resolveConfig }
 export type { ActiveCategory }
 export type { PageContextResolved }
 
-import type { Config } from '../types/Config'
-import type { NavItem } from '../NavItemComponent'
-import type { LinkData } from '../components'
+import type { Config } from './types/Config'
+import type { NavItem } from './NavItemComponent'
+import type { LinkData } from './components'
 import type { PageContextServer } from 'vike/types'
-import type { PageSection } from '../parsePageSections'
+import type { PageSection } from './parsePageSections'
 import type {
   HeadingDefinition,
   HeadingDetachedDefinition,
   HeadingResolved,
   HeadingDetachedResolved,
-} from '../types/Heading'
-import { assert } from '../utils/assert'
-import { jsxToTextContent } from '../utils/jsxToTextContent'
+} from './types/Heading'
+import { assert } from './utils/assert'
+import { jsxToTextContent } from './utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
-import { parseMarkdownMini } from '../parseMarkdownMini'
-import { determineNavItemsColumnLayout } from '../determineNavItemsColumnLayout'
+import { parseMarkdownMini } from './parseMarkdownMini'
+import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
 
 // TODO rename/remove
 type PageContextResolved = ReturnType<typeof resolveConfig>

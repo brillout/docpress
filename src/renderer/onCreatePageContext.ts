@@ -1,7 +1,7 @@
 export { onCreatePageContext }
 
 import type { PageContextServer } from 'vike/types'
-import { resolveConfig } from '../config/resolveConfig'
+import { resolveConfig } from '../resolveConfig'
 import { objectAssign } from '../utils/objectAssign'
 
 function onCreatePageContext(pageContext: PageContextServer) {

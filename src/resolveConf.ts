@@ -19,7 +19,6 @@ import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from './parseMarkdownMini'
 import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
 
-// TODO rename/remove
 type Conf = ReturnType<typeof resolveConf>
 
 type PageSectionResolved = {

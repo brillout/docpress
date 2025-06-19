@@ -19,7 +19,6 @@ const config = {
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: [
-    'pageContextResolved',
     // TODO: pass subset?
     'configDocpress',
   ],

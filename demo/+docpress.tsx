@@ -4,7 +4,7 @@ import type { Config } from '@brillout/docpress'
 import logoUrl from './assets/logo.svg'
 import faviconUrl from './assets/favicon.svg'
 import { headings, headingsDetached, categories } from './headings'
-import { TopNavigation } from './pages/TopNavigation'
+import { TopNavigation } from './TopNavigation'
 import React from 'react'
 
 const config: Config = {

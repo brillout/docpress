@@ -19,11 +19,11 @@ const config = {
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: [
-    // TODO/now: pass subset?
+    // TODO/now/+docpress-isomorphic: remove
     'configDocpress',
   ],
   meta: {
-    // TODO/now: remove?
+    // TODO/now/+docpress-isomorphic: remove
     TopNavigation: {
       env: { client: true, server: true },
     },

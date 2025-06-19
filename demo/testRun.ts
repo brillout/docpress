@@ -85,6 +85,8 @@ async function getTitleClient() {
 }
 
 function expectAlgoliaCategory(html: string, category: string, order: number) {
+  expect(html.split('algolia:category:order').length).toBe(2)
+  expect(html.split('algolia:category"').length).toBe(2)
   expect(html).toContain(
     `<meta name="algolia:category" content="${category}"><meta name="algolia:category:order" content="${order}">`,
   )

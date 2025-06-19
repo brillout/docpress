@@ -47,7 +47,7 @@ const whitespaceBuster2: React.CSSProperties = {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.conf // TODO/now
+  const { isLandingPage } = pageContext.conf
 
   let content: React.JSX.Element
   if (isLandingPage) {

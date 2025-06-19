@@ -3,37 +3,36 @@ export { onRenderHtml }
 import ReactDOMServer from 'react-dom/server'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert } from '../utils/server'
-import type { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
-import type { OnRenderHtmlAsync } from 'vike/types'
-import { ActiveCategory } from '../config/resolveHeadingsData'
+import type { PageContextServer } from 'vike/types'
 
-const onRenderHtml: OnRenderHtmlAsync = async (
-  pageContext,
-): // TODO: Why is Promise<Awaited<>> needed?
-Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
-  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
+async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
+  const page = getPageElement(pageContext)
 
-  const page = getPageElement(pageContext, pageContextResolved)
-
-  const descriptionTag = pageContextResolved.isLandingPage
-    ? dangerouslySkipEscape(`<meta name="description" content="${pageContextResolved.meta.tagline}" />`)
-    : ''
+  const { isLandingPage } = pageContext.conf
+  assert(typeof isLandingPage === 'boolean')
+  const { tagline } = pageContext.globalContext.configDocpress
+  assert(tagline)
+  const descriptionTag = isLandingPage ? escapeInject`<meta name="description" content="${tagline}" />` : ''
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
-  const faviconUrl = pageContextResolved.config.faviconUrl ?? pageContextResolved.config.logoUrl
+  const faviconUrl =
+    pageContext.globalContext.configDocpress.faviconUrl ?? pageContext.globalContext.configDocpress.logoUrl
+  assert(faviconUrl)
 
+  const { documentTitle } = pageContext.conf
+  assert(documentTitle)
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
         <link rel="icon" href="${faviconUrl ?? ''}" />
-        <title>${pageContextResolved.documentTitle}</title>
+        <title>${documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        ${getOpenGraphTags(pageContext.urlPathname, pageContextResolved.documentTitle, pageContextResolved.meta)}
-        ${getAlgoliaTags(pageContextResolved.activeCategory)}
+        ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.configDocpress)}
+        ${getAlgoliaTags(pageContext)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
@@ -41,13 +40,36 @@ Promise<Awaited<ReturnType<OnRenderHtmlAsync>>> => {
     </html>`
 }
 
-function getAlgoliaTags(activeCategory: ActiveCategory) {
+function getAlgoliaTags(pageContext: PageContextServer) {
+  const activeCategory = getActiveCategory(pageContext)
   const categoryNameTag = escapeInject`<meta name="algolia:category" content="${activeCategory.name}">`
   if (activeCategory.hide) {
     return escapeInject`${categoryNameTag}<meta name="algolia:category:hide"> `
   } else {
     return escapeInject`${categoryNameTag}<meta name="algolia:category:order" content="${activeCategory.order.toString()}"> `
   }
+}
+type ActiveCategory = {
+  name: string
+  order: number
+  hide?: boolean
+}
+function getActiveCategory(pageContext: PageContextServer) {
+  const config = pageContext.globalContext.configDocpress
+  const { activeCategoryName } = pageContext.conf
+
+  const activeCategory: ActiveCategory = config.categories
+    // normalize
+    ?.map((c, i) => ({
+      order: i,
+      ...(typeof c === 'string' ? { name: c } : c),
+    }))
+    .find((c) => c.name === activeCategoryName) ?? {
+    name: activeCategoryName,
+    order: 99999999999,
+  }
+
+  return activeCategory
 }
 
 function getOpenGraphTags(
@@ -56,18 +78,26 @@ function getOpenGraphTags(
   meta: { tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string },
 ) {
   const { tagline, websiteUrl, twitterHandle, bannerUrl } = meta
-
   assert(url.startsWith('/'))
-  if (!bannerUrl) return ''
 
+  const metaBanner = !bannerUrl
+    ? ''
+    : escapeInject`
+    <meta property="og:image" content="${bannerUrl}">
+    <meta name="twitter:card" content="summary_large_image">
+  `
+  const metaTwitter = !twitterHandle
+    ? ''
+    : escapeInject`
+    <meta name="twitter:site" content="${twitterHandle}">
+  `
   // See view-source:https://vitejs.dev/
   return escapeInject`
     <meta property="og:type" content="website">
     <meta property="og:title" content="${documentTitle}">
-    <meta property="og:image" content="${bannerUrl}">
     <meta property="og:url" content="${websiteUrl}">
     <meta property="og:description" content="${tagline}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="${twitterHandle}">
+    ${metaBanner}
+    ${metaTwitter}
   `
 }

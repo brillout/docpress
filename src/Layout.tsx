@@ -10,7 +10,7 @@ export { blockMargin }
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { parseMarkdownMini } from './parseMarkdownMini'
-import { usePageContext, usePageContext2 } from './renderer/usePageContext'
+import { usePageContext } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
@@ -47,7 +47,7 @@ const whitespaceBuster2: React.CSSProperties = {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext
+  const { isLandingPage } = pageContext.conf
 
   let content: React.JSX.Element
   if (isLandingPage) {
@@ -86,7 +86,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const hideNavLeftAlways =
-    pageContext.pageDesign?.hideMenuLeft || (pageContext.navItemsDetached && pageContext.navItemsDetached.length <= 1)
+    pageContext.conf.pageDesign?.hideMenuLeft ||
+    (pageContext.conf.navItemsDetached && pageContext.conf.navItemsDetached.length <= 1)
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -155,11 +156,13 @@ function LayoutLandingPage({ children }: { children: React.ReactNode }) {
 
 function PageContent({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage, pageTitle } = pageContext
+  const { isLandingPage, pageTitle } = pageContext.conf
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
-  const { globalNote } = pageContext.config
+  /*
+  const { globalNote } = pageContext.globalContext.config.docpress
+  */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
-  const contentMaxWidth = pageContext.pageDesign?.contentMaxWidth ?? mainViewWidthMax
+  const contentMaxWidth = pageContext.conf.pageDesign?.contentMaxWidth ?? mainViewWidthMax
   return (
     <div
       className="page-wrapper low-prio-grow"
@@ -184,8 +187,8 @@ function PageContent({ children }: { children: React.ReactNode }) {
           }),
         }}
       >
-        {globalNote}
-        {pageTitleParsed && !pageContext.pageDesign?.hideTitle && (
+        {/* globalNote */}
+        {pageTitleParsed && !pageContext.conf.pageDesign?.hideTitle && (
           <div>
             <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 6, padding: 10 }} />
             <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>
@@ -199,7 +202,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
 
 function NavLeft() {
   const pageContext = usePageContext()
-  const { navItemsAll, navItemsDetached } = pageContext
+  const { navItemsAll, navItemsDetached } = pageContext.conf
   return (
     <>
       <div
@@ -278,12 +281,13 @@ const menuLinkStyle: React.CSSProperties = {
 
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
-  const pageContext2 = usePageContext2()
-  const { projectName } = pageContext.meta
-  const { isLandingPage } = pageContext
-  const { navMaxWidth } = pageContext.config
+  const { isLandingPage } = pageContext.conf
+  const {
+    navMaxWidth,
+    projectInfo: { projectName },
+  } = pageContext.globalContext.configDocpress
 
-  const TopNavigation = pageContext2.config.TopNavigation || PassThrough
+  const TopNavigation = pageContext.config.TopNavigation || PassThrough
   const navSecondaryContent = (
     <div
       className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}
@@ -483,8 +487,8 @@ function NavHeaderLeftFullWidthBackground() {
 
 function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
-  const iconSize = pageContext.config.navLogoSize ?? 39
-  const { projectName } = pageContext.meta
+  const iconSize = pageContext.globalContext.configDocpress.navLogoSize ?? 39
+  const { projectName } = pageContext.globalContext.configDocpress.projectInfo
   return (
     <a
       className={cls(['nav-logo', className])}
@@ -497,14 +501,14 @@ function NavLogo({ className }: { className: string }) {
       href="/"
     >
       <img
-        src={pageContext.meta.logoUrl}
+        src={pageContext.globalContext.configDocpress.logoUrl}
         style={{
           height: iconSize,
           width: iconSize,
-          ...pageContext.config.navLogoStyle,
+          ...pageContext.globalContext.configDocpress.navLogoStyle,
         }}
         onContextMenu={(ev) => {
-          if (!pageContext.config.pressKit) return // no /press page
+          if (!pageContext.globalContext.configDocpress.pressKit) return // no /press page
           if (window.location.pathname === '/press') return
           ev.preventDefault()
           navigate('/press#logo')
@@ -514,7 +518,7 @@ function NavLogo({ className }: { className: string }) {
         style={{
           marginLeft: `calc(var(--icon-text-padding) + 2px)`,
           fontSize: isProjectNameShort(projectName) ? '1.65em' : '1.3em',
-          ...pageContext.config.navLogoTextStyle,
+          ...pageContext.globalContext.configDocpress.navLogoTextStyle,
         }}
       >
         {projectName}

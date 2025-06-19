@@ -1,7 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "files": ["vite.config.ts", "+config.ts"],
-  "compilerOptions": {
-    "outDir": "./dist/"
-  }
+  "files": ["vite.config.ts", "+config.ts"]
 }

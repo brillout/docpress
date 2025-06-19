@@ -1,21 +1,22 @@
-export { resolveHeadingsData }
-export type { ActiveCategory }
+export { resolveConf }
+export type Conf = ReturnType<typeof resolveConf>
 
-import { assert, isBrowser, jsxToTextContent } from '../utils/server'
+import type { Config } from './types/Config'
+import type { NavItem } from './NavItemComponent'
+import type { LinkData } from './components'
+import type { PageContextServer } from 'vike/types'
+import type { PageSection } from './parsePageSections'
 import type {
   HeadingDefinition,
   HeadingDetachedDefinition,
   HeadingResolved,
   HeadingDetachedResolved,
-} from '../types/Heading'
-import type { Config } from '../types/Config'
-import type { NavItem } from '../NavItemComponent'
-import type { LinkData } from '../components'
-import type { Exports, PageContextOriginal } from './resolvePageContext'
+} from './types/Heading'
+import { assert } from './utils/assert'
+import { jsxToTextContent } from './utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
-import { parseMarkdownMini } from '../parseMarkdownMini'
-import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
-assert(!isBrowser())
+import { parseMarkdownMini } from './parseMarkdownMini'
+import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
 
 type PageSectionResolved = {
   url: string | null
@@ -25,14 +26,10 @@ type PageSectionResolved = {
   pageSectionLevel: number
 }
 
-type ActiveCategory = {
-  name: string
-  order: number
-  hide?: boolean
-}
-
-function resolveHeadingsData(pageContext: PageContextOriginal) {
-  const config = pageContext.config.docpress!
+function resolveConf(pageContext: PageContextServer) {
+  const config = pageContext.globalContext.configDocpress
+  const { urlPathname } = pageContext
+  const pageSections = pageContext.config.pageSectionsExport ?? []
 
   {
     const { headings, headingsDetached } = config
@@ -46,18 +43,19 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
   const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,
     headingsDetachedResolved,
-    pageContext,
+    urlPathname,
   )
 
-  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, pageContext, config)
+  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, urlPathname, config)
 
-  const pageSectionsResolved = getPageSectionsResolved(pageContext, activeHeading)
+  const pageSectionsResolved = getPageSectionsResolved(pageSections, activeHeading)
 
-  const linksAll: LinkData[] = [
-    ...pageSectionsResolved.map(pageSectionToLinkData),
+  const linksGlobal: LinkData[] = [
     ...headingsResolved.map(headingToLinkData),
     ...headingsDetachedResolved.map(headingToLinkData),
   ]
+  const linksPage: LinkData[] = pageSectionsResolved.map(pageSectionToLinkData)
+  const linksAll = [...linksPage, ...linksGlobal]
 
   let navItemsAll: NavItem[]
   let navItemsDetached: NavItem[] | undefined
@@ -70,7 +68,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     if (isDetachedPage) {
       navItemsDetached = [headingToNavItem(activeHeading), ...navItemsPageSections]
     } else {
-      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === pageContext.urlPathname)
+      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === urlPathname)
       assert(activeHeadingIndex >= 0)
       navItemsPageSections.forEach((navItem, i) => {
         navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
@@ -78,18 +76,7 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     }
   }
 
-  const activeCategory: ActiveCategory = config.categories
-    // normalize
-    ?.map((c, i) => ({
-      order: i,
-      ...(typeof c === 'string' ? { name: c } : c),
-    }))
-    .find((c) => c.name === activeCategoryName) ?? {
-    name: activeCategoryName,
-    order: 99999999999,
-  }
-
-  const pageContextAddendum = {
+  const conf = {
     navItemsAll,
     navItemsDetached,
     pageDesign: activeHeading.pageDesign,
@@ -97,10 +84,9 @@ function resolveHeadingsData(pageContext: PageContextOriginal) {
     isLandingPage,
     pageTitle,
     documentTitle,
-    // TODO: don't pass to client-side
-    activeCategory,
+    activeCategoryName,
   }
-  return pageContextAddendum
+  return conf
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {
@@ -139,13 +125,8 @@ function pageSectionToLinkData(pageSection: PageSectionResolved): LinkData {
   }
 }
 
-function getTitles(
-  activeHeading: HeadingResolved | HeadingDetachedResolved,
-  pageContext: { urlPathname: string },
-  config: Config,
-) {
-  const url = pageContext.urlPathname
-  const isLandingPage = url === '/'
+function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, urlPathname: string, config: Config) {
+  const isLandingPage = urlPathname === '/'
 
   const { title } = activeHeading
   let pageTitle = isLandingPage ? null : title
@@ -165,12 +146,11 @@ function getTitles(
 function getActiveHeading(
   headingsResolved: HeadingResolved[],
   headingsDetachedResolved: HeadingDetachedResolved[],
-  pageContext: { urlPathname: string; exports: Exports },
+  urlPathname: string,
 ) {
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   let activeCategoryName = 'Miscellaneous'
   let headingCategory: string | undefined
-  const { urlPathname } = pageContext
   assert(urlPathname)
   for (const heading of headingsResolved) {
     if (heading.level === 1) {
@@ -206,11 +186,9 @@ function getActiveHeading(
 }
 
 function getPageSectionsResolved(
-  pageContext: { exports: Exports },
+  pageSections: PageSection[],
   activeHeading: HeadingResolved | HeadingDetachedResolved,
 ): PageSectionResolved[] {
-  const pageSections = pageContext.exports.pageSectionsExport ?? []
-
   const pageSectionsResolved = pageSections.map((pageSection) => {
     const { pageSectionTitle } = pageSection
     const url: null | string = pageSection.pageSectionId === null ? null : '#' + pageSection.pageSectionId

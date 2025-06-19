@@ -3,7 +3,6 @@ export { onRenderClient }
 import React, { useEffect } from 'react'
 import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
-import { PageContextResolved } from '../config/resolvePageContext'
 import { getPageElement } from './getPageElement'
 import { closeMenuModal } from '../MenuModal/toggleMenuModal'
 import '../css/index.css'
@@ -25,13 +24,11 @@ initOnNavigation()
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()
 
-  // TODO: stop using any
-  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
   let renderPromiseResolve!: () => void
   const renderPromise = new Promise<void>((r) => {
     renderPromiseResolve = r
   })
-  let page = getPageElement(pageContext, pageContextResolved)
+  let page = getPageElement(pageContext)
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
   const container = document.getElementById('page-view')!
   if (pageContext.isHydration) {
@@ -49,9 +46,7 @@ async function onRenderClient(pageContext: PageContextClient) {
 }
 
 function applyHead(pageContext: PageContextClient) {
-  // TODO: stop using any
-  const pageContextResolved: PageContextResolved = (pageContext as any).pageContextResolved
-  document.title = pageContextResolved.documentTitle
+  document.title = pageContext.conf.documentTitle
 }
 
 function onRenderStart() {
@@ -61,7 +56,6 @@ function onRenderStart() {
 
 function onRenderDone(renderPromiseResolve: () => void) {
   autoScrollNav()
-  // TODO/refactor: use React?
   installSectionUrlHashs()
   setHydrationIsFinished()
   renderPromiseResolve()

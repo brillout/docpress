@@ -2,6 +2,7 @@ export { installSectionUrlHashs }
 
 import { assert } from './utils/client'
 
+// TO-DO/eventually: use React instead of manually installing click handlers?
 function installSectionUrlHashs() {
   {
     const isLandingPage = window.location.pathname === '/'

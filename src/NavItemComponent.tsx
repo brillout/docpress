@@ -56,7 +56,7 @@ function NavItemComponent({
       [
         `${jsxToTextContent(titleInNavJsx)} is missing a URL hash.`,
         `Add a URL hash with: \`## ${sectionTitle}{#some-hash}\`.`,
-        /* TODO/eventually: not implemented yet.
+        /* TO-DO/eventually: not implemented yet.
         `Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`,
         */
       ].join(' '),

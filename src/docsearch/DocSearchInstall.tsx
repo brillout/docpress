@@ -7,7 +7,7 @@ import { Hit } from '../components/Algolia/Hit'
 
 function DocSearchInstall() {
   const pageContext = usePageContext()
-  const { algolia } = pageContext.meta
+  const { algolia } = pageContext.globalContext.configDocpress
   if (!algolia) return null
   return (
     <div style={{ display: 'none' }}>

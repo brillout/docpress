@@ -3,9 +3,8 @@ export { determineNavItemsColumnLayout }
 // A CSS-only solution doesn't seem to exist.
 // - https://github.com/brillout/docpress/blob/2e41d8b9df098ff8312b02f7e9d41a202548e2b9/src/renderer/getStyleColumnLayout.ts#L4-L26
 
-import { type NavItem } from '../NavItemComponent'
-import { assert, assertUsage, isBrowser } from '../utils/server'
-assert(!isBrowser())
+import type { NavItem } from './NavItemComponent'
+import { assert, assertUsage } from './utils/assert'
 
 function determineNavItemsColumnLayout(navItems: NavItem[]): undefined {
   const columnLayouts = getColumnEntries(navItems)

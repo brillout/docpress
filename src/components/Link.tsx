@@ -2,11 +2,11 @@ export { Link }
 export type { LinkData }
 
 import React from 'react'
-import type { PageContextResolved } from '../config/resolvePageContext'
 import { usePageContext } from '../renderer/usePageContext'
 import { assert, assertUsage, assertWarning, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import pc from '@brillout/picocolors'
+import type { PageContext } from 'vike/types'
 
 function Link({
   href,
@@ -90,7 +90,7 @@ function getLinkTextData({
   noWarning,
 }: {
   href: string
-  pageContext: PageContextResolved
+  pageContext: PageContext
   doNotInferSectionTitle?: boolean
   noWarning?: boolean
 }) {
@@ -138,10 +138,10 @@ type LinkData = {
 }
 function findLinkData(
   href: string,
-  { pageContext, noWarning }: { pageContext: PageContextResolved; noWarning?: boolean },
+  { pageContext, noWarning }: { pageContext: PageContext; noWarning?: boolean },
 ): LinkData | null {
   assert(href.startsWith('/') || href.startsWith('#'))
-  const { linksAll } = pageContext
+  const { linksAll } = pageContext.conf
   const linkData = linksAll.find(({ url }) => href === url)
   if (href.startsWith('#')) {
     if (!noWarning) {

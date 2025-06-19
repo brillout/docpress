@@ -47,7 +47,7 @@ function transform(code: string) {
 
       if (
         line.startsWith('#')
-        /* TODO/eventually: implement.
+        /* TO-DO/eventually: implement.
         || line.startsWith('<h2')
         */
       ) {

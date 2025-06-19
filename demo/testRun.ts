@@ -1,6 +1,6 @@
 export { testRun }
 
-import { test, expect, run, fetchHtml, page, getServerUrl } from '@brillout/test-e2e'
+import { test, expect, run, fetchHtml, page, getServerUrl, autoRetry } from '@brillout/test-e2e'
 
 function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   {
@@ -12,24 +12,26 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
   const landingPageUrl = '/'
   test(landingPageUrl, async () => {
-    const html = await fetchHtml(landingPageUrl)
-    expect(getTitle(html)).toBe('DocPress Demo')
-    expect(html).toContain('Introduction')
+    await testLandingPageHtml()
     await page.goto(getServerUrl() + landingPageUrl)
+    await testLandingPageClient()
   })
-
-  const orphanURL = '/orphan'
-  test(orphanURL, async () => {
-    await page.goto(getServerUrl() + orphanURL)
-    const text = await page.textContent('body')
-    expect(text).toContain(`This page is "detached": it isn't included in the left-side navigation.`)
-    expect(text).toContain(`Another Orphan Page Without Headings.`)
-    expect(text).toContain(`Same page link for orphan page: Some SecTion.`)
-    {
-      const html = await fetchHtml(orphanURL)
-      expect(getTitle(html)).toBe('Orphan Page | Demo')
-    }
-  })
+  async function testLandingPageHtml() {
+    const html = await fetchHtml(landingPageUrl)
+    expect(getTitleHtml(html)).toBe('DocPress Demo')
+    expect(html).toContain('Introduction')
+    expect(html).toContain('<meta property="og:type" content="website">')
+    expect(html).toContain('<meta property="og:title" content="DocPress Demo">')
+    expect(html).toContain('<meta property="og:url" content="fake-website.example.org">')
+    expect(html).toContain('<meta property="og:description" content="DocPress Demonstration.">')
+    expect(html).toContain('<meta name="twitter:site" content="fake-twitter-handle">')
+    expectAlgoliaCategory(html, 'Overview', 1)
+  }
+  async function testLandingPageClient() {
+    expect(await page.textContent('h1')).toBe('Next Generation Docs')
+    expect(await page.textContent('body')).toContain('This demo is used for testing and developing DocPress.')
+    expect(await getTitleClient()).toBe('DocPress Demo')
+  }
 
   const featuresURL = '/features'
   test(featuresURL, async () => {
@@ -44,12 +46,58 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain('Basic (same-page link, sub heading)')
     {
       const html = await fetchHtml(featuresURL)
-      expect(getTitle(html)).toBe('Features | Demo')
+      expect(getTitleHtml(html)).toBe('Features | Demo')
+      expect(await getTitleClient()).toBe('Features | Demo')
+      expectAlgoliaCategory(html, 'Overview', 1)
     }
+  })
+
+  const orphanURL = '/orphan'
+  test(orphanURL, async () => {
+    await page.goto(getServerUrl() + orphanURL)
+    const text = await page.textContent('body')
+    expect(text).toContain(`This page is "detached": it isn't included in the left-side navigation.`)
+    expect(text).toContain(`Another Orphan Page Without Headings.`)
+    expect(text).toContain(`Same page link for orphan page: Some SecTion.`)
+    {
+      const html = await fetchHtml(orphanURL)
+      expect(getTitleHtml(html)).toBe('Orphan Page | Demo')
+      expectAlgoliaCategory(html, 'Guides', 0)
+    }
+  })
+
+  const orphan2URL = '/orphan-2'
+  test(orphan2URL, async () => {
+    const html = await fetchHtml(orphan2URL)
+    expect(getTitleHtml(html)).toBe('Orphan Page Without Headings | Demo')
+    expect(html).toContain('Orphan Page Without Heading')
+    expect(html).toContain('<meta name="algolia:category" content="Guides 2"><meta name="algolia:category:hide">')
+  })
+
+  test('client-side navigation', async () => {
+    await page.click('#nav-left a[href="/"]')
+    await autoRetry(
+      async () => {
+        await testLandingPageClient()
+      },
+      { timeout: 5 * 1000 },
+    )
   })
 }
 
-function getTitle(html: string) {
-  const title = html.match(/<title>(.*?)<\/title>/i)?.[1]
-  return title
+function getTitleHtml(html: string) {
+  const titleHtml = html.match(/<title>(.*?)<\/title>/i)?.[1]
+  return titleHtml
+}
+async function getTitleClient() {
+  const titleClient = await page.evaluate(() => window.document.title)
+  return titleClient
+}
+
+function expectAlgoliaCategory(html: string, category: string, order: number) {
+  expect(html.split('algolia:category:order').length).toBe(2)
+  expect(html.split('algolia:category"').length).toBe(2)
+  expect(html).toContain(
+    `<meta name="algolia:category" content="${category}"><meta name="algolia:category:order" content="${order}">`,
+  )
 }

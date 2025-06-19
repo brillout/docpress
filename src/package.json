@@ -7,9 +7,8 @@
     "// Build vite.config.ts and +config.ts (other files don't need to be built as @brillout/docpress is noExternal)": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
     "======== Develop": "",
-    "dev": "tsc --watch --project tsconfig.config.json",
-    "// Check types of all source files while developing": "",
-    "typecheck": "tsc --noEmit --watch",
+    "// Typecheck + build vite.config.ts and +config.ts": "",
+    "dev": "tsc --watch",
     "========= Release": "",
     "release": "release-me patch",
     "release:minor": "release-me minor",
@@ -23,18 +22,18 @@
     "@mdx-js/react": "3.0.1",
     "@mdx-js/rollup": "3.0.1",
     "@shikijs/transformers": "1.2.0",
-    "@vitejs/plugin-react-swc": ">=3.0.0",
+    "@vitejs/plugin-react-swc": "^3.10.2",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0",
-    "vite": ">=5.2.0"
+    "vite": "^6.3.5"
   },
   "peerDependencies": {
     "@vitejs/plugin-react-swc": ">=3.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "typescript": ">=5.0.0",
-    "vike": ">=0.4.222",
+    "vike": ">=0.4.233",
     "vite": ">=5.2.0"
   },
   "peerDependenciesMeta": {
@@ -48,8 +47,8 @@
   "exports": {
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
-    "./renderer/onBeforeRender": "./renderer/onBeforeRender.ts",
-    "./Layout": "./Layout.tsx",
+    "./renderer/onCreateGlobalContext": "./renderer/onCreateGlobalContext.server.ts",
+    "./renderer/onCreatePageContext": "./renderer/onCreatePageContext.ts",
     ".": "./index.ts",
     "./config": "./dist/+config.js",
     "./style": "./css/index.css",

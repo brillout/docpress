@@ -14,14 +14,10 @@ import type {
   HeadingDetachedResolved,
 } from '../types/Heading'
 import { assert } from '../utils/assert'
-import { isBrowser } from '../utils/isBrowser'
 import { jsxToTextContent } from '../utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColumnLayout'
-/* TODO/now
-assert(!isBrowser())
-*/
 
 // TODO rename/remove
 type PageContextResolved = ReturnType<typeof resolveHeadings>

@@ -47,7 +47,6 @@
   "exports": {
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
-    "./renderer/onCreateGlobalContext": "./renderer/onCreateGlobalContext.server.ts",
     "./renderer/onCreatePageContext": "./renderer/onCreatePageContext.ts",
     ".": "./index.ts",
     "./config": "./dist/+config.js",

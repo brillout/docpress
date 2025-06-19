@@ -13,7 +13,6 @@ const config = {
   prerender: { noExtraDir: true },
   onRenderHtml: 'import:@brillout/docpress/renderer/onRenderHtml:onRenderHtml',
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
-  onCreateGlobalContext: 'import:@brillout/docpress/renderer/onCreateGlobalContext:onCreateGlobalContext',
   onCreatePageContext: 'import:@brillout/docpress/renderer/onCreatePageContext:onCreatePageContext',
   clientRouting: true,
   hydrationCanBeAborted: true,

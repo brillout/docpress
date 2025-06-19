@@ -287,7 +287,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     projectInfo: { projectName },
   } = pageContext.globalContext.configDocpress
 
-  const TopNavigation = pageContext.config.TopNavigation || PassThrough
   const navSecondaryContent = (
     <div
       className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}
@@ -306,7 +305,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             }),
       }}
     >
-      <TopNavigation />
+      {pageContext.globalContext.config.docpress.TopNavigation}
       {!isNavLeft && <div className="desktop-grow" />}
       <ExternalLinks
         style={{

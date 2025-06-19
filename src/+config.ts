@@ -22,10 +22,6 @@ const config = {
     'configDocpress',
   ],
   meta: {
-    // TODO/now/+docpress-isomorphic: remove
-    TopNavigation: {
-      env: { client: true, server: true },
-    },
     docpress: {
       env: { server: true, client: true },
       global: true,
@@ -45,7 +41,6 @@ declare global {
       conf: Conf
     }
     interface Config {
-      TopNavigation?: ReactComponent
       docpress?: DocpressConfig
     }
     interface ConfigResolved {

@@ -4,11 +4,10 @@ import type { PageContext } from 'vike/types'
 import { PageContextProvider } from './usePageContext'
 import React from 'react'
 import { DocSearchInstall } from '../docsearch/DocSearchInstall'
-import { PassThrough } from '../utils/PassTrough'
+import { Layout } from '../Layout'
 
 function getPageElement(pageContext: PageContext) {
   const { Page } = pageContext
-  const Layout = pageContext.config.Layout || PassThrough
   const page = (
     <Wrapper {...{ pageContext }}>
       <Layout>

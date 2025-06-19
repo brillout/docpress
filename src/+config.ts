@@ -15,7 +15,6 @@ const config = {
   onRenderClient: 'import:@brillout/docpress/renderer/onRenderClient:onRenderClient',
   onCreateGlobalContext: 'import:@brillout/docpress/renderer/onCreateGlobalContext:onCreateGlobalContext',
   onCreatePageContext: 'import:@brillout/docpress/renderer/onCreatePageContext:onCreatePageContext',
-  Layout: 'import:@brillout/docpress/Layout:Layout',
   clientRouting: true,
   hydrationCanBeAborted: true,
   passToClient: [
@@ -23,10 +22,6 @@ const config = {
     'configDocpress',
   ],
   meta: {
-    // TODO/now: remove?
-    Layout: {
-      env: { client: true, server: true },
-    },
     // TODO/now: remove?
     TopNavigation: {
       env: { client: true, server: true },
@@ -50,7 +45,6 @@ declare global {
       conf: Conf
     }
     interface Config {
-      Layout?: ReactComponent | null | ImportString
       TopNavigation?: ReactComponent
       docpress?: DocpressConfig
     }

@@ -305,7 +305,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             }),
       }}
     >
-      {pageContext.globalContext.config.docpress.TopNavigation}
+      {pageContext.globalContext.config.docpress.topNavigation}
       {!isNavLeft && <div className="desktop-grow" />}
       <ExternalLinks
         style={{

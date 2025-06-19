@@ -34,7 +34,7 @@ const config: Config = {
   websiteUrl: 'fake-website.example.org',
   twitterHandle: 'fake-twitter-handle',
   // globalNote: <GlobalNoteWarning />,
-  TopNavigation: <TopNavigation />,
+  topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
 }
 

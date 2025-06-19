@@ -30,7 +30,7 @@ type Config = {
   bannerUrl?: string
   twitterHandle: string
   globalNote?: React.ReactNode
-  TopNavigation?: React.ReactNode
+  topNavigation?: React.ReactNode
   i18n?: true
   pressKit?: true
   sponsorGithubAccount?: string

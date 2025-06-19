@@ -1,5 +1,5 @@
 export { resolveConf }
-export type { Conf }
+export type Conf = ReturnType<typeof resolveConf>
 
 import type { Config } from './types/Config'
 import type { NavItem } from './NavItemComponent'
@@ -17,8 +17,6 @@ import { jsxToTextContent } from './utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from './parseMarkdownMini'
 import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
-
-type Conf = ReturnType<typeof resolveConf>
 
 type PageSectionResolved = {
   url: string | null

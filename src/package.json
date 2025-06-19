@@ -22,14 +22,14 @@
     "@mdx-js/react": "3.0.1",
     "@mdx-js/rollup": "3.0.1",
     "@shikijs/transformers": "1.2.0",
-    "@vitejs/plugin-react-swc": "^3.10.2",
+    "@vitejs/plugin-react": "^4.5.2",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0",
     "vite": "^6.3.5"
   },
   "peerDependencies": {
-    "@vitejs/plugin-react-swc": ">=3.0.0",
+    "@vitejs/plugin-react": ">=4.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "typescript": ">=5.0.0",
@@ -37,7 +37,7 @@
     "vite": ">=5.2.0"
   },
   "peerDependenciesMeta": {
-    "@vitejs/plugin-react-swc": {
+    "@vitejs/plugin-react": {
       "optional": true
     },
     "vite": {

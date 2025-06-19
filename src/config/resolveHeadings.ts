@@ -1,4 +1,4 @@
-export { resolveHeadingsData }
+export { resolveHeadings }
 export type { ActiveCategory }
 export type { PageContextResolved }
 
@@ -23,7 +23,7 @@ import { determineNavItemsColumnLayout } from '../renderer/determineNavItemsColu
 assert(!isBrowser())
 */
 
-type PageContextResolved = ReturnType<typeof resolveHeadingsData>
+type PageContextResolved = ReturnType<typeof resolveHeadings>
 
 type PageSectionResolved = {
   url: string | null
@@ -39,7 +39,7 @@ type ActiveCategory = {
   hide?: boolean
 }
 
-function resolveHeadingsData(pageContext: PageContextServer) {
+function resolveHeadings(pageContext: PageContextServer) {
   const config = pageContext.globalContext.configDocpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []

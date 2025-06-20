@@ -484,6 +484,7 @@ function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
   const iconSize = pageContext.globalContext.config.docpress.navLogoSize ?? 39
   const { name } = pageContext.globalContext.config.docpress
+
   return (
     <a
       className={cls(['nav-logo', className])}
@@ -502,12 +503,7 @@ function NavLogo({ className }: { className: string }) {
           width: iconSize,
           ...pageContext.globalContext.config.docpress.navLogoStyle,
         }}
-        onContextMenu={(ev) => {
-          if (!pageContext.globalContext.config.docpress.pressKit) return // no /press page
-          if (window.location.pathname === '/press') return
-          ev.preventDefault()
-          navigate('/press#logo')
-        }}
+        onContextMenu={onContextMenu}
       />
       <span
         style={{
@@ -520,6 +516,13 @@ function NavLogo({ className }: { className: string }) {
       </span>
     </a>
   )
+
+  function onContextMenu(ev: React.MouseEvent<HTMLImageElement, MouseEvent>) {
+    if (!pageContext.globalContext.config.docpress.pressKit) return // no /press page
+    if (window.location.pathname === '/press') return
+    ev.preventDefault()
+    navigate('/press#logo')
+  }
 }
 function isProjectNameShort(name: string) {
   return name.length <= 4

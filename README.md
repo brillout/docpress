@@ -1,3 +1,5 @@
+# DocPress
+
 Documentation website builder.
 
 Used for:
@@ -6,9 +8,21 @@ Used for:
 
 Don't use this: this package isn't meant for others to use. It's only meant to be used by Vike and Telefunc. That said, feel free to fork this project.
 
-# Algolia DocSearch: Custom Crawler Configs
+## GitHub Pages Integration
 
-## [vike.dev](https://vike.dev) / [telefunc.com](https://telefunc.com) template
+1. Add GitHub workflow: [.github/workflows/website.yml](https://github.com/brillout/telefunc/blob/main/.github/workflows/website.yml).
+1. Change DNS settings of domain name to add following `A` records:
+   ```
+   A     @     185.199.108.153
+   A     @     185.199.109.153
+   A     @     185.199.110.153
+   A     @     185.199.111.153
+   ```
+   See also: [GitHub Docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+
+## Algolia DocSearch: Custom Crawler Configs
+
+### [vike.dev](https://vike.dev) / [telefunc.com](https://telefunc.com) template
 
 <details>
 <summary>vike-crawler.js</summary>
@@ -133,7 +147,7 @@ new Crawler({
 </div>
 </details>
 
-## diff [default-crawler.js](https://docsearch.algolia.com/docs/templates/#default-template) vike-crawler.js
+### diff [default-crawler.js](https://docsearch.algolia.com/docs/templates/#default-template) vike-crawler.js
 
 <details>
 <summary>diff default-crawler.js vike-crawler.js</summary>

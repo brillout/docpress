@@ -30,13 +30,16 @@ type Config = {
   i18n?: true
   pressKit?: true
   docsDir?: string
+  navMaxWidth?: number
 
   topNavigation?: React.ReactNode
-  globalNote?: React.ReactNode
-  navMaxWidth?: number
+
+  navLogo?: React.ReactNode
   navLogoSize?: number
   navLogoStyle?: React.CSSProperties
   navLogoTextStyle?: React.CSSProperties
+
+  globalNote?: React.ReactNode
 }
 
 /** Order in Algolia search results */

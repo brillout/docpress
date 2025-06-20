@@ -482,8 +482,36 @@ function NavHeaderLeftFullWidthBackground() {
 
 function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
-  const iconSize = pageContext.globalContext.config.docpress.navLogoSize ?? 39
-  const { name } = pageContext.globalContext.config.docpress
+
+  const { navLogo } = pageContext.globalContext.config.docpress
+  let navLogoResolved = navLogo
+  if (!navLogoResolved) {
+    const iconSize = pageContext.globalContext.config.docpress.navLogoSize ?? 39
+    const { name, logo, navLogoStyle, navLogoTextStyle } = pageContext.globalContext.config.docpress
+    navLogoResolved = (
+      <>
+        <img
+          src={logo}
+          style={{
+            height: iconSize,
+            width: iconSize,
+            ...navLogoStyle,
+          }}
+          onContextMenu={onContextMenu}
+        />
+        <span
+          style={{
+            marginLeft: `calc(var(--icon-text-padding) + 2px)`,
+            fontSize: isProjectNameShort(name) ? '1.65em' : '1.3em',
+            ...navLogoTextStyle,
+          }}
+        >
+          {name}
+        </span>
+      </>
+    )
+  }
+
   return (
     <a
       className={cls(['nav-logo', className])}
@@ -494,32 +522,18 @@ function NavLogo({ className }: { className: string }) {
         color: 'inherit',
       }}
       href="/"
+      onContextMenu={!navLogo ? undefined : onContextMenu}
     >
-      <img
-        src={pageContext.globalContext.config.docpress.logo}
-        style={{
-          height: iconSize,
-          width: iconSize,
-          ...pageContext.globalContext.config.docpress.navLogoStyle,
-        }}
-        onContextMenu={(ev) => {
-          if (!pageContext.globalContext.config.docpress.pressKit) return // no /press page
-          if (window.location.pathname === '/press') return
-          ev.preventDefault()
-          navigate('/press#logo')
-        }}
-      />
-      <span
-        style={{
-          marginLeft: `calc(var(--icon-text-padding) + 2px)`,
-          fontSize: isProjectNameShort(name) ? '1.65em' : '1.3em',
-          ...pageContext.globalContext.config.docpress.navLogoTextStyle,
-        }}
-      >
-        {name}
-      </span>
+      {navLogoResolved}
     </a>
   )
+
+  function onContextMenu(ev: React.MouseEvent<unknown, MouseEvent>) {
+    if (!pageContext.globalContext.config.docpress.pressKit) return // no /press page
+    if (window.location.pathname === '/press') return
+    ev.preventDefault()
+    navigate('/press#logo')
+  }
 }
 function isProjectNameShort(name: string) {
   return name.length <= 4

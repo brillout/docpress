@@ -1,38 +1,39 @@
 export { config as default }
 
 import type { Config } from '@brillout/docpress'
-import logoUrl from './assets/logo.svg'
-import faviconUrl from './assets/favicon.svg'
+import logo from './assets/logo.svg'
+import favicon from './assets/favicon.svg'
 import { headings, headingsDetached, categories } from './headings'
 import { TopNavigation } from './TopNavigation'
 import React from 'react'
 
 const config: Config = {
-  projectInfo: {
-    projectName: 'Demo' as const,
-    projectVersion: '0.4.200',
-    githubRepository: 'https://github.com/brillout/docpress' as const,
-    githubIssues: 'https://github.com/brillout/docpress/issues/new' as const,
-    twitterProfile: 'https://twitter.com/brillout' as const,
-    discordInvite: 'https://example.org/some-discord-invite',
-    blueskyHandle: 'vike.dev',
-  },
-  docsDir: 'packages/example.org',
-  logoUrl,
-  faviconUrl,
+  name: 'Demo',
+  version: '0.4.200',
+  url: 'fake-website.example.org',
+  tagline: 'DocPress Demonstration.',
+  logo,
+  favicon,
+
+  github: 'https://github.com/brillout/docpress',
+  discord: 'https://example.org/some-discord-invite',
+  twitter: '@brillout',
+  bluesky: 'vike.dev',
+
+  headings,
+  headingsDetached,
+  categories,
+
   algolia: {
     appId: 'YMV9Y4B58S',
     apiKey: '9ac178c1a29ba00e8afb98365015f677',
     indexName: 'vike',
   },
+
   // i18n: true,
   pressKit: true,
-  tagline: 'DocPress Demonstration.',
-  headings,
-  headingsDetached,
-  categories,
-  websiteUrl: 'fake-website.example.org',
-  twitterHandle: 'fake-twitter-handle',
+  docsDir: 'packages/example.org',
+
   // globalNote: <GlobalNoteWarning />,
   topNavigation: <TopNavigation />,
   navMaxWidth: 1140,

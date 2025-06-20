@@ -24,9 +24,8 @@ function getRepoHref(path: string, editMode = false) {
     path = '/' + path
   }
   const viewMode = path.endsWith('/') && !editMode ? 'tree' : 'blob'
-  const { githubRepository } = pageContext.globalContext.config.docpress.projectInfo
-  assert(githubRepository.startsWith('https://github.com/'))
-  let href = `${githubRepository}/${viewMode}/main${path}`
+  const { github } = pageContext.globalContext.config.docpress
+  let href = `${github}/${viewMode}/main${path}`
   if (editMode) href += '?plain=1'
   return href
 }

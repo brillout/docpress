@@ -24,7 +24,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(html).toContain('<meta property="og:title" content="DocPress Demo">')
     expect(html).toContain('<meta property="og:url" content="fake-website.example.org">')
     expect(html).toContain('<meta property="og:description" content="DocPress Demonstration.">')
-    expect(html).toContain('<meta name="twitter:site" content="fake-twitter-handle">')
+    expect(html).toContain('<meta name="twitter:site" content="@brillout">')
     expectAlgoliaCategory(html, 'Overview', 1)
   }
   async function testLandingPageClient() {

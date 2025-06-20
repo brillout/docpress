@@ -18,8 +18,7 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
-  const faviconUrl =
-    pageContext.globalContext.config.docpress.faviconUrl ?? pageContext.globalContext.config.docpress.logoUrl
+  const faviconUrl = pageContext.globalContext.config.docpress.favicon ?? pageContext.globalContext.config.docpress.logo
   assert(faviconUrl)
 
   const { documentTitle } = pageContext.conf
@@ -74,20 +73,20 @@ function getActiveCategory(pageContext: PageContextServer) {
 }
 
 function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
-  const { tagline, websiteUrl, twitterHandle, bannerUrl } = config
+  const { tagline, url: websiteUrl, twitter, banner } = config
   assert(url.startsWith('/'))
-  assertUsage(!twitterHandle || twitterHandle.startsWith('@'), `twitter handle must start with @`)
+  assertUsage(!twitter || twitter.startsWith('@'), `twitter handle must start with @`)
 
-  const metaBanner = !bannerUrl
+  const metaBanner = !banner
     ? ''
     : escapeInject`
-    <meta property="og:image" content="${bannerUrl}">
+    <meta property="og:image" content="${banner}">
     <meta name="twitter:card" content="summary_large_image">
   `
-  const metaTwitter = !twitterHandle
+  const metaTwitter = !twitter
     ? ''
     : escapeInject`
-    <meta name="twitter:site" content="${twitterHandle}">
+    <meta name="twitter:site" content="${twitter}">
   `
   // See view-source:https://vitejs.dev/
   return escapeInject`

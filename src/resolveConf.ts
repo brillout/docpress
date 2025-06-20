@@ -133,7 +133,7 @@ function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, url
   let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseMarkdownMini(title))
 
   if (!isLandingPage) {
-    documentTitle += ' | ' + config.projectInfo.projectName
+    documentTitle += ' | ' + config.name
   }
 
   if (isLandingPage) {

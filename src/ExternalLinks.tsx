@@ -12,7 +12,7 @@ import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const { projectInfo, i18n, twitterHandle } = pageContext.globalContext.config.docpress
+  const { github, discord, bluesky, i18n, twitter } = pageContext.globalContext.config.docpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
@@ -31,20 +31,10 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
       }}
     >
       {iconI18n}
-      {projectInfo.discordInvite && (
-        <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
-      )}
-      {twitterHandle && (
-        <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitterHandle.slice(1)}`} />
-      )}
-      {projectInfo.blueskyHandle && (
-        <LinkIcon
-          className="decolorize-6"
-          icon={iconBluesky}
-          href={`https://bsky.app/profile/${projectInfo.blueskyHandle}`}
-        />
-      )}
-      <LinkIcon className="decolorize-4" icon={iconGithub} href={projectInfo.githubRepository} />
+      {discord && <LinkIcon className="decolorize-6" icon={iconDiscord} href={discord} />}
+      {twitter && <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} />}
+      {bluesky && <LinkIcon className="decolorize-6" icon={iconBluesky} href={`https://bsky.app/profile/${bluesky}`} />}
+      <LinkIcon className="decolorize-4" icon={iconGithub} href={github} />
       <ChangelogButton />
     </div>
   )
@@ -52,10 +42,10 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
 
 function ChangelogButton() {
   const pageContext = usePageContext()
-  const { projectInfo } = pageContext.globalContext.config.docpress
+  const { version, github } = pageContext.globalContext.config.docpress
   return (
     <a
-      href={`${projectInfo.githubRepository}/blob/main/CHANGELOG.md`}
+      href={`${github}/blob/main/CHANGELOG.md`}
       className="colorize-on-hover"
       style={{
         display: 'flex',
@@ -74,7 +64,7 @@ function ChangelogButton() {
         }}
       >
         <span id="version-number" className="decolorize-7">
-          v{projectInfo.projectVersion}
+          v{version}
         </span>
         <img className="decolorize-6" src={iconChangelog} height={16} style={{ marginLeft: 6 }} />
       </div>

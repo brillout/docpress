@@ -282,10 +282,7 @@ const menuLinkStyle: React.CSSProperties = {
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.conf
-  const {
-    navMaxWidth,
-    projectInfo: { projectName },
-  } = pageContext.globalContext.config.docpress
+  const { navMaxWidth, name } = pageContext.globalContext.config.docpress
 
   const navSecondaryContent = (
     <div
@@ -345,7 +342,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             maxWidth: navMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
-            fontSize: `min(15.2px, ${isProjectNameShort(projectName) ? '4.8cqw' : '4.5cqw'})`,
+            fontSize: `min(15.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
             ['--icon-text-padding']: 'min(8px, 1.8cqw)',
             display: 'flex',
@@ -487,7 +484,7 @@ function NavHeaderLeftFullWidthBackground() {
 function NavLogo({ className }: { className: string }) {
   const pageContext = usePageContext()
   const iconSize = pageContext.globalContext.config.docpress.navLogoSize ?? 39
-  const { projectName } = pageContext.globalContext.config.docpress.projectInfo
+  const { name } = pageContext.globalContext.config.docpress
   return (
     <a
       className={cls(['nav-logo', className])}
@@ -500,7 +497,7 @@ function NavLogo({ className }: { className: string }) {
       href="/"
     >
       <img
-        src={pageContext.globalContext.config.docpress.logoUrl}
+        src={pageContext.globalContext.config.docpress.logo}
         style={{
           height: iconSize,
           width: iconSize,
@@ -516,17 +513,17 @@ function NavLogo({ className }: { className: string }) {
       <span
         style={{
           marginLeft: `calc(var(--icon-text-padding) + 2px)`,
-          fontSize: isProjectNameShort(projectName) ? '1.65em' : '1.3em',
+          fontSize: isProjectNameShort(name) ? '1.65em' : '1.3em',
           ...pageContext.globalContext.config.docpress.navLogoTextStyle,
         }}
       >
-        {projectName}
+        {name}
       </span>
     </a>
   )
 }
-function isProjectNameShort(projectName: string) {
-  return projectName.length <= 4
+function isProjectNameShort(name: string) {
+  return name.length <= 4
 }
 
 let onMouseIgnore: ReturnType<typeof setTimeout> | undefined

@@ -12,7 +12,7 @@ import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const { projectInfo, i18n } = pageContext.globalContext.config.docpress
+  const { projectInfo, i18n, twitterHandle } = pageContext.globalContext.config.docpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
@@ -34,7 +34,9 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
       {projectInfo.discordInvite && (
         <LinkIcon className="decolorize-6" icon={iconDiscord} href={projectInfo.discordInvite} />
       )}
-      <LinkIcon className="decolorize-4" icon={iconTwitter} href={projectInfo.twitterProfile} />
+      {twitterHandle && (
+        <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitterHandle.slice(1)}`} />
+      )}
       {projectInfo.blueskyHandle && (
         <LinkIcon
           className="decolorize-6"

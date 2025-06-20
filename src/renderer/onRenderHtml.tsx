@@ -2,7 +2,7 @@ export { onRenderHtml }
 
 import ReactDOMServer from 'react-dom/server'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
-import { assert } from '../utils/server'
+import { assert, assertUsage } from '../utils/server'
 import { getPageElement } from './getPageElement'
 import type { PageContextServer } from 'vike/types'
 
@@ -75,10 +75,11 @@ function getActiveCategory(pageContext: PageContextServer) {
 function getOpenGraphTags(
   url: string,
   documentTitle: string,
-  meta: { tagline: string; websiteUrl: string; twitterHandle: string; bannerUrl?: string },
+  meta: { tagline: string; websiteUrl: string; twitterHandle?: string; bannerUrl?: string },
 ) {
   const { tagline, websiteUrl, twitterHandle, bannerUrl } = meta
   assert(url.startsWith('/'))
+  assertUsage(!twitterHandle || twitterHandle.startsWith('@'), `twitter handle must start with @`)
 
   const metaBanner = !bannerUrl
     ? ''

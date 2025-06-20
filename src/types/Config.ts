@@ -10,7 +10,7 @@ type Config = {
     projectName: string
     projectVersion: string
     discordInvite?: string
-    twitterProfile: string
+    twitterProfile?: string
     blueskyHandle?: string
   }
   docsDir?: string
@@ -28,7 +28,7 @@ type Config = {
   tagline: string
   websiteUrl: string
   bannerUrl?: string
-  twitterHandle: string
+  twitterHandle?: string
   globalNote?: React.ReactNode
   topNavigation?: React.ReactNode
   i18n?: true

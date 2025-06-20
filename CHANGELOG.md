@@ -1,3 +1,18 @@
+# [0.15.0](https://github.com/brillout/docpress/compare/v0.14.0...v0.15.0) (2025-06-20)
+
+
+### Bug Fixes
+
+* dedupe & optional twitter ([749ba0d](https://github.com/brillout/docpress/commit/749ba0d91b0ab1284293a4cf1ff301f23e7a0da6))
+* polish +docpress interface ([5f1341c](https://github.com/brillout/docpress/commit/5f1341c8dcf2532b381dc1ff7b049a7442ed446e))
+
+
+### BREAKING CHANGES
+
+* update +docpress
+
+
+
 # [0.14.0](https://github.com/brillout/docpress/compare/v0.13.2...v0.14.0) (2025-06-19)
 
 

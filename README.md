@@ -10,7 +10,6 @@ Don't use this: this package isn't meant for others to use. It's only meant to b
 
 ## GitHub Pages Integration
 
-1. Add GitHub workflow: [.github/workflows/website.yml](https://github.com/brillout/telefunc/blob/main/.github/workflows/website.yml).
 1. Change DNS settings of domain name to add following `A` records:
    ```
    A     @     185.199.108.153
@@ -19,6 +18,8 @@ Don't use this: this package isn't meant for others to use. It's only meant to b
    A     @     185.199.111.153
    ```
    See also: [GitHub Docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+1. Add GitHub workflow: [.github/workflows/website.yml](https://github.com/brillout/telefunc/blob/main/.github/workflows/website.yml).
+1. Configure `GitHub Settings` > `Pages`
 
 ## Algolia DocSearch: Custom Crawler Configs
 

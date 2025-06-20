@@ -34,6 +34,7 @@ type Config = {
 
   topNavigation?: React.ReactNode
 
+  navLogo?: React.ReactNode
   navLogoSize?: number
   navLogoStyle?: React.CSSProperties
   navLogoTextStyle?: React.CSSProperties

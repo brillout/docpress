@@ -31,8 +31,8 @@ type Config = {
   pressKit?: true
   docsDir?: string
 
-  globalNote?: React.ReactNode
   topNavigation?: React.ReactNode
+  globalNote?: React.ReactNode
   navMaxWidth?: number
   navLogoSize?: number
   navLogoStyle?: React.CSSProperties

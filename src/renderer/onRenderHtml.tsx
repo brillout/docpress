@@ -5,6 +5,7 @@ import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 import { assert, assertUsage } from '../utils/server'
 import { getPageElement } from './getPageElement'
 import type { PageContextServer } from 'vike/types'
+import type { Config } from '../types/Config'
 
 async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   const page = getPageElement(pageContext)
@@ -72,12 +73,8 @@ function getActiveCategory(pageContext: PageContextServer) {
   return activeCategory
 }
 
-function getOpenGraphTags(
-  url: string,
-  documentTitle: string,
-  meta: { tagline: string; websiteUrl: string; twitterHandle?: string; bannerUrl?: string },
-) {
-  const { tagline, websiteUrl, twitterHandle, bannerUrl } = meta
+function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
+  const { tagline, websiteUrl, twitterHandle, bannerUrl } = config
   assert(url.startsWith('/'))
   assertUsage(!twitterHandle || twitterHandle.startsWith('@'), `twitter handle must start with @`)
 

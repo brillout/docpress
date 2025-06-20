@@ -18,7 +18,6 @@ import { autoScrollNav_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
-import { PassThrough } from './utils/PassTrough'
 import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
@@ -282,7 +281,7 @@ const menuLinkStyle: React.CSSProperties = {
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.conf
-  const { navMaxWidth, name } = pageContext.globalContext.config.docpress
+  const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
 
   const navSecondaryContent = (
     <div
@@ -351,7 +350,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         >
           <NavLogo className="grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
-          <SearchLink className="grow-half" style={menuLinkStyle} />
+          {algolia && <SearchLink className="grow-half" style={menuLinkStyle} />}
           <MenuToggleMain className="grow-full" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>

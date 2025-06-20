@@ -1,3 +1,12 @@
+## [0.15.2](https://github.com/brillout/docpress/compare/v0.15.1...v0.15.2) (2025-06-20)
+
+
+### Features
+
+* +docpress.navLogo ([#43](https://github.com/brillout/docpress/issues/43)) ([6360bb5](https://github.com/brillout/docpress/commit/6360bb576ec0386dfb9ca30e7794f54ee0e3bd32))
+
+
+
 ## [0.15.1](https://github.com/brillout/docpress/compare/v0.15.0...v0.15.1) (2025-06-20)
 
 

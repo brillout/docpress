@@ -29,6 +29,7 @@ const config: Config = {
     apiKey: '9ac178c1a29ba00e8afb98365015f677',
     indexName: 'vike',
   },
+  googleAnalytics: '123456',
 
   // i18n: true,
   pressKit: true,

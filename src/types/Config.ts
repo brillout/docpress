@@ -26,6 +26,7 @@ type Config = {
     apiKey: string
     indexName: string
   }
+  googleAnalytics?: string
 
   i18n?: true
   pressKit?: true

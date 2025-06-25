@@ -12,9 +12,11 @@ import { getGlobalObject } from '../utils/client'
 import { initKeyBindings } from '../initKeyBindings'
 import { initOnNavigation } from './initOnNavigation'
 import { setHydrationIsFinished } from './getHydrationPromise'
+import { addScript } from '../utils/addScript'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
+  isNotFirstRender?: true
 }>('onRenderClient.ts', {})
 
 addEcosystemStamp()
@@ -49,6 +51,9 @@ async function onRenderClient(pageContext: PageContextClient) {
   autoScrollNav()
   installSectionUrlHashs()
   setHydrationIsFinished()
+  initGoogleAnalytics(pageContext)
+
+  globalObject.isNotFirstRender = true
 }
 
 function applyHead(pageContext: PageContextClient) {
@@ -74,4 +79,28 @@ function OnRenderDoneHook({
 // - https://github.com/vikejs/vike/blob/87cca54f30b3c7e71867763d5723493d7eef37ab/vike/client/client-routing-runtime/prefetch.ts#L309-L312
 function addEcosystemStamp() {
   ;(window as any)._isBrilloutDocpress = true
+}
+
+async function initGoogleAnalytics(pageContext: PageContextClient) {
+  const isFirstRender = !globalObject.isNotFirstRender
+  const id = pageContext.config.docpress.googleAnalytics
+
+  if (!id) return
+  if (isFirstRender) await installGoogleAnalytics(id)
+}
+async function installGoogleAnalytics(id: string) {
+  window.dataLayer = window.dataLayer || []
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments)
+  }
+  window.gtag('js', new Date())
+  window.gtag('config', id)
+
+  await addScript(`https://www.googletagmanager.com/gtag/js?id=${id}`)
+}
+declare global {
+  interface Window {
+    dataLayer: any[]
+    gtag: (...args: any[]) => void
+  }
 }

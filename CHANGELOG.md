@@ -1,3 +1,12 @@
+## [0.15.4](https://github.com/brillout/docpress/compare/v0.15.3...v0.15.4) (2025-06-25)
+
+
+### Bug Fixes
+
+* fix GA ([cecf5c7](https://github.com/brillout/docpress/commit/cecf5c77c66d075fed2a851297b2927422d1210f))
+
+
+
 ## [0.15.3](https://github.com/brillout/docpress/compare/v0.15.2...v0.15.3) (2025-06-25)
 
 

@@ -1,5 +1,5 @@
-export { resolveConf }
-export type Conf = ReturnType<typeof resolveConf>
+export { resolvePageContext }
+export type Resolved = ReturnType<typeof resolvePageContext>
 
 import type { Config } from './types/Config'
 import type { NavItem } from './NavItemComponent'
@@ -26,7 +26,7 @@ type PageSectionResolved = {
   pageSectionLevel: number
 }
 
-function resolveConf(pageContext: PageContextServer) {
+function resolvePageContext(pageContext: PageContextServer) {
   const config = pageContext.globalContext.config.docpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []
@@ -36,9 +36,9 @@ function resolveConf(pageContext: PageContextServer) {
     assertHeadingsDefinition([...headings, ...headingsDetached])
   }
 
-  const resolved = getHeadingsResolved(config)
-  const { headingsDetachedResolved } = resolved
-  let { headingsResolved } = resolved
+  const ret = getHeadingsResolved(config)
+  const { headingsDetachedResolved } = ret
+  let { headingsResolved } = ret
 
   const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,
@@ -76,7 +76,7 @@ function resolveConf(pageContext: PageContextServer) {
     }
   }
 
-  const conf = {
+  const resolved = {
     navItemsAll,
     navItemsDetached,
     pageDesign: activeHeading.pageDesign,
@@ -86,7 +86,7 @@ function resolveConf(pageContext: PageContextServer) {
     documentTitle,
     activeCategoryName,
   }
-  return conf
+  return resolved
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {

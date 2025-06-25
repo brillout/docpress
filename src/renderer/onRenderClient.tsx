@@ -46,7 +46,7 @@ async function onRenderClient(pageContext: PageContextClient) {
 }
 
 function applyHead(pageContext: PageContextClient) {
-  document.title = pageContext.conf.documentTitle
+  document.title = pageContext.resolved.documentTitle
 }
 
 function onRenderStart() {

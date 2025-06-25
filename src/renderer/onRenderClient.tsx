@@ -30,6 +30,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   })
   let page = getPageElement(pageContext)
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
+
   const container = document.getElementById('page-view')!
   if (pageContext.isHydration) {
     globalObject.root = ReactDOM.hydrateRoot(container, page)
@@ -42,7 +43,12 @@ async function onRenderClient(pageContext: PageContextClient) {
   if (!pageContext.isHydration) {
     applyHead(pageContext)
   }
+
   await renderPromise
+
+  autoScrollNav()
+  installSectionUrlHashs()
+  setHydrationIsFinished()
 }
 
 function applyHead(pageContext: PageContextClient) {
@@ -54,18 +60,13 @@ function onRenderStart() {
   closeMenuModal()
 }
 
-function onRenderDone(renderPromiseResolve: () => void) {
-  autoScrollNav()
-  installSectionUrlHashs()
-  setHydrationIsFinished()
-  renderPromiseResolve()
-}
-
 function OnRenderDoneHook({
   renderPromiseResolve,
   children,
 }: { renderPromiseResolve: () => void; children: React.ReactNode }) {
-  useEffect(() => onRenderDone(renderPromiseResolve))
+  useEffect(() => {
+    renderPromiseResolve()
+  })
   return children
 }
 

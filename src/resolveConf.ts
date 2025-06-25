@@ -1,5 +1,5 @@
 export { resolvePageContext }
-export type Conf = ReturnType<typeof resolvePageContext>
+export type Resolved = ReturnType<typeof resolvePageContext>
 
 import type { Config } from './types/Config'
 import type { NavItem } from './NavItemComponent'

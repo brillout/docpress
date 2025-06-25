@@ -73,7 +73,7 @@ function BorderBottom() {
 }
 function Nav() {
   const pageContext = usePageContext()
-  const navItems = pageContext.conf.navItemsAll
+  const navItems = pageContext.resolved.navItemsAll
   return <NavigationWithColumnLayout navItems={navItems} />
 }
 

@@ -33,7 +33,7 @@ declare global {
   namespace Vike {
     interface PageContext {
       Page: ReactComponent
-      conf: Resolved
+      resolved: Resolved
     }
     interface Config {
       docpress?: DocpressConfig

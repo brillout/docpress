@@ -4,5 +4,5 @@ import type { PageContextServer } from 'vike/types'
 import { resolvePageContext } from '../resolvePageContext'
 
 function onCreatePageContext(pageContext: PageContextServer) {
-  pageContext.conf = resolvePageContext(pageContext)
+  pageContext.resolved = resolvePageContext(pageContext)
 }

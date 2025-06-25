@@ -76,7 +76,7 @@ function resolvePageContext(pageContext: PageContextServer) {
     }
   }
 
-  const conf = {
+  const resolved = {
     navItemsAll,
     navItemsDetached,
     pageDesign: activeHeading.pageDesign,
@@ -86,7 +86,7 @@ function resolvePageContext(pageContext: PageContextServer) {
     documentTitle,
     activeCategoryName,
   }
-  return conf
+  return resolved
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {

@@ -36,9 +36,9 @@ function resolvePageContext(pageContext: PageContextServer) {
     assertHeadingsDefinition([...headings, ...headingsDetached])
   }
 
-  const resolved = getHeadingsResolved(config)
-  const { headingsDetachedResolved } = resolved
-  let { headingsResolved } = resolved
+  const ret = getHeadingsResolved(config)
+  const { headingsDetachedResolved } = ret
+  let { headingsResolved } = ret
 
   const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,

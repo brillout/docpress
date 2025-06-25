@@ -7,6 +7,7 @@ import { assert, assertUsage, assertWarning, determineSectionTitle, determineSec
 import { parseMarkdownMini } from '../parseMarkdownMini'
 import pc from '@brillout/picocolors'
 import type { PageContext } from 'vike/types'
+import type { StringArray } from '../types/Heading'
 
 function Link({
   href,
@@ -133,8 +134,8 @@ function getLinkTextData({
 type LinkData = {
   url?: null | string
   title: string
-  linkBreadcrumb: null | string[]
-  sectionTitles?: string[]
+  linkBreadcrumb: null | StringArray
+  sectionTitles?: StringArray
 }
 function findLinkData(
   href: string,

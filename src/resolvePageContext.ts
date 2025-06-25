@@ -11,6 +11,7 @@ import type {
   HeadingDetachedDefinition,
   HeadingResolved,
   HeadingDetachedResolved,
+  StringArray,
 } from './types/Heading'
 import { assert } from './utils/assert'
 import { jsxToTextContent } from './utils/jsxToTextContent'
@@ -22,7 +23,7 @@ type PageSectionResolved = {
   url: string | null
   title: string
   titleInNav: string
-  linkBreadcrumb: string[]
+  linkBreadcrumb: StringArray
   pageSectionLevel: number
 }
 

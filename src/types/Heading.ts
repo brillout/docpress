@@ -1,7 +1,8 @@
-export { HeadingResolved }
-export { HeadingDetachedResolved }
-export { HeadingDetachedDefinition }
-export { HeadingDefinition }
+export type { HeadingResolved }
+export type { HeadingDetachedResolved }
+export type { HeadingDetachedDefinition }
+export type { HeadingDefinition }
+export type { StringArray }
 
 type HeadingResolved = {
   url?: null | string

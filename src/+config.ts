@@ -4,7 +4,7 @@ import type { Config } from 'vike/types'
 import { viteConfig } from './vite.config.js'
 import type { Config as DocpressConfig } from './types/Config'
 import type { PageSection } from './parsePageSections'
-import type { Conf } from './resolveConf.js'
+import type { Conf } from './resolvePageContext.js'
 
 const config = {
   name: '@brillout/docpress',

@@ -1,5 +1,5 @@
-export { resolveConf }
-export type Conf = ReturnType<typeof resolveConf>
+export { resolvePageContext }
+export type Conf = ReturnType<typeof resolvePageContext>
 
 import type { Config } from './types/Config'
 import type { NavItem } from './NavItemComponent'
@@ -26,7 +26,7 @@ type PageSectionResolved = {
   pageSectionLevel: number
 }
 
-function resolveConf(pageContext: PageContextServer) {
+function resolvePageContext(pageContext: PageContextServer) {
   const config = pageContext.globalContext.config.docpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []

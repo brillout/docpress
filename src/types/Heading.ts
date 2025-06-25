@@ -8,8 +8,8 @@ type HeadingResolved = {
   level: number
   title: string
   titleInNav: string
-  linkBreadcrumb: string[]
-  sectionTitles?: string[]
+  linkBreadcrumb: StringArray
+  sectionTitles?: StringArray
   menuModalFullWidth?: true
   pageDesign?: PageDesign
   category?: string
@@ -18,6 +18,8 @@ type HeadingResolved = {
   titleIconStyle?: React.CSSProperties
   titleDocument?: string
 }
+
+type StringArray = string[] | readonly string[]
 
 type PageDesign = {
   hideTitle?: true
@@ -38,7 +40,7 @@ type HeadingDefinitionCommon = {
 
 type HeadingDetachedDefinition = HeadingDefinitionCommon & {
   url: string
-  sectionTitles?: string[]
+  sectionTitles?: StringArray
   category?: string
 }
 
@@ -49,7 +51,7 @@ type HeadingDefinition = HeadingDefinitionCommon & {} & (
         level: 2
         titleInNav?: string
         titleDocument?: string
-        sectionTitles?: string[]
+        sectionTitles?: StringArray
         url: null | string
       }
   )

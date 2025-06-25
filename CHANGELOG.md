@@ -1,3 +1,12 @@
+## [0.15.5](https://github.com/brillout/docpress/compare/v0.15.4...v0.15.5) (2025-06-25)
+
+
+### Bug Fixes
+
+* improve string array type ([044cdb3](https://github.com/brillout/docpress/commit/044cdb33852fb28837811806cd0a738229937cbf))
+
+
+
 ## [0.15.4](https://github.com/brillout/docpress/compare/v0.15.3...v0.15.4) (2025-06-25)
 
 

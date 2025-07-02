@@ -1,3 +1,17 @@
+## [0.15.6](https://github.com/brillout/docpress/compare/v0.15.5...v0.15.6) (2025-07-02)
+
+
+### Bug Fixes
+
+* polish nav head ([95aa543](https://github.com/brillout/docpress/commit/95aa543e5601feef526d8f6c127dddd15c3e9f18))
+
+
+### Features
+
+* linkedin link ([44e5a1c](https://github.com/brillout/docpress/commit/44e5a1c51bf85cd5d078df759da2e21829586489))
+
+
+
 ## [0.15.5](https://github.com/brillout/docpress/compare/v0.15.4...v0.15.5) (2025-06-25)
 
 

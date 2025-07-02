@@ -13,6 +13,7 @@ const config: Config = {
   url: 'fake-website.example.org',
   tagline: 'DocPress Demonstration.',
   logo,
+  navLogoSize: 35,
   favicon,
 
   github: 'https://github.com/brillout/docpress',

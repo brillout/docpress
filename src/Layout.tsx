@@ -61,8 +61,8 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--bg-color']: '#f5f5f5',
         ['--block-margin']: `${blockMargin}px`,
         ['--icon-text-padding']: '8px',
-        // ['--nav-head-height']: `${isLandingPage ? 70 : 60}px`,
-        ['--nav-head-height']: `60px`,
+        // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
+        ['--nav-head-height']: `63px`,
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
@@ -605,6 +605,8 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
           marginLeft: 10,
           flexShrink: 0,
           color: '#888',
+          position: 'relative',
+          top: -1,
         }}
       />
     </div>

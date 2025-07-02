@@ -30,7 +30,7 @@ function TopNavigation() {
         <img
           src={iconSeedling}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: -1 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: -2 }}
           className="decolorize-8"
         />
         Get Started

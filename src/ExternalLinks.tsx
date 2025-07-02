@@ -5,6 +5,7 @@ import iconGithub from './icons/github.svg'
 import iconTwitter from './icons/twitter.svg'
 import iconDiscord from './icons/discord.svg'
 import iconBluesky from './icons/bluesky.svg'
+import iconLinkedin from './icons/linkedin.svg'
 import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext'
@@ -12,7 +13,7 @@ import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const { github, discord, bluesky, i18n, twitter } = pageContext.globalContext.config.docpress
+  const { github, discord, bluesky, linkedin, i18n, twitter } = pageContext.globalContext.config.docpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
@@ -34,6 +35,9 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
       {discord && <LinkIcon className="decolorize-6" icon={iconDiscord} href={discord} />}
       {twitter && <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} />}
       {bluesky && <LinkIcon className="decolorize-6" icon={iconBluesky} href={`https://bsky.app/profile/${bluesky}`} />}
+      {linkedin && (
+        <LinkIcon className="decolorize-6" icon={iconLinkedin} href={`https://www.linkedin.com/company/${linkedin}`} />
+      )}
       <LinkIcon className="decolorize-4" icon={iconGithub} href={github} />
       <ChangelogButton />
     </div>

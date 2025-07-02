@@ -16,6 +16,7 @@ type Config = {
   discord?: string
   twitter?: string
   bluesky?: string
+  linkedin?: string
 
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]

@@ -20,6 +20,7 @@ const config: Config = {
   discord: 'https://example.org/some-discord-invite',
   twitter: '@brillout',
   bluesky: 'vike.dev',
+  linkedin: 'vikejs',
 
   headings,
   headingsDetached,

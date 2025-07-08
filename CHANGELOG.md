@@ -1,3 +1,12 @@
+## [0.15.9](https://github.com/brillout/docpress/compare/v0.15.8...v0.15.9) (2025-07-08)
+
+
+### Bug Fixes
+
+* fix global.d.ts (2) ([fc31edb](https://github.com/brillout/docpress/commit/fc31edbc0ab94434a686d1bc17c58363bb9050a3))
+
+
+
 ## [0.15.8](https://github.com/brillout/docpress/compare/v0.15.7...v0.15.8) (2025-07-08)
 
 

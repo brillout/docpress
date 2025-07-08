@@ -35,7 +35,7 @@ const config: Config = {
 
   // i18n: true,
   pressKit: true,
-  docsDir: 'packages/example.org',
+  docsDir: 'demo',
 
   // globalNote: <GlobalNoteWarning />,
   topNavigation: <TopNavigation />,

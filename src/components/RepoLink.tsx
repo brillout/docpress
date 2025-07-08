@@ -2,14 +2,7 @@ export { RepoLink }
 export { getRepoHref }
 
 import React from 'react'
-import { assert } from '../utils/server'
 import { usePageContext } from '../renderer/usePageContext'
-
-function isRepoLink(href: string) {
-  return ['/examples/', '/docs/', '/boilerplates/', '.github/', '/test/', '/packages/'].some((start) =>
-    href.startsWith(start),
-  )
-}
 
 function RepoLink({ path, text }: { path: string; text?: string | React.ReactNode }) {
   text = text || path
@@ -19,7 +12,6 @@ function RepoLink({ path, text }: { path: string; text?: string | React.ReactNod
 
 function getRepoHref(path: string, editMode = false) {
   const pageContext = usePageContext()
-  assert(isRepoLink(path), { path })
   if (!path.startsWith('/')) {
     path = '/' + path
   }

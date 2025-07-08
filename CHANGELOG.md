@@ -1,3 +1,12 @@
+## [0.15.7](https://github.com/brillout/docpress/compare/v0.15.6...v0.15.7) (2025-07-08)
+
+
+### Bug Fixes
+
+* more flexible docsDir value ([dd2d701](https://github.com/brillout/docpress/commit/dd2d701ba5c4637041816b3e7c799306f6400a5a))
+
+
+
 ## [0.15.6](https://github.com/brillout/docpress/compare/v0.15.5...v0.15.6) (2025-07-02)
 
 

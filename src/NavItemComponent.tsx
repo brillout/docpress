@@ -9,6 +9,18 @@ import { assert, assertWarning, jsxToTextContent } from './utils/server'
 import './NavItemComponent.css'
 import { parseMarkdownMini } from './parseMarkdownMini'
 
+/*
+// We cannot do that: we must use `import type` otherwise Vite will transpile global.d.ts and throw:
+//  ```console
+//  [11:55:47.528][/docs/.test-dev.test.ts][pnpm run dev][stderr] 11:55:47 AM [vite] Failed to transpile /home/runner/work/telefunc/telefunc/node_modules/.pnpm/@brillout+docpress@0.15.7_@algolia+client-search@5.31.0_@types+react@19.1.8_@vitejs+plugin-re_lcm3fspejcg3ebrmr3gvb5i3se/node_modules/@brillout/docpress/global.d.ts because:
+//  x `declare` modifier not allowed for code already in an ambient context
+//  ```
+import './global.d.ts'
+/*/
+// The only purpose of `FakeExport` is to be able to use `import type`
+import type { FakeExport } from './global.d.ts'
+//*/
+
 type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
 type NavItem = {
   level: number

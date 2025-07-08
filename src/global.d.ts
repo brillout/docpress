@@ -5,3 +5,5 @@ declare module 'react' {
     [key: `--${string}`]: string | number | undefined
   }
 }
+// The only purpose of `FakeExport` is to be able to use `import type`
+export type FakeExport = never

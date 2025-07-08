@@ -8,7 +8,6 @@ import React from 'react'
 import { assert, assertWarning, jsxToTextContent } from './utils/server'
 import './NavItemComponent.css'
 import { parseMarkdownMini } from './parseMarkdownMini'
-import './global.d.ts'
 
 type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
 type NavItem = {

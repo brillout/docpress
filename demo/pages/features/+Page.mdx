@@ -36,15 +36,15 @@ Powered by `shiki` and `rehype-pretty-code`.
 Code diffs powered by `import { transformerNotationDiff } from '@shikijs/transformers'` and custom CSS rule at `css/code/diff.css`.
 
 ```ts
-// /pages/+config.js
+// /pages/+config.ts
 
 import type { Config } from 'vike/types'
 
 export default {
   meta: {
     Page: { // some comment
-       env: { server: true, client: true } // [!code --]
-       env: { server: true } // [!code ++]
+       env: { server: true, client: true }, // [!code --]
+       env: { server: true }, // [!code ++]
     }
   }
 } satisfies Config

@@ -24,7 +24,7 @@ function detypePlugin(): PluginOption {
 const tsBlockRegex = /```(tsx?|vue)([\s\S]*?)```/g
 
 async function transformCode(code: string) {
-  let codeNew = ''
+  let codeNew = `import { CodeSnippets } from '@brillout/docpress'\n`
   let lastIndex = 0
 
   const matches = [...code.matchAll(tsBlockRegex)]
@@ -34,13 +34,13 @@ async function transformCode(code: string) {
   }
 
   for (const match of matches) {
-    const [fullMatch, lang, tsCode] = match // lang = ts | tsx | vue
+    const [tsCodeBlock, lang, tsCode] = match // lang = ts | tsx | vue
     const type = lang === 'vue' ? 'vue' : lang.replace('t', 'j') // ts => js | tsx => jsx
 
     const blockStart = match.index
-    const blockEnd = blockStart + fullMatch.length
+    const blockEnd = blockStart + tsCodeBlock.length
 
-    codeNew += code.slice(lastIndex, blockEnd)
+    codeNew += code.slice(lastIndex, blockStart)
 
     const jsCode = await transform(tsCode.trim().replaceAll('.ts', '.js'), `tsCode.${lang}`, {
       removeTsComments: true,
@@ -50,7 +50,9 @@ async function transformCode(code: string) {
       },
     })
 
-    codeNew += `\n\`\`\`${type}\n${jsCode}\`\`\``
+    const jsCodeBlock = `\n\`\`\`${type}\n${jsCode}\`\`\``
+
+    codeNew += `\n<CodeSnippets>\n${jsCodeBlock}\n${tsCodeBlock}\n</CodeSnippets>`
 
     lastIndex = blockEnd
   }

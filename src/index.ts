@@ -6,6 +6,7 @@ export {
   FileRemoved,
   ImportMeta,
   Emoji,
+  CodeSnippets,
 } from './components'
 export { MenuToggle } from './Layout'
 

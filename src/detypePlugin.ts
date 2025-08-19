@@ -3,6 +3,8 @@ export { detypePlugin }
 import type { PluginOption } from 'vite'
 import module from 'node:module'
 
+// Cannot use `import { transform } from 'detype'` as it results in errors,
+// and the package has no default export. Using `module.createRequire` instead.
 const { transform } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
 
 function detypePlugin(): PluginOption {
@@ -19,7 +21,7 @@ function detypePlugin(): PluginOption {
   }
 }
 
-const tsBlockRegex = /```ts\s*([\s\S]*?)\s*```/g
+const tsBlockRegex = /```(tsx?|vue)([\s\S]*?)```/g
 
 async function transformCode(code: string) {
   let codeNew = ''
@@ -32,17 +34,19 @@ async function transformCode(code: string) {
   }
 
   for (const match of matches) {
-    const [fullMatch, tsCode] = match
+    const [fullMatch, lang, tsCode] = match // lang = ts | tsx | vue
+    const type = lang === 'vue' ? 'vue' : lang.replace('t', 'j') // ts => js | tsx => jsx
+
     const blockStart = match.index
     const blockEnd = blockStart + fullMatch.length
 
     codeNew += code.slice(lastIndex, blockEnd)
 
-    const jsCode = await transform(tsCode.trim().replaceAll('.ts', '.js'), 'tsCode.ts', {
+    const jsCode = await transform(tsCode.trim().replaceAll('.ts', '.js'), `tsCode.${lang}`, {
       removeTsComments: true,
     })
 
-    codeNew += `\n\`\`\`js\n${jsCode}\`\`\``
+    codeNew += `\n\`\`\`${type}\n${jsCode}\`\`\``
 
     lastIndex = blockEnd
   }

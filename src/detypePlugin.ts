@@ -44,6 +44,10 @@ async function transformCode(code: string) {
 
     const jsCode = await transform(tsCode.trim().replaceAll('.ts', '.js'), `tsCode.${lang}`, {
       removeTsComments: true,
+      prettierOptions: {
+        semi: false,
+        singleQuote: true,
+      },
     })
 
     codeNew += `\n\`\`\`${type}\n${jsCode}\`\`\``

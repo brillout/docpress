@@ -21,7 +21,7 @@ function detypePlugin(): PluginOption {
   }
 }
 
-const tsBlockRegex = /```(tsx?|vue)([\s\S]*?)```/g
+const tsBlockRegex = /```(tsx?|vue)\n([\s\S]*?)```/g
 
 async function transformCode(code: string) {
   let codeNew = `import { CodeSnippets } from '@brillout/docpress'\n`

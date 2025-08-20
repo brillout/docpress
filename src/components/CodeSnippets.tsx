@@ -1,6 +1,7 @@
 export { CodeSnippets }
 
-import React, { useId, useState } from 'react'
+import React, { useId } from 'react'
+import { useSelectedLanguage } from '../utils/useSelectedLanguage';
 
 const languages = [
     { id: 'js', name: 'Javascript' },
@@ -8,8 +9,7 @@ const languages = [
 ]
 
 function CodeSnippets({ children }: { children: React.ReactNode; }) {
-    // TODO: set and get selected language globally from localStorage. Use custom hook ?
-    const [selectedLang, setSelectedLang] = useState('js')
+    const [selectedLang, setSelectedLang] = useSelectedLanguage()
     const uniqueId = useId()
 
     const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -28,20 +28,20 @@ function CodeSnippets({ children }: { children: React.ReactNode; }) {
 
     return (
         <div>
-            <div style={{ display: 'flex', margin: '0.25rem 1rem', justifyContent: 'flex-end', gap: '2px' }}>
-                <form>
+            <div >
+                <form style={{ display: 'flex', padding: '0.25rem', justifyContent: 'flex-end', gap: '2px' }}>
                     <select name="language" id="language" onChange={handleOnChange} value={selectedLang}>
                         {languages.map((language, index) => (
                             <option key={index} value={language.id} defaultValue={selectedLang}>{language.name}</option>
                         ))}
                     </select>
+                    <button type='button' onClick={copyToClipboard}>Copy</button>
                 </form>
-                <button onClick={copyToClipboard}>Copy</button>
             </div>
             <div>
                 {
                     React.Children.toArray(children).map((child, index) => (
-                        <CodeSnippet key={index} selected={selectedLang} language={languages[index].id} uniqueId={uniqueId}>
+                        <CodeSnippet key={index} language={languages[index].id} uniqueId={uniqueId}>
                             {child}
                         </CodeSnippet>
                     ))
@@ -51,9 +51,11 @@ function CodeSnippets({ children }: { children: React.ReactNode; }) {
     )
 }
 
-function CodeSnippet({ children, language, selected, uniqueId }: { children: React.ReactNode; language: string; selected: string; uniqueId: string }) {
+function CodeSnippet({ children, language, uniqueId }: { children: React.ReactNode; language: string; uniqueId: string }) {
+    const [selectedLang] = useSelectedLanguage()
+
     return (
-        <div id={`${language}-code-${uniqueId}`} style={{ display: selected !== language ? 'none' : 'block' }}>
+        <div id={`${language}-code-${uniqueId}`} style={{ display: selectedLang === language ? 'block' : 'none' }}>
             {children}
         </div>
     )

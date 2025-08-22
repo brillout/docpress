@@ -1,62 +1,68 @@
-export { CodeSnippets }
+export { CodeSnippets, CodeSnippet, TypescriptOnly }
 
-import React, { useId } from 'react'
-import { useSelectedLanguage } from '../utils/useSelectedLanguage';
+import React from 'react'
+import { useSelectedLanguage } from '../utils/useSelectedLanguage'
 
-const languages = [
-    { id: 'js', name: 'Javascript' },
-    { id: 'ts', name: 'Typescript' },
-]
+function CodeSnippets({ children }: { children: React.ReactNode }) {
+  const [selectedLang, setSelectedLang] = useSelectedLanguage()
 
-function CodeSnippets({ children }: { children: React.ReactNode; }) {
-    const [selectedLang, setSelectedLang] = useSelectedLanguage()
-    const uniqueId = useId()
+  const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLang(e.target.value)
+  }
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedLang(e.target.value)
-    }
-
-    const copyToClipboard = async () => {
-        const selectedCodeBlock = document.getElementById(`${selectedLang}-code-${uniqueId}`)
-        try {
-            await navigator.clipboard.writeText(selectedCodeBlock?.textContent ?? '')
-            console.log('Copied to clipboard!')
-        } catch (error) {
-            console.warn('Copy failed', error)
-        }
-    }
-
-    return (
-        <div>
-            <div >
-                <form style={{ display: 'flex', padding: '0.25rem', justifyContent: 'flex-end', gap: '2px' }}>
-                    <select name="language" id="language" onChange={handleOnChange} value={selectedLang}>
-                        {languages.map((language, index) => (
-                            <option key={index} value={language.id} defaultValue={selectedLang}>{language.name}</option>
-                        ))}
-                    </select>
-                    <button type='button' onClick={copyToClipboard}>Copy</button>
-                </form>
-            </div>
-            <div>
-                {
-                    React.Children.toArray(children).map((child, index) => (
-                        <CodeSnippet key={index} language={languages[index].id} uniqueId={uniqueId}>
-                            {child}
-                        </CodeSnippet>
-                    ))
-                }
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <form style={{ position: 'relative' }}>
+        <select
+          name="language"
+          id="language"
+          onChange={handleOnChange}
+          value={selectedLang}
+          style={{ position: 'absolute', top: '10px', right: '60px', zIndex: 3 }}
+        >
+          <option value="js">Javascript</option>
+          <option value="ts">Typescript</option>
+        </select>
+      </form>
+      {children}
+    </div>
+  )
 }
 
-function CodeSnippet({ children, language, uniqueId }: { children: React.ReactNode; language: string; uniqueId: string }) {
-    const [selectedLang] = useSelectedLanguage()
+function CodeSnippet({
+  children,
+  language,
+  tsOnly = false,
+}: { children: React.ReactNode; language: string; tsOnly: boolean }) {
+  const [selectedLang] = useSelectedLanguage()
 
-    return (
-        <div id={`${language}-code-${uniqueId}`} style={{ display: selectedLang === language ? 'block' : 'none' }}>
-            {children}
-        </div>
-    )
+  const style = tsOnly ? {} : { display: selectedLang === language ? 'block' : 'none' }
+
+  const copyToClipboard = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const figureEl = e.currentTarget.nextElementSibling
+      if (figureEl?.tagName === 'FIGURE') {
+        await navigator.clipboard.writeText(figureEl.textContent ?? '')
+        console.log('Copied to clipboard!')
+      }
+    } catch (error) {
+      console.warn('Copy failed', error)
+    }
+  }
+
+  return (
+    <div style={{ ...style, position: 'relative' }}>
+      <button type="button" style={{ position: 'absolute', top: '10px', right: '10px' }} onClick={copyToClipboard}>
+        Copy
+      </button>
+      {children}
+    </div>
+  )
+}
+
+// Show/hide TypeScript sections (code and/or plain)
+function TypescriptOnly({ children }: { children: React.ReactNode }) {
+  const [selectedLang] = useSelectedLanguage()
+
+  return <div style={{ display: selectedLang === 'ts' ? 'block' : 'none' }}>{children}</div>
 }

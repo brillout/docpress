@@ -21,10 +21,10 @@ function detypePlugin(): PluginOption {
   }
 }
 
-const tsBlockRegex = /```(tsx?|vue)\n([\s\S]*?)```/g
+const tsBlockRegex = /```(tsx?|vue)(\s+ts-only)?([\s\S]*?)```/g
 
 async function transformCode(code: string) {
-  let codeNew = `import { CodeSnippets } from '@brillout/docpress'\n`
+  let codeNew = `import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n`
   let lastIndex = 0
 
   const matches = [...code.matchAll(tsBlockRegex)]
@@ -34,7 +34,7 @@ async function transformCode(code: string) {
   }
 
   for (const match of matches) {
-    const [tsCodeBlock, lang, tsCode] = match // lang = ts | tsx | vue
+    const [tsCodeBlock, lang, tsOnly, tsCode] = match // lang = ts | tsx | vue
     const type = lang === 'vue' ? 'vue' : lang.replace('t', 'j') // ts => js | tsx => jsx
 
     const blockStart = match.index
@@ -42,17 +42,23 @@ async function transformCode(code: string) {
 
     codeNew += code.slice(lastIndex, blockStart)
 
-    const jsCode = await transform(tsCode.trim().replaceAll('.ts', '.js'), `tsCode.${lang}`, {
-      removeTsComments: true,
-      prettierOptions: {
-        semi: false,
-        singleQuote: true,
-      },
-    })
+    if (tsOnly) {
+      codeNew += `\n<CodeSnippet language={'ts'} tsOnly={'true'}>\n${tsCodeBlock}\n</CodeSnippet>\n`
+    } else {
+      const jsCode = await transform(tsCode.trim().replaceAll('.ts', '.js'), `tsCode.${lang}`, {
+        removeTsComments: true,
+        prettierOptions: {
+          semi: false,
+          singleQuote: true,
+        },
+      })
 
-    const jsCodeBlock = `\n\`\`\`${type}\n${jsCode}\`\`\``
+      const jsCodeBlock = `\`\`\`${type}\n${jsCode}\`\`\``
+      const jsCodeSnippet = `\n<CodeSnippet language={'js'}>\n${jsCodeBlock}\n</CodeSnippet>\n`
+      const tsCodeSnippet = `\n<CodeSnippet language={'ts'}>\n${tsCodeBlock}\n</CodeSnippet>\n`
 
-    codeNew += `\n<CodeSnippets>\n${jsCodeBlock}\n${tsCodeBlock}\n</CodeSnippets>`
+      codeNew += `<CodeSnippets>${jsCodeSnippet}${tsCodeSnippet}</CodeSnippets>`
+    }
 
     lastIndex = blockEnd
   }

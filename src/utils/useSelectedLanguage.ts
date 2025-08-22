@@ -11,20 +11,15 @@ declare global {
 }
 
 function useSelectedLanguage(initialValue: string = 'js') {
-  const [isMounted, setIsMounted] = useState(false)
-  const [selectedLang, setSelectedLang] = useState(() => {
-    if (isMounted) {
-      return localStorage.getItem(key) ?? initialValue
-    }
-    return initialValue
-  })
+  const ssrValue = 'ts'
+  const [selectedLang, setSelectedLang] = useState(ssrValue)
 
   const getValue = useCallback(() => {
     try {
       const value = localStorage.getItem(key)
       return value ?? initialValue
     } catch (error) {
-      console.warn(`Error reading from localStorage :`, error)
+      console.warn('Error reading from localStorage:', error)
       return initialValue
     }
   }, [initialValue])
@@ -33,33 +28,36 @@ function useSelectedLanguage(initialValue: string = 'js') {
     try {
       window.localStorage.setItem(key, value)
       setSelectedLang(value)
-      window.dispatchEvent(new StorageEvent('lang-storage', { key }))
+      window.dispatchEvent(new CustomEvent('lang-storage'))
     } catch (error) {
-      console.warn(`Error setting localStorage:`, error)
+      console.warn('Error setting localStorage:', error)
     }
   }, [])
 
-  const handleStorageChange = useCallback(
-    (event: StorageEvent | CustomEvent) => {
-      if ((event as StorageEvent).key && (event as StorageEvent).key !== key) {
-        return
-      }
-      setSelectedLang(getValue())
-    },
-    [getValue],
-  )
-
   useEffect(() => {
     setSelectedLang(getValue())
-    setIsMounted(true)
   }, [getValue])
 
   useEffect(() => {
-    window.addEventListener('lang-storage', handleStorageChange)
-    return () => {
-      window.removeEventListener('lang-storage', handleStorageChange)
+    // Update language in current tab
+    const handleCustomEvent = () => {
+      setSelectedLang(getValue())
     }
-  }, [handleStorageChange])
+    // Update language if changed in another tab
+    const handleNativeStorage = (event: StorageEvent) => {
+      if (event.key === key) {
+        setSelectedLang(getValue())
+      }
+    }
+
+    window.addEventListener('lang-storage', handleCustomEvent)
+    window.addEventListener('storage', handleNativeStorage)
+
+    return () => {
+      window.removeEventListener('lang-storage', handleCustomEvent)
+      window.removeEventListener('storage', handleNativeStorage)
+    }
+  }, [getValue])
 
   return [selectedLang, setValue] as const
 }

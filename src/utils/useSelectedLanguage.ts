@@ -3,6 +3,8 @@ export { useSelectedLanguage }
 import { useState, useEffect, useCallback } from 'react'
 
 const key = 'docpress:selectedLang'
+const defaultSsrLang = 'ts'
+const defaultClientLang = 'js'
 
 declare global {
   interface WindowEventMap {
@@ -10,19 +12,17 @@ declare global {
   }
 }
 
-function useSelectedLanguage(initialValue: string = 'js') {
-  const ssrValue = 'ts'
-  const [selectedLang, setSelectedLang] = useState(ssrValue)
+function useSelectedLanguage() {
+  const [selectedLang, setSelectedLang] = useState(defaultSsrLang)
 
-  const getValue = useCallback(() => {
+  const getValue = () => {
     try {
-      const value = localStorage.getItem(key)
-      return value ?? initialValue
+      return localStorage.getItem(key) ?? defaultClientLang
     } catch (error) {
       console.warn('Error reading from localStorage:', error)
-      return initialValue
+      return defaultClientLang
     }
-  }, [initialValue])
+  }
 
   const setValue = useCallback((value: string) => {
     try {
@@ -35,10 +35,8 @@ function useSelectedLanguage(initialValue: string = 'js') {
   }, [])
 
   useEffect(() => {
+    // Initial load from localStorage
     setSelectedLang(getValue())
-  }, [getValue])
-
-  useEffect(() => {
     // Update language in current tab
     const handleCustomEvent = () => {
       setSelectedLang(getValue())
@@ -57,7 +55,7 @@ function useSelectedLanguage(initialValue: string = 'js') {
       window.removeEventListener('lang-storage', handleCustomEvent)
       window.removeEventListener('storage', handleNativeStorage)
     }
-  }, [getValue])
+  }, [])
 
   return [selectedLang, setValue] as const
 }

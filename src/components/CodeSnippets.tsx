@@ -52,7 +52,11 @@ function CodeSnippet({
 
   return (
     <div style={{ ...style, position: 'relative' }}>
-      <button type="button" style={{ position: 'absolute', top: '10px', right: '10px' }} onClick={copyToClipboard}>
+      <button
+        type="button"
+        style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
+        onClick={copyToClipboard}
+      >
         Copy
       </button>
       {children}

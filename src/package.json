@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@brillout/picocolors": "^1.0.10",
-    "detype": "^1.1.2",
     "@docsearch/css": "3.9.0",
     "@docsearch/react": "3.9.0",
     "@mdx-js/mdx": "3.0.1",
@@ -24,6 +23,7 @@
     "@mdx-js/rollup": "3.0.1",
     "@shikijs/transformers": "1.2.0",
     "@vitejs/plugin-react-swc": "^3.10.2",
+    "detype": "^1.1.2",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0",

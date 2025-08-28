@@ -72,8 +72,8 @@ async function transformCode(code: string, contentMap: ContentMap) {
       const jsOpeningCode = tsOpeningCode.replace(lang, jsLang)
       const closing = `\`\`\``
 
-      const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsOpeningCode}\n${jsCode}\n${closing}\n</CodeSnippet>`
-      const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsOpeningCode}\n${tsCode}\n${closing}\n</CodeSnippet>`
+      const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsOpeningCode}\n${jsCode}${closing}\n</CodeSnippet>`
+      const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsOpeningCode}\n${tsCode}${closing}\n</CodeSnippet>`
       const codeSnippets = putBackStarts(`${tsCodeSnippet}\n${jsCodeSnippet}`, startsWith)
 
       const key = contentMap.add(`ts-js-code-snippets`, codeSnippets.length, codeSnippets)

@@ -40,7 +40,7 @@ async function transformCode(code: string) {
 
   for (const match of matches) {
     let [fullMatch, startsWith, lang, tsCode] = match
-    const tsOpeningCode = fullMatch.split('\n')[0].slice(startsWith.length)
+    const tsCodeBlockOpen = fullMatch.split('\n')[0].slice(startsWith.length)
 
     const blockStart = match.index
     const blockEnd = blockStart + fullMatch.length
@@ -51,7 +51,7 @@ async function transformCode(code: string) {
       tsCode = stripStarts(tsCode, startsWith)
     }
 
-    if (tsOpeningCode.includes('ts-only')) {
+    if (tsCodeBlockOpen.includes('ts-only')) {
       codeNew += `${startsWith}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${fullMatch}\n${startsWith}</CodeSnippet>`
     } else {
       const jsCode = await transform(tsCode.replaceAll('.ts', '.js'), `tsCode.${lang}`, {
@@ -59,11 +59,11 @@ async function transformCode(code: string) {
         prettierOptions,
       })
       const jsLang = lang === 'vue' ? 'vue' : lang.replace('t', 'j') // ts => js | tsx => jsx
-      const jsOpeningCode = tsOpeningCode.replace(lang, jsLang)
-      const closing = `\`\`\``
+      const jsCodeBlockOpen = tsCodeBlockOpen.replace(lang, jsLang)
+      const codeBlockClose = '```'
 
-      const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsOpeningCode}\n${jsCode}${closing}\n</CodeSnippet>`
-      const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsOpeningCode}\n${tsCode}${closing}\n</CodeSnippet>`
+      const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsCodeBlockOpen}\n${tsCode}${codeBlockClose}\n</CodeSnippet>`
+      const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsCodeBlockOpen}\n${jsCode}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = putBackStarts(
         `<CodeSnippets>\n${tsCodeSnippet}\n${jsCodeSnippet}\n</CodeSnippets>`,
         startsWith,

@@ -2,7 +2,6 @@ export { detypePlugin }
 
 import type { PluginOption } from 'vite'
 import module from 'node:module'
-import { createContentMap, contentMapKeyRE, type ContentMap } from './utils/contentMap.js'
 
 // Cannot use `import { transform } from 'detype'` as it results in errors,
 // and the package has no default export. Using `module.createRequire` instead.
@@ -16,17 +15,9 @@ function detypePlugin(): PluginOption {
       if (!id.endsWith('+Page.mdx')) {
         return
       }
-      const contentMap = createContentMap()
-      const codeNew = await transformCode(code, contentMap)
-      const replaced = replaceContent(codeNew, contentMapKeyRE, (match) => {
-        const content = contentMap.get(match[0])
-        if (!content) {
-          throw new Error('Content not found')
-        }
-        return content
-      })
+      const codeNew = await transformCode(code)
 
-      return replaced
+      return codeNew
     },
   }
 }
@@ -38,7 +29,7 @@ const prettierOptions = {
   printWidth: 100,
 }
 
-async function transformCode(code: string, contentMap: ContentMap) {
+async function transformCode(code: string) {
   const matches = Array.from(code.matchAll(codeBlockRE))
   if (matches.length === 0) {
     return code
@@ -61,8 +52,7 @@ async function transformCode(code: string, contentMap: ContentMap) {
     }
 
     if (tsOpeningCode.includes('ts-only')) {
-      const key = contentMap.add('ts-code-snippet', fullMatch.length, fullMatch)
-      codeNew += `${startsWith}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${key}\n${startsWith}</CodeSnippet>`
+      codeNew += `${startsWith}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${fullMatch}\n${startsWith}</CodeSnippet>`
     } else {
       const jsCode = await transform(tsCode.replaceAll('.ts', '.js'), `tsCode.${lang}`, {
         removeTsComments: true,
@@ -74,10 +64,12 @@ async function transformCode(code: string, contentMap: ContentMap) {
 
       const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsOpeningCode}\n${jsCode}${closing}\n</CodeSnippet>`
       const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsOpeningCode}\n${tsCode}${closing}\n</CodeSnippet>`
-      const codeSnippets = putBackStarts(`${tsCodeSnippet}\n${jsCodeSnippet}`, startsWith)
+      const codeSnippets = putBackStarts(
+        `<CodeSnippets>\n${tsCodeSnippet}\n${jsCodeSnippet}\n</CodeSnippets>`,
+        startsWith,
+      )
 
-      const key = contentMap.add(`ts-js-code-snippets`, codeSnippets.length, codeSnippets)
-      codeNew += `${startsWith}<CodeSnippets>\n${key}\n${startsWith}</CodeSnippets>`
+      codeNew += codeSnippets
     }
 
     lastIndex = blockEnd
@@ -102,11 +94,4 @@ function putBackStarts(code: string, startsWith: string) {
     .split('\n')
     .map((line) => `${startsWith}${line}`)
     .join('\n')
-}
-
-function replaceContent(input: string, re: RegExp, replacer: (match: RegExpMatchArray) => string): string {
-  const replacements = Array.from(input.matchAll(re), replacer)
-  let i = 0
-
-  return input.replace(re, () => replacements[i++])
 }

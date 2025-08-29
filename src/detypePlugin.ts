@@ -35,7 +35,7 @@ const codeBlockRE = /^([ \t]{0,3}>?[ \t]?)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
 const prettierOptions = {
   semi: false,
   singleQuote: true,
-  printWidth: 120,
+  printWidth: 100,
 }
 
 async function transformCode(code: string, contentMap: ContentMap) {
@@ -44,7 +44,7 @@ async function transformCode(code: string, contentMap: ContentMap) {
     return code
   }
 
-  let codeNew = `import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n`
+  let codeNew = `import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`
   let lastIndex = 0
 
   for (const match of matches) {

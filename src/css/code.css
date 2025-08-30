@@ -28,23 +28,3 @@ pre > code {
 pre > code:not([data-language]) {
   padding: 16px !important;
 }
-
-/* Copy Button */
-button.copy-button {
-  display: inline-flex;
-  align-items: center;
-  position: absolute !important;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 25px;
-  z-index: 3;
-  border: 1px solid #ccc;
-}
-button.copy-button:hover {
-  background-color: #dbdbdbff;
-}
-button.copy-button:focus {
-  box-shadow: 0 0 0 2px #5b9bd54d;
-  outline: none;
-}

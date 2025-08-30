@@ -19,10 +19,10 @@
   appearance: none; /* Remove default arrow in some browsers */
   -webkit-appearance: none;
   -moz-appearance: none;
-}
-#code-lang-select:focus {
-  box-shadow: 0 0 0 2px #5b9bd54d;
-  outline: none;
+  &:focus {
+    box-shadow: 0 0 0 2px #5b9bd54d;
+    outline: none;
+  }
 }
 
 /* Copy button */

@@ -83,8 +83,8 @@ async function transformCode(code: string, moduleId: string) {
       const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
       const codeBlockClose = '```'
 
-      const codeSnippetJs = `<CodeSnippet codeLang="ts">\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippetTs = `<CodeSnippet codeLang="js">\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetTs = `<CodeSnippet codeLang="ts">\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetJs = `<CodeSnippet codeLang="js">\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = restoreCodeBlockIndent(
         `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
         codeBlockIndent,

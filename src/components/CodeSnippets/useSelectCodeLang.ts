@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
 
 const storageKey = 'docpress:code-lang'
-const codeLangdefaultSsr = 'ts'
+const codeLangDefaultSsr = 'ts'
 const codeLangDefaultClient = 'js'
 
 function useSelectCodeLang() {
-  const [codeLangSelected, setCodeLangSelected] = useState(codeLangdefaultSsr)
+  const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefaultSsr)
   const updateState = () => {
     setCodeLangSelected(getCodeLangStorage())
   }

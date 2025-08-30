@@ -67,7 +67,10 @@ async function transformCode(code: string, moduleId: string) {
     if (codeBlockOpen.includes('ts-only')) {
       codeNew += `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
-      const codeBlockContentJs = await detype(codeBlockContent.replaceAll('.ts', '.js'), `some-dummy-filename.${codeBlockLang}`, {
+      // someFileName.ts => someFileName.js
+      let codeBlockContentJs = codeBlockContent.replaceAll('.ts', '.js')
+      // Remove TypeScript
+      codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
         removeTsComments: true,
         prettierOptions,
       })

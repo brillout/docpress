@@ -20,7 +20,7 @@ function detypePlugin(): PluginOption {
 }
 
 const codeBlockRE = /^([ \t]{0,3}>?[ \t]?)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
-const prettierOptions = {
+const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOptions'] = {
   semi: false,
   singleQuote: true,
   printWidth: 100,

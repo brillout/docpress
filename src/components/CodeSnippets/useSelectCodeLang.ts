@@ -3,7 +3,7 @@ export { useSelectCodeLang }
 import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
 
-const key = 'docpress:codeLang'
+const key = 'docpress:code-lang'
 const defaultSsrLang = 'ts'
 const defaultClientLang = 'js'
 

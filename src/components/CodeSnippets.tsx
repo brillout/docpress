@@ -2,6 +2,7 @@ export { CodeSnippets, CodeSnippet, TypescriptOnly }
 
 import React from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
+import { assertWarning } from '../utils/assert'
 
 function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
@@ -47,7 +48,8 @@ function CodeSnippet({
         console.log('Copied to clipboard!')
       }
     } catch (error) {
-      console.warn('Copy failed', error)
+      console.error(error)
+      assertWarning(false, 'Copy to clipboard failed')
     }
   }
 

@@ -45,13 +45,13 @@ function CodeSnippet({
 
   return (
     <div style={{ ...displayStyle, position: 'relative' }}>
-      <ButtonCopyToClipboard />
+      <CopyButton />
       {children}
     </div>
   )
 }
 
-function ButtonCopyToClipboard() {
+function CopyButton() {
   const tooltipInit = 'Copy to clipboard'
   let [tooltip, setTooltip] = useState(tooltipInit)
   const [isCopied, setIsCopied] = useState(false)

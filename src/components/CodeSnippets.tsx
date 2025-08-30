@@ -41,7 +41,9 @@ function CodeSnippet({
     try {
       const figureEl = e.currentTarget.nextElementSibling
       if (figureEl?.tagName === 'FIGURE') {
-        await navigator.clipboard.writeText(figureEl.textContent ?? '')
+        let text = figureEl.textContent ?? ''
+        text = removeTrailingWhitespace(text)
+        await navigator.clipboard.writeText(text)
         console.log('Copied to clipboard!')
       }
     } catch (error) {
@@ -68,4 +70,11 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
   const [selectedLang] = useSelectCodeLang()
 
   return <div style={{ display: selectedLang === 'ts' ? 'block' : 'none' }}>{children}</div>
+}
+
+function removeTrailingWhitespace(text: string) {
+  return text
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .join('\n')
 }

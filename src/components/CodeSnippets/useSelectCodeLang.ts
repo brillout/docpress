@@ -18,6 +18,10 @@ function useSelectCodeLang() {
   const updateState = () => {
     setCodeLangSelected(getCodeLangStorage())
   }
+  const updateStateOnStorageEvent = (event: StorageEvent) => {
+      if (event.key === storageKey) return
+        updateState()
+  }
 
   const getCodeLangStorage = () => {
     try {
@@ -44,10 +48,7 @@ function useSelectCodeLang() {
     // Initial load from localStorage
     updateState()
 
-    const handleNativeStorage = (event: StorageEvent) => {
-      if (event.key === storageKey) {
-        updateState()
-      }
+    const handleNativeStorage = () => {
     }
 
     // Update code lang in current tab

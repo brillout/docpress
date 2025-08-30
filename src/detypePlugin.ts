@@ -54,17 +54,16 @@ async function transformCode(code: string, moduleId: string) {
   let lastIndex = 0
 
   for (const match of matches) {
-    let [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContent] = match
+    const [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContentWithIndent] = match
+
+    // Remove indentation
     const codeBlockFirstLine = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
+    const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     const blockStartIndex = match.index
     const blockEnd = blockStartIndex + codeBlockOuterStr.length
 
     codeNew += code.slice(lastIndex, blockStartIndex)
-
-    if (codeBlockIndent.length > 0) {
-      codeBlockContent = removeCodeBlockIndent(codeBlockContent, codeBlockIndent, moduleId)
-    }
 
     if (codeBlockFirstLine.includes('ts-only')) {
       codeNew += `${codeBlockIndent}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`

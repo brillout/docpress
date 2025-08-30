@@ -15,8 +15,11 @@ declare global {
 
 function useSelectCodeLang() {
   const [codeLangSelected, setCodeLangSelected] = useState(codeLangdefaultSsr)
+  const updateState = () => {
+    setCodeLangSelected(getCodeLangStorage())
+  }
 
-  const getValue = () => {
+  const getCodeLangStorage = () => {
     try {
       return localStorage.getItem(key) ?? codeLangDefaultClient
     } catch (error) {
@@ -39,17 +42,17 @@ function useSelectCodeLang() {
 
   useEffect(() => {
     // Initial load from localStorage
-    setCodeLangSelected(getValue())
+    updateState()
 
     // Update code lang in current tab
     const handleCustomEvent = () => {
-      setCodeLangSelected(getValue())
+      updateState()
     }
 
     // Update code lang if changed in another tab
     const handleNativeStorage = (event: StorageEvent) => {
       if (event.key === key) {
-        setCodeLangSelected(getValue())
+        updateState()
       }
     }
 

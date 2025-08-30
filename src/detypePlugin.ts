@@ -54,33 +54,33 @@ async function transformCode(code: string, moduleId: string) {
   let lastIndex = 0
 
   for (const match of matches) {
-    let [fullMatch, linePrefix, lang, tsCode] = match
-    const tsCodeBlockOpen = fullMatch.split('\n')[0].slice(linePrefix.length)
+    let [codeBlockOuterStr, linePrefix, codeBlockLang, codeBlockContent] = match
+    const codeBlockFirstLine = codeBlockOuterStr.split('\n')[0].slice(linePrefix.length)
 
-    const blockStart = match.index
-    const blockEnd = blockStart + fullMatch.length
+    const blockStartIndex = match.index
+    const blockEnd = blockStartIndex + codeBlockOuterStr.length
 
-    codeNew += code.slice(lastIndex, blockStart)
+    codeNew += code.slice(lastIndex, blockStartIndex)
 
     if (linePrefix.length > 0) {
-      tsCode = removeLinePrefix(tsCode, linePrefix, moduleId)
+      codeBlockContent = removeLinePrefix(codeBlockContent, linePrefix, moduleId)
     }
 
-    if (tsCodeBlockOpen.includes('ts-only')) {
-      codeNew += `${linePrefix}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${fullMatch}\n${linePrefix}</CodeSnippet>`
+    if (codeBlockFirstLine.includes('ts-only')) {
+      codeNew += `${linePrefix}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${codeBlockOuterStr}\n${linePrefix}</CodeSnippet>`
     } else {
-      const jsCode = await detype(tsCode.replaceAll('.ts', '.js'), `tsCode.${lang}`, {
+      const codeBlockContentJs = await detype(codeBlockContent.replaceAll('.ts', '.js'), `tsCode.${codeBlockLang}`, {
         removeTsComments: true,
         prettierOptions,
       })
-      const jsLang = lang === 'vue' ? 'vue' : lang.replace('t', 'j') // ts => js | tsx => jsx
-      const jsCodeBlockOpen = tsCodeBlockOpen.replace(lang, jsLang)
+      const jsLang = codeBlockLang === 'vue' ? 'vue' : codeBlockLang.replace('t', 'j') // ts => js | tsx => jsx
+      const codeBlockFirstLineJs = codeBlockFirstLine.replace(codeBlockLang, jsLang)
       const codeBlockClose = '```'
 
-      const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsCodeBlockOpen}\n${tsCode}${codeBlockClose}\n</CodeSnippet>`
-      const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsCodeBlockOpen}\n${jsCode}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetJs = `<CodeSnippet language={'ts'}>\n${codeBlockFirstLine}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetTs = `<CodeSnippet language={'js'}>\n${codeBlockFirstLineJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = restoreLinePrefix(
-        `<CodeSnippets>\n${tsCodeSnippet}\n${jsCodeSnippet}\n</CodeSnippets>`,
+        `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
         linePrefix,
       )
 

@@ -25,7 +25,7 @@ function useSelectCodeLang() {
 
   const getCodeLangStorage = () => {
     try {
-      return localStorage.getItem(storageKey) ?? codeLangDefaultClient
+      return window.localStorage.getItem(storageKey) ?? codeLangDefaultClient
     } catch (error) {
       console.error(error)
       assertWarning(false, 'Error reading from localStorage')

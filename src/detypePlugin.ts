@@ -54,20 +54,20 @@ async function transformCode(code: string, moduleId: string) {
   let lastIndex = 0
 
   for (const match of matches) {
-    let [codeBlockOuterStr, linePrefix, codeBlockLang, codeBlockContent] = match
-    const codeBlockFirstLine = codeBlockOuterStr.split('\n')[0].slice(linePrefix.length)
+    let [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContent] = match
+    const codeBlockFirstLine = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
 
     const blockStartIndex = match.index
     const blockEnd = blockStartIndex + codeBlockOuterStr.length
 
     codeNew += code.slice(lastIndex, blockStartIndex)
 
-    if (linePrefix.length > 0) {
-      codeBlockContent = removeLinePrefix(codeBlockContent, linePrefix, moduleId)
+    if (codeBlockIndent.length > 0) {
+      codeBlockContent = removeLinePrefix(codeBlockContent, codeBlockIndent, moduleId)
     }
 
     if (codeBlockFirstLine.includes('ts-only')) {
-      codeNew += `${linePrefix}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${codeBlockOuterStr}\n${linePrefix}</CodeSnippet>`
+      codeNew += `${codeBlockIndent}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       const codeBlockContentJs = await detype(codeBlockContent.replaceAll('.ts', '.js'), `tsCode.${codeBlockLang}`, {
         removeTsComments: true,
@@ -81,7 +81,7 @@ async function transformCode(code: string, moduleId: string) {
       const codeSnippetTs = `<CodeSnippet language={'js'}>\n${codeBlockFirstLineJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = restoreLinePrefix(
         `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
-        linePrefix,
+        codeBlockIndent,
       )
 
       codeNew += codeSnippets
@@ -94,25 +94,25 @@ async function transformCode(code: string, moduleId: string) {
   return codeNew
 }
 
-function removeLinePrefix(code: string, linePrefix: string, moduleId: string) {
+function removeLinePrefix(code: string, codeBlockIndent: string, moduleId: string) {
   return code
     .split('\n')
     .map((line) => {
       assertUsage(
-        line.startsWith(linePrefix),
-        `In ${pc.bold(pc.blue(moduleId))} the line ${pc.bold(line)} must start with ${pc.bold(linePrefix)}`,
+        line.startsWith(codeBlockIndent),
+        `In ${pc.bold(pc.blue(moduleId))} the line ${pc.bold(line)} must start with ${pc.bold(codeBlockIndent)}`,
       )
-      return line.slice(linePrefix.length)
+      return line.slice(codeBlockIndent.length)
     })
     .join('\n')
 }
 
-function restoreLinePrefix(code: string, linePrefix: string) {
-  if (!linePrefix.length) {
+function restoreLinePrefix(code: string, codeBlockIndent: string) {
+  if (!codeBlockIndent.length) {
     return code
   }
   return code
     .split('\n')
-    .map((line) => `${linePrefix}${line}`)
+    .map((line) => `${codeBlockIndent}${line}`)
     .join('\n')
 }

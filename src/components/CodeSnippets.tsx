@@ -38,27 +38,19 @@ function CodeSnippet({
 
   const style = tsOnly ? {} : { display: codeLangSelected === codeLang ? 'block' : 'none' }
 
-  const copyToClipboard = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    try {
-      const figureEl = e.currentTarget.nextElementSibling
-      if (figureEl?.tagName === 'FIGURE') {
-        let text = figureEl.textContent ?? ''
-        text = removeTrailingWhitespace(text)
-        await navigator.clipboard.writeText(text)
-        console.log('Copied to clipboard!')
-      }
-    } catch (error) {
-      console.error(error)
-      assertWarning(false, 'Copy to clipboard failed')
-    }
-  }
-
   return (
     <div style={{ ...style, position: 'relative' }}>
       <button
         type="button"
         style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
-        onClick={copyToClipboard}
+        onClick={async (e) => {
+          try {
+            await copyToClipboard(e)
+          } catch (error) {
+            console.error(error)
+            assertWarning(false, 'Copy to clipboard failed')
+          }
+        }}
       >
         Copy
       </button>
@@ -71,6 +63,16 @@ function CodeSnippet({
 function TypescriptOnly({ children }: { children: React.ReactNode }) {
   const [codeLangSelected] = useSelectCodeLang()
   return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>
+}
+
+async function copyToClipboard(e: React.MouseEvent<HTMLButtonElement>) {
+  const figureEl = e.currentTarget.nextElementSibling
+  if (figureEl?.tagName === 'FIGURE') {
+    let text = figureEl.textContent ?? ''
+    text = removeTrailingWhitespace(text)
+    await navigator.clipboard.writeText(text)
+    console.log('Copied to clipboard!')
+  }
 }
 
 function removeTrailingWhitespace(text: string) {

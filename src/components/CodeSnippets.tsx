@@ -14,7 +14,6 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
     <div>
       <form style={{ position: 'relative' }}>
         <select
-          name="language"
           id="language"
           onChange={handleOnChange}
           value={selectedLang}

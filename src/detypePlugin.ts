@@ -2,10 +2,17 @@ export { detypePlugin }
 
 import type { PluginOption } from 'vite'
 import module from 'node:module'
-
 // Cannot use `import { transform } from 'detype'` as it results in errors,
 // and the package has no default export. Using `module.createRequire` instead.
 const { transform: detype } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
+
+const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOptions'] = {
+  semi: false,
+  singleQuote: true,
+  printWidth: 100,
+  trailingComma: 'none',
+}
+const codeBlockRE = /^([ \t]{0,3}>?[ \t]?)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
 
 function detypePlugin(): PluginOption {
   return {
@@ -17,14 +24,6 @@ function detypePlugin(): PluginOption {
       return codeNew
     },
   }
-}
-
-const codeBlockRE = /^([ \t]{0,3}>?[ \t]?)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
-const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOptions'] = {
-  semi: false,
-  singleQuote: true,
-  printWidth: 100,
-  trailingComma: 'none',
 }
 
 async function transformCode(code: string) {

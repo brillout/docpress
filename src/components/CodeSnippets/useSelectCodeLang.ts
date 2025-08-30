@@ -7,12 +7,6 @@ const storageKey = 'docpress:code-lang'
 const codeLangdefaultSsr = 'ts'
 const codeLangDefaultClient = 'js'
 
-declare global {
-  interface WindowEventMap {
-    'code-lang-storage': CustomEvent
-  }
-}
-
 function useSelectCodeLang() {
   const [codeLangSelected, setCodeLangSelected] = useState(codeLangdefaultSsr)
   const updateState = () => {
@@ -58,4 +52,10 @@ function useSelectCodeLang() {
   }, [])
 
   return [codeLangSelected, selectCodeLang] as const
+}
+
+declare global {
+  interface WindowEventMap {
+    'code-lang-storage': CustomEvent
+  }
 }

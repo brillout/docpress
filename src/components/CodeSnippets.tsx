@@ -1,10 +1,10 @@
 export { CodeSnippets, CodeSnippet, TypescriptOnly }
 
 import React from 'react'
-import { useSelectedLanguage } from '../utils/useSelectedLanguage'
+import { useSelectCodeLang } from '../utils/useSelectCodeLang'
 
 function CodeSnippets({ children }: { children: React.ReactNode }) {
-  const [selectedLang, setSelectedLang] = useSelectedLanguage()
+  const [selectedLang, setSelectedLang] = useSelectCodeLang()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLang(e.target.value)
@@ -34,7 +34,7 @@ function CodeSnippet({
   language,
   tsOnly = false,
 }: { children: React.ReactNode; language: string; tsOnly: boolean }) {
-  const [selectedLang] = useSelectedLanguage()
+  const [selectedLang] = useSelectCodeLang()
 
   const style = tsOnly ? {} : { display: selectedLang === language ? 'block' : 'none' }
 
@@ -66,7 +66,7 @@ function CodeSnippet({
 
 // Show/hide TypeScript sections (code and/or plain)
 function TypescriptOnly({ children }: { children: React.ReactNode }) {
-  const [selectedLang] = useSelectedLanguage()
+  const [selectedLang] = useSelectCodeLang()
 
   return <div style={{ display: selectedLang === 'ts' ? 'block' : 'none' }}>{children}</div>
 }

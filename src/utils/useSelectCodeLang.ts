@@ -1,4 +1,4 @@
-export { useSelectedLanguage }
+export { useSelectCodeLang }
 
 import { useState, useEffect, useCallback } from 'react'
 
@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-function useSelectedLanguage() {
+function useSelectCodeLang() {
   const [selectedLang, setSelectedLang] = useState(defaultSsrLang)
 
   const getValue = () => {

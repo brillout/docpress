@@ -1,5 +1,5 @@
 /* Language select */
-select#code-lang-select {
+#code-lang-select {
   position: absolute;
   top: 10px;
   right: 42px;
@@ -20,13 +20,13 @@ select#code-lang-select {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
-select#code-lang-select:focus {
+#code-lang-select:focus {
   box-shadow: 0 0 0 2px #5b9bd54d;
   outline: none;
 }
 
 /* Copy button */
-button.copy-button {
+.copy-button {
   display: inline-flex;
   align-items: center;
   position: absolute !important;

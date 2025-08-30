@@ -75,20 +75,16 @@ function CopyButton() {
       )}
     </button>
   )
-  function onSuccess() {
-    onCopy(true)
-  }
-  function onError(error: unknown) {
-    console.error(error)
-    onCopy(false)
-  }
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
+    let success: boolean
     try {
       await copyToClipboard(e)
-      onSuccess()
+      success = true
     } catch (error) {
-      onError(error)
+      console.error(error)
+      success = false
     }
+    onCopy(success)
   }
 }
 

@@ -63,7 +63,7 @@ async function transformCode(code: string, moduleId: string) {
     codeNew += code.slice(lastIndex, blockStart)
 
     if (linePrefix.length > 0) {
-      tsCode = stripStarts(tsCode, linePrefix, moduleId)
+      tsCode = removeLinePrefix(tsCode, linePrefix, moduleId)
     }
 
     if (tsCodeBlockOpen.includes('ts-only')) {
@@ -94,7 +94,7 @@ async function transformCode(code: string, moduleId: string) {
   return codeNew
 }
 
-function stripStarts(code: string, linePrefix: string, moduleId: string) {
+function removeLinePrefix(code: string, linePrefix: string, moduleId: string) {
   return code
     .split('\n')
     .map((line) => {

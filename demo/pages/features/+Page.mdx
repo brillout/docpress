@@ -109,3 +109,35 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'node_modules/some-library/dist
 Did you mean to import some-file.js?
 ```
 </CodeBlockTransformer>
+
+
+## JavaScript toggle
+
+
+```ts
+const hello: string = 'world'
+```
+
+```ts
+// Some TypeScript comment
+type Hello = {
+  msg: string
+}
+// Some comment
+const hello: Hello = {
+  msg: 'world'
+}
+```
+
+Using `ts-only`:
+
+```ts ts-only
+// Some TypeScript comment
+type Hello = {
+  msg: string
+}
+// Some comment
+const hello: Hello = {
+  msg: 'world'
+}
+```

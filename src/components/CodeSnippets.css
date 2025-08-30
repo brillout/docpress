@@ -8,7 +8,8 @@
   background-repeat: no-repeat;
   background-position: right 7px center;
   background-size: 10px;
-  appearance: none; /* Remove default arrow in some browsers */
+  /* Remove default arrow in some browsers */
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }

@@ -57,14 +57,14 @@ async function transformCode(code: string, moduleId: string) {
     const [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContentWithIndent] = match
 
     // Remove indentation
-    const codeBlockFirstLine = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
+    const codeBlockOpen = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     const blockStartIndex = match.index
     const blockEnd = blockStartIndex + codeBlockOuterStr.length
     codeNew += code.slice(lastIndex, blockStartIndex)
 
-    if (codeBlockFirstLine.includes('ts-only')) {
+    if (codeBlockOpen.includes('ts-only')) {
       codeNew += `${codeBlockIndent}<CodeSnippet codeLang={'ts'} tsOnly={'true'}>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       const codeBlockContentJs = await detype(codeBlockContent.replaceAll('.ts', '.js'), `tsCode.${codeBlockLang}`, {
@@ -72,11 +72,11 @@ async function transformCode(code: string, moduleId: string) {
         prettierOptions,
       })
       const jsLang = codeBlockLang === 'vue' ? 'vue' : codeBlockLang.replace('t', 'j') // ts => js | tsx => jsx
-      const codeBlockFirstLineJs = codeBlockFirstLine.replace(codeBlockLang, jsLang)
+      const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, jsLang)
       const codeBlockClose = '```'
 
-      const codeSnippetJs = `<CodeSnippet codeLang={'ts'}>\n${codeBlockFirstLine}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippetTs = `<CodeSnippet codeLang={'js'}>\n${codeBlockFirstLineJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetJs = `<CodeSnippet codeLang={'ts'}>\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetTs = `<CodeSnippet codeLang={'js'}>\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = restoreCodeBlockIndent(
         `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
         codeBlockIndent,

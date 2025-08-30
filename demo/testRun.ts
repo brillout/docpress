@@ -108,7 +108,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       hasJs(text, false)
       hasTs(text)
     }
-    const testJs = async () => {
+    const expectJs = async () => {
       const text = await getVisibleText(page)
       hasJs(text)
       hasTs(text, false)
@@ -119,14 +119,14 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     if (isDev) {
       await testTs()
     } else {
-      await testJs()
+      await expectJs()
     }
 
     await page.selectOption('select#code-lang-select', isDev ? 'JavaScript' : 'TypeScript')
     await autoRetry(
       async () => {
         if (isDev) {
-          await testJs()
+          await expectJs()
         } else {
           await testTs()
         }

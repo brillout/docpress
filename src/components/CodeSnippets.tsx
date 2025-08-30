@@ -8,6 +8,7 @@ export { CodeSnippet }
 import React, { useState } from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
 import { assertWarning } from '../utils/assert'
+import './CodeSnippets.css'
 
 /** Only show if TypeScript is selected */
 function TypescriptOnly({ children }: { children: React.ReactNode }) {

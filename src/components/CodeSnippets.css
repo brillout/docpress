@@ -36,18 +36,18 @@ button.copy-button {
   height: 25px;
   z-index: 3;
   border: 1px solid #ccc;
-}
-button.copy-button:hover {
-  background-color: #dbdbdbff;
-}
-button.copy-button:focus {
-  box-shadow: 0 0 0 2px #5b9bd54d;
-  outline: none;
-}
-button.copy-button svg {
-  width: 100%;
-  height: 100%;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
+  &:hover {
+    background-color: #dbdbdbff;
+  }
+  &:focus {
+    box-shadow: 0 0 0 2px #5b9bd54d;
+    outline: none;
+  }
+  & svg {
+    width: 100%;
+    height: 100%;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
 }

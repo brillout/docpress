@@ -39,9 +39,14 @@ button.copy-button {
   width: 30px;
   height: 25px;
   z-index: 3;
+  border: 1px solid #ccc;
 }
 button.copy-button:hover {
   background-color: #dbdbdbff;
+}
+button.copy-button:focus {
+  box-shadow: 0 0 0 2px #5b9bd54d;
+  outline: none;
 }
 /* Shared styles for copy and check SVG icons */
 svg.svg-icon {

@@ -14,6 +14,18 @@ This page is for testing/developing DocPress features.
 - <Link href="#link" /> (same-page link, non-inferred original heading title without needing `sectionTitles`)
 - <Link href="/notes#danger" /> (page link with hash)
 - <Link href="#basic" /> (same-page link, sub heading)
+- <Link href="#custom-hash" /> (custom hash)
+
+### Custom URL hash for section heading{#custom-hash}
+
+Custom URL hash:
+
+```mdx
+### Custom URL hash for section heading{#custom-hash}
+```
+
+> DocPress doesn't yet support `<h2 id="url-hash">${sectionTitle}</h2>` (it's a consideration to support it).
+
 
 ## Code blocks
 

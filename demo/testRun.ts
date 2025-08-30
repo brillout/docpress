@@ -51,6 +51,26 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       expectAlgoliaCategory(html, 'Overview', 1)
     }
   })
+  test(`${featuresURL} - custom URL hash`, async () => {
+    const testUrlHash = async () => {
+      await autoRetry(
+        async () => {
+          const hash = await page.evaluate(() => window.location.hash)
+          expect(hash).toBe('#custom-hash')
+        },
+        { timeout: 5 * 1000 },
+      )
+    }
+    /* Doens't work, seems to be a Playwright bug?
+    await page.click('h2:has-text("Code blocks")', { timeout: 1000 })
+    await page.click('h3:has-text("Custom URL hash for section heading")', { timeout: 1000 })
+    await testUrlHash()
+    //*/
+    const text = await page.textContent('body')
+    expect(text).toContain('Custom URL hash for section heading (custom hash)')
+    await page.click('a[href="#custom-hash"]', { timeout: 1000 })
+    await testUrlHash()
+  })
 
   const orphanURL = '/orphan'
   test(orphanURL, async () => {

@@ -1,6 +1,7 @@
 export { useSelectCodeLang }
 
 import { useState, useEffect, useCallback } from 'react'
+import { assertWarning } from '../../utils/assert'
 
 const key = 'docpress:codeLang'
 const defaultSsrLang = 'ts'
@@ -19,7 +20,8 @@ function useSelectCodeLang() {
     try {
       return localStorage.getItem(key) ?? defaultClientLang
     } catch (error) {
-      console.warn('Error reading from localStorage:', error)
+      console.error(error)
+      assertWarning(false, 'Error reading from localStorage')
       return defaultClientLang
     }
   }

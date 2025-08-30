@@ -17,17 +17,12 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
 
 function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
-
-  const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    selectCodeLang(e.target.value)
-  }
-
   return (
     <div>
       <form style={{ position: 'relative' }}>
         <select
           id="code-lang-select"
-          onChange={handleOnChange}
+          onChange={onChange}
           value={codeLangSelected}
           style={{ position: 'absolute', top: '10px', right: '60px', zIndex: 3 }}
         >
@@ -38,6 +33,9 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
       {children}
     </div>
   )
+  function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    selectCodeLang(e.target.value)
+  }
 }
 
 function CodeSnippet({

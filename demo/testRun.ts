@@ -103,7 +103,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     hasJs(textFull)
     hasTs(textFull)
 
-    const testTs = async () => {
+    const expectTs = async () => {
       const text = await getVisibleText(page)
       hasJs(text, false)
       hasTs(text)
@@ -117,7 +117,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.evaluate(() => window.localStorage.clear())
 
     if (isDev) {
-      await testTs()
+      await expectTs()
     } else {
       await expectJs()
     }
@@ -128,7 +128,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
         if (isDev) {
           await expectJs()
         } else {
-          await testTs()
+          await expectTs()
         }
       },
       { timeout: 5 * 1000 },

@@ -1,6 +1,6 @@
 export { CodeSnippets, CodeSnippet, TypescriptOnly }
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
 import { assertWarning } from '../utils/assert'
 
@@ -53,8 +53,15 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
 }
 
 function ButtonCopyToClipboard() {
+  const tooltipInit = 'Copy to clipboard'
+  let [tooltip, setTooltip] = useState(tooltipInit)
+  const show = (msg: string) => {
+    setTooltip(msg)
+    setTimeout(() => setTooltip(tooltipInit), 850)
+  }
   return (
     <button
+      aria-label={tooltip}
       type="button"
       style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
       onClick={onClick}
@@ -63,11 +70,13 @@ function ButtonCopyToClipboard() {
     </button>
   )
   function onSuccess() {
-    console.log('Copied to clipboard!')
+    show('Copied ✅')
   }
   function onError(error: unknown) {
     console.error(error)
-    assertWarning(false, 'Copy to clipboard failed')
+    const msg = 'Copy to clipboard failed ❌'
+    show('Copy to clipboard failed')
+    assertWarning(false, msg)
   }
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
     try {

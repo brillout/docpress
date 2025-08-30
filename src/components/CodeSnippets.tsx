@@ -57,14 +57,7 @@ function ButtonCopyToClipboard() {
     <button
       type="button"
       style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
-      onClick={async (e) => {
-        try {
-          await copyToClipboard(e)
-          onSuccess()
-        } catch (error) {
-          onError(error)
-        }
-      }}
+      onClick={onClick}
     >
       Copy
     </button>
@@ -75,6 +68,14 @@ function ButtonCopyToClipboard() {
   function onError(error: unknown) {
     console.error(error)
     assertWarning(false, 'Copy to clipboard failed')
+  }
+  async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
+    try {
+      await copyToClipboard(e)
+      onSuccess()
+    } catch (error) {
+      onError(error)
+    }
   }
 }
 

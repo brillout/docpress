@@ -17,10 +17,8 @@
     font-size: 12px;
     content: attr(aria-label);
     position: absolute;
-    top: 100%;
     left: 50%;
     transform: translate(-50%, 0);
-    margin-top: 5px;
     background: #fdfdfd;
     padding: 3px 10px;
     box-shadow: rgb(0 0 0 / 8%) 2px 4px 7px 0px;
@@ -33,5 +31,15 @@
     width: max-content;
     */
     white-space: nowrap;
+  }
+  /* Show below */
+  [aria-label]:not([aria-label-position])::before {
+    top: 100%;
+    margin-top: 5px;
+  }
+  /* Show above */
+  [aria-label][aria-label-position='top']::before {
+    bottom: 100%;
+    margin-bottom: 7px;
   }
 }

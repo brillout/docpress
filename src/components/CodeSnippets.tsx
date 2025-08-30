@@ -62,6 +62,7 @@ function ButtonCopyToClipboard() {
   return (
     <button
       aria-label={tooltip}
+      aria-label-position="top"
       type="button"
       style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
       onClick={onClick}

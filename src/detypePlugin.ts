@@ -63,7 +63,7 @@ async function transformCode(code: string, moduleId: string) {
     codeNew += code.slice(lastIndex, blockStartIndex)
 
     if (codeBlockIndent.length > 0) {
-      codeBlockContent = removeLinePrefix(codeBlockContent, codeBlockIndent, moduleId)
+      codeBlockContent = removeCodeBlockIndent(codeBlockContent, codeBlockIndent, moduleId)
     }
 
     if (codeBlockFirstLine.includes('ts-only')) {
@@ -79,7 +79,7 @@ async function transformCode(code: string, moduleId: string) {
 
       const codeSnippetJs = `<CodeSnippet language={'ts'}>\n${codeBlockFirstLine}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippetTs = `<CodeSnippet language={'js'}>\n${codeBlockFirstLineJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippets = restoreLinePrefix(
+      const codeSnippets = restoreCodeBlockIndent(
         `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
         codeBlockIndent,
       )
@@ -94,7 +94,7 @@ async function transformCode(code: string, moduleId: string) {
   return codeNew
 }
 
-function removeLinePrefix(code: string, codeBlockIndent: string, moduleId: string) {
+function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {
   return code
     .split('\n')
     .map((line) => {
@@ -107,7 +107,7 @@ function removeLinePrefix(code: string, codeBlockIndent: string, moduleId: strin
     .join('\n')
 }
 
-function restoreLinePrefix(code: string, codeBlockIndent: string) {
+function restoreCodeBlockIndent(code: string, codeBlockIndent: string) {
   if (!codeBlockIndent.length) {
     return code
   }

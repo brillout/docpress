@@ -122,7 +122,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       await testJs()
     }
 
-    await page.selectOption('select#language', isDev ? 'JavaScript' : 'TypeScript')
+    await page.selectOption('select#code-lang-select', isDev ? 'JavaScript' : 'TypeScript')
     await autoRetry(
       async () => {
         if (isDev) {

@@ -14,7 +14,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
     <div>
       <form style={{ position: 'relative' }}>
         <select
-          id="language"
+          id="code-lang-select"
           onChange={handleOnChange}
           value={selectedLang}
           style={{ position: 'absolute', top: '10px', right: '60px', zIndex: 3 }}

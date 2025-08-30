@@ -3,12 +3,12 @@
   top: 10px;
   right: 42px;
   height: 25px;
-  padding-left: 5px;
-  padding-right: 20px;
+  padding-left: 6px;
+  padding-right: 21px;
   font-size: 14px;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 1'><path d='M0 0l1 1 1-1z'/></svg>");
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 1'><path fill='%23666' d='M0 0l1 1 1-1z'/></svg>");
   background-repeat: no-repeat;
-  background-position: right 5px center;
+  background-position: right 7px center;
   background-size: 10px;
   appearance: none; /* Remove default arrow in some browsers */
   -webkit-appearance: none;
@@ -40,8 +40,8 @@
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fafafa;
+  background-color: #f7f7f7;
   &:hover {
-    background-color: #dbdbdb;
+    background-color: #eee;
   }
 }

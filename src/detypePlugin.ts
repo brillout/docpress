@@ -34,20 +34,20 @@ async function transformCode(code: string) {
   let lastIndex = 0
 
   for (const match of matches) {
-    let [fullMatch, startsWith, lang, tsCode] = match
-    const tsCodeBlockOpen = fullMatch.split('\n')[0].slice(startsWith.length)
+    let [fullMatch, linePrefix, lang, tsCode] = match
+    const tsCodeBlockOpen = fullMatch.split('\n')[0].slice(linePrefix.length)
 
     const blockStart = match.index
     const blockEnd = blockStart + fullMatch.length
 
     codeNew += code.slice(lastIndex, blockStart)
 
-    if (startsWith.length > 0) {
-      tsCode = stripStarts(tsCode, startsWith)
+    if (linePrefix.length > 0) {
+      tsCode = stripStarts(tsCode, linePrefix)
     }
 
     if (tsCodeBlockOpen.includes('ts-only')) {
-      codeNew += `${startsWith}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${fullMatch}\n${startsWith}</CodeSnippet>`
+      codeNew += `${linePrefix}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${fullMatch}\n${linePrefix}</CodeSnippet>`
     } else {
       const jsCode = await detype(tsCode.replaceAll('.ts', '.js'), `tsCode.${lang}`, {
         removeTsComments: true,
@@ -61,7 +61,7 @@ async function transformCode(code: string) {
       const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsCodeBlockOpen}\n${jsCode}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = putBackStarts(
         `<CodeSnippets>\n${tsCodeSnippet}\n${jsCodeSnippet}\n</CodeSnippets>`,
-        startsWith,
+        linePrefix,
       )
 
       codeNew += codeSnippets
@@ -74,19 +74,19 @@ async function transformCode(code: string) {
   return codeNew
 }
 
-function stripStarts(code: string, startsWith: string) {
+function stripStarts(code: string, linePrefix: string) {
   return code
     .split('\n')
-    .map((line) => line.slice(startsWith.length))
+    .map((line) => line.slice(linePrefix.length))
     .join('\n')
 }
 
-function putBackStarts(code: string, startsWith: string) {
-  if (!startsWith.length) {
+function putBackStarts(code: string, linePrefix: string) {
+  if (!linePrefix.length) {
     return code
   }
   return code
     .split('\n')
-    .map((line) => `${startsWith}${line}`)
+    .map((line) => `${linePrefix}${line}`)
     .join('\n')
 }

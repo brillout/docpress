@@ -24,7 +24,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
           id="code-lang-select"
           onChange={onChange}
           value={codeLangSelected}
-          style={{ position: 'absolute', top: '10px', right: '60px', zIndex: 3 }}
+          style={{ position: 'absolute', top: '10px', right: '42px', height: '25px', borderRadius: '5px', zIndex: 3 }}
         >
           <option value="js">JavaScript</option>
           <option value="ts">TypeScript</option>
@@ -58,23 +58,49 @@ function CodeSnippet({
 function ButtonCopyToClipboard() {
   const tooltipInit = 'Copy to clipboard'
   let [tooltip, setTooltip] = useState(tooltipInit)
+  const [isCopied, setIsCopied] = useState(false)
   const show = (msg: string) => {
     setTooltip(msg)
-    setTimeout(() => setTooltip(tooltipInit), 850)
+    setTimeout(() => {
+      setTooltip(tooltipInit)
+      setIsCopied(false)
+    }, 850)
   }
   return (
     <button
+      className="copy-button"
       aria-label={tooltip}
       data-label-position="top"
       type="button"
-      style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
       onClick={onClick}
     >
-      Copy
+      {!isCopied ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className='svg-icon'
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className='svg-icon'
+          viewBox="0 0 24 24"
+          stroke="#28a745"
+          strokeWidth="3"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      )}
     </button>
   )
   function onSuccess() {
-    show('Copied ✅')
+    show('Copied!')
+    setIsCopied(true)
   }
   function onError(error: unknown) {
     console.error(error)

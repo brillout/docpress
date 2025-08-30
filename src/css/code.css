@@ -28,3 +28,26 @@ pre > code {
 pre > code:not([data-language]) {
   padding: 16px !important;
 }
+
+/* Copy Button */
+button.copy-button {
+  display: inline-flex;
+  align-items: center;
+  position: absolute !important;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 25px;
+  z-index: 3;
+}
+button.copy-button:hover {
+  background-color: #dbdbdbff;
+}
+/* Shared styles for copy and check SVG icons */
+svg.svg-icon {
+  width: 100%;
+  height: 100%;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}

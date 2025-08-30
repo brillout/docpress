@@ -14,7 +14,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
   printWidth: 100,
   trailingComma: 'none',
 }
-// Find TypeScript code blocks.
+// RegExp to find TypeScript code blocks.
 //
 // For example:
 // ~~~mdx
@@ -62,7 +62,6 @@ async function transformCode(code: string, moduleId: string) {
 
     const blockStartIndex = match.index
     const blockEnd = blockStartIndex + codeBlockOuterStr.length
-
     codeNew += code.slice(lastIndex, blockStartIndex)
 
     if (codeBlockFirstLine.includes('ts-only')) {
@@ -94,6 +93,7 @@ async function transformCode(code: string, moduleId: string) {
 }
 
 function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {
+  if (!codeBlockIndent.length) return code
   return code
     .split('\n')
     .map((line) => {
@@ -105,11 +105,8 @@ function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: 
     })
     .join('\n')
 }
-
 function restoreCodeBlockIndent(code: string, codeBlockIndent: string) {
-  if (!codeBlockIndent.length) {
-    return code
-  }
+  if (!codeBlockIndent.length) return code
   return code
     .split('\n')
     .map((line) => `${codeBlockIndent}${line}`)

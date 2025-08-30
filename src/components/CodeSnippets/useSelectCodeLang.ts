@@ -40,10 +40,12 @@ function useSelectCodeLang() {
   useEffect(() => {
     // Initial load from localStorage
     setSelectedLang(getValue())
+
     // Update code lang in current tab
     const handleCustomEvent = () => {
       setSelectedLang(getValue())
     }
+
     // Update code lang if changed in another tab
     const handleNativeStorage = (event: StorageEvent) => {
       if (event.key === key) {

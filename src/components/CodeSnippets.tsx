@@ -24,7 +24,6 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
           id="code-lang-select"
           onChange={onChange}
           value={codeLangSelected}
-          style={{ position: 'absolute', top: '10px', right: '42px', height: '25px', borderRadius: '5px', zIndex: 3 }}
         >
           <option value="js">JavaScript</option>
           <option value="ts">TypeScript</option>

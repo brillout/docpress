@@ -4,6 +4,12 @@ import React, { useState } from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
 import { assertWarning } from '../utils/assert'
 
+/** Only show if TypeScript is selected */
+function TypescriptOnly({ children }: { children: React.ReactNode }) {
+  const [codeLangSelected] = useSelectCodeLang()
+  return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>
+}
+
 function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
 
@@ -44,12 +50,6 @@ function CodeSnippet({
       {children}
     </div>
   )
-}
-
-/** Only show if TypeScript is selected */
-function TypescriptOnly({ children }: { children: React.ReactNode }) {
-  const [codeLangSelected] = useSelectCodeLang()
-  return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>
 }
 
 function ButtonCopyToClipboard() {

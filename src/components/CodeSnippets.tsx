@@ -93,12 +93,12 @@ async function copyToClipboard(e: React.MouseEvent<HTMLButtonElement>) {
   const figureEl = e.currentTarget.nextElementSibling
   if (figureEl?.tagName === 'FIGURE') {
     let text = figureEl.textContent ?? ''
-    text = removeTrailingWhitespace(text)
+    text = removeTrailingWhitespaces(text)
     await navigator.clipboard.writeText(text)
   }
 }
 
-function removeTrailingWhitespace(text: string) {
+function removeTrailingWhitespaces(text: string) {
   return text
     .split('\n')
     .map((line) => line.trimEnd())

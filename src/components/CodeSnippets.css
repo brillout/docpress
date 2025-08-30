@@ -44,8 +44,7 @@ button.copy-button:focus {
   box-shadow: 0 0 0 2px #5b9bd54d;
   outline: none;
 }
-
-svg.svg-icon {
+button.copy-button svg {
   width: 100%;
   height: 100%;
   stroke-linecap: round;

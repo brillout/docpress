@@ -9,7 +9,7 @@ const defaultClientLang = 'js'
 
 declare global {
   interface WindowEventMap {
-    'lang-storage': CustomEvent
+    'code-lang-storage': CustomEvent
   }
 }
 
@@ -30,7 +30,7 @@ function useSelectCodeLang() {
     try {
       window.localStorage.setItem(key, value)
       setSelectedLang(value)
-      window.dispatchEvent(new CustomEvent('lang-storage'))
+      window.dispatchEvent(new CustomEvent('code-lang-storage'))
     } catch (error) {
       console.warn('Error setting localStorage:', error)
     }
@@ -50,11 +50,11 @@ function useSelectCodeLang() {
       }
     }
 
-    window.addEventListener('lang-storage', handleCustomEvent)
+    window.addEventListener('code-lang-storage', handleCustomEvent)
     window.addEventListener('storage', handleNativeStorage)
 
     return () => {
-      window.removeEventListener('lang-storage', handleCustomEvent)
+      window.removeEventListener('code-lang-storage', handleCustomEvent)
       window.removeEventListener('storage', handleNativeStorage)
     }
   }, [])

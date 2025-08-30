@@ -74,22 +74,28 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await testUrlHash()
   })
   test(`${featuresURL} - JavaScript toggle`, async () => {
-    const tsText = "const hello: string = 'world'"
-    const jsText = "const hello = 'world'"
+    const tsText1 = "const hello: string = 'world'"
+    const jsText1 = "const hello = 'world'"
+    const tsText2 = 'const someMessage: SomeMessage ='
+    const jsText2 = 'const someMessage ='
     const hasJs = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
       if (yes) {
-        expect(text).toContain(jsText)
+        expect(text).toContain(jsText1)
+        expect(text).toContain(jsText2)
       } else {
-        expect(text).not.toContain(jsText)
+        expect(text).not.toContain(jsText1)
+        expect(text).not.toContain(jsText2)
       }
     }
     const hasTs = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
       if (yes) {
-        expect(text).toContain(tsText)
+        expect(text).toContain(tsText1)
+        expect(text).toContain(tsText2)
       } else {
-        expect(text).not.toContain(tsText)
+        expect(text).not.toContain(tsText1)
+        expect(text).not.toContain(tsText2)
       }
     }
 

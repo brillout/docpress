@@ -21,11 +21,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <form style={{ position: 'relative' }}>
-        <select
-          id="code-lang-select"
-          onChange={onChange}
-          value={codeLangSelected}
-        >
+        <select id="code-lang-select" onChange={onChange} value={codeLangSelected}>
           <option value="js">JavaScript</option>
           <option value="ts">TypeScript</option>
         </select>
@@ -67,17 +63,11 @@ function ButtonCopyToClipboard() {
     }, 850)
   }
   return (
-    <button
-      className="copy-button"
-      aria-label={tooltip}
-      data-label-position="top"
-      type="button"
-      onClick={onClick}
-    >
+    <button className="copy-button" aria-label={tooltip} data-label-position="top" type="button" onClick={onClick}>
       {!isCopied ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className='svg-icon'
+          className="svg-icon"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth="2"
@@ -88,7 +78,7 @@ function ButtonCopyToClipboard() {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className='svg-icon'
+          className="svg-icon"
           viewBox="0 0 24 24"
           stroke="#28a745"
           strokeWidth="3"

@@ -7,7 +7,6 @@ export { CodeSnippet }
 
 import React, { useState } from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
-import { assert, assertWarning } from '../utils/assert'
 import './CodeSnippets.css'
 
 /** Only show if TypeScript is selected */
@@ -82,7 +81,6 @@ function CopyButton() {
   function onError(error: unknown) {
     console.error(error)
     onCopy(false)
-    assertWarning(false, tooltip)
   }
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
     try {

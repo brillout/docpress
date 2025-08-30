@@ -36,10 +36,10 @@ function CodeSnippet({
 }: { children: React.ReactNode; codeLang: string; tsOnly: boolean }) {
   const [codeLangSelected] = useSelectCodeLang()
 
-  const style = tsOnly ? {} : { display: codeLangSelected === codeLang ? 'block' : 'none' }
+  const displayStyle = tsOnly ? {} : { display: codeLangSelected === codeLang ? 'block' : 'none' }
 
   return (
-    <div style={{ ...style, position: 'relative' }}>
+    <div style={{ ...displayStyle, position: 'relative' }}>
       <ButtonCopyToClipboard />
       {children}
     </div>

@@ -74,6 +74,7 @@ async function transformCode(code: string, moduleId: string) {
         removeTsComments: true,
         prettierOptions,
       })
+
       const codeBlockLangJs =
         codeBlockLang === 'vue'
           ? 'vue'

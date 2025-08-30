@@ -57,7 +57,7 @@ function CopyButton() {
     setIsSuccess(success)
     setTimeout(() => {
       setIsSuccess(null)
-    }, 850)
+    }, 900)
   }
   const tooltip = isSuccess === null ? 'Copy to clipboard' : isSuccess ? 'Copied' : 'Copy failed'
   return (

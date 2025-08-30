@@ -61,7 +61,7 @@ async function transformCode(code: string, moduleId: string) {
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     const blockStartIndex = match.index
-    const blockEnd = blockStartIndex + codeBlockOuterStr.length
+    const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
     codeNew += code.slice(lastIndex, blockStartIndex)
 
     if (codeBlockOpen.includes('ts-only')) {
@@ -85,7 +85,7 @@ async function transformCode(code: string, moduleId: string) {
       codeNew += codeSnippets
     }
 
-    lastIndex = blockEnd
+    lastIndex = blockEndIndex
   }
   codeNew += code.slice(lastIndex)
 

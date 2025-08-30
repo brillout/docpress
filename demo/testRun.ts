@@ -76,20 +76,36 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   test(`${featuresURL} - JavaScript toggle`, async () => {
     const tsText = "const hello: string = 'world'"
     const jsText = "const hello = 'world'"
+    const hasJs = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(jsText)
+      } else {
+        expect(text).not.toContain(jsText)
+      }
+    }
+    const hasTs = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(tsText)
+      } else {
+        expect(text).not.toContain(tsText)
+      }
+    }
 
     const textFull = await page.textContent('body')
-    expect(textFull).toContain(tsText)
-    expect(textFull).toContain(jsText)
+    hasJs(textFull)
+    hasTs(textFull)
 
     const testTs = async () => {
       const text = await getVisibleText(page)
-      expect(text).toContain(tsText)
-      expect(text).not.toContain(jsText)
+      hasJs(text, false)
+      hasTs(text)
     }
     const testJs = async () => {
       const text = await getVisibleText(page)
-      expect(text).toContain(jsText)
-      expect(text).not.toContain(tsText)
+      hasJs(text)
+      hasTs(text, false)
     }
 
     await page.evaluate(() => window.localStorage.clear())

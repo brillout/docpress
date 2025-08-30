@@ -5,7 +5,7 @@ import { assertWarning } from '../../utils/assert'
 
 const key = 'docpress:code-lang'
 const defaultSsrLang = 'ts'
-const defaultClientLang = 'js'
+const codeLangDefault = 'js'
 
 declare global {
   interface WindowEventMap {
@@ -18,11 +18,11 @@ function useSelectCodeLang() {
 
   const getValue = () => {
     try {
-      return localStorage.getItem(key) ?? defaultClientLang
+      return localStorage.getItem(key) ?? codeLangDefault
     } catch (error) {
       console.error(error)
       assertWarning(false, 'Error reading from localStorage')
-      return defaultClientLang
+      return codeLangDefault
     }
   }
 

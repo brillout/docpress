@@ -74,7 +74,11 @@ async function transformCode(code: string, moduleId: string) {
         removeTsComments: true,
         prettierOptions,
       })
-      const jsLang = codeBlockLang === 'vue' ? 'vue' : codeBlockLang.replace('t', 'j') // ts => js | tsx => jsx
+      const jsLang =
+        codeBlockLang === 'vue'
+          ? 'vue'
+          : // ts => js | tsx => jsx
+            codeBlockLang.replace('t', 'j')
       const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, jsLang)
       const codeBlockClose = '```'
 

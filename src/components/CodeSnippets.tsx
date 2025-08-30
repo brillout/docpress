@@ -1,4 +1,9 @@
-export { CodeSnippets, CodeSnippet, TypescriptOnly }
+// Public
+export { TypescriptOnly }
+
+// Internal
+export { CodeSnippets }
+export { CodeSnippet }
 
 import React, { useState } from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'

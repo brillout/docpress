@@ -4,10 +4,10 @@ import React from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
 
 function CodeSnippets({ children }: { children: React.ReactNode }) {
-  const [selectedLang, setSelectedLang] = useSelectCodeLang()
+  const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedLang(e.target.value)
+    selectCodeLang(e.target.value)
   }
 
   return (
@@ -16,7 +16,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
         <select
           id="code-lang-select"
           onChange={handleOnChange}
-          value={selectedLang}
+          value={codeLangSelected}
           style={{ position: 'absolute', top: '10px', right: '60px', zIndex: 3 }}
         >
           <option value="js">JavaScript</option>
@@ -33,9 +33,9 @@ function CodeSnippet({
   codeLang,
   tsOnly = false,
 }: { children: React.ReactNode; codeLang: string; tsOnly: boolean }) {
-  const [selectedLang] = useSelectCodeLang()
+  const [codeLangSelected] = useSelectCodeLang()
 
-  const style = tsOnly ? {} : { display: selectedLang === codeLang ? 'block' : 'none' }
+  const style = tsOnly ? {} : { display: codeLangSelected === codeLang ? 'block' : 'none' }
 
   const copyToClipboard = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
@@ -67,9 +67,9 @@ function CodeSnippet({
 
 // Show/hide TypeScript sections (code and/or plain)
 function TypescriptOnly({ children }: { children: React.ReactNode }) {
-  const [selectedLang] = useSelectCodeLang()
+  const [codeLangSelected] = useSelectCodeLang()
 
-  return <div style={{ display: selectedLang === 'ts' ? 'block' : 'none' }}>{children}</div>
+  return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>
 }
 
 function removeTrailingWhitespace(text: string) {

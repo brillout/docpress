@@ -3,6 +3,8 @@ export { testRun }
 import { test, expect, run, fetchHtml, page, getServerUrl, autoRetry } from '@brillout/test-e2e'
 
 function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
+  const isDev = cmd === 'pnpm run dev'
+
   {
     // Preview => `npm run preview` takes a long time
     // Dev => `Learn more collapsible` takes a long time
@@ -71,6 +73,50 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.click('a[href="#custom-hash"]', { timeout: 1000 })
     await testUrlHash()
   })
+  test(`${featuresURL} - JavaScript toggle`, async () => {
+    const tsText = "const hello: string = 'world'"
+    const jsText = "const hello = 'world'"
+
+    const textFull = await page.textContent('body')
+    expect(textFull).toContain(tsText)
+    expect(textFull).toContain(jsText)
+
+    const testTs = async () => {
+      const text = await getVisibleText(page)
+      expect(text).toContain(tsText)
+      expect(text).not.toContain(jsText)
+    }
+    const testJs = async () => {
+      const text = await getVisibleText(page)
+      expect(text).toContain(jsText)
+      expect(text).not.toContain(tsText)
+    }
+
+    await page.evaluate(() => window.localStorage.clear())
+
+    if (isDev) {
+      await testTs()
+    } else {
+      await testJs()
+    }
+
+    await page.selectOption('select#language', isDev ? 'JavaScript' : 'TypeScript')
+    await autoRetry(
+      async () => {
+        if (isDev) {
+          await testJs()
+        } else {
+          await testTs()
+        }
+      },
+      { timeout: 5 * 1000 },
+    )
+
+    {
+      const html = await fetchHtml(featuresURL)
+      expect(html).toContain('SomeMessage')
+    }
+  })
 
   const orphanURL = '/orphan'
   test(orphanURL, async () => {
@@ -120,4 +166,29 @@ function expectAlgoliaCategory(html: string, category: string, order: number) {
   expect(html).toContain(
     `<meta name="algolia:category" content="${category}"><meta name="algolia:category:order" content="${order}">`,
   )
+}
+
+type Page = typeof page
+async function getVisibleText(page: Page, selector: string = 'body'): Promise<string> {
+  return await page.evaluate((sel) => {
+    function extractVisibleText(element: Element): string {
+      const style = window.getComputedStyle(element)
+      if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+        return ''
+      }
+
+      let text = ''
+      for (const child of element.childNodes) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          text += child.textContent
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          text += extractVisibleText(child as Element)
+        }
+      }
+      return text
+    }
+
+    const root = document.querySelector(sel)
+    return root ? extractVisibleText(root).trim() : ''
+  }, selector)
 }

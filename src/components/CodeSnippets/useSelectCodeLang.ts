@@ -32,7 +32,8 @@ function useSelectCodeLang() {
       setSelectedLang(value)
       window.dispatchEvent(new CustomEvent('code-lang-storage'))
     } catch (error) {
-      console.warn('Error setting localStorage:', error)
+      console.error(error)
+      assertWarning(false, 'Error setting localStorage')
     }
   }, [])
 

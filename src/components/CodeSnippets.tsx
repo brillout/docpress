@@ -1,7 +1,7 @@
 export { CodeSnippets, CodeSnippet, TypescriptOnly }
 
 import React from 'react'
-import { useSelectCodeLang } from '../utils/useSelectCodeLang'
+import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
 
 function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [selectedLang, setSelectedLang] = useSelectCodeLang()

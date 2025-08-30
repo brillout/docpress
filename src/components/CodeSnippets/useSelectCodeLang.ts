@@ -19,8 +19,8 @@ function useSelectCodeLang() {
     setCodeLangSelected(getCodeLangStorage())
   }
   const updateStateOnStorageEvent = (event: StorageEvent) => {
-      if (event.key === storageKey) return
-        updateState()
+    if (event.key === storageKey) return
+    updateState()
   }
 
   const getCodeLangStorage = () => {
@@ -47,18 +47,13 @@ function useSelectCodeLang() {
   useEffect(() => {
     // Initial load from localStorage
     updateState()
-
-    const handleNativeStorage = () => {
-    }
-
     // Update code lang in current tab
     window.addEventListener('code-lang-storage', updateState)
     // Update code lang if changed in another tab
-    window.addEventListener('storage', handleNativeStorage)
-
+    window.addEventListener('storage', updateStateOnStorageEvent)
     return () => {
       window.removeEventListener('code-lang-storage', updateState)
-      window.removeEventListener('storage', handleNativeStorage)
+      window.removeEventListener('storage', updateStateOnStorageEvent)
     }
   }, [])
 

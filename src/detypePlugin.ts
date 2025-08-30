@@ -12,7 +12,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
   printWidth: 100,
   trailingComma: 'none',
 }
-const codeBlockRE = /^([ \t]{0,3}>?[ \t]?)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
+const codeBlockRE = /^(.*)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
 
 function detypePlugin(): PluginOption {
   return {

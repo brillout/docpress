@@ -2,7 +2,7 @@ export { useSelectCodeLang }
 
 import { useState, useEffect, useCallback } from 'react'
 
-const key = 'docpress:selectedLang'
+const key = 'docpress:codeLang'
 const defaultSsrLang = 'ts'
 const defaultClientLang = 'js'
 

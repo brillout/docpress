@@ -2,7 +2,7 @@ export { detypePlugin }
 
 import type { PluginOption } from 'vite'
 import module from 'node:module'
-import { assertUsage } from './utils/assert'
+import { assertUsage } from './utils/assert.js'
 import pc from '@brillout/picocolors'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
 // and the package has no default export. Using `module.createRequire` instead.

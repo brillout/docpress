@@ -29,9 +29,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
 
 async function transformCode(code: string) {
   const matches = Array.from(code.matchAll(codeBlockRE))
-  if (matches.length === 0) {
-    return code
-  }
+  if (matches.length === 0) return
 
   let codeNew = `import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`
   let lastIndex = 0

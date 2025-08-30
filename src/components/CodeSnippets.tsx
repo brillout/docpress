@@ -20,7 +20,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <form style={{ position: 'relative' }}>
-        <select id="code-lang-select" onChange={onChange} value={codeLangSelected}>
+        <select className="code-lang-select" onChange={onChange} value={codeLangSelected}>
           <option value="js">JavaScript</option>
           <option value="ts">TypeScript</option>
         </select>

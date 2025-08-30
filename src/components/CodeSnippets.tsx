@@ -58,7 +58,7 @@ function CopyButton() {
       setIsSuccess(null)
     }, 900)
   }
-  const tooltip = isSuccess === null ? 'Copy to clipboard' : isSuccess ? 'Copied' : 'Copy failed'
+  const tooltip = isSuccess === null ? 'Copy to clipboard' : isSuccess ? 'Copied' : 'Failed'
   return (
     <button className="copy-button" aria-label={tooltip} data-label-position="top" type="button" onClick={onClick}>
       {isSuccess === null ? (

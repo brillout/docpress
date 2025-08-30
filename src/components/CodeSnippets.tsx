@@ -30,12 +30,12 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
 
 function CodeSnippet({
   children,
-  language,
+  codeLang,
   tsOnly = false,
-}: { children: React.ReactNode; language: string; tsOnly: boolean }) {
+}: { children: React.ReactNode; codeLang: string; tsOnly: boolean }) {
   const [selectedLang] = useSelectCodeLang()
 
-  const style = tsOnly ? {} : { display: selectedLang === language ? 'block' : 'none' }
+  const style = tsOnly ? {} : { display: selectedLang === codeLang ? 'block' : 'none' }
 
   const copyToClipboard = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {

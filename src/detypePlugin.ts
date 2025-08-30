@@ -12,11 +12,8 @@ function detypePlugin(): PluginOption {
     name: '@brillout/docpress:detypePlugin',
     enforce: 'pre',
     transform: async (code: string, id: string) => {
-      if (!id.endsWith('.mdx')) {
-        return
-      }
+      if (!id.endsWith('.mdx')) return
       const codeNew = await transformCode(code)
-
       return codeNew
     },
   }

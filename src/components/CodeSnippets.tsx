@@ -76,7 +76,7 @@ function ButtonCopyToClipboard() {
   function onError(error: unknown) {
     console.error(error)
     const msg = 'Copy to clipboard failed ❌'
-    show('Copy to clipboard failed')
+    show(msg)
     assertWarning(false, msg)
   }
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {

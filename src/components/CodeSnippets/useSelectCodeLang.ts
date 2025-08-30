@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
 
 const key = 'docpress:code-lang'
-const defaultSsrLang = 'ts'
-const codeLangDefault = 'js'
+const codeLangdefaultSsr = 'ts'
+const codeLangDefaultClient = 'js'
 
 declare global {
   interface WindowEventMap {
@@ -14,15 +14,15 @@ declare global {
 }
 
 function useSelectCodeLang() {
-  const [codeLangSelected, setCodeLangSelected] = useState(defaultSsrLang)
+  const [codeLangSelected, setCodeLangSelected] = useState(codeLangdefaultSsr)
 
   const getValue = () => {
     try {
-      return localStorage.getItem(key) ?? codeLangDefault
+      return localStorage.getItem(key) ?? codeLangDefaultClient
     } catch (error) {
       console.error(error)
       assertWarning(false, 'Error reading from localStorage')
-      return codeLangDefault
+      return codeLangDefaultClient
     }
   }
 

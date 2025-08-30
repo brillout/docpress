@@ -46,7 +46,7 @@ function CodeSnippet({
   )
 }
 
-// Show/hide TypeScript sections (code and/or plain)
+/** Only show if TypeScript is selected */
 function TypescriptOnly({ children }: { children: React.ReactNode }) {
   const [codeLangSelected] = useSelectCodeLang()
   return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>

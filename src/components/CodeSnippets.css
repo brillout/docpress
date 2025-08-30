@@ -1,8 +1,6 @@
 /* Language select */
 .code-lang-select {
-  top: 10px;
   right: 42px;
-  height: 25px;
   padding-left: 6px;
   padding-right: 21px;
   font-size: 14px;
@@ -19,10 +17,8 @@
 .copy-button {
   display: inline-flex;
   align-items: center;
-  top: 10px;
   right: 10px;
   width: 30px;
-  height: 25px;
   & svg {
     width: 100%;
     height: 100%;
@@ -36,6 +32,8 @@
 .copy-button,
 .code-lang-select {
   position: absolute !important;
+  height: 25px;
+  top: 10px;
   z-index: 3;
   outline: none;
   cursor: pointer;

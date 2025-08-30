@@ -20,8 +20,8 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
           value={selectedLang}
           style={{ position: 'absolute', top: '10px', right: '60px', zIndex: 3 }}
         >
-          <option value="js">Javascript</option>
-          <option value="ts">Typescript</option>
+          <option value="js">JavaScript</option>
+          <option value="ts">TypeScript</option>
         </select>
       </form>
       {children}

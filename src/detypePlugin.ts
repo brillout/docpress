@@ -24,6 +24,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
   semi: false,
   singleQuote: true,
   printWidth: 100,
+  trailingComma: 'none',
 }
 
 async function transformCode(code: string) {

@@ -2,6 +2,8 @@ export { detypePlugin }
 
 import type { PluginOption } from 'vite'
 import module from 'node:module'
+import { assertUsage } from './utils/assert'
+import pc from '@brillout/picocolors'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
 // and the package has no default export. Using `module.createRequire` instead.
 const { transform: detype } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
@@ -38,13 +40,13 @@ function detypePlugin(): PluginOption {
     enforce: 'pre',
     transform: async (code: string, moduleId: string) => {
       if (!moduleId.endsWith('.mdx')) return
-      const codeNew = await transformCode(code)
+      const codeNew = await transformCode(code, moduleId)
       return codeNew
     },
   }
 }
 
-async function transformCode(code: string) {
+async function transformCode(code: string, moduleId: string) {
   const matches = Array.from(code.matchAll(codeBlockRE))
   if (matches.length === 0) return
 
@@ -61,7 +63,7 @@ async function transformCode(code: string) {
     codeNew += code.slice(lastIndex, blockStart)
 
     if (linePrefix.length > 0) {
-      tsCode = stripStarts(tsCode, linePrefix)
+      tsCode = stripStarts(tsCode, linePrefix, moduleId)
     }
 
     if (tsCodeBlockOpen.includes('ts-only')) {
@@ -92,10 +94,16 @@ async function transformCode(code: string) {
   return codeNew
 }
 
-function stripStarts(code: string, linePrefix: string) {
+function stripStarts(code: string, linePrefix: string, moduleId: string) {
   return code
     .split('\n')
-    .map((line) => line.slice(linePrefix.length))
+    .map((line) => {
+      assertUsage(
+        line.startsWith(linePrefix),
+        `In ${pc.bold(pc.blue(moduleId))} the line ${pc.bold(line)} must start with ${pc.bold(linePrefix)}`,
+      )
+      return line.slice(linePrefix.length)
+    })
     .join('\n')
 }
 

@@ -12,6 +12,23 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
   printWidth: 100,
   trailingComma: 'none',
 }
+// Find TypeScript code blocks.
+//
+// For example:
+// ~~~mdx
+// ```ts
+// const hello: string = 'world'
+// ```
+// ~~~
+//
+// But also indented code blocks:
+// ~~~mdx
+// > Also works:
+// > - In blockquotes & bullet points.
+// > - ```ts
+// >   const hello: string = 'world'
+// >   ```
+// ~~~
 const codeBlockRE = /^(.*)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
 
 function detypePlugin(): PluginOption {

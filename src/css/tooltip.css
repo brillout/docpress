@@ -33,12 +33,12 @@
     white-space: nowrap;
   }
   /* Show below */
-  [aria-label]:not([aria-label-position])::before {
+  [aria-label]:not([data-label-position])::before {
     top: 100%;
     margin-top: 5px;
   }
   /* Show above */
-  [aria-label][aria-label-position='top']::before {
+  [aria-label][data-label-position='top']::before {
     bottom: 100%;
     margin-bottom: 7px;
   }

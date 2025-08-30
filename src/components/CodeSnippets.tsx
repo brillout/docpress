@@ -40,20 +40,7 @@ function CodeSnippet({
 
   return (
     <div style={{ ...style, position: 'relative' }}>
-      <button
-        type="button"
-        style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
-        onClick={async (e) => {
-          try {
-            await copyToClipboard(e)
-          } catch (error) {
-            console.error(error)
-            assertWarning(false, 'Copy to clipboard failed')
-          }
-        }}
-      >
-        Copy
-      </button>
+      <ButtonCopyToClipboard />
       {children}
     </div>
   )
@@ -63,6 +50,25 @@ function CodeSnippet({
 function TypescriptOnly({ children }: { children: React.ReactNode }) {
   const [codeLangSelected] = useSelectCodeLang()
   return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>
+}
+
+function ButtonCopyToClipboard() {
+  return (
+    <button
+      type="button"
+      style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 3 }}
+      onClick={async (e) => {
+        try {
+          await copyToClipboard(e)
+        } catch (error) {
+          console.error(error)
+          assertWarning(false, 'Copy to clipboard failed')
+        }
+      }}
+    >
+      Copy
+    </button>
+  )
 }
 
 async function copyToClipboard(e: React.MouseEvent<HTMLButtonElement>) {

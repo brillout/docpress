@@ -79,7 +79,7 @@ async function transformCode(code: string, moduleId: string) {
 
       const tsCodeSnippet = `<CodeSnippet language={'ts'}>\n${tsCodeBlockOpen}\n${tsCode}${codeBlockClose}\n</CodeSnippet>`
       const jsCodeSnippet = `<CodeSnippet language={'js'}>\n${jsCodeBlockOpen}\n${jsCode}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippets = putBackStarts(
+      const codeSnippets = restoreLinePrefix(
         `<CodeSnippets>\n${tsCodeSnippet}\n${jsCodeSnippet}\n</CodeSnippets>`,
         linePrefix,
       )
@@ -107,7 +107,7 @@ function removeLinePrefix(code: string, linePrefix: string, moduleId: string) {
     .join('\n')
 }
 
-function putBackStarts(code: string, linePrefix: string) {
+function restoreLinePrefix(code: string, linePrefix: string) {
   if (!linePrefix.length) {
     return code
   }

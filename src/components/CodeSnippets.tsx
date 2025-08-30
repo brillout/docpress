@@ -60,15 +60,22 @@ function ButtonCopyToClipboard() {
       onClick={async (e) => {
         try {
           await copyToClipboard(e)
+          onSuccess()
         } catch (error) {
-          console.error(error)
-          assertWarning(false, 'Copy to clipboard failed')
+          onError(error)
         }
       }}
     >
       Copy
     </button>
   )
+  function onSuccess() {
+    console.log('Copied to clipboard!')
+  }
+  function onError(error: unknown) {
+    console.error(error)
+    assertWarning(false, 'Copy to clipboard failed')
+  }
 }
 
 async function copyToClipboard(e: React.MouseEvent<HTMLButtonElement>) {
@@ -77,7 +84,6 @@ async function copyToClipboard(e: React.MouseEvent<HTMLButtonElement>) {
     let text = figureEl.textContent ?? ''
     text = removeTrailingWhitespace(text)
     await navigator.clipboard.writeText(text)
-    console.log('Copied to clipboard!')
   }
 }
 

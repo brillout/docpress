@@ -24,7 +24,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
 // But also indented code blocks:
 // ~~~mdx
 // > Also works:
-// > - In blockquotes & bullet points.
+// > - In blockquotes & bullet points
 // > - ```ts
 // >   const hello: string = 'world'
 // >   ```

@@ -5,7 +5,7 @@ import module from 'node:module'
 
 // Cannot use `import { transform } from 'detype'` as it results in errors,
 // and the package has no default export. Using `module.createRequire` instead.
-const { transform } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
+const { transform: detype } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
 
 function detypePlugin(): PluginOption {
   return {
@@ -51,7 +51,7 @@ async function transformCode(code: string) {
     if (tsCodeBlockOpen.includes('ts-only')) {
       codeNew += `${startsWith}<CodeSnippet language={'ts'} tsOnly={'true'}>\n${fullMatch}\n${startsWith}</CodeSnippet>`
     } else {
-      const jsCode = await transform(tsCode.replaceAll('.ts', '.js'), `tsCode.${lang}`, {
+      const jsCode = await detype(tsCode.replaceAll('.ts', '.js'), `tsCode.${lang}`, {
         removeTsComments: true,
         prettierOptions,
       })

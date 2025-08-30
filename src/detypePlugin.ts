@@ -65,7 +65,7 @@ async function transformCode(code: string, moduleId: string) {
     codeNew += code.slice(lastIndex, blockStartIndex)
 
     if (codeBlockOpen.includes('ts-only')) {
-      codeNew += `${codeBlockIndent}<CodeSnippet codeLang={'ts'} tsOnly={'true'}>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
+      codeNew += `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       const codeBlockContentJs = await detype(codeBlockContent.replaceAll('.ts', '.js'), `tsCode.${codeBlockLang}`, {
         removeTsComments: true,
@@ -75,8 +75,8 @@ async function transformCode(code: string, moduleId: string) {
       const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, jsLang)
       const codeBlockClose = '```'
 
-      const codeSnippetJs = `<CodeSnippet codeLang={'ts'}>\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippetTs = `<CodeSnippet codeLang={'js'}>\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetJs = `<CodeSnippet codeLang="ts">\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
+      const codeSnippetTs = `<CodeSnippet codeLang="js">\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippets = restoreCodeBlockIndent(
         `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
         codeBlockIndent,

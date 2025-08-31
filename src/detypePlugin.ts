@@ -52,7 +52,6 @@ async function transformCode(code: string, moduleId: string) {
 
   const { magicString, getMagicStringResult } = getMagicString(code, moduleId)
 
-  // Add import at the beginning
   magicString.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
 
   // [Claude AI] Process matches in reverse order to avoid offset issues
@@ -114,7 +113,6 @@ function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: 
     })
     .join('\n')
 }
-
 function restoreCodeBlockIndent(code: string, codeBlockIndent: string) {
   if (!codeBlockIndent.length) return code
   return code

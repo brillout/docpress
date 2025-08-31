@@ -42,8 +42,7 @@ function detypePlugin(): PluginOption {
     enforce: 'pre',
     transform: async (code: string, moduleId: string) => {
       if (!moduleId.endsWith('.mdx')) return
-      const result = await transformCode(code, moduleId)
-      return result
+      return await transformCode(code, moduleId)
     },
   }
 }
@@ -57,19 +56,16 @@ async function transformCode(code: string, moduleId: string) {
   // Add import at the beginning
   s.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
 
-  // Process matches in reverse order to avoid offset issues
+  // [Claude AI] Process matches in reverse order to avoid offset issues
   for (let i = matches.length - 1; i >= 0; i--) {
     const match = matches[i]
     const [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContentWithIndent] = match
-    const blockStartIndex = match.index!
-    const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
 
     // Remove indentation
     const codeBlockOpen = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     let replacement: string
-
     if (codeBlockOpen.includes('ts-only')) {
       replacement = `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
@@ -80,7 +76,7 @@ async function transformCode(code: string, moduleId: string) {
         removeTsComments: true,
         prettierOptions,
       })
-
+      // Update code block open delimiter
       const codeBlockLangJs =
         codeBlockLang === 'vue'
           ? 'vue'
@@ -88,18 +84,18 @@ async function transformCode(code: string, moduleId: string) {
             codeBlockLang.replace('t', 'j')
       const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
       const codeBlockClose = '```'
-
+      // Wrap with <CodeSnippets>
       const codeSnippetTs = `<CodeSnippet codeLang="ts">\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippetJs = `<CodeSnippet codeLang="js">\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippets = restoreCodeBlockIndent(
-        `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`,
-        codeBlockIndent,
-      )
-
+      let codeSnippets = `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`
+      // Restore indentation
+      codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
+      // Done
       replacement = codeSnippets
     }
 
-    // Replace the code block with the new content
+    const blockStartIndex = match.index!
+    const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
     s.overwrite(blockStartIndex, blockEndIndex, replacement)
   }
 

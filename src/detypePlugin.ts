@@ -106,7 +106,7 @@ function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: 
     .split('\n')
     .map((line) => {
       assertUsage(
-        line.startsWith(codeBlockIndent),
+        line.startsWith(codeBlockIndent.trimEnd()),
         `In ${pc.bold(pc.blue(moduleId))} the line ${pc.bold(line)} must start with ${pc.bold(codeBlockIndent)}`,
       )
       return line.slice(codeBlockIndent.length)

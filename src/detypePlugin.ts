@@ -2,6 +2,7 @@ export { detypePlugin }
 
 import type { PluginOption } from 'vite'
 import module from 'node:module'
+import MagicString from 'magic-string'
 import { assertUsage } from './utils/assert.js'
 import pc from '@brillout/picocolors'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
@@ -14,6 +15,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
   printWidth: 100,
   trailingComma: 'none',
 }
+
 // RegExp to find TypeScript code blocks.
 //
 // For example:
@@ -40,8 +42,8 @@ function detypePlugin(): PluginOption {
     enforce: 'pre',
     transform: async (code: string, moduleId: string) => {
       if (!moduleId.endsWith('.mdx')) return
-      const codeNew = await transformCode(code, moduleId)
-      return codeNew
+      const result = await transformCode(code, moduleId)
+      return result
     },
   }
 }
@@ -50,22 +52,26 @@ async function transformCode(code: string, moduleId: string) {
   const matches = Array.from(code.matchAll(codeBlockRE))
   if (matches.length === 0) return
 
-  let codeNew = `import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`
-  let lastIndex = 0
+  const s = new MagicString(code)
+  
+  // Add import at the beginning
+  s.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
 
-  for (const match of matches) {
+  // Process matches in reverse order to avoid offset issues
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const match = matches[i]
     const [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContentWithIndent] = match
+    const blockStartIndex = match.index!
+    const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
 
     // Remove indentation
     const codeBlockOpen = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
-    const blockStartIndex = match.index
-    const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
-    codeNew += code.slice(lastIndex, blockStartIndex)
+    let replacement: string
 
     if (codeBlockOpen.includes('ts-only')) {
-      codeNew += `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
+      replacement = `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       // someFileName.ts => someFileName.js
       let codeBlockContentJs = codeBlockContent.replaceAll('.ts', '.js')
@@ -90,14 +96,21 @@ async function transformCode(code: string, moduleId: string) {
         codeBlockIndent,
       )
 
-      codeNew += codeSnippets
+      replacement = codeSnippets
     }
 
-    lastIndex = blockEndIndex
+    // Replace the code block with the new content
+    s.overwrite(blockStartIndex, blockEndIndex, replacement)
   }
-  codeNew += code.slice(lastIndex)
 
-  return codeNew
+  return {
+    code: s.toString(),
+    map: s.generateMap({
+      source: moduleId,
+      file: moduleId,
+      includeContent: true,
+    }),
+  }
 }
 
 function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {
@@ -113,6 +126,7 @@ function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: 
     })
     .join('\n')
 }
+
 function restoreCodeBlockIndent(code: string, codeBlockIndent: string) {
   if (!codeBlockIndent.length) return code
   return code

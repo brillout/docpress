@@ -53,7 +53,7 @@ async function transformCode(code: string, moduleId: string) {
   if (matches.length === 0) return
 
   const s = new MagicString(code)
-  
+
   // Add import at the beginning
   s.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
 

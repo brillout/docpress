@@ -2,9 +2,9 @@ export { detypePlugin }
 
 import type { PluginOption } from 'vite'
 import module from 'node:module'
-import MagicString from 'magic-string'
 import { assertUsage } from './utils/assert.js'
 import pc from '@brillout/picocolors'
+import { getMagicString } from './utils/getMagicString.js'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
 // and the package has no default export. Using `module.createRequire` instead.
 const { transform: detype } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
@@ -15,7 +15,6 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
   printWidth: 100,
   trailingComma: 'none',
 }
-
 // RegExp to find TypeScript code blocks.
 //
 // For example:
@@ -51,10 +50,10 @@ async function transformCode(code: string, moduleId: string) {
   const matches = Array.from(code.matchAll(codeBlockRE))
   if (matches.length === 0) return
 
-  const s = new MagicString(code)
+  const { magicString, getMagicStringResult } = getMagicString(code, moduleId)
 
   // Add import at the beginning
-  s.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
+  magicString.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
 
   // [Claude AI] Process matches in reverse order to avoid offset issues
   for (let i = matches.length - 1; i >= 0; i--) {
@@ -96,17 +95,10 @@ async function transformCode(code: string, moduleId: string) {
 
     const blockStartIndex = match.index!
     const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
-    s.overwrite(blockStartIndex, blockEndIndex, replacement)
+    magicString.overwrite(blockStartIndex, blockEndIndex, replacement)
   }
 
-  return {
-    code: s.toString(),
-    map: s.generateMap({
-      source: moduleId,
-      file: moduleId,
-      includeContent: true,
-    }),
-  }
+  return getMagicStringResult()
 }
 
 function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {

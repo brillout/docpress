@@ -24,6 +24,7 @@
     "@shikijs/transformers": "1.2.0",
     "@vitejs/plugin-react-swc": "^3.10.2",
     "detype": "^1.1.2",
+    "magic-string": "^0.30.18",
     "rehype-pretty-code": "0.13.0",
     "remark-gfm": "4.0.0",
     "shiki": "1.2.0",

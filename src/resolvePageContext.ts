@@ -13,7 +13,7 @@ import type {
   HeadingDetachedResolved,
   StringArray,
 } from './types/Heading'
-import { assert } from './utils/assert'
+import { assert, assertUsage } from './utils/assert'
 import { jsxToTextContent } from './utils/jsxToTextContent'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from './parseMarkdownMini'
@@ -149,6 +149,16 @@ function getActiveHeading(
   headingsDetachedResolved: HeadingDetachedResolved[],
   urlPathname: string,
 ) {
+  const URLs =
+    '\n' +
+    [...headingsResolved, ...headingsDetachedResolved]
+      .filter(Boolean)
+      .map((h) => h.url)
+      .sort()
+      .map((url) => `  ${url}`)
+      .join('\n')
+  const errNotFound = `URL ${pc.bold(urlPathname)} not found in following URLs:${URLs}`
+  const errFoundTwice = `URL ${pc.bold(urlPathname)} found twice in following URLs:${URLs}`
   let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
   let activeCategoryName = 'Miscellaneous'
   let headingCategory: string | undefined
@@ -158,6 +168,7 @@ function getActiveHeading(
       headingCategory = heading.title
     }
     if (heading.url === urlPathname) {
+      assertUsage(!activeHeading, errFoundTwice)
       activeHeading = heading
       assert(headingCategory)
       activeCategoryName = headingCategory
@@ -167,21 +178,14 @@ function getActiveHeading(
   }
   const isDetachedPage = !activeHeading
   if (!activeHeading) {
-    activeHeading = headingsDetachedResolved.find(({ url }) => urlPathname === url) ?? null
+    const found = headingsDetachedResolved.filter(({ url }) => urlPathname === url)
+    if (found.length > 0) {
+      assertUsage(found.length === 1, errFoundTwice)
+      assertUsage(!activeHeading, errFoundTwice)
+      activeHeading = found[0]!
+    }
   }
-  if (!activeHeading) {
-    throw new Error(
-      [
-        `URL ${pc.bold(urlPathname)} not found in following URLs:`,
-        [...headingsResolved, ...headingsDetachedResolved]
-          .filter(Boolean)
-          .map((h) => h.url)
-          .sort()
-          .map((url) => `  ${url}`)
-          .join('\n'),
-      ].join('\n'),
-    )
-  }
+  assertUsage(activeHeading, errNotFound)
   if (activeHeading.category) activeCategoryName = activeHeading.category
   return { activeHeading, isDetachedPage, activeCategoryName }
 }

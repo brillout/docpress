@@ -86,6 +86,8 @@ async function transformCode(code: string, moduleId: string) {
       const codeSnippetTs = `<CodeSnippet codeLang="ts">\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
       const codeSnippetJs = `<CodeSnippet codeLang="js">\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
       let codeSnippets = `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`
+      // Rename/Replace Words via Custom Magic Comments
+      codeSnippets = processMagicComments(codeSnippets)
       // Restore indentation
       codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
       // Done
@@ -120,4 +122,19 @@ function restoreCodeBlockIndent(code: string, codeBlockIndent: string) {
     .split('\n')
     .map((line) => `${codeBlockIndent}${line}`)
     .join('\n')
+}
+function processMagicComments(code: string) {
+  // @detype-rename="DummyLayout~Layout"
+  const renameCommentRE = /^\/\/\s@detype-rename="([\S]+)~([\S]+)"/gm
+  const matches = Array.from(code.matchAll(renameCommentRE))
+
+  if (matches.length) {
+    for (let i = 0; i < matches.length / 2; i++) {
+      const match = matches[i]
+      const [fullMatch, renameFrom, renameTo] = match
+      code = code.split(`${fullMatch}\n`).join('').replaceAll(renameFrom, renameTo)
+    }
+  }
+
+  return code.replaceAll('//~', '')
 }

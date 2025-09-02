@@ -78,14 +78,18 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const jsText1 = "const hello = 'world'"
     const tsText2 = 'const someMessage: SomeMessage ='
     const jsText2 = 'const someMessage ='
+    const tsText3 = "const hello: string = 'world'\nconst hello: string[] = ['hello', 'world']"
+    const jsText3 = "const hello = 'world'\nconst hello = ['hello', 'world']"
     const hasJs = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
       if (yes) {
         expect(text).toContain(jsText1)
         expect(text).toContain(jsText2)
+        expect(text).toContain(jsText3)
       } else {
         expect(text).not.toContain(jsText1)
         expect(text).not.toContain(jsText2)
+        expect(text).not.toContain(jsText3)
       }
     }
     const hasTs = (text: string | null, yes = true) => {
@@ -93,9 +97,11 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       if (yes) {
         expect(text).toContain(tsText1)
         expect(text).toContain(tsText2)
+        expect(text).toContain(tsText3)
       } else {
         expect(text).not.toContain(tsText1)
         expect(text).not.toContain(tsText2)
+        expect(text).not.toContain(tsText3)
       }
     }
 

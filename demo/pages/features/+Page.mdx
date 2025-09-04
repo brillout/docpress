@@ -143,6 +143,14 @@ const hello: Hello = {
 }
 ```
 
+Using `yaml` (misusing the `yaml` language to list the filesystem):
+
+```yaml
+pages/+config.ts
+pages/(marketing)/+config.ts
+pages/(marketing)/index/+Page.ts # landing page
+```
+
 Using custom magic comments to ignore incorrect syntax, usually when displaying code diffs:
 
 - Using `// @detype-rename dummyVarName>varName` above the affected line.

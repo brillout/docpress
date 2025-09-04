@@ -80,16 +80,21 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const jsText2 = 'const someMessage ='
     const tsText3 = "const hello: string = 'world'\nconst hello: string[] = ['hello', 'world']"
     const jsText3 = "const hello = 'world'\nconst hello = ['hello', 'world']"
+    const tsText4 = 'pages/(marketing)/index/+Page.ts'
+    // TODO/now make the test green
+    const jsText4 = 'pages/(marketing)/index/+Page.js'
     const hasJs = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
       if (yes) {
         expect(text).toContain(jsText1)
         expect(text).toContain(jsText2)
         expect(text).toContain(jsText3)
+        expect(text).toContain(jsText4)
       } else {
         expect(text).not.toContain(jsText1)
         expect(text).not.toContain(jsText2)
         expect(text).not.toContain(jsText3)
+        expect(text).not.toContain(jsText4)
       }
     }
     const hasTs = (text: string | null, yes = true) => {
@@ -98,10 +103,12 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
         expect(text).toContain(tsText1)
         expect(text).toContain(tsText2)
         expect(text).toContain(tsText3)
+        expect(text).toContain(tsText4)
       } else {
         expect(text).not.toContain(tsText1)
         expect(text).not.toContain(tsText2)
         expect(text).not.toContain(tsText3)
+        expect(text).not.toContain(tsText4)
       }
     }
 

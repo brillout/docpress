@@ -33,7 +33,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
 // >   const hello: string = 'world'
 // >   ```
 // ~~~
-const codeBlockRE = /^(.*)```(tsx?|vue)[^\n]*\n([\s\S]*?)```/gm
+const codeBlockRE = /^(.*)```(tsx?|vue|yaml)[^\n]*\n([\s\S]*?)```/gm
 
 function detypePlugin(): PluginOption {
   return {
@@ -58,13 +58,20 @@ async function transformCode(code: string, moduleId: string) {
   for (let i = matches.length - 1; i >= 0; i--) {
     const match = matches[i]
     const [codeBlockOuterStr, codeBlockIndent, codeBlockLang, codeBlockContentWithIndent] = match
+    const isYaml = codeBlockLang === 'yaml'
 
     // Remove indentation
     const codeBlockOpen = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     let replacement: string
-    if (codeBlockOpen.includes('ts-only')) {
+    if (isYaml) {
+      let codeBlockYamlJs = codeBlockOuterStr.replaceAll('.ts', '.js')
+      const codeSnippetYamlTs = `${codeBlockIndent}<CodeSnippet codeLang="ts">\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
+      const codeSnippetYamlJs = `${codeBlockIndent}<CodeSnippet codeLang="js">\n${codeBlockYamlJs}\n${codeBlockIndent}</CodeSnippet>`
+
+      replacement = `${codeSnippetYamlTs}\n${codeSnippetYamlJs}`
+    } else if (codeBlockOpen.includes('ts-only')) {
       replacement = `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       // someFileName.ts => someFileName.js

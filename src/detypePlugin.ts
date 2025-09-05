@@ -65,7 +65,7 @@ async function transformCode(code: string, moduleId: string) {
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     let replacement: string
-    if (!isYaml && codeBlockOpen.includes('ts-only')) {
+    if (codeBlockOpen.includes('ts-only') && !isYaml) {
       replacement = `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       // someFileName.ts => someFileName.js

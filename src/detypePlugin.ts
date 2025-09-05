@@ -65,40 +65,45 @@ async function transformCode(code: string, moduleId: string) {
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
     let replacement: string
-    if (isYaml) {
-      let codeBlockYamlJs = codeBlockOuterStr.replaceAll('.ts', '.js')
-      const codeSnippetYamlTs = `${codeBlockIndent}<CodeSnippet codeLang="ts">\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
-      const codeSnippetYamlJs = `${codeBlockIndent}<CodeSnippet codeLang="js">\n${codeBlockYamlJs}\n${codeBlockIndent}</CodeSnippet>`
-
-      replacement = `${codeSnippetYamlTs}\n${codeSnippetYamlJs}`
-    } else if (codeBlockOpen.includes('ts-only')) {
+    if (!isYaml && codeBlockOpen.includes('ts-only')) {
       replacement = `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
     } else {
       // someFileName.ts => someFileName.js
       let codeBlockContentJs = codeBlockContent.replaceAll('.ts', '.js')
-      // Remove TypeScript
-      codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
-        removeTsComments: true,
-        prettierOptions,
-      })
-      // Update code block open delimiter
-      const codeBlockLangJs =
-        codeBlockLang === 'vue'
-          ? 'vue'
-          : // ts => js | tsx => jsx
-            codeBlockLang.replace('t', 'j')
-      const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
       const codeBlockClose = '```'
-      // Wrap with <CodeSnippets>
-      const codeSnippetTs = `<CodeSnippet codeLang="ts">\n${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}\n</CodeSnippet>`
-      const codeSnippetJs = `<CodeSnippet codeLang="js">\n${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}\n</CodeSnippet>`
-      let codeSnippets = `<CodeSnippets>\n${codeSnippetJs}\n${codeSnippetTs}\n</CodeSnippets>`
-      // Rename/Replace Words via Custom Magic Comments
-      codeSnippets = processMagicComments(codeSnippets)
-      // Restore indentation
-      codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
-      // Done
-      replacement = codeSnippets
+
+      if (isYaml && codeBlockContentJs === codeBlockContent) {
+        replacement = codeBlockOuterStr
+      } else {
+        // Remove TypeScript
+        if (!isYaml) {
+          codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
+            removeTsComments: true,
+            prettierOptions,
+          })
+        }
+        // Update code block open delimiter
+        const codeBlockLangJs =
+          codeBlockLang === 'vue'
+            ? 'vue'
+            : // ts => js | tsx => jsx
+              codeBlockLang.replace('t', 'j')
+        const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
+        // Wrap each with <CodeSnippet>
+        let codeSnippets = [
+          wrapCodeSnippet('ts', `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`),
+          wrapCodeSnippet('js', `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`),
+        ].join('\n')
+        // Wrap with <CodeSnippets> (if not YAML)
+        codeSnippets = isYaml
+          ? codeSnippets
+          : // Rename/Replace Words via Custom Magic Comments
+            processMagicComments(`<CodeSnippets>\n${codeSnippets}\n</CodeSnippets>`)
+        // Restore indentation
+        codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
+        // Done
+        replacement = codeSnippets
+      }
     }
 
     const blockStartIndex = match.index!
@@ -109,6 +114,9 @@ async function transformCode(code: string, moduleId: string) {
   return getMagicStringResult()
 }
 
+function wrapCodeSnippet(lang: string, content: string) {
+  return `<CodeSnippet codeLang="${lang}">\n${content}\n</CodeSnippet>`
+}
 function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {
   if (!codeBlockIndent.length) return code
   return code

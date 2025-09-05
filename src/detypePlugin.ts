@@ -73,8 +73,9 @@ async function transformCode(code: string, moduleId: string) {
       const codeBlockClose = '```'
 
       if (isYaml && codeBlockContentJs === codeBlockContent) {
-        replacement = codeBlockOuterStr
-      } else {
+        continue
+      }
+
         // Remove TypeScript
         if (!isYaml) {
           codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
@@ -103,7 +104,6 @@ async function transformCode(code: string, moduleId: string) {
         codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
         // Done
         replacement = codeSnippets
-      }
     }
 
     const blockStartIndex = match.index!

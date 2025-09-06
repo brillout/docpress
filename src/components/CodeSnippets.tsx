@@ -18,7 +18,7 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
 function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
   return (
-    <div>
+    <div className="code-snippets">
       <form style={{ position: 'relative' }}>
         <select className="code-lang-select" onChange={onChange} value={codeLangSelected}>
           <option value="js">JavaScript</option>

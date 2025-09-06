@@ -1,0 +1,61 @@
+/* Wrapper */
+.code-snippet,
+.code-snippets {
+  position: relative;
+  &:hover {
+    button,
+    select {
+      opacity: 1;
+    }
+  }
+}
+
+/* Language select */
+.code-lang-select {
+  right: 42px;
+  padding-left: 6px;
+  padding-right: 21px;
+  font-size: 14px;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 1'><path fill='%23666' d='M0 0l1 1 1-1z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  background-size: 10px;
+  /* Remove default arrow in some browsers */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Copy button */
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  right: 10px;
+  width: 30px;
+  & svg {
+    width: 100%;
+    height: 100%;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+}
+
+/* Common style */
+.copy-button,
+.code-lang-select {
+  position: absolute !important;
+  height: 25px;
+  top: 10px;
+  z-index: 3;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out, background-color 0.4s ease-in-out;
+  &:not(:hover) {
+    background-color: #eee;
+  }
+}

@@ -1,9 +1,9 @@
 /* CodeSnippet */
 .code-snippet {
   position: relative;
-}
-.code-snippet:hover button {
-  opacity: 1; /* Full opacity when CodeSnippet is hovered */
+  &:hover button {
+    opacity: 1;
+  }
 }
 
 /* Language select */
@@ -49,10 +49,10 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f7f7f7;
-  opacity: 0.3; /* Initial opacity */
+  opacity: 0.3;
   transition: opacity 0.3s ease;
   &:hover {
-    opacity: 1; /* Full opacity on hover */
+    opacity: 1;
     background-color: #eee;
   }
 }

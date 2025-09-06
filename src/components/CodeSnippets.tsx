@@ -43,7 +43,7 @@ function CodeSnippet({
   const displayStyle = tsOnly ? {} : { display: codeLangSelected === codeLang ? 'block' : 'none' }
 
   return (
-    <div style={{ ...displayStyle, position: 'relative' }}>
+    <div className="code-snippet" style={{ ...displayStyle }}>
       <CopyButton />
       {children}
     </div>

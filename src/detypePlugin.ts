@@ -81,6 +81,8 @@ async function transformCode(code: string, moduleId: string) {
           removeTsComments: true,
           prettierOptions,
         })
+        // Fix code diffs that detype() formatted unexpectedly
+        codeBlockContentJs = fixCodeDiffs(codeBlockContentJs)
       }
 
       // Update code block open delimiter
@@ -156,4 +158,9 @@ function processMagicComments(code: string) {
   }
 
   return code.replaceAll('//~', '')
+}
+function fixCodeDiffs(code: string) {
+  // Expected to match the code diff markers: `// [!code ++]` and `// [!code --]` started with newline and optional spaces
+  const codeDiffRE = /\n\s*\/\/\s\[!code.+\]/g
+  return code.replaceAll(codeDiffRE, (codeDiff) => codeDiff.trimStart())
 }

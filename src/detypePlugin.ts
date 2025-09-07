@@ -81,7 +81,7 @@ async function transformCode(code: string, moduleId: string) {
           removeTsComments: true,
           prettierOptions,
         })
-        // Correct code diff comments that detype() unexpectedly reformatted (using Prettier and Babel internally)
+        // Correct code diff comments
         codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
       }
 
@@ -159,6 +159,13 @@ function processMagicComments(code: string) {
 
   return code.replaceAll('//~', '')
 }
+/**
+ * Correct code diff comments that detype() unexpectedly reformatted (using Prettier and Babel internally)
+ * after removing TypeScript.
+ * See https://github.com/brillout/docpress/pull/47#issuecomment-3263953899
+ * @param code Transformed Javascript code.
+ * @returns The corrected code.
+ */
 function correctCodeDiffComments(code: string) {
   // Expected to match the code diff comments: `// [!code ++]` and `// [!code --]` started with newline and optional spaces
   const codeDiffRE = /\n\s*\/\/\s\[!code.+\]/g

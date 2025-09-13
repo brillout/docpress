@@ -5,7 +5,7 @@ export { TypescriptOnly }
 export { CodeSnippets }
 export { CodeSnippet }
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
 import './CodeSnippets.css'
 
@@ -17,10 +17,22 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
 
 function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
+  const prevPositionRef = useRef<null | { top: number; el: Element }>(null)
+
+  useEffect(() => {
+    if (!prevPositionRef.current) return
+    const { top, el } = prevPositionRef.current
+    const delta = el.getBoundingClientRect().top - top
+    if (delta !== 0) {
+      window.scrollBy(0, delta)
+    }
+    prevPositionRef.current = null
+  }, [codeLangSelected])
+
   return (
     <div className="code-snippets">
       <form style={{ position: 'relative' }}>
-        <select className="code-lang-select" onChange={onChange} value={codeLangSelected}>
+        <select id="code-lang-select" className="code-lang-select" onChange={onChange} value={codeLangSelected}>
           <option value="js">JavaScript</option>
           <option value="ts">TypeScript</option>
         </select>
@@ -29,6 +41,8 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
     </div>
   )
   function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const element = e.target
+    prevPositionRef.current = { top: element.getBoundingClientRect().top, el: element }
     selectCodeLang(e.target.value)
   }
 }

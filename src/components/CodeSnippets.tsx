@@ -19,6 +19,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
   const prevPositionRef = useRef<null | { top: number; el: Element }>(null)
 
+  // Restores the scroll position of the <select> element after toggling languages.
   useEffect(() => {
     if (!prevPositionRef.current) return
     const { top, el } = prevPositionRef.current

@@ -52,7 +52,7 @@ async function transformCode(code: string, moduleId: string) {
 
   const { magicString, getMagicStringResult } = getMagicString(code, moduleId)
 
-  magicString.prepend(`import { CodeSnippets, CodeSnippet } from '@brillout/docpress';\n\n`)
+  magicString.prepend(`import { CodeSnippets } from '@brillout/docpress';\n\n`)
 
   // [Claude AI] Process matches in reverse order to avoid offset issues
   for (let i = matches.length - 1; i >= 0; i--) {
@@ -85,8 +85,7 @@ async function transformCode(code: string, moduleId: string) {
     }
 
     if (codeBlockContentJs === codeBlockContent) {
-      if (isYaml) continue
-      replacement = `${codeBlockIndent}<CodeSnippet codeLang="ts" tsOnly>\n${codeBlockOuterStr}\n${codeBlockIndent}</CodeSnippet>`
+      continue
     } else {
       // Update code block open delimiter
       const codeBlockLangJs =
@@ -96,17 +95,19 @@ async function transformCode(code: string, moduleId: string) {
             codeBlockLang.replace('t', 'j')
       const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
 
-      // Wrap each with <CodeSnippet>
-      let codeSnippets = [
-        wrapCodeSnippet('ts', `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`),
-        wrapCodeSnippet('js', `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`),
-      ].join('\n')
+      const codeBlockJs = `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`
+      const codeBlockTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`
 
-      // Wrap with <CodeSnippets> (if not YAML)
-      codeSnippets = isYaml
-        ? codeSnippets
-        : // Rename/Replace Words via Custom Magic Comments
-          processMagicComments(`<CodeSnippets>\n${codeSnippets}\n</CodeSnippets>`)
+      // Combine JS & TS code blocks
+      let codeSnippets = `${codeBlockJs}\n${codeBlockTs}`
+
+      if (!isYaml) {
+        // Rename/Replace Words via Custom Magic Comments
+        codeSnippets = processMagicComments(codeSnippets)
+      }
+
+      // Wrap with <CodeSnippets>
+      codeSnippets = `<CodeSnippets>\n${codeSnippets}\n</CodeSnippets>`
 
       // Restore indentation
       codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
@@ -123,9 +124,6 @@ async function transformCode(code: string, moduleId: string) {
   return getMagicStringResult()
 }
 
-function wrapCodeSnippet(lang: string, content: string) {
-  return `<CodeSnippet codeLang="${lang}">\n${content}\n</CodeSnippet>`
-}
 function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {
   if (!codeBlockIndent.length) return code
   return code

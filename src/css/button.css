@@ -5,3 +5,26 @@ button,
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Raised button */
+.raised {
+  cursor: pointer;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px 2px 2px 1px;
+  border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
+
+  &:hover {
+    border-color: hsl(0, 0%, 72%) hsl(0, 0%, 66%) hsl(0, 0%, 66%) hsl(0, 0%, 72%);
+  }
+
+  &:active {
+    border-width: 2px 1px 1px 2px;
+    border-color: hsl(0, 0%, 66%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 66%);
+  }
+
+  &:disabled {
+    border-width: 1px;
+    border-color: hsl(0, 0%, 72%);
+  }
+}

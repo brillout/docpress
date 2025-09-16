@@ -135,7 +135,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       await expectJs()
     }
 
-    await page.selectOption('select.code-lang-select', isDev ? 'JavaScript' : 'TypeScript')
+    await page.setChecked('input.code-lang-toggle', isDev ? false : true)
     await autoRetry(
       async () => {
         if (isDev) {

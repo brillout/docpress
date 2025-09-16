@@ -5,13 +5,15 @@ import { PageContextProvider } from './usePageContext'
 import React from 'react'
 import { DocSearchInstall } from '../docsearch/DocSearchInstall'
 import { Layout } from '../Layout'
+// TODO: set/get custom MDXComponents via pageContext ?
+import { components } from '../components/MDXComponents.js'
 
 function getPageElement(pageContext: PageContext) {
   const { Page } = pageContext
   const page = (
     <Wrapper {...{ pageContext }}>
       <Layout>
-        <Page />
+        <Page components={components} />
       </Layout>
       <DocSearchInstall />
     </Wrapper>

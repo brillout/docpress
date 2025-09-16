@@ -5,6 +5,7 @@ import { viteConfig } from './vite.config.js'
 import type { Config as DocpressConfig } from './types/Config'
 import type { PageSection } from './parsePageSections'
 import type { Resolved } from './resolvePageContext.js'
+import type { UseMdxComponents } from '@mdx-js/mdx'
 
 const config = {
   name: '@brillout/docpress',
@@ -28,7 +29,7 @@ const config = {
   },
 } satisfies Config
 
-type ReactComponent = () => React.JSX.Element
+type ReactComponent = (props?: { components?: ReturnType<UseMdxComponents> }) => React.JSX.Element
 declare global {
   namespace Vike {
     interface PageContext {

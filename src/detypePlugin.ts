@@ -70,18 +70,32 @@ async function transformCode(code: string, moduleId: string) {
 
     // Remove TypeScript
     if (!isYaml) {
-      codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
-        customizeBabelConfig(config) {
-          // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
-          // See https://github.com/cyco130/detype/blob/main/src/transform.ts#L206
-          assertUsage(config.presets && config.presets.length === 1, 'Unexpected Babel config presets')
-          config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
-        },
-        removeTsComments: true,
-        prettierOptions,
-      })
-      // Correct code diff comments
-      codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
+      try {
+        codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
+          customizeBabelConfig(config) {
+            // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
+            // See https://github.com/cyco130/detype/blob/main/src/transform.ts#L206
+            assertUsage(config.presets && config.presets.length === 1, 'Unexpected Babel config presets')
+            config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
+          },
+          removeTsComments: true,
+          prettierOptions,
+        })
+        // Correct code diff comments
+        codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
+      } catch (error) {
+        console.error(pc.red((error as SyntaxError).message))
+        console.error(
+          [
+            `Failed to transform the code block in: ${pc.bold(pc.blue(moduleId))}.`,
+            "This likely happened due to invalid TypeScript syntax (see detype's error message above). You can either:",
+            '- Fix the code block syntax',
+            '- Set the code block language to js instead of ts',
+            '- Use custom magic comments (see: https://github.com/brillout/docpress/?tab=readme-ov-file#detype-custom-magic-comments)',
+          ].join('\n') + '\n',
+        )
+        continue
+      }
     }
 
     if (codeBlockContentJs === codeBlockContent) {

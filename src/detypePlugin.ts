@@ -146,8 +146,8 @@ function restoreCodeBlockIndent(code: string, codeBlockIndent: string) {
     .join('\n')
 }
 function processMagicComments(code: string) {
-  // @detype-rename DummyLayout>Layout
-  const renameCommentRE = /^\/\/\s@detype-rename\s(\w+)>(\w+)\n/gm
+  // @detype-rename DummyLayout Layout
+  const renameCommentRE = /^\/\/\s@detype-rename\s([^ ]+) ([^ ]+)\n/gm
   const matches = Array.from(code.matchAll(renameCommentRE))
 
   if (matches.length) {

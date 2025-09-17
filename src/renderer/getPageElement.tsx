@@ -13,6 +13,7 @@ function getPageElement(pageContext: PageContext) {
   const page = (
     <Wrapper {...{ pageContext }}>
       <Layout>
+        {/* Override default MDX element rendering by passing custom components */}
         <Page components={components} />
       </Layout>
       <DocSearchInstall />

@@ -3,12 +3,9 @@ export { Pre }
 import React, { ComponentPropsWithoutRef, useState } from 'react'
 
 function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { 'data-language'?: string }) {
-  // Only show the copy button for some code block languages
-  const showCopyButton = ['js', 'ts', 'yaml'].includes(props['data-language'] || '')
-
   return (
     <pre {...props}>
-      {showCopyButton && <CopyButton />}
+      <CopyButton />
       {children}
     </pre>
   )

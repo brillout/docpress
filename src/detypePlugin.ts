@@ -64,12 +64,27 @@ async function transformCode(code: string, moduleId: string) {
     const codeBlockOpen = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
+    if (codeBlockOpen.includes('ts-only')) continue
+
     let replacement: string
+
+    // TODO: wrap with new component `<InlineCode>`
+    // if (codeBlockOpen.includes('inline')) {
+    //   // replacement = `<InlineCode>${codeBlockOuterStr}</InlineCode>`
+    //   // continue
+    // }
+
     let codeBlockContentJs = codeBlockContent.replaceAll('.ts', '.js')
     const codeBlockClose = '```'
 
-    // Remove TypeScript
-    if (!isYaml) {
+    if (isYaml) {
+      if (codeBlockContentJs === codeBlockContent) continue
+      const codeBlockYamlJs = `${codeBlockOpen}\n${codeBlockContentJs}${codeBlockClose}`
+      const codeBlockYamlTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`
+
+      replacement = wrapCodeSnippets(codeBlockYamlJs, codeBlockYamlTs, codeBlockIndent)
+    } else {
+      // Remove TypeScript
       try {
         codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
           customizeBabelConfig(config) {
@@ -81,8 +96,6 @@ async function transformCode(code: string, moduleId: string) {
           removeTsComments: true,
           prettierOptions,
         })
-        // Correct code diff comments
-        codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
       } catch (error) {
         console.error(pc.red((error as SyntaxError).message))
         console.error(
@@ -96,11 +109,14 @@ async function transformCode(code: string, moduleId: string) {
         )
         continue
       }
-    }
+      // Clean up both JS and TS code blocks: correct diff comments and apply custom magic comment replacements
+      codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
+      codeBlockContentJs = processMagicComments(codeBlockContentJs)
+      const codeBlockContentTs = processMagicComments(codeBlockContent)
 
-    if (codeBlockContentJs === codeBlockContent) {
-      continue
-    } else {
+      // No replacement needed if JS and TS code are still identical
+      if (codeBlockContentTs === codeBlockContentJs) continue
+
       // Update code block open delimiter
       const codeBlockLangJs =
         codeBlockLang === 'vue'
@@ -110,24 +126,10 @@ async function transformCode(code: string, moduleId: string) {
       const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
 
       const codeBlockJs = `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`
-      const codeBlockTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`
-
-      // Combine JS & TS code blocks
-      let codeSnippets = `${codeBlockJs}\n${codeBlockTs}`
-
-      if (!isYaml) {
-        // Rename/Replace Words via Custom Magic Comments
-        codeSnippets = processMagicComments(codeSnippets)
-      }
-
-      // Wrap with <CodeSnippets>
-      codeSnippets = `<CodeSnippets>\n${codeSnippets}\n</CodeSnippets>`
-
-      // Restore indentation
-      codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
+      const codeBlockTs = `${codeBlockOpen}\n${codeBlockContentTs}${codeBlockClose}`
 
       // Done
-      replacement = codeSnippets
+      replacement = wrapCodeSnippets(codeBlockJs, codeBlockTs, codeBlockIndent)
     }
 
     const blockStartIndex = match.index!
@@ -138,6 +140,18 @@ async function transformCode(code: string, moduleId: string) {
   return getMagicStringResult()
 }
 
+function wrapCodeSnippets(codeBlockJs: string, codeBlockTs: string, codeBlockIndent: string) {
+  // Combine JS & TS code blocks
+  let codeSnippets = `${codeBlockJs}\n${codeBlockTs}`
+
+  // Wrap with <CodeSnippets>
+  codeSnippets = `<CodeSnippets>\n${codeSnippets}\n</CodeSnippets>`
+
+  // Restore indentation
+  codeSnippets = restoreCodeBlockIndent(codeSnippets, codeBlockIndent)
+
+  return codeSnippets
+}
 function removeCodeBlockIndent(code: string, codeBlockIndent: string, moduleId: string) {
   if (!codeBlockIndent.length) return code
   return code

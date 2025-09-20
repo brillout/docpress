@@ -189,14 +189,16 @@ function processMagicComments(code: string) {
   const matches = Array.from(code.matchAll(renameCommentRE))
 
   if (matches.length) {
-    for (let i = 0; i < matches.length / 2; i++) {
+    for (let i = matches.length - 1; i >= 0; i--) {
       const match = matches[i]
       const [fullMatch, renameFrom, renameTo] = match
       code = code.split(fullMatch).join('').replaceAll(renameFrom, renameTo)
     }
   }
 
-  return code.replaceAll('//~', '')
+  code = code.replaceAll('//~', '')
+
+  return code
 }
 /**
  * Correct code diff comments that detype() unexpectedly reformatted (using Prettier and Babel internally)

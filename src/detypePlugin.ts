@@ -52,7 +52,8 @@ async function transformCode(code: string, moduleId: string) {
 
   const { magicString, getMagicStringResult } = getMagicString(code, moduleId)
 
-  magicString.prepend(`import { CodeSnippets, InlineCodeBlock } from '@brillout/docpress';\n\n`)
+  // A Set to store the names of required component imports
+  const imports = new Set<string>()
 
   // [Claude AI] Process matches in reverse order to avoid offset issues
   for (let i = matches.length - 1; i >= 0; i--) {
@@ -72,6 +73,8 @@ async function transformCode(code: string, moduleId: string) {
     if (codeBlockOpen.includes('ts-only')) continue
 
     if (codeBlockOpen.includes('inline')) {
+      // Add the `InlineCodeBlock` component to the imports set
+      imports.add('InlineCodeBlock')
       // Wrap with `<InlineCodeBlock>` if the code block has the `inline` meta
       replacement = `<InlineCodeBlock>\n${codeBlockOuterStr}\n</InlineCodeBlock>`
     } else if (isYaml) {
@@ -80,6 +83,8 @@ async function transformCode(code: string, moduleId: string) {
       const codeBlockYamlJs = `${codeBlockOpen}\n${codeBlockContentJs}${codeBlockClose}`
       const codeBlockYamlTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`
 
+      // Add the `CodeSnippets` component to the imports set
+      imports.add('CodeSnippets')
       replacement = wrapCodeSnippets(codeBlockYamlJs, codeBlockYamlTs, codeBlockIndent)
     } else {
       // Remove TypeScript
@@ -126,6 +131,8 @@ async function transformCode(code: string, moduleId: string) {
       const codeBlockJs = `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`
       const codeBlockTs = `${codeBlockOpen}\n${codeBlockContentTs}${codeBlockClose}`
 
+      // Add the `CodeSnippets` component to the imports set
+      imports.add('CodeSnippets')
       // Done
       replacement = wrapCodeSnippets(codeBlockJs, codeBlockTs, codeBlockIndent)
     }
@@ -133,6 +140,11 @@ async function transformCode(code: string, moduleId: string) {
     const blockStartIndex = match.index!
     const blockEndIndex = blockStartIndex + codeBlockOuterStr.length
     magicString.overwrite(blockStartIndex, blockEndIndex, replacement)
+  }
+
+  if (imports.size > 0) {
+    // Add import statement if the imports set is not empty
+    magicString.prepend(`import { ${Array.from(imports).join(', ')} } from '@brillout/docpress';\n\n`)
   }
 
   return getMagicStringResult()

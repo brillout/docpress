@@ -52,7 +52,7 @@ async function transformCode(code: string, moduleId: string) {
 
   const { magicString, getMagicStringResult } = getMagicString(code, moduleId)
 
-  magicString.prepend(`import { CodeSnippets } from '@brillout/docpress';\n\n`)
+  magicString.prepend(`import { CodeSnippets, InlineCodeBlock } from '@brillout/docpress';\n\n`)
 
   // [Claude AI] Process matches in reverse order to avoid offset issues
   for (let i = matches.length - 1; i >= 0; i--) {
@@ -64,20 +64,18 @@ async function transformCode(code: string, moduleId: string) {
     const codeBlockOpen = codeBlockOuterStr.split('\n')[0].slice(codeBlockIndent.length)
     const codeBlockContent = removeCodeBlockIndent(codeBlockContentWithIndent, codeBlockIndent, moduleId)
 
-    if (codeBlockOpen.includes('ts-only')) continue
-
     let replacement: string
-
-    // TODO: wrap with new component `<InlineCode>`
-    // if (codeBlockOpen.includes('inline')) {
-    //   // replacement = `<InlineCode>${codeBlockOuterStr}</InlineCode>`
-    //   // continue
-    // }
-
     let codeBlockContentJs = codeBlockContent.replaceAll('.ts', '.js')
     const codeBlockClose = '```'
 
-    if (isYaml) {
+    // Skip replacement if the code block has 'ts-only' meta
+    if (codeBlockOpen.includes('ts-only')) continue
+
+    if (codeBlockOpen.includes('inline')) {
+      // Wrap with `<InlineCodeBlock>` if the code block has the `inline` meta
+      replacement = `<InlineCodeBlock>\n${codeBlockOuterStr}\n</InlineCodeBlock>`
+    } else if (isYaml) {
+      // Skip replacement if the original YAML code block hasn't changed; otherwise, wrap both JS and TS versions with the <CodeSnippets> component
       if (codeBlockContentJs === codeBlockContent) continue
       const codeBlockYamlJs = `${codeBlockOpen}\n${codeBlockContentJs}${codeBlockClose}`
       const codeBlockYamlTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`

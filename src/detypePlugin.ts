@@ -69,72 +69,76 @@ async function transformCode(code: string, moduleId: string) {
     let codeBlockContentJs = codeBlockContent.replaceAll('.ts', '.js')
     const codeBlockClose = '```'
 
-    // Skip replacement if the code block has 'ts-only' meta
-    if (codeBlockOpen.includes('ts-only')) continue
-
-    if (codeBlockOpen.includes('inline')) {
-      // Add the `InlineCodeBlock` component to the imports set
-      imports.add('InlineCodeBlock')
-      // Wrap with `<InlineCodeBlock>` if the code block has the `inline` meta
-      replacement = `<InlineCodeBlock>\n${codeBlockOuterStr}\n</InlineCodeBlock>`
-    } else if (isYaml) {
-      // Skip replacement if the original YAML code block hasn't changed; otherwise, wrap both JS and TS versions with the <CodeSnippets> component
-      if (codeBlockContentJs === codeBlockContent) continue
-      const codeBlockYamlJs = `${codeBlockOpen}\n${codeBlockContentJs}${codeBlockClose}`
-      const codeBlockYamlTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`
-
-      // Add the `CodeSnippets` component to the imports set
-      imports.add('CodeSnippets')
-      replacement = wrapCodeSnippets(codeBlockYamlJs, codeBlockYamlTs, codeBlockIndent)
-    } else {
-      // Remove TypeScript
-      try {
-        codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
-          customizeBabelConfig(config) {
-            // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
-            // See https://github.com/cyco130/detype/blob/main/src/transform.ts#L206
-            assertUsage(config.presets && config.presets.length === 1, 'Unexpected Babel config presets')
-            config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
-          },
-          removeTsComments: true,
-          prettierOptions,
-        })
-      } catch (error) {
-        console.error(pc.red((error as SyntaxError).message))
-        console.error(
-          [
-            `Failed to transform the code block in: ${pc.bold(pc.blue(moduleId))}.`,
-            "This likely happened due to invalid TypeScript syntax (see detype's error message above). You can either:",
-            '- Fix the code block syntax',
-            '- Set the code block language to js instead of ts',
-            '- Use custom magic comments (see: https://github.com/brillout/docpress/?tab=readme-ov-file#detype-custom-magic-comments)',
-          ].join('\n') + '\n',
-        )
+    switch (true) {
+      case codeBlockOpen.includes('ts-only'):
+        // Skip replacement if the code block has 'ts-only' meta
         continue
-      }
-      // Clean up both JS and TS code blocks: correct diff comments and apply custom magic comment replacements
-      codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
-      codeBlockContentJs = processMagicComments(codeBlockContentJs)
-      const codeBlockContentTs = processMagicComments(codeBlockContent)
+      case codeBlockOpen.includes('inline'):
+        // Wrap with `<InlineCodeBlock>` if the code block has the `inline` meta
+        // Add the `InlineCodeBlock` component to the imports set
+        imports.add('InlineCodeBlock')
+        replacement = `<InlineCodeBlock>\n${codeBlockOuterStr}\n</InlineCodeBlock>`
+        break
+      case isYaml:
+        // Skip replacement if the original YAML code block hasn't changed.
+        if (codeBlockContentJs === codeBlockContent) continue
+        // Otherwise, wrap both JS and TS versions with the <CodeSnippets> component
+        const codeBlockYamlJs = `${codeBlockOpen}\n${codeBlockContentJs}${codeBlockClose}`
+        const codeBlockYamlTs = `${codeBlockOpen}\n${codeBlockContent}${codeBlockClose}`
+        // Add the `CodeSnippets` component to the imports set
+        imports.add('CodeSnippets')
+        replacement = wrapCodeSnippets(codeBlockYamlJs, codeBlockYamlTs, codeBlockIndent)
+        break
+      default:
+        // Remove TypeScript from TS/TSX/Vue code blocks without `ts-only` or `inline` meta
+        try {
+          codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlockLang}`, {
+            customizeBabelConfig(config) {
+              // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
+              // See https://github.com/cyco130/detype/blob/main/src/transform.ts#L206
+              assertUsage(config.presets && config.presets.length === 1, 'Unexpected Babel config presets')
+              config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
+            },
+            removeTsComments: true,
+            prettierOptions,
+          })
+        } catch (error) {
+          console.error(pc.red((error as SyntaxError).message))
+          console.error(
+            [
+              `Failed to transform the code block in: ${pc.bold(pc.blue(moduleId))}.`,
+              "This likely happened due to invalid TypeScript syntax (see detype's error message above). You can either:",
+              '- Fix the code block syntax',
+              '- Set the code block language to js instead of ts',
+              '- Use custom magic comments (see: https://github.com/brillout/docpress/?tab=readme-ov-file#detype-custom-magic-comments)',
+            ].join('\n') + '\n',
+          )
+          continue
+        }
+        // Clean up both JS and TS code blocks: correct diff comments and apply custom magic comment replacements
+        codeBlockContentJs = correctCodeDiffComments(codeBlockContentJs)
+        codeBlockContentJs = processMagicComments(codeBlockContentJs)
+        const codeBlockContentTs = processMagicComments(codeBlockContent)
 
-      // No replacement needed if JS and TS code are still identical
-      if (codeBlockContentTs === codeBlockContentJs) continue
+        // No replacement needed if JS and TS code are still identical
+        if (codeBlockContentTs === codeBlockContentJs) continue
 
-      // Update code block open delimiter
-      const codeBlockLangJs =
-        codeBlockLang === 'vue'
-          ? 'vue'
-          : // ts => js | tsx => jsx
-            codeBlockLang.replace('t', 'j')
-      const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
+        // Update code block open delimiter
+        const codeBlockLangJs =
+          codeBlockLang === 'vue'
+            ? 'vue'
+            : // ts => js | tsx => jsx
+              codeBlockLang.replace('t', 'j')
+        const codeBlockOpenJs = codeBlockOpen.replace(codeBlockLang, codeBlockLangJs)
 
-      const codeBlockJs = `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`
-      const codeBlockTs = `${codeBlockOpen}\n${codeBlockContentTs}${codeBlockClose}`
+        const codeBlockJs = `${codeBlockOpenJs}\n${codeBlockContentJs}${codeBlockClose}`
+        const codeBlockTs = `${codeBlockOpen}\n${codeBlockContentTs}${codeBlockClose}`
 
-      // Add the `CodeSnippets` component to the imports set
-      imports.add('CodeSnippets')
-      // Done
-      replacement = wrapCodeSnippets(codeBlockJs, codeBlockTs, codeBlockIndent)
+        // Add the `CodeSnippets` component to the imports set
+        imports.add('CodeSnippets')
+        // Done
+        replacement = wrapCodeSnippets(codeBlockJs, codeBlockTs, codeBlockIndent)
+        break
     }
 
     const blockStartIndex = match.index!

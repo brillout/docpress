@@ -153,6 +153,14 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
   })
 
+  const somePageUrl = '/some-page'
+  test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
+    // TODO/now make the test green
+    await page.goto(getServerUrl() + somePageUrl)
+    const codeSnippetsHtml = await page.innerHTML('div.code-snippets')
+    expect(codeSnippetsHtml).toContain('Copy to clipboard')
+  })
+
   const orphanURL = '/orphan'
   test(orphanURL, async () => {
     await page.goto(getServerUrl() + orphanURL)

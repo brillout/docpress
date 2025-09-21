@@ -19,7 +19,7 @@ const config: UserConfig = {
   plugins: [
     parsePageSections(),
     detypePlugin(),
-    mdx({ rehypePlugins, remarkPlugins }) as PluginOption,
+    mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
     react(),
   ],

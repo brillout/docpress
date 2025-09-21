@@ -81,7 +81,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     const tsText3 = "const hello: string = 'world'\nconst hello: string[] = ['hello', 'world']"
     const jsText3 = "const hello = 'world'\nconst hello = ['hello', 'world']"
     const tsText4 = 'pages/(marketing)/index/+Page.ts'
-    // TODO/now make the test green
     const jsText4 = 'pages/(marketing)/index/+Page.js'
     const hasJs = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
@@ -155,7 +154,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
-    // TODO/now make the test green
     await page.goto(getServerUrl() + somePageUrl)
     const codeSnippetsHtml = await page.innerHTML('div.code-snippets')
     expect(codeSnippetsHtml).toContain('Copy to clipboard')

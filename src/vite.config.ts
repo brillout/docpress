@@ -10,7 +10,10 @@ import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
 
 const root = process.cwd()
-const prettyCode = [rehypePrettyCode, { theme: 'github-light', transformers: [transformerNotationDiff()] }]
+const prettyCode = [
+  rehypePrettyCode,
+  { theme: 'github-light', keepBackground: false, transformers: [transformerNotationDiff()] },
+]
 const rehypePlugins: any = [prettyCode]
 const remarkPlugins = [remarkGfm]
 

@@ -70,10 +70,6 @@ async function transformCode(code: string, moduleId: string) {
       case codeBlockOpen.includes('ts-only'):
         // Skip replacement if the code block has 'ts-only' meta
         continue
-      case codeBlockOpen.includes('inline'):
-        // Wrap with `<InlineCodeBlock>` if the code block has the `inline` meta
-        replacement = `<InlineCodeBlock>\n${codeBlockOuterStr}\n</InlineCodeBlock>`
-        break
       case isYaml:
         // Skip replacement if the original YAML code block hasn't changed.
         if (codeBlockContentJs === codeBlockContent) continue

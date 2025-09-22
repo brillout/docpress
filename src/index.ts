@@ -8,7 +8,6 @@ export {
   Emoji,
   CodeSnippets,
   TypescriptOnly,
-  InlineCodeBlock,
 } from './components'
 export { MenuToggle } from './Layout'
 

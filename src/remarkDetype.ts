@@ -84,7 +84,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlock.lang}`, {
       customizeBabelConfig(config) {
         // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
-        // See https://github.com/cyco130/detype/blob/main/src/transform.ts#L206
+        // https://github.com/cyco130/detype/blob/46ec867e9efd31d31a312a215ca169bd6bff4726/src/transform.ts#L206
         assertUsage(config.presets && config.presets.length === 1, 'Unexpected Babel config presets')
         config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
       },

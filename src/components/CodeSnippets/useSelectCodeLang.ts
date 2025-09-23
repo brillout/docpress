@@ -13,8 +13,7 @@ function useSelectCodeLang() {
     setCodeLangSelected(getCodeLangStorage())
   }
   const updateStateOnStorageEvent = (event: StorageEvent) => {
-    if (event.key === storageKey) return
-    updateState()
+    if (event.key === storageKey) updateState()
   }
 
   const getCodeLangStorage = () => {

@@ -146,6 +146,10 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       { timeout: 5 * 1000 },
     )
 
+    // Test hiding the copy button
+    const bashPreHtml = await page.innerHTML('pre[data-language="bash"]')
+    expect(bashPreHtml).not.toContain('Copy to clipboard')
+
     {
       const html = await fetchHtml(featuresURL)
       expect(html).toContain('SomeMessage')

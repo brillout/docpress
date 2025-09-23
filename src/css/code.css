@@ -2,63 +2,11 @@
 @import './code/block.css';
 @import './code/diff.css';
 
+/* For code blocks, see Pre.css instead */
+
+/* Inline <code> */
 code {
   border-radius: 4px;
-}
-
-/* Inline */
-code {
   background: rgba(0, 0, 0, 0.063137255);
   font-size: 1.1em;
-}
-
-/* Block */
-pre > code {
-  /*
-  background-color: #f4f4f4;
-  0.043137255 = 1 - (#f4 / #ff)
-  */
-  background: rgba(0, 0, 0, 0.043137255);
-  font-size: 1em;
-}
-/* Workaround for shiki regression */
-pre > code:not([data-language]) {
-  padding: 16px !important;
-}
-
-pre {
-  &:has(.copy-button) {
-    position: relative;
-  }
-
-  &:hover {
-    .copy-button {
-      opacity: 1;
-    }
-  }
-
-  .copy-button {
-    position: absolute !important;
-    top: 10px;
-    right: 10px;
-    z-index: 3;
-    margin: 0;
-    height: 25px;
-    width: 30px;
-    background-color: #f7f7f7;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out, background-color 0.4s ease-in-out;
-
-    &:not(:hover) {
-      background-color: #eee;
-    }
-
-    & svg {
-      width: 100%;
-      height: 100%;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-  }
 }

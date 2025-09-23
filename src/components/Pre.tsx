@@ -1,6 +1,7 @@
 export { Pre }
 
 import React, { ComponentPropsWithoutRef, useState } from 'react'
+import './Pre.css'
 
 function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { hide_copy?: string }) {
   const { hide_copy } = props

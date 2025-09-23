@@ -100,7 +100,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
         "This likely happened due to invalid TypeScript syntax (see detype's error message above). You can either:",
         '- Fix the code block syntax',
         '- Set the code block language to js instead of ts',
-        '- Use custom magic comments (see: https://github.com/brillout/docpress/?tab=readme-ov-file#detype-custom-magic-comments)',
+        '- Use magic comments https://github.com/brillout/docpress#detype-custom-magic-comments',
       ].join('\n') + '\n',
     )
     return
@@ -122,14 +122,13 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     value: codeBlockContentJs,
   }
 
-  // Wrap both the original `codeBlock` and `jsCode` nodes in a `CodeSnippets` container
+  // Wrap both the original `codeBlock` and `jsCode` with <CodeSnippets>
   const container = {
     type: 'mdxJsxFlowElement' as const,
     name: 'CodeSnippets',
     children: [jsCode, codeBlock],
     attributes: [],
   }
-  // Replace the original `codeBlock` node with the `CodeSnippets` container
   parent.children.splice(index, 1, container)
 }
 

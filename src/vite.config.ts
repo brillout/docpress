@@ -8,13 +8,14 @@ import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
 import { remarkDetype } from './remarkDetype.js'
+import { rehypeMetaToProps } from './rehypeMetaToProps.js'
 
 const root = process.cwd()
 const prettyCode = [
   rehypePrettyCode,
   { theme: 'github-light', keepBackground: false, transformers: [transformerNotationDiff()] },
 ]
-const rehypePlugins: any = [prettyCode]
+const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
 const remarkPlugins = [remarkGfm, remarkDetype]
 
 const config: UserConfig = {

@@ -25,4 +25,4 @@ export { CodeSnippets } from './components'
 
 // We provide our own `useMDXComponents()` to enable MDX component injection by setting `providerImportSource` to '@brillout/docpress'.
 // (See https://mdxjs.com/guides/injecting-components/)
-export { useMDXComponents } from './components/MDXComponents'
+export { useMDXComponents } from './components/useMDXComponents'

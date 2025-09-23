@@ -51,8 +51,7 @@ function remarkDetype() {
 
 function transformYaml(node: CodeNode) {
   const { codeBlock, index, parent } = node
-  // Replace all '.ts' extensions with '.js' in the original `YAML` node value to create a JS version
-  const codeBlockContentJs = codeBlock.value.replaceAll('.ts', '.js')
+  const codeBlockContentJs = replaceFileNameSuffixes(codeBlock.value)
 
   // Skip wrapping if the YAML code block hasn't changed
   if (codeBlockContentJs === codeBlock.value) return
@@ -78,8 +77,7 @@ function transformYaml(node: CodeNode) {
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
-  // Replace all '.ts' extensions with '.js' in the original `codeBlock` node value to create a JS version
-  let codeBlockContentJs = codeBlock.value.replaceAll('.ts', '.js')
+  let codeBlockContentJs = replaceFileNameSuffixes(codeBlock.value)
 
   // Remove TypeScript from the TS/TSX/Vue code node
   try {
@@ -133,6 +131,11 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   }
   // Replace the original `codeBlock` node with the `CodeSnippets` container
   parent.children.splice(index, 1, container)
+}
+
+// Replace all '.ts' extensions with '.js'
+function replaceFileNameSuffixes(codeBlockValue: string) {
+  return codeBlockValue.replaceAll('.ts', '.js')
 }
 
 function cleanUpCode(code: string, isJsCode: boolean = false) {

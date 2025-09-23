@@ -66,15 +66,13 @@ function transformYaml(node: CodeNode) {
     value: codeBlockContentJs,
   }
 
-  // Wrap both the original YAML and `yamlJsCode` nodes in a `CodeSnippets` container
+  // Wrap both the original YAML and `yamlJsCode` with <CodeSnippets>
   const yamlContainer = {
     type: 'mdxJsxFlowElement' as const,
     name: 'CodeSnippets',
     children: [yamlJsCode, codeBlock],
     attributes: [],
   }
-
-  // Replace original YAML node with `CodeSnippets` container
   parent.children.splice(index, 1, yamlContainer)
 }
 

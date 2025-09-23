@@ -166,19 +166,17 @@ console.log(hello[0])// [!code ++]
 Using `hideCopy="true"` to hide the copy button, e.g.:
 
 - Bash output:
-  
-```bash hideCopy="true"
-> vike dev
+  ```bash hideCopy="true"
+  > vike dev
 
-  Vike v0.4.234  ready in 526 ms
-  ➜  Local:   http://localhost:3000/
-  ➜  Network: use --host to expose
-  ➜  press h + enter to show help
-```
+    Vike v0.4.234  ready in 526 ms
+    ➜  Local:   http://localhost:3000/
+    ➜  Network: use --host to expose
+    ➜  press h + enter to show help
+  ```
 
 - TypeScript typings with `ts-only` meta:
-
-```ts ts-only hideCopy="true"
-type Value = Record<string, string>
-type BodyAttributes = Value | ((pageContext) => Value)
-```
+  ```ts ts-only hideCopy="true"
+  type Value = Record<string, string>
+  type BodyAttributes = Value | ((pageContext) => Value)
+  ```

@@ -49,17 +49,17 @@ function rehypeMetaToProps() {
  * @returns An object mapping normalized keys to string values.
  */
 function parseMetaString(metaString: string): Record<string, string> {
-  const props = new Map<string, string>()
+  const props: Record<string, string> = {}
 
   const keyValuePairRE = /\b([-\w]+)=(?:"([^"]*)"|'([^']*)'|([^"'\s]+))/g
   for (const match of metaString.matchAll(keyValuePairRE)) {
     const [_, key, doubleQuoted, singleQuoted, unquoted] = match
     const value = doubleQuoted || singleQuoted || unquoted
     if (value.includes('false')) continue
-    props.set(snakeCase(key), value)
+    props[snakeCase(key)] = value
   }
 
-  return Object.fromEntries(props)
+  return props
 }
 
 // Simple function to convert a camelCase or PascalCase string to snake_case.

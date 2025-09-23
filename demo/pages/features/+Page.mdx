@@ -118,6 +118,15 @@ Did you mean to import some-file.js?
 const hello: string = 'world'
 ```
 
+Note how `.ts` is replaced with `.js`:
+
+```ts
+// some-file-name.ts
+
+const foo: { bar: number } = { bar: 42 } // someOtherFile.ts
+// DocPress just uses a replaceAll() call: .ts
+```
+
 > Also works:
 > - In blockquotes
 > - In bullet points
@@ -134,6 +143,8 @@ const hello: string = 'world'
 
 Using `ts-only`:
 ```ts ts-only
+// some-file-name.ts
+
 type Hello = {
   msg: string
 }

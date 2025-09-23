@@ -6,10 +6,12 @@ export {
   FileRemoved,
   ImportMeta,
   Emoji,
-  CodeSnippets,
   TypescriptOnly,
 } from './components'
 export { MenuToggle } from './Layout'
+
+// Used internally by DocPress — the user (should) never use it
+export { CodeSnippets } from './components'
 
 // The only place usePageContext() is used at:
 // https://github.com/vikejs/vike/blob/0b1b109f64aafbed23a1c2ac2630e6146a270ec0/packages/vike.dev/components/CommunityNote.tsx#L4

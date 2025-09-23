@@ -18,7 +18,7 @@ const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOption
 }
 
 type CodeNode = {
-  tsCode: Code
+  codeBlock: Code
   index: number
   parent: Parent
 }
@@ -36,11 +36,11 @@ function remarkDetype() {
       if (node.meta?.includes('ts-only')) return
 
       // Collect this node for post-processing
-      code_nodes.push({ tsCode: node, index, parent })
+      code_nodes.push({ codeBlock: node, index, parent })
     })
 
     for (const node of code_nodes.reverse()) {
-      if (node.tsCode.lang === 'yaml') {
+      if (node.codeBlock.lang === 'yaml') {
         transformYaml(node)
       } else {
         await transformTsToJs(node, file)
@@ -50,19 +50,19 @@ function remarkDetype() {
 }
 
 function transformYaml(node: CodeNode) {
-  const { tsCode, index, parent } = node
+  const { codeBlock, index, parent } = node
   // Replace all '.ts' extensions with '.js' in the original `YAML` node value to create a JS version
-  const codeBlockContentJs = tsCode.value.replaceAll('.ts', '.js')
+  const codeBlockContentJs = codeBlock.value.replaceAll('.ts', '.js')
 
   // Skip wrapping if the YAML code block hasn't changed
-  if (codeBlockContentJs === tsCode.value) return
+  if (codeBlockContentJs === codeBlock.value) return
 
   // Create a new code node for the JS version based on the modified YAML
   const yamlJsCode: Code = {
-    type: tsCode.type,
-    data: tsCode.data,
-    meta: tsCode.meta,
-    lang: tsCode.lang,
+    type: codeBlock.type,
+    data: codeBlock.data,
+    meta: codeBlock.meta,
+    lang: codeBlock.lang,
     value: codeBlockContentJs,
   }
 
@@ -70,7 +70,7 @@ function transformYaml(node: CodeNode) {
   const yamlContainer = {
     type: 'mdxJsxFlowElement' as const,
     name: 'CodeSnippets',
-    children: [yamlJsCode, tsCode],
+    children: [yamlJsCode, codeBlock],
     attributes: [],
   }
 
@@ -79,13 +79,13 @@ function transformYaml(node: CodeNode) {
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
-  const { tsCode, index, parent } = node
-  // Replace all '.ts' extensions with '.js' in the original `tsCode` node value to create a JS version
-  let codeBlockContentJs = tsCode.value.replaceAll('.ts', '.js')
+  const { codeBlock, index, parent } = node
+  // Replace all '.ts' extensions with '.js' in the original `codeBlock` node value to create a JS version
+  let codeBlockContentJs = codeBlock.value.replaceAll('.ts', '.js')
 
   // Remove TypeScript from the TS/TSX/Vue code node
   try {
-    codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${tsCode.lang}`, {
+    codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlock.lang}`, {
       customizeBabelConfig(config) {
         // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
         // See https://github.com/cyco130/detype/blob/main/src/transform.ts#L206
@@ -112,28 +112,28 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
 
   // Clean up both JS and TS code contents: correct diff comments (for js only) and apply custom magic comment replacements
   codeBlockContentJs = cleanUpCode(codeBlockContentJs.trimEnd(), true)
-  tsCode.value = cleanUpCode(tsCode.value)
+  codeBlock.value = cleanUpCode(codeBlock.value)
 
   // No wrapping needed if JS and TS code are still identical
-  if (codeBlockContentJs === tsCode.value) return
+  if (codeBlockContentJs === codeBlock.value) return
 
   const jsCode: Code = {
-    type: tsCode.type,
-    data: tsCode.data,
-    meta: tsCode.meta,
+    type: codeBlock.type,
+    data: codeBlock.data,
+    meta: codeBlock.meta,
     // The jsCode lang should be js|jsx|vue
-    lang: tsCode.lang!.replace('t', 'j'),
+    lang: codeBlock.lang!.replace('t', 'j'),
     value: codeBlockContentJs,
   }
 
-  // Wrap both the original `tsCode` and `jsCode` nodes in a `CodeSnippets` container
+  // Wrap both the original `codeBlock` and `jsCode` nodes in a `CodeSnippets` container
   const container = {
     type: 'mdxJsxFlowElement' as const,
     name: 'CodeSnippets',
-    children: [jsCode, tsCode],
+    children: [jsCode, codeBlock],
     attributes: [],
   }
-  // Replace the original `tsCode` node with the `CodeSnippets` container
+  // Replace the original `codeBlock` node with the `CodeSnippets` container
   parent.children.splice(index, 1, container)
 }
 

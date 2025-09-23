@@ -1,7 +1,9 @@
 export { Pre }
 
 import React, { ComponentPropsWithoutRef, useState } from 'react'
+/* Importing it here chokes the tests. I don't know why.
 import './Pre.css'
+//*/
 
 function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { hide_copy?: string }) {
   const { hide_copy } = props

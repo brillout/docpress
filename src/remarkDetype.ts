@@ -40,13 +40,22 @@ function remarkDetype() {
     })
 
     for (const node of code_nodes.reverse()) {
+      if (node.tsCode.lang === 'yaml') {
+        transformYaml(node)
+      } else {
+        await transformTsToJs(node, file)
+      }
+    }
+  }
+}
+
+function transformYaml(node: CodeNode) {
       const { tsCode, index, parent } = node
-      if (tsCode.lang === 'yaml') {
         // Replace all '.ts' extensions with '.js' in the original `YAML` node value to create a JS version
         const codeBlockContentJs = tsCode.value.replaceAll('.ts', '.js')
 
         // Skip wrapping if the YAML code block hasn't changed
-        if (codeBlockContentJs === tsCode.value) continue
+        if (codeBlockContentJs === tsCode.value) return
 
         // Create a new code node for the JS version based on the modified YAML
         const yamlJsCode: Code = {
@@ -67,11 +76,6 @@ function remarkDetype() {
 
         // Replace original YAML node with `CodeSnippets` container
         parent.children.splice(index, 1, yamlContainer)
-      } else {
-        await transformTsToJs(node, file)
-      }
-    }
-  }
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {

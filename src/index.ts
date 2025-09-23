@@ -26,7 +26,6 @@ export { usePageContext } from './renderer/usePageContext'
 /************/
 /* INTERNAL */
 /************/
-export { CodeSnippets } from './components'
 // We provide our own `useMDXComponents()` to enable MDX component injection by setting `providerImportSource` to '@brillout/docpress'.
 // https://mdxjs.com/guides/injecting-components/
 export { useMDXComponents } from './components/useMDXComponents'

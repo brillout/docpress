@@ -155,7 +155,7 @@ function processMagicComments(code: string) {
       code = code.split(fullMatch).join('').replaceAll(renameFrom, renameTo)
     }
   }
-  code = code.replaceAll('//~', '')
+  code = code.replaceAll('// @detype-uncomment ', '')
 
   return code
 }

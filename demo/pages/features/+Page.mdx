@@ -163,12 +163,12 @@ pages/(marketing)/index/+Page.ts # landing page
 
 Using custom magic comments to ignore incorrect syntax, usually when displaying code diffs:
 
-- Using `// @detype-rename dummyVarName varName` above the affected line.
+- Using `// @detype-replace dummyVarName varName` above the affected line.
 - Using `//~` at the beginning of the affected line.
 
 ```ts
 const hello: string = 'world'// [!code --]
-// @detype-rename dummyhello hello
+// @detype-replace dummyhello hello
 const dummyhello: string[] = ['hello', 'world']// [!code ++]
 //~console.log(hello)// [!code --]
 console.log(hello[0])// [!code ++]

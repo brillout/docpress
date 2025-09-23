@@ -27,7 +27,7 @@ pre > code:not([data-language]) {
 }
 
 pre {
-  &:has(.copy-button){
+  &:has(.copy-button) {
     position: relative;
   }
 

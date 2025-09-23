@@ -1,7 +1,7 @@
 export { rehypeMetaToProps }
 
 import { visit } from 'unist-util-visit'
-import type { Root } from 'hast'
+import type { ElementData, Root } from 'hast'
 
 /**
  * Rehype plugin to extract metadata from `<code>` blocks in markdown
@@ -23,8 +23,7 @@ function rehypeMetaToProps() {
   return (tree: Root) => {
     visit(tree, 'element', (node, _index, parent) => {
       if (node.tagName === 'code' && parent?.type === 'element' && parent.tagName === 'pre') {
-        const metaString = node.data?.meta || ''
-        const props = parseMetaString(metaString)
+        const props = parseMetaString(node.data?.meta)
         parent.properties ??= {}
         parent.properties = { ...parent.properties, ...props }
       }
@@ -33,30 +32,29 @@ function rehypeMetaToProps() {
 }
 
 /**
- * Parses a metadata string into a key-value object.
+ * Minimal parser for a metadata string into key-value pairs.
  *
- * Supports key-value pairs in the format:
- *   key="value", key='value', or key=value (unquoted)
- * Keys are converted to snake_case.
+ * Supports simple patterns: key or key="value".
  *
- * Values can be wrapped in single quotes, double quotes, or left unquoted.
+ * Keys must contain only letters, dashes, or underscores (no digits).
+ * Keys are converted to snake_case. Values default to "true" if missing.
  *
  * Example:
- *   parseMetaString('foo=bar fooBar="value" userId=\'123\'')
- *   => { foo: 'bar', foo_bar: 'value', 'user_id': '123' }
+ *   parseMetaString('foo fooBar="value"')
+ *   => { foo: 'true', foo_bar: 'value' }
  *
- * @param metaString - The input string containing key-value metadata.
- * @returns An object mapping normalized keys to string values.
+ * @param metaString - The input metadata string.
+ * @returns A plain object of parsed key-value pairs.
  */
-function parseMetaString(metaString: string): Record<string, string> {
+function parseMetaString(metaString: ElementData['meta']): Record<string, string> {
+  if (!metaString) return {}
+
   const props: Record<string, string> = {}
 
-  const keyValuePairRE = /\b([-\w]+)=(?:"([^"]*)"|'([^']*)'|([^"'\s]+))/g
+  const keyValuePairRE = /([a-zA-Z_-]+)(?:="([^"]*)")?(?=\s|$)/g
   for (const match of metaString.matchAll(keyValuePairRE)) {
-    const [_, key, doubleQuoted, singleQuoted, unquoted] = match
-    const value = doubleQuoted || singleQuoted || unquoted
-    if (value.includes('false')) continue
-    props[snakeCase(key)] = value
+    let [_, key, value] = match
+    props[snakeCase(key)] = value || 'true'
   }
 
   return props

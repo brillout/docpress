@@ -10,7 +10,7 @@ function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { hide_co
 
   return (
     <pre {...props}>
-      {!hide_copy && <CopyButton />}
+      {typeof hide_copy === 'undefined' && <CopyButton />}
       {children}
     </pre>
   )

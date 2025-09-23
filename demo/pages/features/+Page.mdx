@@ -174,10 +174,10 @@ const dummyhello: string[] = ['hello', 'world']// [!code ++]
 console.log(hello[0])// [!code ++]
 ```
 
-Using `hideCopy="true"` to hide the copy button, e.g.:
+Using `hideCopy` to hide the copy button, e.g.:
 
 - Bash output:
-  ```bash hideCopy="true"
+  ```bash hideCopy
   > vike dev
 
     Vike v0.4.234  ready in 526 ms
@@ -187,7 +187,7 @@ Using `hideCopy="true"` to hide the copy button, e.g.:
   ```
 
 - TypeScript typings with `ts-only` meta:
-  ```ts ts-only hideCopy="true"
+  ```ts ts-only hideCopy
   type Value = Record<string, string>
   type BodyAttributes = Value | ((pageContext) => Value)
   ```

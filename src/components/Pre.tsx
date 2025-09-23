@@ -2,10 +2,12 @@ export { Pre }
 
 import React, { ComponentPropsWithoutRef, useState } from 'react'
 
-function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { 'data-language'?: string }) {
+function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { hide_copy?: string }) {
+  const { hide_copy } = props
+
   return (
     <pre {...props}>
-      <CopyButton />
+      {!hide_copy && <CopyButton />}
       {children}
     </pre>
   )

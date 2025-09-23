@@ -50,32 +50,32 @@ function remarkDetype() {
 }
 
 function transformYaml(node: CodeNode) {
-      const { tsCode, index, parent } = node
-        // Replace all '.ts' extensions with '.js' in the original `YAML` node value to create a JS version
-        const codeBlockContentJs = tsCode.value.replaceAll('.ts', '.js')
+  const { tsCode, index, parent } = node
+  // Replace all '.ts' extensions with '.js' in the original `YAML` node value to create a JS version
+  const codeBlockContentJs = tsCode.value.replaceAll('.ts', '.js')
 
-        // Skip wrapping if the YAML code block hasn't changed
-        if (codeBlockContentJs === tsCode.value) return
+  // Skip wrapping if the YAML code block hasn't changed
+  if (codeBlockContentJs === tsCode.value) return
 
-        // Create a new code node for the JS version based on the modified YAML
-        const yamlJsCode: Code = {
-          type: tsCode.type,
-          data: tsCode.data,
-          meta: tsCode.meta,
-          lang: tsCode.lang,
-          value: codeBlockContentJs,
-        }
+  // Create a new code node for the JS version based on the modified YAML
+  const yamlJsCode: Code = {
+    type: tsCode.type,
+    data: tsCode.data,
+    meta: tsCode.meta,
+    lang: tsCode.lang,
+    value: codeBlockContentJs,
+  }
 
-        // Wrap both the original YAML and `yamlJsCode` nodes in a `CodeSnippets` container
-        const yamlContainer = {
-          type: 'mdxJsxFlowElement' as const,
-          name: 'CodeSnippets',
-          children: [yamlJsCode, tsCode],
-          attributes: [],
-        }
+  // Wrap both the original YAML and `yamlJsCode` nodes in a `CodeSnippets` container
+  const yamlContainer = {
+    type: 'mdxJsxFlowElement' as const,
+    name: 'CodeSnippets',
+    children: [yamlJsCode, tsCode],
+    attributes: [],
+  }
 
-        // Replace original YAML node with `CodeSnippets` container
-        parent.children.splice(index, 1, yamlContainer)
+  // Replace original YAML node with `CodeSnippets` container
+  parent.children.splice(index, 1, yamlContainer)
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {

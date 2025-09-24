@@ -99,7 +99,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
         "This likely happened due to invalid TypeScript syntax (see detype's error message above). You can either:",
         '- Fix the code block syntax',
         '- Set the code block language to js instead of ts',
-        '- Use magic comments https://github.com/brillout/docpress#detype-custom-magic-comments',
+        '- Use magic comments https://github.com/brillout/docpress#code-block-meta-and-comments',
       ].join('\n') + '\n',
     )
     return

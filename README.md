@@ -294,3 +294,11 @@ new Crawler({
 
 </div>
 </details>
+
+## Code Block Meta and Comments
+
+- Use `ts-only` meta to skip transforming typescript code. 
+- Use `hide-menu` meta to hide the copy button.
+- To transform typescript code with invalid syntax (e.g. for code diffs), use custom magic comments:
+  - Use `// @detype-replace dummyVarName varName` above the affected line.
+  - Use `// @detype-uncomment ` at the beginning of the affected line.

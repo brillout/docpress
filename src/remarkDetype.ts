@@ -56,12 +56,11 @@ function transformYaml(node: CodeNode) {
   // Skip wrapping if the YAML code block hasn't changed
   if (codeBlockContentJs === codeBlock.value) return
 
+  const { position, ...rest } = codeBlock
+
   // Create a new code node for the JS version based on the modified YAML
   const yamlJsCode: Code = {
-    type: codeBlock.type,
-    data: codeBlock.data,
-    meta: codeBlock.meta,
-    lang: codeBlock.lang,
+    ...rest,
     value: codeBlockContentJs,
   }
 
@@ -113,12 +112,12 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // No wrapping needed if JS and TS code are still identical
   if (codeBlockContentJs === codeBlock.value) return
 
+  const { position, lang, ...rest } = codeBlock
+
   const jsCode: Code = {
-    type: codeBlock.type,
-    data: codeBlock.data,
-    meta: codeBlock.meta,
+    ...rest,
     // The jsCode lang should be js|jsx|vue
-    lang: codeBlock.lang!.replace('t', 'j'),
+    lang: lang!.replace('t', 'j'),
     value: codeBlockContentJs,
   }
 

@@ -5,12 +5,10 @@ import React, { ComponentPropsWithoutRef, useState } from 'react'
 import './Pre.css'
 //*/
 
-function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { hide_copy?: string }) {
-  const { hide_copy } = props
-
+function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { 'hide-menu'?: string }) {
   return (
     <pre {...props}>
-      {!hide_copy && <CopyButton />}
+      {!props['hide-menu'] && <CopyButton />}
       {children}
     </pre>
   )

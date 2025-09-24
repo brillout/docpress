@@ -37,7 +37,7 @@ function rehypeMetaToProps() {
  * Supports simple patterns: key or key="value".
  *
  * Keys must contain only letters, dashes, or underscores (no digits).
- * Keys are converted to snake_case. Values default to "true" if missing.
+ * Keys are converted to kebab-case. Values default to "true" if missing.
  *
  * Example:
  *   parseMetaString('foo fooBar="value"')
@@ -54,13 +54,16 @@ function parseMetaString(metaString: ElementData['meta']): Record<string, string
   const keyValuePairRE = /([a-zA-Z_-]+)(?:="([^"]*)")?(?=\s|$)/g
   for (const match of metaString.matchAll(keyValuePairRE)) {
     let [_, key, value] = match
-    props[snakeCase(key)] = value || 'true'
+    props[kebabCase(key)] = value || 'true'
   }
 
   return props
 }
 
-// Simple function to convert a camelCase or PascalCase string to snake_case.
-function snakeCase(str: string) {
-  return str.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase()
+// Simple function to convert a camelCase or PascalCase string to kebab-case.
+function kebabCase(str: string) {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace('_', '-')
+    .toLowerCase()
 }

@@ -1,6 +1,7 @@
 export { Pre }
 
 import React, { ComponentPropsWithoutRef, useState } from 'react'
+import { assert } from '../utils/assert'
 /* Importing it here chokes the tests. I don't know why.
 import './Pre.css'
 //*/
@@ -51,26 +52,19 @@ function CopyButton() {
   )
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
     let success: boolean
+    const preEl = e.currentTarget.parentElement!
+    let text = preEl.textContent || ''
+    text = removeTrailingWhitespaces(text)
     try {
-      await copyToClipboard(e)
+      await navigator.clipboard.writeText(text)
       success = true
     } catch (error) {
-      console.error(error)
       success = false
+      assert(success === false, error)
     }
     onCopy(success)
   }
 }
-
-async function copyToClipboard(e: React.MouseEvent<HTMLButtonElement>) {
-  const codeEl = e.currentTarget.nextElementSibling
-  if (codeEl?.tagName === 'CODE') {
-    let text = codeEl.textContent ?? ''
-    text = removeTrailingWhitespaces(text)
-    await navigator.clipboard.writeText(text)
-  }
-}
-
 function removeTrailingWhitespaces(text: string) {
   return text
     .split('\n')

@@ -1,7 +1,6 @@
 export { Pre }
 
 import React, { ComponentPropsWithoutRef, useState } from 'react'
-import { assert } from '../utils/assert'
 /* Importing it here chokes the tests. I don't know why.
 import './Pre.css'
 //*/
@@ -59,8 +58,8 @@ function CopyButton() {
       await navigator.clipboard.writeText(text)
       success = true
     } catch (error) {
+      console.error(error)
       success = false
-      assert(success === false, error)
     }
     onCopy(success)
   }

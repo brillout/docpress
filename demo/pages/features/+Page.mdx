@@ -167,11 +167,14 @@ Using custom magic comments to ignore incorrect syntax, usually when displaying 
 - Using `// @detype-uncomment ` at the beginning of the affected line.
 
 ```ts
-const hello: string = 'world'// [!code --]
+const hello: string = 'world' // [!code --]
 // @detype-replace dummyhello hello
-const dummyhello: string[] = ['hello', 'world']// [!code ++]
-// @detype-uncomment console.log(hello)// [!code --]
-console.log(hello[0])// [!code ++]
+const dummyhello: string[] = ['hello', 'world'] // [!code ++]
+
+// @detype-uncomment function greeting() { // [!code --]
+function greeting(name: string) { // [!code ++]
+  // ...
+}
 ```
 
 Using `hide-menu` to hide the copy button, e.g.:

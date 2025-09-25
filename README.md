@@ -295,10 +295,25 @@ new Crawler({
 </div>
 </details>
 
-## Code Block Meta and Comments
+## Detype
 
-- Use `ts-only` meta to skip transforming typescript code. 
+DocPress automatically converts `ts` code blocks to `js` (using [detype](https://github.com/cyco130/detype/)), while showing a JS↔TS toggle to users.
+
+Custom meta and comments:
+
+- Use `ts-only` meta to skip transforming typescript code.
 - Use `hide-menu` meta to hide the copy button.
 - To transform typescript code with invalid syntax (e.g. for code diffs), use custom magic comments:
   - Use `// @detype-replace dummyVarName varName` above the affected line.
   - Use `// @detype-uncomment ` at the beginning of the affected line.
+  
+  ```ts
+  const hello: string = 'world' // [!code --]
+  // @detype-replace dummyhello hello
+  const dummyhello: string[] = ['hello', 'world'] // [!code ++]
+
+  // @detype-uncomment function greeting() { // [!code --]
+  function greeting(name: string) { // [!code ++]
+    // ...
+  }
+  ```

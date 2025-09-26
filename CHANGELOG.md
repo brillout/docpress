@@ -1,3 +1,17 @@
+## [0.15.11](https://github.com/brillout/docpress/compare/v0.15.10...v0.15.11) (2025-09-26)
+
+
+### Bug Fixes
+
+* assertUsage() upon heading defined twice ([3d3655c](https://github.com/brillout/docpress/commit/3d3655cf527333f453af0bc2ef7156ed49299f1f))
+
+
+### Features
+
+* JavaScript toggle ([#47](https://github.com/brillout/docpress/issues/47)) ([9f613dd](https://github.com/brillout/docpress/commit/9f613dd814deb77f2ae4babd3df82a27185aefdb))
+
+
+
 ## [0.15.10](https://github.com/brillout/docpress/compare/v0.15.9...v0.15.10) (2025-07-08)
 
 

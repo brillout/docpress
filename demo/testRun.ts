@@ -3,6 +3,8 @@ export { testRun }
 import { test, expect, run, fetchHtml, page, getServerUrl, autoRetry } from '@brillout/test-e2e'
 
 function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
+  const isDev = cmd === 'pnpm run dev'
+
   {
     // Preview => `npm run preview` takes a long time
     // Dev => `Learn more collapsible` takes a long time
@@ -71,6 +73,95 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.click('a[href="#custom-hash"]', { timeout: 1000 })
     await testUrlHash()
   })
+  test(`${featuresURL} - JavaScript toggle`, async () => {
+    const tsText1 = "const hello: string = 'world'"
+    const jsText1 = "const hello = 'world'"
+    const tsText2 = 'const someMessage: SomeMessage ='
+    const jsText2 = 'const someMessage ='
+    const tsText3 = "const hello: string = 'world'\nconst hello: string[] = ['hello', 'world']"
+    const jsText3 = "const hello = 'world'\nconst hello = ['hello', 'world']"
+    const tsText4 = 'pages/(marketing)/index/+Page.ts'
+    const jsText4 = 'pages/(marketing)/index/+Page.js'
+    const hasJs = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(jsText1)
+        expect(text).toContain(jsText2)
+        expect(text).toContain(jsText3)
+        expect(text).toContain(jsText4)
+      } else {
+        expect(text).not.toContain(jsText1)
+        expect(text).not.toContain(jsText2)
+        expect(text).not.toContain(jsText3)
+        expect(text).not.toContain(jsText4)
+      }
+    }
+    const hasTs = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(tsText1)
+        expect(text).toContain(tsText2)
+        expect(text).toContain(tsText3)
+        expect(text).toContain(tsText4)
+      } else {
+        expect(text).not.toContain(tsText1)
+        expect(text).not.toContain(tsText2)
+        expect(text).not.toContain(tsText3)
+        expect(text).not.toContain(tsText4)
+      }
+    }
+
+    const textFull = await page.textContent('body')
+    hasJs(textFull)
+    hasTs(textFull)
+
+    const expectTs = async () => {
+      const text = await getVisibleText(page)
+      hasJs(text, false)
+      hasTs(text)
+    }
+    const expectJs = async () => {
+      const text = await getVisibleText(page)
+      hasJs(text)
+      hasTs(text, false)
+    }
+
+    await page.evaluate(() => window.localStorage.clear())
+
+    if (isDev) {
+      await expectTs()
+    } else {
+      await expectJs()
+    }
+
+    await page.setChecked('input.code-lang-toggle', isDev ? false : true)
+    await autoRetry(
+      async () => {
+        if (isDev) {
+          await expectJs()
+        } else {
+          await expectTs()
+        }
+      },
+      { timeout: 5 * 1000 },
+    )
+
+    // Test hiding the copy button
+    const bashPreHtml = await page.innerHTML('pre[data-language="bash"]')
+    expect(bashPreHtml).not.toContain('Copy to clipboard')
+
+    {
+      const html = await fetchHtml(featuresURL)
+      expect(html).toContain('SomeMessage')
+    }
+  })
+
+  const somePageUrl = '/some-page'
+  test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
+    await page.goto(getServerUrl() + somePageUrl)
+    const codeSnippetsHtml = await page.innerHTML('div.code-snippets')
+    expect(codeSnippetsHtml).toContain('Copy to clipboard')
+  })
 
   const orphanURL = '/orphan'
   test(orphanURL, async () => {
@@ -120,4 +211,29 @@ function expectAlgoliaCategory(html: string, category: string, order: number) {
   expect(html).toContain(
     `<meta name="algolia:category" content="${category}"><meta name="algolia:category:order" content="${order}">`,
   )
+}
+
+type Page = typeof page
+async function getVisibleText(page: Page, selector: string = 'body'): Promise<string> {
+  return await page.evaluate((sel) => {
+    function extractVisibleText(element: Element): string {
+      const style = window.getComputedStyle(element)
+      if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+        return ''
+      }
+
+      let text = ''
+      for (const child of element.childNodes) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          text += child.textContent
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          text += extractVisibleText(child as Element)
+        }
+      }
+      return text
+    }
+
+    const root = document.querySelector(sel)
+    return root ? extractVisibleText(root).trim() : ''
+  }, selector)
 }

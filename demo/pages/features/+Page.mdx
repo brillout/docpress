@@ -48,14 +48,15 @@ Powered by `shiki` and `rehype-pretty-code`.
 Code diffs powered by `import { transformerNotationDiff } from '@shikijs/transformers'` and custom CSS rule at `css/code/diff.css`.
 
 ```ts
-// /pages/+config.js
+// /pages/+config.ts
 
 import type { Config } from 'vike/types'
 
 export default {
   meta: {
-    Page: { // some comment
-       env: { server: true, client: true } // [!code --]
+    Page: {
+      // some comment
+       env: { server: true, client: true }, // [!code --]
        env: { server: true } // [!code ++]
     }
   }
@@ -108,3 +109,88 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'node_modules/some-library/dist
 Did you mean to import some-file.js?
 ```
 </CodeBlockTransformer>
+
+
+## JavaScript toggle
+
+
+```ts
+const hello: string = 'world'
+```
+
+Note how `.ts` is replaced with `.js`:
+
+```ts
+// some-file-name.ts
+
+const foo: { bar: number } = { bar: 42 } // someOtherFile.ts
+// DocPress just uses a replaceAll() call: .ts
+```
+
+> Also works:
+> - In blockquotes
+> - In bullet points
+>   ```ts
+>   // Some TypeScript comment
+>   type SomeMessage = {
+>     msg: string
+>   }
+>   // Some comment
+>   const someMessage: SomeMessage = {
+>     msg: 'world'
+>   }
+>   ```
+
+Using `ts-only`:
+```ts ts-only
+// some-file-name.ts
+
+type Hello = {
+  msg: string
+}
+const hello: Hello = {
+  msg: 'world'
+}
+```
+
+Using `yaml` (misusing the `yaml` language to list the filesystem):
+
+```yaml
+pages/+config.ts
+pages/(marketing)/+config.ts
+pages/(marketing)/index/+Page.ts # landing page
+```
+
+Using custom magic comments to ignore incorrect syntax, usually when displaying code diffs:
+
+- Using `// @detype-replace dummyVarName varName` above the affected line.
+- Using `// @detype-uncomment ` at the beginning of the affected line.
+
+```ts
+const hello: string = 'world' // [!code --]
+// @detype-replace dummyhello hello
+const dummyhello: string[] = ['hello', 'world'] // [!code ++]
+
+// @detype-uncomment function greeting() { // [!code --]
+function greeting(name: string) { // [!code ++]
+  // ...
+}
+```
+
+Using `hide-menu` to hide the copy button, e.g.:
+
+- Bash output:
+  ```bash hide-menu
+  > vike dev
+
+    Vike v0.4.234  ready in 526 ms
+    ➜  Local:   http://localhost:3000/
+    ➜  Network: use --host to expose
+    ➜  press h + enter to show help
+  ```
+
+- TypeScript typings with `ts-only` meta:
+  ```ts ts-only hide-menu
+  type Value = Record<string, string>
+  type BodyAttributes = Value | ((pageContext) => Value)
+  ```

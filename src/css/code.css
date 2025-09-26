@@ -2,29 +2,11 @@
 @import './code/block.css';
 @import './code/diff.css';
 
+/* For code blocks, see Pre.css instead */
+
+/* Inline <code> */
 code {
   border-radius: 4px;
-}
-pre {
-  background: none !important;
-}
-
-/* Inline */
-code {
   background: rgba(0, 0, 0, 0.063137255);
   font-size: 1.1em;
-}
-
-/* Block */
-pre > code {
-  /*
-  background-color: #f4f4f4;
-  0.043137255 = 1 - (#f4 / #ff)
-  */
-  background: rgba(0, 0, 0, 0.043137255);
-  font-size: 1em;
-}
-/* Workaround for shiki regression */
-pre > code:not([data-language]) {
-  padding: 16px !important;
 }

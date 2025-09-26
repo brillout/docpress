@@ -31,7 +31,12 @@ const config: Config = {
     apiKey: '9ac178c1a29ba00e8afb98365015f677',
     indexName: 'vike',
   },
+  /* Avoid network error when running the demo offline.
+  // ```console
+  // Failed to load script: https://www.googletagmanager.com/gtag/js?id=123456
+  // ```
   googleAnalytics: '123456',
+  //*/
 
   // i18n: true,
   pressKit: true,

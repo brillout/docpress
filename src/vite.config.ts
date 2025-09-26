@@ -7,17 +7,22 @@ import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
+import { remarkDetype } from './remarkDetype.js'
+import { rehypeMetaToProps } from './rehypeMetaToProps.js'
 
 const root = process.cwd()
-const prettyCode = [rehypePrettyCode, { theme: 'github-light', transformers: [transformerNotationDiff()] }]
-const rehypePlugins: any = [prettyCode]
-const remarkPlugins = [remarkGfm]
+const prettyCode = [
+  rehypePrettyCode,
+  { theme: 'github-light', keepBackground: false, transformers: [transformerNotationDiff()] },
+]
+const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
+const remarkPlugins = [remarkGfm, remarkDetype]
 
 const config: UserConfig = {
   root,
   plugins: [
     parsePageSections(),
-    mdx({ rehypePlugins, remarkPlugins }) as PluginOption,
+    mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
     react(),
   ],

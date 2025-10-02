@@ -5,6 +5,7 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from './utils/assert.js'
+import { parseMetaString } from './utils/parseMetaString.js'
 import pc from '@brillout/picocolors'
 import module from 'node:module'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
@@ -14,7 +15,6 @@ const { transform: detype } = module.createRequire(import.meta.url)('detype') as
 const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOptions'] = {
   semi: false,
   singleQuote: true,
-  printWidth: 100,
   trailingComma: 'none',
 }
 
@@ -82,6 +82,7 @@ function transformYaml(node: CodeNode) {
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
+  const maxWidth = Number(parseMetaString(codeBlock.meta)['max-width'])
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
 
@@ -95,7 +96,10 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
         config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
       },
       removeTsComments: true,
-      prettierOptions,
+      prettierOptions: {
+        ...prettierOptions,
+        printWidth: maxWidth ? maxWidth : 100,
+      },
     })
   } catch (error) {
     // Log errors and return original content instead of throwing

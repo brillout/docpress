@@ -12,14 +12,13 @@ function useSelectCodeLang() {
   const updateState = () => {
     setCodeLangSelected(getCodeLangStorage())
   }
-
   const updateStateOnStorageEvent = (event: StorageEvent) => {
     if (event.key === storageKey) updateState()
   }
 
   const getCodeLangStorage = () => {
     try {
-      return localStorage.getItem(storageKey) || codeLangDefaultClient
+      return window.localStorage.getItem(storageKey) ?? codeLangDefaultClient
     } catch (error) {
       console.error(error)
       assertWarning(false, 'Error reading from localStorage')
@@ -29,7 +28,7 @@ function useSelectCodeLang() {
 
   const selectCodeLang = useCallback((value: string) => {
     try {
-      localStorage.setItem(storageKey, value)
+      window.localStorage.setItem(storageKey, value)
       setCodeLangSelected(value)
       window.dispatchEvent(new CustomEvent('code-lang-storage'))
     } catch (error) {

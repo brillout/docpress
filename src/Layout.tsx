@@ -56,33 +56,31 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <div
+      style={{
+        ['--bg-color']: '#f5f5f5',
+        ['--block-margin']: `${blockMargin}px`,
+        ['--icon-text-padding']: '8px',
+        // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
+        ['--nav-head-height']: `63px`,
+      }}
+    >
+      <MenuModal isTopNav={isLandingPage} />
       <div
+        className={isLandingPage ? '' : 'doc-page'}
         style={{
-          ['--bg-color']: '#f5f5f5',
-          ['--block-margin']: `${blockMargin}px`,
-          ['--icon-text-padding']: '8px',
-          // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
-          ['--nav-head-height']: `63px`,
+          // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
+          // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
+          container: 'container-viewport / inline-size',
+          ...whitespaceBuster1,
         }}
       >
-        <MenuModal isTopNav={isLandingPage} />
-        <div
-          className={isLandingPage ? '' : 'doc-page'}
-          style={{
-            // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
-            // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
-            container: 'container-viewport / inline-size',
-            ...whitespaceBuster1,
-          }}
-        >
-          <NavHead />
-          {content}
-        </div>
+        <NavHead />
+        {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: initialJSToggle_SSR }}></script>
-    </>
+    </div>
   )
 }
 

@@ -201,3 +201,14 @@ Using `hide-menu` to hide the copy button, e.g.:
   type Value = Record<string, string>
   type BodyAttributes = Value | ((pageContext) => Value)
   ```
+
+Using `max-width`:
+
+```ts max-width="50"
+async function onNewTodo(text: string) {
+  await sql(
+    'INSERT INTO todo_items VALUES (:text, :authorId)',
+    { text, authorId: user.id }
+  )
+}
+```

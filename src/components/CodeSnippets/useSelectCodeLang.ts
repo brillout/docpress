@@ -4,31 +4,29 @@ import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
 
 const storageKey = 'docpress:code-lang'
-const codeLangDefaultSsr = 'ts'
-const codeLangDefaultClient = 'js'
+const codeLangDefault = 'ts'
 
 function useSelectCodeLang() {
-  const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefaultSsr)
-  const updateState = () => {
-    setCodeLangSelected(getCodeLangStorage())
-  }
+  const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefault)
+  const updateState = () => setCodeLangSelected(getCodeLangSelected())
+
   const updateStateOnStorageEvent = (event: StorageEvent) => {
     if (event.key === storageKey) updateState()
   }
 
-  const getCodeLangStorage = () => {
+  const getCodeLangSelected = () => {
     try {
-      return window.localStorage.getItem(storageKey) ?? codeLangDefaultClient
+      return localStorage.getItem(storageKey) || codeLangSelected
     } catch (error) {
       console.error(error)
       assertWarning(false, 'Error reading from localStorage')
-      return codeLangDefaultClient
+      return codeLangSelected
     }
   }
 
   const selectCodeLang = useCallback((value: string) => {
     try {
-      window.localStorage.setItem(storageKey, value)
+      localStorage.setItem(storageKey, value)
       setCodeLangSelected(value)
       window.dispatchEvent(new CustomEvent('code-lang-storage'))
     } catch (error) {

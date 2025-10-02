@@ -8,11 +8,6 @@
     }
   }
 
-  /* Hide language toggle for YAML */
-  &:has(code[data-language='yaml']) .code-lang-toggle {
-    display: none !important;
-  }
-
   /* Language toggle styles */
   .code-lang-toggle {
     position: absolute !important;

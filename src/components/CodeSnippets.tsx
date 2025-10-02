@@ -14,7 +14,7 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
   return <div style={{ display: codeLangSelected === 'ts' ? 'block' : 'none' }}>{children}</div>
 }
 
-function CodeSnippets({ children }: { children: React.ReactNode }) {
+function CodeSnippets({ children, hideToggle = false }: { children: React.ReactNode; hideToggle: boolean }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
   const prevPositionRef = useRef<null | { top: number; el: Element }>(null)
 
@@ -35,6 +35,7 @@ function CodeSnippets({ children }: { children: React.ReactNode }) {
         type="checkbox"
         name="code-lang-toggle"
         className="code-lang-toggle raised"
+        style={{ display: hideToggle ? 'none' : undefined }}
         checked={codeLangSelected === 'ts'}
         onChange={onChange}
         title="Toggle language"

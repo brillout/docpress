@@ -7,22 +7,24 @@ const storageKey = 'docpress:code-lang'
 const codeLangDefaultSsr = 'ts'
 const codeLangDefaultClient = 'js'
 
-const getCodeLangSelected = () => {
-  try {
-    return localStorage.getItem(storageKey) || codeLangDefaultClient
-  } catch (error) {
-    console.error(error)
-    assertWarning(false, 'Error reading from localStorage')
-    return codeLangDefaultClient
-  }
-}
-
 function useSelectCodeLang() {
   const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefaultSsr)
-  const updateState = () => setCodeLangSelected(getCodeLangSelected())
+  const updateState = () => {
+    setCodeLangSelected(getCodeLangStorage())
+  }
 
   const updateStateOnStorageEvent = (event: StorageEvent) => {
     if (event.key === storageKey) updateState()
+  }
+
+  const getCodeLangStorage = () => {
+    try {
+      return localStorage.getItem(storageKey) || codeLangDefaultClient
+    } catch (error) {
+      console.error(error)
+      assertWarning(false, 'Error reading from localStorage')
+      return codeLangDefaultClient
+    }
   }
 
   const selectCodeLang = useCallback((value: string) => {

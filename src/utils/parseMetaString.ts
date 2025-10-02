@@ -3,7 +3,7 @@ export { parseMetaString }
 /**
  * Minimal parser for a metadata string into key-value pairs.
  *
- * Supports simple patterns: key or key="value".
+ * Supports simple patterns: key or key=value (without quotes).
  *
  * Keys must contain only letters, dashes, or underscores (no digits).
  * Keys are converted to kebab-case. Values default to "true" if missing.
@@ -20,7 +20,7 @@ function parseMetaString(metaString: string | null | undefined): Record<string, 
 
   const props: Record<string, string> = {}
 
-  const keyValuePairRE = /([a-zA-Z_-]+)(?:="([^"]*)")?(?=\s|$)/g
+  const keyValuePairRE = /([a-zA-Z_-]+)(?:=([^"'\s]+))?(?=\s|$)/g
   for (const match of metaString.matchAll(keyValuePairRE)) {
     let [_, key, value] = match
     props[kebabCase(key)] = value || 'true'

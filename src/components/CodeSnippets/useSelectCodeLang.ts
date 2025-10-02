@@ -4,24 +4,25 @@ import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
 
 const storageKey = 'docpress:code-lang'
-const codeLangDefault = 'ts'
+const codeLangDefaultSsr = 'ts'
+const codeLangDefaultClient = 'js'
+
+const getCodeLangSelected = () => {
+  try {
+    return localStorage.getItem(storageKey) || codeLangDefaultClient
+  } catch (error) {
+    console.error(error)
+    assertWarning(false, 'Error reading from localStorage')
+    return codeLangDefaultClient
+  }
+}
 
 function useSelectCodeLang() {
-  const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefault)
+  const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefaultSsr)
   const updateState = () => setCodeLangSelected(getCodeLangSelected())
 
   const updateStateOnStorageEvent = (event: StorageEvent) => {
     if (event.key === storageKey) updateState()
-  }
-
-  const getCodeLangSelected = () => {
-    try {
-      return localStorage.getItem(storageKey) || codeLangSelected
-    } catch (error) {
-      console.error(error)
-      assertWarning(false, 'Error reading from localStorage')
-      return codeLangSelected
-    }
   }
 
   const selectCodeLang = useCallback((value: string) => {
@@ -36,6 +37,8 @@ function useSelectCodeLang() {
   }, [])
 
   useEffect(() => {
+    // Initial load from localStorage
+    updateState()
     // Update code lang in current tab
     window.addEventListener('code-lang-storage', updateState)
     // Update code lang if changed in another tab

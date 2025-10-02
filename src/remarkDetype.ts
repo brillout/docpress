@@ -98,7 +98,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
       removeTsComments: true,
       prettierOptions: {
         ...prettierOptions,
-        printWidth: maxWidth ? maxWidth : 100,
+        printWidth: maxWidth ? maxWidth : 99,
       },
     })
   } catch (error) {

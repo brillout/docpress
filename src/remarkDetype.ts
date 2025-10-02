@@ -5,7 +5,7 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from './utils/assert.js'
-import { parseMetaString } from './utils/parseMetaString.js'
+import { parseMetaString } from './rehypeMetaToProps.js'
 import pc from '@brillout/picocolors'
 import module from 'node:module'
 // Cannot use `import { transform } from 'detype'` as it results in errors,

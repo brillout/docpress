@@ -36,8 +36,6 @@ function useSelectCodeLang() {
   }, [])
 
   useEffect(() => {
-    // Initial load from localStorage
-    updateState()
     // Update code lang in current tab
     window.addEventListener('code-lang-storage', updateState)
     // Update code lang if changed in another tab

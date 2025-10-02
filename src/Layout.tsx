@@ -14,7 +14,7 @@ import { usePageContext } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
-import { autoScrollNav_SSR } from './autoScrollNav'
+import { autoScrollNav_SSR, initialJSToggle_SSR } from './autoScrollNav'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
@@ -56,29 +56,33 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div
-      style={{
-        ['--bg-color']: '#f5f5f5',
-        ['--block-margin']: `${blockMargin}px`,
-        ['--icon-text-padding']: '8px',
-        // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
-        ['--nav-head-height']: `63px`,
-      }}
-    >
-      <MenuModal isTopNav={isLandingPage} />
+    <>
       <div
-        className={isLandingPage ? '' : 'doc-page'}
         style={{
-          // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
-          // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
-          container: 'container-viewport / inline-size',
-          ...whitespaceBuster1,
+          ['--bg-color']: '#f5f5f5',
+          ['--block-margin']: `${blockMargin}px`,
+          ['--icon-text-padding']: '8px',
+          // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
+          ['--nav-head-height']: `63px`,
         }}
       >
-        <NavHead />
-        {content}
+        <MenuModal isTopNav={isLandingPage} />
+        <div
+          className={isLandingPage ? '' : 'doc-page'}
+          style={{
+            // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
+            // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
+            container: 'container-viewport / inline-size',
+            ...whitespaceBuster1,
+          }}
+        >
+          <NavHead />
+          {content}
+        </div>
       </div>
-    </div>
+      {/* Early toggling, to avoid layout jumps */}
+      <script dangerouslySetInnerHTML={{ __html: initialJSToggle_SSR }}></script>
+    </>
   )
 }
 

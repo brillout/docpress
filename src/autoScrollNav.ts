@@ -1,6 +1,5 @@
 export { autoScrollNav }
-export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()};`
-export const initialJSToggle_SSR = `initialJSToggle();${initialJSToggle.toString()};`
+export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 
 // - We cannot use TypeScript syntax because of autoScrollNav_SSR
 // - We have to save & restore `document.documentElement.scrollTop` because scrollIntoView() scrolls the main view. (I don't know why).
@@ -34,13 +33,4 @@ function autoScrollNav() {
     inline: 'start',
   })
   document.documentElement.scrollTop = scrollTopOriginal
-}
-
-function initialJSToggle() {
-  const codeLangSelected = localStorage.getItem('docpress:code-lang') ?? 'js'
-  if (codeLangSelected === 'js') {
-    const inputs = document.querySelectorAll('.code-lang-toggle')
-    // @ts-ignore
-    for (const input of inputs) input.checked = false
-  }
 }

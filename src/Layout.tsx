@@ -14,7 +14,8 @@ import { usePageContext } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
-import { autoScrollNav_SSR, initialJSToggle_SSR } from './autoScrollNav'
+import { autoScrollNav_SSR } from './autoScrollNav'
+import { initializeJsToggle_SSR } from './initializeJsToggle'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
@@ -79,7 +80,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
-      <script dangerouslySetInnerHTML={{ __html: initialJSToggle_SSR }}></script>
+      <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
     </div>
   )
 }
@@ -295,12 +296,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         ...(!isNavLeft
           ? {}
           : {
-              position: 'absolute',
-              left: '100%',
-              top: 0,
-              '--padding-side': '20px',
-              width: mainViewMax, // guaranteed real estate
-            }),
+            position: 'absolute',
+            left: '100%',
+            top: 0,
+            '--padding-side': '20px',
+            width: mainViewMax, // guaranteed real estate
+          }),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}

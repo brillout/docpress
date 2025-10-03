@@ -51,7 +51,7 @@ function parseMetaString(metaString: ElementData['meta']): Record<string, string
 
   const props: Record<string, string> = {}
 
-  const keyValuePairRE = /([a-zA-Z_-]+)(?:="([^"]*)")?(?=\s|$)/g
+  const keyValuePairRE = /([a-zA-Z_-]+)(?:=([^"'\s]+))?(?=\s|$)/g
   for (const match of metaString.matchAll(keyValuePairRE)) {
     let [_, key, value] = match
     props[kebabCase(key)] = value || 'true'

@@ -1,4 +1,4 @@
-export { useSelectCodeLang }
+export { useSelectCodeLang, initializeJsToggle_SSR }
 
 import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
@@ -52,6 +52,15 @@ function useSelectCodeLang() {
 
   return [codeLangSelected, selectCodeLang] as const
 }
+
+const initializeJsToggle_SSR = `initializeJsToggle();function initializeJsToggle(){
+    const codeLangSelected = localStorage.getItem('${storageKey}') ?? '${codeLangDefaultClient}';
+    if (codeLangSelected === '${codeLangDefaultClient}') {
+        const inputs = document.querySelectorAll('.code-lang-toggle');
+        // @ts-ignore
+        for (const input of inputs)input.checked = false;
+    }
+};`
 
 declare global {
   interface WindowEventMap {

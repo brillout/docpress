@@ -54,7 +54,7 @@ function useSelectCodeLang() {
   return [codeLangSelected, selectCodeLang] as const
 }
 
-// WARNING: We cannot use variables (`storageKey` & `codeLangDefaultClient` ) here
+// WARNING: We cannot use variables (`storageKey` & `codeLangDefaultClient` ) here,
 // because their actual values will not appear when calling `initializeJsToggle.toString()`.
 function initializeJsToggle() {
   const codeLangSelected = localStorage.getItem('docpress:code-lang') ?? 'js'

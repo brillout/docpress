@@ -296,12 +296,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         ...(!isNavLeft
           ? {}
           : {
-            position: 'absolute',
-            left: '100%',
-            top: 0,
-            '--padding-side': '20px',
-            width: mainViewMax, // guaranteed real estate
-          }),
+              position: 'absolute',
+              left: '100%',
+              top: 0,
+              '--padding-side': '20px',
+              width: mainViewMax, // guaranteed real estate
+            }),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}

@@ -1,5 +1,5 @@
 export { useSelectCodeLang }
-export const initializeJsToggle_SSR = `initializeJsToggle();${initializeJsToggle.toString()};`
+export { initializeJsToggle_SSR }
 
 import { useState, useEffect, useCallback } from 'react'
 import { assertWarning } from '../../utils/assert'
@@ -55,8 +55,9 @@ function useSelectCodeLang() {
 }
 
 // WARNING: We cannot use variables storageKey nor codeLangDefaultClient here,
-// because closures don't work as we serialize the function: `initializeJsToggle.toString()`.
+// because closures don't work as we serialize the function.
 // WARNING: We cannot use TypeScript here, for the same reason.
+const initializeJsToggle_SSR = `initializeJsToggle();${initializeJsToggle.toString()};`
 function initializeJsToggle() {
   const codeLangSelected = localStorage.getItem('docpress:code-lang') ?? 'js'
   if (codeLangSelected === 'js') {

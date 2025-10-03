@@ -23,6 +23,7 @@
     margin: 0;
     padding: 0 4px;
     height: 25px;
+    width: 59px;
     display: flex;
     background-color: #f7f7f7;
     opacity: 0;

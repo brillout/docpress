@@ -57,7 +57,6 @@ const initializeJsToggle_SSR = `initializeJsToggle();function initializeJsToggle
     const codeLangSelected = localStorage.getItem('${storageKey}') ?? '${codeLangDefaultClient}';
     if (codeLangSelected === '${codeLangDefaultClient}') {
         const inputs = document.querySelectorAll('.code-lang-toggle');
-        // @ts-ignore
         for (const input of inputs)input.checked = false;
     }
 };`

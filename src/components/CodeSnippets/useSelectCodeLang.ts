@@ -54,7 +54,7 @@ function useSelectCodeLang() {
   return [codeLangSelected, selectCodeLang] as const
 }
 
-// WARNING: We cannot use variables storageKey nor codeLangDefaultClient here,
+// WARNING: We cannot use the variables storageKey nor codeLangDefaultClient here,
 // because closures don't work as we serialize the function.
 // WARNING: We cannot use TypeScript here, for the same reason.
 const initializeJsToggle_SSR = `initializeJsToggle();${initializeJsToggle.toString()};`

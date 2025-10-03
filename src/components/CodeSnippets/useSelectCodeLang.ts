@@ -56,6 +56,7 @@ function useSelectCodeLang() {
 
 // WARNING: We cannot use variables storageKey nor codeLangDefaultClient here,
 // because closures don't work as we serialize the function: `initializeJsToggle.toString()`.
+// WARNING: We cannot use TypeScript here, for the same reason.
 function initializeJsToggle() {
   const codeLangSelected = localStorage.getItem('docpress:code-lang') ?? 'js'
   if (codeLangSelected === 'js') {

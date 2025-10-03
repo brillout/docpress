@@ -1,9 +1,11 @@
 export { remarkDetype }
 
 import type { Root, Parent, Code } from 'mdast'
+import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from './utils/assert.js'
+import { parseMetaString } from './rehypeMetaToProps.js'
 import pc from '@brillout/picocolors'
 import module from 'node:module'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
@@ -13,7 +15,6 @@ const { transform: detype } = module.createRequire(import.meta.url)('detype') as
 const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOptions'] = {
   semi: false,
   singleQuote: true,
-  printWidth: 100,
   trailingComma: 'none',
 }
 
@@ -65,22 +66,29 @@ function transformYaml(node: CodeNode) {
   }
 
   // Wrap both the original YAML and `yamlJsCode` with <CodeSnippets>
-  const yamlContainer = {
-    type: 'mdxJsxFlowElement' as const,
+  const yamlContainer: MdxJsxFlowElement = {
+    type: 'mdxJsxFlowElement',
     name: 'CodeSnippets',
     children: [yamlJsCode, codeBlock],
-    attributes: [],
+    attributes: [
+      {
+        name: 'hideToggle',
+        type: 'mdxJsxAttribute',
+      },
+    ],
   }
   parent.children.splice(index, 1, yamlContainer)
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
-  let codeBlockContentJs = replaceFileNameSuffixes(codeBlock.value)
+  const maxWidth = Number(parseMetaString(codeBlock.meta)['max-width'])
+  let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
+  let codeBlockContentJs = ''
 
   // Remove TypeScript from the TS/TSX/Vue code node
   try {
-    codeBlockContentJs = await detype(codeBlockContentJs, `some-dummy-filename.${codeBlock.lang}`, {
+    codeBlockContentJs = await detype(codeBlockReplacedJs, `some-dummy-filename.${codeBlock.lang}`, {
       customizeBabelConfig(config) {
         // Add `onlyRemoveTypeImports: true` to the internal `@babel/preset-typescript` config
         // https://github.com/cyco130/detype/blob/46ec867e9efd31d31a312a215ca169bd6bff4726/src/transform.ts#L206
@@ -88,7 +96,10 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
         config.presets = [[config.presets[0], { onlyRemoveTypeImports: true }]]
       },
       removeTsComments: true,
-      prettierOptions,
+      prettierOptions: {
+        ...prettierOptions,
+        printWidth: maxWidth ? maxWidth : 99,
+      },
     })
   } catch (error) {
     // Log errors and return original content instead of throwing
@@ -113,6 +124,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   if (codeBlockContentJs === codeBlock.value) return
 
   const { position, lang, ...rest } = codeBlock
+  const attributes: MdxJsxFlowElement['attributes'] = []
 
   const jsCode: Code = {
     ...rest,
@@ -121,12 +133,20 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     value: codeBlockContentJs,
   }
 
+  // Add `hideToggle` attribute (prop) to `CodeSnippets` if the only change was replacing `.ts` with `.js`
+  if (codeBlockReplacedJs === codeBlockContentJs) {
+    attributes.push({
+      name: 'hideToggle',
+      type: 'mdxJsxAttribute',
+    })
+  }
+
   // Wrap both the original `codeBlock` and `jsCode` with <CodeSnippets>
-  const container = {
-    type: 'mdxJsxFlowElement' as const,
+  const container: MdxJsxFlowElement = {
+    type: 'mdxJsxFlowElement',
     name: 'CodeSnippets',
     children: [jsCode, codeBlock],
-    attributes: [],
+    attributes,
   }
   parent.children.splice(index, 1, container)
 }

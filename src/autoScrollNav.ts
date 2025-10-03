@@ -1,7 +1,7 @@
 export { autoScrollNav }
-export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
+export { autoScrollNav_SSR }
 
-// - We cannot use TypeScript syntax because of autoScrollNav_SSR
+// - WARNING: We cannot use TypeScript here because we serialize the function.
 // - We have to save & restore `document.documentElement.scrollTop` because scrollIntoView() scrolls the main view. (I don't know why).
 //   - Failed alternatives:
 //     - scrollIntoViewIfNeeded() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) would work (it doesn't scroll the main view) but Firefox doesn't support it.
@@ -17,7 +17,7 @@ export const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 //       // ...
 //       document.documentElement.style.overflow = overflowOriginal
 //       ```
-
+const autoScrollNav_SSR = `autoScrollNav();${autoScrollNav.toString()}`
 function autoScrollNav() {
   const nav = document.querySelector('#nav-left .navigation-content')
   if (!nav) return

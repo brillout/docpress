@@ -15,6 +15,7 @@ import { ExternalLinks } from './ExternalLinks'
 import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
+import { initializeJsToggle_SSR } from './components/CodeSnippets/useSelectCodeLang'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css'
@@ -78,6 +79,8 @@ function Layout({ children }: { children: React.ReactNode }) {
         <NavHead />
         {content}
       </div>
+      {/* Early toggling, to avoid layout jumps */}
+      <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
     </div>
   )
 }

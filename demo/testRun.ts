@@ -128,11 +128,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await page.evaluate(() => window.localStorage.clear())
 
-    if (isDev) {
-      await expectTs()
-    } else {
-      await expectJs()
-    }
+    await expectJs()
 
     await page.setChecked('input.code-lang-toggle', isDev ? false : true)
     await autoRetry(

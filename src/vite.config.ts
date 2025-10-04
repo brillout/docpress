@@ -2,6 +2,7 @@ export { config as viteConfig }
 
 import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react-swc'
+import vike from 'vike/plugin'
 import type { PluginOption, UserConfig } from 'vite'
 import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -30,6 +31,7 @@ const config: UserConfig = {
     mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
     react(),
+    vike(),
   ],
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-dom/client'],

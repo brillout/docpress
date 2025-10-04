@@ -35,7 +35,7 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
         newChildren.unshift({
           type: 'element',
           tagName: 'a',
-          properties: { href, target: '_blank' },
+          properties: { href },
           children: [{ type: 'text', value: href }],
         })
 

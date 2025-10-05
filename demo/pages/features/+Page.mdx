@@ -55,7 +55,7 @@ import type { Config } from 'vike/types'
 export default {
   meta: {
     Page: {
-      // some comment
+      // some comment https://github.com/brillout/docpress#readme
        env: { server: true, client: true }, // [!code --]
        env: { server: true } // [!code ++]
     }
@@ -211,4 +211,12 @@ async function onNewTodo(text: string) {
     { text, authorId: user.id }
   )
 }
+```
+
+
+## Links in code blocks
+
+```ts
+// https://vike.dev
+const a: number = 1
 ```

@@ -9,11 +9,16 @@ import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
 import { remarkDetype } from './remarkDetype.js'
 import { rehypeMetaToProps } from './rehypeMetaToProps.js'
+import { shikiTransformerAutoLinks } from './shikiTransformerAutoLinks.js'
 
 const root = process.cwd()
 const prettyCode = [
   rehypePrettyCode,
-  { theme: 'github-light', keepBackground: false, transformers: [transformerNotationDiff()] },
+  {
+    theme: 'github-light',
+    keepBackground: false,
+    transformers: [transformerNotationDiff(), shikiTransformerAutoLinks()],
+  },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
 const remarkPlugins = [remarkGfm, remarkDetype]

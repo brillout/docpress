@@ -13,7 +13,6 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
   return {
     name: 'docpress-shiki-autolinks',
     span(span) {
-      // Only process spans that have a single text node as their child.
       if (span.children.length !== 1) return
       let child = span.children[0]
       if (child.type !== 'text') return
@@ -39,7 +38,6 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
           newChildren.unshift({ type: 'text', value: postValue })
         }
 
-        // Insert a clickable `<a>` element for the URL.
         newChildren.unshift({
           type: 'element',
           tagName: 'a',

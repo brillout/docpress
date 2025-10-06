@@ -2,7 +2,7 @@
 /* PUBLIC */
 /**********/
 export { CodeBlockTransformer, Link, RepoLink, FileAdded, FileRemoved, ImportMeta, Emoji } from './components'
-export { TypescriptOnly } from './code-block-controls/components/CodeSnippets'
+export { TypescriptOnly } from './code-blocks/components/CodeSnippets'
 export { MenuToggle } from './Layout'
 export * from './components/Note'
 export * from './icons/index'
@@ -20,4 +20,4 @@ export { usePageContext } from './renderer/usePageContext'
 /************/
 // We provide our own `useMDXComponents()` to enable MDX component injection by setting `providerImportSource` to '@brillout/docpress'.
 // https://mdxjs.com/guides/injecting-components/
-export { useMDXComponents } from './code-block-controls/hooks/useMDXComponents'
+export { useMDXComponents } from './code-blocks/hooks/useMDXComponents'

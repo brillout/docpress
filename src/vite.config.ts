@@ -7,9 +7,9 @@ import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
-import { remarkDetype } from './remarkDetype.js'
-import { rehypeMetaToProps } from './rehypeMetaToProps.js'
-import { shikiTransformerAutoLinks } from './shikiTransformerAutoLinks.js'
+import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
+import { remarkDetype } from './code-blocks/remarkDetype.js'
+import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
 
 const root = process.cwd()
 const prettyCode = [

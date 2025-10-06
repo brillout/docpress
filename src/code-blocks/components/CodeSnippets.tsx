@@ -5,7 +5,7 @@ export { TypescriptOnly }
 export { CodeSnippets }
 
 import React, { useEffect, useRef } from 'react'
-import { useSelectCodeLang } from './CodeSnippets/useSelectCodeLang'
+import { useSelectCodeLang } from '../hooks/useSelectCodeLang'
 import './CodeSnippets.css'
 
 /** Only show if TypeScript is selected */

@@ -1,3 +1,18 @@
+## [0.15.12](https://github.com/brillout/docpress/compare/v0.15.11...v0.15.12) (2025-10-13)
+
+
+### Bug Fixes
+
+* JavaScript Toggle Optimizations 2 (closes [#50](https://github.com/brillout/docpress/issues/50)) ([#54](https://github.com/brillout/docpress/issues/54)) ([f160b03](https://github.com/brillout/docpress/commit/f160b030d73ec2c24ca07b2e475844d70006a34a))
+* resolve JS toggle issue on IOS ([#56](https://github.com/brillout/docpress/issues/56)) ([8bc804f](https://github.com/brillout/docpress/commit/8bc804fc4be5a5052bab5b7f2c9b87c9986805e6))
+
+
+### Features
+
+* Clickable links in code blocks (closes [#51](https://github.com/brillout/docpress/issues/51)) ([#57](https://github.com/brillout/docpress/issues/57)) ([bca77da](https://github.com/brillout/docpress/commit/bca77da8326c99162b4c180ad653b153e606fb21))
+
+
+
 ## [0.15.11](https://github.com/brillout/docpress/compare/v0.15.10...v0.15.11) (2025-09-26)
 
 

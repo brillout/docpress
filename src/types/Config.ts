@@ -17,6 +17,7 @@ type Config = {
   twitter?: string
   bluesky?: string
   linkedin?: string
+  changelog?: boolean
 
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]

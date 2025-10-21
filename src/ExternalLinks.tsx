@@ -13,7 +13,7 @@ import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
-  const { github, discord, bluesky, linkedin, i18n, twitter } = pageContext.globalContext.config.docpress
+  const { github, discord, bluesky, linkedin, i18n, twitter, changelog } = pageContext.globalContext.config.docpress
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
@@ -39,7 +39,7 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
         <LinkIcon className="decolorize-6" icon={iconLinkedin} href={`https://www.linkedin.com/company/${linkedin}`} />
       )}
       <LinkIcon className="decolorize-4" icon={iconGithub} href={github} />
-      <ChangelogButton />
+      {changelog !== false && <ChangelogButton />}
     </div>
   )
 }

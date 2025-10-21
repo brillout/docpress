@@ -1,3 +1,12 @@
+## [0.15.13](https://github.com/brillout/docpress/compare/v0.15.12...v0.15.13) (2025-10-21)
+
+
+### Features
+
+* +docpress.changelog ([f869257](https://github.com/brillout/docpress/commit/f8692572f2b66efa62c5d45704faf41c87efdba5))
+
+
+
 ## [0.15.12](https://github.com/brillout/docpress/compare/v0.15.11...v0.15.12) (2025-10-13)
 
 

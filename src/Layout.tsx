@@ -354,9 +354,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           <NavLogo className="grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
           {algolia && <SearchLink className="grow-half" style={menuLinkStyle} />}
-          {!pageContext.globalContext.config.docpress.hideDocs && (
-            <MenuToggleMain className="grow-full" style={menuLinkStyle} />
-          )}
+          <MenuToggleMain className="grow-full" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>

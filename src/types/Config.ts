@@ -35,6 +35,11 @@ type Config = {
   navMaxWidth?: number
 
   topNavigation?: React.ReactNode
+  /** In the top navigation:
+   *  - Hide the button `Docs` on desktop
+   *  - Hide menu button on mobile
+   */
+  hideDocs?: boolean
 
   navLogo?: React.ReactNode
   navLogoSize?: number

@@ -5,27 +5,24 @@
 <stop stop-color="#e3ca75" offset="1"/>
 </linearGradient>
 <linearGradient id="linear-gradient-2" x1="256" x2="256" y1="449.56" y2="22.68" gradientTransform="translate(-31.74,-11)" gradientUnits="userSpaceOnUse">
-<stop stop-color="#d1ab5c" offset="0"/>
-<stop stop-color="#dbaf57" offset=".13"/>
-<stop stop-color="#f2ca64" offset=".42"/>
-<stop stop-color="#f8e493" offset=".77"/>
-<stop stop-color="#fbf2ac" offset="1"/>
+<stop stop-color="#e5b151" offset="0"/>
+<stop stop-color="#ffd645" offset="1"/>
 </linearGradient>
 <linearGradient id="linear-gradient-3" x1="1902.1" x2="1902.1" y1="5236.8" y2="4882" gradientTransform="rotate(180 1063.2 2641.5)" gradientUnits="userSpaceOnUse">
 <stop stop-color="#bd7f26" offset="0"/>
 <stop stop-color="#fbf2ac" offset="1"/>
 </linearGradient>
 <linearGradient id="linear-gradient-4" x1="1902.1" x2="1902.1" y1="5228.2" y2="4890.5" gradientTransform="rotate(180 1063.2 2641.5)" gradientUnits="userSpaceOnUse">
-<stop stop-color="#ffdb5c" offset="0"/>
-<stop stop-color="#e5b151" offset="1"/>
+<stop stop-color="#edb300" offset="0"/>
+<stop stop-color="#be871d" offset="1"/>
 </linearGradient>
 <linearGradient id="linear-gradient-5" x1="256" x2="256" y1="372.53" y2="113.06" gradientTransform="translate(-31.74,-11)" gradientUnits="userSpaceOnUse">
 <stop stop-color="#bd7f26" offset="0"/>
 <stop stop-color="#bd7f26" offset="1"/>
 </linearGradient>
 <linearGradient id="linear-gradient-6" x1="256" x2="256" y1="105.52" y2="365" gradientTransform="translate(-31.74,-11)" gradientUnits="userSpaceOnUse">
-<stop stop-color="#f2c54b" offset="0"/>
-<stop stop-color="#d89837" offset="1"/>
+<stop stop-color="#ffd645" offset="0"/>
+<stop stop-color="#e5b151" offset="1"/>
 </linearGradient>
 </defs>
 <title>dollar_coin</title>

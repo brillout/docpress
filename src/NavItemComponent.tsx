@@ -31,8 +31,22 @@ type NavItem = {
   title: string
   titleInNav: string
   menuModalFullWidth?: true
+  /**
+   * Maps viewport column counts to column indices.
+   * Indicates this nav item is a "column entry" (a level-1 or level-4 heading that starts a new column section).
+   * Example: { 1: 0, 2: 1, 3: 0 } means:
+   * - When there's 1 column, put this item in column 0
+   * - When there are 2 columns, put it in column 1
+   * - When there are 3 columns, put it in column 0
+   */
   isColumnEntry?: ColumnMap
 }
+/**
+ * A mapping of viewport column counts to column indices.
+ * Used to determine which column a nav item should be placed in for different viewport widths.
+ * Key: number of columns in the viewport
+ * Value: the column index (0-based) where this item should be placed
+ */
 type ColumnMap = Record<number, number>
 
 type PropsNavItem = PropsAnchor & PropsSpan

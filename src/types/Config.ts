@@ -1,6 +1,6 @@
-export type { Config }
+export type { Config, MenuConfig }
 
-import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading'
+import type { MenuDefinition, MenuDetachedDefinition } from './Heading'
 
 type Config = {
   name: string
@@ -19,8 +19,6 @@ type Config = {
   linkedin?: string
   changelog?: boolean
 
-  headings: HeadingDefinition[]
-  headingsDetached: HeadingDetachedDefinition[]
   categories?: Category[]
 
   algolia?: {
@@ -43,6 +41,11 @@ type Config = {
   navLogoTextStyle?: React.CSSProperties
 
   globalNote?: React.ReactNode
+}
+
+type MenuConfig = {
+  menusMain: MenuDefinition[]
+  menusDetached: MenuDetachedDefinition[]
 }
 
 /** Order in Algolia search results */

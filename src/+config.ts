@@ -2,7 +2,7 @@ export { config as default }
 
 import type { Config } from 'vike/types'
 import { viteConfig } from './vite.config.js'
-import type { Config as DocpressConfig } from './types/Config'
+import type { Config as DocpressConfig, MenuConfig } from './types/Config'
 import type { PageSection } from './parsePageSections'
 import type { Resolved } from './resolvePageContext.js'
 
@@ -21,6 +21,10 @@ const config = {
       env: { server: true, client: true },
       global: true,
     },
+    menu: {
+      env: { server: true, client: true, config: true },
+      global: true,
+    },
   },
   prefetch: {
     staticAssets: 'hover',
@@ -37,9 +41,11 @@ declare global {
     }
     interface Config {
       docpress?: DocpressConfig
+      menu?: MenuConfig
     }
     interface ConfigResolved {
       docpress: DocpressConfig
+      menu: MenuConfig
       pageSectionsExport: PageSection[] | undefined
     }
   }

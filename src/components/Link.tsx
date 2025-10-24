@@ -158,9 +158,11 @@ function findLinkData(
           [
             pc.cyan('docpress.config.js'),
             pc.dim('#{'),
-            pc.cyan('headings'),
+            pc.cyan('menu:'),
+            pc.dim('{'),
+            pc.cyan('menusMain'),
             pc.dim(','),
-            pc.cyan('headingsDetached'),
+            pc.cyan('menusDetached'),
             pc.dim('}'),
             '?',
           ].join(''),

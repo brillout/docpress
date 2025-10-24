@@ -1,10 +1,10 @@
-export type { HeadingResolved }
-export type { HeadingDetachedResolved }
-export type { HeadingDetachedDefinition }
-export type { HeadingDefinition }
+export type { MenuResolved }
+export type { MenuDetachedResolved }
+export type { MenuDetachedDefinition }
+export type { MenuDefinition }
 export type { StringArray }
 
-type HeadingResolved = {
+type MenuResolved = {
   url?: null | string
   level: number
   title: string
@@ -28,24 +28,24 @@ type PageDesign = {
   contentMaxWidth?: number
 }
 
-type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {
+type MenuDetachedResolved = Omit<MenuResolved, 'level' | 'linkBreadcrumb'> & {
   level: 2
   linkBreadcrumb: null
 }
 
-type HeadingDefinitionCommon = {
+type MenuDefinitionCommon = {
   title: string
   menuModalFullWidth?: true
   pageDesign?: PageDesign
 }
 
-type HeadingDetachedDefinition = HeadingDefinitionCommon & {
+type MenuDetachedDefinition = MenuDefinitionCommon & {
   url: string
   sectionTitles?: StringArray
   category?: string
 }
 
-type HeadingDefinition = HeadingDefinitionCommon & {} & (
+type MenuDefinition = MenuDefinitionCommon & {} & (
     | ({ level: 1; color: string; titleIcon?: string; titleIconStyle?: React.CSSProperties } & IsCategory)
     | ({ level: 4 } & IsCategory)
     | {

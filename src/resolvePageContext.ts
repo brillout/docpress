@@ -7,10 +7,10 @@ import type { LinkData } from './components'
 import type { PageContextServer } from 'vike/types'
 import type { PageSection } from './parsePageSections'
 import type {
-  HeadingDefinition,
-  HeadingDetachedDefinition,
-  HeadingResolved,
-  HeadingDetachedResolved,
+  MenuDefinition,
+  MenuDetachedDefinition,
+  MenuResolved,
+  MenuDetachedResolved,
   StringArray,
 } from './types/Heading'
 import { assert, assertUsage } from './utils/assert'
@@ -28,32 +28,33 @@ type PageSectionResolved = {
 }
 
 function resolvePageContext(pageContext: PageContextServer) {
-  const config = pageContext.globalContext.config.docpress
+  const menuConfig = pageContext.globalContext.config.menu
+  const docpressConfig = pageContext.globalContext.config.docpress
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []
 
   {
-    const { headings, headingsDetached } = config
-    assertHeadingsDefinition([...headings, ...headingsDetached])
+    const { menusMain, menusDetached } = menuConfig
+    assertHeadingsDefinition([...menusMain, ...menusDetached])
   }
 
-  const ret = getHeadingsResolved(config)
-  const { headingsDetachedResolved } = ret
-  let { headingsResolved } = ret
+  const ret = getHeadingsResolved(menuConfig)
+  const { menusDetachedResolved } = ret
+  let { menusMainResolved } = ret
 
-  const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
-    headingsResolved,
-    headingsDetachedResolved,
+  const { activeMenu, isDetachedPage, activeCategoryName } = getActiveHeading(
+    menusMainResolved,
+    menusDetachedResolved,
     urlPathname,
   )
 
-  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeHeading, urlPathname, config)
+  const { documentTitle, isLandingPage, pageTitle } = getTitles(activeMenu, urlPathname, docpressConfig)
 
-  const pageSectionsResolved = getPageSectionsResolved(pageSections, activeHeading)
+  const pageSectionsResolved = getPageSectionsResolved(pageSections, activeMenu)
 
   const linksGlobal: LinkData[] = [
-    ...headingsResolved.map(headingToLinkData),
-    ...headingsDetachedResolved.map(headingToLinkData),
+    ...menusMainResolved.map(menuToLinkData),
+    ...menusDetachedResolved.map(menuToLinkData),
   ]
   const linksPage: LinkData[] = pageSectionsResolved.map(pageSectionToLinkData)
   const linksAll = [...linksPage, ...linksGlobal]
@@ -64,15 +65,15 @@ function resolvePageContext(pageContext: PageContextServer) {
     const navItemsPageSections = pageSectionsResolved
       .filter((pageSection) => pageSection.pageSectionLevel === 2)
       .map(pageSectionToNavItem)
-    navItemsAll = headingsResolved.map(headingToNavItem)
+    navItemsAll = menusMainResolved.map(menuToNavItem)
     determineNavItemsColumnLayout(navItemsAll)
     if (isDetachedPage) {
-      navItemsDetached = [headingToNavItem(activeHeading), ...navItemsPageSections]
+      navItemsDetached = [menuToNavItem(activeMenu), ...navItemsPageSections]
     } else {
-      const activeHeadingIndex = navItemsAll.findIndex((navItem) => navItem.url === urlPathname)
-      assert(activeHeadingIndex >= 0)
+      const activeMenuIndex = navItemsAll.findIndex((navItem) => navItem.url === urlPathname)
+      assert(activeMenuIndex >= 0)
       navItemsPageSections.forEach((navItem, i) => {
-        navItemsAll.splice(activeHeadingIndex + 1 + i, 0, navItem)
+        navItemsAll.splice(activeMenuIndex + 1 + i, 0, navItem)
       })
     }
   }
@@ -80,34 +81,38 @@ function resolvePageContext(pageContext: PageContextServer) {
   const resolved = {
     navItemsAll,
     navItemsDetached,
-    pageDesign: activeHeading.pageDesign,
+    pageDesign: activeMenu.pageDesign,
     linksAll,
     isLandingPage,
     pageTitle,
     documentTitle,
     activeCategoryName,
+    menu: {
+      menusMain: menusMainResolved,
+      menusDetached: menusDetachedResolved,
+    },
   }
   return resolved
 }
 
-function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {
+function menuToNavItem(menu: MenuResolved | MenuDetachedResolved): NavItem {
   return {
-    level: heading.level,
-    url: heading.url,
-    title: heading.title,
-    titleInNav: heading.titleInNav,
-    menuModalFullWidth: heading.menuModalFullWidth,
-    color: heading.color,
-    titleIcon: heading.titleIcon,
-    titleIconStyle: heading.titleIconStyle,
+    level: menu.level,
+    url: menu.url,
+    title: menu.title,
+    titleInNav: menu.titleInNav,
+    menuModalFullWidth: menu.menuModalFullWidth,
+    color: menu.color,
+    titleIcon: menu.titleIcon,
+    titleIconStyle: menu.titleIconStyle,
   }
 }
-function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {
+function menuToLinkData(menu: MenuResolved | MenuDetachedResolved): LinkData {
   return {
-    url: heading.url,
-    title: heading.title,
-    linkBreadcrumb: heading.linkBreadcrumb,
-    sectionTitles: heading.sectionTitles,
+    url: menu.url,
+    title: menu.title,
+    linkBreadcrumb: menu.linkBreadcrumb,
+    sectionTitles: menu.sectionTitles,
   }
 }
 function pageSectionToNavItem(pageSection: PageSectionResolved): NavItem {
@@ -126,12 +131,12 @@ function pageSectionToLinkData(pageSection: PageSectionResolved): LinkData {
   }
 }
 
-function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, urlPathname: string, config: Config) {
+function getTitles(activeMenu: MenuResolved | MenuDetachedResolved, urlPathname: string, config: Config) {
   const isLandingPage = urlPathname === '/'
 
-  const { title } = activeHeading
+  const { title } = activeMenu
   let pageTitle = isLandingPage ? null : title
-  let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseMarkdownMini(title))
+  let documentTitle = activeMenu.titleDocument || jsxToTextContent(parseMarkdownMini(title))
 
   if (!isLandingPage) {
     documentTitle += ' | ' + config.name
@@ -145,13 +150,13 @@ function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, url
 }
 
 function getActiveHeading(
-  headingsResolved: HeadingResolved[],
-  headingsDetachedResolved: HeadingDetachedResolved[],
+  menusResolved: MenuResolved[],
+  menusDetachedResolved: MenuDetachedResolved[],
   urlPathname: string,
 ) {
   const URLs =
     '\n' +
-    [...headingsResolved, ...headingsDetachedResolved]
+    [...menusResolved, ...menusDetachedResolved]
       .filter(Boolean)
       .map((h) => h.url)
       .sort()
@@ -159,40 +164,40 @@ function getActiveHeading(
       .join('\n')
   const errNotFound = `URL ${pc.bold(urlPathname)} not found in following URLs:${URLs}`
   const errFoundTwice = `URL ${pc.bold(urlPathname)} found twice in following URLs:${URLs}`
-  let activeHeading: HeadingResolved | HeadingDetachedResolved | null = null
+  let activeMenu: MenuResolved | MenuDetachedResolved | null = null
   let activeCategoryName = 'Miscellaneous'
-  let headingCategory: string | undefined
+  let menuCategory: string | undefined
   assert(urlPathname)
-  for (const heading of headingsResolved) {
-    if (heading.level === 1) {
-      headingCategory = heading.title
+  for (const menu of menusResolved) {
+    if (menu.level === 1) {
+      menuCategory = menu.title
     }
-    if (heading.url === urlPathname) {
-      assertUsage(!activeHeading, errFoundTwice)
-      activeHeading = heading
-      assert(headingCategory)
-      activeCategoryName = headingCategory
-      assert(heading.level === 2, { pageUrl: urlPathname, heading })
+    if (menu.url === urlPathname) {
+      assertUsage(!activeMenu, errFoundTwice)
+      activeMenu = menu
+      assert(menuCategory)
+      activeCategoryName = menuCategory
+      assert(menu.level === 2, { pageUrl: urlPathname, menu })
       break
     }
   }
-  const isDetachedPage = !activeHeading
-  if (!activeHeading) {
-    const found = headingsDetachedResolved.filter(({ url }) => urlPathname === url)
+  const isDetachedPage = !activeMenu
+  if (!activeMenu) {
+    const found = menusDetachedResolved.filter(({ url }) => urlPathname === url)
     if (found.length > 0) {
       assertUsage(found.length === 1, errFoundTwice)
-      assertUsage(!activeHeading, errFoundTwice)
-      activeHeading = found[0]!
+      assertUsage(!activeMenu, errFoundTwice)
+      activeMenu = found[0]!
     }
   }
-  assertUsage(activeHeading, errNotFound)
-  if (activeHeading.category) activeCategoryName = activeHeading.category
-  return { activeHeading, isDetachedPage, activeCategoryName }
+  assertUsage(activeMenu, errNotFound)
+  if (activeMenu.category) activeCategoryName = activeMenu.category
+  return { activeMenu, isDetachedPage, activeCategoryName }
 }
 
 function getPageSectionsResolved(
   pageSections: PageSection[],
-  activeHeading: HeadingResolved | HeadingDetachedResolved,
+  activeMenu: MenuResolved | MenuDetachedResolved,
 ): PageSectionResolved[] {
   const pageSectionsResolved = pageSections.map((pageSection) => {
     const { pageSectionTitle } = pageSection
@@ -200,15 +205,15 @@ function getPageSectionsResolved(
     const pageSectionResolved: PageSectionResolved = {
       url,
       title: pageSectionTitle,
-      linkBreadcrumb: [activeHeading.title, ...(activeHeading.linkBreadcrumb ?? [])],
+      linkBreadcrumb: [activeMenu.title, ...(activeMenu.linkBreadcrumb ?? [])],
       titleInNav: pageSectionTitle,
       pageSectionLevel: pageSection.pageSectionLevel,
     }
     return pageSectionResolved
   })
 
-  if (activeHeading?.sectionTitles) {
-    activeHeading.sectionTitles.forEach((sectionTitle) => {
+  if (activeMenu?.sectionTitles) {
+    activeMenu.sectionTitles.forEach((sectionTitle) => {
       const pageSectionTitles = pageSections.map((h) => h.pageSectionTitle)
       assert(pageSectionTitles.includes(sectionTitle), { pageHeadingTitles: pageSectionTitles, sectionTitle })
     })
@@ -217,54 +222,51 @@ function getPageSectionsResolved(
   return pageSectionsResolved
 }
 
-function getHeadingsResolved(config: {
-  headings: HeadingDefinition[]
-  headingsDetached: HeadingDetachedDefinition[]
-}): {
-  headingsResolved: HeadingResolved[]
-  headingsDetachedResolved: HeadingDetachedResolved[]
+function getHeadingsResolved(config: { menusMain: MenuDefinition[]; menusDetached: MenuDetachedDefinition[] }): {
+  menusMainResolved: MenuResolved[]
+  menusDetachedResolved: MenuDetachedResolved[]
 } {
-  const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
-    (heading: HeadingDefinition) => {
-      const titleInNav = heading.titleInNav || heading.title
-      const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
-        ...heading,
+  const menusMainWithoutBreadcrumb: Omit<MenuResolved, 'linkBreadcrumb'>[] = config.menusMain.map(
+    (menu: MenuDefinition) => {
+      const titleInNav = menu.titleInNav || menu.title
+      const menuMainResolved: Omit<MenuResolved, 'linkBreadcrumb'> = {
+        ...menu,
         titleInNav,
       }
-      return headingResolved
+      return menuMainResolved
     },
   )
 
-  const headingsResolved: HeadingResolved[] = []
-  headingsWithoutBreadcrumb.forEach((heading) => {
-    const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsResolved)
-    headingsResolved.push({
-      ...heading,
+  const menusMainResolved: MenuResolved[] = []
+  menusMainWithoutBreadcrumb.forEach((menu) => {
+    const linkBreadcrumb = getHeadingsBreadcrumb(menu, menusMainResolved)
+    menusMainResolved.push({
+      ...menu,
       linkBreadcrumb,
     })
   })
 
-  const headingsDetachedResolved = config.headingsDetached.map((headingsDetached) => {
-    const { url } = headingsDetached
+  const menusDetachedResolved = config.menusDetached.map((menuDetached) => {
+    const { url } = menuDetached
     assert(
-      headingsResolved.find((heading) => heading.url === url) === undefined,
-      `remove ${headingsDetached.url} from headingsDetached`,
+      menusMainResolved.find((menu) => menu.url === url) === undefined,
+      `remove ${menuDetached.url} from menusDetached`,
     )
     return {
-      ...headingsDetached,
+      ...menuDetached,
       level: 2 as const,
-      titleInNav: headingsDetached.title,
+      titleInNav: menuDetached.title,
       linkBreadcrumb: null,
     }
   })
 
-  return { headingsResolved, headingsDetachedResolved }
+  return { menusMainResolved, menusDetachedResolved }
 }
 
-function getHeadingsBreadcrumb(heading: Omit<HeadingResolved, 'linkBreadcrumb'>, headings: HeadingResolved[]) {
+function getHeadingsBreadcrumb(menu: Omit<MenuResolved, 'linkBreadcrumb'>, menus: MenuResolved[]) {
   const linkBreadcrumb: string[] = []
-  let levelCurrent = heading.level
-  headings
+  let levelCurrent = menu.level
+  menus
     .slice()
     .reverse()
     .forEach((parentCandidate) => {
@@ -277,10 +279,10 @@ function getHeadingsBreadcrumb(heading: Omit<HeadingResolved, 'linkBreadcrumb'>,
   return linkBreadcrumb
 }
 
-function assertHeadingsDefinition(headings: { url?: null | string }[]) {
-  headings.forEach((heading) => {
-    if (heading.url) {
-      const { url } = heading
+function assertHeadingsDefinition(menus: { url?: null | string }[]) {
+  menus.forEach((menu) => {
+    if (menu.url) {
+      const { url } = menu
       assert(url.startsWith('/'))
     }
   })

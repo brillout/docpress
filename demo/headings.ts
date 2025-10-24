@@ -161,6 +161,6 @@ const headings: HeadingDefinition[] = [
   {
     level: 2,
     title: 'Some Other Blog Post',
-    url: '/blog/post-1',
+    url: '/blog/post-2',
   },
 ]

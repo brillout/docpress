@@ -35,18 +35,7 @@ function TopNavigation() {
         />
         Get Started
       </a>
-      <a
-        className="colorize-on-hover"
-        href="/features"
-        style={{
-          color: 'inherit',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          padding: '0 var(--padding-side)',
-        }}
-      >
+      <MenuToggle menuId={2}>
         <img
           src={iconLoudspeaker}
           width={18}
@@ -54,7 +43,7 @@ function TopNavigation() {
           className="decolorize-5"
         />
         Blog
-      </a>
+      </MenuToggle>
     </>
   )
 }

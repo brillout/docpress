@@ -3,9 +3,15 @@ export { config as default }
 import type { Config } from '@brillout/docpress'
 import logo from './assets/logo.svg'
 import favicon from './assets/favicon.svg'
-import { headings, headingsDetached, categories } from './headings'
 import { TopNavigation } from './TopNavigation'
 import React from 'react'
+
+const categories: Config['categories'] = [
+  //
+  'Guides',
+  'Overview',
+  { name: 'Guides 2', hide: true },
+]
 
 const config: Config = {
   name: 'Demo',
@@ -22,8 +28,6 @@ const config: Config = {
   bluesky: 'vike.dev',
   linkedin: 'vikejs',
 
-  headings,
-  headingsDetached,
   categories,
 
   algolia: {

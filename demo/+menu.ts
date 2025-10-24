@@ -1,41 +1,11 @@
-export { headings }
-export { headingsDetached }
-export { categories }
+export { menu }
 
-import {
-  iconScroll,
-  iconCompass,
-  iconGear,
-  type HeadingDefinition,
-  type HeadingDetachedDefinition,
-  type Config,
-} from '@brillout/docpress'
+import type { MenuConfig, MenuDefinition, MenuDetachedDefinition } from '@brillout/docpress'
+import iconScroll from '@brillout/docpress/icons/scroll.svg'
+import iconCompass from '@brillout/docpress/icons/compass.svg'
+import iconGear from '@brillout/docpress/icons/gear.svg'
 
-const categories: Config['categories'] = [
-  //
-  'Guides',
-  'Overview',
-  { name: 'Guides 2', hide: true },
-]
-
-const headingsDetached: HeadingDetachedDefinition[] = [
-  {
-    title: 'Orphan Page',
-    url: '/orphan',
-    category: 'Guides',
-  },
-  {
-    title: 'Orphan Page Without Headings',
-    url: '/orphan-2',
-    category: 'Guides 2',
-  },
-  {
-    title: 'Languages',
-    url: '/languages',
-  },
-]
-
-const headings: HeadingDefinition[] = [
+const menusMain: MenuDefinition[] = [
   {
     level: 1,
     title: 'Overview',
@@ -138,3 +108,25 @@ const headings: HeadingDefinition[] = [
     url: '/page-4',
   },
 ]
+
+const menusDetached: MenuDetachedDefinition[] = [
+  {
+    title: 'Orphan Page',
+    url: '/orphan',
+    category: 'Guides',
+  },
+  {
+    title: 'Orphan Page Without Headings',
+    url: '/orphan-2',
+    category: 'Guides 2',
+  },
+  {
+    title: 'Languages',
+    url: '/languages',
+  },
+]
+
+const menu: MenuConfig = {
+  menusMain,
+  menusDetached,
+}

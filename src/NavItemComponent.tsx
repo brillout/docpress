@@ -34,7 +34,7 @@ type NavItem = {
   /**
    * Maps viewport column counts to column indices.
    * Indicates this nav item is a "column entry" (a level-1 or level-4 heading that starts a new column section).
-   * Example: { 1: 0, 2: 1, 3: 0 } means:
+   * Example: `{ 1: 0, 2: 1, 3: 0 }` means:
    * - When there's 1 column, put this item in column 0
    * - When there are 2 columns, put it in column 1
    * - When there are 3 columns, put it in column 0

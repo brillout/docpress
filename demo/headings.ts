@@ -60,6 +60,11 @@ const headings: HeadingDefinition[] = [
     url: '/features',
   },
   {
+    level: 2,
+    title: 'Open Source Pricing',
+    url: '/pricing',
+  },
+  {
     level: 1,
     title: 'Guides',
     titleIcon: iconScroll,

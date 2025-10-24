@@ -1,6 +1,6 @@
 export { TopNavigation }
 
-import { iconGear, iconSeedling, iconLoudspeaker, MenuToggle } from '@brillout/docpress'
+import { iconGear, iconSeedling, iconLoudspeaker, iconCoin, MenuToggle } from '@brillout/docpress'
 import React from 'react'
 
 function TopNavigation() {
@@ -44,6 +44,26 @@ function TopNavigation() {
         />
         Blog
       </MenuToggle>
+      <a
+        className="colorize-on-hover"
+        href="/pricing"
+        style={{
+          color: 'inherit',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'pointer',
+          padding: '0 var(--padding-side)',
+        }}
+      >
+        <img
+          src={iconCoin}
+          width={19}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}
+          className="decolorize-8"
+        />
+        Pricing
+      </a>
     </>
   )
 }

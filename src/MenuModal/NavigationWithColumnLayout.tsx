@@ -269,11 +269,17 @@ function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColu
   let isFullWidthCategory: boolean | undefined
   navItems.forEach((navItem) => {
     if (navItem.level === 1) {
-      const isFullWidthCategoryPrevious = isFullWidthCategory
-      isFullWidthCategory = !!navItem.menuModalFullWidth
-      if (isFullWidthCategoryPrevious !== undefined && isFullWidthCategoryPrevious !== isFullWidthCategory) {
+      if (isFullWidthCategory) {
+        assert(navItem.menuModalFullWidth)
+      }
+      const isFullWidthCategoryPrevious = !!isFullWidthCategory
+      if (navItem.menuModalFullWidth) {
+        isFullWidthCategory = true
+        // Flush
         navItemsByColumnEntries.push({ columnEntries, isFullWidthCategory: isFullWidthCategoryPrevious })
         columnEntries = []
+      } else {
+        isFullWidthCategory = false
       }
     }
     assert(isFullWidthCategory !== undefined)

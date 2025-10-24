@@ -31,6 +31,7 @@ type NavItem = {
   title: string
   titleInNav: string
   menuModalFullWidth?: true
+  // TODO: rename isColumnEntry isPotentialColumn
   /**
    * Maps viewport column counts to column indices.
    * Indicates this nav item is a "column entry" (a level-1 or level-4 heading that starts a new column section).

@@ -142,7 +142,7 @@ const headings: HeadingDefinition[] = [
     level: 1,
     title: 'Blog',
     titleIcon: iconLoudspeaker,
-    color: 'red',
+    color: '#ff4343',
     menuModalFullWidth: true,
   },
   {

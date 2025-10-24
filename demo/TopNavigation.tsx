@@ -1,6 +1,6 @@
 export { TopNavigation }
 
-import { iconGear, iconSeedling, MenuToggle } from '@brillout/docpress'
+import { iconGear, iconSeedling, iconLoudspeaker, MenuToggle } from '@brillout/docpress'
 import React from 'react'
 
 function TopNavigation() {
@@ -35,6 +35,15 @@ function TopNavigation() {
         />
         Get Started
       </a>
+      <MenuToggle menuId={2}>
+        <img
+          src={iconLoudspeaker}
+          width={18}
+          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative', top: -2 }}
+          className="decolorize-5"
+        />
+        Blog
+      </MenuToggle>
     </>
   )
 }

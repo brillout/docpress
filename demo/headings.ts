@@ -9,6 +9,7 @@ import {
   type HeadingDefinition,
   type HeadingDetachedDefinition,
   type Config,
+  iconLoudspeaker,
 } from '@brillout/docpress'
 
 const categories: Config['categories'] = [
@@ -136,5 +137,30 @@ const headings: HeadingDefinition[] = [
     level: 2,
     title: 'Page 4',
     url: '/page-4',
+  },
+  {
+    level: 1,
+    title: 'Blog',
+    titleIcon: iconLoudspeaker,
+    color: 'red',
+    menuModalFullWidth: true,
+  },
+  {
+    level: 4,
+    title: 'Blog Category 1',
+  },
+  {
+    level: 2,
+    title: 'Some Blog Post',
+    url: '/blog/post-1',
+  },
+  {
+    level: 4,
+    title: 'Blog Category 2',
+  },
+  {
+    level: 2,
+    title: 'Some Other Blog Post',
+    url: '/blog/post-1',
   },
 ]

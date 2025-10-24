@@ -283,9 +283,9 @@ function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColu
       }
     }
     assert(isFullWidthCategory !== undefined)
-    if (navItem.isColumnEntry) {
+    if (navItem.isPotentialColumn) {
       assert(navItem.level === 1 || navItem.level === 4)
-      columnEntry = { navItems: [navItem], columnMap: navItem.isColumnEntry }
+      columnEntry = { navItems: [navItem], columnMap: navItem.isPotentialColumn }
       columnEntries.push(columnEntry)
     } else {
       assert(navItem.level !== 1)

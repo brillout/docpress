@@ -15,8 +15,8 @@ function determineNavItemsColumnLayout(navItems: NavItem[]): undefined {
         numberOfColumns,
       )
       columnEntries.forEach((columnEntry, i) => {
-        columnEntry.navItemLeader.isColumnEntry ??= {}
-        columnEntry.navItemLeader.isColumnEntry[numberOfColumns] = columnMapping[i]
+        columnEntry.navItemLeader.isPotentialColumn ??= {}
+        columnEntry.navItemLeader.isPotentialColumn[numberOfColumns] = columnMapping[i]
       })
     }
   })

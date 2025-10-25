@@ -1,0 +1,43 @@
+.tabs {
+  /* List up to 7 inputs intentionally; number of tabs is dynamic */
+  input:nth-of-type(1):checked ~ div[role='tablist'] button:nth-of-type(1),
+  input:nth-of-type(2):checked ~ div[role='tablist'] button:nth-of-type(2),
+  input:nth-of-type(3):checked ~ div[role='tablist'] button:nth-of-type(3),
+  input:nth-of-type(4):checked ~ div[role='tablist'] button:nth-of-type(4),
+  input:nth-of-type(5):checked ~ div[role='tablist'] button:nth-of-type(5),
+  input:nth-of-type(6):checked ~ div[role='tablist'] button:nth-of-type(6),
+  input:nth-of-type(7):checked ~ div[role='tablist'] button:nth-of-type(7) {
+    border-top-width: 3px;
+    border-top-color: darkgrey;
+    border-bottom: none;
+  }
+
+  input:nth-last-of-type(1):not(:checked) ~ [role='tabpanel']:nth-last-of-type(1),
+  input:nth-last-of-type(2):not(:checked) ~ [role='tabpanel']:nth-last-of-type(2),
+  input:nth-last-of-type(3):not(:checked) ~ [role='tabpanel']:nth-last-of-type(3),
+  input:nth-last-of-type(4):not(:checked) ~ [role='tabpanel']:nth-last-of-type(4),
+  input:nth-last-of-type(5):not(:checked) ~ [role='tabpanel']:nth-last-of-type(5),
+  input:nth-last-of-type(6):not(:checked) ~ [role='tabpanel']:nth-last-of-type(6),
+  input:nth-last-of-type(7):not(:checked) ~ [role='tabpanel']:nth-last-of-type(7) {
+    display: none !important;
+  }
+
+  [role='tab'] {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 1.5px;
+    padding: 2px 10px 4px;
+    border-radius: 5px 5px 0 0 !important;
+    background: #eee;
+    font-weight: bold;
+  }
+
+  [role='tabpanel'] pre {
+    margin: 0;
+  }
+
+  [role='tabpanel'] code {
+    border-top-left-radius: 0 !important;
+  }
+}

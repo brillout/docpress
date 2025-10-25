@@ -25,6 +25,7 @@ import {
 } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
+import { initializeCodeTabs_SSR } from './code-blocks/hooks/useSelectedTab'
 import { initializeJsToggle_SSR } from './code-blocks/hooks/useSelectCodeLang'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
@@ -85,7 +86,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
-      <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
+      <script dangerouslySetInnerHTML={{ __html: `${initializeCodeTabs_SSR}\n${initializeJsToggle_SSR}` }}></script>
       <Style>{getStyleNav()}</Style>
     </div>
   )

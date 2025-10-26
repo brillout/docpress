@@ -63,6 +63,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
+        ['--main-view-padding']: `${mainViewPadding}px`,
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
@@ -117,8 +118,10 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 #nav-left, #nav-left-margin {
   display: none;
 }
-.page-wrapper {
+body {
   --main-view-padding: 10px !important;
+}
+.page-wrapper {
   flex-grow: 1;
   align-items: center;
 }
@@ -179,8 +182,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
       <div
         className="page-content"
         style={{
-          // Also define --main-view-padding for landing page because it's used by <Contributors> and <Sponsors>
-          ['--main-view-padding']: `${mainViewPadding}px`,
           ...ifDocPage({
             width: `calc(${contentMaxWidth}px + 2 * var(--main-view-padding))`,
             maxWidth: '100%',
@@ -350,8 +351,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         >
           <NavLogo className="grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
-          {algolia && <SearchLink className="grow-half" style={menuLinkStyle} />}
-          <MenuToggleMain className="grow-full" style={menuLinkStyle} />
+          {algolia && <SearchLink className="grow-half always-shown" style={menuLinkStyle} />}
+          <MenuToggleMain id="menu-button" className="grow-full always-shown" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -367,27 +368,21 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   }
   .grow-half {
     flex-grow: 0.5;
+    flex-grow: 1;
   }
-  .nav-head-content {
-    --padding-side: 0px;
+  .always-shown {
+    padding: 0;
   }
   .nav-logo {
     justify-content: flex-start;
-    padding-left: 15px;
-    margin-left: -10px;
-  }
-}
-@container container-viewport (max-width: ${containerQuerySmallNav}px) {
-  .grow-half {
-    flex-grow: 1 !important;
-  }
-  .nav-logo {
-    justify-content: center;
     padding: 0;
-    margin: 0;
+    padding-left: var(--main-view-padding);
+  }
+  .menu-button {
+    padding-right: var(--main-view-padding);
   }
 }
-@container container-nav-head (min-width: 501px) {
+@container container-nav-head (min-width: ${containerQuerySmallNav+1}px) {
   .nav-logo {
     padding: 0 var(--padding-side);
   }

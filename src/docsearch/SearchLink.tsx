@@ -33,7 +33,13 @@ function SearchIcon() {
     <img
       src={iconMagnifyingGlass}
       width={18}
-      style={{ marginRight: 'var(--icon-text-padding)', position: 'relative', top: -1 }}
+      style={{
+        marginRight: 'var(--icon-text-padding)',
+        /*
+        position: 'relative',
+        top: 0,
+        */
+      }}
       className="decolorize-7"
     />
   )

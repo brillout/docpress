@@ -10,7 +10,7 @@ function TopNavigation() {
         <img
           src={iconGear}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative', top: -2 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative', top: -1 }}
           className="decolorize-8"
         />{' '}
         API
@@ -30,7 +30,7 @@ function TopNavigation() {
         <img
           src={iconSeedling}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: -2 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: -1 }}
           className="decolorize-8"
         />
         Get Started
@@ -39,7 +39,7 @@ function TopNavigation() {
         <img
           src={iconLoudspeaker}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative', top: -2 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative', top: -1 }}
           className="decolorize-5"
         />
         Blog

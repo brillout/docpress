@@ -61,7 +61,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       style={{
         ['--bg-color']: '#f5f5f5',
         ['--block-margin']: `${blockMargin}px`,
-        ['--icon-text-padding']: '8px',
+        // ['--icon-text-padding']: '8px',
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
       }}
@@ -299,7 +299,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
               position: 'absolute',
               left: '100%',
               top: 0,
-              '--padding-side': '20px',
+              // TODO
+              // '--padding-side': '20px',
+              // '--icon-text-padding': '11px',
               width: mainViewMax, // guaranteed real estate
             }),
       }}
@@ -344,9 +346,17 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             maxWidth: navMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
-            fontSize: `min(15.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
+            fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
-            ['--icon-text-padding']: 'min(8px, 1.8cqw)',
+            // TODO
+            ['--icon-text-padding']: isNavLeft
+              ? 'min(8px, 7 * (1cqw - 2.5px))'
+              : // 1000px width => `0.5cqw === 5px`
+                'min(6px, 0.5cqw)',
+            ['--padding-side']: isNavLeft
+              ? 'min(24px, 20 * (1cqw - 2.5px))'
+              : // 1000px width => `1.1cqw === 11px`
+                'min(15px, 1.1cqw)',
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -392,7 +402,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 @container container-nav-head (min-width: 501px) {
   .nav-head-content {
+    /* TODO */
+    /*
     --padding-side: 24px;
+    */
   }
   .nav-logo {
     padding: 0 var(--padding-side);
@@ -400,7 +413,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 150}px) {
   .nav-head-content {
+    /* TODO */
+    /*
     --padding-side: 25px;
+    */
   }
 }
 @media(max-width: ${containerQueryMobileNav}px) {
@@ -607,11 +623,12 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       <CaretIcon
         style={{
           width: 11,
-          marginLeft: 10,
+          // TODO
+          marginLeft: 'calc(var(--icon-text-padding) - 1px)',
           flexShrink: 0,
           color: '#888',
           position: 'relative',
-          top: -1,
+          top: 1,
         }}
       />
     </div>
@@ -689,7 +706,7 @@ function DocsIcon() {
     <img
       src={iconBooks}
       width={18}
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', position: 'relative', top: 1 }}
       className="decolorize-5"
     />
   )

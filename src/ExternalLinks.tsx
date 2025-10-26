@@ -31,6 +31,7 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
         ...props.style,
       }}
     >
+      <LinkIcon className="decolorize-4" icon={iconGithub} href={github} iconSizeBoost={1} />
       {iconI18n}
       {discord && <LinkIcon className="decolorize-6" icon={iconDiscord} href={discord} />}
       {twitter && <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} />}
@@ -38,7 +39,6 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
       {linkedin && (
         <LinkIcon className="decolorize-6" icon={iconLinkedin} href={`https://www.linkedin.com/company/${linkedin}`} />
       )}
-      <LinkIcon className="decolorize-4" icon={iconGithub} href={github} />
       {changelog !== false && <ChangelogButton />}
     </div>
   )
@@ -54,7 +54,7 @@ function ChangelogButton() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: '0 5px',
+        padding: '0 3px',
         height: '100%',
       }}
     >
@@ -63,28 +63,50 @@ function ChangelogButton() {
         style={{
           display: 'flex',
           alignItems: 'center',
-          padding: '2px 10px',
+          paddingLeft: 8,
+          paddingRight: 8,
+          paddingTop: 4,
+          paddingBottom: 5,
           fontSize: '0.97em',
+          lineHeight: 0,
         }}
       >
-        <span id="version-number" className="decolorize-7">
+        <span
+          id="version-number"
+          className="decolorize-7"
+          style={{
+            position: 'relative',
+            top: 1,
+          }}
+        >
           v{version}
         </span>
-        <img className="decolorize-6" src={iconChangelog} height={16} style={{ marginLeft: 6 }} />
+        <img
+          className="decolorize-6"
+          src={iconChangelog}
+          height={16}
+          style={{ marginLeft: 6, position: 'relative', top: 1 }}
+        />
       </div>
     </a>
   )
 }
 
-function LinkIcon({ className, icon, href, style }: { className: string; icon: string; href: string; style?: any }) {
+function LinkIcon({
+  className,
+  icon,
+  href,
+  style,
+  iconSizeBoost = 0,
+}: { className: string; icon: string; href: string; style?: any; iconSizeBoost?: number }) {
   return (
     <>
       <a
         className="colorize-on-hover"
         href={href}
-        style={{ padding: 5, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
+        style={{ padding: 3, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
       >
-        <img className={className} src={icon} height="20" style={style} />
+        <img className={className} src={icon} height={18 + iconSizeBoost} style={style} />
       </a>
     </>
   )

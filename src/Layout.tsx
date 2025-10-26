@@ -306,7 +306,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}
-      {!isNavLeft && <div className="desktop-grow" style={{display: 'none'}}/>}
+      {!isNavLeft && <div className="desktop-grow" style={{ display: 'none' }} />}
       <ExternalLinks
         style={{
           display: 'inline-flex',
@@ -351,9 +351,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-    {/* TODO: remove grow-full grow-half */}
+          {/* TODO: remove grow-full grow-half */}
           <NavLogo className="grow-half" />
-          {!isNavLeft && <div className="desktop-grow" style={{display: 'none'}}/>}
+          {!isNavLeft && <div className="desktop-grow" style={{ display: 'none' }} />}
           {algolia && <SearchLink className="grow-half always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="grow-full always-shown menu-button" style={menuLinkStyle} />
           {navSecondaryContent}
@@ -381,7 +381,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }
-@container container-viewport (min-width: ${containerQueryMobile+1}px) {
+@container container-viewport (min-width: ${containerQueryMobile + 1}px) {
   .nav-logo {
     padding: 0 var(--padding-side);
   }
@@ -396,7 +396,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
     --padding-side: min(24px, 20 * (1cqw - 2.5px));
   }
-  ${!isNavLeft ? '' : `
+  ${
+    !isNavLeft
+      ? ''
+      : `
   .nav-head-content {
     --padding-side: 0px !important;
     & > * {
@@ -410,7 +413,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     padding-left: 15px;
     margin-left: -15px;
   }
-  `}
+  `
+  }
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
   .nav-head-content {

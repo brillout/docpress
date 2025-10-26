@@ -89,6 +89,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
+  // TODO: rename hideNavLeftAlways isNavLeftAlwaysHidden
   const hideNavLeftAlways =
     pageContext.resolved.pageDesign?.hideMenuLeft ||
     (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
@@ -142,6 +143,21 @@ body {
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   .nav-head-full-width {
     display: none !important;
+  }
+  .nav-head-content {
+    --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
+    --padding-side: min(24px, 20 * (1cqw - 2.5px));
+    --padding-side: 0px !important;
+    & > * {
+      flex-grow: 0.5;
+    }
+    & > .menu-button {
+      flex-grow: 1;
+    }
+  }
+  .nav-logo {
+    padding-left: 15px;
+    margin-left: -15px;
   }
 }
 `
@@ -382,45 +398,18 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }
-@container container-viewport (min-width: ${containerQueryMobile + 1}px) {
-  .nav-logo {
-    padding: 0 var(--padding-side);
-  }
-}
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .hide-on-shrink {
     display: none !important;
-  }
-}
-@container container-nav-head (max-width: ${containerQueryMobileNav}px) {
-  .nav-head-content {
-    --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-    --padding-side: min(24px, 20 * (1cqw - 2.5px));
-  }
-  ${
-    isNavLeft
-      ? `
-  .nav-head-content {
-    --padding-side: 0px !important;
-    & > * {
-      flex-grow: 0.5;
-    }
-    & > .menu-button {
-      flex-grow: 1;
-    }
-  }
-  .nav-logo {
-    padding-left: 15px;
-    margin-left: -15px;
-  }
-  `
-      : ''
   }
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
   .nav-head-content {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
+  }
+  .nav-logo {
+    padding: 0 var(--padding-side);
   }
 }
 `

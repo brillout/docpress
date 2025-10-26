@@ -299,9 +299,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
               position: 'absolute',
               left: '100%',
               top: 0,
-              // TODO
-              // '--padding-side': '20px',
-              // '--icon-text-padding': '11px',
               width: mainViewMax, // guaranteed real estate
             }),
       }}
@@ -392,22 +389,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   }
 }
 @container container-nav-head (min-width: 501px) {
-  .nav-head-content {
-    /* TODO */
-    /*
-    --padding-side: 24px;
-    */
-  }
   .nav-logo {
     padding: 0 var(--padding-side);
-  }
-}
-@container container-nav-head (min-width: ${containerQueryMobileNav + 150}px) {
-  .nav-head-content {
-    /* TODO */
-    /*
-    --padding-side: 25px;
-    */
   }
 }
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
@@ -626,7 +609,6 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       <CaretIcon
         style={{
           width: 11,
-          // TODO
           marginLeft: 'calc(var(--icon-text-padding) - 1px)',
           flexShrink: 0,
           color: '#888',

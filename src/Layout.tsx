@@ -348,15 +348,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
-            // TODO
-            ['--icon-text-padding']: isNavLeft
-              ? 'min(8px, 7 * (1cqw - 2.5px))'
-              : // 1000px width => `0.5cqw === 5px`
-                'min(6px, 0.5cqw)',
-            ['--padding-side']: isNavLeft
-              ? 'min(24px, 20 * (1cqw - 2.5px))'
-              : // 1000px width => `1.1cqw === 11px`
-                'min(15px, 1.1cqw)',
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -419,15 +410,27 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     */
   }
 }
-@media(max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .hide-on-shrink {
     display: none !important;
+  }
+}
+@container container-nav-head (max-width: ${containerQueryMobileNav}px) {
+  .nav-head-content {
+    --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
+    --padding-side: min(24px, 20 * (1cqw - 2.5px));
+  }
+}
+@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
+  .nav-head-content {
+    --icon-text-padding: min(6px, 0.5cqw);
+    --padding-side: min(15px, 1.1cqw);
   }
 }
 `
     if (navMaxWidth) {
       style += css`
-@media(min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
   .desktop-grow {
     flex-grow: 1;
   }
@@ -436,7 +439,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
     if (isLandingPage && !navMaxWidth)
       style += css`
-@media(min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
   .nav-logo {
     display: none !important;
   }
@@ -570,12 +573,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@media(max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@media(min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
   .text-menu {
     display: none;
   }

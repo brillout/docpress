@@ -392,6 +392,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     padding: 0 var(--padding-side);
   }
 }
+@container container-nav-head (max-width: ${containerQuerySmallNav}px) {
+  .nav-head-content {
+    --padding-side: 0px !important;
+  }
+}
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .hide-on-shrink {
     display: none !important;
@@ -400,7 +405,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 @container container-nav-head (max-width: ${containerQueryMobileNav}px) {
   .nav-head-content {
     --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-    --padding-side: min(24px, 20 * (1cqw - 2.5px));
+    --padding-side: 0px;
   }
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {

@@ -146,8 +146,7 @@ body {
   }
   .nav-head-content {
     --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-    --padding-side: min(24px, 20 * (1cqw - 2.5px));
-    --padding-side: 0px !important;
+    --padding-side: min(24px, 27 * (1cqw - 2.5px));
     & > * {
       flex-grow: 0.5;
     }

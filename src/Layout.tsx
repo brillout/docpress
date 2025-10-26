@@ -588,10 +588,12 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       }}
       onMouseEnter={() => {
         if (onMouseIgnore) return
+        if (isMobileNav()) return
         openMenuModal(menuId)
       }}
       onMouseLeave={() => {
         if (onMouseIgnore) return
+        if (isMobileNav()) return
         coseMenuModalOnMouseLeave(menuId)
       }}
       onTouchStart={() => {
@@ -705,4 +707,8 @@ function MenuIcon() {
       ></path>
     </svg>
   )
+}
+
+function isMobileNav() {
+  return window.innerWidth <= containerQueryMobileNav
 }

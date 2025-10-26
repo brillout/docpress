@@ -404,7 +404,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     display: none !important;
   }
 }
-@container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile}px) {
+@container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile + 1}px) {
   .nav-head-content {
     --icon-text-padding: 8px;
     --padding-side: 20px;

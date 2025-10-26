@@ -30,8 +30,10 @@ const mainViewWidthMax = 800
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
-const containerQuerySmallNav = 550
+const containerQueryMobile = 550
+// TODO: rename
 const containerQueryMobileNav = 1000
+// TODO: rename
 const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
@@ -277,6 +279,7 @@ function NavigationContent(props: {
 
 const menuLinkStyle: React.CSSProperties = {
   height: '100%',
+  flexGrow: 1,
   padding: '0 var(--padding-side)',
   justifyContent: 'center',
 }
@@ -349,10 +352,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
+    {/* TODO: remove grow-full grow-half */}
           <NavLogo className="grow-half" />
           {!isNavLeft && <div className="desktop-grow" />}
           {algolia && <SearchLink className="grow-half always-shown" style={menuLinkStyle} />}
-          <MenuToggleMain id="menu-button" className="grow-full always-shown" style={menuLinkStyle} />
+          <MenuToggleMain className="grow-full always-shown menu-button" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -362,27 +366,20 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   function getStyle() {
     let style = css`
-@container container-nav-head (max-width: ${containerQuerySmallNav}px) {
-  .grow-full {
-    flex-grow: 1;
-  }
-  .grow-half {
-    flex-grow: 0.5;
-    flex-grow: 1;
-  }
-  .always-shown {
-    padding: 0;
-  }
+@container container-viewport (max-width: ${containerQueryMobile}px) {
   .nav-logo {
-    justify-content: flex-start;
-    padding: 0;
+    always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
   }
   .menu-button {
-    padding-right: var(--main-view-padding);
+    justify-content: flex-end !important;
+    padding-right: var(--main-view-padding) !important;
+  }
+  .nav-head-content {
+    --padding-side: 0px !important;
   }
 }
-@container container-nav-head (min-width: ${containerQuerySmallNav+1}px) {
+@container container-viewport (min-width: ${containerQueryMobile+1}px) {
   .nav-logo {
     padding: 0 var(--padding-side);
   }
@@ -515,6 +512,7 @@ function NavLogo({ className }: { className: string }) {
     <a
       className={cls(['nav-logo', className])}
       style={{
+        flexGrow: 1,
         display: 'flex',
         alignItems: 'center',
         height: '100%',

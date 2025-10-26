@@ -30,7 +30,7 @@ const mainViewWidthMax = 800
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
-const containerQueryMobile = 550
+const containerQueryMobile = 450
 // TODO: rename
 const containerQueryMobileNav = 1000
 // TODO: rename
@@ -392,7 +392,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     padding-right: var(--main-view-padding) !important;
   }
   .nav-head-content {
-    --padding-side: 0px !important;
+    --icon-text-padding: min(8px, 1.3cqw);
     & > * {
       flex-grow: 1;
     }
@@ -401,6 +401,15 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .hide-on-shrink {
     display: none !important;
+  }
+}
+@container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile}px) {
+  .nav-head-content {
+    --icon-text-padding: 8px;
+    --padding-side: 20px;
+  }
+  .nav-logo {
+    padding: 0 var(--padding-side);
   }
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {

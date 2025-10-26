@@ -386,7 +386,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 @container container-viewport (max-width: ${containerQueryMobile}px) {
   .nav-logo {
     always-shown: flex-start !important;
-    padding-left: var(--main-view-padding) !important;
+    padding-left: var(--main-view-padding);
   }
   .menu-button {
     justify-content: flex-end !important;

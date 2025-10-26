@@ -157,8 +157,8 @@ body {
     }
   }
   .nav-logo {
-    padding-left: 15px;
-    margin-left: -15px;
+    padding-left: var(--main-view-padding);
+    margin-left: calc(-1 * var(--main-view-padding));
   }
 }
 `

@@ -423,8 +423,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 @container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
   .nav-head-content {
-    --icon-text-padding: min(6px, 0.5cqw);
-    --padding-side: min(15px, 1.1cqw);
+    --icon-text-padding: min(8px, 0.5cqw);
+    --padding-side: min(20px, 1.3cqw);
   }
 }
 `

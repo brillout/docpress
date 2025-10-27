@@ -418,7 +418,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }`
-    // Tablet + desktop small
+    // Tablet
     style += css`
 @container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
   .nav-head:not(.is-nav-left) {
@@ -431,7 +431,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }`
-    // [Not left navigation] Desktop small + desktop
+    // Desktop small + desktop
     style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {

@@ -302,6 +302,9 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
+// Two <NavHead> instances are rendered:
+//  - The left-nav (left-side navigation) shown on documentation pages on desktop
+//  - The main-nav (top navigation bar) shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.resolved

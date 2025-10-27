@@ -303,6 +303,7 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
+// TODO update comment
 // Two <NavHead> instances are rendered:
 //  - The show-on-nav-hover (left-side navigation) shown on documentation pages on desktop
 //  - The main-nav (top navigation bar) shown otherwise
@@ -313,6 +314,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navSecondaryContent = (
     <div
+      // TODO replace show-on-nav-hover with left-nav ?
       // TODO: remove desktop-grow ?
       className={isNavLeft ? 'show-on-nav-hover add-transition' : 'main-nav desktop-grow'}
       style={{

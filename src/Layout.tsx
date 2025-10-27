@@ -437,7 +437,7 @@ function getStyleNav() {
   }
   html:not(.unexpand-nav) {
     & .nav-head.is-nav-left:hover .show-on-nav-hover,
-    & .nav-head.is-nav-left:has(.show-on-nav-hover:hover) .show-on-nav-hover,
+    &:has(.nav-head:hover) #menu-modal-wrapper.show-on-nav-hover,
     &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
     &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
       opacity: 1;

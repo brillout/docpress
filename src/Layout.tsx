@@ -90,10 +90,6 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext()
-  const isNavLeftAlwaysHidden =
-    pageContext.resolved.pageDesign?.hideMenuLeft ||
-    (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
   return (
     <>
       <Style>{getStyleLayoutDocsPage()}</Style>
@@ -108,7 +104,12 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       </div>
     </>
   )
+}
   function getStyleLayoutDocsPage() {
+  const pageContext = usePageContext()
+  const isNavLeftAlwaysHidden =
+    pageContext.resolved.pageDesign?.hideMenuLeft ||
+    (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
     let style = css`
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
@@ -170,7 +171,6 @@ body {
 
     return style
   }
-}
 
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
@@ -391,6 +391,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   )
 }
 function getStyleNavHead() {
+  const pageContext = usePageContext()
+  const { isLandingPage } = pageContext.resolved
+
   let style = ''
 
   // Mobile

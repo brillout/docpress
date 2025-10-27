@@ -31,7 +31,6 @@ const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
-// TODO: rename
 const viewTablet = 1000
 const viewDesktop = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const viewExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3

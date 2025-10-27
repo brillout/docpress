@@ -303,8 +303,8 @@ const menuLinkStyle: React.CSSProperties = {
 }
 
 // Two <NavHead> instances are rendered:
-//  - The left-side navigation shown on documentation pages on desktop
-//  - The top navigation bar shown otherwise
+//  - The left-side <NavHead> shown on documentation pages on desktop
+//  - The top <NavHead> shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.resolved
@@ -469,7 +469,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       }
     }
 
-    // Expand <NavHead> on :hover
+    // Expand left-side <NavHead> on :hover
     if (isNavLeft) {
       style += css`
 .show-on-nav-hover {

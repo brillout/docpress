@@ -30,8 +30,11 @@ const mainViewWidthMax = 800
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
-const containerQuerySmallNav = 550
+// TODO: rename all containerQuery => viewport
+const containerQueryMobile = 450
+// TODO: rename
 const containerQueryMobileNav = 1000
+// TODO: rename
 const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
@@ -61,9 +64,9 @@ function Layout({ children }: { children: React.ReactNode }) {
       style={{
         ['--bg-color']: '#f5f5f5',
         ['--block-margin']: `${blockMargin}px`,
-        ['--icon-text-padding']: '8px',
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
+        ['--main-view-padding']: `${mainViewPadding}px`,
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
@@ -87,6 +90,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
+  // TODO: rename hideNavLeftAlways isNavLeftAlwaysHidden
   const hideNavLeftAlways =
     pageContext.resolved.pageDesign?.hideMenuLeft ||
     (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
@@ -104,6 +108,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       </div>
     </>
   )
+  // TODO: rename
   function getStyle() {
     let style = css`
 @container container-viewport (min-width: ${containerQueryExtraSpace}px) {
@@ -118,8 +123,10 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 #nav-left, #nav-left-margin {
   display: none;
 }
-.page-wrapper {
+body {
   --main-view-padding: 10px !important;
+}
+.page-wrapper {
   flex-grow: 1;
   align-items: center;
 }
@@ -138,6 +145,22 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 @container container-viewport (min-width: ${containerQueryMobileLayout}px) {
   .nav-head-full-width {
     display: none !important;
+  }
+  .nav-head-content {
+    --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
+    & > :not(.always-shown) {
+      --padding-side: min(24px, 27 * (1cqw - 2.5px));
+    }
+    & > * {
+      flex-grow: 0.5;
+    }
+    & > .menu-button {
+      flex-grow: 1;
+    }
+  }
+  .nav-logo {
+    padding-left: 15px;
+    margin-left: -15px;
   }
 }
 `
@@ -180,8 +203,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
       <div
         className="page-content"
         style={{
-          // Also define --main-view-padding for landing page because it's used by <Contributors> and <Sponsors>
-          ['--main-view-padding']: `${mainViewPadding}px`,
           ...ifDocPage({
             width: `calc(${contentMaxWidth}px + 2 * var(--main-view-padding))`,
             maxWidth: '100%',
@@ -208,6 +229,7 @@ function NavLeft() {
   return (
     <>
       <div
+        // TODO: diff with show-on-nav-hover ? Refactor?
         id="nav-left"
         className="link-hover-animation"
         style={{
@@ -281,6 +303,10 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
+// TODO update comment
+// Two <NavHead> instances are rendered:
+//  - The show-on-nav-hover (left-side navigation) shown on documentation pages on desktop
+//  - The main-nav (top navigation bar) shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.resolved
@@ -288,7 +314,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navSecondaryContent = (
     <div
-      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}
+      // TODO replace show-on-nav-hover with left-nav ?
+      // TODO: remove desktop-grow ?
+      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'main-nav desktop-grow'}
       style={{
         padding: 0,
         display: 'flex',
@@ -299,13 +327,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
               position: 'absolute',
               left: '100%',
               top: 0,
-              '--padding-side': '20px',
               width: mainViewMax, // guaranteed real estate
             }),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}
-      {!isNavLeft && <div className="desktop-grow" />}
+      <div className="desktop-grow" style={{ display: 'none' }} />
       <ExternalLinks
         style={{
           display: 'inline-flex',
@@ -344,75 +371,81 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             maxWidth: navMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
-            fontSize: `min(15.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
+            fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
             color: '#666',
-            ['--icon-text-padding']: 'min(8px, 1.8cqw)',
             display: 'flex',
             justifyContent: 'center',
           }}
         >
+          {/* TODO: remove grow-full grow-half */}
           <NavLogo className="grow-half" />
-          {!isNavLeft && <div className="desktop-grow" />}
-          {algolia && <SearchLink className="grow-half" style={menuLinkStyle} />}
-          <MenuToggleMain className="grow-full" style={menuLinkStyle} />
+          <div className="desktop-grow" style={{ display: 'none' }} />
+          {algolia && <SearchLink className="grow-half always-shown" style={menuLinkStyle} />}
+          <MenuToggleMain className="grow-full always-shown menu-button" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
-      <Style>{getStyle()}</Style>
+      <Style>{getStyleNavHead()}</Style>
     </div>
   )
 
-  function getStyle() {
-    let style = css`
-@container container-nav-head (max-width: ${containerQuerySmallNav}px) {
-  .grow-full {
-    flex-grow: 1;
+  function getStyleNavHead() {
+    let style = ''
+
+    // TODO: don't use important ?
+    // Mobile
+    style += css`
+@container container-viewport (max-width: ${containerQueryMobile}px) {
+  .nav-logo {
+    always-shown: flex-start !important;
+    padding-left: var(--main-view-padding);
   }
-  .grow-half {
-    flex-grow: 0.5;
+  .menu-button {
+    justify-content: flex-end !important;
+    padding-right: var(--main-view-padding) !important;
   }
   .nav-head-content {
-    --padding-side: 0px;
+    --icon-text-padding: min(8px, 1.3cqw);
+    & > * {
+      flex-grow: 1;
+    }
   }
-  .nav-logo {
-    justify-content: flex-start;
-    padding-left: 15px;
-    margin-left: -10px;
+}`
+    // Mobile + tablet
+    style += css`
+@container container-viewport (max-width: ${containerQueryMobileNav}px) {
+  .main-nav {
+    display: none !important;
   }
-}
-@container container-viewport (max-width: ${containerQuerySmallNav}px) {
-  .grow-half {
-    flex-grow: 1 !important;
-  }
-  .nav-logo {
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-  }
-}
-@container container-nav-head (min-width: 501px) {
+}`
+    // Tablet + desktop small
+    style += css`
+@container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile + 1}px) {
   .nav-head-content {
-    --padding-side: 24px;
+    --icon-text-padding: 8px;
+    --padding-side: 20px;
+  }
+  .nav-logo {
+    padding: 0 var(--padding-side);
+  }
+}`
+    // [Not left navigation] Desktop small + desktop
+    style += css`
+@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
+  .nav-head-content {
+    --icon-text-padding: min(8px, 0.5cqw);
+    --padding-side: min(20px, 1.3cqw);
   }
   .nav-logo {
     padding: 0 var(--padding-side);
   }
 }
-@container container-nav-head (min-width: ${containerQueryMobileNav + 150}px) {
-  .nav-head-content {
-    --padding-side: 25px;
-  }
-}
-@media(max-width: ${containerQueryMobileNav}px) {
-  .hide-on-shrink {
-    display: none !important;
-  }
-}
 `
     if (navMaxWidth) {
       style += css`
-@media(min-width: ${containerQueryMobileNav + 1}px) {
+@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
   .desktop-grow {
+    display: block;
     flex-grow: 1;
   }
 }
@@ -420,7 +453,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
     if (isLandingPage && !navMaxWidth)
       style += css`
-@media(min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
   .nav-logo {
     display: none !important;
   }
@@ -428,7 +461,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (isNavLeft) {
       style += css`
-
 .show-on-nav-hover {
   opacity: 0;
   transition-property: opacity;
@@ -554,12 +586,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@media(max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@media(min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
   .text-menu {
     display: none;
   }
@@ -607,11 +639,11 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       <CaretIcon
         style={{
           width: 11,
-          marginLeft: 10,
+          marginLeft: 'calc(var(--icon-text-padding) - 1px)',
           flexShrink: 0,
           color: '#888',
           position: 'relative',
-          top: -1,
+          top: 1,
         }}
       />
     </div>
@@ -689,7 +721,7 @@ function DocsIcon() {
     <img
       src={iconBooks}
       width={18}
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)' }}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', position: 'relative', top: 1 }}
       className="decolorize-5"
     />
   )

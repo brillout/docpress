@@ -233,9 +233,7 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: 
           const navItems = columnEntry.navItems.slice(1)
           columns[idx].categories.push({ navItemLevel1, navItems })
         })
-        // Filter out undefined values to create a dense array
-        const denseColumns = columns.filter((col) => col !== undefined)
-        const navItemsByColumnLayout: NavItemsByColumnLayout = { columns: denseColumns, isFullWidthCategory }
+        const navItemsByColumnLayout: NavItemsByColumnLayout = { columns, isFullWidthCategory }
         return navItemsByColumnLayout
       } else {
         let navItemLevel1: NavItemComputed
@@ -251,10 +249,8 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: 
           }
           columns[idx].navItems.push(...navItems)
         })
-        // Filter out undefined values to create a dense array
-        const denseColumns = columns.filter((col) => col !== undefined)
         const navItemsByColumnLayout: NavItemsByColumnLayout = {
-          columns: denseColumns,
+          columns,
           navItemLevel1: navItemLevel1!,
           isFullWidthCategory,
         }

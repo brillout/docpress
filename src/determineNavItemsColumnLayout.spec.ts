@@ -427,8 +427,6 @@ describe('determineNavItemsColumnLayout', () => {
             "1": 0,
             "2": 0,
             "3": 0,
-            "4": 0,
-            "5": 0,
           },
           "level": 1,
           "menuModalFullWidth": true,
@@ -449,9 +447,7 @@ describe('determineNavItemsColumnLayout', () => {
           "isPotentialColumn": {
             "1": 0,
             "2": 0,
-            "3": 0,
-            "4": 0,
-            "5": 1,
+            "3": 1,
           },
           "level": 4,
           "title": "Category 2",
@@ -465,10 +461,8 @@ describe('determineNavItemsColumnLayout', () => {
         {
           "isPotentialColumn": {
             "1": 0,
-            "2": 0,
-            "3": 1,
-            "4": 1,
-            "5": 2,
+            "2": 1,
+            "3": 2,
           },
           "level": 4,
           "title": "Category 3",
@@ -487,10 +481,7 @@ describe('determineNavItemsColumnLayout', () => {
         {
           "isPotentialColumn": {
             "1": 0,
-            "2": 1,
-            "3": 2,
-            "4": 2,
-            "5": 3,
+            "2": 0,
           },
           "level": 1,
           "menuModalFullWidth": true,
@@ -511,9 +502,6 @@ describe('determineNavItemsColumnLayout', () => {
           "isPotentialColumn": {
             "1": 0,
             "2": 1,
-            "3": 2,
-            "4": 3,
-            "5": 4,
           },
           "level": 4,
           "title": "Blog Category 2",

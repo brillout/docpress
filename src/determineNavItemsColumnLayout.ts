@@ -63,7 +63,10 @@ function getColumnEntries(navItems: NavItem[]) {
       const isFullWidthCategoryPrevious = isFullWidthCategory
       isFullWidthCategory = !!navItem.menuModalFullWidth
       if (isFullWidthCategory) isFullWidthCategoryBegin = true
-      if (isFullWidthCategoryPrevious !== undefined && isFullWidthCategoryPrevious !== isFullWidthCategory) {
+      if (
+        isFullWidthCategoryPrevious !== undefined &&
+        (isFullWidthCategoryPrevious !== isFullWidthCategory || (isFullWidthCategoryBegin && columnEntries.length > 0))
+      ) {
         columnLayouts.push(columnEntries)
         columnEntries = []
       }

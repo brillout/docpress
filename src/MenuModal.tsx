@@ -132,6 +132,9 @@ function getStyle() {
   .show-only-on-desktop {
     display: none !important;
   }
+  .columns-wrapper {
+    width: 100% !important;
+  }
 }
 
 ${/* Hide same-page headings navigation */ ''}

@@ -23,7 +23,16 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
   })
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, viewportWidth)
+  const columnWidthBase = navLeftWidthMax + 20
   const maxColumns = Math.max(...navItemsByColumnLayouts.map((layout) => layout.columns.length), 1)
+  const widthMax = maxColumns * columnWidthBase
+  const getColumnsWrapperStyle = (columnLayout: NavItemsByColumnLayout) => {
+    const widthColumn = columnLayout.columns.length * columnWidthBase
+    return {
+      width: Math.max(700, widthColumn),
+      maxWidth: `min(100%, ${widthMax}px)`,
+    }
+  }
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -41,7 +50,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           >
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
-                <ColumnsWrapper numberOfColumns={maxColumns}>
+                <ColumnsWrapper style={getColumnsWrapperStyle(columnLayout)}>
                   <Collapsible
                     head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
                     disabled={maxColumns > 1}
@@ -62,7 +71,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                 </ColumnsWrapper>
               </div>
             ) : (
-              <ColumnsWrapper numberOfColumns={maxColumns}>
+              <ColumnsWrapper style={getColumnsWrapperStyle(columnLayout)}>
                 <ColumnsLayout>
                   {columnLayout.columns.map((column, j) => (
                     <Column key={j}>
@@ -166,14 +175,14 @@ function Column({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
-function ColumnsWrapper({ children, numberOfColumns }: { children: React.ReactNode; numberOfColumns: number }) {
+function ColumnsWrapper({ children, style }: { children: React.ReactNode; style: React.CSSProperties }) {
   return (
     <div
+      className="columns-wrapper"
       style={{
-        width: numberOfColumns * (navLeftWidthMax + 20),
-        maxWidth: '100%',
         paddingLeft: 3,
         margin: 'auto',
+        ...style,
       }}
     >
       {children}

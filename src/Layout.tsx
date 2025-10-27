@@ -441,13 +441,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 `
     if (navMaxWidth) {
-      const getStyleHideLogo = () => {
-        if (!isLandingPage || navMaxWidth) return ''
-        return css`
-.nav-head-logo {
-  display: none !important;
-}`
-      }
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
@@ -462,7 +455,15 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   }
 }
 `
+      function getStyleHideLogo() {
+        if (!isLandingPage || navMaxWidth) return ''
+        return css`
+.nav-head-logo {
+  display: none !important;
+}`
+      }
     }
+
     // Expand <NavHead> on :hover
     if (isNavLeft) {
       style += css`
@@ -480,6 +481,7 @@ html:not(.unexpand-nav).menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
 }
 `
     }
+
     return style
   }
 }

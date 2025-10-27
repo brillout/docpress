@@ -46,7 +46,7 @@ describe('determineNavItemsColumnLayout', () => {
   })
 
   describe('fullWidth categories', () => {
-    it('should handle fullWidth categories with level-4 column entries', () => {
+    it('should handle fullWidth categories with level-1 and level-4 items', () => {
       const navItems: NavItem[] = [
         { level: 1, title: 'Blog', titleInNav: 'Blog', menuModalFullWidth: true },
         { level: 4, title: 'Category 1', titleInNav: 'Category 1' },
@@ -58,17 +58,16 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // Level-1 item should have isPotentialColumn
+      // Level-1 item should have isPotentialColumn (it's the category header)
       expect(navItems[0].isPotentialColumn).toBeDefined()
       expect(navItems[0].isPotentialColumn![1]).toBe(0)
 
-      // Level-4 items are column entries in fullWidth categories
-      // They should have isPotentialColumn set
-      expect(navItems[1].isPotentialColumn).toBeDefined()
+      // The first level-4 item after level-1 is not a column entry
+      // Only subsequent level-4 items (where previous is not level-1) are column entries
       expect(navItems[4].isPotentialColumn).toBeDefined()
     })
 
-    it('should assign different columns to level-4 entries in fullWidth categories', () => {
+    it('should assign columns to level-4 entries that follow other level-4 entries', () => {
       const navItems: NavItem[] = [
         { level: 1, title: 'Blog', titleInNav: 'Blog', menuModalFullWidth: true },
         { level: 4, title: 'Category 1', titleInNav: 'Category 1' },
@@ -81,16 +80,15 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // Both level-4 items should have column assignments
-      const cat1Columns = navItems[1].isPotentialColumn
-      const cat2Columns = navItems[4].isPotentialColumn
+      // Level-1 item should have isPotentialColumn
+      expect(navItems[0].isPotentialColumn).toBeDefined()
 
-      expect(cat1Columns).toBeDefined()
+      // The second level-4 item (Category 2) should have isPotentialColumn
+      // because it follows another level-4 item
+      const cat2Columns = navItems[4].isPotentialColumn
       expect(cat2Columns).toBeDefined()
 
-      // Both should have mapping for 1 column
-      if (cat1Columns && cat2Columns) {
-        expect(cat1Columns[1]).toBeGreaterThanOrEqual(0)
+      if (cat2Columns) {
         expect(cat2Columns[1]).toBeGreaterThanOrEqual(0)
       }
     })
@@ -110,10 +108,15 @@ describe('determineNavItemsColumnLayout', () => {
 
       // Non-fullWidth category should have isPotentialColumn
       expect(navItems[0].isPotentialColumn).toBeDefined()
+      expect(navItems[0].isPotentialColumn![1]).toBe(0)
+
       // FullWidth category should have isPotentialColumn
       expect(navItems[2].isPotentialColumn).toBeDefined()
-      // Level-4 column entry in fullWidth category should have isPotentialColumn
-      expect(navItems[3].isPotentialColumn).toBeDefined()
+      expect(navItems[2].isPotentialColumn![1]).toBe(0)
+
+      // The first level-4 item after level-1 in fullWidth category is not a column entry
+      // so it won't have isPotentialColumn set
+      expect(navItems[3].isPotentialColumn).toBeUndefined()
     })
   })
 

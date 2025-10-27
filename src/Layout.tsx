@@ -84,6 +84,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
+      <Style>{getStyleNavHead()}</Style>
     </div>
   )
 }
@@ -386,7 +387,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           {navHeadSecondary}
         </div>
       </div>
-      <Style>{getStyleNavHead()}</Style>
     </div>
   )
 }

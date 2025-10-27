@@ -453,7 +453,7 @@ body {
     style += navLeftHidden
 
     if (!isNavLeftAlwaysHidden) {
-    style += css`
+      style += css`
 @container container-viewport (min-width: ${viewDesktop}px) {
   .nav-head:not(.is-nav-left) {
     display: none !important;
@@ -478,7 +478,7 @@ body {
   }
 }
     `
-  }
+    }
   }
 
   return style

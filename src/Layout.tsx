@@ -107,9 +107,6 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   .low-prio-grow {
     flex-grow: 1;
   }
-  #navigation-container {
-    width: ${navLeftWidthMax}px !important;
-  }
 }`}</Style>
     </>
   )
@@ -195,7 +192,6 @@ function NavLeft() {
             }}
           >
             <div
-              // TODO
               id="navigation-container"
               style={{
                 top: 0,
@@ -203,9 +199,8 @@ function NavLeft() {
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
-                minWidth: navLeftWidthMin,
+                width: navLeftWidthMax,
                 maxWidth: navLeftWidthMax,
-                width: '100%',
               }}
             >
               {navItemsDetached ? (

@@ -389,13 +389,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       <Style>{getStyleNavHead()}</Style>
     </div>
   )
-
 }
-  function getStyleNavHead() {
-    let style = ''
+function getStyleNavHead() {
+  let style = ''
 
-    // Mobile
-    style += css`
+  // Mobile
+  style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-logo {
@@ -414,8 +413,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }`
-    // Mobile + tablet
-    style += css`
+  // Mobile + tablet
+  style += css`
 @container container-viewport (max-width: ${viewTablet}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-secondary {
@@ -423,8 +422,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }`
-    // Tablet
-    style += css`
+  // Tablet
+  style += css`
 @container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-content {
@@ -436,8 +435,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
   }
 }`
-    // Desktop small + desktop
-    style += css`
+  // Desktop small + desktop
+  style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-content {
@@ -460,8 +459,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 `
 
-    // Expand left-side <NavHead> on :hover
-    style += css`
+  // Expand left-side <NavHead> on :hover
+  style += css`
 .show-on-nav-hover {
   opacity: 0;
   transition-property: opacity;
@@ -478,8 +477,8 @@ html:not(.unexpand-nav) {
 }
 `
 
-    return style
-  }
+  return style
+}
 function unexpandNav() {
   document.documentElement.classList.add('unexpand-nav')
   // Using setTimeout() because requestAnimationFrame() doesn't delay enough

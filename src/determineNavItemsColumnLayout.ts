@@ -65,7 +65,7 @@ function getColumnEntries(navItems: NavItem[]) {
       if (isFullWidthCategory) isFullWidthCategoryBegin = true
       if (
         isFullWidthCategoryPrevious !== undefined &&
-        (isFullWidthCategoryPrevious !== isFullWidthCategory || (isFullWidthCategoryBegin && columnEntries.length > 0))
+        (isFullWidthCategoryPrevious !== isFullWidthCategory || (isFullWidthCategory && columnEntries.length > 0))
       ) {
         columnLayouts.push(columnEntries)
         columnEntries = []

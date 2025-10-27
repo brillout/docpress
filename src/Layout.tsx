@@ -312,7 +312,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navHeadSecondary = (
     <div
-      className={cls(['nav-head-secondary', isNavLeft && 'show-on-nav-hover add-transition'])}
+      className={cls([
+        'nav-head-secondary',
+        isNavLeft && 'show-on-nav-hover add-transition',
+        !!navMaxWidth && 'has-max-width',
+      ])}
       style={{
         padding: 0,
         display: 'flex',
@@ -442,24 +446,18 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     .nav-head-logo {
       padding: 0 var(--padding-side);
     }
-  }
-}
-`
-    if (navMaxWidth) {
-      style += css`
-@container container-viewport (min-width: ${viewTablet + 1}px) {
-  .nav-head:not(.is-nav-left) {
-    .desktop-grow {
-      display: block;
-    }
-    .desktop-grow,
-    .nav-head-secondary {
-      flex-grow: 1;
+    &.has-max-width {
+      .desktop-grow {
+        display: block;
+      }
+      .desktop-grow,
+      .nav-head-secondary {
+        flex-grow: 1;
+      }
     }
   }
 }
 `
-    }
 
     // Expand left-side <NavHead> on :hover
     if (isNavLeft) {

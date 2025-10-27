@@ -430,13 +430,13 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     style += css`
 @container container-nav-head (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
-  .nav-head-content {
-    --icon-text-padding: min(8px, 0.5cqw);
-    --padding-side: min(20px, 1.3cqw);
-  }
-  .nav-head-logo {
-    padding: 0 var(--padding-side);
-  }
+    .nav-head-content {
+      --icon-text-padding: min(8px, 0.5cqw);
+      --padding-side: min(20px, 1.3cqw);
+    }
+    .nav-head-logo {
+      padding: 0 var(--padding-side);
+    }
   }
 }
 `
@@ -444,10 +444,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style += css`
 @container container-nav-head (min-width: ${viewTablet + 1}px) {
   .nav-head {
-  .desktop-grow {
-    display: block;
-    flex-grow: 1;
-  }
+    .desktop-grow {
+      display: block;
+      flex-grow: 1;
+    }
   }
 }
 `
@@ -456,9 +456,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head {
-  .nav-head-logo {
-    display: none !important;
-  }
+    .nav-head-logo {
+      display: none !important;
+    }
   }
 }
 `

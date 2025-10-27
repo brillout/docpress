@@ -370,7 +370,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          <NavLogo />
+          <NavHeadLogo />
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown menu-button" style={menuLinkStyle} />
@@ -506,7 +506,7 @@ function NavHeaderLeftFullWidthBackground() {
   )
 }
 
-function NavLogo({ className }: { className?: string }) {
+function NavHeadLogo({ className }: { className?: string }) {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress

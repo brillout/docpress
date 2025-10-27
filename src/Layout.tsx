@@ -138,7 +138,7 @@ body {
   ${navLeftHidden}
 }
 @container container-viewport (min-width: ${viewDesktop}px) {
-  .is-nav-left {
+  .nav-head.is-nav-left {
     display: none !important;
   }
   .nav-head-content {
@@ -387,6 +387,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Mobile
     style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
+  .nav-head:not(.is-nav-left) {
   .nav-head-logo {
     always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
@@ -400,6 +401,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     & > * {
       flex-grow: 1;
     }
+  }
   }
 }`
     // Mobile + tablet

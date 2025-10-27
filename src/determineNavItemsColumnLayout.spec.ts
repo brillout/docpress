@@ -231,6 +231,7 @@ describe('getColumnEntries', () => {
       { level: 2, title: 'Notes', titleInNav: 'Notes' },
       { level: 2, title: 'Features', titleInNav: 'Features' },
       { level: 2, title: 'Open Source Pricing', titleInNav: 'Open Source Pricing' },
+
       { level: 1, title: 'Guides', titleInNav: 'Guides' },
       { level: 2, title: 'Some Page', titleInNav: 'Some Page' },
       { level: 4, title: 'Some category', titleInNav: 'Some category' },
@@ -238,6 +239,7 @@ describe('getColumnEntries', () => {
       { level: 2, title: 'June Releases', titleInNav: 'June Releases' },
       { level: 2, title: 'Press Kit', titleInNav: 'Press Kit' },
       { level: 2, title: 'Page wiht error', titleInNav: 'Page wiht error' },
+
       { level: 1, title: 'API', titleInNav: 'API', menuModalFullWidth: true },
       { level: 4, title: 'Category 1', titleInNav: 'Category 1' },
       { level: 2, title: '`Page 1`', titleInNav: '`Page 1`' },
@@ -246,6 +248,7 @@ describe('getColumnEntries', () => {
       { level: 4, title: 'Category 3', titleInNav: 'Category 3' },
       { level: 2, title: 'Page 3', titleInNav: 'Page 3' },
       { level: 2, title: 'Page 4', titleInNav: 'Page 4' },
+
       { level: 1, title: 'Blog', titleInNav: 'Blog', menuModalFullWidth: true },
       { level: 4, title: 'Blog Category 1', titleInNav: 'Blog Category 1' },
       { level: 2, title: 'Some Blog Post', titleInNav: 'Some Blog Post' },

@@ -308,7 +308,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navSecondaryContent = (
     <div
-      className={isNavLeft ? 'left-nav add-transition' : 'is-main-nav desktop-grow'}
+      className={isNavLeft ? 'left-nav add-transition' : 'main-nav desktop-grow'}
       style={{
         padding: 0,
         display: 'flex',
@@ -405,7 +405,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Mobile + tablet
     style += css`
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
-  .is-main-nav {
+  .main-nav {
     display: none !important;
   }
 }`

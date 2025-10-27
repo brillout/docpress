@@ -138,7 +138,7 @@ body {
   ${navLeftHidden}
 }
 @container container-viewport (min-width: ${viewDesktop}px) {
-  .nav-head-full-width {
+  .is-nav-left {
     display: none !important;
   }
   .nav-head-content {
@@ -149,11 +149,11 @@ body {
     & > * {
       flex-grow: 0.5;
     }
-    & > .menu-button {
+    & > .nav-head-menu-toggle {
       flex-grow: 1;
     }
   }
-  .nav-logo {
+  .nav-head-logo {
     padding-left: 15px;
     margin-left: -15px;
   }
@@ -339,7 +339,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head-top', !isNavLeft && 'nav-head-full-width', 'link-hover-animation'])}
+      className={cls(['nav-head', !isNavLeft && 'is-nav-left', 'link-hover-animation'])}
       style={{
         display: 'flex',
         justifyContent: isNavLeft ? 'flex-end' : 'center',
@@ -370,10 +370,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          <NavLogo />
+          <NavHeadLogo />
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
-          <MenuToggleMain className="always-shown menu-button" style={menuLinkStyle} />
+          <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -387,11 +387,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Mobile
     style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
-  .nav-logo {
+  .nav-head-logo {
     always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
   }
-  .menu-button {
+  .nav-head-menu-toggle {
     justify-content: flex-end !important;
     padding-right: var(--main-view-padding) !important;
   }
@@ -416,7 +416,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     --icon-text-padding: 8px;
     --padding-side: 20px;
   }
-  .nav-logo {
+  .nav-head-logo {
     padding: 0 var(--padding-side);
   }
 }`
@@ -427,7 +427,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
   }
-  .nav-logo {
+  .nav-head-logo {
     padding: 0 var(--padding-side);
   }
 }
@@ -445,7 +445,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     if (isLandingPage && !navMaxWidth)
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
-  .nav-logo {
+  .nav-head-logo {
     display: none !important;
   }
 }
@@ -457,7 +457,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   transition-property: opacity;
   pointer-events: none;
 }
-html:not(.unexpand-nav) :has(.nav-head-top:hover) .show-on-nav-hover,
+html:not(.unexpand-nav) :has(.nav-head:hover) .show-on-nav-hover,
 html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
 html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
   opacity: 1;
@@ -506,7 +506,7 @@ function NavHeaderLeftFullWidthBackground() {
   )
 }
 
-function NavLogo({ className }: { className?: string }) {
+function NavHeadLogo({ className }: { className?: string }) {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress
@@ -540,7 +540,7 @@ function NavLogo({ className }: { className?: string }) {
 
   return (
     <a
-      className={cls(['nav-logo', className])}
+      className={cls(['nav-head-logo', className])}
       style={{
         display: 'flex',
         alignItems: 'center',

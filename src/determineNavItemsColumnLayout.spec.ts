@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
 import type { NavItem } from './NavItemComponent'
 
@@ -15,13 +15,21 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // API should have isPotentialColumn set
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-      expect(navItems[0].isPotentialColumn![1]).toBe(0)
-
-      // Guides should have isPotentialColumn set
-      expect(navItems[3].isPotentialColumn).toBeDefined()
-      expect(navItems[3].isPotentialColumn![1]).toBe(0)
+      expect({
+        api: navItems[0].isPotentialColumn,
+        guides: navItems[3].isPotentialColumn,
+      }).toMatchInlineSnapshot(`
+        {
+          "api": {
+            "1": 0,
+            "2": 0,
+          },
+          "guides": {
+            "1": 0,
+            "2": 1,
+          },
+        }
+      `)
     })
 
     it('should handle multiple columns for categories with many items', () => {
@@ -37,11 +45,11 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // API should have isPotentialColumn
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-      expect(navItems[0].isPotentialColumn![1]).toBe(0)
-      // Should have column mapping for single column
-      expect(navItems[0].isPotentialColumn![1]).toBeGreaterThanOrEqual(0)
+      expect(navItems[0].isPotentialColumn).toMatchInlineSnapshot(`
+        {
+          "1": 0,
+        }
+      `)
     })
   })
 
@@ -58,13 +66,21 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // Level-1 item should have isPotentialColumn (it's the category header)
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-      expect(navItems[0].isPotentialColumn![1]).toBe(0)
-
-      // The first level-4 item after level-1 is not a column entry
-      // Only subsequent level-4 items (where previous is not level-1) are column entries
-      expect(navItems[4].isPotentialColumn).toBeDefined()
+      expect({
+        level1: navItems[0].isPotentialColumn,
+        level4_second: navItems[4].isPotentialColumn,
+      }).toMatchInlineSnapshot(`
+        {
+          "level1": {
+            "1": 0,
+            "2": 0,
+          },
+          "level4_second": {
+            "1": 0,
+            "2": 1,
+          },
+        }
+      `)
     })
 
     it('should assign columns to level-4 entries that follow other level-4 entries', () => {
@@ -80,17 +96,21 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // Level-1 item should have isPotentialColumn
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-
-      // The second level-4 item (Category 2) should have isPotentialColumn
-      // because it follows another level-4 item
-      const cat2Columns = navItems[4].isPotentialColumn
-      expect(cat2Columns).toBeDefined()
-
-      if (cat2Columns) {
-        expect(cat2Columns[1]).toBeGreaterThanOrEqual(0)
-      }
+      expect({
+        level1: navItems[0].isPotentialColumn,
+        level4_second: navItems[4].isPotentialColumn,
+      }).toMatchInlineSnapshot(`
+        {
+          "level1": {
+            "1": 0,
+            "2": 0,
+          },
+          "level4_second": {
+            "1": 0,
+            "2": 1,
+          },
+        }
+      `)
     })
   })
 
@@ -106,17 +126,21 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // Non-fullWidth category should have isPotentialColumn
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-      expect(navItems[0].isPotentialColumn![1]).toBe(0)
-
-      // FullWidth category should have isPotentialColumn
-      expect(navItems[2].isPotentialColumn).toBeDefined()
-      expect(navItems[2].isPotentialColumn![1]).toBe(0)
-
-      // The first level-4 item after level-1 in fullWidth category is not a column entry
-      // so it won't have isPotentialColumn set
-      expect(navItems[3].isPotentialColumn).toBeUndefined()
+      expect({
+        api: navItems[0].isPotentialColumn,
+        blog: navItems[2].isPotentialColumn,
+        category1: navItems[3].isPotentialColumn,
+      }).toMatchInlineSnapshot(`
+        {
+          "api": {
+            "1": 0,
+          },
+          "blog": {
+            "1": 0,
+          },
+          "category1": undefined,
+        }
+      `)
     })
   })
 
@@ -132,15 +156,11 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      const apiItem = navItems[0]
-      expect(apiItem.isPotentialColumn).toBeDefined()
-
-      // Should have entries for different column counts
-      expect(apiItem.isPotentialColumn![1]).toBe(0) // 1 column
-      if (apiItem.isPotentialColumn![2] !== undefined) {
-        // 2 columns should be assigned
-        expect(apiItem.isPotentialColumn![2]).toBeGreaterThanOrEqual(0)
-      }
+      expect(navItems[0].isPotentialColumn).toMatchInlineSnapshot(`
+        {
+          "1": 0,
+        }
+      `)
     })
   })
 
@@ -150,8 +170,11 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-      expect(navItems[0].isPotentialColumn![1]).toBe(0)
+      expect(navItems[0].isPotentialColumn).toMatchInlineSnapshot(`
+        {
+          "1": 0,
+        }
+      `)
     })
 
     it('should handle empty array', () => {
@@ -170,9 +193,11 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      // Should have added more column mappings
-      expect(navItems[0].isPotentialColumn).toBeDefined()
-      expect(navItems[0].isPotentialColumn![1]).toBe(0)
+      expect(navItems[0].isPotentialColumn).toMatchInlineSnapshot(`
+        {
+          "1": 0,
+        }
+      `)
     })
   })
 
@@ -189,16 +214,21 @@ describe('determineNavItemsColumnLayout', () => {
 
       determineNavItemsColumnLayout(navItems)
 
-      const apiItem = navItems[0]
-      const guidesItem = navItems[4]
-
-      // Both should have isPotentialColumn
-      expect(apiItem.isPotentialColumn).toBeDefined()
-      expect(guidesItem.isPotentialColumn).toBeDefined()
-
-      // Both should have mapping for 1 column
-      expect(apiItem.isPotentialColumn![1]).toBe(0)
-      expect(guidesItem.isPotentialColumn![1]).toBe(0)
+      expect({
+        api: navItems[0].isPotentialColumn,
+        guides: navItems[4].isPotentialColumn,
+      }).toMatchInlineSnapshot(`
+        {
+          "api": {
+            "1": 0,
+            "2": 0,
+          },
+          "guides": {
+            "1": 0,
+            "2": 1,
+          },
+        }
+      `)
     })
   })
 })

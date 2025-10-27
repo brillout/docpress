@@ -195,7 +195,6 @@ function NavLeft() {
             }}
           >
             <div
-              // TODO
               id="navigation-container"
               style={{
                 top: 0,

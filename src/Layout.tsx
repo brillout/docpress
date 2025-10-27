@@ -229,6 +229,7 @@ function NavLeft() {
   return (
     <>
       <div
+        // TODO: diff with left-nav ? Refactor?
         id="nav-left"
         className="link-hover-animation"
         style={{

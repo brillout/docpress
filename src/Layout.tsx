@@ -68,17 +68,15 @@ function Layout({ children }: { children: React.ReactNode }) {
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
         ['--main-view-padding']: `${mainViewPadding}px`,
+        // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
+        // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
+        container: 'container-viewport / inline-size',
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
       <div
         className={isLandingPage ? '' : 'doc-page'}
-        style={{
-          // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
-          // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
-          container: 'container-viewport / inline-size',
-          ...whitespaceBuster1,
-        }}
+        style={whitespaceBuster1}
       >
         <NavHead />
         {content}

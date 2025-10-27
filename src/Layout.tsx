@@ -1,7 +1,7 @@
 export { Layout }
 export { MenuToggle }
-export { containerQueryMobileLayout }
-export { containerQueryMobileNav as containerQueryMobileMenu }
+export { viewMobileLayout }
+export { viewMobileNav as viewMobileMenu }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
@@ -30,13 +30,13 @@ const mainViewWidthMax = 800
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
-// TODO: rename all containerQuery => viewport
-const containerQueryMobile = 450
+// TODO: rename all view => viewport
+const viewMobile = 450
 // TODO: rename
-const containerQueryMobileNav = 1000
+const viewMobileNav = 1000
 // TODO: rename
-const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
+const viewExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -111,7 +111,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   // TODO: rename
   function getStyle() {
     let style = css`
-@container container-viewport (min-width: ${containerQueryExtraSpace}px) {
+@container container-viewport (min-width: ${viewExtraSpace}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -139,10 +139,10 @@ body {
 `
     if (!hideNavLeftAlways) {
       navLeftHidden = css`
-@container container-viewport (max-width: ${containerQueryMobileLayout - 1}px) {
+@container container-viewport (max-width: ${viewMobileLayout - 1}px) {
   ${navLeftHidden}
 }
-@container container-viewport (min-width: ${containerQueryMobileLayout}px) {
+@container container-viewport (min-width: ${viewMobileLayout}px) {
   .nav-head-full-width {
     display: none !important;
   }
@@ -395,7 +395,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // TODO: don't use important ?
     // Mobile
     style += css`
-@container container-viewport (max-width: ${containerQueryMobile}px) {
+@container container-viewport (max-width: ${viewMobile}px) {
   .nav-logo {
     always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
@@ -413,14 +413,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // Mobile + tablet
     style += css`
-@container container-viewport (max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${viewMobileNav}px) {
   .main-nav {
     display: none !important;
   }
 }`
     // Tablet + desktop small
     style += css`
-@container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile + 1}px) {
+@container container-viewport (max-width: ${viewMobileNav}px) and (min-width: ${viewMobile + 1}px) {
   .nav-head-content {
     --icon-text-padding: 8px;
     --padding-side: 20px;
@@ -431,7 +431,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // [Not left navigation] Desktop small + desktop
     style += css`
-@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-nav-head (min-width: ${viewMobileNav + 1}px) {
   .nav-head-content {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
@@ -443,7 +443,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (navMaxWidth) {
       style += css`
-@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-nav-head (min-width: ${viewMobileNav + 1}px) {
   .desktop-grow {
     display: block;
     flex-grow: 1;
@@ -453,7 +453,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
     if (isLandingPage && !navMaxWidth)
       style += css`
-@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${viewMobileNav + 1}px) {
   .nav-logo {
     display: none !important;
   }
@@ -586,12 +586,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@container container-viewport (max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${viewMobileNav}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${viewMobileNav + 1}px) {
   .text-menu {
     display: none;
   }
@@ -742,5 +742,5 @@ function MenuIcon() {
 }
 
 function isMobileNav() {
-  return window.innerWidth <= containerQueryMobileNav
+  return window.innerWidth <= viewMobileNav
 }

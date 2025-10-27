@@ -7,6 +7,9 @@ export { navLeftWidthMax }
 export { unexpandNav }
 export { blockMargin }
 
+// - We use `@container container-viewport` instead of @media because @media doesn't consider the scrollbar width.
+// - We use --padding-side because we cannot set a fixed max-width on the <NavHead> container .nav-head-content — DocPress doesn't know how many extra <NavHead> elements the user adds using the +docpress.topNavigation setting.
+
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { parseMarkdownMini } from './parseMarkdownMini'
@@ -23,6 +26,7 @@ import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
 import { EditLink } from './EditLink'
+import type { PageContext } from 'vike/types'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -64,35 +68,26 @@ function Layout({ children }: { children: React.ReactNode }) {
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
         ['--main-view-padding']: `${mainViewPadding}px`,
+        // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
+        // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
+        container: 'container-viewport / inline-size',
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
-      <div
-        className={isLandingPage ? '' : 'doc-page'}
-        style={{
-          // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
-          // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
-          container: 'container-viewport / inline-size',
-          ...whitespaceBuster1,
-        }}
-      >
+      <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
         <NavHead />
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
+      <Style>{getStyleNav()}</Style>
     </div>
   )
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
-  const pageContext = usePageContext()
-  const isNavLeftAlwaysHidden =
-    pageContext.resolved.pageDesign?.hideMenuLeft ||
-    (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
   return (
     <>
-      <Style>{getStyleLayoutDocsPage()}</Style>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div
@@ -102,10 +97,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
         />
         <PageContent>{children}</PageContent>
       </div>
-    </>
-  )
-  function getStyleLayoutDocsPage() {
-    let style = css`
+      <Style>{css`
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
@@ -113,59 +105,10 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   #navigation-container {
     width: ${navLeftWidthMax}px !important;
   }
-}`
-    let navLeftHidden = css`
-#nav-left, #nav-left-margin {
-  display: none;
+}`}</Style>
+    </>
+  )
 }
-body {
-  --main-view-padding: 10px !important;
-}
-.page-wrapper {
-  flex-grow: 1;
-  align-items: center;
-}
-.page-content {
-  margin: auto;
-}
-#menu-modal-wrapper {
-  position: absolute !important;
-}
-`
-    if (!isNavLeftAlwaysHidden) {
-      navLeftHidden = css`
-@container container-viewport (max-width: ${viewDesktop - 1}px) {
-  ${navLeftHidden}
-}
-@container container-viewport (min-width: ${viewDesktop}px) {
-  .is-nav-left {
-    display: none !important;
-  }
-  .nav-head-content {
-    --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-    & > :not(.always-shown) {
-      --padding-side: min(24px, 27 * (1cqw - 2.5px));
-    }
-    & > * {
-      flex-grow: 0.5;
-    }
-    & > .nav-head-menu-toggle {
-      flex-grow: 1;
-    }
-  }
-  .nav-head-logo {
-    padding-left: 15px;
-    margin-left: -15px;
-  }
-}
-`
-    }
-    style += navLeftHidden
-
-    return style
-  }
-}
-
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -238,7 +181,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          <NavHead isNavLeft={true} />
+          {!isNavLeftAlwaysHidden(pageContext) && <NavHead isNavLeft={true} />}
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -291,6 +234,11 @@ function NavigationContent(props: {
   )
 }
 
+function isNavLeftAlwaysHidden(pageContext: PageContext) {
+  const { isLandingPage, navItemsDetached, pageDesign } = pageContext.resolved
+  return isLandingPage || pageDesign?.hideMenuLeft || (navItemsDetached && navItemsDetached.length <= 1)
+}
+
 const menuLinkStyle: React.CSSProperties = {
   height: '100%',
   padding: '0 var(--padding-side)',
@@ -298,30 +246,32 @@ const menuLinkStyle: React.CSSProperties = {
 }
 
 // Two <NavHead> instances are rendered:
-//  - The left-side navigation shown on documentation pages on desktop
-//  - The top navigation bar shown otherwise
+//  - The left-side <NavHead> shown on documentation pages on desktop
+//  - The top <NavHead> shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.resolved
   const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
+  const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
 
-  const navSecondaryContent = (
+  const navHeadSecondary = (
     <div
-      // TODO replace show-on-nav-hover with left-nav ?
-      // TODO: remove desktop-grow ?
-      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'main-nav desktop-grow'}
+      className={cls([
+        'nav-head-secondary',
+        isNavLeft && 'show-on-nav-hover add-transition',
+        !!navMaxWidth && 'has-max-width',
+      ])}
       style={{
         padding: 0,
         display: 'flex',
         height: '100%',
-        ...(!isNavLeft
-          ? {}
-          : {
+        ...(isNavLeft
+          ? {
               position: 'absolute',
               left: '100%',
               top: 0,
               width: mainViewWidthMax, // guaranteed real estate
-            }),
+            }
+          : {}),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}
@@ -339,7 +289,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head', !isNavLeft && 'is-nav-left', 'link-hover-animation'])}
+      className={cls(['nav-head', isNavLeft && 'is-nav-left', 'link-hover-animation'])}
       style={{
         display: 'flex',
         justifyContent: isNavLeft ? 'flex-end' : 'center',
@@ -348,9 +298,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         position: 'relative',
       }}
     >
-      {isNavLeft && <NavHeaderLeftFullWidthBackground />}
+      {isNavLeft && <NavHeadLeftFullWidthBackground />}
       <div
         style={{
+          // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
           minWidth: isNavLeft && navLeftWidthMin,
@@ -370,104 +321,154 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          <NavHeadLogo />
+          {!hideNavHeadLogo && <NavHeadLogo />}
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
-          {navSecondaryContent}
+          {navHeadSecondary}
         </div>
       </div>
-      <Style>{getStyleNavHead()}</Style>
     </div>
   )
+}
+function getStyleNav() {
+  const pageContext = usePageContext()
 
-  function getStyleNavHead() {
-    let style = ''
+  let style = ''
 
-    // Mobile
-    style += css`
+  // Mobile
+  style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
-  .nav-head-logo {
-    always-shown: flex-start !important;
-    padding-left: var(--main-view-padding);
-  }
-  .nav-head-menu-toggle {
-    justify-content: flex-end !important;
-    padding-right: var(--main-view-padding) !important;
-  }
-  .nav-head-content {
-    --icon-text-padding: min(8px, 1.3cqw);
-    & > * {
-      flex-grow: 1;
+  .nav-head:not(.is-nav-left) {
+    .nav-head-logo {
+      always-shown: flex-start !important;
+      padding-left: var(--main-view-padding);
+    }
+    .nav-head-menu-toggle {
+      justify-content: flex-end !important;
+      padding-right: var(--main-view-padding) !important;
+    }
+    .nav-head-content {
+      --icon-text-padding: min(8px, 1.3cqw);
+      & > * {
+        flex-grow: 1;
+      }
     }
   }
 }`
-    // Mobile + tablet
-    style += css`
+
+  // Mobile + tablet
+  style += css`
 @container container-viewport (max-width: ${viewTablet}px) {
-  .main-nav {
-    display: none !important;
+  .nav-head:not(.is-nav-left) {
+    .nav-head-secondary {
+      display: none !important;
+    }
   }
 }`
-    // Tablet + desktop small
-    style += css`
+
+  // Tablet
+  style += css`
 @container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
-  .nav-head-content {
-    --icon-text-padding: 8px;
-    --padding-side: 20px;
-  }
-  .nav-head-logo {
-    padding: 0 var(--padding-side);
+  .nav-head:not(.is-nav-left) {
+    .nav-head-content {
+      --icon-text-padding: 8px;
+      --padding-side: 20px;
+    }
+    .nav-head-logo {
+      padding: 0 var(--padding-side);
+    }
   }
 }`
-    // [Not left navigation] Desktop small + desktop
-    style += css`
-@container container-nav-head (min-width: ${viewTablet + 1}px) {
-  .nav-head-content {
-    --icon-text-padding: min(8px, 0.5cqw);
-    --padding-side: min(20px, 1.3cqw);
-  }
-  .nav-head-logo {
-    padding: 0 var(--padding-side);
-  }
-}
-`
-    if (navMaxWidth) {
-      style += css`
-@container container-nav-head (min-width: ${viewTablet + 1}px) {
-  .desktop-grow {
-    display: block;
-    flex-grow: 1;
-  }
-}
-`
-    }
-    if (isLandingPage && !navMaxWidth)
-      style += css`
+
+  // Desktop small + desktop
+  style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
-  .nav-head-logo {
+  .nav-head:not(.is-nav-left) {
+    .nav-head-content {
+      --icon-text-padding: min(8px, 0.5cqw);
+      --padding-side: min(20px, 1.3cqw);
+    }
+    .nav-head-logo {
+      padding: 0 var(--padding-side);
+    }
+    &.has-max-width {
+      .desktop-grow {
+        display: block;
+      }
+      .desktop-grow,
+      .nav-head-secondary {
+        flex-grow: 1;
+      }
+    }
+  }
+}
+`
+
+  // Desktop
+  if (!isNavLeftAlwaysHidden(pageContext)) {
+    style += css`
+@container container-viewport (min-width: ${viewDesktop}px) {
+  .nav-head:not(.is-nav-left) {
     display: none !important;
   }
-}
-`
-    if (isNavLeft) {
-      style += css`
-.show-on-nav-hover {
-  opacity: 0;
-  transition-property: opacity;
-  pointer-events: none;
-}
-html:not(.unexpand-nav) :has(.nav-head:hover) .show-on-nav-hover,
-html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
-html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
-  opacity: 1;
-  pointer-events: all;
-}
-`
+  .nav-head.is-nav-left {
+    .nav-head-content {
+      --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
+      & > :not(.always-shown) {
+        --padding-side: min(24px, 27 * (1cqw - 2.5px));
+      }
+      & > * {
+        flex-grow: 0.5;
+      }
+      & > .nav-head-menu-toggle {
+        flex-grow: 1;
+      }
     }
-    return style
+    .nav-head-logo {
+      padding-left: 15px;
+      margin-left: -15px;
+    }
+  }
+  .show-on-nav-hover {
+    opacity: 0;
+    transition-property: opacity;
+    pointer-events: none;
+  }
+  html:not(.unexpand-nav) {
+    & .nav-head.is-nav-left:hover .show-on-nav-hover,
+    &:has(.nav-head:hover) #menu-modal-wrapper.show-on-nav-hover,
+    &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
+    &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 }
+@container container-viewport (max-width: ${viewDesktop - 1}px) {
+  #nav-left, #nav-left-margin {
+    display: none;
+  }
+  body {
+    --main-view-padding: 10px !important;
+  }
+  .page-wrapper {
+    flex-grow: 1;
+    align-items: center;
+  }
+  .page-content {
+    margin: auto;
+  }
+  #menu-modal-wrapper {
+    position: absolute !important;
+  }
+}
+`
+  }
+
+  return style
+}
+
 function unexpandNav() {
   document.documentElement.classList.add('unexpand-nav')
   // Using setTimeout() because requestAnimationFrame() doesn't delay enough
@@ -476,11 +477,11 @@ function unexpandNav() {
   }, 1000)
 }
 
-function NavHeaderLeftFullWidthBackground() {
+function NavHeadLeftFullWidthBackground() {
   return (
     <>
       <div
-        className="nav-bg show-on-nav-hover add-transition"
+        className="nav-head-bg show-on-nav-hover add-transition"
         style={{
           height: '100%',
           zIndex: -1,
@@ -496,7 +497,7 @@ function NavHeaderLeftFullWidthBackground() {
         // (min-width: 0px) => trick to always apply => @container seems to always require a condition
         css`
 @container container-viewport (min-width: 0px) {
-  .nav-bg {
+  .nav-head-bg {
      width: 100cqw;
   }
 }

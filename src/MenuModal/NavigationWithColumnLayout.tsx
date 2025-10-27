@@ -23,6 +23,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
   })
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, viewportWidth)
+  const maxColumns = Math.max(...navItemsByColumnLayouts.map((layout) => layout.columns.length), 1)
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -40,10 +41,10 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           >
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
-                <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
+                <ColumnsWrapper numberOfColumns={maxColumns}>
                   <Collapsible
                     head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
-                    disabled={columnLayout.columns.length > 1}
+                    disabled={maxColumns > 1}
                     collapsedInit={!columnLayout.navItemLevel1.isRelevant}
                     marginBottomOnExpand={marginBottomOnExpand}
                   >
@@ -61,7 +62,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                 </ColumnsWrapper>
               </div>
             ) : (
-              <ColumnsWrapper numberOfColumns={columnLayout.columns.length}>
+              <ColumnsWrapper numberOfColumns={maxColumns}>
                 <ColumnsLayout>
                   {columnLayout.columns.map((column, j) => (
                     <Column key={j}>
@@ -69,7 +70,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                         <div key={k} style={{ marginBottom: 0 }}>
                           <Collapsible
                             head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
-                            disabled={columnLayout.columns.length > 1}
+                            disabled={maxColumns > 1}
                             collapsedInit={!category.navItemLevel1.isRelevant}
                             marginBottomOnExpand={marginBottomOnExpand}
                           >

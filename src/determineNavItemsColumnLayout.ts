@@ -85,13 +85,11 @@ function getColumnEntries(navItems: NavItem[]) {
       assert(numberOfHeadings !== null)
       if (isFullWidthCategoryBegin) {
         assert(navItem.level === 1)
-        assertUsage(
-          navItemNext && navItemNext.level === 4,
-          // We can lift this requirement, but it isn't trivial to implement.
-          'level-1 headings with menuModalFullWidth need to be followed by a level-4 heading',
-        )
-        assert(navItemNext.numberOfHeadings)
-        numberOfHeadings = navItemNext.numberOfHeadings
+        // If followed by a level-4 heading, use its count instead
+        if (navItemNext && navItemNext.level === 4) {
+          assert(navItemNext.numberOfHeadings)
+          numberOfHeadings = navItemNext.numberOfHeadings
+        }
       }
       columnEntries.push({ navItemLeader: navItems[i], numberOfEntries: numberOfHeadings })
     }

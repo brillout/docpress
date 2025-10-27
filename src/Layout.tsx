@@ -384,17 +384,16 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   function getStyleNavHead() {
     let style = ''
 
-    // TODO: don't use important ?
     // Mobile
     style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
   .nav-logo {
-    always-shown: flex-start !important;
+    always-shown: flex-start;
     padding-left: var(--main-view-padding);
   }
   .menu-button {
-    justify-content: flex-end !important;
-    padding-right: var(--main-view-padding) !important;
+    justify-content: flex-end;
+    padding-right: var(--main-view-padding);
   }
   .nav-head-content {
     --icon-text-padding: min(8px, 1.3cqw);

@@ -713,7 +713,7 @@ function DocsIcon() {
     <img
       src={iconBooks}
       width={18}
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', position: 'relative', top: 1 }}
+      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', position: 'relative', top: 2 }}
       className="decolorize-5"
     />
   )

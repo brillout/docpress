@@ -3,7 +3,7 @@ export { NavigationWithColumnLayout }
 import React, { useEffect, useState } from 'react'
 import { assert } from '../utils/server'
 import { getViewportWidth } from '../utils/getViewportWidth'
-import { containerQueryMobileMenu, navLeftWidthMax, navLeftWidthMin } from '../Layout'
+import { viewTablet, navLeftWidthMax, navLeftWidthMin } from '../Layout'
 import { throttle } from '../utils/throttle'
 import { Collapsible } from './Collapsible'
 import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent'
@@ -93,7 +93,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 
   function getStyle() {
     const style = css`
-@media(min-width: ${containerQueryMobileMenu + 1}px) {
+@media(min-width: ${viewTablet + 1}px) {
   .menu-navigation-content {
     position: absolute;
     width: 100%;

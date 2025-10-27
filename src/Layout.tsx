@@ -1,7 +1,7 @@
 export { Layout }
 export { MenuToggle }
-export { containerQueryMobileLayout }
-export { containerQueryMobileNav as containerQueryMobileMenu }
+export { viewDesktop }
+export { viewTablet }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
@@ -26,17 +26,14 @@ import { EditLink } from './EditLink'
 
 const blockMargin = 3
 const mainViewPadding = 20
-const mainViewWidthMax = 800
-const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
+const mainViewWidthMaxInner = 800
+const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
-// TODO: rename all containerQuery => viewport
-const containerQueryMobile = 450
-// TODO: rename
-const containerQueryMobileNav = 1000
-// TODO: rename
-const containerQueryMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const containerQueryExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewMobile = 450
+const viewTablet = 1000
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -90,13 +87,12 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  // TODO: rename hideNavLeftAlways isNavLeftAlwaysHidden
-  const hideNavLeftAlways =
+  const isNavLeftAlwaysHidden =
     pageContext.resolved.pageDesign?.hideMenuLeft ||
     (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
   return (
     <>
-      <Style>{getStyle()}</Style>
+      <Style>{getStyleLayoutDocsPage()}</Style>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div
@@ -108,10 +104,9 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       </div>
     </>
   )
-  // TODO: rename
-  function getStyle() {
+  function getStyleLayoutDocsPage() {
     let style = css`
-@container container-viewport (min-width: ${containerQueryExtraSpace}px) {
+@container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -137,12 +132,12 @@ body {
   position: absolute !important;
 }
 `
-    if (!hideNavLeftAlways) {
+    if (!isNavLeftAlwaysHidden) {
       navLeftHidden = css`
-@container container-viewport (max-width: ${containerQueryMobileLayout - 1}px) {
+@container container-viewport (max-width: ${viewDesktop - 1}px) {
   ${navLeftHidden}
 }
-@container container-viewport (min-width: ${containerQueryMobileLayout}px) {
+@container container-viewport (min-width: ${viewDesktop}px) {
   .nav-head-full-width {
     display: none !important;
   }
@@ -187,7 +182,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const { globalNote } = pageContext.globalContext.config.docpress
   */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
-  const contentMaxWidth = pageContext.resolved.pageDesign?.contentMaxWidth ?? mainViewWidthMax
+  const contentMaxWidth = pageContext.resolved.pageDesign?.contentMaxWidth ?? mainViewWidthMaxInner
   return (
     <div
       className="page-wrapper low-prio-grow"
@@ -229,7 +224,6 @@ function NavLeft() {
   return (
     <>
       <div
-        // TODO: diff with show-on-nav-hover ? Refactor?
         id="nav-left"
         className="link-hover-animation"
         style={{
@@ -303,10 +297,9 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
-// TODO update comment
 // Two <NavHead> instances are rendered:
-//  - The show-on-nav-hover (left-side navigation) shown on documentation pages on desktop
-//  - The main-nav (top navigation bar) shown otherwise
+//  - The left-side navigation shown on documentation pages on desktop
+//  - The top navigation bar shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.resolved
@@ -327,7 +320,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
               position: 'absolute',
               left: '100%',
               top: 0,
-              width: mainViewMax, // guaranteed real estate
+              width: mainViewWidthMax, // guaranteed real estate
             }),
       }}
     >
@@ -377,11 +370,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          {/* TODO: remove grow-full grow-half */}
-          <NavLogo className="grow-half" />
+          <NavLogo />
           <div className="desktop-grow" style={{ display: 'none' }} />
-          {algolia && <SearchLink className="grow-half always-shown" style={menuLinkStyle} />}
-          <MenuToggleMain className="grow-full always-shown menu-button" style={menuLinkStyle} />
+          {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
+          <MenuToggleMain className="always-shown menu-button" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -392,10 +384,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   function getStyleNavHead() {
     let style = ''
 
-    // TODO: don't use important ?
     // Mobile
     style += css`
-@container container-viewport (max-width: ${containerQueryMobile}px) {
+@container container-viewport (max-width: ${viewMobile}px) {
   .nav-logo {
     always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
@@ -413,14 +404,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // Mobile + tablet
     style += css`
-@container container-viewport (max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${viewTablet}px) {
   .main-nav {
     display: none !important;
   }
 }`
     // Tablet + desktop small
     style += css`
-@container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile + 1}px) {
+@container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
   .nav-head-content {
     --icon-text-padding: 8px;
     --padding-side: 20px;
@@ -431,7 +422,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // [Not left navigation] Desktop small + desktop
     style += css`
-@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-nav-head (min-width: ${viewTablet + 1}px) {
   .nav-head-content {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
@@ -443,7 +434,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (navMaxWidth) {
       style += css`
-@container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-nav-head (min-width: ${viewTablet + 1}px) {
   .desktop-grow {
     display: block;
     flex-grow: 1;
@@ -453,7 +444,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
     if (isLandingPage && !navMaxWidth)
       style += css`
-@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-logo {
     display: none !important;
   }
@@ -515,7 +506,7 @@ function NavHeaderLeftFullWidthBackground() {
   )
 }
 
-function NavLogo({ className }: { className: string }) {
+function NavLogo({ className }: { className?: string }) {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress
@@ -586,12 +577,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@container container-viewport (max-width: ${containerQueryMobileNav}px) {
+@container container-viewport (max-width: ${viewTablet}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@container container-viewport (min-width: ${containerQueryMobileNav + 1}px) {
+@container container-viewport (min-width: ${viewTablet + 1}px) {
   .text-menu {
     display: none;
   }
@@ -742,5 +733,5 @@ function MenuIcon() {
 }
 
 function isMobileNav() {
-  return window.innerWidth <= containerQueryMobileNav
+  return window.innerWidth <= viewTablet
 }

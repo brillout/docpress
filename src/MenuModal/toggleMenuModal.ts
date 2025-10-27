@@ -4,7 +4,7 @@ export { keepMenuModalOpen }
 export { closeMenuModal }
 export { coseMenuModalOnMouseLeave }
 
-import { containerQueryMobileMenu } from '../Layout'
+import { viewTablet } from '../Layout'
 import { getHydrationPromise } from '../renderer/getHydrationPromise'
 import { getViewportWidth } from '../utils/getViewportWidth'
 import { isBrowser } from '../utils/isBrowser'
@@ -111,7 +111,7 @@ function toggleMenuModal(menuId: number) {
     closeMenuModal()
   } else {
     openMenuModal(menuId)
-    if (getViewportWidth() < containerQueryMobileMenu) autoScroll()
+    if (getViewportWidth() < viewTablet) autoScroll()
   }
 }
 

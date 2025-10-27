@@ -74,10 +74,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
-      <div
-        className={isLandingPage ? '' : 'doc-page'}
-        style={whitespaceBuster1}
-      >
+      <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
         <NavHead />
         {content}
       </div>

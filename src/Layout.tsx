@@ -372,11 +372,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          {/* TODO: remove grow-full grow-half */}
-          <NavLogo className="grow-half" />
+          <NavLogo />
           <div className="desktop-grow" style={{ display: 'none' }} />
-          {algolia && <SearchLink className="grow-half always-shown" style={menuLinkStyle} />}
-          <MenuToggleMain className="grow-full always-shown menu-button" style={menuLinkStyle} />
+          {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
+          <MenuToggleMain className="always-shown menu-button" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -510,7 +509,7 @@ function NavHeaderLeftFullWidthBackground() {
   )
 }
 
-function NavLogo({ className }: { className: string }) {
+function NavLogo({ className }: { className?: string }) {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress

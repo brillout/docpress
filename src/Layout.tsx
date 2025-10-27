@@ -33,7 +33,6 @@ const navLeftWidthMax = 370
 const viewMobile = 450
 // TODO: rename
 const viewMobileNav = 1000
-// TODO: rename
 const viewDesktop = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const viewExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 

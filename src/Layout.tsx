@@ -1,7 +1,7 @@
 export { Layout }
 export { MenuToggle }
 export { viewDesktop }
-export { viewTablet as viewTablet }
+export { viewTablet }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }

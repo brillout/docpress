@@ -435,6 +435,20 @@ function getStyleNav() {
       margin-left: -15px;
     }
   }
+  .show-on-nav-hover {
+    opacity: 0;
+    transition-property: opacity;
+    pointer-events: none;
+  }
+  html:not(.unexpand-nav) {
+    & .nav-head.is-nav-left:hover .show-on-nav-hover,
+    & .nav-head.is-nav-left:has(.show-on-nav-hover:hover) .show-on-nav-hover,
+    &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
+    &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
 }
 @container container-viewport (max-width: ${viewDesktop - 1}px) {
   #nav-left, #nav-left-margin {
@@ -457,23 +471,6 @@ function getStyleNav() {
 `
   }
 
-  // Expand left-side <NavHead> on :hover
-  style += css`
-.show-on-nav-hover {
-  opacity: 0;
-  transition-property: opacity;
-  pointer-events: none;
-}
-html:not(.unexpand-nav) {
-  & .nav-head.is-nav-left:hover .show-on-nav-hover,
-  & .nav-head.is-nav-left:has(.show-on-nav-hover:hover) .show-on-nav-hover,
-  &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
-  &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
-    opacity: 1;
-    pointer-events: all;
-  }
-}
-`
   return style
 }
 

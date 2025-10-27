@@ -442,7 +442,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (navMaxWidth) {
       style += css`
-@container container-nav-head (min-width: ${viewTablet + 1}px) {
+@container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
     .desktop-grow {
       display: block;
@@ -450,21 +450,18 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     .desktop-grow,
     .nav-head-secondary {
       flex-grow: 1;
-    }
-  }
-}
-`
-    }
-    if (isLandingPage && !navMaxWidth)
-      style += css`
-@container container-viewport (min-width: ${viewTablet + 1}px) {
-  .nav-head:not(.is-nav-left) {
+    }`
+      if (isLandingPage && !navMaxWidth) {
+        style += css`
     .nav-head-logo {
       display: none !important;
-    }
+    }`
+      }
+      style += css`
   }
 }
 `
+    }
     // Expand <NavHead> on :hover
     if (isNavLeft) {
       style += css`

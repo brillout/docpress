@@ -414,24 +414,6 @@ function getStyleNav() {
   // Desktop
   if (!isNavLeftAlwaysHidden(pageContext)) {
     style += css`
-@container container-viewport (max-width: ${viewDesktop - 1}px) {
-  #nav-left, #nav-left-margin {
-    display: none;
-  }
-  body {
-    --main-view-padding: 10px !important;
-  }
-  .page-wrapper {
-    flex-grow: 1;
-    align-items: center;
-  }
-  .page-content {
-    margin: auto;
-  }
-  #menu-modal-wrapper {
-    position: absolute !important;
-  }
-}
 @container container-viewport (min-width: ${viewDesktop}px) {
   .nav-head:not(.is-nav-left) {
     display: none !important;
@@ -454,7 +436,26 @@ function getStyleNav() {
       margin-left: -15px;
     }
   }
-}`
+}
+@container container-viewport (max-width: ${viewDesktop - 1}px) {
+  #nav-left, #nav-left-margin {
+    display: none;
+  }
+  body {
+    --main-view-padding: 10px !important;
+  }
+  .page-wrapper {
+    flex-grow: 1;
+    align-items: center;
+  }
+  .page-content {
+    margin: auto;
+  }
+  #menu-modal-wrapper {
+    position: absolute !important;
+  }
+}
+`
   }
 
   // Expand left-side <NavHead> on :hover

@@ -151,10 +151,6 @@ const headings: HeadingDefinition[] = [
     menuModalFullWidth: true,
   },
   {
-    level: 4,
-    title: 'Blog Category 1',
-  },
-  {
     level: 2,
     title: 'Some Blog Post',
     url: '/blog/post-1',

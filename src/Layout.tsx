@@ -441,6 +441,13 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 `
     if (navMaxWidth) {
+      let hideLogo = ''
+      if (isLandingPage && !navMaxWidth) {
+        hideLogo = css`
+    .nav-head-logo {
+      display: none !important;
+    }`
+      }
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
@@ -450,14 +457,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     .desktop-grow,
     .nav-head-secondary {
       flex-grow: 1;
-    }`
-      if (isLandingPage && !navMaxWidth) {
-        style += css`
-    .nav-head-logo {
-      display: none !important;
-    }`
-      }
-      style += css`
+    }
+    ${hideLogo}
   }
 }
 `

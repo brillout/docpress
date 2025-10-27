@@ -388,20 +388,20 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
-  .nav-head-logo {
-    always-shown: flex-start !important;
-    padding-left: var(--main-view-padding);
-  }
-  .nav-head-menu-toggle {
-    justify-content: flex-end !important;
-    padding-right: var(--main-view-padding) !important;
-  }
-  .nav-head-content {
-    --icon-text-padding: min(8px, 1.3cqw);
-    & > * {
-      flex-grow: 1;
+    .nav-head-logo {
+      always-shown: flex-start !important;
+      padding-left: var(--main-view-padding);
     }
-  }
+    .nav-head-menu-toggle {
+      justify-content: flex-end !important;
+      padding-right: var(--main-view-padding) !important;
+    }
+    .nav-head-content {
+      --icon-text-padding: min(8px, 1.3cqw);
+      & > * {
+        flex-grow: 1;
+      }
+    }
   }
 }`
     // Mobile + tablet

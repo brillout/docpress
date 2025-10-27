@@ -308,7 +308,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navSecondaryContent = (
     <div
-      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'hide-on-shrink desktop-grow'}
+      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'is-main-nav desktop-grow'}
       style={{
         padding: 0,
         display: 'flex',
@@ -405,7 +405,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Mobile + tablet
     style += css`
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
-  .hide-on-shrink {
+  .is-main-nav {
     display: none !important;
   }
 }`

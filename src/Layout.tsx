@@ -138,7 +138,7 @@ body {
   ${navLeftHidden}
 }
 @container container-viewport (min-width: ${viewDesktop}px) {
-  .nav-head-full-width {
+  .is-nav-left {
     display: none !important;
   }
   .nav-head-content {
@@ -339,7 +339,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head-top', !isNavLeft && 'nav-head-full-width', 'link-hover-animation'])}
+      className={cls(['nav-head-top', !isNavLeft && 'is-nav-left', 'link-hover-animation'])}
       style={{
         display: 'flex',
         justifyContent: isNavLeft ? 'flex-end' : 'center',

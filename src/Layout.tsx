@@ -229,7 +229,7 @@ function NavLeft() {
   return (
     <>
       <div
-        // TODO: diff with left-nav ? Refactor?
+        // TODO: diff with show-on-nav-hover ? Refactor?
         id="nav-left"
         className="link-hover-animation"
         style={{
@@ -304,7 +304,7 @@ const menuLinkStyle: React.CSSProperties = {
 }
 
 // Two <NavHead> instances are rendered:
-//  - The left-nav (left-side navigation) shown on documentation pages on desktop
+//  - The show-on-nav-hover (left-side navigation) shown on documentation pages on desktop
 //  - The main-nav (top navigation bar) shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
@@ -314,7 +314,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const navSecondaryContent = (
     <div
       // TODO: remove desktop-grow ?
-      className={isNavLeft ? 'left-nav add-transition' : 'main-nav desktop-grow'}
+      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'main-nav desktop-grow'}
       style={{
         padding: 0,
         display: 'flex',
@@ -458,14 +458,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (isNavLeft) {
       style += css`
-.left-nav {
+.show-on-nav-hover {
   opacity: 0;
   transition-property: opacity;
   pointer-events: none;
 }
-html:not(.unexpand-nav) :has(.nav-head-top:hover) .left-nav,
-html:not(.unexpand-nav) :has(.left-nav:hover) .left-nav,
-html:not(.unexpand-nav).menu-modal-show .left-nav {
+html:not(.unexpand-nav) :has(.nav-head-top:hover) .show-on-nav-hover,
+html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
+html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
   opacity: 1;
   pointer-events: all;
 }
@@ -486,7 +486,7 @@ function NavHeaderLeftFullWidthBackground() {
   return (
     <>
       <div
-        className="nav-bg left-nav add-transition"
+        className="nav-bg show-on-nav-hover add-transition"
         style={{
           height: '100%',
           zIndex: -1,

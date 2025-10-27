@@ -30,6 +30,7 @@ const mainViewWidthMax = 800
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
+// TODO: rename all containerQuery => viewport
 const containerQueryMobile = 450
 // TODO: rename
 const containerQueryMobileNav = 1000
@@ -376,13 +377,15 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           {navSecondaryContent}
         </div>
       </div>
-      <Style>{getStyle()}</Style>
+      <Style>{getStyleNavHead()}</Style>
     </div>
   )
 
-  function getStyle() {
-    // TODO: comment
-    let style = css`
+  function getStyleNavHead() {
+    let style = ''
+
+    // Mobile
+    style += css`
 @container container-viewport (max-width: ${containerQueryMobile}px) {
   .nav-logo {
     always-shown: flex-start !important;
@@ -398,12 +401,16 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       flex-grow: 1;
     }
   }
-}
+}`
+    // Mobile + tablet
+    style += css`
 @container container-viewport (max-width: ${containerQueryMobileNav}px) {
   .hide-on-shrink {
     display: none !important;
   }
-}
+}`
+    // Tablet + desktop small
+    style += css`
 @container container-viewport (max-width: ${containerQueryMobileNav}px) and (min-width: ${containerQueryMobile + 1}px) {
   .nav-head-content {
     --icon-text-padding: 8px;
@@ -412,7 +419,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   .nav-logo {
     padding: 0 var(--padding-side);
   }
-}
+}`
+    // [Not left navigation] Desktop small + desktop
+    style += css`
 @container container-nav-head (min-width: ${containerQueryMobileNav + 1}px) {
   .nav-head-content {
     --icon-text-padding: min(8px, 0.5cqw);
@@ -443,7 +452,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (isNavLeft) {
       style += css`
-
 .show-on-nav-hover {
   opacity: 0;
   transition-property: opacity;

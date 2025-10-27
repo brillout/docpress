@@ -443,7 +443,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     if (navMaxWidth) {
       style += css`
 @container container-nav-head (min-width: ${viewTablet + 1}px) {
-  .nav-head {
+  .nav-head:not(.is-nav-left) {
     .desktop-grow {
       display: block;
       flex-grow: 1;
@@ -455,7 +455,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     if (isLandingPage && !navMaxWidth)
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
-  .nav-head {
+  .nav-head:not(.is-nav-left) {
     .nav-head-logo {
       display: none !important;
     }

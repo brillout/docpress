@@ -465,6 +465,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   }
 }
 `
+    // Expand <NavHead> on :hover
     if (isNavLeft) {
       style += css`
 .show-on-nav-hover {

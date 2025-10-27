@@ -416,12 +416,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Tablet + desktop small
     style += css`
 @container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
+  .nav-head:not(.is-nav-left) {
   .nav-head-content {
     --icon-text-padding: 8px;
     --padding-side: 20px;
   }
   .nav-head-logo {
     padding: 0 var(--padding-side);
+  }
   }
 }`
     // [Not left navigation] Desktop small + desktop

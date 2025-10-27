@@ -7,6 +7,9 @@ export { navLeftWidthMax }
 export { unexpandNav }
 export { blockMargin }
 
+// - We use `@container container-viewport` instead of @media because @media doesn't consider the scrollbar width.
+// - We use --padding-side because we cannot set a fixed max-width on the <NavHead> container .nav-head-content — DocPress doesn't know how many extra <NavHead> elements the user adds using the +docpress.topNavigation setting.
+
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
 import { parseMarkdownMini } from './parseMarkdownMini'

@@ -222,5 +222,104 @@ describe('getColumnEntries', () => {
       ]
     `)
   })
-})
 
+  it('should handle demo headings structure', () => {
+    // Duplicated from demo/headings.ts
+    const navItems: NavItem[] = [
+      { level: 1, title: 'Overview', titleInNav: 'Overview' },
+      { level: 2, title: 'Introduction', titleInNav: 'Introduction' },
+      { level: 2, title: 'Notes', titleInNav: 'Notes' },
+      { level: 2, title: 'Features', titleInNav: 'Features' },
+      { level: 2, title: 'Open Source Pricing', titleInNav: 'Open Source Pricing' },
+      { level: 1, title: 'Guides', titleInNav: 'Guides' },
+      { level: 2, title: 'Some Page', titleInNav: 'Some Page' },
+      { level: 4, title: 'Some category', titleInNav: 'Some category' },
+      { level: 2, title: 'Tiny Page', titleInNav: 'Tiny Page' },
+      { level: 2, title: 'June Releases', titleInNav: 'June Releases' },
+      { level: 2, title: 'Press Kit', titleInNav: 'Press Kit' },
+      { level: 2, title: 'Page wiht error', titleInNav: 'Page wiht error' },
+      { level: 1, title: 'API', titleInNav: 'API', menuModalFullWidth: true },
+      { level: 4, title: 'Category 1', titleInNav: 'Category 1' },
+      { level: 2, title: '`Page 1`', titleInNav: '`Page 1`' },
+      { level: 4, title: 'Category 2', titleInNav: 'Category 2' },
+      { level: 2, title: 'Page 2', titleInNav: 'Page 2' },
+      { level: 4, title: 'Category 3', titleInNav: 'Category 3' },
+      { level: 2, title: 'Page 3', titleInNav: 'Page 3' },
+      { level: 2, title: 'Page 4', titleInNav: 'Page 4' },
+      { level: 1, title: 'Blog', titleInNav: 'Blog', menuModalFullWidth: true },
+      { level: 4, title: 'Blog Category 1', titleInNav: 'Blog Category 1' },
+      { level: 2, title: 'Some Blog Post', titleInNav: 'Some Blog Post' },
+      { level: 4, title: 'Blog Category 2', titleInNav: 'Blog Category 2' },
+      { level: 2, title: 'Some Other Blog Post', titleInNav: 'Some Other Blog Post' },
+    ]
+
+    const result = getColumnEntries(navItems)
+
+    expect(result).toMatchInlineSnapshot(`
+      [
+        [
+          {
+            "navItemLeader": {
+              "level": 1,
+              "title": "Overview",
+              "titleInNav": "Overview",
+            },
+            "numberOfEntries": 4,
+          },
+          {
+            "navItemLeader": {
+              "level": 1,
+              "title": "Guides",
+              "titleInNav": "Guides",
+            },
+            "numberOfEntries": 5,
+          },
+        ],
+        [
+          {
+            "navItemLeader": {
+              "level": 1,
+              "menuModalFullWidth": true,
+              "title": "API",
+              "titleInNav": "API",
+            },
+            "numberOfEntries": 1,
+          },
+          {
+            "navItemLeader": {
+              "level": 4,
+              "title": "Category 2",
+              "titleInNav": "Category 2",
+            },
+            "numberOfEntries": 1,
+          },
+          {
+            "navItemLeader": {
+              "level": 4,
+              "title": "Category 3",
+              "titleInNav": "Category 3",
+            },
+            "numberOfEntries": 2,
+          },
+          {
+            "navItemLeader": {
+              "level": 1,
+              "menuModalFullWidth": true,
+              "title": "Blog",
+              "titleInNav": "Blog",
+            },
+            "numberOfEntries": 1,
+          },
+          {
+            "navItemLeader": {
+              "level": 4,
+              "title": "Blog Category 2",
+              "titleInNav": "Blog Category 2",
+            },
+            "numberOfEntries": 1,
+          },
+        ],
+      ]
+    `)
+  })
+})

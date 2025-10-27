@@ -23,7 +23,8 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
   })
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, viewportWidth)
-  console.log(JSON.stringify(navItemsByColumnLayouts, null, 2))
+  // console.log(JSON.stringify(navItemsByColumnLayouts, null, 2))
+  console.log(navItemsByColumnLayouts, null, 2)
   return (
     <>
       <Style>{getStyle()}</Style>

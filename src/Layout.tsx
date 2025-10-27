@@ -308,7 +308,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navSecondaryContent = (
     <div
-      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'is-main-nav desktop-grow'}
+      className={isNavLeft ? 'is-left-nav add-transition' : 'is-main-nav desktop-grow'}
       style={{
         padding: 0,
         display: 'flex',
@@ -452,14 +452,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (isNavLeft) {
       style += css`
-.show-on-nav-hover {
+.is-left-nav {
   opacity: 0;
   transition-property: opacity;
   pointer-events: none;
 }
-html:not(.unexpand-nav) :has(.nav-head-top:hover) .show-on-nav-hover,
-html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
-html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
+html:not(.unexpand-nav) :has(.nav-head-top:hover) .is-left-nav,
+html:not(.unexpand-nav) :has(.is-left-nav:hover) .is-left-nav,
+html:not(.unexpand-nav).menu-modal-show .is-left-nav {
   opacity: 1;
   pointer-events: all;
 }
@@ -480,7 +480,7 @@ function NavHeaderLeftFullWidthBackground() {
   return (
     <>
       <div
-        className="nav-bg show-on-nav-hover add-transition"
+        className="nav-bg is-left-nav add-transition"
         style={{
           height: '100%',
           zIndex: -1,

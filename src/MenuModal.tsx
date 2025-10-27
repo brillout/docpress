@@ -3,7 +3,7 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
-import { viewDesktop, viewMobileMenu } from './Layout'
+import { viewDesktop, viewTablet } from './Layout'
 import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
@@ -79,7 +79,7 @@ function Nav() {
 
 function getStyle() {
   return css`
-@media(min-width: ${viewMobileMenu + 1}px) {
+@media(min-width: ${viewTablet + 1}px) {
   #menu-modal-scroll-container {
     max-height: calc(100vh - var(--nav-head-height) - var(--block-margin));
     ${/* https://github.com/brillout/docpress/issues/23 */ ''}
@@ -99,7 +99,7 @@ function getStyle() {
     display: none !important;
   }
 }
-@media(max-width: ${viewMobileMenu}px) {
+@media(max-width: ${viewTablet}px) {
   #menu-modal-scroll-container {
     ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
     ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}

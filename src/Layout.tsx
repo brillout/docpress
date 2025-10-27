@@ -33,7 +33,7 @@ const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1000
 const viewDesktop = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const viewExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewDesktopLarge = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -108,7 +108,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   // TODO: rename
   function getStyle() {
     let style = css`
-@container container-viewport (min-width: ${viewExtraSpace}px) {
+@container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }

@@ -3,7 +3,8 @@
     "========= Develop": "",
     "dev": "cd src/ && pnpm run dev",
     "========= Test": "",
-    "test": "test-e2e",
+    "test": "vitest run && test-e2e",
+    "test:units": "vitest",
     "========= Build": "",
     "build": "cd src/ && pnpm run build",
     "========= Release": "",
@@ -25,7 +26,8 @@
     "@brillout/test-e2e": "^0.6.16",
     "@brillout/docpress": "workspace:^",
     "playwright": "^1.55.0",
-    "prettier": "^2.8.7"
+    "prettier": "^2.8.7",
+    "vitest": "^4.0.4"
   },
   "// pnpm.overrides.{vike,vite} to dedupe node_modules/vike — see https://github.com/brillout/docpress/pull/26": "",
   "pnpm": {

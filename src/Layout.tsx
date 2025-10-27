@@ -92,7 +92,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
   return (
     <>
-      <Style>{getStyle()}</Style>
+      <Style>{getStyleLayoutDocsPage()}</Style>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div
@@ -104,8 +104,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       </div>
     </>
   )
-  // TODO: rename
-  function getStyle() {
+  function getStyleLayoutDocsPage() {
     let style = css`
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {

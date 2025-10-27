@@ -384,7 +384,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   function getStyleNavHead() {
     let style = ''
 
-    // TODO: don't use important ?
     // Mobile
     style += css`
 @container container-viewport (max-width: ${viewMobile}px) {

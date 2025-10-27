@@ -3,7 +3,7 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
-import { viewMobileLayout, viewMobileMenu } from './Layout'
+import { viewDesktop, viewMobileMenu } from './Layout'
 import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
@@ -135,7 +135,7 @@ function getStyle() {
 }
 
 ${/* Hide same-page headings navigation */ ''}
-@container container-viewport (min-width: ${viewMobileLayout}px) {
+@container container-viewport (min-width: ${viewDesktop}px) {
   #menu-modal-wrapper .nav-item-level-3 {
     display: none;
   }

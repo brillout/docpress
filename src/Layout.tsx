@@ -1,6 +1,6 @@
 export { Layout }
 export { MenuToggle }
-export { viewMobileLayout }
+export { viewDesktop }
 export { viewMobileNav as viewMobileMenu }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
@@ -34,7 +34,7 @@ const viewMobile = 450
 // TODO: rename
 const viewMobileNav = 1000
 // TODO: rename
-const viewMobileLayout = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
+const viewDesktop = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const viewExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content
@@ -138,10 +138,10 @@ body {
 `
     if (!hideNavLeftAlways) {
       navLeftHidden = css`
-@container container-viewport (max-width: ${viewMobileLayout - 1}px) {
+@container container-viewport (max-width: ${viewDesktop - 1}px) {
   ${navLeftHidden}
 }
-@container container-viewport (min-width: ${viewMobileLayout}px) {
+@container container-viewport (min-width: ${viewDesktop}px) {
   .nav-head-full-width {
     display: none !important;
   }

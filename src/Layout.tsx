@@ -460,7 +460,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
 
     // Expand left-side <NavHead> on :hover
-      style += css`
+    style += css`
 .show-on-nav-hover {
   opacity: 0;
   transition-property: opacity;

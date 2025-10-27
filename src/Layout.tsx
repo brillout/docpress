@@ -314,14 +314,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         padding: 0,
         display: 'flex',
         height: '100%',
-        ...(!isNavLeft
-          ? {}
-          : {
+        ...(isNavLeft
+          ? {
               position: 'absolute',
               left: '100%',
               top: 0,
               width: mainViewWidthMax, // guaranteed real estate
-            }),
+            }
+          : {}),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}

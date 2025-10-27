@@ -142,22 +142,22 @@ body {
     display: none !important;
   }
   .nav-head {
-  .nav-head-content {
-    --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-    & > :not(.always-shown) {
-      --padding-side: min(24px, 27 * (1cqw - 2.5px));
+    .nav-head-content {
+      --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
+      & > :not(.always-shown) {
+        --padding-side: min(24px, 27 * (1cqw - 2.5px));
+      }
+      & > * {
+        flex-grow: 0.5;
+      }
+      & > .nav-head-menu-toggle {
+        flex-grow: 1;
+      }
     }
-    & > * {
-      flex-grow: 0.5;
+    .nav-head-logo {
+      padding-left: 15px;
+      margin-left: -15px;
     }
-    & > .nav-head-menu-toggle {
-      flex-grow: 1;
-    }
-  }
-  .nav-head-logo {
-    padding-left: 15px;
-    margin-left: -15px;
-  }
   }
 }
 `

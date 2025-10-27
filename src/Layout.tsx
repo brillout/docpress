@@ -30,7 +30,6 @@ const mainViewWidthMax = 800
 const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
-// TODO: rename all view => viewport
 const viewMobile = 450
 // TODO: rename
 const viewMobileNav = 1000

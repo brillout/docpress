@@ -27,13 +27,13 @@ import { EditLink } from './EditLink'
 const blockMargin = 3
 const mainViewPadding = 20
 const mainViewWidthMaxInner = 800
-const mainViewMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
+const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1000
-const viewDesktop = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const viewDesktopLarge = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -324,7 +324,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
               position: 'absolute',
               left: '100%',
               top: 0,
-              width: mainViewMax, // guaranteed real estate
+              width: mainViewWidthMax, // guaranteed real estate
             }),
       }}
     >

@@ -298,10 +298,9 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
-// TODO update comment
 // Two <NavHead> instances are rendered:
-//  - The show-on-nav-hover (left-side navigation) shown on documentation pages on desktop
-//  - The main-nav (top navigation bar) shown otherwise
+//  - The left-side navigation shown on documentation pages on desktop
+//  - The top navigation bar shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.resolved

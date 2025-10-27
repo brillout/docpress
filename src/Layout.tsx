@@ -444,9 +444,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       let hideLogo = ''
       if (isLandingPage && !navMaxWidth) {
         hideLogo = css`
-    .nav-head-logo {
-      display: none !important;
-    }`
+.nav-head-logo {
+  display: none !important;
+}`
       }
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {

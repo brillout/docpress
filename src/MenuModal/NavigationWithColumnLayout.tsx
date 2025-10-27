@@ -240,7 +240,7 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: 
         let navItemLevel1: NavItemComputed
         const columns: { navItems: NavItemComputed[] }[] = []
         columnEntries.forEach((columnEntry, i) => {
-          const idx = numberOfColumns === 1 || i === 0 ? 0 : columnEntry.columnMap[numberOfColumns]!
+          const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
           assert(idx >= 0)
           columns[idx] ??= { navItems: [] }
           let { navItems } = columnEntry

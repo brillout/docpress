@@ -307,8 +307,8 @@ const menuLinkStyle: React.CSSProperties = {
 //  - The top <NavHead> shown otherwise
 function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.resolved
   const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
+  const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
 
   const navHeadSecondary = (
     <div
@@ -375,7 +375,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          <NavHeadLogo />
+          {!hideNavHeadLogo && <NavHeadLogo />}
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
@@ -456,17 +456,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     .nav-head-secondary {
       flex-grow: 1;
     }
-    ${getStyleHideLogo()}
   }
 }
 `
-      function getStyleHideLogo() {
-        if (!isLandingPage || navMaxWidth) return ''
-        return css`
-.nav-head-logo {
-  display: none !important;
-}`
-      }
     }
 
     // Expand left-side <NavHead> on :hover

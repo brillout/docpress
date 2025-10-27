@@ -428,7 +428,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // [Not left navigation] Desktop small + desktop
     style += css`
-@container container-nav-head (min-width: ${viewTablet + 1}px) {
+@container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-content {
       --icon-text-padding: min(8px, 0.5cqw);

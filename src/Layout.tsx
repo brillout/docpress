@@ -105,12 +105,12 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     </>
   )
 }
-  function getStyleLayoutDocsPage() {
+function getStyleLayoutDocsPage() {
   const pageContext = usePageContext()
   const isNavLeftAlwaysHidden =
     pageContext.resolved.pageDesign?.hideMenuLeft ||
     (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
-    let style = css`
+  let style = css`
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
@@ -119,7 +119,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     width: ${navLeftWidthMax}px !important;
   }
 }`
-    let navLeftHidden = css`
+  let navLeftHidden = css`
 #nav-left, #nav-left-margin {
   display: none;
 }
@@ -137,8 +137,8 @@ body {
   position: absolute !important;
 }
 `
-    if (!isNavLeftAlwaysHidden) {
-      navLeftHidden = css`
+  if (!isNavLeftAlwaysHidden) {
+    navLeftHidden = css`
 @container container-viewport (max-width: ${viewDesktop - 1}px) {
   ${navLeftHidden}
 }
@@ -166,11 +166,11 @@ body {
   }
 }
 `
-    }
-    style += navLeftHidden
-
-    return style
   }
+  style += navLeftHidden
+
+  return style
+}
 
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (

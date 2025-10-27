@@ -1,7 +1,7 @@
 export { Layout }
 export { MenuToggle }
 export { viewDesktop }
-export { viewMobileNav as viewMobileMenu }
+export { viewTablet as viewMobileMenu }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { unexpandNav }
@@ -32,7 +32,7 @@ const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 // TODO: rename
-const viewMobileNav = 1000
+const viewTablet = 1000
 const viewDesktop = (mainViewMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const viewExtraSpace = (mainViewMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
@@ -411,14 +411,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // Mobile + tablet
     style += css`
-@container container-viewport (max-width: ${viewMobileNav}px) {
+@container container-viewport (max-width: ${viewTablet}px) {
   .main-nav {
     display: none !important;
   }
 }`
     // Tablet + desktop small
     style += css`
-@container container-viewport (max-width: ${viewMobileNav}px) and (min-width: ${viewMobile + 1}px) {
+@container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
   .nav-head-content {
     --icon-text-padding: 8px;
     --padding-side: 20px;
@@ -429,7 +429,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }`
     // [Not left navigation] Desktop small + desktop
     style += css`
-@container container-nav-head (min-width: ${viewMobileNav + 1}px) {
+@container container-nav-head (min-width: ${viewTablet + 1}px) {
   .nav-head-content {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
@@ -441,7 +441,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 `
     if (navMaxWidth) {
       style += css`
-@container container-nav-head (min-width: ${viewMobileNav + 1}px) {
+@container container-nav-head (min-width: ${viewTablet + 1}px) {
   .desktop-grow {
     display: block;
     flex-grow: 1;
@@ -451,7 +451,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     }
     if (isLandingPage && !navMaxWidth)
       style += css`
-@container container-viewport (min-width: ${viewMobileNav + 1}px) {
+@container container-viewport (min-width: ${viewTablet + 1}px) {
   .nav-logo {
     display: none !important;
   }
@@ -584,12 +584,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@container container-viewport (max-width: ${viewMobileNav}px) {
+@container container-viewport (max-width: ${viewTablet}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@container container-viewport (min-width: ${viewMobileNav + 1}px) {
+@container container-viewport (min-width: ${viewTablet + 1}px) {
   .text-menu {
     display: none;
   }
@@ -740,5 +740,5 @@ function MenuIcon() {
 }
 
 function isMobileNav() {
-  return window.innerWidth <= viewMobileNav
+  return window.innerWidth <= viewTablet
 }

@@ -471,9 +471,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   transition-property: opacity;
   pointer-events: none;
 }
-html:not(.unexpand-nav) :has(.nav-head:hover) .show-on-nav-hover,
-html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
-html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
+html:not(.unexpand-nav) .nav-head.is-nav-left:hover .show-on-nav-hover,
+html:not(.unexpand-nav) .nav-head.is-nav-left:has(.show-on-nav-hover:hover) .show-on-nav-hover,
+html:not(.unexpand-nav).menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
+html:not(.unexpand-nav).menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
   opacity: 1;
   pointer-events: all;
 }

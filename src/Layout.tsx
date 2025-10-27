@@ -390,6 +390,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     </div>
   )
 
+}
   function getStyleNavHead() {
     let style = ''
 
@@ -479,7 +480,6 @@ html:not(.unexpand-nav) {
 
     return style
   }
-}
 function unexpandNav() {
   document.documentElement.classList.add('unexpand-nav')
   // Using setTimeout() because requestAnimationFrame() doesn't delay enough

@@ -108,6 +108,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
       </div>
     </>
   )
+  // TODO: rename
   function getStyle() {
     let style = css`
 @container container-viewport (min-width: ${containerQueryExtraSpace}px) {
@@ -308,6 +309,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navSecondaryContent = (
     <div
+      // TODO: remove desktop-grow ?
       className={isNavLeft ? 'left-nav add-transition' : 'main-nav desktop-grow'}
       style={{
         padding: 0,

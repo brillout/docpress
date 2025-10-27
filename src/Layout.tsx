@@ -416,7 +416,7 @@ html:not(.unexpand-nav) {
 `
 
   if (!isLandingPage) {
-  style+= css`
+    style += css`
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
@@ -425,7 +425,7 @@ html:not(.unexpand-nav) {
     width: ${navLeftWidthMax}px !important;
   }
 }`
-  let navLeftHidden = css`
+    let navLeftHidden = css`
 #nav-left, #nav-left-margin {
   display: none;
 }
@@ -443,8 +443,8 @@ body {
   position: absolute !important;
 }
 `
-  if (!isNavLeftAlwaysHidden) {
-    navLeftHidden = css`
+    if (!isNavLeftAlwaysHidden) {
+      navLeftHidden = css`
 @container container-viewport (max-width: ${viewDesktop - 1}px) {
   ${navLeftHidden}
 }
@@ -472,8 +472,8 @@ body {
   }
 }
 `
-  }
-  style += navLeftHidden
+    }
+    style += navLeftHidden
   }
 
   return style

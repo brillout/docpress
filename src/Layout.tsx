@@ -348,7 +348,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         position: 'relative',
       }}
     >
-      {isNavLeft && <NavHeaderLeftFullWidthBackground />}
+      {isNavLeft && <NavHeadLeftFullWidthBackground />}
       <div
         style={{
           container: 'container-nav-head / inline-size',
@@ -429,6 +429,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // [Not left navigation] Desktop small + desktop
     style += css`
 @container container-nav-head (min-width: ${viewTablet + 1}px) {
+  .nav-head:not(.is-nav-left) {
   .nav-head-content {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
@@ -436,14 +437,17 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   .nav-head-logo {
     padding: 0 var(--padding-side);
   }
+  }
 }
 `
     if (navMaxWidth) {
       style += css`
 @container container-nav-head (min-width: ${viewTablet + 1}px) {
+  .nav-head {
   .desktop-grow {
     display: block;
     flex-grow: 1;
+  }
   }
 }
 `
@@ -451,8 +455,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     if (isLandingPage && !navMaxWidth)
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
+  .nav-head {
   .nav-head-logo {
     display: none !important;
+  }
   }
 }
 `
@@ -482,11 +488,11 @@ function unexpandNav() {
   }, 1000)
 }
 
-function NavHeaderLeftFullWidthBackground() {
+function NavHeadLeftFullWidthBackground() {
   return (
     <>
       <div
-        className="nav-bg show-on-nav-hover add-transition"
+        className="neav-head-bg show-on-nav-hover add-transition"
         style={{
           height: '100%',
           zIndex: -1,
@@ -502,7 +508,7 @@ function NavHeaderLeftFullWidthBackground() {
         // (min-width: 0px) => trick to always apply => @container seems to always require a condition
         css`
 @container container-viewport (min-width: 0px) {
-  .nav-bg {
+  .neav-head-bg {
      width: 100cqw;
   }
 }

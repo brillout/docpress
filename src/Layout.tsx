@@ -309,9 +309,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navHeadSecondary = (
     <div
-      // TODO replace show-on-nav-hover with left-nav ?
-      // TODO: remove desktop-grow ?
-      className={cls(['nav-head-secondary', isNavLeft ? 'show-on-nav-hover add-transition' : 'desktop-grow'])}
+      className={cls(['nav-head-secondary', isNavLeft && 'show-on-nav-hover add-transition'])}
       style={{
         padding: 0,
         display: 'flex',
@@ -448,6 +446,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   .nav-head:not(.is-nav-left) {
     .desktop-grow {
       display: block;
+    }
+    .desktop-grow,
+    .nav-head-secondary {
       flex-grow: 1;
     }
   }

@@ -441,9 +441,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 }
 `
     if (navMaxWidth) {
-      let hideLogo = ''
-      if (isLandingPage && !navMaxWidth) {
-        hideLogo = css`
+      const getStyleHideLogo = () => {
+        if (!isLandingPage || navMaxWidth) return ''
+        return css`
 .nav-head-logo {
   display: none !important;
 }`
@@ -458,7 +458,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     .nav-head-secondary {
       flex-grow: 1;
     }
-    ${hideLogo}
+    ${getStyleHideLogo()}
   }
 }
 `

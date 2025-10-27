@@ -92,7 +92,6 @@ function Layout({ children }: { children: React.ReactNode }) {
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Style>{getStyleLayoutDocsPage()}</Style>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
         <NavLeft />
         <div
@@ -105,73 +104,6 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     </>
   )
 }
-function getStyleLayoutDocsPage() {
-  const pageContext = usePageContext()
-  const isNavLeftAlwaysHidden =
-    pageContext.resolved.pageDesign?.hideMenuLeft ||
-    (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
-  let style = css`
-@container container-viewport (min-width: ${viewDesktopLarge}px) {
-  .low-prio-grow {
-    flex-grow: 1;
-  }
-  #navigation-container {
-    width: ${navLeftWidthMax}px !important;
-  }
-}`
-  let navLeftHidden = css`
-#nav-left, #nav-left-margin {
-  display: none;
-}
-body {
-  --main-view-padding: 10px !important;
-}
-.page-wrapper {
-  flex-grow: 1;
-  align-items: center;
-}
-.page-content {
-  margin: auto;
-}
-#menu-modal-wrapper {
-  position: absolute !important;
-}
-`
-  if (!isNavLeftAlwaysHidden) {
-    navLeftHidden = css`
-@container container-viewport (max-width: ${viewDesktop - 1}px) {
-  ${navLeftHidden}
-}
-@container container-viewport (min-width: ${viewDesktop}px) {
-  .nav-head:not(.is-nav-left) {
-    display: none !important;
-  }
-  .nav-head.is-nav-left {
-    .nav-head-content {
-      --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-      & > :not(.always-shown) {
-        --padding-side: min(24px, 27 * (1cqw - 2.5px));
-      }
-      & > * {
-        flex-grow: 0.5;
-      }
-      & > .nav-head-menu-toggle {
-        flex-grow: 1;
-      }
-    }
-    .nav-head-logo {
-      padding-left: 15px;
-      margin-left: -15px;
-    }
-  }
-}
-`
-  }
-  style += navLeftHidden
-
-  return style
-}
-
 function LayoutLandingPage({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -393,6 +325,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 function getStyleNavHead() {
   const pageContext = usePageContext()
   const { isLandingPage } = pageContext.resolved
+  const isNavLeftAlwaysHidden =
+    pageContext.resolved.pageDesign?.hideMenuLeft ||
+    (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
 
   let style = ''
 
@@ -480,8 +415,70 @@ html:not(.unexpand-nav) {
 }
 `
 
+  if (!isLandingPage) {
+  style+= css`
+@container container-viewport (min-width: ${viewDesktopLarge}px) {
+  .low-prio-grow {
+    flex-grow: 1;
+  }
+  #navigation-container {
+    width: ${navLeftWidthMax}px !important;
+  }
+}`
+  let navLeftHidden = css`
+#nav-left, #nav-left-margin {
+  display: none;
+}
+body {
+  --main-view-padding: 10px !important;
+}
+.page-wrapper {
+  flex-grow: 1;
+  align-items: center;
+}
+.page-content {
+  margin: auto;
+}
+#menu-modal-wrapper {
+  position: absolute !important;
+}
+`
+  if (!isNavLeftAlwaysHidden) {
+    navLeftHidden = css`
+@container container-viewport (max-width: ${viewDesktop - 1}px) {
+  ${navLeftHidden}
+}
+@container container-viewport (min-width: ${viewDesktop}px) {
+  .nav-head:not(.is-nav-left) {
+    display: none !important;
+  }
+  .nav-head.is-nav-left {
+    .nav-head-content {
+      --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
+      & > :not(.always-shown) {
+        --padding-side: min(24px, 27 * (1cqw - 2.5px));
+      }
+      & > * {
+        flex-grow: 0.5;
+      }
+      & > .nav-head-menu-toggle {
+        flex-grow: 1;
+      }
+    }
+    .nav-head-logo {
+      padding-left: 15px;
+      margin-left: -15px;
+    }
+  }
+}
+`
+  }
+  style += navLeftHidden
+  }
+
   return style
 }
+
 function unexpandNav() {
   document.documentElement.classList.add('unexpand-nav')
   // Using setTimeout() because requestAnimationFrame() doesn't delay enough

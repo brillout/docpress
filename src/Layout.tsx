@@ -305,11 +305,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   const { isLandingPage } = pageContext.resolved
   const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
 
-  const navSecondaryContent = (
+  const navHeadSecondary = (
     <div
       // TODO replace show-on-nav-hover with left-nav ?
       // TODO: remove desktop-grow ?
-      className={isNavLeft ? 'show-on-nav-hover add-transition' : 'main-nav desktop-grow'}
+      className={cls(['nav-head-secondary', isNavLeft ? 'show-on-nav-hover add-transition' : 'desktop-grow'])}
       style={{
         padding: 0,
         display: 'flex',
@@ -374,7 +374,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
-          {navSecondaryContent}
+          {navHeadSecondary}
         </div>
       </div>
       <Style>{getStyleNavHead()}</Style>
@@ -407,8 +407,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Mobile + tablet
     style += css`
 @container container-viewport (max-width: ${viewTablet}px) {
-  .main-nav {
-    display: none !important;
+  .nav-head:not(.is-nav-left) {
+    .nav-head-secondary {
+      display: none !important;
+    }
   }
 }`
     // Tablet + desktop small

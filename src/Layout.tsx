@@ -87,8 +87,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  // TODO: rename hideNavLeftAlways isNavLeftAlwaysHidden
-  const hideNavLeftAlways =
+  const isNavLeftAlwaysHidden =
     pageContext.resolved.pageDesign?.hideMenuLeft ||
     (pageContext.resolved.navItemsDetached && pageContext.resolved.navItemsDetached.length <= 1)
   return (
@@ -134,7 +133,7 @@ body {
   position: absolute !important;
 }
 `
-    if (!hideNavLeftAlways) {
+    if (!isNavLeftAlwaysHidden) {
       navLeftHidden = css`
 @container container-viewport (max-width: ${viewDesktop - 1}px) {
   ${navLeftHidden}

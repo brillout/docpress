@@ -149,7 +149,7 @@ body {
     & > * {
       flex-grow: 0.5;
     }
-    & > .menu-button {
+    & > .nav-head-menu-toggle {
       flex-grow: 1;
     }
   }
@@ -373,7 +373,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           <NavHeadLogo />
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
-          <MenuToggleMain className="always-shown menu-button" style={menuLinkStyle} />
+          <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
           {navSecondaryContent}
         </div>
       </div>
@@ -391,7 +391,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
   }
-  .menu-button {
+  .nav-head-menu-toggle {
     justify-content: flex-end !important;
     padding-right: var(--main-view-padding) !important;
   }

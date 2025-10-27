@@ -339,7 +339,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head-top', !isNavLeft && 'is-nav-left', 'link-hover-animation'])}
+      className={cls(['nav-head', !isNavLeft && 'is-nav-left', 'link-hover-animation'])}
       style={{
         display: 'flex',
         justifyContent: isNavLeft ? 'flex-end' : 'center',
@@ -457,7 +457,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   transition-property: opacity;
   pointer-events: none;
 }
-html:not(.unexpand-nav) :has(.nav-head-top:hover) .show-on-nav-hover,
+html:not(.unexpand-nav) :has(.nav-head:hover) .show-on-nav-hover,
 html:not(.unexpand-nav) :has(.show-on-nav-hover:hover) .show-on-nav-hover,
 html:not(.unexpand-nav).menu-modal-show .show-on-nav-hover {
   opacity: 1;

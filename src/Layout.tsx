@@ -224,7 +224,6 @@ function NavLeft() {
   return (
     <>
       <div
-        // TODO: diff with show-on-nav-hover ? Refactor?
         id="nav-left"
         className="link-hover-animation"
         style={{

@@ -306,9 +306,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       {isNavLeft && <NavHeadLeftFullWidthBackground />}
       <div
         style={{
-          /* Isn't needed anymore, let's remove it?
+          // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
-          */
           width: '100%',
           minWidth: isNavLeft && navLeftWidthMin,
           maxWidth: isNavLeft && navLeftWidthMax,

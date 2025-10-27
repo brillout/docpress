@@ -255,11 +255,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   const navHeadSecondary = (
     <div
-      className={cls([
-        'nav-head-secondary',
-        isNavLeft && 'show-on-nav-hover add-transition',
-        !!navMaxWidth && 'has-max-width',
-      ])}
+      className={cls(['nav-head-secondary', isNavLeft && 'show-on-nav-hover add-transition'])}
       style={{
         padding: 0,
         display: 'flex',
@@ -289,7 +285,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head', isNavLeft && 'is-nav-left', 'link-hover-animation'])}
+      className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
         display: 'flex',
         justifyContent: isNavLeft ? 'flex-end' : 'center',
@@ -394,7 +390,7 @@ function getStyleNav() {
     }
     &.has-max-width {
       .desktop-grow {
-        display: block;
+        display: block !important;
       }
       .desktop-grow,
       .nav-head-secondary {

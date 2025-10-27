@@ -153,7 +153,7 @@ body {
       flex-grow: 1;
     }
   }
-  .nav-logo {
+  .nav-head-logo {
     padding-left: 15px;
     margin-left: -15px;
   }
@@ -387,7 +387,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     // Mobile
     style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
-  .nav-logo {
+  .nav-head-logo {
     always-shown: flex-start !important;
     padding-left: var(--main-view-padding);
   }
@@ -416,7 +416,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     --icon-text-padding: 8px;
     --padding-side: 20px;
   }
-  .nav-logo {
+  .nav-head-logo {
     padding: 0 var(--padding-side);
   }
 }`
@@ -427,7 +427,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     --icon-text-padding: min(8px, 0.5cqw);
     --padding-side: min(20px, 1.3cqw);
   }
-  .nav-logo {
+  .nav-head-logo {
     padding: 0 var(--padding-side);
   }
 }
@@ -445,7 +445,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     if (isLandingPage && !navMaxWidth)
       style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
-  .nav-logo {
+  .nav-head-logo {
     display: none !important;
   }
 }
@@ -540,7 +540,7 @@ function NavLogo({ className }: { className?: string }) {
 
   return (
     <a
-      className={cls(['nav-logo', className])}
+      className={cls(['nav-head-logo', className])}
       style={{
         display: 'flex',
         alignItems: 'center',

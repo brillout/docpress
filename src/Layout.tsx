@@ -458,9 +458,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       function getStyleHideLogo() {
         if (!isLandingPage || navMaxWidth) return ''
         return css`
-.nav-head-logo {
-  display: none !important;
-}`
+    .nav-head-logo {
+      display: none !important;
+    }`
       }
     }
 

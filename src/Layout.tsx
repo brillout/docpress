@@ -26,8 +26,8 @@ import { EditLink } from './EditLink'
 
 const blockMargin = 3
 const mainViewPadding = 20
-const mainViewWidthMax = 800
-const mainViewMax = (mainViewWidthMax + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
+const mainViewWidthMaxInner = 800
+const mainViewMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
@@ -184,7 +184,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const { globalNote } = pageContext.globalContext.config.docpress
   */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
-  const contentMaxWidth = pageContext.resolved.pageDesign?.contentMaxWidth ?? mainViewWidthMax
+  const contentMaxWidth = pageContext.resolved.pageDesign?.contentMaxWidth ?? mainViewWidthMaxInner
   return (
     <div
       className="page-wrapper low-prio-grow"

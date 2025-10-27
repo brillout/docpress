@@ -85,7 +85,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
-      <Style>{getStyleNavHead()}</Style>
+      <Style>{getStyleNav()}</Style>
     </div>
   )
 }
@@ -338,7 +338,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     </div>
   )
 }
-function getStyleNavHead() {
+function getStyleNav() {
   const pageContext = usePageContext()
 
   let style = ''
@@ -363,6 +363,7 @@ function getStyleNavHead() {
     }
   }
 }`
+
   // Mobile + tablet
   style += css`
 @container container-viewport (max-width: ${viewTablet}px) {
@@ -372,6 +373,7 @@ function getStyleNavHead() {
     }
   }
 }`
+
   // Tablet
   style += css`
 @container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
@@ -385,6 +387,7 @@ function getStyleNavHead() {
     }
   }
 }`
+
   // Desktop small + desktop
   style += css`
 @container container-viewport (min-width: ${viewTablet + 1}px) {
@@ -405,24 +408,6 @@ function getStyleNavHead() {
         flex-grow: 1;
       }
     }
-  }
-}
-`
-
-  // Expand left-side <NavHead> on :hover
-  style += css`
-.show-on-nav-hover {
-  opacity: 0;
-  transition-property: opacity;
-  pointer-events: none;
-}
-html:not(.unexpand-nav) {
-  & .nav-head.is-nav-left:hover .show-on-nav-hover,
-  & .nav-head.is-nav-left:has(.show-on-nav-hover:hover) .show-on-nav-hover,
-  &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
-  &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
-    opacity: 1;
-    pointer-events: all;
   }
 }
 `
@@ -470,10 +455,26 @@ html:not(.unexpand-nav) {
       margin-left: -15px;
     }
   }
-}
-    `
+}`
   }
 
+  // Expand left-side <NavHead> on :hover
+  style += css`
+.show-on-nav-hover {
+  opacity: 0;
+  transition-property: opacity;
+  pointer-events: none;
+}
+html:not(.unexpand-nav) {
+  & .nav-head.is-nav-left:hover .show-on-nav-hover,
+  & .nav-head.is-nav-left:has(.show-on-nav-hover:hover) .show-on-nav-hover,
+  &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
+  &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+`
   return style
 }
 

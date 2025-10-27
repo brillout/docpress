@@ -394,12 +394,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 @container container-viewport (max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-logo {
-      always-shown: flex-start;
+      always-shown: flex-start !important;
       padding-left: var(--main-view-padding);
     }
     .nav-head-menu-toggle {
-      justify-content: flex-end;
-      padding-right: var(--main-view-padding);
+      justify-content: flex-end !important;
+      padding-right: var(--main-view-padding) !important;
     }
     .nav-head-content {
       --icon-text-padding: min(8px, 1.3cqw);

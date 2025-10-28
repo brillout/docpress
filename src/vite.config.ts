@@ -10,6 +10,7 @@ import { transformerNotationDiff } from '@shikijs/transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
+import { remarkJsxVueTabs } from './code-blocks/remarkJsxVueTabs.js'
 
 const root = process.cwd()
 const prettyCode = [
@@ -21,7 +22,7 @@ const prettyCode = [
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
-const remarkPlugins = [remarkGfm, remarkDetype]
+const remarkPlugins = [remarkGfm, remarkJsxVueTabs, remarkDetype]
 
 const config: UserConfig = {
   root,

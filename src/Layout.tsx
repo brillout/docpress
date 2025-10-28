@@ -512,7 +512,7 @@ function NavHeadLeftFullWidthBackground() {
   )
 }
 
-function NavHeadLogo({ className }: { className?: string }) {
+function NavHeadLogo() {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress
@@ -546,7 +546,7 @@ function NavHeadLogo({ className }: { className?: string }) {
 
   return (
     <a
-      className={cls(['nav-head-logo', className])}
+      className="nav-head-logo"
       style={{
         display: 'flex',
         alignItems: 'center',

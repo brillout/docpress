@@ -1,7 +1,7 @@
 export { toggleMenuModal }
 export { openMenuModal }
 export { openMenuModalOnMouseEnter }
-export { keepMenuModalOpenOnHover }
+export { keepMenuModalOpenOnMouseOver }
 export { closeMenuModal }
 export { coseMenuModalOnMouseLeave }
 export { ignoreHoverOnTouchStart }
@@ -13,7 +13,7 @@ import { isBrowser } from '../utils/isBrowser'
 
 initScrollListener()
 
-function keepMenuModalOpenOnHover() {
+function keepMenuModalOpenOnMouseOver() {
   open()
 }
 function openMenuModalOnMouseEnter(menuId: number) {

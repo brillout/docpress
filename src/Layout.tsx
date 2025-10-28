@@ -26,7 +26,6 @@ import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
 import { EditLink } from './EditLink'
-import type { PageContext } from 'vike/types'
 
 const blockMargin = 3
 const mainViewPadding = 20
@@ -89,12 +88,16 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div style={{ display: 'flex', ...whitespaceBuster2 }}>
-        <NavLeft />
-        <div
-          id="nav-left-margin"
-          className="low-prio-grow"
-          style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }}
-        />
+        {!isNavLeftAlwaysHidden() && (
+          <>
+            <NavLeft />
+            <div
+              id="nav-left-margin"
+              className="low-prio-grow"
+              style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }}
+            />
+          </>
+        )}
         <PageContent>{children}</PageContent>
       </div>
       <Style>{css`
@@ -181,7 +184,7 @@ function NavLeft() {
             top: 0,
           }}
         >
-          {!isNavLeftAlwaysHidden(pageContext) && <NavHead isNavLeft={true} />}
+          <NavHead isNavLeft={true} />
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
@@ -234,7 +237,8 @@ function NavigationContent(props: {
   )
 }
 
-function isNavLeftAlwaysHidden(pageContext: PageContext) {
+function isNavLeftAlwaysHidden() {
+  const pageContext = usePageContext()
   const { isLandingPage, navItemsDetached, pageDesign } = pageContext.resolved
   return isLandingPage || pageDesign?.hideMenuLeft || (navItemsDetached && navItemsDetached.length <= 1)
 }
@@ -328,8 +332,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
   )
 }
 function getStyleNav() {
-  const pageContext = usePageContext()
-
   let style = ''
 
   // Mobile
@@ -402,7 +404,7 @@ function getStyleNav() {
 `
 
   // Desktop
-  if (!isNavLeftAlwaysHidden(pageContext)) {
+  if (!isNavLeftAlwaysHidden()) {
     style += css`
 @container container-viewport (min-width: ${viewDesktop}px) {
   .nav-head:not(.is-nav-left) {
@@ -448,21 +450,28 @@ function getStyleNav() {
   body {
     --main-view-padding: 10px !important;
   }
-  .page-wrapper {
-    flex-grow: 1;
-    align-items: center;
-  }
-  .page-content {
-    margin: auto;
-  }
-  #menu-modal-wrapper {
-    position: absolute !important;
-  }
+  ${getStyleNavLeftHidden()}
 }
 `
+  } else {
+    style += getStyleNavLeftHidden()
   }
 
   return style
+}
+function getStyleNavLeftHidden() {
+  return css`
+.page-wrapper {
+  flex-grow: 1;
+  align-items: center;
+}
+.page-content {
+  margin: auto;
+}
+#menu-modal-wrapper {
+  position: absolute !important;
+}
+`
 }
 
 function unexpandNav() {

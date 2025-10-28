@@ -86,7 +86,7 @@ const headings: HeadingDefinition[] = [
     pageDesign: {
       hideTitle: true,
       hideMenuLeft: true,
-      contentMaxWidth: 4000,
+      contentMaxWidth: 1200,
     },
   },
   {

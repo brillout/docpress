@@ -7,7 +7,9 @@ export { navLeftWidthMax }
 export { unexpandNav }
 export { blockMargin }
 
-// - We use `@container container-viewport` instead of @media because @media doesn't consider the scrollbar width.
+// - @media VS @container
+//   - Using `@container container-viewport` instead of @media would be interesting because @media doesn't consider the scrollbar width.
+//   - But we still use @media because using @container is complicated(/buggy?) to use inside <MenuModal> because of `position: fixed`.
 // - We use --padding-side because we cannot set a fixed max-width on the <NavHead> container .nav-head-content — DocPress doesn't know how many extra <NavHead> elements the user adds using the +docpress.topNavigation setting.
 
 import React from 'react'
@@ -39,7 +41,7 @@ const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 //
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
-const viewTablet = 1000
+const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
 
@@ -341,7 +343,7 @@ function getStyleNav() {
 
   // Mobile
   style += css`
-@container container-viewport (max-width: ${viewMobile}px) {
+@media(max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-menu-toggle {
       justify-content: flex-end !important;
@@ -358,7 +360,7 @@ function getStyleNav() {
 
   // Mobile + tablet
   style += css`
-@container container-viewport (max-width: ${viewTablet}px) {
+@media(max-width: ${viewTablet}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-secondary {
       display: none !important;
@@ -368,7 +370,7 @@ function getStyleNav() {
 
   // Tablet
   style += css`
-@container container-viewport (max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
+@media(max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-content {
       --icon-text-padding: 8px;
@@ -379,7 +381,7 @@ function getStyleNav() {
 
   // Desktop small + desktop
   style += css`
-@container container-viewport (min-width: ${viewTablet + 1}px) {
+@media(min-width: ${viewTablet + 1}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-content {
       --icon-text-padding: min(8px, 0.5cqw);
@@ -581,12 +583,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@container container-viewport (max-width: ${viewTablet}px) {
+@media(max-width: ${viewTablet}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@container container-viewport (min-width: ${viewTablet + 1}px) {
+@media(min-width: ${viewTablet + 1}px) {
   .text-menu {
     display: none;
   }

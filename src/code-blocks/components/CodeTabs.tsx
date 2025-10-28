@@ -124,7 +124,7 @@ function CodeTabPanel({ value, children }: { value: string; children: React.Reac
   const panelId = `panel-${value}`
 
   return (
-    <div id={panelId} role="tabpanel" aria-labelledby={tabId}>
+    <div id={panelId} role="tabpanel" aria-labelledby={tabId} tabIndex={0}>
       {children}
     </div>
   )

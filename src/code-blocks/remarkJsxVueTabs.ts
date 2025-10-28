@@ -4,6 +4,12 @@ import type { Root, Code } from 'mdast'
 import { visit } from 'unist-util-visit'
 import { generateCodeTabs } from './utils/generateCodeTabs.js'
 
+/**
+ * Remark plugin that combines adjacent TSX/JSX and Vue code blocks into tabbed code blocks.
+ *
+ * Replaces a TSX/JSX block immediately followed by a Vue block with a single
+ * <CodeTabs> component containing <CodeTabPanel> children for each language.
+ */
 function remarkJsxVueTabs() {
   return function (tree: Root) {
     visit(tree, 'code', (node, index, parent) => {

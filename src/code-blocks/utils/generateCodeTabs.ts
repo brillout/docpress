@@ -8,6 +8,14 @@ type CodeTab = {
   code: Code
 }
 
+/**
+ * Generates a `<CodeTabs>` MDX JSX element with `<CodeTabPanel>` children from an array of code blocks.
+ *
+ * @param tabs - Array of code blocks with a `value` key for the tab label.
+ * @param defaultValue - Optional tab to select by default.
+ * @param persistId - Optional ID to persist the selected tab across page reloads.
+ * @returns An MDX JSX element representing the tabbed code block structure.
+ */
 function generateCodeTabs(tabs: CodeTab[], defaultValue?: string, persistId?: string): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []

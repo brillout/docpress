@@ -112,7 +112,7 @@ function toggleMenuModal(menuId: number) {
     closeMenuModal()
   } else {
     openMenuModal(menuId)
-    if (getViewportWidth() < viewTablet) autoScroll()
+    if (isMobileNav()) autoScroll()
   }
 }
 
@@ -140,11 +140,11 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
 }
 
 function closeMenuModalOnMouseLeave() {
-  // TODO
+  if (ignoreHover()) return
   closeMenuModal()
 }
 function keepMenuModalOpenOnMouseOver() {
-  // TODO
+  if (ignoreHover()) return
   open()
 }
 
@@ -162,5 +162,5 @@ function ignoreHover() {
   return isTouchStart || isMobileNav()
 }
 function isMobileNav() {
-  return window.innerWidth <= viewTablet
+  return getViewportWidth() <= viewTablet
 }

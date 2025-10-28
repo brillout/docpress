@@ -139,6 +139,15 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
   return null
 }
 
+function closeMenuModalOnMouseLeave() {
+  // TODO
+  closeMenuModal()
+}
+function keepMenuModalOpenOnMouseOver() {
+  // TODO
+  open()
+}
+
 let isTouchStart: ReturnType<typeof setTimeout> | undefined
 function ignoreHoverOnTouchStart() {
   isTouchStart = setTimeout(() => {
@@ -148,14 +157,6 @@ function ignoreHoverOnTouchStart() {
 function openMenuModalOnMouseEnter(menuId: number) {
   if (ignoreHover()) return
   openMenuModal(menuId)
-}
-function closeMenuModalOnMouseLeave() {
-  // TODO
-  closeMenuModal()
-}
-function keepMenuModalOpenOnMouseOver() {
-  // TODO
-  open()
 }
 function ignoreHover() {
   return isTouchStart || isMobileNav()

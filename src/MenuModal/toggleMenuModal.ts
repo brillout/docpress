@@ -73,8 +73,7 @@ let toggleLock:
     }
   | undefined
 function closeMenuModalOnMouseLeaveToggle(menuId: number) {
-  if (ignoreHover) return
-  if (isMobileNav()) return
+  if (ignoreHover()) return
   clearTimeout(toggleLock?.timeoutAction)
   const timeoutAction = setTimeout(action, 100)
   toggleLock = {
@@ -140,15 +139,14 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
   return null
 }
 
-let ignoreHover: ReturnType<typeof setTimeout> | undefined
+let isTouchStart: ReturnType<typeof setTimeout> | undefined
 function ignoreHoverOnTouchStart() {
-  ignoreHover = setTimeout(() => {
-    ignoreHover = undefined
+  isTouchStart = setTimeout(() => {
+    isTouchStart = undefined
   }, 1000)
 }
 function openMenuModalOnMouseEnter(menuId: number) {
-  if (ignoreHover) return
-  if (isMobileNav()) return
+  if (ignoreHover()) return
   openMenuModal(menuId)
 }
 function closeMenuModalOnMouseLeave() {
@@ -159,7 +157,9 @@ function keepMenuModalOpenOnMouseOver() {
   // TODO
   open()
 }
-
+function ignoreHover() {
+  return isTouchStart || isMobileNav()
+}
 function isMobileNav() {
   return window.innerWidth <= viewTablet
 }

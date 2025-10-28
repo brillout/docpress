@@ -16,7 +16,7 @@ import { parseMarkdownMini } from './parseMarkdownMini'
 import { usePageContext } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
 import {
-  closeMenuModalOnMouseLeave,
+  coseMenuModalOnMouseLeave,
   ignoreHoverOnTouchStart,
   openMenuModalOnMouseEnter,
   toggleMenuModal,
@@ -614,7 +614,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
         openMenuModalOnMouseEnter(menuId)
       }}
       onMouseLeave={() => {
-        closeMenuModalOnMouseLeave(menuId)
+        coseMenuModalOnMouseLeave(menuId)
       }}
       onTouchStart={ignoreHoverOnTouchStart}
     >

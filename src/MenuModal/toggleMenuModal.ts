@@ -3,7 +3,7 @@ export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnMouseOver }
 export { closeMenuModal }
 export { closeMenuModalOnMouseLeave }
-export { coseMenuModalOnMouseLeave }
+export { closeMenuModalOnMouseLeave }
 export { ignoreHoverOnTouchStart }
 
 import { viewTablet } from '../Layout'
@@ -71,7 +71,7 @@ let toggleLock:
       timeoutAction: NodeJS.Timeout
     }
   | undefined
-function coseMenuModalOnMouseLeave(menuId: number) {
+function closeMenuModalOnMouseLeave(menuId: number) {
   if (ignoreHover) return
   if (isMobileNav()) return
   clearTimeout(toggleLock?.timeoutAction)

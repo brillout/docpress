@@ -48,7 +48,7 @@ function EditLink({
         ...style,
       }}
     >
-      {icon} Edit{verbose ? ' this page' : ''}
+      {icon} Edit{verbose ? ' page' : ''}
     </a>
   )
 }

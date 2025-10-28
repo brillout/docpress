@@ -1,5 +1,4 @@
 export { toggleMenuModalOnClick }
-export { openMenuModal }
 export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnMouseOver }
 export { closeMenuModal }

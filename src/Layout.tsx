@@ -617,9 +617,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       onMouseLeave={() => {
         coseMenuModalOnMouseLeave(menuId)
       }}
-      onTouchStart={() => {
-        ignoreHoverOnTouchStart()
-      }}
+      onTouchStart={ignoreHoverOnTouchStart}
     >
       <Style>{getAnimation()}</Style>
       {props.children}

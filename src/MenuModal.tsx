@@ -27,7 +27,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
         }}
-        onMouseOver={() => keepMenuModalOpenOnMouseOver()}
+        onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModal}
       >
         <div

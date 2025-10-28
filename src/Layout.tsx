@@ -547,7 +547,10 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
               paddingLeft: 'var(--main-view-padding)',
               paddingRight: 'var(--padding-side)',
             }
-          : {}),
+          : {
+              paddingLeft: 15,
+              marginLeft: -10,
+            }),
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

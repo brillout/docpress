@@ -1,6 +1,6 @@
 export { toggleMenuModal }
 export { openMenuModal }
-export { keepMenuModalOpen }
+export { keepMenuModalOpenOnHover }
 export { closeMenuModal }
 export { coseMenuModalOnMouseLeave }
 
@@ -11,7 +11,7 @@ import { isBrowser } from '../utils/isBrowser'
 
 initScrollListener()
 
-function keepMenuModalOpen() {
+function keepMenuModalOpenOnHover() {
   open()
 }
 function openMenuModal(menuNavigationId: number) {

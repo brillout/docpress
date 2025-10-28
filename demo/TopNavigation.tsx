@@ -44,7 +44,6 @@ function TopNavigation() {
         />
         Blog
       </MenuToggle>
-      {/*
       <a
         className="colorize-on-hover"
         href="/pricing"
@@ -65,7 +64,6 @@ function TopNavigation() {
         />
         Pricing
       </a>
-      */}
     </>
   )
 }

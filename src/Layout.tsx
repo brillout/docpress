@@ -280,8 +280,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         style={{
           display: 'inline-flex',
           fontSize: '1.06em',
-          padding: '0 var(--padding-side)',
-          marginLeft: -8,
+          paddingRight: 'var(--main-view-padding)',
+          paddingLeft: 'var(--padding-side)',
         }}
       />
     </div>
@@ -321,7 +321,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          {!hideNavHeadLogo && <NavHeadLogo />}
+          {!hideNavHeadLogo && <NavHeadLogo isNavLeft={isNavLeft} />}
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
@@ -338,10 +338,6 @@ function getStyleNav() {
   style += css`
 @container container-viewport (max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
-    .nav-head-logo {
-      always-shown: flex-start !important;
-      padding-left: var(--main-view-padding);
-    }
     .nav-head-menu-toggle {
       justify-content: flex-end !important;
       padding-right: var(--main-view-padding) !important;
@@ -373,9 +369,6 @@ function getStyleNav() {
       --icon-text-padding: 8px;
       --padding-side: 20px;
     }
-    .nav-head-logo {
-      padding: 0 var(--padding-side);
-    }
   }
 }`
 
@@ -385,10 +378,7 @@ function getStyleNav() {
   .nav-head:not(.is-nav-left) {
     .nav-head-content {
       --icon-text-padding: min(8px, 0.5cqw);
-      --padding-side: min(20px, 1.3cqw);
-    }
-    .nav-head-logo {
-      padding: 0 var(--padding-side);
+      --padding-side: min(20px, 1.2cqw);
     }
     &.has-max-width {
       .desktop-grow {
@@ -422,10 +412,6 @@ function getStyleNav() {
       & > .nav-head-menu-toggle {
         flex-grow: 1;
       }
-    }
-    .nav-head-logo {
-      padding-left: 15px;
-      margin-left: -15px;
     }
   }
   .show-on-nav-hover {
@@ -512,7 +498,7 @@ function NavHeadLeftFullWidthBackground() {
   )
 }
 
-function NavHeadLogo() {
+function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress
@@ -546,12 +532,17 @@ function NavHeadLogo() {
 
   return (
     <a
-      className="nav-head-logo"
       style={{
         display: 'flex',
         alignItems: 'center',
         height: '100%',
         color: 'inherit',
+        ...(!isNavLeft
+          ? {
+              paddingLeft: 'var(--main-view-padding)',
+              paddingRight: 'var(--padding-side)',
+            }
+          : {}),
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

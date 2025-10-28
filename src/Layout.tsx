@@ -562,7 +562,7 @@ function isProjectNameShort(name: string) {
   return name.length <= 4
 }
 
-let onMouseIgnore: ReturnType<typeof setTimeout> | undefined
+let ignoreHover: ReturnType<typeof setTimeout> | undefined
 type PropsDiv = React.HTMLProps<HTMLDivElement>
 function MenuToggleMain(props: PropsDiv) {
   return (
@@ -607,18 +607,18 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
         toggleMenuModal(menuId)
       }}
       onMouseEnter={() => {
-        if (onMouseIgnore) return
+        if (ignoreHover) return
         if (isMobileNav()) return
         openMenuModal(menuId)
       }}
       onMouseLeave={() => {
-        if (onMouseIgnore) return
+        if (ignoreHover) return
         if (isMobileNav()) return
         coseMenuModalOnMouseLeave(menuId)
       }}
       onTouchStart={() => {
-        onMouseIgnore = setTimeout(() => {
-          onMouseIgnore = undefined
+        ignoreHover = setTimeout(() => {
+          ignoreHover = undefined
         }, 1000)
       }}
     >

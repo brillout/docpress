@@ -19,7 +19,7 @@ import {
   coseMenuModalOnMouseLeave,
   ignoreHoverOnTouchStart,
   openMenuModalOnMouseEnter,
-  toggleMenuModal,
+  toggleMenuModalOnClick,
 } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
@@ -608,7 +608,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       className={[`colorize-on-hover menu-toggle menu-toggle-${menuId}`, props.className].filter(Boolean).join(' ')}
       onClick={(ev) => {
         ev.preventDefault()
-        toggleMenuModal(menuId)
+        toggleMenuModalOnClick(menuId)
       }}
       onMouseEnter={() => {
         openMenuModalOnMouseEnter(menuId)

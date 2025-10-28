@@ -1,4 +1,4 @@
-export { toggleMenuModalOnClick }
+export { toggleMenuModal }
 export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnMouseOver }
 export { closeMenuModal }
@@ -106,7 +106,7 @@ function initScrollListener() {
   window.addEventListener('scroll', closeMenuModal, { passive: true })
 }
 
-function toggleMenuModalOnClick(menuId: number) {
+function toggleMenuModal(menuId: number) {
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuId}`)) {
     closeMenuModal()

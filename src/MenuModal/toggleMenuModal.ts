@@ -1,10 +1,10 @@
 export { toggleMenuModal }
+export { closeMenuModal }
+export { ignoreHoverOnTouchStart }
 export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnMouseOver }
-export { closeMenuModal }
 export { closeMenuModalOnMouseLeave }
 export { closeMenuModalOnMouseLeaveToggle }
-export { ignoreHoverOnTouchStart }
 
 import { viewTablet } from '../Layout'
 import { getHydrationPromise } from '../renderer/getHydrationPromise'

@@ -7,7 +7,7 @@ import { viewDesktop, viewTablet } from './Layout'
 import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
-import { closeMenuModal, keepMenuModalOpenOnMouseOver } from './MenuModal/toggleMenuModal'
+import { closeMenuModal, closeMenuModalOnMouseLeave, keepMenuModalOpenOnMouseOver } from './MenuModal/toggleMenuModal'
 import { EditLink } from './EditLink'
 
 function MenuModal({ isTopNav }: { isTopNav: boolean }) {
@@ -28,7 +28,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           transitionTimingFunction: 'ease',
         }}
         onMouseOver={keepMenuModalOpenOnMouseOver}
-        onMouseLeave={closeMenuModal}
+        onMouseLeave={closeMenuModalOnMouseLeave}
       >
         <div
           id="menu-modal-scroll-container"

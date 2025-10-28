@@ -2,6 +2,7 @@ export { toggleMenuModalOnClick }
 export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnMouseOver }
 export { closeMenuModal }
+export { closeMenuModalOnMouseLeave }
 export { coseMenuModalOnMouseLeave }
 export { ignoreHoverOnTouchStart }
 
@@ -12,14 +13,6 @@ import { isBrowser } from '../utils/isBrowser'
 
 initScrollListener()
 
-function keepMenuModalOpenOnMouseOver() {
-  open()
-}
-function openMenuModalOnMouseEnter(menuId: number) {
-  if (ignoreHover) return
-  if (isMobileNav()) return
-  openMenuModal(menuId)
-}
 function openMenuModal(menuNavigationId: number) {
   open(menuNavigationId)
 }
@@ -151,6 +144,19 @@ function ignoreHoverOnTouchStart() {
   ignoreHover = setTimeout(() => {
     ignoreHover = undefined
   }, 1000)
+}
+function openMenuModalOnMouseEnter(menuId: number) {
+  if (ignoreHover) return
+  if (isMobileNav()) return
+  openMenuModal(menuId)
+}
+function closeMenuModalOnMouseLeave() {
+  // TODO
+  closeMenuModal()
+}
+function keepMenuModalOpenOnMouseOver() {
+  // TODO
+  open()
 }
 
 function isMobileNav() {

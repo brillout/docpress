@@ -40,7 +40,7 @@ function CopyButton() {
     <button
       className="copy-button raised"
       aria-label={tooltip}
-      data-label-position="top"
+      data-label-position="top-left"
       type="button"
       onClick={onClick}
     >

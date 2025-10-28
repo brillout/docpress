@@ -37,9 +37,10 @@
     top: 100%;
     margin-top: 5px;
   }
-  /* Show above */
-  [aria-label][data-label-position='top']::before {
+  /* Show above-left */
+  [aria-label][data-label-position='top-left']::before {
     bottom: 100%;
     margin-bottom: 7px;
+    transform: translate(calc(-100% + 25px), 0);
   }
 }

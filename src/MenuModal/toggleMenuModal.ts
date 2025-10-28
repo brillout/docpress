@@ -1,5 +1,6 @@
 export { toggleMenuModal }
 export { closeMenuModal }
+// Hover handling
 export { ignoreHoverOnTouchStart }
 export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnMouseOver }

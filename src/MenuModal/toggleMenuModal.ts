@@ -1,8 +1,10 @@
 export { toggleMenuModal }
 export { openMenuModal }
+export { openMenuModalOnMouseEnter }
 export { keepMenuModalOpenOnHover }
 export { closeMenuModal }
 export { coseMenuModalOnMouseLeave }
+export { ignoreHoverOnTouchStart }
 
 import { viewTablet } from '../Layout'
 import { getHydrationPromise } from '../renderer/getHydrationPromise'
@@ -13,6 +15,11 @@ initScrollListener()
 
 function keepMenuModalOpenOnHover() {
   open()
+}
+function openMenuModalOnMouseEnter(menuId: number) {
+  if (ignoreHover) return
+  if (isMobileNav()) return
+  openMenuModal(menuId)
 }
 function openMenuModal(menuNavigationId: number) {
   open(menuNavigationId)
@@ -73,6 +80,8 @@ let toggleLock:
     }
   | undefined
 function coseMenuModalOnMouseLeave(menuId: number) {
+  if (ignoreHover) return
+  if (isMobileNav()) return
   clearTimeout(toggleLock?.timeoutAction)
   const timeoutAction = setTimeout(action, 100)
   toggleLock = {
@@ -136,4 +145,15 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
     parentEl = parentEl.parentElement
   }
   return null
+}
+
+let ignoreHover: ReturnType<typeof setTimeout> | undefined
+function ignoreHoverOnTouchStart() {
+  ignoreHover = setTimeout(() => {
+    ignoreHover = undefined
+  }, 1000)
+}
+
+function isMobileNav() {
+  return window.innerWidth <= viewTablet
 }

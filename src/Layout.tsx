@@ -15,7 +15,13 @@ import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemCom
 import { parseMarkdownMini } from './parseMarkdownMini'
 import { usePageContext } from './renderer/usePageContext'
 import { ExternalLinks } from './ExternalLinks'
-import { coseMenuModalOnMouseLeave, openMenuModal, toggleMenuModal } from './MenuModal/toggleMenuModal'
+import {
+  coseMenuModalOnMouseLeave,
+  ignoreHoverOnTouchStart,
+  openMenuModal,
+  openMenuModalOnMouseEnter,
+  toggleMenuModal,
+} from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
 import { initializeJsToggle_SSR } from './code-blocks/hooks/useSelectCodeLang'
@@ -562,7 +568,6 @@ function isProjectNameShort(name: string) {
   return name.length <= 4
 }
 
-let ignoreHover: ReturnType<typeof setTimeout> | undefined
 type PropsDiv = React.HTMLProps<HTMLDivElement>
 function MenuToggleMain(props: PropsDiv) {
   return (
@@ -607,19 +612,13 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
         toggleMenuModal(menuId)
       }}
       onMouseEnter={() => {
-        if (ignoreHover) return
-        if (isMobileNav()) return
-        openMenuModal(menuId)
+        openMenuModalOnMouseEnter(menuId)
       }}
       onMouseLeave={() => {
-        if (ignoreHover) return
-        if (isMobileNav()) return
         coseMenuModalOnMouseLeave(menuId)
       }}
       onTouchStart={() => {
-        ignoreHover = setTimeout(() => {
-          ignoreHover = undefined
-        }, 1000)
+        ignoreHoverOnTouchStart()
       }}
     >
       <Style>{getAnimation()}</Style>
@@ -727,8 +726,4 @@ function MenuIcon() {
       ></path>
     </svg>
   )
-}
-
-function isMobileNav() {
-  return window.innerWidth <= viewTablet
 }

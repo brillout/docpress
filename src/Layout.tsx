@@ -18,7 +18,6 @@ import { ExternalLinks } from './ExternalLinks'
 import {
   coseMenuModalOnMouseLeave,
   ignoreHoverOnTouchStart,
-  openMenuModal,
   openMenuModalOnMouseEnter,
   toggleMenuModal,
 } from './MenuModal/toggleMenuModal'

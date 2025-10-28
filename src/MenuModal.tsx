@@ -50,7 +50,9 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             >
               <ExternalLinks style={{ height: 50 }} />
             </div>
-            <EditLink style={{ justifyContent: 'center', padding: 10, marginTop: 0, marginBottom: 13 }} />
+            <Center>
+              <EditLink style={{ justifyContent: 'center', marginTop: 8, marginBottom: 20 }} verbose />
+            </Center>
           </div>
         </div>
         <CloseButton className="show-only-on-mobile" />
@@ -174,5 +176,19 @@ function CloseButton({ className }: { className: string }) {
         />
       </svg>
     </div>
+  )
+}
+
+function Center({ style, ...props }: any) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...style,
+      }}
+      {...props}
+    ></div>
   )
 }

@@ -34,11 +34,11 @@ import { cls } from './utils/cls'
 import { iconBooks } from './icons'
 import { EditLink } from './EditLink'
 
-const blockMargin = 3
+const blockMargin = 4
 const mainViewPadding = 20
 const mainViewWidthMaxInner = 800
 const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
-const navLeftWidthMin = 300
+const navLeftWidthMin = 370
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
@@ -77,6 +77,8 @@ function Layout({ children }: { children: React.ReactNode }) {
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
         container: 'container-viewport / inline-size',
+        maxWidth: 1280,
+        margin: 'auto',
       }}
     >
       <MenuModal isTopNav={isLandingPage} />
@@ -111,9 +113,6 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
-  }
-  #navigation-container {
-    width: ${navLeftWidthMax}px !important;
   }
 }`}</Style>
     </>
@@ -212,7 +211,7 @@ function NavLeft() {
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
-                maxWidth: navLeftWidthMax,
+                // maxWidth: navLeftWidthMax,
                 width: '100%',
               }}
             >
@@ -347,6 +346,14 @@ function getStyleNav() {
 
   // Mobile
   style += css`
+/* TODO move */
+body {
+  background: #fdfdfd;
+  background: #fefefe;
+  background: #fcfcfc;
+  background: #fbfbfb;
+  background: white;
+}
 @media(max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-menu-toggle {

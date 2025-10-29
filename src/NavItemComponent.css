@@ -90,7 +90,9 @@
   --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --box-shadow-top: 0 0;
   --box-shadow-bottom: 0 0;
+  box-shadow: var(--box-shadow-top), var(--box-shadow-bottom);
   box-shadow: var(--box-shadow-top), var(--box-shadow-bottom), var(--box-shadow-left), var(--box-shadow-right);
+  box-shadow: var(--box-shadow-top), var(--box-shadow-right);
 }
 .nav-item-level-3.nav-item-first-of-its-kind {
   padding-top: 10px;
@@ -103,6 +105,15 @@
 .nav-item-level-2,
 .nav-item-level-3 {
   position: relative;
+}
+
+.nav-item-level-1 {
+  margin-left: 23px !important;
+}
+
+.nav-item-level-2,
+.nav-item-level-3 {
+  padding-left: 25px !important;
 }
 
 .nav-item-level-3::before,

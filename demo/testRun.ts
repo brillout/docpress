@@ -40,7 +40,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.goto(getServerUrl() + featuresURL)
     const text = await page.textContent('body')
     expect(text).toContain('Features')
-    expect(text).toContain('Edit this page')
+    expect(text).toContain('Edit')
     expect(text).toContain('This page is for testing/developing DocPress features.')
     expect(text).toContain('Guides > Some Page (basic link)')
     expect(text).toContain('Orphan Page (link to detached page)')

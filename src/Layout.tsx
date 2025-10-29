@@ -113,7 +113,6 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     flex-grow: 1;
   }
   #navigation-container {
-    width: ${navLeftWidthMax}px !important;
   }
 }`}</Style>
     </>
@@ -206,14 +205,17 @@ function NavLeft() {
             <div
               id="navigation-container"
               style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
                 top: 0,
                 height: `calc(100vh - var(--nav-head-height) - var(--block-margin))`,
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
-                maxWidth: navLeftWidthMax,
+                // maxWidth: navLeftWidthMax,
                 width: '100%',
+                flexGrow: 1,
               }}
             >
               {navItemsDetached ? (

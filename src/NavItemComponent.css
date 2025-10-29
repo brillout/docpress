@@ -1,7 +1,9 @@
 .nav-item {
+  max-width: 300px !important;
   display: block;
   white-space: nowrap;
   overflow-x: hidden;
+  overflow: visible;
   --padding-left-global: 9px;
 }
 #menu-modal-wrapper .nav-item {
@@ -76,11 +78,12 @@
   letter-spacing: 0.15ch;
   color: var(--color-text);
   --padding: 5px;
+  --padding-extra: 6px;
 
   padding: var(--padding) 0;
   padding-left: calc(var(--padding-left-global) + 5px);
 }
-.nav-item-level-3 {
+.nav-item-level-3::before {
   --shadow-size: 9px;
   --shadow-color: rgba(0, 0, 0, 0.11);
   --shadow-size-minus: calc(-1 * var(--shadow-size));
@@ -90,15 +93,19 @@
   --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --box-shadow-top: 0 0;
   --box-shadow-bottom: 0 0;
-  box-shadow: var(--box-shadow-top), var(--box-shadow-bottom), var(--box-shadow-left), var(--box-shadow-right);
+  box-shadow: var(--box-shadow-top), var(--box-shadow-bottom);
 }
 .nav-item-level-3.nav-item-first-of-its-kind {
-  padding-top: 10px;
-  --box-shadow-top: var(--shadow-top);
+  padding-top: var(--padding-extra);
+  &::before {
+    --box-shadow-top: var(--shadow-top);
+  }
 }
 .nav-item-level-3.nav-item-last-of-its-kind {
-  padding-bottom: 10px;
-  --box-shadow-bottom: var(--shadow-bottom);
+  padding-bottom: var(--padding-extra);
+  &::before {
+    --box-shadow-bottom: var(--shadow-bottom);
+  }
 }
 .nav-item-level-2,
 .nav-item-level-3 {
@@ -110,9 +117,9 @@
   background-color: var(--active-color);
   position: absolute;
   height: 100%;
-  width: 100%;
+  width: 100cqw;
+  right: 0;
   top: 0;
-  left: 0;
   z-index: 1;
   content: '';
 }

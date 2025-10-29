@@ -141,7 +141,8 @@ function PageContent({ children }: { children: React.ReactNode }) {
     <div
       className="page-wrapper low-prio-grow"
       style={{
-        // Avoid overflow, see https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
+        // We must set min-width to avoid layout overflow on mobile/desktop view.
+        // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
         ...ifDocPage({
           backgroundColor: 'var(--bg-color)',
@@ -184,6 +185,9 @@ function NavLeft() {
           flexGrow: 1,
           borderRight: 'var(--block-margin) solid white',
           zIndex: 1,
+          // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
+          // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
+          minWidth: navLeftWidthMin,
         }}
       >
         <div
@@ -397,6 +401,9 @@ function getStyleNav() {
         flex-grow: 1;
       }
     }
+  }
+  .page-wrapper {
+    min-width: ${mainViewWidthMax}px !important;
   }
 }
 `

@@ -126,7 +126,7 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
-    title: 'Page 2',
+    title: 'Page 2 (with title that overflows the left navigation)',
     url: '/page-2',
   },
   {

@@ -47,7 +47,7 @@ const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
 // TODO
-const bodyMaxWidth = 1280
+const bodyMaxWidth = 1300
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -114,14 +114,22 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
         <PageContent>{children}</PageContent>
       </div>
       <Style>{css`
+@container container-viewport (max-width: ${viewDesktopLarge - 1}px) {
+  #nav-left {
+    flex-grow: 1;
+    min-width: ${navLeftWidthMin + blockMargin}px;
+  }
+}
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
   #nav-left {
-    min-width: ${navLeftWidthMax + blockMargin}px !important;
+    min-width: ${navLeftWidthMax + blockMargin}px;
   }
-}`}</Style>
+}
+
+`}</Style>
     </>
   )
 }
@@ -187,12 +195,16 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
+          /* TODO
           flexGrow: 1,
+          */
           borderRight: 'var(--block-margin) solid var(--background-color)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-          minWidth: navLeftWidthMin + blockMargin,
+          // TODO: remove
+          // minWidth: navLeftWidthMin + blockMargin,
+          // maxWidth: navLeftWidthMax,
         }}
       >
         <div
@@ -220,7 +232,6 @@ function NavLeft() {
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
-                // maxWidth: navLeftWidthMax,
                 width: '100%',
               }}
             >
@@ -324,8 +335,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
-          minWidth: isNavLeft && navLeftWidthMin,
           // TODO
+          // minWidth: isNavLeft && navLeftWidthMin,
           // maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
@@ -357,6 +368,12 @@ function getStyleNav() {
 
   // Mobile
   style += css`
+/* TODO: move */
+.nav-item {
+  box-sizing: content-box;
+  max-width: ${navLeftWidthMax}px;
+}
+
 @media(max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-menu-toggle {

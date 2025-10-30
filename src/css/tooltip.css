@@ -41,6 +41,7 @@
   [aria-label][data-label-position='top-left']::before {
     bottom: 100%;
     margin-bottom: 7px;
-    transform: translate(calc(-100% + 25px), 0);
+    margin-left: 100%;
+    transform: translate(-100%, 0);
   }
 }

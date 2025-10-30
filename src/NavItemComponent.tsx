@@ -106,7 +106,7 @@ function NavItemComponent({
     className: [
       'nav-item',
       'nav-item-level-' + navItem.level,
-      navItem.url && navItem.isActive && ' is-active',
+      ((navItem.url && navItem.isActive) || navItem.level === 3) && ' is-active',
       navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
       navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
     ]

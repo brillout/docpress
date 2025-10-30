@@ -7,9 +7,14 @@
   .colorize-on-hover:hover [class*=' decolorize-'] {
     filter: grayscale(0) opacity(1) !important;
   }
-  .link-hover-animation a:hover {
-    color: black !important;
+  .is-active {
     background-color: var(--active-color);
+  }
+  .link-hover-animation a:hover {
+    background-color: var(--active-color);
+    &.is-active {
+      background-color: var(--double-active-color);
+    }
   }
 }
 
@@ -46,5 +51,7 @@
 }
 
 body {
-  --active-color: rgba(0, 0, 0, 0.03);
+  --active-color-value: 0.03;
+  --active-color: rgba(0, 0, 0, var(--active-color-value));
+  --double-active-color: rgba(0, 0, 0, calc(2 * var(--active-color-value)));
 }

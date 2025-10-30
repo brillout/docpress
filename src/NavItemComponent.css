@@ -107,11 +107,12 @@
   position: relative;
 }
 
-.nav-item-level-1 {
-  margin-left: 23px !important;
-}
-
-.nav-item-level-2,
-.nav-item-level-3 {
-  padding-left: 25px !important;
+#nav-left {
+  .nav-item-level-1 {
+    margin-left: 23px !important;
+  }
+  .nav-item-level-2,
+  .nav-item-level-3 {
+    padding-left: 25px !important;
+  }
 }

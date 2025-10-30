@@ -348,11 +348,11 @@ function getStyleNav() {
   style += css`
 /* TODO move */
 body {
-  background: #fdfdfd;
-  background: #fefefe;
-  background: #fcfcfc;
   background: #fbfbfb;
+  background: #fcfcfc;
   background: white;
+  background: #fefefe;
+  background: #fdfdfd;
 }
 @media(max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {

@@ -38,10 +38,14 @@
     margin-top: 5px;
   }
   /* Show above-left */
+  /* Used by:
+   * - Copy-to-clipboard button
+   * - <UsedBy> component for Vike's landing page
+   */
   [aria-label][data-label-position='top-left']::before {
     bottom: 100%;
     margin-bottom: 7px;
-    margin-left: 100%;
+    margin-left: calc(50% + 13px);
     transform: translate(-100%, 0);
   }
 }

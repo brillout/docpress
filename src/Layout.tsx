@@ -319,7 +319,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           container: 'container-nav-head / inline-size',
           width: '100%',
           minWidth: isNavLeft && navLeftWidthMin,
-          maxWidth: isNavLeft && navLeftWidthMax,
+          // TODO
+          // maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
         <div
@@ -549,6 +550,7 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <a
+      className="nav-head-logo"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -560,8 +562,10 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
               paddingRight: 'var(--padding-side)',
             }
           : {
+              /* TODO
               paddingLeft: 15,
               marginLeft: -10,
+            */
             }),
       }}
       href="/"

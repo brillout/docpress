@@ -109,10 +109,13 @@
 
 #nav-left {
   .nav-item-level-1 {
-    margin-left: 23px !important;
+    margin-left: max(5px, 30 * (1vw - 12.7px) - 5px);
+  }
+  .nav-head-logo {
+    padding-left: max(5px, 30 * (1vw - 12.7px) - 5px);
   }
   .nav-item-level-2,
   .nav-item-level-3 {
-    padding-left: 25px !important;
+    padding-left: max(10px, 30 * (1vw - 12.7px));
   }
 }

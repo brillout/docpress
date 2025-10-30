@@ -33,6 +33,7 @@ import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
 import { EditLink } from './EditLink'
+import './Layout.css'
 
 const blockMargin = 4
 const mainViewPadding = 20
@@ -346,14 +347,6 @@ function getStyleNav() {
 
   // Mobile
   style += css`
-/* TODO move */
-body {
-  background: #fbfbfb;
-  background: #fcfcfc;
-  background: white;
-  background: #fefefe;
-  background: #fdfdfd;
-}
 @media(max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-menu-toggle {

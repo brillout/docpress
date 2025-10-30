@@ -1,0 +1,8 @@
+body {
+  background: var(--background-color);
+  --background-color: #fbfbfb;
+  --background-color: #fcfcfc;
+  --background-color: white;
+  --background-color: #fefefe;
+  --background-color: #fdfdfd;
+}

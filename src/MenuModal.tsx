@@ -10,7 +10,7 @@ import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayo
 import { closeMenuModal, closeMenuModalOnMouseLeave, keepMenuModalOpenOnMouseOver } from './MenuModal/toggleMenuModal'
 import { EditLink } from './EditLink'
 
-function MenuModal({ isTopNav }: { isTopNav: boolean }) {
+function MenuModal({ isTopNav, isNavLeftHidden }: { isTopNav: boolean; isNavLeftHidden: boolean }) {
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -25,7 +25,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           background: '#ededef',
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
-          maxWidth: bodyMaxWidth,
+          maxWidth: isNavLeftHidden ? undefined : bodyMaxWidth,
           // Horizontal align
           // https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div/32694476#32694476
           left: '50%',
@@ -41,6 +41,7 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
             overflowY: 'scroll',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
+            maxWidth: bodyMaxWidth,
           }}
         >
           <Nav />

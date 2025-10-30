@@ -41,7 +41,6 @@ function MenuModal({ isTopNav, isNavLeftHidden }: { isTopNav: boolean; isNavLeft
             overflowY: 'scroll',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
-            maxWidth: bodyMaxWidth,
           }}
         >
           <Nav />

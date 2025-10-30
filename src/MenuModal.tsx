@@ -3,7 +3,7 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
-import { viewDesktop, viewTablet } from './Layout'
+import { bodyMaxWidth, viewDesktop, viewTablet } from './Layout'
 import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
@@ -21,11 +21,15 @@ function MenuModal({ isTopNav }: { isTopNav: boolean }) {
           position: isTopNav ? 'absolute' : 'fixed',
           width: '100%',
           top: 'var(--nav-head-height)',
-          left: 0,
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: '#ededef',
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
+          maxWidth: bodyMaxWidth,
+          // Horizontal align
+          // https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div/32694476#32694476
+          left: '50%',
+          transform: 'translateX(-50%)',
         }}
         onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModalOnMouseLeave}

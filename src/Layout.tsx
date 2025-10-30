@@ -4,6 +4,7 @@ export { viewDesktop }
 export { viewTablet }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
+export { bodyMaxWidth }
 export { unexpandNav }
 export { blockMargin }
 
@@ -45,6 +46,8 @@ const viewMobile = 450
 const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+// TODO
+const bodyMaxWidth = 1280
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -78,7 +81,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
         container: 'container-viewport / inline-size',
-        maxWidth: 1280,
+        maxWidth: bodyMaxWidth,
         margin: 'auto',
       }}
     >

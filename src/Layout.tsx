@@ -40,12 +40,12 @@ const blockMargin = 4
 const mainViewPadding = 20
 const mainViewWidthMaxInner = 800
 const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
-const navLeftWidthMin = 370
+const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
 // TODO
 const bodyMaxWidth = 1280
 
@@ -118,6 +118,9 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   .low-prio-grow {
     flex-grow: 1;
   }
+  #nav-left {
+    min-width: ${navLeftWidthMax + blockMargin}px !important;
+  }
 }`}</Style>
     </>
   )
@@ -189,7 +192,7 @@ function NavLeft() {
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-          minWidth: navLeftWidthMin,
+          minWidth: navLeftWidthMin + blockMargin,
         }}
       >
         <div
@@ -202,8 +205,10 @@ function NavLeft() {
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
+              /* TODO: remove?
               display: 'flex',
               justifyContent: 'flex-end',
+              */
             }}
           >
             <div
@@ -305,8 +310,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     <div
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
-        display: 'flex',
-        justifyContent: isNavLeft ? 'flex-end' : 'center',
+        // TODO: remove?
+        // display: 'flex',
+        // justifyContent: isNavLeft ? 'flex-end' : 'center',
         backgroundColor: 'var(--bg-color)',
         borderBottom: 'var(--block-margin) solid var(--background-color)',
         position: 'relative',

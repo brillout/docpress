@@ -107,15 +107,28 @@
   position: relative;
 }
 
+/* TODO: remove
+.nav-head-content {
+  border-left: 1px solid red;
+}
+.nav-item-level-1 {
+  border-left: 1px solid red;
+}
+.nav-item-level-3 {
+  border-left: 1px solid red;
+}
+*/
+
 #nav-left {
   .nav-item-level-1 {
-    margin-left: max(5px, 30 * (1vw - 12.7px) - 5px);
+    margin-left: max(3px, 30 * (1vw - 12.7px) - 5px);
   }
   .nav-head-logo {
-    padding-left: max(5px, 30 * (1vw - 12.7px) - 5px);
+    padding-left: max(3px, 30 * (1vw - 12.7px) - 5px);
   }
   .nav-item-level-2,
-  .nav-item-level-3 {
-    padding-left: max(10px, 30 * (1vw - 12.7px));
+  .nav-item-level-3,
+  .nav-item-level-4 {
+    padding-left: max(6px, 30 * (1vw - 12.7px));
   }
 }

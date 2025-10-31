@@ -22,7 +22,7 @@ function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; is
           width: '100%',
           top: 'var(--nav-head-height)',
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
-          background: '#ededef',
+          background: 'var(--color-bg-gray)',
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
           maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,

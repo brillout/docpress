@@ -684,7 +684,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     height: 100%;
     width: 100%;
     top: var(--nav-head-height);
-    background-color: var(--active-color);
+    background-color: var(--color-active);
     transition-property: top !important;
     transition: top 0.4s ease !important;
     z-index: -1;

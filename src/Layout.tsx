@@ -128,7 +128,14 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     min-width: ${navLeftWidthMax + blockMargin}px;
   }
 }
-
+.page-content {
+  --hash-offset: 24px;
+}
+@container container-viewport (max-width: ${viewDesktopLarge - 1}px) and (min-width: ${viewDesktop}px) {
+  .page-content {
+    --hash-offset: 27px;
+  }
+}
 `}</Style>
     </>
   )

@@ -511,7 +511,7 @@
 
 ### Bug Fixes
 
-* improve --bg-color ([b18c6d5](https://github.com/brillout/docpress/commit/b18c6d5a057725bae305114637d6702728494f60))
+* improve --color-bg-gray ([b18c6d5](https://github.com/brillout/docpress/commit/b18c6d5a057725bae305114637d6702728494f60))
 
 
 ### Features

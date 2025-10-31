@@ -70,7 +70,7 @@ function BorderBottom() {
     <div
       id="border-bottom"
       style={{
-        background: 'var(--background-color)',
+        background: 'var(--color-bg-white)',
         height: 'var(--block-margin)',
         width: '100%',
       }}

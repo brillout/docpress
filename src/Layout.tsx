@@ -73,7 +73,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        ['--bg-color']: '#f5f5f5',
+        ['--color-bg-gray']: '#f5f5f5',
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
@@ -107,7 +107,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
             <div
               id="nav-left-margin"
               className="low-prio-grow"
-              style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }}
+              style={{ width: 0, maxWidth: 50, background: 'var(--color-bg-gray)' }}
             />
           </>
         )}
@@ -165,7 +165,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
         ...ifDocPage({
-          backgroundColor: 'var(--bg-color)',
+          backgroundColor: 'var(--color-bg-gray)',
           paddingBottom: 50,
         }),
       }}
@@ -202,7 +202,7 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
-          borderRight: 'var(--block-margin) solid var(--background-color)',
+          borderRight: 'var(--block-margin) solid var(--color-bg-white)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
@@ -217,7 +217,7 @@ function NavLeft() {
           <NavHead isNavLeft={true} />
           <div
             style={{
-              backgroundColor: 'var(--bg-color)',
+              backgroundColor: 'var(--color-bg-gray)',
             }}
           >
             <div
@@ -327,8 +327,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     <div
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
-        backgroundColor: 'var(--bg-color)',
-        borderBottom: 'var(--block-margin) solid var(--background-color)',
+        backgroundColor: 'var(--color-bg-gray)',
+        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         position: 'relative',
       }}
     >
@@ -511,12 +511,12 @@ function NavHeadLeftFullWidthBackground() {
         style={{
           height: '100%',
           zIndex: -1,
-          background: 'var(--bg-color)',
+          background: 'var(--color-bg-gray)',
           position: 'absolute',
           left: 0,
           top: 0,
           boxSizing: 'content-box',
-          borderBottom: 'var(--block-margin) solid var(--background-color)',
+          borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         }}
       />
       <Style>{
@@ -684,7 +684,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     height: 100%;
     width: 100%;
     top: var(--nav-head-height);
-    background-color: var(--active-color);
+    background-color: var(--color-active);
     transition-property: top !important;
     transition: top 0.4s ease !important;
     z-index: -1;

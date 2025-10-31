@@ -1,4 +1,4 @@
 body {
-  background: var(--background-color);
-  --background-color: #fdfdfd;
+  background: var(--color-bg-white);
+  --color-bg-white: #fdfdfd;
 }

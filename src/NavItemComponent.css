@@ -36,11 +36,11 @@
     padding-left: 9px;
     padding-top: 6px;
     padding-bottom: 6px;
-    border-left: 3px solid var(--category-color);
+    border-left: 3px solid var(--color-category);
     .collapsible-expanded &,
     .collapsible-collapsed & {
       text-decoration: underline;
-      text-decoration-color: var(--category-color);
+      text-decoration-color: var(--color-category);
       text-decoration-thickness: 3px;
       text-underline-offset: .3em;
       border: 0;
@@ -53,7 +53,7 @@
     }
   }
   #nav-left & {
-    border-bottom: 3px solid var(--category-color);
+    border-bottom: 3px solid var(--color-category);
     padding-bottom: 2px;
     margin-top: 3px;
     margin-bottom: 10px;

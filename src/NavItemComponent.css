@@ -86,12 +86,13 @@
   --shadow-size-minus: calc(-1 * var(--shadow-size));
   --shadow-top: inset 0px var(--shadow-size) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --shadow-bottom: inset 0px var(--shadow-size-minus) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --box-shadow-left: inset var(--shadow-size-minus) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --box-shadow-top: 0 0;
   --box-shadow-bottom: 0 0;
+  /*
+  --box-shadow-left: inset var(--shadow-size-minus) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
+  --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   box-shadow: var(--box-shadow-top), var(--box-shadow-bottom), var(--box-shadow-left), var(--box-shadow-right);
-  box-shadow: var(--box-shadow-top), var(--box-shadow-right);
+  */
   box-shadow: var(--box-shadow-top), var(--box-shadow-bottom);
 }
 .nav-item-level-3.nav-item-first-of-its-kind {

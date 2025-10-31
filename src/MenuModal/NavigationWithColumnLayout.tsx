@@ -183,7 +183,6 @@ function ColumnsWrapper({ children, style }: { children: React.ReactNode; style:
       style={{
         paddingLeft: 3,
         margin: 'auto',
-        background: '#ededef',
         ...style,
       }}
     >

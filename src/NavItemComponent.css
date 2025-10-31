@@ -107,18 +107,6 @@
   position: relative;
 }
 
-/* TODO: remove
-.nav-head-content {
-  border-left: 1px solid red;
-}
-.nav-item-level-1 {
-  border-left: 1px solid red;
-}
-.nav-item-level-3 {
-  border-left: 1px solid red;
-}
-*/
-
 #nav-left {
   .nav-item-level-1 {
     margin-left: min(25px, max(3px, 30 * (1vw - 12.7px) - 5px));

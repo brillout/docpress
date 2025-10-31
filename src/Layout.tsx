@@ -46,7 +46,6 @@ const viewMobile = 450
 const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
-// TODO
 const bodyMaxWidth = 1300
 
 // Avoid whitespace at the bottom of pages with almost no content
@@ -93,7 +92,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
-      <Style>{getStyleNav()}</Style>
+      <Style>{getStyleLayout()}</Style>
     </div>
   )
 }
@@ -196,16 +195,10 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
-          /* TODO
-          flexGrow: 1,
-          */
           borderRight: 'var(--block-margin) solid var(--background-color)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-          // TODO: remove
-          // minWidth: navLeftWidthMin + blockMargin,
-          // maxWidth: navLeftWidthMax,
         }}
       >
         <div
@@ -218,10 +211,6 @@ function NavLeft() {
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
-              /* TODO: remove?
-              display: 'flex',
-              justifyContent: 'flex-end',
-              */
             }}
           >
             <div
@@ -247,9 +236,18 @@ function NavLeft() {
       </div>
       {/* Early scrolling, to avoid flashing */}
       <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
+      <Style>{getStyleNavLeft()}</Style>
     </>
   )
 }
+function getStyleNavLeft() {
+  return css`
+.nav-item {
+  box-sizing: content-box;
+  max-width: ${navLeftWidthMax}px;
+}`
+}
+
 function NavigationContent(props: {
   navItems: NavItem[]
   showOnlyRelevant?: true
@@ -322,9 +320,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     <div
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
-        // TODO: remove?
-        // display: 'flex',
-        // justifyContent: isNavLeft ? 'flex-end' : 'center',
         backgroundColor: 'var(--bg-color)',
         borderBottom: 'var(--block-margin) solid var(--background-color)',
         position: 'relative',
@@ -336,9 +331,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
-          // TODO
-          // minWidth: isNavLeft && navLeftWidthMin,
-          // maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
         <div
@@ -364,17 +356,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     </div>
   )
 }
-function getStyleNav() {
+function getStyleLayout() {
   let style = ''
 
   // Mobile
   style += css`
-/* TODO: move */
-.nav-item {
-  box-sizing: content-box;
-  max-width: ${navLeftWidthMax}px;
-}
-
 @media(max-width: ${viewMobile}px) {
   .nav-head:not(.is-nav-left) {
     .nav-head-menu-toggle {
@@ -585,12 +571,7 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
               paddingLeft: 'var(--main-view-padding)',
               paddingRight: 'var(--padding-side)',
             }
-          : {
-              /* TODO
-              paddingLeft: 15,
-              marginLeft: -10,
-            */
-            }),
+          : {}),
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

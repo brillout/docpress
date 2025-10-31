@@ -13,7 +13,7 @@
   .link-hover-animation a:hover {
     background-color: var(--color-active);
     &.is-active {
-      background-color: var(--double-active-color);
+      background-color: var(--color-active-double);
     }
   }
 }
@@ -53,5 +53,5 @@
 body {
   --color-active-value: 0.03;
   --color-active: rgba(0, 0, 0, var(--color-active-value));
-  --double-active-color: rgba(0, 0, 0, calc(2 * var(--color-active-value)));
+  --color-active-double: rgba(0, 0, 0, calc(2 * var(--color-active-value)));
 }

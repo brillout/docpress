@@ -1,3 +1,42 @@
+# [0.16.0](https://github.com/brillout/docpress/compare/v0.15.13...v0.16.0) (2025-10-31)
+
+
+### Bug Fixes
+
+* adjust icon alignment ([87e489d](https://github.com/brillout/docpress/commit/87e489d4c9f70cf488628dc87443560aac924b4e))
+* adust nav head left logo padding ([d686994](https://github.com/brillout/docpress/commit/d686994e2842e3d0d42c90e79ad3ae115a269afc))
+* avoid copy button label to overflow ([a35cb87](https://github.com/brillout/docpress/commit/a35cb8763f9789a2c891fdf8a24d05848be14789))
+* disable menu expand on hover for mobile view ([0d514c7](https://github.com/brillout/docpress/commit/0d514c7ae96033bf0693f5df72df03511b2afeca))
+* fix +docpress.hideMenuLeft ([9b3f898](https://github.com/brillout/docpress/commit/9b3f898252d731715b610c920eceab58c9ee7213))
+* fix <NavHead> padding ([f8fc961](https://github.com/brillout/docpress/commit/f8fc9615d9c600fdcd4af859c1c51864e354d11a))
+* fix column layout algorithm ([#70](https://github.com/brillout/docpress/issues/70)) ([dbc8fcc](https://github.com/brillout/docpress/commit/dbc8fcc5622f8c365a9cefffacd480a9130083ac))
+* fix desktop-grow ([3c8412e](https://github.com/brillout/docpress/commit/3c8412eaed46353d0db279877c737e95dd092f88))
+* fix layout overflow ([2b0e889](https://github.com/brillout/docpress/commit/2b0e889eb54ca091833780c5f428d66f979354e8))
+* fix menu toggle on hover ([39924f0](https://github.com/brillout/docpress/commit/39924f02256146005219a8bcffe4442faa7a583f))
+* improve coin icon ([5a7b7ef](https://github.com/brillout/docpress/commit/5a7b7ef92b9933b09259a2345780e5481d7a7982))
+* improve Edit link style ([5e3f8e9](https://github.com/brillout/docpress/commit/5e3f8e9883896fe9cbd507b6f97a40f6fbeb7396))
+* improve hash positioning ([eace4d9](https://github.com/brillout/docpress/commit/eace4d9196007d447a15ea5da913a858b804e79b))
+* improve nav-left and overall layout ([#74](https://github.com/brillout/docpress/issues/74)) ([c1fbbb6](https://github.com/brillout/docpress/commit/c1fbbb66ea4395d2d6f58c63531c055d549943a0))
+* improve single-column menu layout ([03246ec](https://github.com/brillout/docpress/commit/03246ec907110e8d84e2bbca8b62c53ccb13034b))
+* more responsive top nav ([#66](https://github.com/brillout/docpress/issues/66)) ([ba4995c](https://github.com/brillout/docpress/commit/ba4995cab7bf39bc06f495f297b444c6df3eea1a))
+* polish Edit button ([6651c78](https://github.com/brillout/docpress/commit/6651c789537f41733d47029a3c5904fcdf7109e2))
+* use [@media](https://github.com/media) instead of [@container](https://github.com/container) ([bd8f6e6](https://github.com/brillout/docpress/commit/bd8f6e6c44a2b497e45356759d160316e03060f2))
+
+
+### Features
+
+* iconCoin ([8bcc52e](https://github.com/brillout/docpress/commit/8bcc52ee249043d8a798f036a8f39fc8bb1461a9))
+* louspeaker emoji ([3c88932](https://github.com/brillout/docpress/commit/3c88932f48edc1d90e0db4da9f97b2aa7dbf1d68))
+* support multiple full-width menus ([44d37db](https://github.com/brillout/docpress/commit/44d37db2cefe7a2e88035dabcc946e0f886ea71d))
+* support single-column menus ([#71](https://github.com/brillout/docpress/issues/71)) ([ffe283f](https://github.com/brillout/docpress/commit/ffe283f7a20e1415265981ed076f568def6fa01e))
+
+
+### BREAKING CHANGES
+
+* update <TopNavigation>
+
+
+
 ## [0.15.13](https://github.com/brillout/docpress/compare/v0.15.12...v0.15.13) (2025-10-21)
 
 

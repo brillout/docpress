@@ -69,7 +69,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     content = <LayoutDocsPage>{children}</LayoutDocsPage>
   }
 
-  const isNavLeftHidden = isNavLeftAlwaysHidden()
+  const isNavLeftAlwaysHidden_ = isNavLeftAlwaysHidden()
   return (
     <div
       style={{
@@ -81,11 +81,11 @@ function Layout({ children }: { children: React.ReactNode }) {
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
         container: 'container-viewport / inline-size',
-        maxWidth: isNavLeftHidden ? undefined : bodyMaxWidth,
+        maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
         margin: 'auto',
       }}
     >
-      <MenuModal isTopNav={isLandingPage} isNavLeftHidden={isNavLeftHidden} />
+      <MenuModal isTopNav={isLandingPage} isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
       <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
         <NavHead />
         {content}

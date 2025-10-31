@@ -10,7 +10,7 @@ import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayo
 import { closeMenuModal, closeMenuModalOnMouseLeave, keepMenuModalOpenOnMouseOver } from './MenuModal/toggleMenuModal'
 import { EditLink } from './EditLink'
 
-function MenuModal({ isTopNav, isNavLeftHidden }: { isTopNav: boolean; isNavLeftHidden: boolean }) {
+function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; isNavLeftAlwaysHidden_: boolean }) {
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -25,7 +25,7 @@ function MenuModal({ isTopNav, isNavLeftHidden }: { isTopNav: boolean; isNavLeft
           background: '#ededef',
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
-          maxWidth: isNavLeftHidden ? undefined : bodyMaxWidth,
+          maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
           // Horizontal align
           // https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div/32694476#32694476
           left: '50%',

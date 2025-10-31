@@ -68,7 +68,7 @@ function NavItemComponent({
   const icon = navItem.titleIcon && (
     <img
       src={navItem.titleIcon}
-      style={{ height: iconSize, width: iconSize, marginRight: 8, marginLeft: 4, ...navItem.titleIconStyle }}
+      style={{ height: iconSize, width: iconSize, marginRight: 8, marginLeft: 2, ...navItem.titleIconStyle }}
     />
   )
 
@@ -106,7 +106,7 @@ function NavItemComponent({
     className: [
       'nav-item',
       'nav-item-level-' + navItem.level,
-      navItem.url && navItem.isActive && ' is-active',
+      ((navItem.url && navItem.isActive) || navItem.level === 3) && ' is-active',
       navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
       navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
     ]

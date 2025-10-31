@@ -135,7 +135,8 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
-    title: 'Page 3',
+    title: '`.server.js` / `.client.js` / `.shared.js`',
+    titleInNav: '`.server.js`/`.client.js`/`.shared.js`',
     url: '/page-3',
   },
   {

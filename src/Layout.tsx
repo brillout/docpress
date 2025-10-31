@@ -4,6 +4,7 @@ export { viewDesktop }
 export { viewTablet }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
+export { bodyMaxWidth }
 export { unexpandNav }
 export { blockMargin }
 
@@ -33,8 +34,9 @@ import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
 import { EditLink } from './EditLink'
+import './Layout.css'
 
-const blockMargin = 3
+const blockMargin = 4
 const mainViewPadding = 20
 const mainViewWidthMaxInner = 800
 const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
@@ -42,8 +44,9 @@ const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
+const bodyMaxWidth = 1300
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -66,6 +69,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     content = <LayoutDocsPage>{children}</LayoutDocsPage>
   }
 
+  const isNavLeftAlwaysHidden_ = isNavLeftAlwaysHidden()
   return (
     <div
       style={{
@@ -77,16 +81,18 @@ function Layout({ children }: { children: React.ReactNode }) {
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
         container: 'container-viewport / inline-size',
+        maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
+        margin: 'auto',
       }}
     >
-      <MenuModal isTopNav={isLandingPage} />
+      <MenuModal isTopNav={isLandingPage} isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
       <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
         <NavHead />
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: initializeJsToggle_SSR }}></script>
-      <Style>{getStyleNav()}</Style>
+      <Style>{getStyleLayout()}</Style>
     </div>
   )
 }
@@ -108,14 +114,22 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
         <PageContent>{children}</PageContent>
       </div>
       <Style>{css`
+@container container-viewport (max-width: ${viewDesktopLarge - 1}px) {
+  #nav-left {
+    flex-grow: 1;
+    min-width: ${navLeftWidthMin + blockMargin}px;
+  }
+}
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
-  #navigation-container {
-    width: ${navLeftWidthMax}px !important;
+  #nav-left {
+    min-width: ${navLeftWidthMax + blockMargin}px;
   }
-}`}</Style>
+}
+
+`}</Style>
     </>
   )
 }
@@ -181,12 +195,10 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
-          flexGrow: 1,
-          borderRight: 'var(--block-margin) solid white',
+          borderRight: 'var(--block-margin) solid var(--background-color)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-          minWidth: navLeftWidthMin,
         }}
       >
         <div
@@ -199,8 +211,6 @@ function NavLeft() {
           <div
             style={{
               backgroundColor: 'var(--bg-color)',
-              display: 'flex',
-              justifyContent: 'flex-end',
             }}
           >
             <div
@@ -212,7 +222,6 @@ function NavLeft() {
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
-                maxWidth: navLeftWidthMax,
                 width: '100%',
               }}
             >
@@ -227,9 +236,18 @@ function NavLeft() {
       </div>
       {/* Early scrolling, to avoid flashing */}
       <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
+      <Style>{getStyleNavLeft()}</Style>
     </>
   )
 }
+function getStyleNavLeft() {
+  return css`
+.nav-item {
+  box-sizing: content-box;
+  max-width: ${navLeftWidthMax}px;
+}`
+}
+
 function NavigationContent(props: {
   navItems: NavItem[]
   showOnlyRelevant?: true
@@ -251,7 +269,7 @@ function NavigationContent(props: {
 function isNavLeftAlwaysHidden() {
   const pageContext = usePageContext()
   const { isLandingPage, navItemsDetached, pageDesign } = pageContext.resolved
-  return isLandingPage || pageDesign?.hideMenuLeft || (navItemsDetached && navItemsDetached.length <= 1)
+  return isLandingPage || !!pageDesign?.hideMenuLeft || !!(navItemsDetached && navItemsDetached.length <= 1)
 }
 
 const menuLinkStyle: React.CSSProperties = {
@@ -302,10 +320,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     <div
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
-        display: 'flex',
-        justifyContent: isNavLeft ? 'flex-end' : 'center',
         backgroundColor: 'var(--bg-color)',
-        borderBottom: 'var(--block-margin) solid white',
+        borderBottom: 'var(--block-margin) solid var(--background-color)',
         position: 'relative',
       }}
     >
@@ -315,8 +331,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
-          minWidth: isNavLeft && navLeftWidthMin,
-          maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
         <div
@@ -342,7 +356,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     </div>
   )
 }
-function getStyleNav() {
+function getStyleLayout() {
   let style = ''
 
   // Mobile
@@ -495,7 +509,7 @@ function NavHeadLeftFullWidthBackground() {
           left: 0,
           top: 0,
           boxSizing: 'content-box',
-          borderBottom: 'var(--block-margin) solid white',
+          borderBottom: 'var(--block-margin) solid var(--background-color)',
         }}
       />
       <Style>{
@@ -546,6 +560,7 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <a
+      className="nav-head-logo"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -556,10 +571,7 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
               paddingLeft: 'var(--main-view-padding)',
               paddingRight: 'var(--padding-side)',
             }
-          : {
-              paddingLeft: 15,
-              marginLeft: -10,
-            }),
+          : {}),
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

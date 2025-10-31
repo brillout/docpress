@@ -86,11 +86,14 @@
   --shadow-size-minus: calc(-1 * var(--shadow-size));
   --shadow-top: inset 0px var(--shadow-size) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --shadow-bottom: inset 0px var(--shadow-size-minus) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --box-shadow-left: inset var(--shadow-size-minus) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --box-shadow-top: 0 0;
   --box-shadow-bottom: 0 0;
+  /*
+  --box-shadow-left: inset var(--shadow-size-minus) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
+  --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   box-shadow: var(--box-shadow-top), var(--box-shadow-bottom), var(--box-shadow-left), var(--box-shadow-right);
+  */
+  box-shadow: var(--box-shadow-top), var(--box-shadow-bottom);
 }
 .nav-item-level-3.nav-item-first-of-its-kind {
   padding-top: 10px;
@@ -105,14 +108,16 @@
   position: relative;
 }
 
-.nav-item-level-3::before,
-.nav-item-level-2.is-active::before {
-  background-color: var(--active-color);
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  content: '';
+#nav-left {
+  .nav-item-level-1 {
+    margin-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
+  }
+  .nav-head-logo {
+    padding-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
+  }
+  .nav-item-level-2,
+  .nav-item-level-3,
+  .nav-item-level-4 {
+    padding-left: min(30px, max(8px, 30 * (1vw - 12.7px)));
+  }
 }

@@ -202,7 +202,7 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
-          borderRight: 'var(--block-margin) solid var(--background-color)',
+          borderRight: 'var(--block-margin) solid var(--color-bg-white)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
@@ -328,7 +328,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
         backgroundColor: 'var(--bg-color)',
-        borderBottom: 'var(--block-margin) solid var(--background-color)',
+        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         position: 'relative',
       }}
     >
@@ -516,7 +516,7 @@ function NavHeadLeftFullWidthBackground() {
           left: 0,
           top: 0,
           boxSizing: 'content-box',
-          borderBottom: 'var(--block-margin) solid var(--background-color)',
+          borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         }}
       />
       <Style>{

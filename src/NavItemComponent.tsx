@@ -115,7 +115,7 @@ function NavItemComponent({
   }
   if (navItem.level === 1) {
     props.style = {
-      ['--category-color']: navItem.color!,
+      ['--color-category']: navItem.color!,
     }
   }
 

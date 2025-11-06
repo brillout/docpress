@@ -1,11 +1,11 @@
 export { generateCodeTabs }
 
-import type { Code } from 'mdast'
+import type { BlockContent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 
 type CodeTab = {
   value: string
-  code: Code
+  children: BlockContent[]
 }
 
 /**
@@ -70,7 +70,7 @@ function generateCodeTabs(tabs: CodeTab[], defaultValue?: string, persistId?: st
       type: 'mdxJsxFlowElement',
       name: 'CodeTabPanel',
       attributes: [{ type: 'mdxJsxAttribute', name: 'value', value: tab.value }],
-      children: [tab.code],
+      children: tab.children,
     })
   }
 

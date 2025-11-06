@@ -33,10 +33,6 @@
     font-weight: bold;
   }
 
-  [role='tabpanel'] pre {
-    margin: 0;
-  }
-
   [role='tabpanel'] code {
     border-top-left-radius: 0 !important;
   }

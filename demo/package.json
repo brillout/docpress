@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "vike dev",
     "build": "vike build",
-    "preview": "vike build && vike preview"
+    "preview": "vike build && vike preview",
+    "generate:llms-full": "node generate-llms-full.ts"
   },
   "dependencies": {
     "@types/node": "^22.5.5",

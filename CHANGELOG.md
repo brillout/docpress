@@ -1,3 +1,12 @@
+## [0.16.1](https://github.com/brillout/docpress/compare/v0.16.0...v0.16.1) (2025-11-09)
+
+
+### Features
+
+* new icon megaphone ([35cd9e5](https://github.com/brillout/docpress/commit/35cd9e5502fe5e86064c6fb5816da6117993768b))
+
+
+
 # [0.16.0](https://github.com/brillout/docpress/compare/v0.15.13...v0.16.0) (2025-10-31)
 
 

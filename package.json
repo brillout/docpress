@@ -28,13 +28,5 @@
     "playwright": "^1.55.0",
     "prettier": "^2.8.7",
     "vitest": "^4.0.4"
-  },
-  "// pnpm.overrides.{vike,vite} to dedupe node_modules/vike — see https://github.com/brillout/docpress/pull/26": "",
-  "pnpm": {
-    "overrides": {
-      "@brillout/docpress": "link:./src/",
-      "vike": "0.4.234",
-      "vite": "^6.3.5"
-    }
   }
 }

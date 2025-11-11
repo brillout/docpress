@@ -1,6 +1,5 @@
 export { config as viteConfig }
 
-import vike from 'vike/plugin'
 import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react-swc'
 import type { PluginOption, UserConfig } from 'vite'
@@ -27,7 +26,6 @@ const remarkPlugins = [remarkGfm, remarkDetype]
 const config: UserConfig = {
   root,
   plugins: [
-    vike(),
     parsePageSections(),
     mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins

@@ -1,3 +1,12 @@
+## [0.16.2](https://github.com/brillout/docpress/compare/v0.16.1...v0.16.2) (2025-11-12)
+
+
+### Bug Fixes
+
+* fix unexpected behavior of JS toggle and copy-to-clipboard button in non-Chrome browsers ([#78](https://github.com/brillout/docpress/issues/78)) ([67aff9a](https://github.com/brillout/docpress/commit/67aff9aa8f2feefe94cfcd65ad1bd31727d34fae))
+
+
+
 ## [0.16.1](https://github.com/brillout/docpress/compare/v0.16.0...v0.16.1) (2025-11-09)
 
 

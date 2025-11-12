@@ -36,6 +36,7 @@
     /* Toggle Labels */
     &::before,
     &::after {
+      font-family: 'Inter', sans-serif;
       width: 24px;
       display: flex;
       justify-content: center;

@@ -1,4 +1,5 @@
 export { generateCodeTabs }
+export type { CodeTab }
 
 import type { BlockContent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'

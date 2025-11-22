@@ -30,7 +30,7 @@ function initializeCodeTabs() {
     if (!selectedTab) return
     const inputs = tabsElement.querySelectorAll<HTMLInputElement>('input[type="radio"]')
     for (const input of inputs) {
-      input.checked = input.id.endsWith(selectedTab)
+      input.checked = input.id.endsWith(`-${selectedTab}`)
     }
   }
 }

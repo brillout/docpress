@@ -1,7 +1,7 @@
 // Based on code from: https://github.com/fuma-nama/fumadocs/blob/71b7e2079cdb5fb69009c6812d57355db98b927f/packages/core/src/mdx-plugins/remark-code-tab.ts
 export { remarkCodeTabs }
 
-import type { Root, Code } from 'mdast'
+import type { Root, BlockContent } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { CodeTab } from './utils/generateCodeTabs.js'
 import { visit } from 'unist-util-visit'
@@ -11,6 +11,20 @@ import { generateCodeTabs } from './utils/generateCodeTabs.js'
 // TODO: refactor to replace CodeTabs with a non-Tabs component
 function remarkCodeTabs() {
   return function (tree: Root) {
+    visit(tree, 'code', (node) => {
+      if (!node.meta) return
+      const meta = parseMetaString(node.meta)
+      if (!meta['choice']) return
+      node.lang = !node.lang ? 'sh' : node.lang.replace('shell', 'sh')
+      node.meta = node.meta.replace(/(choice|persist-id)=([^"'\s]+)/g, '').trim()
+
+      node.data ??= {
+        group: node.lang,
+        choice: meta['choice'],
+        persistId: meta['persist-id'],
+      }
+    })
+
     const replaced = new WeakSet()
     visit(tree, (node) => {
       if (!('children' in node) || replaced.has(node)) return 'skip'
@@ -24,15 +38,15 @@ function remarkCodeTabs() {
       const process = () => {
         if (start === -1 || start === end) return
 
-        const nodes = node.children.slice(start, end) as Code[]
+        const nodes = node.children.slice(start, end) as BlockContent[]
 
-        const code_lang = [...new Set(nodes.flat().map((n) => n.lang!))]
+        const groupFilters = [...new Set(nodes.flat().map((n) => n.data!.group))]
 
-        const groupedNode = getGroupedNode(code_lang, nodes)
+        const groupedNodes = getGroupedNodes(groupFilters, nodes)
 
         const replacements: MdxJsxFlowElement[] = []
 
-        groupedNode.map(([, tabs]) => {
+        groupedNodes.map(([, tabs]) => {
           const replacement = generateCodeTabs(tabs, tabs[0].value, persistId)
 
           replacements.push(replacement)
@@ -48,24 +62,18 @@ function remarkCodeTabs() {
 
       for (; end < node.children.length; end++) {
         const child = node.children[end]
-        if (child.type !== 'code' || !child.meta) {
+        if (!['containerDirective', 'code'].includes(child.type)) {
           process()
           continue
         }
 
-        const meta = parseMetaString(child.meta)
-        if (!meta['choice']) {
+        if (!child.data?.choice) {
           process()
           continue
         }
-        if (meta['persist-id']) {
-          persistId = meta['persist-id']
-        }
+
+        if (child.data?.persistId) persistId = child.data?.persistId
         if (start === -1) start = end
-        child.data ??= {}
-        child.data.choice = meta['choice']
-
-        child.lang = !child.lang ? 'sh' : child.lang.replace('shell', 'sh')
       }
 
       process()
@@ -73,15 +81,15 @@ function remarkCodeTabs() {
   }
 }
 
-function getGroupedNode(code_lang: string[], nodes: Code[]) {
-  const groupedNode = new Map<string, CodeTab[]>()
+function getGroupedNodes(groupFilters: string[], nodes: BlockContent[]) {
+  const groupedNodes = new Map<string, CodeTab[]>()
 
-  code_lang.map((lang) => {
-    const temp = new Map<string, Code[]>()
+  groupFilters.map((filter) => {
+    const temp = new Map<string, BlockContent[]>()
     nodes
-      .filter((node) => node.lang === lang)
+      .filter((node) => node.data!.group === filter)
       .map((node) => {
-        const choice = node.data!.choice!
+        const choice = node.data!.choice
         const codes = temp.get(choice) ?? []
         codes.push(node)
         temp.set(choice, codes)
@@ -89,14 +97,16 @@ function getGroupedNode(code_lang: string[], nodes: Code[]) {
 
     const groupedByChoice = [...temp].map(([name, codes]) => ({ value: name, children: codes }))
 
-    groupedNode.set(lang, groupedByChoice)
+    groupedNodes.set(filter, groupedByChoice)
   })
 
-  return [...groupedNode]
+  return [...groupedNodes]
 }
 
 declare module 'mdast' {
-  export interface CodeData {
-    choice?: string
+  export interface Data {
+    group: string
+    choice: string
+    persistId?: string
   }
 }

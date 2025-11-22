@@ -6,11 +6,13 @@ import type { PluginOption, UserConfig } from 'vite'
 import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
+import remarkDirective from 'remark-directive'
 import { transformerNotationDiff } from '@shikijs/transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
 import { remarkPkgManager } from './code-blocks/remarkPkgManager.js'
+import { remarkCodeTabs } from './code-blocks/remarkCodeTabs.js'
 
 const root = process.cwd()
 const prettyCode = [
@@ -22,7 +24,7 @@ const prettyCode = [
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
-const remarkPlugins = [remarkGfm, remarkPkgManager, remarkDetype]
+const remarkPlugins = [remarkGfm, remarkDirective, remarkPkgManager, remarkCodeTabs, remarkDetype]
 
 const config: UserConfig = {
   root,

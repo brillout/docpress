@@ -1,6 +1,7 @@
 export { remarkPkgManager }
 
 import type { Code, Root } from 'mdast'
+import type { ContainerDirective } from 'mdast-util-directive'
 import { visit } from 'unist-util-visit'
 import convert from 'npm-to-yarn'
 import { generateCodeTabs } from './utils/generateCodeTabs.js'
@@ -39,7 +40,17 @@ function remarkPkgManager() {
         const groupedNodes = [...nodes].map(([name, code]) => ({ value: name, children: [code] }))
 
         const replacement = generateCodeTabs(groupedNodes, 'npm', 'pkg-manager')
-        parent.children.splice(index, 1, replacement)
+        if (choice) {
+          const directive: ContainerDirective = {
+            type: 'containerDirective',
+            name: 'choice',
+            children: [replacement],
+            data: { group: 'containerDirective', choice, persistId },
+          }
+          parent.children.splice(index, 1, directive)
+        } else {
+          parent.children.splice(index, 1, replacement)
+        }
       }
     })
   }

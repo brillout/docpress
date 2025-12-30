@@ -774,6 +774,7 @@ function ScrollShadow() {
     .fill(0)
     .map((_, i) => (
       <div
+        key={i}
         style={{
           position: 'absolute',
           height: 15,

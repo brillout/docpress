@@ -3,7 +3,7 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext'
 import { css } from './utils/css'
-import { bodyMaxWidth, viewDesktop, viewTablet } from './Layout'
+import { bodyMaxWidth, viewDesktop, viewTablet, scrollFadeMask } from './Layout'
 import { ExternalLinks } from './ExternalLinks'
 import { Style } from './utils/Style'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
@@ -41,6 +41,7 @@ function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; is
             overflowY: 'scroll',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
+            ...scrollFadeMask,
           }}
         >
           <Nav />

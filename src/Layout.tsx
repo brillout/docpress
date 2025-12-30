@@ -743,15 +743,25 @@ function DocsIcon() {
 }
 function MenuIcon() {
   return (
-    <svg
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'top', width: '1.3em' }}
-      className="decolorize-6"
-      viewBox="0 0 448 512"
-    >
-      <path
-        fill="currentColor"
-        d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
-      ></path>
-    </svg>
+    <div style={{ display: 'inline-block', position: 'relative', top: 2, marginRight: 3, direction: 'rtl' }}>
+      {Array(3)
+        .fill(0)
+        .map((_, i) => (
+          <div
+            key={i}
+            style={{
+              background: 'currentColor',
+              width: (() => {
+                if (i === 0) return 18
+                if (i === 1) return 11
+                return 14
+              })(),
+              height: 2,
+              opacity: '0.8',
+              marginTop: i === 0 ? 0 : 4,
+            }}
+          />
+        ))}
+    </div>
   )
 }

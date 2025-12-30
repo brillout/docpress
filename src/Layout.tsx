@@ -779,11 +779,10 @@ function ScrollShadow() {
           bottom: 0,
           height: 30,
           width: '100%',
-          // TODO/ai use var(--color-bg-gray) instead of rgb(0,0,0)
           background:
             i === 0
-              ? 'linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0))'
-              : 'linear-gradient(to top, rgba(0,0,0,0.08), rgba(0,0,0,0))',
+              ? 'linear-gradient(to bottom, var(--color-bg-gray), transparent)'
+              : 'linear-gradient(to top, var(--color-bg-gray), transparent)',
           zIndex: 999,
           ...(i === 0 ? { top: 0 } : { bottom: 0 }),
         }}

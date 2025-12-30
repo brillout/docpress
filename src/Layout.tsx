@@ -774,7 +774,6 @@ function ScrollShadow() {
     .fill(0)
     .map((_, i) => (
       <div
-        key={i}
         style={{
           position: 'absolute',
           height: 15,
@@ -782,14 +781,8 @@ function ScrollShadow() {
           top: i === 0 ? 0 : undefined,
           bottom: i === 1 ? 0 : undefined,
           zIndex: 999,
-          // This creates a mask that fades out content
-          maskImage: i === 0
-            ? 'linear-gradient(to bottom, black, transparent)'
-            : 'linear-gradient(to top, black, transparent)',
-          WebkitMaskImage: i === 0
-            ? 'linear-gradient(to bottom, black, transparent)'
-            : 'linear-gradient(to top, black, transparent)',
-          background: 'black', // the mask color doesn’t matter
+          pointerEvents: 'none', // so it doesn’t block scroll
+          background: `linear-gradient(${i === 0 ? 'to bottom' : 'to top'}, var(--color-bg-gray), rgba(245,245,245,0))`,
         }}
       />
     ))

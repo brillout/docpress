@@ -7,6 +7,7 @@ export { navLeftWidthMax }
 export { bodyMaxWidth }
 export { unexpandNav }
 export { blockMargin }
+export { scrollFadeMask }
 
 // - @media VS @container
 //   - Using `@container container-viewport` instead of @media would be interesting because @media doesn't consider the scrollbar width.
@@ -47,6 +48,14 @@ const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
 const bodyMaxWidth = 1300
+
+// Scroll fade effect at top/bottom edges
+const scrollFadeMask: React.CSSProperties = {
+  maskImage:
+    'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
+  WebkitMaskImage:
+    'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
+}
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -230,9 +239,7 @@ function NavLeft() {
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
                 width: '100%',
-                // Fade content at top/bottom scroll edges to 30% opacity starting from 20px at the extremities
-                maskImage:
-                  'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
+                ...scrollFadeMask,
               }}
             >
               {navItemsDetached ? (

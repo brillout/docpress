@@ -282,6 +282,7 @@ function isNavLeftAlwaysHidden() {
 const menuLinkStyle: React.CSSProperties = {
   height: '100%',
   padding: '0 var(--padding-side)',
+  paddingTop: 2,
   justifyContent: 'center',
 }
 

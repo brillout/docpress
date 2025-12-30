@@ -35,8 +35,6 @@ function SearchIcon() {
       width={18}
       style={{
         marginRight: 'var(--icon-text-padding)',
-        position: 'relative',
-        top: 1,
       }}
       className="decolorize-7"
     />

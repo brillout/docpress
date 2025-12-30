@@ -218,8 +218,10 @@ function NavLeft() {
           <div
             style={{
               backgroundColor: 'var(--color-bg-gray)',
+              position: 'relative',
             }}
           >
+            <ScrollShadow />
             <div
               id="navigation-container"
               style={{
@@ -765,4 +767,22 @@ function MenuIcon() {
         ))}
     </div>
   )
+}
+
+function ScrollShadow() {
+  return Array(2)
+    .fill(0)
+    .map((_, i) => (
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          height: 30,
+          width: '100%',
+          background: 'rgba(0,0,0,0.1)',
+          zIndex: 999,
+          ...(i === 0 ? { top: 0 } : { bottom: 0 }),
+        }}
+      />
+    ))
 }

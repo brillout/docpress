@@ -231,8 +231,8 @@ function NavLeft() {
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
                 width: '100%',
-                maskImage: 'linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)',
+                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.5) 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.5) 100%)',
               }}
             >
               {navItemsDetached ? (

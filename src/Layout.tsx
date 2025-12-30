@@ -221,7 +221,6 @@ function NavLeft() {
               position: 'relative',
             }}
           >
-            <ScrollShadow />
             <div
               id="navigation-container"
               style={{
@@ -232,6 +231,8 @@ function NavLeft() {
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
                 width: '100%',
+                maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
               }}
             >
               {navItemsDetached ? (
@@ -767,23 +768,4 @@ function MenuIcon() {
         ))}
     </div>
   )
-}
-
-function ScrollShadow() {
-  return Array(2)
-    .fill(0)
-    .map((_, i) => (
-      <div
-        style={{
-          position: 'absolute',
-          height: 15,
-          width: '100%',
-          top: i === 0 ? 0 : undefined,
-          bottom: i === 1 ? 0 : undefined,
-          zIndex: 999,
-          pointerEvents: 'none', // so it doesn’t block scroll
-          background: `linear-gradient(${i === 0 ? 'to bottom' : 'to top'}, var(--color-bg-gray), rgba(245,245,245,0))`,
-        }}
-      />
-    ))
 }

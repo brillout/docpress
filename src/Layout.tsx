@@ -779,6 +779,7 @@ function ScrollShadow() {
           bottom: 0,
           height: 30,
           width: '100%',
+          // TODO/ai make it a nice looking gradient
           background: 'rgba(0,0,0,0.1)',
           zIndex: 999,
           ...(i === 0 ? { top: 0 } : { bottom: 0 }),

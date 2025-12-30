@@ -776,14 +776,12 @@ function ScrollShadow() {
       <div
         key={i}
         style={{
+          zIndex: 1,
           position: 'absolute',
           height: 15,
           width: '100%',
-          background:
-            i === 0
-              ? 'linear-gradient(to bottom, var(--color-bg-gray) -30%, transparent)'
-              : 'linear-gradient(to top, var(--color-bg-gray) -30%, transparent)',
-          zIndex: 999,
+          background: `linear-gradient(to ${i === 0 ? 'bottom' : 'top'}, var(--color-bg-gray), var(--color-bg-gray))`,
+          opacity: 0.5, // max 50% opacity
           ...(i === 0 ? { top: 0 } : { bottom: 0 }),
         }}
       />

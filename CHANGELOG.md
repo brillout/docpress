@@ -1,3 +1,12 @@
+## [0.16.4](https://github.com/brillout/docpress/compare/v0.16.3...v0.16.4) (2025-12-30)
+
+
+### Bug Fixes
+
+* fade content at top/bottom scroll edges ([#81](https://github.com/brillout/docpress/issues/81)) ([da05258](https://github.com/brillout/docpress/commit/da0525874dac3058a82b603e9a3b0008a9c040e9))
+
+
+
 ## [0.16.3](https://github.com/brillout/docpress/compare/v0.16.2...v0.16.3) (2025-12-30)
 
 

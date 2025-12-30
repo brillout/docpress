@@ -1,3 +1,14 @@
+## [0.16.3](https://github.com/brillout/docpress/compare/v0.16.2...v0.16.3) (2025-12-30)
+
+
+### Bug Fixes
+
+* improve menu icon ([1e1d2a3](https://github.com/brillout/docpress/commit/1e1d2a39fd836702a90d092e22f51700533d60e3))
+* improve mobile icon alignment ([627bf1f](https://github.com/brillout/docpress/commit/627bf1f5a3c16c98ad967bc95808d43cf34e0110))
+* keep default clearScreen value ([db26114](https://github.com/brillout/docpress/commit/db261142af9cba2c099b55d79b06078460b90448))
+
+
+
 ## [0.16.2](https://github.com/brillout/docpress/compare/v0.16.1...v0.16.2) (2025-11-12)
 
 

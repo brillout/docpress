@@ -780,8 +780,7 @@ function ScrollShadow() {
           position: 'absolute',
           height: 15,
           width: '100%',
-          background: `linear-gradient(to ${i === 0 ? 'bottom' : 'top'}, var(--color-bg-gray), var(--color-bg-gray))`,
-          opacity: 0.5, // max 50% opacity
+          background: `linear-gradient(to ${i === 0 ? 'bottom' : 'top'}, var(--color-bg-gray) -30%, transparent)`,
           ...(i === 0 ? { top: 0 } : { bottom: 0 }),
         }}
       />

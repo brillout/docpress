@@ -232,9 +232,9 @@ function NavLeft() {
                 minWidth: navLeftWidthMin,
                 width: '100%',
                 maskImage:
-                  'linear-gradient(to bottom, rgba(0,0,0,0.5) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.5) 100%)',
+                  'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
                 WebkitMaskImage:
-                  'linear-gradient(to bottom, rgba(0,0,0,0.5) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.5) 100%)',
+                  'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
               }}
             >
               {navItemsDetached ? (

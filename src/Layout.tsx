@@ -776,12 +776,20 @@ function ScrollShadow() {
       <div
         key={i}
         style={{
-          zIndex: 1,
           position: 'absolute',
           height: 15,
           width: '100%',
-          background: `linear-gradient(to ${i === 0 ? 'bottom' : 'top'}, var(--color-bg-gray) -30%, transparent)`,
-          ...(i === 0 ? { top: 0 } : { bottom: 0 }),
+          top: i === 0 ? 0 : undefined,
+          bottom: i === 1 ? 0 : undefined,
+          zIndex: 999,
+          // This creates a mask that fades out content
+          maskImage: i === 0
+            ? 'linear-gradient(to bottom, black, transparent)'
+            : 'linear-gradient(to top, black, transparent)',
+          WebkitMaskImage: i === 0
+            ? 'linear-gradient(to bottom, black, transparent)'
+            : 'linear-gradient(to top, black, transparent)',
+          background: 'black', // the mask color doesn’t matter
         }}
       />
     ))

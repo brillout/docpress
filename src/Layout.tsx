@@ -231,6 +231,7 @@ function NavLeft() {
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
                 width: '100%',
+                // Fade content at top/bottom edges over 20px to 30% opacity
                 maskImage:
                   'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
                 WebkitMaskImage:

@@ -218,7 +218,6 @@ function NavLeft() {
           <div
             style={{
               backgroundColor: 'var(--color-bg-gray)',
-              position: 'relative',
             }}
           >
             <div

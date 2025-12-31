@@ -1,3 +1,12 @@
+## [0.16.5](https://github.com/brillout/docpress/compare/v0.16.4...v0.16.5) (2025-12-31)
+
+
+### Bug Fixes
+
+* workaround chrome rendering bug ([b8c30c6](https://github.com/brillout/docpress/commit/b8c30c60e37d41530da58b8491bb9f4b7446894f))
+
+
+
 ## [0.16.4](https://github.com/brillout/docpress/compare/v0.16.3...v0.16.4) (2025-12-30)
 
 

@@ -53,6 +53,8 @@ const bodyMaxWidth = 1300
 const scrollFadeMask: React.CSSProperties = {
   maskImage:
     'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
+  // Force hardware acceleration to fix Chrome rendering bug (temporary bold text upon scrolling)
+  transform: 'translateZ(0)',
 }
 
 // Avoid whitespace at the bottom of pages with almost no content

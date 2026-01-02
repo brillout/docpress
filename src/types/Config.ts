@@ -9,7 +9,12 @@ type Config = {
   /** Sets `<meta name="description" content="${tagline}" />` */
   tagline: string
   logo: string
-  favicon?: string
+  favicon?:
+    | string
+    | {
+        browser: string
+        google: string
+      }
   banner?: string
 
   github: string

@@ -1,3 +1,12 @@
+## [0.16.6](https://github.com/brillout/docpress/compare/v0.16.5...v0.16.6) (2026-01-02)
+
+
+### Features
+
+* support google favicon ([cdd4d97](https://github.com/brillout/docpress/commit/cdd4d97de50289fb5e0505efeb65754db3fd449e))
+
+
+
 ## [0.16.5](https://github.com/brillout/docpress/compare/v0.16.4...v0.16.5) (2025-12-31)
 
 

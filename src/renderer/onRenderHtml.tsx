@@ -18,16 +18,13 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
 
   const pageHtml = ReactDOMServer.renderToString(page)
 
-  const faviconUrl = pageContext.globalContext.config.docpress.favicon ?? pageContext.globalContext.config.docpress.logo
-  assert(faviconUrl)
-
   const { documentTitle } = pageContext.resolved
   assert(documentTitle)
   return escapeInject`<!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="${faviconUrl ?? ''}" />
+        ${getFaviconTags(pageContext.globalContext.config.docpress)}
         <title>${documentTitle}</title>
         ${descriptionTag}
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -97,4 +94,45 @@ function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
     ${metaBanner}
     ${metaTwitter}
   `
+}
+
+// Resources:
+// - https://www.google.com/s2/favicons?domain=vike.dev
+// - https://stackoverflow.com/questions/59568586/favicon-don%c2%b4t-show-up-in-google-search-result/59577456#59577456
+// - https://developers.google.com/search/docs/appearance/favicon-in-search
+//
+// Examples:
+// - Nice looking on Goolge Search Results:
+//   https://www.wikipedia.org
+// - Single PNG:
+//   https://rubyonrails.org
+// - Favicon shown in browser is different than favicon shown in Google:
+//   https://evilmartians.com
+//   Shown in Google: <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+//   Shown in Browser: <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+function getFaviconTags(config: Config) {
+  const { faviconBrowser, faviconGoogle } = getFavicons(config)
+  assert(faviconBrowser)
+  const faviconTagGoogle = !faviconGoogle
+    ? ''
+    : escapeInject`
+    <link rel="apple-touch-icon" href="${faviconGoogle}" />
+  `
+  return escapeInject`
+    <link rel="icon" href="${faviconBrowser}" type="image/svg+xml" />
+    ${faviconTagGoogle}
+  `
+}
+function getFavicons(config: Config) {
+  let faviconBrowser: string
+  let faviconGoogle: null | string = null
+  if (!config.favicon) {
+    faviconBrowser = config.logo
+  } else if (typeof config.favicon === 'string') {
+    faviconBrowser = config.favicon
+  } else {
+    faviconBrowser = config.favicon.browser
+    faviconGoogle = config.favicon.google
+  }
+  return { faviconBrowser, faviconGoogle }
 }

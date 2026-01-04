@@ -77,6 +77,7 @@ function ChangelogButton() {
           style={{
             position: 'relative',
             top: 1,
+            color: 'var(--color-text)',
           }}
         >
           v{version}

@@ -3,7 +3,7 @@ export { NavigationWithColumnLayout }
 import React, { useEffect, useState } from 'react'
 import { assert } from '../utils/server'
 import { getViewportWidth } from '../utils/getViewportWidth'
-import { viewTablet, navLeftWidthMax, navLeftWidthMin } from '../Layout'
+import { viewTablet, navLeftWidthMax, navLeftWidthMin, bodyMaxWidth } from '../Layout'
 import { throttle } from '../utils/throttle'
 import { Collapsible } from './Collapsible'
 import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent'
@@ -22,7 +22,8 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     updateviewportwidth()
     window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
   })
-  const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, viewportWidth)
+  const availableWidth = viewportWidth && Math.min(viewportWidth, bodyMaxWidth)
+  const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, availableWidth)
   const columnWidthBase = navLeftWidthMax + 20
   const maxColumns = Math.max(...navItemsByColumnLayouts.map((layout) => layout.columns.length), 1)
   const widthMax = maxColumns * columnWidthBase
@@ -222,9 +223,9 @@ type NavItemsByColumnLayout =
       columns: { navItems: NavItemComputed[] }[]
       isFullWidthCategory: true
     }
-function getNavItemsByColumnLayouts(navItems: NavItemComputed[], viewportWidth: number = 0): NavItemsByColumnLayout[] {
+function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth: number = 0): NavItemsByColumnLayout[] {
   const navItemsByColumnEntries = getNavItemsByColumnEntries(navItems)
-  const numberOfColumnsMax = Math.floor(viewportWidth / navLeftWidthMin) || 1
+  const numberOfColumnsMax = Math.floor(availableWidth / navLeftWidthMin) || 1
   const navItemsByColumnLayouts: NavItemsByColumnLayout[] = navItemsByColumnEntries.map(
     ({ columnEntries, isFullWidthCategory }) => {
       const numberOfColumns = Math.min(numberOfColumnsMax, columnEntries.length)

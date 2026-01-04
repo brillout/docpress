@@ -4,8 +4,10 @@ export { viewDesktop }
 export { viewTablet }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
+export { bodyMaxWidth }
 export { unexpandNav }
 export { blockMargin }
+export { scrollFadeMask }
 
 // - @media VS @container
 //   - Using `@container container-viewport` instead of @media would be interesting because @media doesn't consider the scrollbar width.
@@ -34,8 +36,9 @@ import { Style } from './utils/Style'
 import { cls } from './utils/cls'
 import { iconBooks } from './icons'
 import { EditLink } from './EditLink'
+import './Layout.css'
 
-const blockMargin = 3
+const blockMargin = 4
 const mainViewPadding = 20
 const mainViewWidthMaxInner = 800
 const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
@@ -43,8 +46,17 @@ const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-const viewDesktop = (mainViewWidthMax + navLeftWidthMin) as 1140 // 1140 = 840 + 300
-const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1213 // 1213 = 840 + 370 + 3
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
+const bodyMaxWidth = 1300
+
+// Scroll fade effect at top/bottom edges
+const scrollFadeMask: React.CSSProperties = {
+  maskImage:
+    'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
+  // Force hardware acceleration to fix Chrome rendering bug (temporary bold text upon scrolling)
+  transform: 'translateZ(0)',
+}
 
 // Avoid whitespace at the bottom of pages with almost no content
 const whitespaceBuster1: React.CSSProperties = {
@@ -67,10 +79,11 @@ function Layout({ children }: { children: React.ReactNode }) {
     content = <LayoutDocsPage>{children}</LayoutDocsPage>
   }
 
+  const isNavLeftAlwaysHidden_ = isNavLeftAlwaysHidden()
   return (
     <div
       style={{
-        ['--bg-color']: '#f5f5f5',
+        ['--color-bg-gray']: '#f5f5f5',
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
@@ -78,16 +91,18 @@ function Layout({ children }: { children: React.ReactNode }) {
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
         container: 'container-viewport / inline-size',
+        maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
+        margin: 'auto',
       }}
     >
-      <MenuModal isTopNav={isLandingPage} />
+      <MenuModal isTopNav={isLandingPage} isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
       <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
         <NavHead />
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: `${initializeCodeGroup_SSR}\n${initializeJsToggle_SSR}` }}></script>
-      <Style>{getStyleNav()}</Style>
+      <Style>{getStyleLayout()}</Style>
     </div>
   )
 }
@@ -102,21 +117,36 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
             <div
               id="nav-left-margin"
               className="low-prio-grow"
-              style={{ width: 0, maxWidth: 50, background: 'var(--bg-color)' }}
+              style={{ width: 0, maxWidth: 50, background: 'var(--color-bg-gray)' }}
             />
           </>
         )}
         <PageContent>{children}</PageContent>
       </div>
       <Style>{css`
+@container container-viewport (max-width: ${viewDesktopLarge - 1}px) {
+  #nav-left {
+    flex-grow: 1;
+    min-width: ${navLeftWidthMin + blockMargin}px;
+  }
+}
 @container container-viewport (min-width: ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
-  #navigation-container {
-    width: ${navLeftWidthMax}px !important;
+  #nav-left {
+    min-width: ${navLeftWidthMax + blockMargin}px;
   }
-}`}</Style>
+}
+.page-content {
+  --hash-offset: 24px;
+}
+@container container-viewport (max-width: ${viewDesktopLarge - 1}px) and (min-width: ${viewDesktop}px) {
+  .page-content {
+    --hash-offset: 27px;
+  }
+}
+`}</Style>
     </>
   )
 }
@@ -145,7 +175,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
         ...ifDocPage({
-          backgroundColor: 'var(--bg-color)',
+          backgroundColor: 'var(--color-bg-gray)',
           paddingBottom: 50,
         }),
       }}
@@ -182,12 +212,10 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
-          flexGrow: 1,
-          borderRight: 'var(--block-margin) solid white',
+          borderRight: 'var(--block-margin) solid var(--color-bg-white)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-          minWidth: navLeftWidthMin,
         }}
       >
         <div
@@ -199,9 +227,7 @@ function NavLeft() {
           <NavHead isNavLeft={true} />
           <div
             style={{
-              backgroundColor: 'var(--bg-color)',
-              display: 'flex',
-              justifyContent: 'flex-end',
+              backgroundColor: 'var(--color-bg-gray)',
             }}
           >
             <div
@@ -213,8 +239,8 @@ function NavLeft() {
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
                 minWidth: navLeftWidthMin,
-                maxWidth: navLeftWidthMax,
                 width: '100%',
+                ...scrollFadeMask,
               }}
             >
               {navItemsDetached ? (
@@ -228,9 +254,18 @@ function NavLeft() {
       </div>
       {/* Early scrolling, to avoid flashing */}
       <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
+      <Style>{getStyleNavLeft()}</Style>
     </>
   )
 }
+function getStyleNavLeft() {
+  return css`
+.nav-item {
+  box-sizing: content-box;
+  max-width: ${navLeftWidthMax}px;
+}`
+}
+
 function NavigationContent(props: {
   navItems: NavItem[]
   showOnlyRelevant?: true
@@ -252,12 +287,13 @@ function NavigationContent(props: {
 function isNavLeftAlwaysHidden() {
   const pageContext = usePageContext()
   const { isLandingPage, navItemsDetached, pageDesign } = pageContext.resolved
-  return isLandingPage || pageDesign?.hideMenuLeft || (navItemsDetached && navItemsDetached.length <= 1)
+  return isLandingPage || !!pageDesign?.hideMenuLeft || !!(navItemsDetached && navItemsDetached.length <= 1)
 }
 
 const menuLinkStyle: React.CSSProperties = {
   height: '100%',
   padding: '0 var(--padding-side)',
+  paddingTop: 2,
   justifyContent: 'center',
 }
 
@@ -303,10 +339,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     <div
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
-        display: 'flex',
-        justifyContent: isNavLeft ? 'flex-end' : 'center',
-        backgroundColor: 'var(--bg-color)',
-        borderBottom: 'var(--block-margin) solid white',
+        backgroundColor: 'var(--color-bg-gray)',
+        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         position: 'relative',
       }}
     >
@@ -316,8 +350,6 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
-          minWidth: isNavLeft && navLeftWidthMin,
-          maxWidth: isNavLeft && navLeftWidthMax,
         }}
       >
         <div
@@ -343,7 +375,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
     </div>
   )
 }
-function getStyleNav() {
+function getStyleLayout() {
   let style = ''
 
   // Mobile
@@ -491,12 +523,12 @@ function NavHeadLeftFullWidthBackground() {
         style={{
           height: '100%',
           zIndex: -1,
-          background: 'var(--bg-color)',
+          background: 'var(--color-bg-gray)',
           position: 'absolute',
           left: 0,
           top: 0,
           boxSizing: 'content-box',
-          borderBottom: 'var(--block-margin) solid white',
+          borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         }}
       />
       <Style>{
@@ -547,6 +579,7 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <a
+      className="nav-head-logo"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -666,7 +699,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     height: 100%;
     width: 100%;
     top: var(--nav-head-height);
-    background-color: var(--active-color);
+    background-color: var(--color-active);
     transition-property: top !important;
     transition: top 0.4s ease !important;
     z-index: -1;
@@ -725,15 +758,25 @@ function DocsIcon() {
 }
 function MenuIcon() {
   return (
-    <svg
-      style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', verticalAlign: 'top', width: '1.3em' }}
-      className="decolorize-6"
-      viewBox="0 0 448 512"
-    >
-      <path
-        fill="currentColor"
-        d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
-      ></path>
-    </svg>
+    <div style={{ display: 'inline-block', position: 'relative', top: 2, marginRight: 3, direction: 'rtl' }}>
+      {Array(3)
+        .fill(0)
+        .map((_, i) => (
+          <div
+            key={i}
+            style={{
+              background: 'currentColor',
+              width: (() => {
+                if (i === 0) return 18
+                if (i === 1) return 11
+                return 14
+              })(),
+              height: 2,
+              opacity: '0.8',
+              marginTop: i === 0 ? 0 : 4,
+            }}
+          />
+        ))}
+    </div>
   )
 }

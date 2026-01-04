@@ -5,14 +5,14 @@
     "preview": "vike build && vike preview"
   },
   "dependencies": {
-    "@types/node": "^22.5.5",
-    "@types/react": "^18.3.8",
-    "@types/react-dom": "^18.3.0",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@brillout/docpress": "workspace:^",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.8.3",
-    "vike": "0.4.234"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.9.3",
+    "vike": "^0.4.250"
   },
   "// Help Vite resolve the dependencies of @brillout/docpress for optimizeDeps": "",
   "devDependencies": {

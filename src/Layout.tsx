@@ -314,11 +314,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         height: '100%',
         ...(isNavLeft
           ? {
-            position: 'absolute',
-            left: '100%',
-            top: 0,
-            width: mainViewWidthMax, // guaranteed real estate
-          }
+              position: 'absolute',
+              left: '100%',
+              top: 0,
+              width: mainViewWidthMax, // guaranteed real estate
+            }
           : {}),
       }}
     >
@@ -587,13 +587,13 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
         color: 'inherit',
         ...(!isNavLeft
           ? {
-            paddingLeft: 'var(--main-view-padding)',
-            paddingRight: 'var(--padding-side)',
-          }
+              paddingLeft: 'var(--main-view-padding)',
+              paddingRight: 'var(--padding-side)',
+            }
           : {
-            paddingLeft: 15,
-            marginLeft: -10,
-          }),
+              paddingLeft: 15,
+              marginLeft: -10,
+            }),
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

@@ -2,7 +2,6 @@
   position: relative;
 
   &:hover {
-
     .select-choice,
     .copy-button,
     .code-lang-toggle {
@@ -35,11 +34,11 @@
     }
   }
 
-  select:has(option:nth-of-type(1):not(:checked))~.code-choice:nth-of-type(1),
-  select:has(option:nth-of-type(2):not(:checked))~.code-choice:nth-of-type(2),
-  select:has(option:nth-of-type(3):not(:checked))~.code-choice:nth-of-type(3),
-  select:has(option:nth-of-type(4):not(:checked))~.code-choice:nth-of-type(4),
-  select:has(option:nth-of-type(5):not(:checked))~.code-choice:nth-of-type(5) {
+  select:has(option:nth-of-type(1):not(:checked)) ~ .code-choice:nth-of-type(1),
+  select:has(option:nth-of-type(2):not(:checked)) ~ .code-choice:nth-of-type(2),
+  select:has(option:nth-of-type(3):not(:checked)) ~ .code-choice:nth-of-type(3),
+  select:has(option:nth-of-type(4):not(:checked)) ~ .code-choice:nth-of-type(4),
+  select:has(option:nth-of-type(5):not(:checked)) ~ .code-choice:nth-of-type(5) {
     display: none;
   }
 }

@@ -1,13 +1,12 @@
 export { remarkPkgManager }
 
 import type { Code, Root } from 'mdast'
-import type { ContainerDirective } from 'mdast-util-directive'
 import { visit } from 'unist-util-visit'
 import convert from 'npm-to-yarn'
-import { generateCodeTabs } from './utils/generateCodeTabs.js'
 import { parseMetaString } from './rehypeMetaToProps.js'
+import { generateCodeGroup } from './utils/generateCodeGroup.js'
 
-const PKG_MANAGERS = ['yarn', 'pnpm', 'bun'] as const
+const PKG_MANAGERS = ['pnpm', 'yarn', 'bun'] as const
 
 function remarkPkgManager() {
   return function (tree: Root) {
@@ -28,29 +27,26 @@ function remarkPkgManager() {
         const nodes = new Map<string, Code>()
         nodes.set('npm', node)
 
-        PKG_MANAGERS.map((pm) => {
-          const newNode: Code = {
+        for (const pm of PKG_MANAGERS) {
+          nodes.set(pm, {
             type: node.type,
             lang: node.lang,
             value: convert(node.value, pm),
-          }
-          nodes.set(pm, newNode)
-        })
-
-        const groupedNodes = [...nodes].map(([name, code]) => ({ value: name, children: [code] }))
-
-        const replacement = generateCodeTabs(groupedNodes, 'npm', 'pkg-manager')
-        if (choice) {
-          const directive: ContainerDirective = {
-            type: 'containerDirective',
-            name: 'choice',
-            children: [replacement],
-            data: { group: 'containerDirective', choice, persistId },
-          }
-          parent.children.splice(index, 1, directive)
-        } else {
-          parent.children.splice(index, 1, replacement)
+          })
         }
+
+        const groupedNodes = [...nodes].map(([name, node]) => ({ value: name, children: [node] }))
+
+        const replacement = generateCodeGroup(groupedNodes, 'npm', 'pkg-manager')
+
+        if (choice) {
+          replacement.data ??= {
+            group: 'pkg-managers',
+            choice,
+            persistId,
+          }
+        }
+        parent.children.splice(index, 1, replacement)
       }
     })
   }

@@ -25,7 +25,6 @@ import {
 } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
-import { initializeCodeTabs_SSR } from './code-blocks/hooks/useSelectedTab'
 import { initializeJsToggle_SSR } from './code-blocks/hooks/useSelectCodeLang'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
@@ -86,7 +85,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
-      <script dangerouslySetInnerHTML={{ __html: `${initializeCodeTabs_SSR}\n${initializeJsToggle_SSR}` }}></script>
+      <script dangerouslySetInnerHTML={{ __html: `${initializeJsToggle_SSR}` }}></script>
       <Style>{getStyleNav()}</Style>
     </div>
   )
@@ -278,11 +277,11 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         height: '100%',
         ...(isNavLeft
           ? {
-              position: 'absolute',
-              left: '100%',
-              top: 0,
-              width: mainViewWidthMax, // guaranteed real estate
-            }
+            position: 'absolute',
+            left: '100%',
+            top: 0,
+            width: mainViewWidthMax, // guaranteed real estate
+          }
           : {}),
       }}
     >
@@ -554,13 +553,13 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
         color: 'inherit',
         ...(!isNavLeft
           ? {
-              paddingLeft: 'var(--main-view-padding)',
-              paddingRight: 'var(--padding-side)',
-            }
+            paddingLeft: 'var(--main-view-padding)',
+            paddingRight: 'var(--padding-side)',
+          }
           : {
-              paddingLeft: 15,
-              marginLeft: -10,
-            }),
+            paddingLeft: 15,
+            marginLeft: -10,
+          }),
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

@@ -12,7 +12,6 @@ import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
 import { remarkPkgManager } from './code-blocks/remarkPkgManager.js'
-import { remarkCodeTabs } from './code-blocks/remarkCodeTabs.js'
 
 const root = process.cwd()
 const prettyCode = [
@@ -24,7 +23,7 @@ const prettyCode = [
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
-const remarkPlugins = [remarkGfm, remarkDirective, remarkPkgManager, remarkCodeTabs, remarkDetype]
+const remarkPlugins = [remarkGfm, remarkDirective, remarkDetype, remarkPkgManager]
 
 const config: UserConfig = {
   root,

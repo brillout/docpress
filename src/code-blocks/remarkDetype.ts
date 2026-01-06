@@ -164,7 +164,7 @@ function cleanUpCode(code: string, isJsCode: boolean = false) {
 }
 function processMagicComments(code: string) {
   // @detype-replace DummyLayout Layout
-  const renameCommentRE = /^\/\/\s@detype-replace\s([^ ]+) ([^ ]+)\n/gm
+  const renameCommentRE = /^\s*\/\/\s@detype-replace\s([^ ]+) ([^ ]+)\n/gm
   const matches = Array.from(code.matchAll(renameCommentRE))
 
   if (matches.length) {

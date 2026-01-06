@@ -164,14 +164,15 @@ function cleanUpCode(code: string, isJsCode: boolean = false) {
 }
 function processMagicComments(code: string) {
   // @detype-replace DummyLayout Layout
-  const renameCommentRE = /^\/\/\s@detype-replace\s([^ ]+) ([^ ]+)\n/gm
+  const renameCommentRE = /\/\/\s@detype-replace\s([^ ]+) ([^ ]+)\n/gm
   const matches = Array.from(code.matchAll(renameCommentRE))
 
   if (matches.length) {
     for (let i = matches.length - 1; i >= 0; i--) {
       const match = matches[i]
       const [fullMatch, renameFrom, renameTo] = match
-      code = code.split(fullMatch).join('').replaceAll(renameFrom, renameTo)
+      const [before, after] = code.split(fullMatch)
+      code = before + after.trimStart().replaceAll(renameFrom, renameTo)
     }
   }
   code = code.replaceAll('// @detype-uncomment ', '')

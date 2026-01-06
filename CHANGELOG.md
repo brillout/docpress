@@ -1,3 +1,12 @@
+## [0.16.7](https://github.com/brillout/docpress/compare/v0.16.6...v0.16.7) (2026-01-06)
+
+
+### Bug Fixes
+
+* match `// [@detype-replace](https://github.com/detype-replace)` with leading whitespace ([#83](https://github.com/brillout/docpress/issues/83)) ([e8e7dfc](https://github.com/brillout/docpress/commit/e8e7dfc8d545bdd68f11af9250598c341633cea2))
+
+
+
 ## [0.16.6](https://github.com/brillout/docpress/compare/v0.16.5...v0.16.6) (2026-01-02)
 
 

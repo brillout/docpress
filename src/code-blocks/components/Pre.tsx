@@ -1,11 +1,35 @@
 export { Pre }
 
-import React, { ComponentPropsWithoutRef, useState } from 'react'
+import React, { useState } from 'react'
+import { cls } from '../../utils/cls'
 import './Pre.css'
 
-function Pre({ children, ...props }: ComponentPropsWithoutRef<'pre'> & { 'hide-menu'?: string }) {
+// Styling defined in src/css/code/diff.css
+const classRemoved = [
+  //
+  'diff-entire-file',
+  'diff-entire-file-removed',
+].join(' ')
+const classAdded = [
+  //
+  'diff-entire-file',
+  'diff-entire-file-added',
+].join(' ')
+
+type AdditionalProps = {
+  'hide-menu'?: string
+  'file-added'?: string
+  'file-removed'?: string
+}
+
+function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & AdditionalProps) {
+  const { className, ...rest } = props
+
   return (
-    <pre {...props}>
+    <pre
+      className={cls([className, props['file-added'] && classAdded, props['file-removed'] && classRemoved])}
+      {...rest}
+    >
       {!props['hide-menu'] && <CopyButton />}
       {children}
     </pre>

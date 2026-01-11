@@ -82,11 +82,10 @@ function transformYaml(node: CodeNode) {
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
-  const metaProps = parseMetaString(codeBlock.meta)
-  const maxWidth = Number(metaProps['max-width'])
-  const choice = metaProps['choice']
-  const persistId = metaProps['persist-id']
-
+  const meta = parseMetaString(codeBlock.meta)
+  const maxWidth = Number(meta.props['max-width'])
+  const choice = meta.props['choice']
+  const persistId = meta.props['persist-id']
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
 

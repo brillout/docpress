@@ -23,41 +23,47 @@ function rehypeMetaToProps() {
   return (tree: Root) => {
     visit(tree, 'element', (node, _index, parent) => {
       if (node.tagName === 'code' && parent?.type === 'element' && parent.tagName === 'pre') {
-        const props = parseMetaString(node.data?.meta)
+        const meta = parseMetaString(node.data?.meta)
         parent.properties ??= {}
-        parent.properties = { ...parent.properties, ...props }
+        parent.properties = { ...parent.properties, ...meta.props }
       }
     })
   }
 }
 
 /**
- * Minimal parser for a metadata string into key-value pairs.
+ * Simple parser for a metadata string into key-value pairs and a remaining unparsed string.
  *
- * Supports simple patterns: key or key="value".
+ * Supports simple patterns: key or key=value.
  *
- * Keys must contain only letters, dashes, or underscores (no digits).
- * Keys are converted to kebab-case. Values default to "true" if missing.
+ * - Keys must contain only letters, dashes, or underscores (no digits).
+ * - Keys are converted to kebab-case. Values default to "true" if missing.
+ * - Keys and values are stored in `props`.
+ * - If `propNames` is provided, only keys included in that list are extracted.
+ * - Unextracted tokens remain in `rest`.
  *
- * Example:
- *   parseMetaString('foo fooBar="value"')
- *   => { foo: 'true', foo_bar: 'value' }
- *
- * @param metaString - The input metadata string.
- * @returns A plain object of parsed key-value pairs.
+ * @param meta - The input metadata string.
+ * @param propNames - Optional whitelist of property names to extract.
+ * @returns An object containing:
+ *   - `props`: a map of extracted properties
+ *   - `rest`: the remaining metadata string after extraction
  */
-function parseMetaString(metaString: ElementData['meta']): Record<string, string> {
-  if (!metaString) return {}
+function parseMetaString<Name extends string = string>(meta: ElementData['meta'], propNames?: Name[]): PropsType<Name> {
+  if (!meta) return { props: {}, rest: '' }
 
-  const props: Record<string, string> = {}
+  let str = meta
 
-  const keyValuePairRE = /([a-zA-Z_-]+)(?:=([^"'\s]+))?(?=\s|$)/g
-  for (const match of metaString.matchAll(keyValuePairRE)) {
-    let [_, key, value] = match
-    props[kebabCase(key)] = value || 'true'
-  }
+  const keyValuePairRE = /(?<name>[a-zA-Z_-]+)(?:=([^"'\s]+))?/g
+  const props: PropsType['props'] = {}
 
-  return props
+  str = str.replaceAll(keyValuePairRE, (match, name, value) => {
+    if (propNames && !propNames.includes(name)) return match
+
+    props[kebabCase(name)] = value || 'true'
+    return ''
+  })
+
+  return { props, rest: str.trim() }
 }
 
 // Simple function to convert a camelCase or PascalCase string to kebab-case.
@@ -66,4 +72,9 @@ function kebabCase(str: string) {
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace('_', '-')
     .toLowerCase()
+}
+
+interface PropsType<Name extends string = string> {
+  props: Partial<Record<Name, string>>
+  rest: string
 }

@@ -223,9 +223,10 @@ const a: number = 1
 
 ## CodeGroups
 
-Using `choice=choice-name` meta to group code blocks into multiple choices:
+Using `choice=choice-name group=group-name` meta to group code blocks into multiple choices:
+> The `group=group-name` meta is only required for the first code block.
 
-```shell choice=hono persist-id=server-framework
+```shell choice=hono group=server
 npm i hono @photonjs/hono
 ```
 
@@ -238,7 +239,6 @@ npm i express @photonjs/express
 
 import { Hono } from 'hono'
 import { apply, serve } from 'vike-photon/hono'
-import type { PageContext } from 'vike'
 
 function startServer() {
   const app = new Hono()
@@ -264,9 +264,10 @@ function startServer() {
 export default startServer()
 ```
 
-Using `:::CodeGroup{choice=choice-name} {:mdx}` directive to combine multiple contents for a single choice:
+Using `:::CodeGroup{#choice-name group=group-name} {:mdx}` directive to combine multiple contents for a single choice:
+> The `group=group-name` attribute is only required for the first directive.
 
-:::CodeGroup{choice="vike-react" persist-id=frontend-framework}
+:::CodeGroup{#vike-react group=ui-ext}
 ```tsx
 import { ClientOnly } from 'vike-react/ClientOnly'
 
@@ -284,7 +285,7 @@ Props:
 - **fallback** (optional): Content shown during SSR and before hydration completes.
 :::
 
-:::CodeGroup{choice="vike-vue"}
+:::CodeGroup{#vike-vue}
 ```vue
 <template>
   <ClientOnly>
@@ -305,7 +306,7 @@ Props:
 - **fallback slot** (optional): Content shown during SSR and before hydration completes.
 :::
 
-:::CodeGroup{choice="vike-solid"}
+:::CodeGroup{#vike-solid}
 ```tsx
 import { ClientOnly } from 'vike-solid/ClientOnly'
 

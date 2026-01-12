@@ -6,36 +6,26 @@ import type { ContainerDirective } from 'mdast-util-directive'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateCodeGroup } from './utils/generateCodeGroup.js'
+import { assertUsage } from '../utils/assert.js'
 
 type Node = Code | MdxJsxFlowElement | ContainerDirective
 
 function remarkCodeGroup() {
   return function (tree: Root) {
-    visit(tree, (node, _i, parent) => {
+    visit(tree, (node) => {
       if (node.type === 'code') {
-        if (parent?.type === 'mdxJsxFlowElement' && parent.name === 'CodeSnippets') return
         if (!node.meta) return
+        const meta = parseMetaString(node.meta, ['group', 'choice'])
+        const { choice, group } = meta.props
+        node.meta = meta.rest
 
-        const meta = parseMetaString(node.meta)
-        if (!meta['choice']) return
-        node.lang = !node.lang ? 'sh' : node.lang.replace('shell', 'sh')
-        node.meta = node.meta.replace(/(choice|persist-id)=([^"'\s]+)/g, '').trim()
-
-        node.data ??= {
-          group: node.lang,
-          choice: meta['choice'],
-          persistId: meta['persist-id'],
-        }
+        if (choice) node.data ??= { choice, group }
       }
       if (node.type === 'containerDirective' && node.name === 'CodeGroup') {
         if (!node.attributes) return
-        const choice = node.attributes['choice']
+        const { id: choice, group } = node.attributes
         if (choice) {
-          node.data ??= {
-            group: 'containerDirective',
-            choice,
-            persistId: node.attributes['persist-id'] || undefined,
-          }
+          node.data ??= { choice, group: group || undefined }
           node.attributes = {}
         }
       }
@@ -44,24 +34,25 @@ function remarkCodeGroup() {
     const replaced = new WeakSet()
     visit(tree, (node) => {
       if (!('children' in node) || replaced.has(node)) return 'skip'
-
       if (node.type === 'mdxJsxFlowElement') return 'skip'
 
       let start = -1
       let end = 0
-      let persistId: string | undefined = undefined
 
       const process = () => {
         if (start === -1 || start === end) return
+        const nodes = node.children.slice(start, end) as Node[]
+        const groupName = nodes.filter((node) => node.data?.group !== undefined)[0]?.data?.group
+        assertUsage(groupName, 'no group name is provided, did you forget to add `group=group-name` meta/attribute ?')
 
-        const groupedNodes = groupByNode(node.children.slice(start, end) as Node[])
+        const groupedNodes = groupByNodeType(nodes)
 
         if (groupedNodes.every((nodes) => nodes.length <= 1)) return
 
         const replacements: MdxJsxFlowElement[] = []
 
-        for (const nodes of groupedNodes) {
-          const replacement = generateCodeGroup(nodes, nodes[0].value, persistId)
+        for (const groupedNode of groupedNodes) {
+          const replacement = generateCodeGroup(groupName, groupedNode)
 
           replacements.push(replacement)
           replaced.add(replacement)
@@ -71,11 +62,11 @@ function remarkCodeGroup() {
 
         end = start
         start = -1
-        persistId = undefined
       }
 
       for (; end < node.children.length; end++) {
         const child = node.children[end]
+
         if (!['code', 'mdxJsxFlowElement', 'containerDirective'].includes(child.type)) {
           process()
           continue
@@ -86,7 +77,6 @@ function remarkCodeGroup() {
           continue
         }
 
-        if (child.data?.persistId) persistId = child.data.persistId
         if (start === -1) start = end
       }
 
@@ -100,14 +90,14 @@ type CodeGroup = {
   children: Node[]
 }
 
-function groupByNode(nodes: Node[]) {
+function groupByNodeType(nodes: Node[]) {
   const groupedNodes = new Set<CodeGroup[]>()
-  const groups = [...new Set(nodes.flat().map((n) => n.data?.group || ''))]
+  const filters = [...new Set(nodes.flat().map((node) => (node.type === 'code' ? node.lang! : node.name)))]
 
-  groups.map((group) => {
+  filters.map((filter) => {
     const nodesByChoice = new Map<string, Node[]>()
     nodes
-      .filter((node) => node.data!.group === group)
+      .filter((node) => (node.type === 'code' ? node.lang! : node.name) === filter)
       .map((node) => {
         const choice = node.data!.choice!
         const nodes = nodesByChoice.get(choice) ?? []
@@ -126,6 +116,5 @@ declare module 'mdast' {
   export interface Data {
     group?: string
     choice?: string
-    persistId?: string
   }
 }

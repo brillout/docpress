@@ -45,6 +45,23 @@ const config: Config = {
   // globalNote: <GlobalNoteWarning />,
   topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
+  choices: {
+    'pkg-manager': {
+      choices: ['npm', 'pnpm', 'yarn', 'bun'],
+      defaultChoice: 'npm',
+      persistId: 'pkg-manager'
+    },
+    'server': {
+      choices: ['hono', 'express'],
+      defaultChoice: 'hono',
+      persistId: 'server-framweork'
+    },
+    'ui-ext': {
+      choices: ['vike-react', 'vike-vue', 'vike-solid'],
+      defaultChoice: 'vike-react',
+      persistId: 'ui-extension'
+    }
+  }
 }
 
 /*

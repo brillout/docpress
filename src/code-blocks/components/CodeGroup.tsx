@@ -1,24 +1,24 @@
 export { CodeGroup }
 
 import React, { useEffect, useRef, useState } from 'react'
+import { usePageContext } from '../../renderer/usePageContext'
 import { useSelectedChoice } from '../hooks/useSelectedChoice'
 import { useRestoreScroll } from '../hooks/useRestoreScroll'
+import { assertUsage } from '../../utils/assert'
 import { cls } from '../../utils/cls'
 import './CodeGroup.css'
 
-type CodeChoiceProps = {
-  children: React.ReactNode
-  group: {
-    choices: string[]
-    defaultChoice: string | null
-    persistId: string | null
-  }
-}
+function CodeGroup({ children, groupName }: { children: React.ReactNode, groupName: string }) {
+  const pageContext = usePageContext()
+  const { choices: c } = pageContext.globalContext.config.docpress
+  assertUsage(c && c[groupName], `+docpress.choices['${groupName}'] is not defined in +docpress.choices`)
 
-function CodeGroup({ children, group }: CodeChoiceProps) {
-  const { choices, defaultChoice, persistId } = group
+  const { choices, defaultChoice, persistId } = c[groupName]
+  const childrenCount = React.Children.toArray(children).length
+  assertUsage(childrenCount === choices.length, `expected ${choices.length} children, but got ${childrenCount}.`)
+
   const [hasJsToggle, setHasJsToggle] = useState(false)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(persistId, defaultChoice || choices[0])
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(persistId, defaultChoice)
   const codeGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
 

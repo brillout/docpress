@@ -82,10 +82,11 @@ function transformYaml(node: CodeNode) {
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
-  const meta = parseMetaString(codeBlock.meta)
+  const meta = parseMetaString(codeBlock.meta, ['max-width', 'group', 'choice'])
   const maxWidth = Number(meta.props['max-width'])
-  const choice = meta.props['choice']
-  const persistId = meta.props['persist-id']
+  const { choice, group } = meta.props
+  codeBlock.meta = meta.rest
+
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
 
@@ -151,13 +152,9 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     children: [jsCode, codeBlock],
     attributes,
   }
-  if (choice) {
-    container.data ??= {
-      group: 'code-snippets',
-      choice,
-      persistId,
-    }
-  }
+
+  if (choice) container.data ??= { choice, group }
+
   parent.children.splice(index, 1, container)
 }
 

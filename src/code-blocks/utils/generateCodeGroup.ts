@@ -3,78 +3,20 @@ export type { CodeChoice }
 
 import type { BlockContent, DefinitionContent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
-import type { Program } from '@mdx-js/mdx/internal-create-format-aware-processors'
 
 type CodeChoice = {
   value: string
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateCodeGroup(codeChoices: CodeChoice[], defaultValue?: string, persistId?: string): MdxJsxFlowElement {
+function generateCodeGroup(groupName: string, codeChoices: CodeChoice[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
   attributes.push({
     type: 'mdxJsxAttribute',
-    name: 'group',
-    value: {
-      type: 'mdxJsxAttributeValueExpression',
-      value: '',
-      data: {
-        estree: {
-          type: 'Program',
-          body: [
-            {
-              type: 'ExpressionStatement',
-              expression: {
-                type: 'ObjectExpression',
-                properties: [
-                  {
-                    type: 'Property',
-                    key: {
-                      type: 'Identifier',
-                      name: 'choices',
-                    },
-                    value: {
-                      type: 'ArrayExpression',
-                      elements: codeChoices.map((codeChoice) => ({
-                        type: 'Literal',
-                        value: codeChoice.value,
-                      })),
-                    },
-                    kind: 'init',
-                  },
-                  {
-                    type: 'Property',
-                    key: {
-                      type: 'Identifier',
-                      name: 'defaultChoice',
-                    },
-                    value: {
-                      type: 'Literal',
-                      value: defaultValue || null,
-                    },
-                    kind: 'init',
-                  },
-                  {
-                    type: 'Property',
-                    key: {
-                      type: 'Identifier',
-                      name: 'persistId',
-                    },
-                    value: {
-                      type: 'Literal',
-                      value: persistId || null,
-                    },
-                    kind: 'init',
-                  },
-                ],
-              },
-            },
-          ],
-        } as Program,
-      },
-    },
+    name: 'groupName',
+    value: groupName,
   })
 
   for (const codeChoice of codeChoices) {

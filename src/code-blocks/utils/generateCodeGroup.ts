@@ -9,15 +9,9 @@ type CodeChoice = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateCodeGroup(groupName: string, codeChoices: CodeChoice[]): MdxJsxFlowElement {
+function generateCodeGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
-
-  attributes.push({
-    type: 'mdxJsxAttribute',
-    name: 'groupName',
-    value: groupName,
-  })
 
   for (const codeChoice of codeChoices) {
     const classNames = ['code-choice']
@@ -47,7 +41,7 @@ function generateCodeGroup(groupName: string, codeChoices: CodeChoice[]): MdxJsx
 }
 
 function findHasJsToggle(node: BlockContent | DefinitionContent) {
-  if (node.type === 'containerDirective' && node.name === 'CodeGroup') {
+  if (node.type === 'containerDirective' && node.name === 'Choice') {
     return (
       node.children[0].type === 'mdxJsxFlowElement' &&
       node.children[0].name === 'CodeSnippets' &&

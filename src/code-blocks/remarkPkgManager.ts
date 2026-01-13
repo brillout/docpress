@@ -1,6 +1,6 @@
 export { remarkPkgManager }
 
-import type { Code, Data, Root } from 'mdast'
+import type { Code, Root } from 'mdast'
 import { visit } from 'unist-util-visit'
 import convert from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
@@ -13,14 +13,14 @@ function remarkPkgManager() {
     visit(tree, 'code', (node, index, parent) => {
       if (!parent || typeof index === 'undefined') return
       if (!['sh', 'shell'].includes(node.lang || '')) return
-      if (node.value.indexOf('npm') === -1 || node.value.indexOf('npx') === -1) return
+      if (node.value.indexOf('npm') === -1 && node.value.indexOf('npx') === -1) return
 
-      const data: Data = {}
+      let choice: string | undefined = undefined
       const nodes = new Map<string, Code>()
 
       if (node.meta) {
-        const meta = parseMetaString(node.meta, ['choice', 'group'])
-        Object.assign(data, meta.props)
+        const meta = parseMetaString(node.meta, ['choice'])
+        choice = meta.props['choice']
         node.meta = meta.rest
       }
 
@@ -36,9 +36,9 @@ function remarkPkgManager() {
       }
 
       const groupedNodes = [...nodes].map(([name, node]) => ({ value: name, children: [node] }))
-      const replacement = generateCodeGroup('pkg-manager', groupedNodes)
+      const replacement = generateCodeGroup(groupedNodes)
 
-      replacement.data ??= { ...data }
+      replacement.data ??= { choice }
       parent.children.splice(index, 1, replacement)
     })
   }

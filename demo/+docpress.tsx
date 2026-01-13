@@ -48,20 +48,17 @@ const config: Config = {
   choices: {
     'pkg-manager': {
       choices: ['npm', 'pnpm', 'yarn', 'bun'],
-      defaultChoice: 'npm',
-      persistId: 'pkg-manager'
+      default: 'npm',
     },
-    'server': {
+    server: {
       choices: ['hono', 'express'],
-      defaultChoice: 'hono',
-      persistId: 'server-framweork'
+      default: 'hono',
     },
     'ui-ext': {
       choices: ['vike-react', 'vike-vue', 'vike-solid'],
-      defaultChoice: 'vike-react',
-      persistId: 'ui-extension'
-    }
-  }
+      default: 'vike-react',
+    },
+  },
 }
 
 /*

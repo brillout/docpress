@@ -221,12 +221,11 @@ async function onNewTodo(text: string) {
 const a: number = 1
 ```
 
-## CodeGroups
+## CodeGroup
 
-Using `choice=choice-name group=group-name` meta to group code blocks into multiple choices:
-> The `group=group-name` meta is only required for the first code block.
+Using `choice=choice-name` meta to group code blocks into multiple choices:
 
-```shell choice=hono group=server
+```shell choice=hono
 npm i hono @photonjs/hono
 ```
 
@@ -264,10 +263,9 @@ function startServer() {
 export default startServer()
 ```
 
-Using `:::CodeGroup{#choice-name group=group-name} {:mdx}` directive to combine multiple contents for a single choice:
-> The `group=group-name` attribute is only required for the first directive.
+Using `:::Choice{#choice-name} {:mdx}` directive to combine multiple contents for a single choice:
 
-:::CodeGroup{#vike-react group=ui-ext}
+:::Choice{#vike-react}
 ```tsx
 import { ClientOnly } from 'vike-react/ClientOnly'
 
@@ -285,7 +283,7 @@ Props:
 - **fallback** (optional): Content shown during SSR and before hydration completes.
 :::
 
-:::CodeGroup{#vike-vue}
+:::Choice{#vike-vue}
 ```vue
 <template>
   <ClientOnly>
@@ -306,7 +304,7 @@ Props:
 - **fallback slot** (optional): Content shown during SSR and before hydration completes.
 :::
 
-:::CodeGroup{#vike-solid}
+:::Choice{#vike-solid}
 ```tsx
 import { ClientOnly } from 'vike-solid/ClientOnly'
 

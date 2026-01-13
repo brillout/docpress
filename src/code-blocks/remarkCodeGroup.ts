@@ -15,17 +15,17 @@ function remarkCodeGroup() {
     visit(tree, (node) => {
       if (node.type === 'code') {
         if (!node.meta) return
-        const meta = parseMetaString(node.meta, ['group', 'choice'])
-        const { choice, group } = meta.props
+        const meta = parseMetaString(node.meta, ['choice'])
+        const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { choice, group }
+        if (choice) node.data ??= { choice }
       }
-      if (node.type === 'containerDirective' && node.name === 'CodeGroup') {
+      if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return
-        const { id: choice, group } = node.attributes
+        const { id: choice } = node.attributes
         if (choice) {
-          node.data ??= { choice, group: group || undefined }
+          node.data ??= { choice }
           node.attributes = {}
         }
       }
@@ -42,9 +42,6 @@ function remarkCodeGroup() {
       const process = () => {
         if (start === -1 || start === end) return
         const nodes = node.children.slice(start, end) as Node[]
-        const groupName = nodes.filter((node) => node.data?.group !== undefined)[0]?.data?.group
-        assertUsage(groupName, 'no group name is provided, did you forget to add `group=group-name` meta/attribute ?')
-
         const groupedNodes = groupByNodeType(nodes)
 
         if (groupedNodes.every((nodes) => nodes.length <= 1)) return
@@ -52,7 +49,7 @@ function remarkCodeGroup() {
         const replacements: MdxJsxFlowElement[] = []
 
         for (const groupedNode of groupedNodes) {
-          const replacement = generateCodeGroup(groupName, groupedNode)
+          const replacement = generateCodeGroup(groupedNode)
 
           replacements.push(replacement)
           replaced.add(replacement)
@@ -85,13 +82,13 @@ function remarkCodeGroup() {
   }
 }
 
-type CodeGroup = {
+type NodeGroup = {
   value: string
   children: Node[]
 }
 
 function groupByNodeType(nodes: Node[]) {
-  const groupedNodes = new Set<CodeGroup[]>()
+  const groupedNodes = new Set<NodeGroup[]>()
   const filters = [...new Set(nodes.flat().map((node) => (node.type === 'code' ? node.lang! : node.name)))]
 
   filters.map((filter) => {
@@ -114,7 +111,6 @@ function groupByNodeType(nodes: Node[]) {
 
 declare module 'mdast' {
   export interface Data {
-    group?: string
     choice?: string
   }
 }

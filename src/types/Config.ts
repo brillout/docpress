@@ -62,6 +62,5 @@ type Category =
 
 type Choice = {
   choices: string[]
-  defaultChoice: string
-  persistId: string
+  default: string
 }

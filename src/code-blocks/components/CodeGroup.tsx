@@ -6,19 +6,15 @@ import { useSelectedChoice } from '../hooks/useSelectedChoice'
 import { useRestoreScroll } from '../hooks/useRestoreScroll'
 import { assertUsage } from '../../utils/assert'
 import { cls } from '../../utils/cls'
+import type { PageContext } from 'vike/types'
 import './CodeGroup.css'
 
-function CodeGroup({ children, groupName }: { children: React.ReactNode, groupName: string }) {
+function CodeGroup({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { choices: c } = pageContext.globalContext.config.docpress
-  assertUsage(c && c[groupName], `+docpress.choices['${groupName}'] is not defined in +docpress.choices`)
-
-  const { choices, defaultChoice, persistId } = c[groupName]
-  const childrenCount = React.Children.toArray(children).length
-  assertUsage(childrenCount === choices.length, `expected ${choices.length} children, but got ${childrenCount}.`)
-
+  const { groupName, group } = findGroup(pageContext, children)
+  const { choices, default: defaultChoice } = group
   const [hasJsToggle, setHasJsToggle] = useState(false)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(persistId, defaultChoice)
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const codeGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
 
@@ -29,7 +25,7 @@ function CodeGroup({ children, groupName }: { children: React.ReactNode, groupNa
   }, [selectedChoice])
 
   return (
-    <div ref={codeGroupRef} data-key={persistId} className="code-group">
+    <div ref={codeGroupRef} data-key={groupName} className="code-group">
       <select
         name="select-choice"
         value={selectedChoice}
@@ -51,4 +47,21 @@ function CodeGroup({ children, groupName }: { children: React.ReactNode, groupNa
     prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
     setSelectedChoice(el.value)
   }
+}
+
+function findGroup(pageContext: PageContext, children: React.ReactNode) {
+  const choiceIds = React.Children.toArray(children)
+    .filter(React.isValidElement<{ id: string }>)
+    .map((child) => child.props.id)
+  const { choices: choicesGroup } = pageContext.globalContext.config.docpress
+  assertUsage(choicesGroup, `+docpress.choices is not defined.`)
+
+  const groupName = Object.keys(choicesGroup).find(
+    (key) =>
+      choicesGroup[key].choices.length === choiceIds.length &&
+      choicesGroup[key].choices.every((choice, i) => choice === choiceIds[i]),
+  )
+  assertUsage(groupName, `+docpress.choices[${groupName}] is not defined.`)
+
+  return { groupName, group: choicesGroup[groupName] }
 }

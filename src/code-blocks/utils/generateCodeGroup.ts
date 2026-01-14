@@ -13,6 +13,35 @@ function generateCodeGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'choices',
+    value: {
+      type: 'mdxJsxAttributeValueExpression',
+      value: '',
+      data: {
+        estree: {
+          type: 'Program',
+          sourceType: 'module',
+          comments: [],
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'ArrayExpression',
+                // @ts-ignore: Missing properties in type definition
+                elements: codeChoices.map((choice) => ({
+                  type: 'Literal',
+                  value: choice.value,
+                })),
+              },
+            },
+          ],
+        },
+      },
+    },
+  })
+
   for (const codeChoice of codeChoices) {
     const classNames = ['code-choice']
     if (findHasJsToggle(codeChoice.children[0])) {

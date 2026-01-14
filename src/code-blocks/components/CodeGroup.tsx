@@ -9,12 +9,11 @@ import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
 import './CodeGroup.css'
 
-function CodeGroup({ children }: { children: React.ReactNode }) {
+function CodeGroup({ children, choices }: { children: React.ReactNode, choices: string[] }) {
   const pageContext = usePageContext()
-  const { groupName, group } = findGroup(pageContext, children)
-  const { choices, default: defaultChoice } = group
+  const { groupName, group } = findGroup(pageContext, choices)
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, group.default)
   const [hasJsToggle, setHasJsToggle] = useState(false)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const codeGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
 
@@ -32,7 +31,7 @@ function CodeGroup({ children }: { children: React.ReactNode }) {
         onChange={onChange}
         className={cls(['select-choice', hasJsToggle && 'has-toggle'])}
       >
-        {choices.map((choice, i) => (
+        {group.choices.map((choice, i) => (
           <option key={i} value={choice}>
             {choice}
           </option>
@@ -49,19 +48,16 @@ function CodeGroup({ children }: { children: React.ReactNode }) {
   }
 }
 
-function findGroup(pageContext: PageContext, children: React.ReactNode) {
-  const choiceIds = React.Children.toArray(children)
-    .filter(React.isValidElement<{ id: string }>)
-    .map((child) => child.props.id)
+function findGroup(pageContext: PageContext, choices: string[]) {
   const { choices: choicesGroup } = pageContext.globalContext.config.docpress
   assertUsage(choicesGroup, `+docpress.choices is not defined.`)
 
   const groupName = Object.keys(choicesGroup).find(
     (key) =>
-      choicesGroup[key].choices.length === choiceIds.length &&
-      choicesGroup[key].choices.every((choice, i) => choice === choiceIds[i]),
+      choicesGroup[key].choices.length === choices.length &&
+      choicesGroup[key].choices.every((choice, i) => choice === choices[i]),
   )
-  assertUsage(groupName, `+docpress.choices[${groupName}] is not defined.`)
+  assertUsage(groupName, `the group name for [${choices}] was not found.`)
 
   return { groupName, group: choicesGroup[groupName] }
 }

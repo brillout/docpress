@@ -24,7 +24,7 @@ function CodeGroup({ children, choices }: { children: React.ReactNode, choices: 
   }, [selectedChoice])
 
   return (
-    <div ref={codeGroupRef} data-key={groupName} className="code-group">
+    <div ref={codeGroupRef} data-group-name={groupName} className="code-group">
       <select
         name="select-choice"
         value={selectedChoice}

@@ -44,7 +44,11 @@ function remarkCodeGroup() {
         const nodes = node.children.slice(start, end) as Node[]
         const groupedNodes = groupByNodeType(nodes)
 
-        if (groupedNodes.every((nodes) => nodes.length <= 1)) return
+        if (groupedNodes.every((nodes) => nodes.length <= 1)) {
+          end = start
+          start = -1
+          return
+        }
 
         const replacements: MdxJsxFlowElement[] = []
 

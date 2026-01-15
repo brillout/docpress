@@ -99,6 +99,7 @@ function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
 // Resources:
 // - https://www.google.com/s2/favicons?domain=vike.dev
 // - https://stackoverflow.com/questions/59568586/favicon-don%c2%b4t-show-up-in-google-search-result/59577456#59577456
+// - https://stackoverflow.com/questions/76123025/attach-google-search-specific-favicon-to-html
 // - https://developers.google.com/search/docs/appearance/favicon-in-search
 //
 // Examples:
@@ -108,8 +109,10 @@ function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
 //   https://rubyonrails.org
 // - Favicon shown in browser is different than favicon shown in Google:
 //   https://evilmartians.com
-//   Shown in Google: <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+//   Shown in Google: <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> or <link rel="manifest" href="/manifest.webmanifest" />
 //   Shown in Browser: <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+//   https://gemini.google.com/share/8bcf76a26783
+//   https://chatgpt.com/share/696930b6-4414-800d-9c55-598ac7fa1ccb
 function getFaviconTags(config: Config) {
   const { faviconBrowser, faviconGoogle } = getFavicons(config)
   assert(faviconBrowser)

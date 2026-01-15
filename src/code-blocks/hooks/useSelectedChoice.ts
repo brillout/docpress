@@ -27,10 +27,10 @@ function initializeCodeGroup() {
   for (const groupEl of groupsElements) {
     const groupName = groupEl.getAttribute('data-group-name')!
     const selectedChoice = localStorage.getItem(`docpress:${groupName}`)
-    if (!selectedChoice) return
-    const selectEl = groupEl.querySelector<HTMLSelectElement>(`select[name="${groupName}-choices"]`)
+    if (!selectedChoice) continue
+    const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)
     if (selectEl) selectEl.value = selectedChoice
-    const inputEl = groupEl.querySelector<HTMLInputElement>(`input[type="checkbox"]`)
+    const inputEl = groupEl.querySelector<HTMLInputElement>(`.single-choice`)
     if (inputEl) inputEl.checked = selectedChoice === inputEl.nextElementSibling?.id
   }
 }

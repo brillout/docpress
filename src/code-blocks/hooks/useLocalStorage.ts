@@ -1,6 +1,7 @@
 export { useLocalStorage }
 
 import { useCallback, useSyncExternalStore } from 'react'
+import { assertWarning } from '../../utils/assert'
 
 /**
  * A simple, generic `useLocalStorage` hook with SSR and cross-tab support.
@@ -23,14 +24,24 @@ function useLocalStorage(storageKey: string, clientValue: string, ssrValue?: str
   )
 
   const getSnapshot = useCallback(() => {
-    const storedValue = localStorage.getItem(storageKey)
-    return storedValue || clientValue
+    try {
+      return localStorage.getItem(storageKey) || clientValue
+    } catch (error) {
+      console.error(error)
+      assertWarning(false, 'Error reading from localStorage')
+      return clientValue
+    }
   }, [storageKey, clientValue])
 
   const setValue = (value: string) => {
-    localStorage.setItem(storageKey, value)
-    // Manually dispatch a storage event to force update in the current tab
-    window.dispatchEvent(new StorageEvent('storage', { key: storageKey }))
+    try {
+      localStorage.setItem(storageKey, value)
+      // Manually dispatch a storage event to force update in the current tab
+      window.dispatchEvent(new StorageEvent('storage', { key: storageKey }))
+    } catch (error) {
+      console.error(error)
+      assertWarning(false, 'Error setting localStorage')
+    }
   }
 
   const value = useSyncExternalStore(subscribe, getSnapshot, () => ssrValue || clientValue)

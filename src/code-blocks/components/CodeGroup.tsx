@@ -9,10 +9,11 @@ import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
 import './CodeGroup.css'
 
-function CodeGroup({ children, choices }: { children: React.ReactNode, choices: string[] }) {
+function CodeGroup({ children, choices }: { children: React.ReactNode; choices: string[] }) {
   const pageContext = usePageContext()
-  const { groupName, group } = findGroup(pageContext, choices)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, group.default)
+  const singleChoice = choices.length === 1
+  const group = findGroup(pageContext, choices)
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(group.name, group.default)
   const [hasJsToggle, setHasJsToggle] = useState(false)
   const codeGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
@@ -24,19 +25,30 @@ function CodeGroup({ children, choices }: { children: React.ReactNode, choices: 
   }, [selectedChoice])
 
   return (
-    <div ref={codeGroupRef} data-group-name={groupName} className="code-group">
-      <select
-        name="select-choice"
-        value={selectedChoice}
-        onChange={onChange}
-        className={cls(['select-choice', hasJsToggle && 'has-toggle'])}
-      >
-        {group.choices.map((choice, i) => (
-          <option key={i} value={choice}>
-            {choice}
-          </option>
-        ))}
-      </select>
+    <div ref={codeGroupRef} data-group-name={group.name} className="code-group">
+      {singleChoice ? (
+        <input
+          type="checkbox"
+          name={`${group.name}-${choices[0]}`}
+          className="single-choice"
+          checked={selectedChoice === choices[0]}
+          style={{ display: 'none' }}
+          readOnly
+        />
+      ) : (
+        <select
+          name={`${group.name}-choices`}
+          value={selectedChoice}
+          onChange={onChange}
+          className={cls(['select-choice', hasJsToggle && 'has-toggle'])}
+        >
+          {group.choices.map((choice, i) => (
+            <option key={i} value={choice}>
+              {choice}
+            </option>
+          ))}
+        </select>
+      )}
       {children}
     </div>
   )
@@ -52,12 +64,16 @@ function findGroup(pageContext: PageContext, choices: string[]) {
   const { choices: choicesGroup } = pageContext.globalContext.config.docpress
   assertUsage(choicesGroup, `+docpress.choices is not defined.`)
 
-  const groupName = Object.keys(choicesGroup).find(
-    (key) =>
+  const groupName = Object.keys(choicesGroup).find((key) => {
+    if (choices.length === 1) {
+      return choicesGroup[key].choices.some((choice) => choice === choices[0])
+    }
+    return (
       choicesGroup[key].choices.length === choices.length &&
-      choicesGroup[key].choices.every((choice, i) => choice === choices[i]),
-  )
+      choicesGroup[key].choices.every((choice, i) => choice === choices[i])
+    )
+  })
   assertUsage(groupName, `the group name for [${choices}] was not found.`)
 
-  return { groupName, group: choicesGroup[groupName] }
+  return { name: groupName, ...choicesGroup[groupName] }
 }

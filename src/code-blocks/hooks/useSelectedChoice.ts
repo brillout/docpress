@@ -25,10 +25,12 @@ const initializeCodeGroup_SSR = `initializeCodeGroup();${initializeCodeGroup.toS
 function initializeCodeGroup() {
   const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-group-name]')
   for (const groupEl of groupsElements) {
-    const persistId = groupEl.getAttribute('data-group-name')!
-    const selectedChoice = localStorage.getItem(`docpress:${persistId}`)
+    const groupName = groupEl.getAttribute('data-group-name')!
+    const selectedChoice = localStorage.getItem(`docpress:${groupName}`)
     if (!selectedChoice) return
-    const selectEl = groupEl.querySelector<HTMLSelectElement>('select[name="select-choice"]')
+    const selectEl = groupEl.querySelector<HTMLSelectElement>(`select[name="${groupName}-choices"]`)
     if (selectEl) selectEl.value = selectedChoice
+    const inputEl = groupEl.querySelector<HTMLInputElement>(`input[type="checkbox"]`)
+    if (inputEl) inputEl.checked = selectedChoice === inputEl.nextElementSibling?.id
   }
 }

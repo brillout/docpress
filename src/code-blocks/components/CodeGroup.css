@@ -41,4 +41,8 @@
   select:has(option:nth-of-type(5):not(:checked)) ~ .code-choice:nth-of-type(5) {
     display: none;
   }
+
+  &:has(.single-choice:not(:checked)) .code-choice:first-of-type {
+    display: none;
+  }
 }

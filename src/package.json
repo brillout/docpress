@@ -50,7 +50,7 @@
     "./renderer/onRenderHtml": "./renderer/onRenderHtml.tsx",
     "./renderer/onRenderClient": "./renderer/onRenderClient.tsx",
     "./renderer/onCreatePageContext": "./renderer/onCreatePageContext.ts",
-    ".": "./index.ts",
+    ".": "./dist/index.js",
     "./config": "./dist/+config.js",
     "./style": "./css/index.css",
     "./types": {

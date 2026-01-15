@@ -14,7 +14,10 @@ const config: Config = {
   tagline: 'DocPress Demonstration.',
   logo,
   navLogoSize: 35,
-  favicon,
+  favicon: {
+    browser: favicon,
+    google: favicon,
+  },
 
   github: 'https://github.com/brillout/docpress',
   discord: 'https://example.org/some-discord-invite',

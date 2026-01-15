@@ -4,6 +4,7 @@ import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react-swc'
 import type { PluginOption, UserConfig } from 'vite'
 import { parsePageSections } from './parsePageSections.js'
+import { generateWebManifest } from './generateWebManifest.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerNotationDiff } from '@shikijs/transformers'
@@ -27,6 +28,7 @@ const config: UserConfig = {
   root,
   plugins: [
     parsePageSections(),
+    generateWebManifest(),
     mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     // @vitejs/plugin-react-swc needs to be added *after* the mdx plugins
     react(),

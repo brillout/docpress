@@ -113,7 +113,6 @@ function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
 //   Shown in Browser: <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 //   https://gemini.google.com/share/8bcf76a26783
 //   https://chatgpt.com/share/696930b6-4414-800d-9c55-598ac7fa1ccb
-// TODO/ai generate manifest.webmanifest at build-time and add <link rel="manifest" href="/manifest.webmanifest" /> to the HTML
 function getFaviconTags(config: Config) {
   const { faviconBrowser, faviconGoogle } = getFavicons(config)
   assert(faviconBrowser)
@@ -121,6 +120,7 @@ function getFaviconTags(config: Config) {
     ? ''
     : escapeInject`
     <link rel="apple-touch-icon" href="${faviconGoogle}" />
+    <link rel="manifest" href="/manifest.webmanifest" />
   `
   return escapeInject`
     <link rel="icon" href="${faviconBrowser}" type="image/svg+xml" />

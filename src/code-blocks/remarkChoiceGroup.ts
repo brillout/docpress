@@ -1,16 +1,15 @@
-export { remarkCodeGroup }
+export { remarkChoiceGroup }
 
 import type { Code, Root } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { ContainerDirective } from 'mdast-util-directive'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateCodeGroup } from './utils/generateCodeGroup.js'
-import { assertUsage } from '../utils/assert.js'
+import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
 
 type Node = Code | MdxJsxFlowElement | ContainerDirective
 
-function remarkCodeGroup() {
+function remarkChoiceGroup() {
   return function (tree: Root) {
     visit(tree, (node) => {
       if (node.type === 'code') {
@@ -46,7 +45,7 @@ function remarkCodeGroup() {
         const replacements: MdxJsxFlowElement[] = []
 
         for (const groupedNode of groupedNodes) {
-          const replacement = generateCodeGroup(groupedNode)
+          const replacement = generateChoiceGroup(groupedNode)
 
           replacements.push(replacement)
           replaced.add(replacement)

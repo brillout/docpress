@@ -1,4 +1,4 @@
-export { generateCodeGroup }
+export { generateChoiceGroup }
 export type { CodeChoice }
 
 import type { BlockContent, DefinitionContent } from 'mdast'
@@ -9,7 +9,7 @@ type CodeChoice = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateCodeGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
+function generateChoiceGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
@@ -43,7 +43,7 @@ function generateCodeGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
   })
 
   for (const codeChoice of codeChoices) {
-    const classNames = ['code-choice']
+    const classNames = ['choice']
     if (findHasJsToggle(codeChoice.children[0])) {
       classNames.push('has-toggle')
     }
@@ -63,7 +63,7 @@ function generateCodeGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
 
   return {
     type: 'mdxJsxFlowElement',
-    name: 'CodeGroup',
+    name: 'ChoiceGroup',
     attributes,
     children,
   }

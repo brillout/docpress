@@ -1,4 +1,4 @@
-export { CodeGroup }
+export { ChoiceGroup }
 
 import React, { useEffect, useRef, useState } from 'react'
 import { usePageContext } from '../../renderer/usePageContext'
@@ -7,25 +7,25 @@ import { useRestoreScroll } from '../hooks/useRestoreScroll'
 import { assertUsage } from '../../utils/assert'
 import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
-import './CodeGroup.css'
+import './ChoiceGroup.css'
 
-function CodeGroup({ children, choices }: { children: React.ReactNode; choices: string[] }) {
+function ChoiceGroup({ children, choices }: { children: React.ReactNode; choices: string[] }) {
   const pageContext = usePageContext()
   const group = findGroup(pageContext, choices)
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(group.name, group.default)
   const [hasJsToggle, setHasJsToggle] = useState(false)
-  const codeGroupRef = useRef<HTMLDivElement>(null)
+  const choiceGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const isHidden = choices.length === 1 || !choices.includes(selectedChoice)
 
   useEffect(() => {
-    if (!codeGroupRef.current) return
-    const selectedChoiceEl = codeGroupRef.current.querySelector<HTMLDivElement>(`div[id="${selectedChoice}"]`)
+    if (!choiceGroupRef.current) return
+    const selectedChoiceEl = choiceGroupRef.current.querySelector<HTMLDivElement>(`div[id="${selectedChoice}"]`)
     setHasJsToggle(!!selectedChoiceEl?.classList.contains('has-toggle'))
   }, [selectedChoice])
 
   return (
-    <div ref={codeGroupRef} data-group-name={group.name} className="code-group">
+    <div ref={choiceGroupRef} data-group-name={group.name} className="choice-group">
       <select
         name={`${group.name}-choices`}
         value={selectedChoice}

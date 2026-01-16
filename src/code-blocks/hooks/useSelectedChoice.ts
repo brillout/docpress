@@ -1,5 +1,5 @@
 export { useSelectedChoice }
-export { initializeCodeGroup_SSR }
+export { initializeChoiceGroup_SSR }
 
 import { useState } from 'react'
 import { useLocalStorage } from './useLocalStorage'
@@ -21,8 +21,8 @@ function useSelectedChoice(persistId: string | null, defaultValue: string) {
 }
 
 // WARNING: We cannot use the keyPrefix variable here: closures don't work because we serialize the function.
-const initializeCodeGroup_SSR = `initializeCodeGroup();${initializeCodeGroup.toString()};`
-function initializeCodeGroup() {
+const initializeChoiceGroup_SSR = `initializeChoiceGroup();${initializeChoiceGroup.toString()};`
+function initializeChoiceGroup() {
   const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-group-name]')
   for (const groupEl of groupsElements) {
     const groupName = groupEl.getAttribute('data-group-name')!

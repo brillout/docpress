@@ -4,7 +4,7 @@ import type { Code, Root } from 'mdast'
 import { visit } from 'unist-util-visit'
 import convert from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateCodeGroup } from './utils/generateCodeGroup.js'
+import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
 
 const PKG_MANAGERS = ['pnpm', 'yarn', 'bun'] as const
 
@@ -36,7 +36,7 @@ function remarkPkgManager() {
       }
 
       const groupedNodes = [...nodes].map(([name, node]) => ({ value: name, children: [node] }))
-      const replacement = generateCodeGroup(groupedNodes)
+      const replacement = generateChoiceGroup(groupedNodes)
 
       replacement.data ??= { choice }
       parent.children.splice(index, 1, replacement)

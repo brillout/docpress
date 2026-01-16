@@ -27,7 +27,7 @@ import {
 } from './MenuModal/toggleMenuModal'
 import { MenuModal } from './MenuModal'
 import { autoScrollNav_SSR } from './autoScrollNav'
-import { initializeCodeGroup_SSR } from './code-blocks/hooks/useSelectedChoice'
+import { initializeChoiceGroup_SSR } from './code-blocks/hooks/useSelectedChoice'
 import { initializeJsToggle_SSR } from './code-blocks/hooks/useSelectCodeLang'
 import { SearchLink } from './docsearch/SearchLink'
 import { navigate } from 'vike/client/router'
@@ -101,7 +101,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
-      <script dangerouslySetInnerHTML={{ __html: `${initializeCodeGroup_SSR}\n${initializeJsToggle_SSR}` }}></script>
+      <script dangerouslySetInnerHTML={{ __html: `${initializeChoiceGroup_SSR}\n${initializeJsToggle_SSR}` }}></script>
       <Style>{getStyleLayout()}</Style>
     </div>
   )

@@ -30,7 +30,5 @@ function initializeCodeGroup() {
     if (!selectedChoice) continue
     const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)
     if (selectEl) selectEl.value = selectedChoice
-    const inputEl = groupEl.querySelector<HTMLInputElement>(`.single-choice`)
-    if (inputEl) inputEl.checked = selectedChoice === inputEl.nextElementSibling?.id
   }
 }

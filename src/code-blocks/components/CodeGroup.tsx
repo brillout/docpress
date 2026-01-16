@@ -11,12 +11,12 @@ import './CodeGroup.css'
 
 function CodeGroup({ children, choices }: { children: React.ReactNode; choices: string[] }) {
   const pageContext = usePageContext()
-  const singleChoice = choices.length === 1
   const group = findGroup(pageContext, choices)
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(group.name, group.default)
   const [hasJsToggle, setHasJsToggle] = useState(false)
   const codeGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
+  const isHidden = choices.length === 1 || !choices.includes(selectedChoice)
 
   useEffect(() => {
     if (!codeGroupRef.current) return
@@ -26,29 +26,18 @@ function CodeGroup({ children, choices }: { children: React.ReactNode; choices: 
 
   return (
     <div ref={codeGroupRef} data-group-name={group.name} className="code-group">
-      {singleChoice ? (
-        <input
-          type="checkbox"
-          name={`${group.name}-${choices[0]}`}
-          className="single-choice"
-          checked={selectedChoice === choices[0]}
-          style={{ display: 'none' }}
-          readOnly
-        />
-      ) : (
-        <select
-          name={`${group.name}-choices`}
-          value={selectedChoice}
-          onChange={onChange}
-          className={cls(['select-choice', hasJsToggle && 'has-toggle', !choices.includes(selectedChoice) && 'hidden'])}
-        >
-          {group.choices.map((choice, i) => (
-            <option key={i} value={choice} disabled={!choices.includes(choice)}>
-              {choice}
-            </option>
-          ))}
-        </select>
-      )}
+      <select
+        name={`${group.name}-choices`}
+        value={selectedChoice}
+        onChange={onChange}
+        className={cls(['select-choice', hasJsToggle && 'has-toggle', isHidden && 'hidden'])}
+      >
+        {group.choices.map((choice, i) => (
+          <option key={i} value={choice} disabled={!choices.includes(choice)}>
+            {choice}
+          </option>
+        ))}
+      </select>
       {children}
     </div>
   )

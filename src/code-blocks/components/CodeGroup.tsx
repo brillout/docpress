@@ -40,10 +40,10 @@ function CodeGroup({ children, choices }: { children: React.ReactNode; choices: 
           name={`${group.name}-choices`}
           value={selectedChoice}
           onChange={onChange}
-          className={cls(['select-choice', hasJsToggle && 'has-toggle'])}
+          className={cls(['select-choice', hasJsToggle && 'has-toggle', !choices.includes(selectedChoice) && 'hidden'])}
         >
           {group.choices.map((choice, i) => (
-            <option key={i} value={choice}>
+            <option key={i} value={choice} disabled={!choices.includes(choice)}>
               {choice}
             </option>
           ))}
@@ -65,15 +65,32 @@ function findGroup(pageContext: PageContext, choices: string[]) {
   assertUsage(choicesGroup, `+docpress.choices is not defined.`)
 
   const groupName = Object.keys(choicesGroup).find((key) => {
-    if (choices.length === 1) {
-      return choicesGroup[key].choices.some((choice) => choice === choices[0])
+    // get only the values that exist in both choices and choicesGroup[key].choices
+    const relevantChoices = choicesGroup[key].choices.filter((choice) => choices.includes(choice))
+    // if nothing exists, skip this key
+    if (relevantChoices.length === 0) return false
+
+    // check order
+    let i = 0
+    for (const choice of choices) {
+      if (choice === relevantChoices[i]) i++
     }
-    return (
-      choicesGroup[key].choices.length === choices.length &&
-      choicesGroup[key].choices.every((choice, i) => choice === choices[i])
+    assertUsage(
+      i === relevantChoices.length,
+      `Choices exist for key "${key}" but NOT in order. Expected order: [${relevantChoices}], got: [${choices}]`,
     )
+
+    return true
   })
   assertUsage(groupName, `the group name for [${choices}] was not found.`)
 
-  return { name: groupName, ...choicesGroup[groupName] }
+  const mergedChoices = [...new Set([...choices, ...choicesGroup[groupName].choices])]
+
+  const group = {
+    name: groupName,
+    ...choicesGroup[groupName],
+    choices: mergedChoices,
+  }
+
+  return group
 }

@@ -263,6 +263,44 @@ function startServer() {
 export default startServer()
 ```
 
+Skipping the first choice from `+docpress.choices['server']` caused it to become the third disabled option in the select options.
+
+```ts choice=express file-added
+// server/index.ts
+
+import express from 'express'
+import { apply, serve } from 'vike-photon/express'
+
+function startServer() {
+  const app = express()
+  apply(app)
+  return serve(app)
+}
+
+export default startServer()
+```
+
+```ts choice=fastify file-added
+// server/index.ts
+
+import fastify from 'fastify'
+import rawBody from 'fastify-raw-body'
+import { apply, serve } from '@photonjs/fastify'
+
+async function startServer() {
+  const app = fastify({
+    // ⚠️ Mandatory for HMR support
+    forceCloseConnections: true
+  })
+  // ⚠️ Mandatory for Vike's SSR middleware
+  await app.register(rawBody)
+  await apply(app)
+  return serve(app)
+}
+
+export default startServer()
+```
+
 Some paragraph.
 
 :::Choice{#express}

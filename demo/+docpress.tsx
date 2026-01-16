@@ -51,7 +51,7 @@ const config: Config = {
       default: 'npm',
     },
     server: {
-      choices: ['hono', 'express'],
+      choices: ['hono', 'express', 'fastify'],
       default: 'hono',
     },
     'ui-ext': {

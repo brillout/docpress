@@ -152,6 +152,94 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
   })
 
+  test(`${featuresURL} - Choice Group`, async () => {
+    const groupName = ['pkg-manager', 'server']
+    const firstChoiceText1 = 'npm i hono @photonjs/hono'
+    const firstChoiceText2 = "import { Hono } from 'hono'"
+    const secondChoiceText1 = 'pnpm add express @photonjs/express'
+    const secondChoiceText2 = "import express from 'express'"
+    const fastifyChoiceText = "import fastify from 'fastify'"
+
+    const hasFirstChoice = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(firstChoiceText1)
+        expect(text).toContain(firstChoiceText2)
+      } else {
+        expect(text).not.toContain(firstChoiceText1)
+        expect(text).not.toContain(firstChoiceText2)
+      }
+    }
+
+    const hasSecondChoice = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(secondChoiceText1)
+        expect(text).toContain(secondChoiceText2)
+      } else {
+        expect(text).not.toContain(secondChoiceText1)
+        expect(text).not.toContain(secondChoiceText2)
+      }
+    }
+
+    const hasFastifyChoice = (text: string | null, yes = true) => {
+      expect(text).not.toBe(null)
+      if (yes) {
+        expect(text).toContain(fastifyChoiceText)
+      } else {
+        expect(text).not.toContain(fastifyChoiceText)
+      }
+    }
+
+    const textFull = await page.textContent('body')
+
+    hasFirstChoice(textFull)
+    hasSecondChoice(textFull)
+    hasFastifyChoice(textFull)
+
+    const expectFirstChoice = async () => {
+      const text = await getVisibleText(page)
+      hasFirstChoice(text)
+      hasSecondChoice(text, false)
+      hasFastifyChoice(text, false)
+    }
+
+    const expectSecondChoice = async () => {
+      const text = await getVisibleText(page)
+      hasFirstChoice(text, false)
+      hasSecondChoice(text)
+      hasFastifyChoice(text, false)
+    }
+
+    const expectFastifyChoice = async () => {
+      await page.locator('select[name="server-choices"]:visible').nth(2).selectOption('fastify')
+      const text = await getVisibleText(page)
+      hasFirstChoice(text, false)
+      hasSecondChoice(text, false)
+      hasFastifyChoice(text)
+    }
+
+    await page.evaluate(() => window.localStorage.clear())
+
+    await expectFirstChoice()
+
+    for (const group of groupName) {
+      await page.selectOption(`select[name="${group}-choices"]:visible`, { index: isDev ? 0 : 1 })
+    }
+
+    await autoRetry(
+      async () => {
+        if (isDev) {
+          await expectFirstChoice()
+        } else {
+          await expectSecondChoice()
+          await expectFastifyChoice()
+        }
+      },
+      { timeout: 5 * 1000 },
+    )
+  })
+
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)

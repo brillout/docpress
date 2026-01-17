@@ -153,7 +153,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - Choice Group`, async () => {
-    const groupName = ['pkg-manager', 'server']
     const firstChoiceText1 = 'npm i hono @photonjs/hono'
     const firstChoiceText2 = "import { Hono } from 'hono'"
     const secondChoiceText1 = 'pnpm add express @photonjs/express'
@@ -223,9 +222,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectFirstChoice()
 
-    for (const group of groupName) {
-      await page.selectOption(`select[name="${group}-choices"]:visible`, { index: isDev ? 0 : 1 })
-    }
+    await page.selectOption(`select[name="pkg-manager-choices"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="server-choices"]:visible`, { index: isDev ? 0 : 1 })
 
     await autoRetry(
       async () => {

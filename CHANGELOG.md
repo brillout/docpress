@@ -1,3 +1,12 @@
+## [0.16.8](https://github.com/brillout/docpress/compare/v0.16.7...v0.16.8) (2026-01-17)
+
+
+### Features
+
+* ChoiceGroup ([#73](https://github.com/brillout/docpress/issues/73)) ([645248f](https://github.com/brillout/docpress/commit/645248fea1ca487fa74e51fa1fbcbc7ea2fb44d8))
+
+
+
 ## [0.16.7](https://github.com/brillout/docpress/compare/v0.16.6...v0.16.7) (2026-01-06)
 
 

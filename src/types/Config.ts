@@ -48,6 +48,7 @@ type Config = {
   navLogoTextStyle?: React.CSSProperties
 
   globalNote?: React.ReactNode
+  choices?: Record<string, Choice>
 }
 
 /** Order in Algolia search results */
@@ -58,3 +59,8 @@ type Category =
       /** Hide from Algolia search */
       hide?: boolean
     }
+
+type Choice = {
+  choices: string[]
+  default: string
+}

@@ -1,57 +1,14 @@
 export { useSelectCodeLang }
 export { initializeJsToggle_SSR }
 
-import { useState, useEffect, useCallback } from 'react'
-import { assertWarning } from '../../utils/assert'
+import { useLocalStorage } from './useLocalStorage'
 
 const storageKey = 'docpress:code-lang'
 const codeLangDefaultSsr = 'ts'
 const codeLangDefaultClient = 'js'
 
 function useSelectCodeLang() {
-  const [codeLangSelected, setCodeLangSelected] = useState(codeLangDefaultSsr)
-  const updateState = () => {
-    setCodeLangSelected(getCodeLangStorage())
-  }
-  const updateStateOnStorageEvent = (event: StorageEvent) => {
-    if (event.key === storageKey) updateState()
-  }
-
-  const getCodeLangStorage = () => {
-    try {
-      return window.localStorage.getItem(storageKey) ?? codeLangDefaultClient
-    } catch (error) {
-      console.error(error)
-      assertWarning(false, 'Error reading from localStorage')
-      return codeLangDefaultClient
-    }
-  }
-
-  const selectCodeLang = useCallback((value: string) => {
-    try {
-      window.localStorage.setItem(storageKey, value)
-      setCodeLangSelected(value)
-      window.dispatchEvent(new CustomEvent('code-lang-storage'))
-    } catch (error) {
-      console.error(error)
-      assertWarning(false, 'Error setting localStorage')
-    }
-  }, [])
-
-  useEffect(() => {
-    // Initial load from localStorage
-    updateState()
-    // Update code lang in current tab
-    window.addEventListener('code-lang-storage', updateState)
-    // Update code lang if changed in another tab
-    window.addEventListener('storage', updateStateOnStorageEvent)
-    return () => {
-      window.removeEventListener('code-lang-storage', updateState)
-      window.removeEventListener('storage', updateStateOnStorageEvent)
-    }
-  }, [])
-
-  return [codeLangSelected, selectCodeLang] as const
+  return useLocalStorage(storageKey, codeLangDefaultClient, codeLangDefaultSsr)
 }
 
 // WARNING: We cannot use the variables storageKey nor codeLangDefaultClient here: closures
@@ -64,11 +21,5 @@ function initializeJsToggle() {
     const inputs = document.querySelectorAll('.code-lang-toggle')
     // @ts-ignore
     for (const input of inputs) input.checked = false
-  }
-}
-
-declare global {
-  interface WindowEventMap {
-    'code-lang-storage': CustomEvent
   }
 }

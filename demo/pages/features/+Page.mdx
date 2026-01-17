@@ -220,3 +220,149 @@ async function onNewTodo(text: string) {
 // https://vike.dev
 const a: number = 1
 ```
+
+## ChoiceGroup
+
+Using `choice=choice-name` meta to group code blocks into multiple choices:
+
+```shell choice=hono
+npm i hono @photonjs/hono
+```
+
+```shell choice=express
+npm i express @photonjs/express
+```
+
+```ts choice=hono file-added
+// server/index.ts
+
+import { Hono } from 'hono'
+import { apply, serve } from 'vike-photon/hono'
+
+function startServer() {
+  const app = new Hono()
+  apply(app)
+  return serve(app)
+}
+
+export default startServer()
+```
+
+```ts choice=express file-added
+// server/index.ts
+
+import express from 'express'
+import { apply, serve } from 'vike-photon/express'
+
+function startServer() {
+  const app = express()
+  apply(app)
+  return serve(app)
+}
+
+export default startServer()
+```
+
+Skipping the first choice from `+docpress.choices['server']` caused it to become the third disabled option in the select options.
+
+```ts choice=express file-added
+// server/index.ts
+
+import express from 'express'
+import { apply, serve } from 'vike-photon/express'
+
+function startServer() {
+  const app = express()
+  apply(app)
+  return serve(app)
+}
+
+export default startServer()
+```
+
+```ts choice=fastify file-added
+// server/index.ts
+
+import fastify from 'fastify'
+import rawBody from 'fastify-raw-body'
+import { apply, serve } from '@photonjs/fastify'
+
+async function startServer() {
+  const app = fastify({
+    // ⚠️ Mandatory for HMR support
+    forceCloseConnections: true
+  })
+  // ⚠️ Mandatory for Vike's SSR middleware
+  await app.register(rawBody)
+  await apply(app)
+  return serve(app)
+}
+
+export default startServer()
+```
+
+Some paragraph.
+
+:::Choice{#express}
+> Express.js is deprecated.
+:::
+
+
+Using `:::Choice{#choice-name} {:mdx}` directive to combine multiple contents for a single choice:
+
+:::Choice{#vike-react}
+```tsx
+import { ClientOnly } from 'vike-react/ClientOnly'
+
+function Page() {
+  return (
+    <ClientOnly fallback={<p>Loading...</p>}>
+      <SomeComponent />
+    </ClientOnly>
+  )
+}
+```
+
+Props:
+- **children**: Content rendered only on the client-side after hydration.
+- **fallback** (optional): Content shown during SSR and before hydration completes.
+:::
+
+:::Choice{#vike-vue}
+```vue
+<template>
+  <ClientOnly>
+    <SomeComponent />
+    <template #fallback>
+      <p>Loading...</p>
+    </template>
+  </ClientOnly>
+</template>
+
+<script setup lang="ts">
+import { ClientOnly } from 'vike-vue/ClientOnly'
+</script>
+```
+
+Props:
+- **default slot**: Content rendered only on the client-side after hydration.
+- **fallback slot** (optional): Content shown during SSR and before hydration completes.
+:::
+
+:::Choice{#vike-solid}
+```tsx
+import { ClientOnly } from 'vike-solid/ClientOnly'
+
+function Page() {
+  return (
+    <ClientOnly fallback={<p>Loading...</p>}>
+      <SomeComponent />
+    </ClientOnly>
+  )
+}
+```
+
+Props:
+- **children**: Content rendered only on the client-side after hydration.
+- **fallback** (optional): Content shown during SSR and before hydration completes.
+:::

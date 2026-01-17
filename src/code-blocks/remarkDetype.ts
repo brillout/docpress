@@ -82,8 +82,11 @@ function transformYaml(node: CodeNode) {
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
-  const meta = parseMetaString(codeBlock.meta)
+  const meta = parseMetaString(codeBlock.meta, ['max-width', 'choice'])
   const maxWidth = Number(meta.props['max-width'])
+  const { choice } = meta.props
+  codeBlock.meta = meta.rest
+
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
 
@@ -137,8 +140,8 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // Add `hideToggle` attribute (prop) to `CodeSnippets` if the only change was replacing `.ts` with `.js`
   if (codeBlockReplacedJs === codeBlockContentJs) {
     attributes.push({
-      name: 'hideToggle',
       type: 'mdxJsxAttribute',
+      name: 'hideToggle',
     })
   }
 
@@ -149,6 +152,9 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     children: [jsCode, codeBlock],
     attributes,
   }
+
+  if (choice) container.data ??= { choice }
+
   parent.children.splice(index, 1, container)
 }
 

@@ -4,8 +4,9 @@ export { TypescriptOnly }
 // Internal
 export { CodeSnippets }
 
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useSelectCodeLang } from '../hooks/useSelectCodeLang'
+import { useRestoreScroll } from '../hooks/useRestoreScroll'
 import './CodeSnippets.css'
 
 /** Only show if TypeScript is selected */
@@ -16,18 +17,7 @@ function TypescriptOnly({ children }: { children: React.ReactNode }) {
 
 function CodeSnippets({ children, hideToggle = false }: { children: React.ReactNode; hideToggle: boolean }) {
   const [codeLangSelected, selectCodeLang] = useSelectCodeLang()
-  const prevPositionRef = useRef<null | { top: number; el: Element }>(null)
-
-  // Restores the scroll position of the toggle element after toggling languages.
-  useEffect(() => {
-    if (!prevPositionRef.current) return
-    const { top, el } = prevPositionRef.current
-    const delta = el.getBoundingClientRect().top - top
-    if (delta !== 0) {
-      window.scrollBy(0, delta)
-    }
-    prevPositionRef.current = null
-  }, [codeLangSelected])
+  const prevPositionRef = useRestoreScroll([codeLangSelected])
 
   return (
     <div className="code-snippets">

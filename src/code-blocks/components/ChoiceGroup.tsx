@@ -29,7 +29,7 @@ function ChoiceGroup({
   }, [selectedChoice])
 
   return (
-    <div ref={choiceGroupRef} data-group-name={group.name} className={'choice-group'}>
+    <div ref={choiceGroupRef} data-group-name={group.name} className="choice-group">
       <select
         name={`${group.name}-choices`}
         value={selectedChoice}

@@ -1,3 +1,12 @@
+## [0.16.9](https://github.com/brillout/docpress/compare/v0.16.8...v0.16.9) (2026-01-20)
+
+
+### Bug Fixes
+
+* fix logo menu positioning ([8b322e3](https://github.com/brillout/docpress/commit/8b322e37d7dcff9f9faae46bc66650df5be0709d))
+
+
+
 ## [0.16.8](https://github.com/brillout/docpress/compare/v0.16.7...v0.16.8) (2026-01-17)
 
 

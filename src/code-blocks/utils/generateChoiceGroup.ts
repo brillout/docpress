@@ -44,15 +44,13 @@ function generateChoiceGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
 
   for (const codeChoice of codeChoices) {
     const classNames = ['choice']
-    if (findHasJsToggle(codeChoice.children[0])) {
-      classNames.push('has-toggle')
-    }
+    if (findHasJsDropdown(codeChoice.children[0])) classNames.push('has-js-dropdown')
 
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
       attributes: [
-        { type: 'mdxJsxAttribute', name: 'id', value: codeChoice.value },
+        { type: 'mdxJsxAttribute', name: 'data-id', value: codeChoice.value },
         { type: 'mdxJsxAttribute', name: 'className', value: classNames.join(' ') },
       ],
       children: codeChoice.children.every((node) => node.type === 'containerDirective')
@@ -69,19 +67,12 @@ function generateChoiceGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
   }
 }
 
-function findHasJsToggle(node: BlockContent | DefinitionContent) {
-  if (node.type === 'containerDirective' && node.name === 'Choice') {
-    return (
-      node.children[0].type === 'mdxJsxFlowElement' &&
-      node.children[0].name === 'CodeSnippets' &&
-      node.children[0].attributes.every(
-        (attribute) => attribute.type !== 'mdxJsxAttribute' || attribute.name !== 'hideToggle',
-      )
-    )
-  }
+function findHasJsDropdown(node: BlockContent | DefinitionContent) {
+  let currentNode = node
+  if (node.type === 'containerDirective' && node.name === 'Choice') currentNode = node.children[0]
   return (
-    node.type === 'mdxJsxFlowElement' &&
-    node.name === 'CodeSnippets' &&
-    node.attributes.every((attribute) => attribute.type !== 'mdxJsxAttribute' || attribute.name !== 'hideToggle')
+    currentNode.type === 'mdxJsxFlowElement' &&
+    currentNode.data?.hName === 'code-lang' &&
+    currentNode.attributes.every((attribute) => attribute.type !== 'mdxJsxAttribute' || attribute.name !== 'hide')
   )
 }

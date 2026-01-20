@@ -6,6 +6,7 @@ import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from '../utils/assert.js'
 import { parseMetaString } from './rehypeMetaToProps.js'
+import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
 import pc from '@brillout/picocolors'
 import module from 'node:module'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
@@ -52,6 +53,10 @@ function remarkDetype() {
 
 function transformYaml(node: CodeNode) {
   const { codeBlock, index, parent } = node
+  const meta = parseMetaString(codeBlock.meta, ['choice'])
+  const { choice } = meta.props
+  codeBlock.meta = meta.rest
+
   const codeBlockContentJs = replaceFileNameSuffixes(codeBlock.value)
 
   // Skip wrapping if the YAML code block hasn't changed
@@ -65,19 +70,16 @@ function transformYaml(node: CodeNode) {
     value: codeBlockContentJs,
   }
 
-  // Wrap both the original YAML and `yamlJsCode` with <CodeSnippets>
-  const yamlContainer: MdxJsxFlowElement = {
-    type: 'mdxJsxFlowElement',
-    name: 'CodeSnippets',
-    children: [yamlJsCode, codeBlock],
-    attributes: [
-      {
-        name: 'hideToggle',
-        type: 'mdxJsxAttribute',
-      },
-    ],
-  }
-  parent.children.splice(index, 1, yamlContainer)
+  const groupedNodes = [
+    { value: 'javascript', children: [yamlJsCode] },
+    { value: 'typescript', children: [codeBlock] },
+  ]
+  // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
+  const replacement = generateChoiceGroup(groupedNodes)
+  replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
+  replacement.data ??= { choice, hName: 'code-lang' }
+
+  parent.children.splice(index, 1, replacement)
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
@@ -141,21 +143,21 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   if (codeBlockReplacedJs === codeBlockContentJs) {
     attributes.push({
       type: 'mdxJsxAttribute',
-      name: 'hideToggle',
+      name: 'hide',
     })
   }
 
-  // Wrap both the original `codeBlock` and `jsCode` with <CodeSnippets>
-  const container: MdxJsxFlowElement = {
-    type: 'mdxJsxFlowElement',
-    name: 'CodeSnippets',
-    children: [jsCode, codeBlock],
-    attributes,
-  }
+  const groupedNodes = [
+    { value: 'javascript', children: [jsCode] },
+    { value: 'typescript', children: [codeBlock] },
+  ]
 
-  if (choice) container.data ??= { choice }
+  // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>
+  const replacement = generateChoiceGroup(groupedNodes)
+  replacement.attributes.push(...attributes)
+  replacement.data ??= { choice, hName: 'code-lang' }
 
-  parent.children.splice(index, 1, container)
+  parent.children.splice(index, 1, replacement)
 }
 
 // Replace all '.ts' extensions with '.js'

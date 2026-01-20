@@ -18,13 +18,13 @@ function remarkChoiceGroup() {
         const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { choice }
+        if (choice) node.data ??= { choice, hName: node.type }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return
         const { id: choice } = node.attributes
         if (choice) {
-          node.data ??= { choice }
+          node.data ??= { choice, hName: node.type }
           node.attributes = {}
         }
       }
@@ -85,17 +85,17 @@ type NodeGroup = {
 
 function groupByNodeType(nodes: Node[]) {
   const groupedNodes = new Set<NodeGroup[]>()
-  const filters = [...new Set(nodes.flat().map((node) => (node.type === 'code' ? node.lang! : node.name)))]
+  const filters = [...new Set(nodes.flat().map((node) => node.data!.hName!))]
 
   filters.map((filter) => {
     const nodesByChoice = new Map<string, Node[]>()
     nodes
-      .filter((node) => (node.type === 'code' ? node.lang! : node.name) === filter)
+      .filter((node) => node.data!.hName! === filter)
       .map((node) => {
         const choice = node.data!.choice!
         const nodes = nodesByChoice.get(choice) ?? []
         nodes.push(node)
-        node.data = {}
+        node.data!.choice = undefined
         nodesByChoice.set(choice, nodes)
       })
 

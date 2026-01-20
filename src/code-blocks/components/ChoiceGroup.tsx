@@ -9,28 +9,32 @@ import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
 import './ChoiceGroup.css'
 
-function ChoiceGroup({ children, choices }: { children: React.ReactNode; choices: string[] }) {
+function ChoiceGroup({
+  children,
+  choices,
+  hide = false,
+}: { children: React.ReactNode; choices: string[]; hide: boolean }) {
   const pageContext = usePageContext()
   const group = findGroup(pageContext, choices)
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(group.name, group.default)
   const [hasJsToggle, setHasJsToggle] = useState(false)
   const choiceGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
-  const isHidden = choices.length === 1 || !choices.includes(selectedChoice)
+  const isHidden = choices.length === 1 || !choices.includes(selectedChoice) || hide
 
   useEffect(() => {
     if (!choiceGroupRef.current) return
-    const selectedChoiceEl = choiceGroupRef.current.querySelector<HTMLDivElement>(`div[id="${selectedChoice}"]`)
-    setHasJsToggle(!!selectedChoiceEl?.classList.contains('has-toggle'))
+    const selectedChoiceEl = choiceGroupRef.current.querySelector<HTMLDivElement>(`div[data-id="${selectedChoice}"]`)
+    setHasJsToggle(!!selectedChoiceEl?.classList.contains('has-js-dropdown'))
   }, [selectedChoice])
 
   return (
-    <div ref={choiceGroupRef} data-group-name={group.name} className="choice-group">
+    <div ref={choiceGroupRef} data-group-name={group.name} className={'choice-group'}>
       <select
         name={`${group.name}-choices`}
         value={selectedChoice}
         onChange={onChange}
-        className={cls(['select-choice', hasJsToggle && 'has-toggle', isHidden && 'hidden'])}
+        className={cls(['select-choice', hasJsToggle && 'show-js-dropdown', isHidden && 'hidden'])}
       >
         {group.choices.map((choice, i) => (
           <option key={i} value={choice} disabled={!choices.includes(choice)}>

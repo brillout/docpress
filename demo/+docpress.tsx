@@ -50,6 +50,10 @@ const config: Config = {
       choices: ['npm', 'pnpm', 'yarn', 'bun'],
       default: 'npm',
     },
+    'code-lang': {
+      choices: ['javascript', 'typescript'],
+      default: 'javascript',
+    },
     server: {
       choices: ['hono', 'express', 'fastify'],
       default: 'hono',

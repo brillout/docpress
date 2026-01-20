@@ -592,7 +592,6 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
             }
           : {
               paddingLeft: 15,
-              marginLeft: -10,
             }),
       }}
       href="/"

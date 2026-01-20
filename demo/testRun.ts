@@ -130,7 +130,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectJs()
 
-    await page.setChecked('input.code-lang-toggle', isDev ? false : true)
+    await page.selectOption(`select[name="code-lang-choices"]:visible`, { index: isDev ? 0 : 1 })
+
     await autoRetry(
       async () => {
         if (isDev) {
@@ -241,7 +242,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)
-    const codeSnippetsHtml = await page.innerHTML('div.code-snippets')
+    const codeSnippetsHtml = await page.innerHTML('div.choice-group')
     expect(codeSnippetsHtml).toContain('Copy to clipboard')
   })
 

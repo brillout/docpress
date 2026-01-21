@@ -89,6 +89,11 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   const { choice } = meta.props
   codeBlock.meta = meta.rest
 
+  if (choice === 'typescript') {
+    codeBlock.data ??= { choice, filter: [codeBlock.type, codeBlock.lang].join('-') }
+    return
+  }
+
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
 

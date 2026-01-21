@@ -6,7 +6,7 @@ import convert from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
 
-const PKG_MANAGERS = ['pnpm', 'yarn', 'bun'] as const
+const PKG_MANAGERS = ['pnpm', 'Yarn', 'Bun'] as const
 
 function remarkPkgManager() {
   return function (tree: Root) {
@@ -31,7 +31,8 @@ function remarkPkgManager() {
           type: node.type,
           lang: node.lang,
           meta: node.meta,
-          value: convert(node.value, pm),
+          // @ts-ignore
+          value: convert(node.value, pm.toLowerCase()),
         })
       }
 

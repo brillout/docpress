@@ -71,8 +71,8 @@ function transformYaml(node: CodeNode) {
   }
 
   const groupedNodes = [
-    { value: 'javascript', children: [yamlJsCode] },
-    { value: 'typescript', children: [codeBlock] },
+    { value: 'JavaScript', children: [yamlJsCode] },
+    { value: 'TypeScript', children: [codeBlock] },
   ]
   // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroup(groupedNodes)
@@ -89,7 +89,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   const { choice } = meta.props
   codeBlock.meta = meta.rest
 
-  if (choice === 'typescript') {
+  if (choice === 'TypeScript') {
     codeBlock.data ??= { choice, filter: [codeBlock.type, codeBlock.lang].join('-') }
     return
   }
@@ -153,8 +153,8 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   }
 
   const groupedNodes = [
-    { value: 'javascript', children: [jsCode] },
-    { value: 'typescript', children: [codeBlock] },
+    { value: 'JavaScript', children: [jsCode] },
+    { value: 'TypeScript', children: [codeBlock] },
   ]
 
   // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>

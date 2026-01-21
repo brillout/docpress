@@ -12,11 +12,11 @@ import './ChoiceGroup.css'
 // Internal Choices Group
 const DEFAULT_CHOICES: Record<string, { choices: string[], default: string }> = {
   'code-lang': {
-    choices: ['javascript', 'typescript'],
-    default: 'javascript',
+    choices: ['JavaScript', 'TypeScript'],
+    default: 'JavaScript',
   },
   'pkg-manager': {
-    choices: ['npm', 'pnpm', 'yarn', 'bun'],
+    choices: ['npm', 'pnpm', 'Yarn', 'Bun'],
     default: 'npm',
   },
 }

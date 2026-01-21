@@ -18,13 +18,13 @@ function remarkChoiceGroup() {
         const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { choice, hName: node.type }
+        if (choice) node.data ??= { choice, filter: [node.type, node.lang].join('-') }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return
         const { id: choice } = node.attributes
         if (choice) {
-          node.data ??= { choice, hName: node.type }
+          node.data ??= { choice, filter: node.type }
           node.attributes = {}
         }
       }
@@ -85,17 +85,17 @@ type NodeGroup = {
 
 function groupByNodeType(nodes: Node[]) {
   const groupedNodes = new Set<NodeGroup[]>()
-  const filters = [...new Set(nodes.flat().map((node) => node.data!.hName!))]
+  const filters = [...new Set(nodes.flat().map((node) => node.data!.filter!))]
 
   filters.map((filter) => {
     const nodesByChoice = new Map<string, Node[]>()
     nodes
-      .filter((node) => node.data!.hName! === filter)
+      .filter((node) => node.data!.filter! === filter)
       .map((node) => {
         const choice = node.data!.choice!
         const nodes = nodesByChoice.get(choice) ?? []
         nodes.push(node)
-        node.data!.choice = undefined
+        node.data = {}
         nodesByChoice.set(choice, nodes)
       })
 
@@ -108,5 +108,6 @@ function groupByNodeType(nodes: Node[]) {
 declare module 'mdast' {
   export interface Data {
     choice?: string
+    filter?: string
   }
 }

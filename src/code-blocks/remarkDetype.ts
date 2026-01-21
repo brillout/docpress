@@ -155,7 +155,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroup(groupedNodes)
   replacement.attributes.push(...attributes)
-  replacement.data ??= { choice, hName: 'code-lang' }
+  replacement.data ??= { choice, filter: 'code-lang' }
 
   parent.children.splice(index, 1, replacement)
 }

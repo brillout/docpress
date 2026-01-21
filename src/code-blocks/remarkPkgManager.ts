@@ -38,7 +38,7 @@ function remarkPkgManager() {
       const groupedNodes = [...nodes].map(([name, node]) => ({ value: name, children: [node] }))
       const replacement = generateChoiceGroup(groupedNodes)
 
-      replacement.data ??= { choice, hName: node.type }
+      replacement.data ??= { choice, filter: [node.type, node.lang].join('-') }
       parent.children.splice(index, 1, replacement)
     })
   }

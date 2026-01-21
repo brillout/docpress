@@ -9,6 +9,18 @@ import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
 import './ChoiceGroup.css'
 
+// Internal Choices Group
+const DEFAULT_CHOICES: Record<string, { choices: string[], default: string }> = {
+  'code-lang': {
+    choices: ['javascript', 'typescript'],
+    default: 'javascript',
+  },
+  'pkg-manager': {
+    choices: ['npm', 'pnpm', 'yarn', 'bun'],
+    default: 'npm',
+  },
+}
+
 function ChoiceGroup({
   children,
   choices,
@@ -54,12 +66,12 @@ function ChoiceGroup({
 }
 
 function findGroup(pageContext: PageContext, choices: string[]) {
-  const { choices: choicesGroup } = pageContext.globalContext.config.docpress
-  assertUsage(choicesGroup, `+docpress.choices is not defined.`)
+  const { choices: configChoices } = pageContext.globalContext.config.docpress
+  const allChoices = { ...DEFAULT_CHOICES, ...configChoices }
 
-  const groupName = Object.keys(choicesGroup).find((key) => {
-    // get only the values that exist in both choices and choicesGroup[key].choices
-    const relevantChoices = choicesGroup[key].choices.filter((choice) => choices.includes(choice))
+  const groupName = Object.keys(allChoices).find((key) => {
+    // get only the values that exist in both choices and allChoices[key].choices
+    const relevantChoices = allChoices[key].choices.filter((choice) => choices.includes(choice))
     // if nothing exists, skip this key
     if (relevantChoices.length === 0) return false
 
@@ -75,13 +87,13 @@ function findGroup(pageContext: PageContext, choices: string[]) {
 
     return true
   })
-  assertUsage(groupName, `the group name for [${choices}] was not found.`)
+  assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const mergedChoices = [...new Set([...choices, ...choicesGroup[groupName].choices])]
+  const mergedChoices = [...new Set([...choices, ...allChoices[groupName].choices])]
 
   const group = {
     name: groupName,
-    ...choicesGroup[groupName],
+    ...allChoices[groupName],
     choices: mergedChoices,
   }
 

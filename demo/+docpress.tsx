@@ -46,14 +46,6 @@ const config: Config = {
   topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
   choices: {
-    'pkg-manager': {
-      choices: ['npm', 'pnpm', 'yarn', 'bun'],
-      default: 'npm',
-    },
-    'code-lang': {
-      choices: ['javascript', 'typescript'],
-      default: 'javascript',
-    },
     server: {
       choices: ['hono', 'express', 'fastify'],
       default: 'hono',

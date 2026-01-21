@@ -212,7 +212,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('select[name="server-choices"]:visible').nth(2).selectOption('fastify')
+      await page.locator('select[name="server-choices"]:visible').nth(2).selectOption('Fastify')
       const text = await getVisibleText(page)
       hasFirstChoice(text, false)
       hasSecondChoice(text, false)

@@ -225,15 +225,15 @@ const a: number = 1
 
 Using `choice=choice-name` meta to group code blocks into multiple choices:
 
-```shell choice=hono
+```shell choice=Hono
 npm i hono @photonjs/hono
 ```
 
-```shell choice=express
+```shell choice=Express
 npm i express @photonjs/express
 ```
 
-```ts choice=hono file-added
+```ts choice=Hono file-added
 // server/index.ts
 
 import { Hono } from 'hono'
@@ -248,7 +248,7 @@ function startServer() {
 export default startServer()
 ```
 
-```ts choice=express file-added
+```ts choice=Express file-added
 // server/index.ts
 
 import express from 'express'
@@ -265,7 +265,7 @@ export default startServer()
 
 Skipping the first choice from `+docpress.choices['server']` caused it to become the third disabled option in the select options.
 
-```ts choice=express file-added
+```ts choice=Express file-added
 // server/index.ts
 
 import express from 'express'
@@ -280,7 +280,7 @@ function startServer() {
 export default startServer()
 ```
 
-```ts choice=fastify file-added
+```ts choice=Fastify file-added
 // server/index.ts
 
 import fastify from 'fastify'
@@ -303,7 +303,7 @@ export default startServer()
 
 Some paragraph.
 
-:::Choice{#express}
+:::Choice{#Express}
 > Express.js is deprecated.
 :::
 

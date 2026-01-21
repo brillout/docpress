@@ -47,10 +47,10 @@ const config: Config = {
   navMaxWidth: 1140,
   choices: {
     server: {
-      choices: ['hono', 'express', 'fastify'],
-      default: 'hono',
+      choices: ['Hono', 'Express', 'Fastify'],
+      default: 'Hono',
     },
-    'ui-ext': {
+    uiFrameworkVikeExtension: {
       choices: ['vike-react', 'vike-vue', 'vike-solid'],
       default: 'vike-react',
     },

@@ -170,8 +170,8 @@ function cleanUpCode(code: string, isJsCode: boolean = false) {
   return processMagicComments(code)
 }
 function processMagicComments(code: string) {
-  // @detype-replace DummyLayout Layout
-  const renameCommentRE = /^\s*\/\/\s@detype-replace\s([^ ]+) ([^ ]+)\n/gm
+  // @docpress-replace DummyLayout Layout
+  const renameCommentRE = /^\s*\/\/\s@docpress-replace\s([^ ]+) ([^ ]+)\n/gm
   const matches = Array.from(code.matchAll(renameCommentRE))
 
   if (matches.length) {
@@ -181,7 +181,7 @@ function processMagicComments(code: string) {
       code = code.split(fullMatch).join('').replaceAll(renameFrom, renameTo)
     }
   }
-  code = code.replaceAll('// @detype-uncomment ', '')
+  code = code.replaceAll('// @docpress-uncomment ', '')
 
   return code
 }

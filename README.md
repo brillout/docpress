@@ -304,15 +304,15 @@ Custom meta and comments:
 - Use `ts-only` meta to skip transforming typescript code.
 - Use `hide-menu` meta to hide the copy button.
 - To transform typescript code with invalid syntax (e.g. for code diffs), use custom magic comments:
-  - Use `// @detype-replace dummyVarName varName` above the affected line.
-  - Use `// @detype-uncomment ` at the beginning of the affected line.
+  - Use `// @docpress-replace dummyVarName varName` above the affected line.
+  - Use `// @docpress-uncomment ` at the beginning of the affected line.
   
   ```ts
   const hello: string = 'world' // [!code --]
-  // @detype-replace dummyhello hello
+  // @docpress-replace dummyhello hello
   const dummyhello: string[] = ['hello', 'world'] // [!code ++]
 
-  // @detype-uncomment function greeting() { // [!code --]
+  // @docpress-uncomment function greeting() { // [!code --]
   function greeting(name: string) { // [!code ++]
     // ...
   }

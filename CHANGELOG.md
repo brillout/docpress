@@ -1,3 +1,12 @@
+## [0.16.10](https://github.com/brillout/docpress/compare/v0.16.9...v0.16.10) (2026-01-22)
+
+
+### Bug Fixes
+
+* rename [@detype](https://github.com/detype) => [@docpress](https://github.com/docpress) ([a3420fd](https://github.com/brillout/docpress/commit/a3420fd37cf7e5fb7aada26d2c9cc3b11c8783c9))
+
+
+
 ## [0.16.9](https://github.com/brillout/docpress/compare/v0.16.8...v0.16.9) (2026-01-20)
 
 

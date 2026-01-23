@@ -1,23 +1,19 @@
 export { useSelectedChoice }
 export { initializeChoiceGroup_SSR }
 
-import { useState } from 'react'
 import { useLocalStorage } from './useLocalStorage'
 
 const keyPrefix = 'docpress'
 
 /**
- * Tracks the selected choice.
- * Uses `useLocalStorage` if `persistId` is provided, otherwise regular state.
+ * Stores and retrieves a selected choice from local storage.
  *
- * @param persistId Optional ID to persist selection.
+ * @param choiceGroupName Group name for the stored choice.
  * @param defaultValue Default choice value.
  * @returns `[selectedChoice, setSelectedChoice]`.
  */
-function useSelectedChoice(persistId: string | null, defaultValue: string) {
-  if (!persistId) return useState(defaultValue)
-
-  return useLocalStorage(`${keyPrefix}:choice:${persistId}`, defaultValue)
+function useSelectedChoice(choiceGroupName: string, defaultValue: string) {
+  return useLocalStorage(`${keyPrefix}:choice:${choiceGroupName}`, defaultValue)
 }
 
 // WARNING: We cannot use the keyPrefix variable here: closures don't work because we serialize the function.

@@ -154,7 +154,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - Choice Group`, async () => {
-    const firstChoiceText1 = 'npm i hono @photonjs/hono'
+    const firstChoiceText1 = 'npm install hono @photonjs/hono'
     const firstChoiceText2 = "import { Hono } from 'hono'"
     const secondChoiceText1 = 'pnpm add express @photonjs/express'
     const secondChoiceText2 = "import express from 'express'"

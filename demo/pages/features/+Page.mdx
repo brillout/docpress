@@ -163,15 +163,15 @@ pages/(marketing)/index/+Page.ts # landing page
 
 Using custom magic comments to ignore incorrect syntax, usually when displaying code diffs:
 
-- Using `// @detype-replace dummyVarName varName` above the affected line.
-- Using `// @detype-uncomment ` at the beginning of the affected line.
+- Using `// @docpress-replace dummyVarName varName` above the affected line.
+- Using `// @docpress-uncomment ` at the beginning of the affected line.
 
 ```ts
 const hello: string = 'world' // [!code --]
-// @detype-replace dummyhello hello
+// @docpress-replace dummyhello hello
 const dummyhello: string[] = ['hello', 'world'] // [!code ++]
 
-// @detype-uncomment function greeting() { // [!code --]
+// @docpress-uncomment function greeting() { // [!code --]
 function greeting(name: string) { // [!code ++]
   // ...
 }

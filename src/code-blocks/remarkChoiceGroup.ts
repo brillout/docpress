@@ -16,7 +16,7 @@ function remarkChoiceGroup() {
         const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { choice, filter: [node.type, node.lang].join('-') }
+        if (choice) node.data ??= { choice, filter: `code-${node.lang}` }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return

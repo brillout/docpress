@@ -90,7 +90,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   codeBlock.meta = meta.rest
 
   if (choice === 'TypeScript') {
-    codeBlock.data ??= { choice, filter: [codeBlock.type, codeBlock.lang].join('-') }
+    codeBlock.data ??= { choice, filter: `code-ts` }
     return
   }
 

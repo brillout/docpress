@@ -16,7 +16,7 @@ function useSelectedChoice(choiceGroupName: string, defaultValue: string) {
   return useLocalStorage(`${keyPrefix}:choice:${choiceGroupName}`, defaultValue)
 }
 
-// WARNING: We cannot use the keyPrefix variable here: closures don't work because we serialize the function.
+// WARNING: We cannot use `keyPrefix` here: closures don't work because we serialize the function.
 const initializeChoiceGroup_SSR = `initializeChoiceGroup();${initializeChoiceGroup.toString()};`
 function initializeChoiceGroup() {
   const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-choice-group]')

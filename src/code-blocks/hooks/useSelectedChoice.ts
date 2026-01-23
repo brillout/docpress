@@ -23,9 +23,9 @@ function useSelectedChoice(persistId: string | null, defaultValue: string) {
 // WARNING: We cannot use the keyPrefix variable here: closures don't work because we serialize the function.
 const initializeChoiceGroup_SSR = `initializeChoiceGroup();${initializeChoiceGroup.toString()};`
 function initializeChoiceGroup() {
-  const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-choice-group-name]')
+  const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-choice-group]')
   for (const groupEl of groupsElements) {
-    const groupName = groupEl.getAttribute('data-choice-group-name')!
+    const groupName = groupEl.getAttribute('data-choice-group')!
     const selectedChoice = localStorage.getItem(`docpress:${groupName}`)
     if (!selectedChoice) continue
     const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)

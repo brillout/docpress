@@ -6,7 +6,7 @@ import convert from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
 
-const PKG_MANAGERS = ['pnpm', 'Yarn', 'Bun'] as const
+const PKG_MANAGERS = ['pnpm', 'Bun', 'Yarn'] as const
 
 function remarkPkgManager() {
   return function (tree: Root) {

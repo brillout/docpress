@@ -77,7 +77,7 @@ function transformYaml(node: CodeNode) {
   // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroup(groupedNodes)
   replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
-  replacement.data ??= { choice, hName: 'code-lang' }
+  replacement.data ??= { choice, filter: 'code-lang' }
 
   parent.children.splice(index, 1, replacement)
 }

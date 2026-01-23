@@ -6,7 +6,7 @@ import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from '../utils/assert.js'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
+import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
 import pc from '@brillout/picocolors'
 import module from 'node:module'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
@@ -75,7 +75,7 @@ function transformYaml(node: CodeNode) {
     { choiceValue: 'TypeScript', children: [codeBlock] },
   ]
   // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
-  const replacement = generateChoiceGroup(choiceNodes)
+  const replacement = generateChoiceGroupCode(choiceNodes)
   replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
   replacement.data ??= { choice, filter: 'codeLang' }
 
@@ -158,7 +158,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   ]
 
   // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>
-  const replacement = generateChoiceGroup(choiceNodes)
+  const replacement = generateChoiceGroupCode(choiceNodes)
   replacement.attributes.push(...attributes)
   replacement.data ??= { choice, filter: 'codeLang' }
 

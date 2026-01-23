@@ -2,10 +2,10 @@ export { remarkChoiceGroup }
 
 import type { Root } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
-import type { ChoiceNode } from './utils/generateChoiceGroup.js'
+import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
+import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
 
 function remarkChoiceGroup() {
   return function (tree: Root) {
@@ -43,7 +43,7 @@ function remarkChoiceGroup() {
         const replacements: MdxJsxFlowElement[] = []
 
         for (const choiceNodes of choiceNodesFiltered) {
-          const replacement = generateChoiceGroup(choiceNodes)
+          const replacement = generateChoiceGroupCode(choiceNodes)
 
           replacements.push(replacement)
           replaced.add(replacement)

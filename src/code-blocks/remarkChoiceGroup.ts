@@ -1,13 +1,11 @@
 export { remarkChoiceGroup }
 
-import type { Code, Root } from 'mdast'
+import type { Root } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
-import type { ContainerDirective } from 'mdast-util-directive'
+import type { NodeChoice } from './utils/generateChoiceGroup.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
-
-type Node = Code | MdxJsxFlowElement | ContainerDirective
 
 function remarkChoiceGroup() {
   return function (tree: Root) {
@@ -40,12 +38,12 @@ function remarkChoiceGroup() {
 
       const process = () => {
         if (start === -1 || start === end) return
-        const nodes = node.children.slice(start, end) as Node[]
-        const groupedNodes = groupByNodeType(nodes)
+        const nodes = node.children.slice(start, end) as NodeChoice['children']
+        const filteredChoices = filterChoices(nodes)
         const replacements: MdxJsxFlowElement[] = []
 
-        for (const groupedNode of groupedNodes) {
-          const replacement = generateChoiceGroup(groupedNode)
+        for (const choices of filteredChoices) {
+          const replacement = generateChoiceGroup(choices)
 
           replacements.push(replacement)
           replaced.add(replacement)
@@ -78,31 +76,26 @@ function remarkChoiceGroup() {
   }
 }
 
-type NodeGroup = {
-  value: string
-  children: Node[]
-}
-
-function groupByNodeType(nodes: Node[]) {
-  const groupedNodes = new Set<NodeGroup[]>()
+function filterChoices(nodes: NodeChoice['children']) {
+  const filteredChoices = new Set<NodeChoice[]>()
   const filters = [...new Set(nodes.flat().map((node) => node.data!.filter!))]
 
   filters.map((filter) => {
-    const nodesByChoice = new Map<string, Node[]>()
+    const nodesByChoice = new Map<string, NodeChoice['children']>()
     nodes
       .filter((node) => node.data!.filter! === filter)
       .map((node) => {
         const choice = node.data!.choice!
         const nodes = nodesByChoice.get(choice) ?? []
-        nodes.push(node)
         node.data = {}
+        nodes.push(node)
         nodesByChoice.set(choice, nodes)
       })
 
-    groupedNodes.add([...nodesByChoice].map(([name, nodes]) => ({ value: name, children: nodes })))
+    filteredChoices.add([...nodesByChoice].map(([name, nodes]) => ({ value: name, children: nodes })))
   })
 
-  return [...groupedNodes]
+  return [...filteredChoices]
 }
 
 declare module 'mdast' {

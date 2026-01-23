@@ -1,15 +1,15 @@
 export { generateChoiceGroup }
-export type { CodeChoice }
+export type { NodeChoice }
 
 import type { BlockContent, DefinitionContent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 
-type CodeChoice = {
+type NodeChoice = {
   value: string
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateChoiceGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
+function generateChoiceGroup(choices: NodeChoice[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
@@ -30,7 +30,7 @@ function generateChoiceGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
               expression: {
                 type: 'ArrayExpression',
                 // @ts-ignore: Missing properties in type definition
-                elements: codeChoices.map((choice) => ({
+                elements: choices.map((choice) => ({
                   type: 'Literal',
                   value: choice.value,
                 })),
@@ -42,20 +42,20 @@ function generateChoiceGroup(codeChoices: CodeChoice[]): MdxJsxFlowElement {
     },
   })
 
-  for (const codeChoice of codeChoices) {
+  for (const choice of choices) {
     const classNames = ['choice']
-    if (findHasJsDropdown(codeChoice.children[0])) classNames.push('has-js-dropdown')
+    if (findHasJsDropdown(choice.children[0])) classNames.push('has-js-dropdown')
 
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
       attributes: [
-        { type: 'mdxJsxAttribute', name: 'data-id', value: codeChoice.value },
+        { type: 'mdxJsxAttribute', name: 'data-id', value: choice.value },
         { type: 'mdxJsxAttribute', name: 'className', value: classNames.join(' ') },
       ],
-      children: codeChoice.children.every((node) => node.type === 'containerDirective')
-        ? codeChoice.children.flatMap((node) => [...node.children])
-        : codeChoice.children,
+      children: choice.children.every((node) => node.type === 'containerDirective')
+        ? choice.children.flatMap((node) => [...node.children])
+        : choice.children,
     })
   }
 

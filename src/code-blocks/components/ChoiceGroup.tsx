@@ -36,7 +36,7 @@ function ChoiceGroup({
   useEffect(() => {
     if (!choiceGroupRef.current) return
     const selectedChoiceEl = choiceGroupRef.current.querySelector<HTMLDivElement>(
-      `div[data-choice-id="${selectedChoice}"]`,
+      `div[data-choice-value="${selectedChoice}"]`,
     )
     setHasJsToggle(!!selectedChoiceEl?.classList.contains('has-js-dropdown'))
   }, [selectedChoice])

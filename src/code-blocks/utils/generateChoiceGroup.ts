@@ -50,7 +50,7 @@ function generateChoiceGroup(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
       type: 'mdxJsxFlowElement',
       name: 'div',
       attributes: [
-        { type: 'mdxJsxAttribute', name: 'data-choice-id', value: choiceNode.choiceValue },
+        { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
         { type: 'mdxJsxAttribute', name: 'className', value: classNames.join(' ') },
       ],
       children: choiceNode.children.every((node) => node.type === 'containerDirective')

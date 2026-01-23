@@ -26,8 +26,8 @@ function ChoiceGroup({
   hide = false,
 }: { children: React.ReactNode; choices: string[]; hide: boolean }) {
   const pageContext = usePageContext()
-  const group = findGroup(pageContext, choices)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(group.name, group.default)
+  const choiceGroup = findChoiceGroup(pageContext, choices)
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(choiceGroup.name, choiceGroup.default)
   const [hasJsToggle, setHasJsToggle] = useState(false)
   const choiceGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
@@ -40,14 +40,14 @@ function ChoiceGroup({
   }, [selectedChoice])
 
   return (
-    <div ref={choiceGroupRef} data-group-name={group.name} className="choice-group">
+    <div ref={choiceGroupRef} data-group-name={choiceGroup.name} className="choice-group">
       <select
-        name={`${group.name}-choices`}
+        name={`${choiceGroup.name}-choices`}
         value={selectedChoice}
         onChange={onChange}
         className={cls(['select-choice', hasJsToggle && 'show-js-dropdown', isHidden && 'hidden'])}
       >
-        {group.choices.map((choice, i) => (
+        {choiceGroup.choices.map((choice, i) => (
           <option key={i} value={choice} disabled={!choices.includes(choice)}>
             {choice}
           </option>
@@ -64,12 +64,12 @@ function ChoiceGroup({
   }
 }
 
-function findGroup(pageContext: PageContext, choices: string[]) {
+function findChoiceGroup(pageContext: PageContext, choices: string[]) {
   const { choices: choicesConfig } = pageContext.globalContext.config.docpress
   const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
   const groupName = Object.keys(choicesAll).find((key) => {
-    // get only the values that exist in both choices and allChoices[key].choices
+    // get only the values that exist in both choices and choicesAll[key].choices
     const relevantChoices = choicesAll[key].choices.filter((choice) => choices.includes(choice))
     // if nothing exists, skip this key
     if (relevantChoices.length === 0) return false
@@ -90,11 +90,11 @@ function findGroup(pageContext: PageContext, choices: string[]) {
 
   const mergedChoices = [...new Set([...choices, ...choicesAll[groupName].choices])]
 
-  const group = {
+  const choiceGroup = {
     name: groupName,
     ...choicesAll[groupName],
     choices: mergedChoices,
   }
 
-  return group
+  return choiceGroup
 }

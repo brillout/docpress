@@ -242,8 +242,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)
-    const codeSnippetsHtml = await page.innerHTML('div.choice-group')
-    expect(codeSnippetsHtml).toContain('Copy to clipboard')
+    const choiceGroupHtml = await page.innerHTML('div.choice-group')
+    expect(choiceGroupHtml).toContain('Copy to clipboard')
   })
 
   const orphanURL = '/orphan'

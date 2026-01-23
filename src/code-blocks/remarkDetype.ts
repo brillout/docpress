@@ -144,7 +144,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     value: codeBlockContentJs,
   }
 
-  // Add `hideToggle` attribute (prop) to `CodeSnippets` if the only change was replacing `.ts` with `.js`
+  // Add `hide` attribute (prop) to `ChoiceGroup` if the only change was replacing `.ts` with `.js`
   if (codeBlockReplacedJs === codeBlockContentJs) {
     attributes.push({
       type: 'mdxJsxAttribute',

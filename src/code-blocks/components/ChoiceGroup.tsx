@@ -11,7 +11,7 @@ import './ChoiceGroup.css'
 
 // Internal Choices Group
 const DEFAULT_CHOICES: Record<string, { choices: string[]; default: string }> = {
-  'code-lang': {
+  codeLang: {
     choices: ['JavaScript', 'TypeScript'],
     default: 'JavaScript',
   },

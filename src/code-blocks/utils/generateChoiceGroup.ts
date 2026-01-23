@@ -72,7 +72,7 @@ function findHasJsDropdown(node: BlockContent | DefinitionContent) {
   if (node.type === 'containerDirective' && node.name === 'Choice') currentNode = node.children[0]
   return (
     currentNode.type === 'mdxJsxFlowElement' &&
-    currentNode.data?.filter === 'code-lang' &&
+    currentNode.data?.filter === 'codeLang' &&
     currentNode.attributes.every((attribute) => attribute.type !== 'mdxJsxAttribute' || attribute.name !== 'hide')
   )
 }

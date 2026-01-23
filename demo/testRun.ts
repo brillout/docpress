@@ -130,7 +130,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectJs()
 
-    await page.selectOption(`select[name="code-lang-choices"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="codeLang-choices"]:visible`, { index: isDev ? 0 : 1 })
 
     await autoRetry(
       async () => {

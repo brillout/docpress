@@ -28,7 +28,7 @@
       --select-right-position: var(--show-js-dropdown-right-position);
     }
 
-    &:has(+ .choice > .choice-group:not([data-group-name='code-lang'])) {
+    &:has(+ .choice > .choice-group:not([data-group-name='codeLang'])) {
       right: calc(var(--select-width) + var(--select-right-position) + 2px);
     }
   }

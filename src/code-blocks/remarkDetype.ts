@@ -77,7 +77,7 @@ function transformYaml(node: CodeNode) {
   // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroup(groupedNodes)
   replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
-  replacement.data ??= { choice, filter: 'code-lang' }
+  replacement.data ??= { choice, filter: 'codeLang' }
 
   parent.children.splice(index, 1, replacement)
 }
@@ -160,7 +160,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroup(groupedNodes)
   replacement.attributes.push(...attributes)
-  replacement.data ??= { choice, filter: 'code-lang' }
+  replacement.data ??= { choice, filter: 'codeLang' }
 
   parent.children.splice(index, 1, replacement)
 }

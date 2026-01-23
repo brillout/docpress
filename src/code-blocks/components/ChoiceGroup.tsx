@@ -9,8 +9,7 @@ import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
 import './ChoiceGroup.css'
 
-// Internal Choices Group
-const DEFAULT_CHOICES: Record<string, { choices: string[]; default: string }> = {
+const CHOICE_GROUPS_BUILT_IN: Record<string, { choices: string[]; default: string }> = {
   codeLang: {
     choices: ['JavaScript', 'TypeScript'],
     default: 'JavaScript',
@@ -67,7 +66,7 @@ function ChoiceGroup({
 
 function findGroup(pageContext: PageContext, choices: string[]) {
   const { choices: configChoices } = pageContext.globalContext.config.docpress
-  const allChoices = { ...DEFAULT_CHOICES, ...configChoices }
+  const allChoices = { ...CHOICE_GROUPS_BUILT_IN, ...configChoices }
 
   const groupName = Object.keys(allChoices).find((key) => {
     // get only the values that exist in both choices and allChoices[key].choices

@@ -30,9 +30,9 @@ function generateChoiceGroup(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
               expression: {
                 type: 'ArrayExpression',
                 // @ts-ignore: Missing properties in type definition
-                elements: choiceNodes.map((choice) => ({
+                elements: choiceNodes.map((choiceNode) => ({
                   type: 'Literal',
-                  value: choice.choiceValue,
+                  value: choiceNode.choiceValue,
                 })),
               },
             },
@@ -42,20 +42,20 @@ function generateChoiceGroup(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
     },
   })
 
-  for (const choice of choiceNodes) {
+  for (const choiceNode of choiceNodes) {
     const classNames = ['choice']
-    if (findHasJsDropdown(choice.children[0])) classNames.push('has-js-dropdown')
+    if (findHasJsDropdown(choiceNode.children[0])) classNames.push('has-js-dropdown')
 
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
       attributes: [
-        { type: 'mdxJsxAttribute', name: 'data-choice-id', value: choice.choiceValue },
+        { type: 'mdxJsxAttribute', name: 'data-choice-id', value: choiceNode.choiceValue },
         { type: 'mdxJsxAttribute', name: 'className', value: classNames.join(' ') },
       ],
-      children: choice.children.every((node) => node.type === 'containerDirective')
-        ? choice.children.flatMap((node) => [...node.children])
-        : choice.children,
+      children: choiceNode.children.every((node) => node.type === 'containerDirective')
+        ? choiceNode.children.flatMap((node) => [...node.children])
+        : choiceNode.children,
     })
   }
 

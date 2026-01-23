@@ -14,7 +14,7 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
     choices: ['JavaScript', 'TypeScript'],
     default: 'JavaScript',
   },
-  packageManager: {
+  pkgManager: {
     choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
     default: 'npm',
   },

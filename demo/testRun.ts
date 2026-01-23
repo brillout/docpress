@@ -223,7 +223,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectFirstChoice()
 
-    await page.selectOption(`select[name="choicesFor-packageManager"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="choicesFor-pkgManager"]:visible`, { index: isDev ? 0 : 1 })
     await page.selectOption(`select[name="choicesFor-server"]:visible`, { index: isDev ? 0 : 1 })
 
     await autoRetry(

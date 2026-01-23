@@ -31,8 +31,7 @@ function remarkPkgManager() {
           type: node.type,
           lang: node.lang,
           meta: node.meta,
-          // @ts-ignore
-          value: convert(node.value, pm.toLowerCase()),
+          value: convert(node.value, pm.toLowerCase() as 'pnpm' | 'bun' | 'yarn'),
         })
       }
 

@@ -5,7 +5,7 @@ import type { BlockContent, DefinitionContent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 
 type ChoiceNode = {
-  value: string
+  choiceValue: string
   children: (BlockContent | DefinitionContent)[]
 }
 
@@ -32,7 +32,7 @@ function generateChoiceGroup(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
                 // @ts-ignore: Missing properties in type definition
                 elements: choiceNodes.map((choice) => ({
                   type: 'Literal',
-                  value: choice.value,
+                  value: choice.choiceValue,
                 })),
               },
             },
@@ -50,7 +50,7 @@ function generateChoiceGroup(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
       type: 'mdxJsxFlowElement',
       name: 'div',
       attributes: [
-        { type: 'mdxJsxAttribute', name: 'data-choice-id', value: choice.value },
+        { type: 'mdxJsxAttribute', name: 'data-choice-id', value: choice.choiceValue },
         { type: 'mdxJsxAttribute', name: 'className', value: classNames.join(' ') },
       ],
       children: choice.children.every((node) => node.type === 'containerDirective')

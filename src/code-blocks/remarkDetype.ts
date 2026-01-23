@@ -71,8 +71,8 @@ function transformYaml(node: CodeNode) {
   }
 
   const groupedNodes = [
-    { value: 'JavaScript', children: [yamlJsCode] },
-    { value: 'TypeScript', children: [codeBlock] },
+    { choiceValue: 'JavaScript', children: [yamlJsCode] },
+    { choiceValue: 'TypeScript', children: [codeBlock] },
   ]
   // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroup(groupedNodes)
@@ -153,8 +153,8 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   }
 
   const groupedNodes = [
-    { value: 'JavaScript', children: [jsCode] },
-    { value: 'TypeScript', children: [codeBlock] },
+    { choiceValue: 'JavaScript', children: [jsCode] },
+    { choiceValue: 'TypeScript', children: [codeBlock] },
   ]
 
   // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>

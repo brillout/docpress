@@ -36,7 +36,7 @@ function remarkPkgManager() {
         })
       }
 
-      const groupedNodes = [...nodes].map(([name, node]) => ({ value: name, children: [node] }))
+      const groupedNodes = [...nodes].map(([name, node]) => ({ choiceValue: name, children: [node] }))
       const replacement = generateChoiceGroup(groupedNodes)
 
       replacement.data ??= { choice, filter: replacement.type }

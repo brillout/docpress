@@ -92,7 +92,7 @@ function filterChoices(nodes: ChoiceNode['children']) {
         nodesByChoice.set(choice, nodes)
       })
 
-    filteredChoices.add([...nodesByChoice].map(([name, nodes]) => ({ value: name, children: nodes })))
+    filteredChoices.add([...nodesByChoice].map(([name, nodes]) => ({ choiceValue: name, children: nodes })))
   })
 
   return [...filteredChoices]

@@ -9,7 +9,7 @@ type NodeChoice = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateChoiceGroup(choices: NodeChoice[]): MdxJsxFlowElement {
+function generateChoiceGroup(choiceNodes: NodeChoice[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
@@ -30,7 +30,7 @@ function generateChoiceGroup(choices: NodeChoice[]): MdxJsxFlowElement {
               expression: {
                 type: 'ArrayExpression',
                 // @ts-ignore: Missing properties in type definition
-                elements: choices.map((choice) => ({
+                elements: choiceNodes.map((choice) => ({
                   type: 'Literal',
                   value: choice.value,
                 })),
@@ -42,7 +42,7 @@ function generateChoiceGroup(choices: NodeChoice[]): MdxJsxFlowElement {
     },
   })
 
-  for (const choice of choices) {
+  for (const choice of choiceNodes) {
     const classNames = ['choice']
     if (findHasJsDropdown(choice.children[0])) classNames.push('has-js-dropdown')
 

@@ -21,8 +21,8 @@ const initializeChoiceGroup_SSR = `initializeChoiceGroup();${initializeChoiceGro
 function initializeChoiceGroup() {
   const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-choice-group]')
   for (const groupEl of groupsElements) {
-    const groupName = groupEl.getAttribute('data-choice-group')!
-    const selectedChoice = localStorage.getItem(`docpress:choice:${groupName}`)
+    const choiceGroupName = groupEl.getAttribute('data-choice-group')!
+    const selectedChoice = localStorage.getItem(`docpress:choice:${choiceGroupName}`)
     if (!selectedChoice) continue
     const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)
     if (selectEl) selectEl.value = selectedChoice

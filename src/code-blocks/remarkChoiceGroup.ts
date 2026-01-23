@@ -39,11 +39,11 @@ function remarkChoiceGroup() {
       const process = () => {
         if (start === -1 || start === end) return
         const nodes = node.children.slice(start, end) as ChoiceNode['children']
-        const filteredChoices = filterChoices(nodes)
+        const choiceNodesFiltered = filterChoices(nodes)
         const replacements: MdxJsxFlowElement[] = []
 
-        for (const choices of filteredChoices) {
-          const replacement = generateChoiceGroup(choices)
+        for (const choiceNodes of choiceNodesFiltered) {
+          const replacement = generateChoiceGroup(choiceNodes)
 
           replacements.push(replacement)
           replaced.add(replacement)
@@ -92,7 +92,8 @@ function filterChoices(nodes: ChoiceNode['children']) {
         nodesByChoice.set(choice, nodes)
       })
 
-    filteredChoices.add([...nodesByChoice].map(([name, nodes]) => ({ choiceValue: name, children: nodes })))
+    const choiceNodes = [...nodesByChoice].map(([name, nodes]) => ({ choiceValue: name, children: nodes }))
+    filteredChoices.add(choiceNodes)
   })
 
   return [...filteredChoices]

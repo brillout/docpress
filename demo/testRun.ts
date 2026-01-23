@@ -130,7 +130,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectJs()
 
-    await page.selectOption(`select[name="codeLang-choices"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="choices-for:codeLang"]:visible`, { index: isDev ? 0 : 1 })
 
     await autoRetry(
       async () => {
@@ -212,7 +212,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('select[name="server-choices"]:visible').nth(2).selectOption('Fastify')
+      await page.locator('select[name="choices-for:server"]:visible').nth(2).selectOption('Fastify')
       const text = await getVisibleText(page)
       hasFirstChoice(text, false)
       hasSecondChoice(text, false)
@@ -223,8 +223,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectFirstChoice()
 
-    await page.selectOption(`select[name="packageManager-choices"]:visible`, { index: isDev ? 0 : 1 })
-    await page.selectOption(`select[name="server-choices"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="choices-for:packageManager"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="choices-for:server"]:visible`, { index: isDev ? 0 : 1 })
 
     await autoRetry(
       async () => {

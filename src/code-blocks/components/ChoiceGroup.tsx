@@ -44,7 +44,7 @@ function ChoiceGroup({
   return (
     <div ref={choiceGroupRef} data-choice-group={choiceGroup.name} className="choice-group">
       <select
-        name={`${choiceGroup.name}-choices`}
+        name={`choices-for:${choiceGroup.name}`}
         value={selectedChoice}
         onChange={onChange}
         className={cls(['select-choice', hasJsToggle && 'show-js-dropdown', isHidden && 'hidden'])}

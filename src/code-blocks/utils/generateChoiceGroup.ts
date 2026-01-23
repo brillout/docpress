@@ -1,15 +1,15 @@
 export { generateChoiceGroup }
-export type { NodeChoice }
+export type { ChoiceNode }
 
 import type { BlockContent, DefinitionContent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 
-type NodeChoice = {
+type ChoiceNode = {
   value: string
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateChoiceGroup(choiceNodes: NodeChoice[]): MdxJsxFlowElement {
+function generateChoiceGroup(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 

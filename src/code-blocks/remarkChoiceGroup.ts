@@ -2,7 +2,7 @@ export { remarkChoiceGroup }
 
 import type { Root } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
-import type { NodeChoice } from './utils/generateChoiceGroup.js'
+import type { ChoiceNode } from './utils/generateChoiceGroup.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
@@ -38,7 +38,7 @@ function remarkChoiceGroup() {
 
       const process = () => {
         if (start === -1 || start === end) return
-        const nodes = node.children.slice(start, end) as NodeChoice['children']
+        const nodes = node.children.slice(start, end) as ChoiceNode['children']
         const filteredChoices = filterChoices(nodes)
         const replacements: MdxJsxFlowElement[] = []
 
@@ -76,12 +76,12 @@ function remarkChoiceGroup() {
   }
 }
 
-function filterChoices(nodes: NodeChoice['children']) {
-  const filteredChoices = new Set<NodeChoice[]>()
+function filterChoices(nodes: ChoiceNode['children']) {
+  const filteredChoices = new Set<ChoiceNode[]>()
   const filters = [...new Set(nodes.flat().map((node) => node.data!.filter!))]
 
   filters.map((filter) => {
-    const nodesByChoice = new Map<string, NodeChoice['children']>()
+    const nodesByChoice = new Map<string, ChoiceNode['children']>()
     nodes
       .filter((node) => node.data!.filter! === filter)
       .map((node) => {

@@ -8,10 +8,10 @@
     }
   }
 
-  --select-width: 80px;
+  --select-width: 85px;
   --select-top-position: 10px;
   --select-right-position: 42px;
-  --show-js-dropdown-right-position: calc(var(--select-right-position) + 82px);
+  --show-js-dropdown-right-position: calc(var(--select-right-position) + var(--select-width) + 2px);
 
   .select-choice {
     position: absolute;

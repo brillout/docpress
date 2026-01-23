@@ -10,7 +10,7 @@ import type { PageContext } from 'vike/types'
 import './ChoiceGroup.css'
 
 // Internal Choices Group
-const DEFAULT_CHOICES: Record<string, { choices: string[], default: string }> = {
+const DEFAULT_CHOICES: Record<string, { choices: string[]; default: string }> = {
   'code-lang': {
     choices: ['JavaScript', 'TypeScript'],
     default: 'JavaScript',

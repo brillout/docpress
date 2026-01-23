@@ -65,12 +65,12 @@ function ChoiceGroup({
 }
 
 function findGroup(pageContext: PageContext, choices: string[]) {
-  const { choices: configChoices } = pageContext.globalContext.config.docpress
-  const allChoices = { ...CHOICES_BUILT_IN, ...configChoices }
+  const { choices: choicesConfig } = pageContext.globalContext.config.docpress
+  const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
-  const groupName = Object.keys(allChoices).find((key) => {
+  const groupName = Object.keys(choicesAll).find((key) => {
     // get only the values that exist in both choices and allChoices[key].choices
-    const relevantChoices = allChoices[key].choices.filter((choice) => choices.includes(choice))
+    const relevantChoices = choicesAll[key].choices.filter((choice) => choices.includes(choice))
     // if nothing exists, skip this key
     if (relevantChoices.length === 0) return false
 
@@ -88,11 +88,11 @@ function findGroup(pageContext: PageContext, choices: string[]) {
   })
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const mergedChoices = [...new Set([...choices, ...allChoices[groupName].choices])]
+  const mergedChoices = [...new Set([...choices, ...choicesAll[groupName].choices])]
 
   const group = {
     name: groupName,
-    ...allChoices[groupName],
+    ...choicesAll[groupName],
     choices: mergedChoices,
   }
 

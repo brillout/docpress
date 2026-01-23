@@ -15,7 +15,7 @@ const CHOICE_GROUPS_BUILT_IN: Record<string, { choices: string[]; default: strin
     default: 'JavaScript',
   },
   packageManager: {
-    choices: ['npm', 'pnpm', 'Yarn', 'Bun'],
+    choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
     default: 'npm',
   },
 }

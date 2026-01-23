@@ -16,13 +16,13 @@ function remarkChoiceGroup() {
         const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { choice, filter: `code-${node.lang}` }
+        if (choice) node.data ??= { customDataChoice: choice, customDataFilter: `code-${node.lang}` }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return
         const { id: choice } = node.attributes
         if (choice) {
-          node.data ??= { choice, filter: node.type }
+          node.data ??= { customDataChoice: choice, customDataFilter: node.type }
           node.attributes = {}
         }
       }
@@ -63,7 +63,7 @@ function remarkChoiceGroup() {
           continue
         }
 
-        if (!child.data?.choice) {
+        if (!child.data?.customDataChoice) {
           process()
           continue
         }
@@ -78,14 +78,14 @@ function remarkChoiceGroup() {
 
 function filterChoices(nodes: ChoiceNode['children']) {
   const filteredChoices = new Set<ChoiceNode[]>()
-  const filters = [...new Set(nodes.flat().map((node) => node.data!.filter!))]
+  const filters = [...new Set(nodes.flat().map((node) => node.data!.customDataFilter!))]
 
   filters.map((filter) => {
     const nodesByChoice = new Map<string, ChoiceNode['children']>()
     nodes
-      .filter((node) => node.data!.filter! === filter)
+      .filter((node) => node.data!.customDataFilter! === filter)
       .map((node) => {
-        const choice = node.data!.choice!
+        const choice = node.data!.customDataChoice!
         const nodes = nodesByChoice.get(choice) ?? []
         node.data = {}
         nodes.push(node)
@@ -101,7 +101,7 @@ function filterChoices(nodes: ChoiceNode['children']) {
 
 declare module 'mdast' {
   export interface Data {
-    choice?: string
-    filter?: string
+    customDataChoice?: string
+    customDataFilter?: string
   }
 }

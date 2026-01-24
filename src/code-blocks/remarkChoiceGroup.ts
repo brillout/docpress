@@ -87,7 +87,7 @@ function filterChoices(nodes: ChoiceNode['children']) {
       .map((node) => {
         const choice = node.data!.customDataChoice!
         const nodes = nodesByChoice.get(choice) ?? []
-        node.data = {}
+        node.data!.customDataChoice = undefined
         nodes.push(node)
         nodesByChoice.set(choice, nodes)
       })

@@ -22,9 +22,16 @@ function initializeChoiceGroup() {
   const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-choice-group]')
   for (const groupEl of groupsElements) {
     const choiceGroupName = groupEl.getAttribute('data-choice-group')!
-    const selectedChoice = localStorage.getItem(`docpress:choice:${choiceGroupName}`)
-    if (!selectedChoice) continue
-    const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)
-    if (selectEl) selectEl.value = selectedChoice
+    const storageKey = `docpress:choice:${choiceGroupName}`
+    const selectedChoice = localStorage.getItem(storageKey)
+    if (selectedChoice) {
+      const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)!
+      const selectedIndex = [...selectEl.options].findIndex((option) => option.value === selectedChoice)
+      if (selectedIndex === -1) {
+        localStorage.removeItem(storageKey)
+      } else {
+        selectEl.value = selectedChoice
+      }
+    }
   }
 }

@@ -1,34 +1,37 @@
 export { useSelectedChoice }
 export { initializeChoiceGroup_SSR }
 
-import { useState } from 'react'
 import { useLocalStorage } from './useLocalStorage'
 
 const keyPrefix = 'docpress'
 
 /**
- * Tracks the selected choice.
- * Uses `useLocalStorage` if `persistId` is provided, otherwise regular state.
+ * Stores and retrieves a selected choice from local storage.
  *
- * @param persistId Optional ID to persist selection.
+ * @param choiceGroupName Group name for the stored choice.
  * @param defaultValue Default choice value.
  * @returns `[selectedChoice, setSelectedChoice]`.
  */
-function useSelectedChoice(persistId: string | null, defaultValue: string) {
-  if (!persistId) return useState(defaultValue)
-
-  return useLocalStorage(`${keyPrefix}:choice:${persistId}`, defaultValue)
+function useSelectedChoice(choiceGroupName: string, defaultValue: string) {
+  return useLocalStorage(`${keyPrefix}:choice:${choiceGroupName}`, defaultValue)
 }
 
-// WARNING: We cannot use the keyPrefix variable here: closures don't work because we serialize the function.
+// WARNING: We cannot use `keyPrefix` here: closures don't work because we serialize the function.
 const initializeChoiceGroup_SSR = `initializeChoiceGroup();${initializeChoiceGroup.toString()};`
 function initializeChoiceGroup() {
-  const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-group-name]')
+  const groupsElements = document.querySelectorAll<HTMLDivElement>('[data-choice-group]')
   for (const groupEl of groupsElements) {
-    const groupName = groupEl.getAttribute('data-group-name')!
-    const selectedChoice = localStorage.getItem(`docpress:choice:${groupName}`)
-    if (!selectedChoice) continue
-    const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)
-    if (selectEl) selectEl.value = selectedChoice
+    const choiceGroupName = groupEl.getAttribute('data-choice-group')!
+    const storageKey = `docpress:choice:${choiceGroupName}`
+    const selectedChoice = localStorage.getItem(storageKey)
+    if (selectedChoice) {
+      const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)!
+      const selectedIndex = [...selectEl.options].findIndex((option) => option.value === selectedChoice)
+      if (selectedIndex === -1) {
+        localStorage.removeItem(storageKey)
+      } else {
+        selectEl.value = selectedChoice
+      }
+    }
   }
 }

@@ -1,13 +1,11 @@
 export { remarkChoiceGroup }
 
-import type { Code, Root } from 'mdast'
+import type { Root } from 'mdast'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
-import type { ContainerDirective } from 'mdast-util-directive'
+import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
-
-type Node = Code | MdxJsxFlowElement | ContainerDirective
+import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
 
 function remarkChoiceGroup() {
   return function (tree: Root) {
@@ -18,13 +16,13 @@ function remarkChoiceGroup() {
         const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { choice }
+        if (choice) node.data ??= { customDataChoice: choice, customDataFilter: `code-${node.lang}` }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return
         const { id: choice } = node.attributes
         if (choice) {
-          node.data ??= { choice }
+          node.data ??= { customDataChoice: choice, customDataFilter: node.type }
           node.attributes = {}
         }
       }
@@ -40,12 +38,12 @@ function remarkChoiceGroup() {
 
       const process = () => {
         if (start === -1 || start === end) return
-        const nodes = node.children.slice(start, end) as Node[]
-        const groupedNodes = groupByNodeType(nodes)
+        const nodes = node.children.slice(start, end) as ChoiceNode['children']
+        const choiceNodesFiltered = filterChoices(nodes)
         const replacements: MdxJsxFlowElement[] = []
 
-        for (const groupedNode of groupedNodes) {
-          const replacement = generateChoiceGroup(groupedNode)
+        for (const choiceNodes of choiceNodesFiltered) {
+          const replacement = generateChoiceGroupCode(choiceNodes)
 
           replacements.push(replacement)
           replaced.add(replacement)
@@ -65,7 +63,7 @@ function remarkChoiceGroup() {
           continue
         }
 
-        if (!child.data?.choice) {
+        if (!child.data?.customDataChoice) {
           process()
           continue
         }
@@ -78,35 +76,32 @@ function remarkChoiceGroup() {
   }
 }
 
-type NodeGroup = {
-  value: string
-  children: Node[]
-}
-
-function groupByNodeType(nodes: Node[]) {
-  const groupedNodes = new Set<NodeGroup[]>()
-  const filters = [...new Set(nodes.flat().map((node) => (node.type === 'code' ? node.lang! : node.name)))]
+function filterChoices(nodes: ChoiceNode['children']) {
+  const filteredChoices = new Set<ChoiceNode[]>()
+  const filters = [...new Set(nodes.flat().map((node) => node.data!.customDataFilter!))]
 
   filters.map((filter) => {
-    const nodesByChoice = new Map<string, Node[]>()
+    const nodesByChoice = new Map<string, ChoiceNode['children']>()
     nodes
-      .filter((node) => (node.type === 'code' ? node.lang! : node.name) === filter)
+      .filter((node) => node.data!.customDataFilter! === filter)
       .map((node) => {
-        const choice = node.data!.choice!
+        const choice = node.data!.customDataChoice!
         const nodes = nodesByChoice.get(choice) ?? []
+        node.data!.customDataChoice = undefined
         nodes.push(node)
-        node.data = {}
         nodesByChoice.set(choice, nodes)
       })
 
-    groupedNodes.add([...nodesByChoice].map(([name, nodes]) => ({ value: name, children: nodes })))
+    const choiceNodes = [...nodesByChoice].map(([name, nodes]) => ({ choiceValue: name, children: nodes }))
+    filteredChoices.add(choiceNodes)
   })
 
-  return [...groupedNodes]
+  return [...filteredChoices]
 }
 
 declare module 'mdast' {
   export interface Data {
-    choice?: string
+    customDataChoice?: string
+    customDataFilter?: string
   }
 }

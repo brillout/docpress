@@ -1,6 +1,6 @@
 export { ChoiceGroup }
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { usePageContext } from '../../renderer/usePageContext'
 import { useSelectedChoice } from '../hooks/useSelectedChoice'
 import { useRestoreScroll } from '../hooks/useRestoreScroll'
@@ -9,31 +9,41 @@ import { cls } from '../../utils/cls'
 import type { PageContext } from 'vike/types'
 import './ChoiceGroup.css'
 
-function ChoiceGroup({ children, choices }: { children: React.ReactNode; choices: string[] }) {
+const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> = {
+  codeLang: {
+    choices: ['JavaScript', 'TypeScript'],
+    default: 'JavaScript',
+  },
+  pkgManager: {
+    choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
+    default: 'npm',
+  },
+}
+
+function ChoiceGroup({
+  children,
+  choices,
+  hide = false,
+}: { children: React.ReactNode; choices: string[]; hide: boolean }) {
   const pageContext = usePageContext()
-  const group = findGroup(pageContext, choices)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(group.name, group.default)
-  const [hasJsToggle, setHasJsToggle] = useState(false)
+  const cleanChoices = choices.map(c => c.split(':')[0])
+  const choiceGroup = findChoiceGroup(pageContext, cleanChoices)
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(choiceGroup.name, choiceGroup.default)
+  const isJsDropdownVisible = choices.indexOf(`${selectedChoice}:jsDropdown`) !== -1
   const choiceGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
-  const isHidden = choices.length === 1 || !choices.includes(selectedChoice)
-
-  useEffect(() => {
-    if (!choiceGroupRef.current) return
-    const selectedChoiceEl = choiceGroupRef.current.querySelector<HTMLDivElement>(`div[id="${selectedChoice}"]`)
-    setHasJsToggle(!!selectedChoiceEl?.classList.contains('has-toggle'))
-  }, [selectedChoice])
+  const isHidden = choices.length === 1 || !cleanChoices.includes(selectedChoice) || hide
 
   return (
-    <div ref={choiceGroupRef} data-group-name={group.name} className="choice-group">
+    <div ref={choiceGroupRef} data-choice-group={choiceGroup.name} className="choice-group">
       <select
-        name={`${group.name}-choices`}
+        name={`choicesFor-${choiceGroup.name}`}
         value={selectedChoice}
         onChange={onChange}
-        className={cls(['select-choice', hasJsToggle && 'has-toggle', isHidden && 'hidden'])}
+        className={cls(['select-choice', isJsDropdownVisible && 'show-js-dropdown', isHidden && 'hidden'])}
       >
-        {group.choices.map((choice, i) => (
-          <option key={i} value={choice} disabled={!choices.includes(choice)}>
+        {choiceGroup.choices.map((choice, i) => (
+          <option key={i} value={choice} disabled={!cleanChoices.includes(choice)}>
             {choice}
           </option>
         ))}
@@ -49,13 +59,13 @@ function ChoiceGroup({ children, choices }: { children: React.ReactNode; choices
   }
 }
 
-function findGroup(pageContext: PageContext, choices: string[]) {
-  const { choices: choicesGroup } = pageContext.globalContext.config.docpress
-  assertUsage(choicesGroup, `+docpress.choices is not defined.`)
+function findChoiceGroup(pageContext: PageContext, choices: string[]) {
+  const { choices: choicesConfig } = pageContext.globalContext.config.docpress
+  const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
-  const groupName = Object.keys(choicesGroup).find((key) => {
-    // get only the values that exist in both choices and choicesGroup[key].choices
-    const relevantChoices = choicesGroup[key].choices.filter((choice) => choices.includes(choice))
+  const groupName = Object.keys(choicesAll).find((key) => {
+    // get only the values that exist in both choices and choicesAll[key].choices
+    const relevantChoices = choicesAll[key].choices.filter((choice) => choices.includes(choice))
     // if nothing exists, skip this key
     if (relevantChoices.length === 0) return false
 
@@ -71,15 +81,15 @@ function findGroup(pageContext: PageContext, choices: string[]) {
 
     return true
   })
-  assertUsage(groupName, `the group name for [${choices}] was not found.`)
+  assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const mergedChoices = [...new Set([...choices, ...choicesGroup[groupName].choices])]
+  const mergedChoices = [...new Set([...choices, ...choicesAll[groupName].choices])]
 
-  const group = {
+  const choiceGroup = {
     name: groupName,
-    ...choicesGroup[groupName],
+    ...choicesAll[groupName],
     choices: mergedChoices,
   }
 
-  return group
+  return choiceGroup
 }

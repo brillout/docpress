@@ -6,6 +6,7 @@ import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from '../utils/assert.js'
 import { parseMetaString } from './rehypeMetaToProps.js'
+import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
 import pc from '@brillout/picocolors'
 import module from 'node:module'
 // Cannot use `import { transform } from 'detype'` as it results in errors,
@@ -57,6 +58,9 @@ function transformYaml(node: CodeNode) {
   // Skip wrapping if the YAML code block hasn't changed
   if (codeBlockContentJs === codeBlock.value) return
 
+  const meta = parseMetaString(codeBlock.meta, ['choice'])
+  const { choice } = meta.props
+  codeBlock.meta = meta.rest
   const { position, ...rest } = codeBlock
 
   // Create a new code node for the JS version based on the modified YAML
@@ -65,19 +69,16 @@ function transformYaml(node: CodeNode) {
     value: codeBlockContentJs,
   }
 
-  // Wrap both the original YAML and `yamlJsCode` with <CodeSnippets>
-  const yamlContainer: MdxJsxFlowElement = {
-    type: 'mdxJsxFlowElement',
-    name: 'CodeSnippets',
-    children: [yamlJsCode, codeBlock],
-    attributes: [
-      {
-        name: 'hideToggle',
-        type: 'mdxJsxAttribute',
-      },
-    ],
-  }
-  parent.children.splice(index, 1, yamlContainer)
+  // Wrap both the original YAML and `yamlJsCode` with `<ChoiceGroup>`
+  const choiceNodes = [
+    { choiceValue: 'JavaScript', children: [yamlJsCode] },
+    { choiceValue: 'TypeScript', children: [codeBlock] },
+  ]
+  const replacement = generateChoiceGroupCode(choiceNodes)
+  replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
+  replacement.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
+
+  parent.children.splice(index, 1, replacement)
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
@@ -86,6 +87,9 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   const maxWidth = Number(meta.props['max-width'])
   const { choice } = meta.props
   codeBlock.meta = meta.rest
+
+  codeBlock.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
+  if (choice === 'TypeScript') return
 
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
@@ -127,9 +131,9 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // No wrapping needed if JS and TS code are still identical
   if (codeBlockContentJs === codeBlock.value) return
 
-  const { position, lang, ...rest } = codeBlock
-  const attributes: MdxJsxFlowElement['attributes'] = []
+  const { position, lang, data, ...rest } = codeBlock
 
+  const tsCode: Code = { ...rest, lang }
   const jsCode: Code = {
     ...rest,
     // The jsCode lang should be js|jsx|vue
@@ -137,25 +141,20 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     value: codeBlockContentJs,
   }
 
-  // Add `hideToggle` attribute (prop) to `CodeSnippets` if the only change was replacing `.ts` with `.js`
+  // Wrap both `tsCode` and `jsCode` with `<ChoiceGroup>`
+  const choiceNodes = [
+    { choiceValue: 'JavaScript', children: [jsCode] },
+    { choiceValue: 'TypeScript', children: [tsCode] },
+  ]
+  const replacement = generateChoiceGroupCode(choiceNodes)
+
+  // Add `hide` attribute (prop) to `<ChoiceGroup>` if the only change was replacing `.ts` with `.js`
   if (codeBlockReplacedJs === codeBlockContentJs) {
-    attributes.push({
-      type: 'mdxJsxAttribute',
-      name: 'hideToggle',
-    })
+    replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
   }
+  replacement.data ??= { ...data }
 
-  // Wrap both the original `codeBlock` and `jsCode` with <CodeSnippets>
-  const container: MdxJsxFlowElement = {
-    type: 'mdxJsxFlowElement',
-    name: 'CodeSnippets',
-    children: [jsCode, codeBlock],
-    attributes,
-  }
-
-  if (choice) container.data ??= { choice }
-
-  parent.children.splice(index, 1, container)
+  parent.children.splice(index, 1, replacement)
 }
 
 // Replace all '.ts' extensions with '.js'

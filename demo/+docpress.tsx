@@ -46,15 +46,11 @@ const config: Config = {
   topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
   choices: {
-    'pkg-manager': {
-      choices: ['npm', 'pnpm', 'yarn', 'bun'],
-      default: 'npm',
-    },
     server: {
-      choices: ['hono', 'express', 'fastify'],
-      default: 'hono',
+      choices: ['Hono', 'Express', 'Fastify'],
+      default: 'Hono',
     },
-    'ui-ext': {
+    uiFrameworkVikeExtension: {
       choices: ['vike-react', 'vike-vue', 'vike-solid'],
       default: 'vike-react',
     },

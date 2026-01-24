@@ -2,7 +2,6 @@
 /* PUBLIC */
 /**********/
 export { CodeBlockTransformer, Link, RepoLink, FileAdded, FileRemoved, ImportMeta, Emoji } from './components'
-export { TypescriptOnly } from './code-blocks/components/CodeSnippets'
 export { MenuToggle } from './Layout'
 export * from './components/Note'
 export * from './icons/index'

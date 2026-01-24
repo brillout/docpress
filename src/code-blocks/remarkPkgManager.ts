@@ -4,9 +4,9 @@ import type { Code, Root } from 'mdast'
 import { visit } from 'unist-util-visit'
 import convert from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroup } from './utils/generateChoiceGroup.js'
+import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
 
-const PKG_MANAGERS = ['pnpm', 'yarn', 'bun'] as const
+const PKG_MANAGERS = ['pnpm', 'Bun', 'Yarn'] as const
 
 function remarkPkgManager() {
   return function (tree: Root) {
@@ -14,7 +14,6 @@ function remarkPkgManager() {
       if (!parent || typeof index === 'undefined') return
       if (!['sh', 'shell'].includes(node.lang || '')) return
       if (node.value.indexOf('npm') === -1 && node.value.indexOf('npx') === -1) return
-
       let choice: string | undefined = undefined
       const nodes = new Map<string, Code>()
 
@@ -24,6 +23,7 @@ function remarkPkgManager() {
         node.meta = meta.rest
       }
 
+      node.value = node.value.replaceAll('npm i ', 'npm install ')
       nodes.set('npm', node)
 
       for (const pm of PKG_MANAGERS) {
@@ -31,14 +31,14 @@ function remarkPkgManager() {
           type: node.type,
           lang: node.lang,
           meta: node.meta,
-          value: convert(node.value, pm),
+          value: convert(node.value, pm.toLowerCase() as 'pnpm' | 'bun' | 'yarn'),
         })
       }
 
-      const groupedNodes = [...nodes].map(([name, node]) => ({ value: name, children: [node] }))
-      const replacement = generateChoiceGroup(groupedNodes)
+      const choiceNodes = [...nodes].map(([name, node]) => ({ choiceValue: name, children: [node] }))
+      const replacement = generateChoiceGroupCode(choiceNodes)
 
-      replacement.data ??= { choice }
+      replacement.data ??= { customDataChoice: choice, customDataFilter: replacement.type }
       parent.children.splice(index, 1, replacement)
     })
   }

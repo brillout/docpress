@@ -130,7 +130,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectJs()
 
-    await page.setChecked('input.code-lang-toggle', isDev ? false : true)
+    await page.selectOption(`select[name="choicesFor-codeLang"]:visible`, { index: isDev ? 0 : 1 })
+
     await autoRetry(
       async () => {
         if (isDev) {
@@ -153,7 +154,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - Choice Group`, async () => {
-    const firstChoiceText1 = 'npm i hono @photonjs/hono'
+    const firstChoiceText1 = 'npm install hono @photonjs/hono'
     const firstChoiceText2 = "import { Hono } from 'hono'"
     const secondChoiceText1 = 'pnpm add express @photonjs/express'
     const secondChoiceText2 = "import express from 'express'"
@@ -211,7 +212,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('select[name="server-choices"]:visible').nth(2).selectOption('fastify')
+      await page.locator('select[name="choicesFor-server"]:visible').nth(2).selectOption('Fastify')
       const text = await getVisibleText(page)
       hasFirstChoice(text, false)
       hasSecondChoice(text, false)
@@ -222,8 +223,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectFirstChoice()
 
-    await page.selectOption(`select[name="pkg-manager-choices"]:visible`, { index: isDev ? 0 : 1 })
-    await page.selectOption(`select[name="server-choices"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="choicesFor-pkgManager"]:visible`, { index: isDev ? 0 : 1 })
+    await page.selectOption(`select[name="choicesFor-server"]:visible`, { index: isDev ? 0 : 1 })
 
     await autoRetry(
       async () => {
@@ -241,8 +242,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)
-    const codeSnippetsHtml = await page.innerHTML('div.code-snippets')
-    expect(codeSnippetsHtml).toContain('Copy to clipboard')
+    const choiceGroupHtml = await page.innerHTML('div.choice-group')
+    expect(choiceGroupHtml).toContain('Copy to clipboard')
   })
 
   const orphanURL = '/orphan'

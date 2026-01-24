@@ -1,3 +1,12 @@
+## [0.16.11](https://github.com/brillout/docpress/compare/v0.16.10...v0.16.11) (2026-01-24)
+
+
+### Bug Fixes
+
+* add `choice` namespace to prevent localStorage key collisions ([#94](https://github.com/brillout/docpress/issues/94)) ([e0dc974](https://github.com/brillout/docpress/commit/e0dc97493b5071b9c24d7578b7508a96402f3dce))
+
+
+
 ## [0.16.10](https://github.com/brillout/docpress/compare/v0.16.9...v0.16.10) (2026-01-22)
 
 

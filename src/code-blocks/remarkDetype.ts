@@ -88,7 +88,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   const { choice } = meta.props
   codeBlock.meta = meta.rest
 
-  if (choice) codeBlock.data ??= { customDataChoice: choice, customDataFilter: `codeLang` }
+  codeBlock.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
   if (choice === 'TypeScript') return
 
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
@@ -152,7 +152,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   if (codeBlockReplacedJs === codeBlockContentJs) {
     replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
   }
-  replacement.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
+  replacement.data ??= { ...data }
 
   parent.children.splice(index, 1, replacement)
 }

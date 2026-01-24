@@ -26,7 +26,7 @@ function ChoiceGroup({
   hide = false,
 }: { children: React.ReactNode; choices: string[]; hide: boolean }) {
   const pageContext = usePageContext()
-  const cleanChoices = choices.map(c => c.split(':')[0])
+  const cleanChoices = choices.map((c) => c.split(':')[0])
   const choiceGroup = findChoiceGroup(pageContext, cleanChoices)
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(choiceGroup.name, choiceGroup.default)
   const isJsDropdownVisible = choices.indexOf(`${selectedChoice}:jsDropdown`) !== -1

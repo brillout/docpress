@@ -13,6 +13,13 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
+  const elements = choiceNodes.map((choiceNode) => ({
+    type: 'Literal',
+    value: findVisibleJsDropdown(choiceNode.children[0])
+      ? `${choiceNode.choiceValue}:jsDropdown`
+      : choiceNode.choiceValue,
+  }))
+
   attributes.push({
     type: 'mdxJsxAttribute',
     name: 'choices',
@@ -30,10 +37,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
               expression: {
                 type: 'ArrayExpression',
                 // @ts-ignore: Missing properties in type definition
-                elements: choiceNodes.map((choiceNode) => ({
-                  type: 'Literal',
-                  value: choiceNode.choiceValue,
-                })),
+                elements,
               },
             },
           ],
@@ -43,15 +47,12 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
   })
 
   for (const choiceNode of choiceNodes) {
-    const classNames = ['choice']
-    if (findHasJsDropdown(choiceNode.children[0])) classNames.push('has-js-dropdown')
-
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
       attributes: [
         { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
-        { type: 'mdxJsxAttribute', name: 'className', value: classNames.join(' ') },
+        { type: 'mdxJsxAttribute', name: 'className', value: 'choice' },
       ],
       children: choiceNode.children.every((node) => node.type === 'containerDirective')
         ? choiceNode.children.flatMap((node) => [...node.children])
@@ -67,7 +68,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
   }
 }
 
-function findHasJsDropdown(node: BlockContent | DefinitionContent) {
+function findVisibleJsDropdown(node: BlockContent | DefinitionContent) {
   let currentNode = node
   if (node.type === 'containerDirective' && node.name === 'Choice') currentNode = node.children[0]
   return (

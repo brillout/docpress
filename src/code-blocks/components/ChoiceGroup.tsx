@@ -1,6 +1,6 @@
 export { ChoiceGroup }
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { usePageContext } from '../../renderer/usePageContext'
 import { useSelectedChoice } from '../hooks/useSelectedChoice'
 import { useRestoreScroll } from '../hooks/useRestoreScroll'
@@ -26,20 +26,13 @@ function ChoiceGroup({
   hide = false,
 }: { children: React.ReactNode; choices: string[]; hide: boolean }) {
   const pageContext = usePageContext()
-  const choiceGroup = findChoiceGroup(pageContext, choices)
+  const cleanChoices = choices.map(c => c.split(':')[0])
+  const choiceGroup = findChoiceGroup(pageContext, cleanChoices)
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(choiceGroup.name, choiceGroup.default)
-  const [hasJsToggle, setHasJsToggle] = useState(false)
+  const isJsDropdownVisible = choices.indexOf(`${selectedChoice}:jsDropdown`) !== -1
   const choiceGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
-  const isHidden = choices.length === 1 || !choices.includes(selectedChoice) || hide
-
-  useEffect(() => {
-    if (!choiceGroupRef.current) return
-    const selectedChoiceEl = choiceGroupRef.current.querySelector<HTMLDivElement>(
-      `div[data-choice-value="${selectedChoice}"]`,
-    )
-    setHasJsToggle(!!selectedChoiceEl?.classList.contains('has-js-dropdown'))
-  }, [selectedChoice])
+  const isHidden = choices.length === 1 || !cleanChoices.includes(selectedChoice) || hide
 
   return (
     <div ref={choiceGroupRef} data-choice-group={choiceGroup.name} className="choice-group">
@@ -47,10 +40,10 @@ function ChoiceGroup({
         name={`choicesFor-${choiceGroup.name}`}
         value={selectedChoice}
         onChange={onChange}
-        className={cls(['select-choice', hasJsToggle && 'show-js-dropdown', isHidden && 'hidden'])}
+        className={cls(['select-choice', isJsDropdownVisible && 'show-js-dropdown', isHidden && 'hidden'])}
       >
         {choiceGroup.choices.map((choice, i) => (
-          <option key={i} value={choice} disabled={!choices.includes(choice)}>
+          <option key={i} value={choice} disabled={!cleanChoices.includes(choice)}>
             {choice}
           </option>
         ))}

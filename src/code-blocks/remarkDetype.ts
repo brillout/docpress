@@ -53,15 +53,14 @@ function remarkDetype() {
 
 function transformYaml(node: CodeNode) {
   const { codeBlock, index, parent } = node
-  const meta = parseMetaString(codeBlock.meta, ['choice'])
-  const { choice } = meta.props
-  codeBlock.meta = meta.rest
-
   const codeBlockContentJs = replaceFileNameSuffixes(codeBlock.value)
 
   // Skip wrapping if the YAML code block hasn't changed
   if (codeBlockContentJs === codeBlock.value) return
 
+  const meta = parseMetaString(codeBlock.meta, ['choice'])
+  const { choice } = meta.props
+  codeBlock.meta = meta.rest
   const { position, ...rest } = codeBlock
 
   // Create a new code node for the JS version based on the modified YAML
@@ -70,11 +69,11 @@ function transformYaml(node: CodeNode) {
     value: codeBlockContentJs,
   }
 
+  // Wrap both the original YAML and `yamlJsCode` with `<ChoiceGroup>`
   const choiceNodes = [
     { choiceValue: 'JavaScript', children: [yamlJsCode] },
     { choiceValue: 'TypeScript', children: [codeBlock] },
   ]
-  // Wrap both the original YAML and `yamlJsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroupCode(choiceNodes)
   replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
   replacement.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
@@ -89,10 +88,8 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   const { choice } = meta.props
   codeBlock.meta = meta.rest
 
-  if (choice === 'TypeScript') {
-    codeBlock.data ??= { customDataChoice: choice, customDataFilter: `code-ts` }
-    return
-  }
+  if (choice) codeBlock.data ??= { customDataChoice: choice, customDataFilter: `codeLang` }
+  if (choice === 'TypeScript') return
 
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
@@ -134,9 +131,9 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // No wrapping needed if JS and TS code are still identical
   if (codeBlockContentJs === codeBlock.value) return
 
-  const { position, lang, ...rest } = codeBlock
-  const attributes: MdxJsxFlowElement['attributes'] = []
+  const { position, lang, data, ...rest } = codeBlock
 
+  const tsCode: Code = { ...rest, lang }
   const jsCode: Code = {
     ...rest,
     // The jsCode lang should be js|jsx|vue
@@ -144,22 +141,17 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
     value: codeBlockContentJs,
   }
 
-  // Add `hide` attribute (prop) to `ChoiceGroup` if the only change was replacing `.ts` with `.js`
-  if (codeBlockReplacedJs === codeBlockContentJs) {
-    attributes.push({
-      type: 'mdxJsxAttribute',
-      name: 'hide',
-    })
-  }
-
+  // Wrap both `tsCode` and `jsCode` with `<ChoiceGroup>`
   const choiceNodes = [
     { choiceValue: 'JavaScript', children: [jsCode] },
-    { choiceValue: 'TypeScript', children: [codeBlock] },
+    { choiceValue: 'TypeScript', children: [tsCode] },
   ]
-
-  // Wrap both the original `codeBlock` and `jsCode` with <ChoiceGroup>
   const replacement = generateChoiceGroupCode(choiceNodes)
-  replacement.attributes.push(...attributes)
+
+  // Add `hide` attribute (prop) to `<ChoiceGroup>` if the only change was replacing `.ts` with `.js`
+  if (codeBlockReplacedJs === codeBlockContentJs) {
+    replacement.attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
+  }
   replacement.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
 
   parent.children.splice(index, 1, replacement)

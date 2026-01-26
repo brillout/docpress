@@ -108,11 +108,17 @@ function getOpenGraphTags(url: string, documentTitle: string, config: Config) {
 // - Single PNG:
 //   https://rubyonrails.org
 // - Favicon shown in browser is different than favicon shown in Google:
-//   https://evilmartians.com
-//   Shown in Google: <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> or <link rel="manifest" href="/manifest.webmanifest" />
-//   Shown in Browser: <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-//   https://gemini.google.com/share/8bcf76a26783
-//   https://chatgpt.com/share/696930b6-4414-800d-9c55-598ac7fa1ccb
+//   - Resources:
+//     https://gemini.google.com/share/8bcf76a26783
+//     https://chatgpt.com/share/696930b6-4414-800d-9c55-598ac7fa1ccb
+//   - https://evilmartians.com
+//     Shown in Google: <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> or <link rel="manifest" href="/manifest.webmanifest" />
+//     Shown in Browser: <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+//     Google preview is fake (it picks the browser one, not the Google one): https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://evilmartians.com&size=48
+//   - https://vike.dev
+//     Shown in Google: <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+//     Shown in Browser: <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+//     Google preview is fake (it picks the browser one, not the Google one): https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://vike.dev&size=48
 function getFaviconTags(config: Config) {
   const { faviconBrowser, faviconGoogle } = getFavicons(config)
   assert(faviconBrowser)

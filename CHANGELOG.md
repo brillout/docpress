@@ -1,3 +1,12 @@
+## [0.16.12](https://github.com/brillout/docpress/compare/v0.16.11...v0.16.12) (2026-01-26)
+
+
+### Bug Fixes
+
+* extend CSS choice hiding logic to support up to 7 options ([f759a9c](https://github.com/brillout/docpress/commit/f759a9c1d5a0a88449264a68083cb9aeb1f0d190))
+
+
+
 ## [0.16.11](https://github.com/brillout/docpress/compare/v0.16.10...v0.16.11) (2026-01-24)
 
 

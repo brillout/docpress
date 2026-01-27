@@ -67,7 +67,7 @@ function getLinkText({
   if (sectionTitle) breadcrumbParts.push(sectionTitle)
 
   if (noBreadcrumb || isLinkOnSamePage) {
-    return breadcrumbParts[breadcrumbParts.length - 1]!
+    return breadcrumbParts[breadcrumbParts.length - 1]
   }
   return (
     <>

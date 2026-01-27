@@ -22,10 +22,9 @@ function DocSearchInstall() {
           filters: 'is_available:true',
         }}
         transformItems={(hits) => {
-          hits.forEach((hit) => {
+          hits.map((hit) => {
             if (hit.type === 'lvl1') {
-              const urlParts = hit.url.split('#')
-              hit.url = urlParts[0] ?? hit.url
+              hit.url = hit.url.split('#')[0]
             }
           })
           return hits

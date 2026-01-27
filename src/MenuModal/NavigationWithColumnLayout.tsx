@@ -240,16 +240,14 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
           const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
           assert(idx >= 0)
           columns[idx] ??= { categories: [] }
-          const firstNavItem = columnEntry.navItems[0]
-          if (!firstNavItem) return
-          const navItemLevel1 = firstNavItem
+          const navItemLevel1 = columnEntry.navItems[0]
           const navItems = columnEntry.navItems.slice(1)
           columns[idx].categories.push({ navItemLevel1, navItems })
         })
         const navItemsByColumnLayout: NavItemsByColumnLayout = { columns, isFullWidthCategory }
         return navItemsByColumnLayout
       } else {
-        let navItemLevel1: NavItemComputed | undefined
+        let navItemLevel1: NavItemComputed
         const columns: { navItems: NavItemComputed[] }[] = []
         columnEntries.forEach((columnEntry, i) => {
           const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
@@ -257,18 +255,14 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
           columns[idx] ??= { navItems: [] }
           let { navItems } = columnEntry
           if (i === 0) {
-            const firstNavItem = navItems[0]
-            if (firstNavItem) {
-              navItemLevel1 = firstNavItem
-              navItems = navItems.slice(1)
-            }
+            navItemLevel1 = navItems[0]
+            navItems = navItems.slice(1)
           }
           columns[idx].navItems.push(...navItems)
         })
-        assert(navItemLevel1, 'Expected navItemLevel1 to be set')
         const navItemsByColumnLayout: NavItemsByColumnLayout = {
           columns,
-          navItemLevel1,
+          navItemLevel1: navItemLevel1!,
           isFullWidthCategory,
         }
         return navItemsByColumnLayout

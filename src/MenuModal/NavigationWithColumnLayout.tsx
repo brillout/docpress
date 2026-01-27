@@ -240,7 +240,7 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
           const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
           assert(idx >= 0)
           columns[idx] ??= { categories: [] }
-          const navItemLevel1 = columnEntry.navItems[0]
+          const navItemLevel1 = columnEntry.navItems[0]!
           const navItems = columnEntry.navItems.slice(1)
           columns[idx].categories.push({ navItemLevel1, navItems })
         })
@@ -255,7 +255,7 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
           columns[idx] ??= { navItems: [] }
           let { navItems } = columnEntry
           if (i === 0) {
-            navItemLevel1 = navItems[0]
+            navItemLevel1 = navItems[0]!
             navItems = navItems.slice(1)
           }
           columns[idx].navItems.push(...navItems)

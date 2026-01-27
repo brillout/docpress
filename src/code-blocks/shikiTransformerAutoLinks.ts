@@ -14,25 +14,25 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
     name: 'docpress-shiki-autolinks',
     span(span) {
       if (span.children.length !== 1) return
-      let child = span.children[0]
+      let child = span.children[0]!
       if (child.type !== 'text') return
 
       const links: { href: string; index: number }[] = []
-      const matches = Array.from(child.value.matchAll(linkRE))
+      const matches = Array.from((child as any).value.matchAll(linkRE))
 
       // Filter out URLs that contain `${...}`. e.g. `https://star-wars.brillout.com/api/films/${id}.json`.
-      const filtered = matches.filter(([href]) => !href.includes('${'))
+      const filtered = (matches as any).filter(([href]: any) => !href.includes('${'))
       if (filtered.length === 0) return
 
       for (const match of filtered) {
-        const [href] = match
-        links.unshift({ href, index: match.index })
+        const [href] = match as any
+        links.unshift({ href, index: (match as any).index! })
       }
 
       const newChildren: typeof span.children = []
       for (const { href, index } of links) {
         const postIndex = index + href.length
-        const postValue = child.value.slice(postIndex)
+        const postValue = (child as any).value.slice(postIndex)
 
         if (postValue.length > 0) {
           newChildren.unshift({ type: 'text', value: postValue })
@@ -47,11 +47,11 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
 
         child = {
           type: 'text',
-          value: child.value.slice(0, index),
-        }
+          value: (child as any).value.slice(0, index),
+        } as any
       }
 
-      if (child.value.length > 0) {
+      if ((child as any).value.length > 0) {
         newChildren.unshift(child)
       }
 

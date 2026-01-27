@@ -26,9 +26,9 @@ function ChoiceGroup({
   hide = false,
 }: { children: React.ReactNode; choices: string[]; hide: boolean }) {
   const pageContext = usePageContext()
-  const cleanChoices = choices.map((c) => c.split(':')[0])
+  const cleanChoices = choices.map((c) => c.split(':')[0]!)
   const choiceGroup = findChoiceGroup(pageContext, cleanChoices)
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(choiceGroup.name, choiceGroup.default)
+  const [selectedChoice, setSelectedChoice] = useSelectedChoice(choiceGroup.name, choiceGroup.default!)
   const isJsDropdownVisible = choices.indexOf(`${selectedChoice}:jsDropdown`) !== -1
   const choiceGroupRef = useRef<HTMLDivElement>(null)
   const prevPositionRef = useRestoreScroll([selectedChoice])
@@ -65,7 +65,7 @@ function findChoiceGroup(pageContext: PageContext, choices: string[]) {
 
   const groupName = Object.keys(choicesAll).find((key) => {
     // get only the values that exist in both choices and choicesAll[key].choices
-    const relevantChoices = choicesAll[key].choices.filter((choice) => choices.includes(choice))
+    const relevantChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice))
     // if nothing exists, skip this key
     if (relevantChoices.length === 0) return false
 
@@ -83,11 +83,11 @@ function findChoiceGroup(pageContext: PageContext, choices: string[]) {
   })
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const mergedChoices = [...new Set([...choices, ...choicesAll[groupName].choices])]
+  const mergedChoices = [...new Set([...choices, ...choicesAll[groupName]!.choices])]
 
   const choiceGroup = {
     name: groupName,
-    ...choicesAll[groupName],
+    ...choicesAll[groupName]!,
     choices: mergedChoices,
   }
 

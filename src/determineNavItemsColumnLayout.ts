@@ -4,7 +4,7 @@ export { determineNavItemsColumnLayout }
 // - https://github.com/brillout/docpress/blob/2e41d8b9df098ff8312b02f7e9d41a202548e2b9/src/renderer/getStyleColumnLayout.ts#L4-L26
 
 import type { NavItem } from './NavItemComponent.js'
-import { assert, assertUsage } from './utils/assert.js'
+import { assert } from './utils/assert.js'
 
 function determineNavItemsColumnLayout(navItems: NavItem[]): undefined {
   const columnLayouts = getColumnEntries(navItems)
@@ -16,7 +16,7 @@ function determineNavItemsColumnLayout(navItems: NavItem[]): undefined {
       )
       columnEntries.forEach((columnEntry, i) => {
         columnEntry.navItemLeader.isPotentialColumn ??= {}
-        columnEntry.navItemLeader.isPotentialColumn[numberOfColumns] = columnMapping[i]
+        columnEntry.navItemLeader.isPotentialColumn[numberOfColumns] = columnMapping[i]!
       })
     }
   })
@@ -91,7 +91,7 @@ function getColumnEntries(navItems: NavItem[]) {
           numberOfHeadings = navItemNext.numberOfHeadings
         }
       }
-      columnEntries.push({ navItemLeader: navItems[i], numberOfEntries: numberOfHeadings })
+      columnEntries.push({ navItemLeader: navItems[i]!, numberOfEntries: numberOfHeadings })
     }
   })
   assert(columnEntries!)
@@ -123,8 +123,8 @@ function mergeColumns(columnsMerging: ColumnMerging[], numberOfColumns: number):
 
   let mergeCandidate: null | (ColumnMerging & { i: number }) = null
   for (let i = 0; i <= columnsMerging.length - 2; i++) {
-    const column1 = columnsMerging[i + 0]
-    const column2 = columnsMerging[i + 1]
+    const column1 = columnsMerging[i + 0]!
+    const column2 = columnsMerging[i + 1]!
     const heightTotal = column1.heightTotal + column2.heightTotal
     if (!mergeCandidate || mergeCandidate.heightTotal > heightTotal) {
       mergeCandidate = {

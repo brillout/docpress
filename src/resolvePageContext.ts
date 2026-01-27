@@ -12,7 +12,7 @@ import type {
   HeadingResolved,
   HeadingDetachedResolved,
   StringArray,
-} from './types/Heading'
+} from './types/Heading.js'
 import { assert, assertUsage } from './utils/assert.js'
 import { jsxToTextContent } from './utils/jsxToTextContent.js'
 import pc from '@brillout/picocolors'

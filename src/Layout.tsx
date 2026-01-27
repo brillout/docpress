@@ -24,7 +24,7 @@ import {
   ignoreHoverOnTouchStart,
   openMenuModalOnMouseEnter,
   toggleMenuModal,
-} from './MenuModal/toggleMenuModal'
+} from './MenuModal/toggleMenuModal.js'
 import { MenuModal } from './MenuModal.js'
 import { autoScrollNav_SSR } from './autoScrollNav.js'
 import { initializeChoiceGroup_SSR } from './code-blocks/hooks/useSelectedChoice.js'

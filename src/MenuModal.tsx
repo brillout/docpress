@@ -7,7 +7,11 @@ import { bodyMaxWidth, viewDesktop, viewTablet, scrollFadeMask } from './Layout.
 import { ExternalLinks } from './ExternalLinks.js'
 import { Style } from './utils/Style.js'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout.js'
-import { closeMenuModal, closeMenuModalOnMouseLeave, keepMenuModalOpenOnMouseOver } from './MenuModal/toggleMenuModal.js'
+import {
+  closeMenuModal,
+  closeMenuModalOnMouseLeave,
+  keepMenuModalOpenOnMouseOver,
+} from './MenuModal/toggleMenuModal.js'
 import { EditLink } from './EditLink.js'
 
 function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; isNavLeftAlwaysHidden_: boolean }) {

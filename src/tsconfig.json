@@ -5,9 +5,8 @@
     "noErrorTruncation": true,
     // Strictness
     "strict": true,
-    // TODO
-    // "noUncheckedIndexedAccess": true,
-    // "noUnusedLocals": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     // Resolution
     "esModuleInterop": true,

@@ -24,7 +24,7 @@ function DocSearchInstall() {
         transformItems={(hits) => {
           hits.map((hit) => {
             if (hit.type === 'lvl1') {
-              hit.url = hit.url.split('#')[0]
+              hit.url = hit.url.split('#')[0]!
             }
           })
           return hits

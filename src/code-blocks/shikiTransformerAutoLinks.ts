@@ -14,7 +14,7 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
     name: 'docpress-shiki-autolinks',
     span(span) {
       if (span.children.length !== 1) return
-      let child = span.children[0]
+      let child = span.children[0]!
       if (child.type !== 'text') return
 
       const links: { href: string; index: number }[] = []
@@ -26,7 +26,7 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
 
       for (const match of filtered) {
         const [href] = match
-        links.unshift({ href, index: match.index })
+        links.unshift({ href, index: match.index! })
       }
 
       const newChildren: typeof span.children = []

@@ -1,7 +1,6 @@
 export { remarkDetype }
 
 import type { Root, Parent, Code } from 'mdast'
-import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from '../utils/assert.js'
@@ -175,9 +174,9 @@ function processMagicComments(code: string) {
 
   if (matches.length) {
     for (let i = matches.length - 1; i >= 0; i--) {
-      const match = matches[i]
+      const match = matches[i]!
       const [fullMatch, renameFrom, renameTo] = match
-      code = code.split(fullMatch).join('').replaceAll(renameFrom, renameTo)
+      code = code.split(fullMatch).join('').replaceAll(renameFrom!, renameTo!)
     }
   }
   code = code.replaceAll('// @docpress-uncomment ', '')

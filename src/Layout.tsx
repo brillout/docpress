@@ -33,7 +33,7 @@ import { navigate } from 'vike/client/router'
 import { css } from './utils/css.js'
 import { Style } from './utils/Style.js'
 import { cls } from './utils/cls.js'
-import { iconBooks } from './icons.js'
+import { iconBooks } from './icons/index.js'
 import { EditLink } from './EditLink.js'
 import './Layout.css'
 

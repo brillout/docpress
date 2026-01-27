@@ -3,7 +3,7 @@ export type Resolved = ReturnType<typeof resolvePageContext>
 
 import type { Config } from './types/Config.js'
 import type { NavItem } from './NavItemComponent.js'
-import type { LinkData } from './components.js'
+import type { LinkData } from './components/index.js'
 import type { PageContextServer } from 'vike/types'
 import type { PageSection } from './parsePageSections.js'
 import type {

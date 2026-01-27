@@ -1,9 +1,9 @@
 export { DocSearchInstall }
 
 import React from 'react'
-import { usePageContext } from '../renderer/usePageContext'
+import { usePageContext } from '../renderer/usePageContext.js'
 import { DocSearch as DocSearchButton } from '@docsearch/react'
-import { Hit } from '../components/Algolia/Hit'
+import { Hit } from '../components/Algolia/Hit.js'
 
 function DocSearchInstall() {
   const pageContext = usePageContext()

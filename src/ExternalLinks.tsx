@@ -8,7 +8,7 @@ import iconBluesky from './icons/bluesky.svg'
 import iconLinkedin from './icons/linkedin.svg'
 import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
-import { usePageContext } from './renderer/usePageContext'
+import { usePageContext } from './renderer/usePageContext.js'
 import '@docsearch/css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {

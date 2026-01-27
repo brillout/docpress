@@ -1,7 +1,7 @@
 export { closeDocsearchModal }
 export { openDocsearchModal }
 
-import { assert } from '../utils/client'
+import { assert } from '../utils/client.js'
 
 function closeDocsearchModal() {
   if (isClosed()) return

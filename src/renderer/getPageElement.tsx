@@ -1,10 +1,10 @@
 export { getPageElement }
 
 import type { PageContext } from 'vike/types'
-import { PageContextProvider } from './usePageContext'
+import { PageContextProvider } from './usePageContext.js'
 import React from 'react'
-import { DocSearchInstall } from '../docsearch/DocSearchInstall'
-import { Layout } from '../Layout'
+import { DocSearchInstall } from '../docsearch/DocSearchInstall.js'
+import { Layout } from '../Layout.js'
 
 function getPageElement(pageContext: PageContext) {
   const { Page } = pageContext

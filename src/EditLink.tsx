@@ -1,9 +1,9 @@
 export { EditLink }
 
 import React from 'react'
-import { usePageContext } from './renderer/usePageContext'
-import { iconPencil } from './icons'
-import { getRepoHref } from './components'
+import { usePageContext } from './renderer/usePageContext.js'
+import { iconPencil } from './icons.js'
+import { getRepoHref } from './components.js'
 
 function EditLink({
   className,

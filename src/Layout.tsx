@@ -15,26 +15,26 @@ export { scrollFadeMask }
 // - We use --padding-side because we cannot set a fixed max-width on the <NavHead> container .nav-head-content — DocPress doesn't know how many extra <NavHead> elements the user adds using the +docpress.topNavigation setting.
 
 import React from 'react'
-import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent'
-import { parseMarkdownMini } from './parseMarkdownMini'
-import { usePageContext } from './renderer/usePageContext'
-import { ExternalLinks } from './ExternalLinks'
+import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent.js'
+import { parseMarkdownMini } from './parseMarkdownMini.js'
+import { usePageContext } from './renderer/usePageContext.js'
+import { ExternalLinks } from './ExternalLinks.js'
 import {
   closeMenuModalOnMouseLeaveToggle,
   ignoreHoverOnTouchStart,
   openMenuModalOnMouseEnter,
   toggleMenuModal,
 } from './MenuModal/toggleMenuModal'
-import { MenuModal } from './MenuModal'
-import { autoScrollNav_SSR } from './autoScrollNav'
-import { initializeChoiceGroup_SSR } from './code-blocks/hooks/useSelectedChoice'
-import { SearchLink } from './docsearch/SearchLink'
+import { MenuModal } from './MenuModal.js'
+import { autoScrollNav_SSR } from './autoScrollNav.js'
+import { initializeChoiceGroup_SSR } from './code-blocks/hooks/useSelectedChoice.js'
+import { SearchLink } from './docsearch/SearchLink.js'
 import { navigate } from 'vike/client/router'
-import { css } from './utils/css'
-import { Style } from './utils/Style'
-import { cls } from './utils/cls'
-import { iconBooks } from './icons'
-import { EditLink } from './EditLink'
+import { css } from './utils/css.js'
+import { Style } from './utils/Style.js'
+import { cls } from './utils/cls.js'
+import { iconBooks } from './icons.js'
+import { EditLink } from './EditLink.js'
 import './Layout.css'
 
 const blockMargin = 4

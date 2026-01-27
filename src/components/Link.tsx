@@ -2,12 +2,12 @@ export { Link }
 export type { LinkData }
 
 import React from 'react'
-import { usePageContext } from '../renderer/usePageContext'
-import { assert, assertUsage, assertWarning, determineSectionTitle, determineSectionUrlHash } from '../utils/server'
-import { parseMarkdownMini } from '../parseMarkdownMini'
+import { usePageContext } from '../renderer/usePageContext.js'
+import { assert, assertUsage, assertWarning, determineSectionTitle, determineSectionUrlHash } from '../utils/server.js'
+import { parseMarkdownMini } from '../parseMarkdownMini.js'
 import pc from '@brillout/picocolors'
 import type { PageContext } from 'vike/types'
-import type { StringArray } from '../types/Heading'
+import type { StringArray } from '../types/Heading.js'
 
 function Link({
   href,

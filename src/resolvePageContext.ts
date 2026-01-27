@@ -1,11 +1,11 @@
 export { resolvePageContext }
 export type Resolved = ReturnType<typeof resolvePageContext>
 
-import type { Config } from './types/Config'
-import type { NavItem } from './NavItemComponent'
-import type { LinkData } from './components'
+import type { Config } from './types/Config.js'
+import type { NavItem } from './NavItemComponent.js'
+import type { LinkData } from './components.js'
 import type { PageContextServer } from 'vike/types'
-import type { PageSection } from './parsePageSections'
+import type { PageSection } from './parsePageSections.js'
 import type {
   HeadingDefinition,
   HeadingDetachedDefinition,
@@ -13,11 +13,11 @@ import type {
   HeadingDetachedResolved,
   StringArray,
 } from './types/Heading'
-import { assert, assertUsage } from './utils/assert'
-import { jsxToTextContent } from './utils/jsxToTextContent'
+import { assert, assertUsage } from './utils/assert.js'
+import { jsxToTextContent } from './utils/jsxToTextContent.js'
 import pc from '@brillout/picocolors'
-import { parseMarkdownMini } from './parseMarkdownMini'
-import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
+import { parseMarkdownMini } from './parseMarkdownMini.js'
+import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout.js'
 
 type PageSectionResolved = {
   url: string | null

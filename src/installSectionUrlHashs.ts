@@ -1,6 +1,6 @@
 export { installSectionUrlHashs }
 
-import { assert } from './utils/client'
+import { assert } from './utils/client.js'
 
 // TO-DO/eventually: use React instead of manually installing click handlers?
 function installSectionUrlHashs() {

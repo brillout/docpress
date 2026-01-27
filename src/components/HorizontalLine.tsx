@@ -1,7 +1,7 @@
 export { HorizontalLine }
 
 import React from 'react'
-import { cls } from '../utils/cls'
+import { cls } from '../utils/cls.js'
 
 function HorizontalLine({ primary }: { primary?: true }) {
   return (

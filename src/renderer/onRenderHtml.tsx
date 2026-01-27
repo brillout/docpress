@@ -2,10 +2,10 @@ export { onRenderHtml }
 
 import ReactDOMServer from 'react-dom/server'
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
-import { assert, assertUsage } from '../utils/server'
-import { getPageElement } from './getPageElement'
+import { assert, assertUsage } from '../utils/server.js'
+import { getPageElement } from './getPageElement.js'
 import type { PageContextServer } from 'vike/types'
-import type { Config } from '../types/Config'
+import type { Config } from '../types/Config.js'
 
 async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   const page = getPageElement(pageContext)

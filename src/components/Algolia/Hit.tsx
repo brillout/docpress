@@ -2,9 +2,9 @@ export { Hit }
 
 import React from 'react'
 import type { DocSearchHit, InternalDocSearchHit, StoredDocSearchHit } from '@docsearch/react'
-import { Snippet } from './Snippet'
-import { SourceIcon } from './SourceIcon'
-import { SelectIcon } from './SelectIcon'
+import { Snippet } from './Snippet.js'
+import { SourceIcon } from './SourceIcon.js'
+import { SelectIcon } from './SelectIcon.js'
 
 type HitProps = {
   hit: InternalDocSearchHit | StoredDocSearchHit

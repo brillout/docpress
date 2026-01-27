@@ -5,9 +5,9 @@ export type { NavItemComputed }
 export type { ColumnMap }
 
 import React from 'react'
-import { assert, assertWarning, jsxToTextContent } from './utils/server'
+import { assert, assertWarning, jsxToTextContent } from './utils/server.js'
 import './NavItemComponent.css'
-import { parseMarkdownMini } from './parseMarkdownMini'
+import { parseMarkdownMini } from './parseMarkdownMini.js'
 
 /*
 // We cannot do that: we must use `import type` otherwise Vite will transpile global.d.ts and throw:

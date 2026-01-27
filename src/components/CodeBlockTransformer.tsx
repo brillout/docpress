@@ -1,7 +1,7 @@
 export { CodeBlockTransformer }
 
 import React from 'react'
-import { assert } from '../utils/server'
+import { assert } from '../utils/server.js'
 import './CodeBlockTransformer.css'
 
 type LineBreak = 'white-space' | 'break-word'

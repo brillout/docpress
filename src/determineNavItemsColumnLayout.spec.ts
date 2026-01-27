@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout'
-import type { NavItem } from './NavItemComponent'
+import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout.js'
+import type { NavItem } from './NavItemComponent.js'
 
 describe('determineNavItemsColumnLayout', () => {
   it('should handle simple non-fullWidth categories', () => {

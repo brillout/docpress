@@ -1,6 +1,6 @@
 export { addScript }
 
-import { genPromise } from './genPromise'
+import { genPromise } from './genPromise.js'
 
 async function addScript(src: string) {
   const { promise, resolve, reject } = genPromise()

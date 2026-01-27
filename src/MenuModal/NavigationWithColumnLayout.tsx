@@ -1,16 +1,16 @@
 export { NavigationWithColumnLayout }
 
 import React, { useEffect, useState } from 'react'
-import { assert } from '../utils/server'
-import { getViewportWidth } from '../utils/getViewportWidth'
-import { viewTablet, navLeftWidthMax, navLeftWidthMin, bodyMaxWidth } from '../Layout'
-import { throttle } from '../utils/throttle'
-import { Collapsible } from './Collapsible'
-import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent'
-import { usePageContext } from '../renderer/usePageContext'
+import { assert } from '../utils/server.js'
+import { getViewportWidth } from '../utils/getViewportWidth.js'
+import { viewTablet, navLeftWidthMax, navLeftWidthMin, bodyMaxWidth } from '../Layout.js'
+import { throttle } from '../utils/throttle.js'
+import { Collapsible } from './Collapsible.js'
+import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent.js'
+import { usePageContext } from '../renderer/usePageContext.js'
 import './NavigationWithColumnLayout.css'
-import { Style } from '../utils/Style'
-import { css } from '../utils/css'
+import { Style } from '../utils/Style.js'
+import { css } from '../utils/css.js'
 
 const marginBottomOnExpand = 15
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {

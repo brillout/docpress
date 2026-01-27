@@ -18,21 +18,21 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
       if (child.type !== 'text') return
 
       const links: { href: string; index: number }[] = []
-      const matches = Array.from((child as any).value.matchAll(linkRE))
+      const matches = Array.from(child.value.matchAll(linkRE))
 
       // Filter out URLs that contain `${...}`. e.g. `https://star-wars.brillout.com/api/films/${id}.json`.
-      const filtered = (matches as any).filter(([href]: any) => !href.includes('${'))
+      const filtered = matches.filter(([href]) => !href.includes('${'))
       if (filtered.length === 0) return
 
       for (const match of filtered) {
-        const [href] = match as any
-        links.unshift({ href, index: (match as any).index! })
+        const [href] = match
+        links.unshift({ href, index: match.index! })
       }
 
       const newChildren: typeof span.children = []
       for (const { href, index } of links) {
         const postIndex = index + href.length
-        const postValue = (child as any).value.slice(postIndex)
+        const postValue = child.value.slice(postIndex)
 
         if (postValue.length > 0) {
           newChildren.unshift({ type: 'text', value: postValue })
@@ -47,11 +47,11 @@ function shikiTransformerAutoLinks(): ShikiTransformer {
 
         child = {
           type: 'text',
-          value: (child as any).value.slice(0, index),
-        } as any
+          value: child.value.slice(0, index),
+        }
       }
 
-      if ((child as any).value.length > 0) {
+      if (child.value.length > 0) {
         newChildren.unshift(child)
       }
 

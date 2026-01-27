@@ -13,12 +13,15 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
-  const elements = choiceNodes.map((choiceNode) => ({
-    type: 'Literal',
-    value: findVisibleJsDropdown(choiceNode.children[0])
-      ? `${choiceNode.choiceValue}:jsDropdown`
-      : choiceNode.choiceValue,
-  }))
+  const elements = choiceNodes.map((choiceNode) => {
+    const firstChild = choiceNode.children[0]
+    return {
+      type: 'Literal',
+      value: firstChild && findVisibleJsDropdown(firstChild)
+        ? `${choiceNode.choiceValue}:jsDropdown`
+        : choiceNode.choiceValue,
+    }
+  })
 
   attributes.push({
     type: 'mdxJsxAttribute',
@@ -70,7 +73,10 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
 
 function findVisibleJsDropdown(node: BlockContent | DefinitionContent) {
   let currentNode = node
-  if (node.type === 'containerDirective' && node.name === 'Choice') currentNode = node.children[0]
+  if (node.type === 'containerDirective' && node.name === 'Choice') {
+    const firstChild = node.children[0]
+    if (firstChild) currentNode = firstChild
+  }
   return (
     currentNode.type === 'mdxJsxFlowElement' &&
     currentNode.data?.customDataFilter === 'codeLang' &&

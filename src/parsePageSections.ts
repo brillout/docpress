@@ -67,8 +67,10 @@ function transform(code: string) {
 }
 
 function parsePageSection(line: string): PageSection & { headingHtml: string } {
-  const [lineBegin, ...lineWords] = line.split(' ')
-  assert(lineBegin.split('#').join('') === '', { line, lineWords })
+  const parts = line.split(' ')
+  const lineBegin = parts[0]
+  const lineWords = parts.slice(1)
+  assert(lineBegin && lineBegin.split('#').join('') === '', { line, lineWords })
   const pageSectionLevel = lineBegin.length
 
   const titleMdx = lineWords.join(' ')

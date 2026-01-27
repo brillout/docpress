@@ -26,7 +26,9 @@ function removeAccentsAndDiacritics(str: string): string {
 
 function determineSectionTitle(urlWithHash: string): string {
   assert(urlWithHash.includes('#'), { urlWithHash })
-  const urlHash = urlWithHash.split('#')[1]
+  const parts = urlWithHash.split('#')
+  const urlHash = parts[1]
+  assert(urlHash, { urlWithHash })
   const title = urlHash
     .split('-')
     .map((word, i) => {
@@ -40,5 +42,7 @@ function determineSectionTitle(urlWithHash: string): string {
 }
 
 function capitalizeFirstLetter(word: string): string {
-  return word[0].toUpperCase() + word.slice(1)
+  const firstChar = word[0]
+  assert(firstChar, { word })
+  return firstChar.toUpperCase() + word.slice(1)
 }

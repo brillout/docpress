@@ -57,6 +57,7 @@ function remarkChoiceGroup() {
 
       for (; end < node.children.length; end++) {
         const child = node.children[end]
+        if (!child) continue
 
         if (!['code', 'mdxJsxFlowElement', 'containerDirective'].includes(child.type)) {
           process()

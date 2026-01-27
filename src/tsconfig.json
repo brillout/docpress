@@ -1,17 +1,26 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "jsx": "react",
-    "module": "ES2022",
-    "target": "ES2022",
-    "moduleResolution": "Bundler",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
-    "esModuleInterop": true,
+    // Misc
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "noErrorTruncation": true,
+    // Strictness
+    "strict": true,
+    // TODO
     // "noUncheckedIndexedAccess": true,
-    "strict": true
+    // "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // Resolution
+    "esModuleInterop": true,
+    "moduleResolution": "Node16",
+    "jsx": "react",
+    // Libs
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["node", "vite/client"],
+    // Output
+    "target": "ES2020",
+    "module": "Node16",
+    "outDir": "./dist/",
+    "rootDir": "./",
+    "declaration": true
   }
 }

@@ -604,6 +604,7 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
     if (!pageContext.globalContext.config.docpress.pressKit) return // no /press page
     if (window.location.pathname === '/press') return
     ev.preventDefault()
+    // @ts-expect-error Will be fixed in the next Vike version — remove this @ts-expect-error then.
     navigate('/press#logo')
   }
 }

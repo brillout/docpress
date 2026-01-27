@@ -2,9 +2,11 @@ export { remarkPkgManager }
 
 import type { Code, Root } from 'mdast'
 import { visit } from 'unist-util-visit'
-import convert from 'npm-to-yarn'
+import convert_ from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+// @ts-expect-error The type of npm-to-yarn doesn't work with `"moduleResolution": "Node16"`
+const convert: (str: string, to: 'npm' | 'yarn' | 'pnpm' | 'bun') => string = convert_
 
 const PKG_MANAGERS = ['pnpm', 'Bun', 'Yarn'] as const
 

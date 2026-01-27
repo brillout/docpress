@@ -2,6 +2,6 @@ export { Comment }
 
 import React from 'react'
 
-function Comment({ children }: { children: React.ReactNode }) {
+function Comment() {
   return <></>
 }

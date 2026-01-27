@@ -1,7 +1,7 @@
 export { Collapsible }
 
 import React, { useRef, useState } from 'react'
-import { cls } from '../utils/cls'
+import { cls } from '../utils/cls.js'
 import './Collapsible.css'
 
 function Collapsible({

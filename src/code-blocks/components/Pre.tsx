@@ -1,7 +1,7 @@
 export { Pre }
 
 import React, { useState } from 'react'
-import { cls } from '../../utils/cls'
+import { cls } from '../../utils/cls.js'
 import './Pre.css'
 
 // Styling defined in src/css/code/diff.css

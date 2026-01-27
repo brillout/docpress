@@ -2,7 +2,7 @@ export { RepoLink }
 export { getRepoHref }
 
 import React from 'react'
-import { usePageContext } from '../renderer/usePageContext'
+import { usePageContext } from '../renderer/usePageContext.js'
 
 function RepoLink({ path, text }: { path: string; text?: string | React.ReactNode }) {
   text = text || path

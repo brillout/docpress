@@ -7,10 +7,10 @@ export { keepMenuModalOpenOnMouseOver }
 export { closeMenuModalOnMouseLeave }
 export { closeMenuModalOnMouseLeaveToggle }
 
-import { viewTablet } from '../Layout'
-import { getHydrationPromise } from '../renderer/getHydrationPromise'
-import { getViewportWidth } from '../utils/getViewportWidth'
-import { isBrowser } from '../utils/isBrowser'
+import { viewTablet } from '../Layout.js'
+import { getHydrationPromise } from '../renderer/getHydrationPromise.js'
+import { getViewportWidth } from '../utils/getViewportWidth.js'
+import { isBrowser } from '../utils/isBrowser.js'
 
 initScrollListener()
 

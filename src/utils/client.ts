@@ -1,3 +1,3 @@
-export * from './assert'
-export * from './isBrowser'
-export * from './getGlobalObject'
+export * from './assert.js'
+export * from './isBrowser.js'
+export * from './getGlobalObject.js'

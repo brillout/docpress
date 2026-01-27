@@ -1,11 +1,11 @@
 export { ChoiceGroup }
 
 import React, { useRef } from 'react'
-import { usePageContext } from '../../renderer/usePageContext'
-import { useSelectedChoice } from '../hooks/useSelectedChoice'
-import { useRestoreScroll } from '../hooks/useRestoreScroll'
-import { assertUsage } from '../../utils/assert'
-import { cls } from '../../utils/cls'
+import { usePageContext } from '../../renderer/usePageContext.js'
+import { useSelectedChoice } from '../hooks/useSelectedChoice.js'
+import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
+import { assertUsage } from '../../utils/assert.js'
+import { cls } from '../../utils/cls.js'
 import type { PageContext } from 'vike/types'
 import './ChoiceGroup.css'
 

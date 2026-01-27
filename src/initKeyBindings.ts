@@ -1,7 +1,7 @@
 export { initKeyBindings }
 
-import { closeDocsearchModal } from './docsearch/toggleDocsearchModal'
-import { closeMenuModal } from './MenuModal/toggleMenuModal'
+import { closeDocsearchModal } from './docsearch/toggleDocsearchModal.js'
+import { closeMenuModal } from './MenuModal/toggleMenuModal.js'
 
 function initKeyBindings() {
   window.addEventListener(

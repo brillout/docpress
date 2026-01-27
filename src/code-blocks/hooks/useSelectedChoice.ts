@@ -1,7 +1,7 @@
 export { useSelectedChoice }
 export { initializeChoiceGroup_SSR }
 
-import { useLocalStorage } from './useLocalStorage'
+import { useLocalStorage } from './useLocalStorage.js'
 
 const keyPrefix = 'docpress'
 

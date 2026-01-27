@@ -1,14 +1,18 @@
 export { MenuModal }
 
 import React from 'react'
-import { usePageContext } from './renderer/usePageContext'
-import { css } from './utils/css'
-import { bodyMaxWidth, viewDesktop, viewTablet, scrollFadeMask } from './Layout'
-import { ExternalLinks } from './ExternalLinks'
-import { Style } from './utils/Style'
-import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout'
-import { closeMenuModal, closeMenuModalOnMouseLeave, keepMenuModalOpenOnMouseOver } from './MenuModal/toggleMenuModal'
-import { EditLink } from './EditLink'
+import { usePageContext } from './renderer/usePageContext.js'
+import { css } from './utils/css.js'
+import { bodyMaxWidth, viewDesktop, viewTablet, scrollFadeMask } from './Layout.js'
+import { ExternalLinks } from './ExternalLinks.js'
+import { Style } from './utils/Style.js'
+import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout.js'
+import {
+  closeMenuModal,
+  closeMenuModalOnMouseLeave,
+  keepMenuModalOpenOnMouseOver,
+} from './MenuModal/toggleMenuModal.js'
+import { EditLink } from './EditLink.js'
 
 function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; isNavLeftAlwaysHidden_: boolean }) {
   return (

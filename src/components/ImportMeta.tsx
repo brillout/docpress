@@ -1,5 +1,5 @@
 import React from 'react'
-import { assert } from '../utils/server'
+import { assert } from '../utils/server.js'
 
 export { ImportMeta }
 

@@ -1,8 +1,8 @@
 export { SearchLink }
 
 import React from 'react'
-import { openDocsearchModal } from './toggleDocsearchModal'
-import { iconMagnifyingGlass } from '../icons'
+import { openDocsearchModal } from './toggleDocsearchModal.js'
+import { iconMagnifyingGlass } from '../icons/index.js'
 
 type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
 function SearchLink(props: PropsAnchor) {

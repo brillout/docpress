@@ -1,9 +1,9 @@
 // Let's eventually remove this. Telefunc is still using this as of 2024-12.
 
 import React from 'react'
-import { assert } from '../assert'
+import { assert } from '../assert.js'
 
-import { iconMechanicalArm, iconShield, iconTypescript, iconEngine } from './assets'
+import { iconMechanicalArm, iconShield, iconTypescript, iconEngine } from './assets.js'
 
 export { Emoji }
 export type { EmojiName }

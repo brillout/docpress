@@ -1,8 +1,8 @@
 export { getHydrationPromise }
 export { setHydrationIsFinished }
 
-import { getGlobalObject } from '../utils/client'
-import { genPromise } from '../utils/genPromise'
+import { getGlobalObject } from '../utils/client.js'
+import { genPromise } from '../utils/genPromise.js'
 
 const globalObject = getGlobalObject<{
   hydrationPromise: Promise<void>

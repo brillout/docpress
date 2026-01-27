@@ -1,6 +1,6 @@
 export type { Config }
 
-import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading'
+import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading.js'
 
 type Config = {
   name: string

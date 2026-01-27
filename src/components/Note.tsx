@@ -14,7 +14,7 @@ export { Note }
 */
 
 import React from 'react'
-import { assert } from '../utils/assert'
+import { assert } from '../utils/assert.js'
 import './Note.css'
 
 type Props = {

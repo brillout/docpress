@@ -152,8 +152,8 @@ function getActiveHeading(
   const URLs =
     '\n' +
     [...headingsResolved, ...headingsDetachedResolved]
-      .filter(Boolean)
       .map((h) => h.url)
+      .filter(Boolean)
       .sort()
       .map((url) => `  ${url}`)
       .join('\n')

@@ -1,7 +1,7 @@
 export { generateChoiceGroupCode }
 export type { ChoiceNode }
 
-import type { BlockContent, DefinitionContent } from 'mdast'
+import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 
 type ChoiceNode = {
@@ -9,16 +9,9 @@ type ChoiceNode = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
+function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): MdxJsxFlowElement {
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
-
-  const elements = choiceNodes.map((choiceNode) => ({
-    type: 'Literal',
-    value: findVisibleJsDropdown(choiceNode.children[0]!)
-      ? `${choiceNode.choiceValue}:jsDropdown`
-      : choiceNode.choiceValue,
-  }))
 
   attributes.push({
     type: 'mdxJsxAttribute',
@@ -37,7 +30,10 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
               expression: {
                 type: 'ArrayExpression',
                 // @ts-ignore: Missing properties in type definition
-                elements,
+                elements: choiceNodes.map((choiceNode) => ({
+                  type: 'Literal',
+                  value: choiceNode.choiceValue,
+                })),
               },
             },
           ],
@@ -46,7 +42,32 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
     },
   })
 
+  let initLvl: number
+
+  switch (parent?.type) {
+    case 'root':
+      initLvl = 0
+      break
+    case 'mdxJsxFlowElement':
+      initLvl = 1
+      break
+
+    default:
+      initLvl = 0
+      break
+  }
+
+  attributes.push({ type: 'mdxJsxAttribute', name: 'lvl', value: `${initLvl}` })
+
   for (const choiceNode of choiceNodes) {
+    const choiceChildren: (BlockContent | DefinitionContent)[] = []
+    if (choiceNode.children.every((node) => node.type === 'containerDirective')) {
+      choiceChildren.push(...choiceNode.children.flatMap((node) => [...node.children]))
+    } else {
+      choiceChildren.push(...choiceNode.children)
+    }
+    for (const child of choiceChildren) increaseLvl(child)
+
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
@@ -54,9 +75,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
         { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
         { type: 'mdxJsxAttribute', name: 'className', value: 'choice' },
       ],
-      children: choiceNode.children.every((node) => node.type === 'containerDirective')
-        ? choiceNode.children.flatMap((node) => [...node.children])
-        : choiceNode.children,
+      children: choiceChildren,
     })
   }
 
@@ -68,12 +87,12 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
   }
 }
 
-function findVisibleJsDropdown(node: BlockContent | DefinitionContent) {
-  let currentNode = node
-  if (node.type === 'containerDirective' && node.name === 'Choice') currentNode = node.children[0]!
-  return (
-    currentNode.type === 'mdxJsxFlowElement' &&
-    currentNode.data?.customDataFilter === 'codeLang' &&
-    currentNode.attributes.every((attribute) => attribute.type !== 'mdxJsxAttribute' || attribute.name !== 'hide')
-  )
+function increaseLvl(node: BlockContent | DefinitionContent) {
+  if (node.type === 'mdxJsxFlowElement' && node.name === 'ChoiceGroup') {
+    const attribute = node.attributes.find(
+      (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'lvl',
+    )
+    const lvlValue = attribute?.value
+    if (lvlValue) attribute.value = `${Number(lvlValue) + 1}`
+  }
 }

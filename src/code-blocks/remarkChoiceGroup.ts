@@ -31,7 +31,6 @@ function remarkChoiceGroup() {
     const replaced = new WeakSet()
     visit(tree, (node) => {
       if (!('children' in node) || replaced.has(node)) return 'skip'
-      if (node.type === 'mdxJsxFlowElement') return 'skip'
 
       let start = -1
       let end = 0
@@ -43,11 +42,10 @@ function remarkChoiceGroup() {
         const replacements: MdxJsxFlowElement[] = []
 
         for (const choiceNodes of choiceNodesFiltered) {
-          const replacement = generateChoiceGroupCode(choiceNodes)
-
+          const replacement = generateChoiceGroupCode(choiceNodes, node)
           replacements.push(replacement)
-          replaced.add(replacement)
         }
+        replaced.add(replacements)
 
         node.children.splice(start, end - start, ...replacements)
 

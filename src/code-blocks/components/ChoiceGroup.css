@@ -8,35 +8,30 @@
     }
   }
 
+  /* layout */
   --select-width: 85px;
   --select-top-position: 10px;
-  --select-right-position: 42px;
-  --show-js-dropdown-right-position: calc(var(--select-right-position) + var(--select-width) + 2px);
+  --select-right-base: 42px;
+  --select-gap: 2px;
 
+  /* each select increments the level */
   .select-choice {
     position: absolute;
     z-index: 3;
     height: 25px;
     top: var(--select-top-position);
-    right: var(--select-right-position);
     width: var(--select-width);
+    right: calc(var(--select-right-base) + (var(--lvl) * (var(--select-width) + var(--select-gap))));
 
     opacity: 0;
     transition: opacity 0.5s ease-in-out, background-color 0.4s ease-in-out;
-
-    &.show-js-dropdown {
-      --select-right-position: var(--show-js-dropdown-right-position);
-    }
-
-    &:has(+ .choice > .choice-group:not([data-choice-group='codeLang'])) {
-      right: calc(var(--select-width) + var(--select-right-position) + 2px);
-    }
   }
 
   .hidden {
     display: none !important;
   }
 
+  /* choice visibility logic */
   select:has(option:nth-of-type(1):not(:checked)) ~ .choice:nth-of-type(1),
   select:has(option:nth-of-type(2):not(:checked)) ~ .choice:nth-of-type(2),
   select:has(option:nth-of-type(3):not(:checked)) ~ .choice:nth-of-type(3),

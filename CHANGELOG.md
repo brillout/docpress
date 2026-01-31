@@ -1,3 +1,13 @@
+## [0.16.13](https://github.com/brillout/docpress/compare/v0.16.12...v0.16.13) (2026-01-31)
+
+
+### Bug Fixes
+
+* import docsearch css by file path to avoid Vite resolve error ([#100](https://github.com/brillout/docpress/issues/100)) ([e14daff](https://github.com/brillout/docpress/commit/e14daff57954dd3bbf1505941c1c8405fa84de7d))
+* prevent `undefined` entries in `URLs` list ([#98](https://github.com/brillout/docpress/issues/98)) ([f0767b9](https://github.com/brillout/docpress/commit/f0767b9c18108fca9f8f4d016294e1d7a75035c1))
+
+
+
 ## [0.16.12](https://github.com/brillout/docpress/compare/v0.16.11...v0.16.12) (2026-01-26)
 
 

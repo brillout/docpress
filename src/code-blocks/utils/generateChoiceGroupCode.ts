@@ -13,11 +13,6 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): Md
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
-  const elements = choiceNodes.map((choiceNode) => ({
-    type: 'Literal',
-    value: choiceNode.choiceValue,
-  }))
-
   attributes.push({
     type: 'mdxJsxAttribute',
     name: 'choices',
@@ -35,7 +30,10 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): Md
               expression: {
                 type: 'ArrayExpression',
                 // @ts-ignore: Missing properties in type definition
-                elements,
+                elements: choiceNodes.map((choiceNode) => ({
+                  type: 'Literal',
+                  value: choiceNode.choiceValue,
+                })),
               },
             },
           ],

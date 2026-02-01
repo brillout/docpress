@@ -100,6 +100,8 @@ function LinkIcon({
   style,
   iconSizeBoost = 0,
 }: { className: string; icon: string; href: string; style?: any; iconSizeBoost?: number }) {
+  const height = 18 + iconSizeBoost
+
   return (
     <>
       <a
@@ -107,7 +109,7 @@ function LinkIcon({
         href={href}
         style={{ padding: 3, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
       >
-        <img className={className} src={icon} height={18 + iconSizeBoost} style={style} />
+        <img className={className} src={icon} height={height} style={{ ...style, height }} />
       </a>
     </>
   )

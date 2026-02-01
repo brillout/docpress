@@ -1,3 +1,12 @@
+## [0.16.14](https://github.com/brillout/docpress/compare/v0.16.13...v0.16.14) (2026-02-01)
+
+
+### Bug Fixes
+
+* prevent tailwind height override for nav icons ([#101](https://github.com/brillout/docpress/issues/101)) ([16d3dde](https://github.com/brillout/docpress/commit/16d3ddead9350b9edfbfcc8b269efc15de990da5))
+
+
+
 ## [0.16.13](https://github.com/brillout/docpress/compare/v0.16.12...v0.16.13) (2026-01-31)
 
 

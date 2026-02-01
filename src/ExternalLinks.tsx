@@ -109,7 +109,7 @@ function LinkIcon({
         href={href}
         style={{ padding: 3, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
       >
-        <img className={className} src={icon} height={height} width="auto" style={{ ...style, height }} />
+        <img className={className} src={icon} height={height} style={{ ...style, height }} />
       </a>
     </>
   )

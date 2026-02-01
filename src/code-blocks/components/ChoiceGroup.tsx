@@ -59,7 +59,7 @@ function ChoiceGroup({
 }
 
 function findChoiceGroup(pageContext: PageContext, choices: string[]) {
-  const { choices: choicesConfig } = pageContext.globalContext.config.docpress
+  const { choices: choicesConfig } = pageContext.globalContext.config
   const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
   const groupName = Object.keys(choicesAll).find((key) => {

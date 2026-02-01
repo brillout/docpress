@@ -45,16 +45,6 @@ const config: Config = {
   // globalNote: <GlobalNoteWarning />,
   topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
-  choices: {
-    server: {
-      choices: ['Hono', 'Express', 'Fastify'],
-      default: 'Hono',
-    },
-    uiFrameworkVikeExtension: {
-      choices: ['vike-react', 'vike-vue', 'vike-solid'],
-      default: 'vike-react',
-    },
-  },
 }
 
 /*

@@ -1,3 +1,12 @@
+## [0.16.15](https://github.com/brillout/docpress/compare/v0.16.14...v0.16.15) (2026-02-02)
+
+
+### Bug Fixes
+
+* fix ts errors ([ac8bcbc](https://github.com/brillout/docpress/commit/ac8bcbc484b00c5e6999378cfba797b64acb920a))
+
+
+
 ## [0.16.14](https://github.com/brillout/docpress/compare/v0.16.13...v0.16.14) (2026-02-01)
 
 

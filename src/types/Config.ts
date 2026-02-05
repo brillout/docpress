@@ -1,4 +1,4 @@
-export type { Config }
+export type { Config, ChoicesConfig }
 
 import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading.js'
 
@@ -48,7 +48,6 @@ type Config = {
   navLogoTextStyle?: React.CSSProperties
 
   globalNote?: React.ReactNode
-  choices?: Record<string, Choice>
 }
 
 /** Order in Algolia search results */
@@ -59,6 +58,8 @@ type Category =
       /** Hide from Algolia search */
       hide?: boolean
     }
+
+type ChoicesConfig = Record<string, Choice>
 
 type Choice = {
   choices: string[]

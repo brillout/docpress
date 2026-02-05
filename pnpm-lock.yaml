@@ -87,6 +87,9 @@ importers:
       detype:
         specifier: ^1.1.3
         version: 1.1.3
+      estree-util-value-to-estree:
+        specifier: ^3.5.0
+        version: 3.5.0
       npm-to-yarn:
         specifier: ^3.0.1
         version: 3.0.1
@@ -1391,6 +1394,9 @@ packages:
 
   estree-util-to-js@2.0.0:
     resolution: {integrity: sha512-WDF+xj5rRWmD5tj6bIqRi6CkLIXbbNQUcxQHzGysQzvHmdYG2G7p/Tf0J0gpxGgkeMZNTIjT/AoSvC9Xehcgdg==}
+
+  estree-util-value-to-estree@3.5.0:
+    resolution: {integrity: sha512-aMV56R27Gv3QmfmF1MY12GWkGzzeAezAX+UplqHVASfjc9wNzI/X6hC0S9oxq61WT4aQesLGslWP9tKk6ghRZQ==}
 
   estree-util-visit@2.0.0:
     resolution: {integrity: sha512-m5KgiH85xAhhW8Wta0vShLcUvOsh3LLPI2YVwcbio1l7E09NTLL1EyMZFM1OyWowoH0skScNbhOPl4kcBgzTww==}
@@ -3778,6 +3784,10 @@ snapshots:
       '@types/estree-jsx': 1.0.5
       astring: 1.9.0
       source-map: 0.7.4
+
+  estree-util-value-to-estree@3.5.0:
+    dependencies:
+      '@types/estree': 1.0.8
 
   estree-util-visit@2.0.0:
     dependencies:

@@ -18,7 +18,7 @@ import { parseMarkdownMini } from './parseMarkdownMini.js'
 import './global.d.ts'
 /*/
 // The only purpose of `FakeExport` is to be able to use `import type`
-// @ts-expect-error
+// @ts-ignore
 import type { FakeExport } from './global.js'
 //*/
 

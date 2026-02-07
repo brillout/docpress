@@ -6,11 +6,8 @@ import { visit } from 'unist-util-visit'
 import { assertUsage } from '../utils/assert.js'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+import { transform as detype } from 'detype'
 import pc from '@brillout/picocolors'
-import module from 'node:module'
-// Cannot use `import { transform } from 'detype'` as it results in errors,
-// and the package has no default export. Using `module.createRequire` instead.
-const { transform: detype } = module.createRequire(import.meta.url)('detype') as typeof import('detype')
 
 const prettierOptions: NonNullable<Parameters<typeof detype>[2]>['prettierOptions'] = {
   semi: false,

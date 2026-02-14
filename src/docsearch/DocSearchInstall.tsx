@@ -20,12 +20,11 @@ function DocSearchInstall() {
         maxResultsPerGroup={Infinity}
         searchParameters={{
           filters: 'is_available:true',
+          hitsPerPage: 50,
         }}
         transformItems={(hits) => {
           hits.map((hit) => {
-            if (hit.type === 'lvl1') {
-              hit.url = hit.url.split('#')[0]!
-            }
+            if (hit.type === 'lvl1') hit.url = hit.url.split('#')[0]!
           })
           hits.sort((a, b) => Number(a.url.includes('#')) - Number(b.url.includes('#')))
           return hits

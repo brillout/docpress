@@ -47,16 +47,18 @@ new Crawler({
       indexName: "YOUR_INDEX_NAME",
       pathsToMatch: ["https://vike.dev/**"],
       recordExtractor: ({ $, helpers, url }) => {
-        $("#see-also").next("ul").remove();
-        $("#see-also").remove();
+        const seeAlsoSection = $("#see-also");
+        if (seeAlsoSection.length) {
+          seeAlsoSection.remove();
+          seeAlsoSection.nextAll().remove();
+        }
 
-        const lvl0 = $('meta[name="algolia:category"]').attr("content").toUpperCase();
-
-        const category_order = Number($('meta[name="algolia:category:order"]').attr("content") || "99999999999");
+        const category = $('meta[name="algolia:category"]').attr("content") || "";
+        const category_order = parseInt($('meta[name="algolia:category:order"]').attr("content") || "99999999999", 10);
 
         const records = helpers.docsearch({
           recordProps: {
-            lvl0: { selectors: "", defaultValue: lvl0 },
+            lvl0: { selectors: "", defaultValue: category.toUpperCase() },
             lvl1: url.toString() === "https://vike.dev/" ? "head > title" : ".page-content h1",
             lvl2: ".page-content h2",
             lvl3: ".page-content h3",
@@ -64,7 +66,8 @@ new Crawler({
             lvl5: ".page-content h5",
             lvl6: ".page-content h6",
             content: [".page-content p, .page-content li, .page-content pre"],
-            category: { defaultValue: $('meta[name="algolia:category"]').attr("content") || "" },
+            category: { defaultValue: category || "" },
+            category_order: { defaultValue: "" },
             pageRank: -1 * category_order,
           },
           indexHeadings: true,
@@ -92,31 +95,35 @@ new Crawler({
   ],
   initialIndexSettings: {
     vike: {
-      attributesForFaceting: ["filterOnly(is_available)", "type", "lang"],
-      attributesToRetrieve: [
-        "hierarchy",
-        "content",
-        "anchor",
-        "url",
-        "url_without_anchor",
+      attributesForFaceting: [
+        "filterOnly(is_available)",
+        "category",
+        "lang",
         "type",
+      ],
+      attributesToRetrieve: [
+        "anchor",
         "category",
         "category_order",
+        "content",
+        "hierarchy",
+        "type",
+        "url",
+        "url_without_anchor",
       ],
-      attributesToHighlight: ["hierarchy", "content"],
+      attributesToHighlight: ["content", "hierarchy"],
       attributesToSnippet: ["content:10"],
-      camelCaseAttributes: ["hierarchy", "content"],
+      camelCaseAttributes: ["content", "hierarchy"],
       searchableAttributes: [
         "unordered(hierarchy.lvl1)",
         "unordered(hierarchy.lvl2)",
         "unordered(hierarchy.lvl3)",
         "unordered(hierarchy.lvl4)",
-        "content",
+        "unordered(content)",
       ],
       distinct: true,
       attributeForDistinct: "url",
       customRanking: [
-        "asc(category_order)",
         "desc(weight.pageRank)",
         "desc(weight.level)",
         "asc(weight.position)",
@@ -125,6 +132,7 @@ new Crawler({
         "typo",
         "words",
         "filters",
+        "asc(category_order)",
         "attribute",
         "proximity",
         "exact",

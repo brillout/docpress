@@ -24,7 +24,7 @@ function remarkPkgManager() {
           node.position?.start.line
         }. Replace it with the equivalent 'npm' command for the package manager toggle to work.`,
       )
-      if (node.value.includes('npm ') && node.value.includes('npx ')) return
+      if (!node.value.includes('npm ') && !node.value.includes('npx ')) return
       let choice: string | undefined = undefined
       const nodes = new Map<string, Code>()
 

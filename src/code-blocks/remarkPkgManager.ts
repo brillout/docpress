@@ -14,8 +14,8 @@ function remarkPkgManager() {
   return function (tree: Root) {
     visit(tree, 'code', (node, index, parent) => {
       if (!parent || typeof index === 'undefined') return
-      if (!['sh', 'shell'].includes(node.lang || '')) return
-      if (node.value.indexOf('npm') === -1 && node.value.indexOf('npx') === -1) return
+      if (!['bash', 'sh', 'shell'].includes(node.lang || '')) return
+      if (node.value.indexOf('npm ') === -1 && node.value.indexOf('npx ') === -1) return
       let choice: string | undefined = undefined
       const nodes = new Map<string, Code>()
 
@@ -25,6 +25,10 @@ function remarkPkgManager() {
         node.meta = meta.rest
       }
 
+      if (node.value.includes('pnpm')) {
+        console.warn('Should only use `npm`/`npx` commands')
+        node.value.replaceAll('pnpm', 'npm')
+      }
       node.value = node.value.replaceAll('npm i ', 'npm install ')
       nodes.set('npm', node)
 

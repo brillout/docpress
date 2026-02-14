@@ -18,13 +18,13 @@ function remarkPkgManager() {
     visit(tree, 'code', (node, index, parent) => {
       if (!parent || typeof index === 'undefined') return
       if (!['bash', 'sh', 'shell'].includes(node.lang || '')) return
-      if (node.value.indexOf('npm ') === -1 && node.value.indexOf('npx ') === -1) return
       assertUsage(
         !node.value.includes('pnpm'),
         `Found a 'pnpm' command in the code block at: ${pc.bold(pc.blue(file.path))}, line ${
           node.position?.start.line
-        }. Replace it with the equivalent 'npm' command to proceed.`,
+        }. Replace it with the equivalent 'npm' command for the package manager toggle to work.`,
       )
+      if (node.value.includes('npm ') && node.value.includes('npx ')) return
       let choice: string | undefined = undefined
       const nodes = new Map<string, Code>()
 

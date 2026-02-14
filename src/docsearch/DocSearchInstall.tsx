@@ -27,6 +27,7 @@ function DocSearchInstall() {
               hit.url = hit.url.split('#')[0]!
             }
           })
+          hits.sort((a, b) => Number(a.url.includes('#')) - Number(b.url.includes('#')))
           return hits
         }}
       />

@@ -1,3 +1,15 @@
+## [0.16.16](https://github.com/brillout/docpress/compare/v0.16.15...v0.16.16) (2026-02-15)
+
+
+### Bug Fixes
+
+* bump `detype` to `2.0.2` and replace `createRequire` workaround with named import ([#103](https://github.com/brillout/docpress/issues/103)) ([60204f1](https://github.com/brillout/docpress/commit/60204f1a5fb4cffeb7371b6222f436fef48fe056))
+* define `+choices` as standalone config instead of `+docpress.choices` ([#102](https://github.com/brillout/docpress/issues/102)) ([0cb81b1](https://github.com/brillout/docpress/commit/0cb81b1a22322a63991ef2aea05106cae6c21464))
+* polish `remarkPkgManager` ([#106](https://github.com/brillout/docpress/issues/106)) ([fef2569](https://github.com/brillout/docpress/commit/fef2569f574e988afe1a7ea2df3be16a17c2dd16))
+* sort DocSearch `hits` to prioritize non-anchor URLs ([#107](https://github.com/brillout/docpress/issues/107)) ([c895f20](https://github.com/brillout/docpress/commit/c895f20af8b18042e7f3510cda13647db3c5b35a))
+
+
+
 ## [0.16.15](https://github.com/brillout/docpress/compare/v0.16.14...v0.16.15) (2026-02-02)
 
 

@@ -14,6 +14,55 @@
   --select-right-base: 42px;
   --select-gap: 2px;
 
+  .wrapper {
+    position: absolute;
+    z-index: 3;
+    width: var(--select-width);
+    top: var(--select-top-position);
+    right: calc(var(--select-right-base) + (var(--lvl) * (var(--select-width) + var(--select-gap))));
+    box-sizing: border-box;
+    user-select: none;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px 2px 2px 1px;
+    border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
+
+    &:hover {
+      border-color: hsl(0, 0%, 72%) hsl(0, 0%, 66%) hsl(0, 0%, 66%) hsl(0, 0%, 72%);
+    }
+
+    &:active {
+      border-color: hsl(0, 0%, 66%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 66%);
+    }
+  }
+
+  .sliding-rectangle {
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    z-index: 5;
+    transition: top 180ms cubic-bezier(0.2, 0.9, 0.2, 1);
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12),;
+  }
+
+  .choice-label {
+    display: block;
+    line-height: 20px;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .choice-radio-input {
+    display: none;
+  }
+
   /* each select increments the level */
   .select-choice {
     position: absolute;

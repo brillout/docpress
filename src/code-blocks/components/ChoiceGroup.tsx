@@ -45,10 +45,14 @@ function ChoiceGroup({
 
   return (
     <div data-choice-group={choiceGroup.name} className="choice-group">
+      {choices.map((choice, i) => (
+        // Radio inputs are used to control choice visibility using CSS
+        <input key={i} id={`radioFor-${choice}`} type="radio" checked={selectedChoice === choice} hidden readOnly />
+      ))}
       <div
-        role="radiogroup"
-        className={cls(['wrapper', hide && 'hidden'])}
-        // aria-label="Select an option"
+        aria-haspopup="listbox"
+        aria-expanded={expanded}
+        className={cls(['custom-select-wrapper', (hide || isDisabled(selectedChoice)) && 'hidden'])}
         style={{
           '--lvl': lvl,
           height: height,
@@ -60,68 +64,52 @@ function ChoiceGroup({
           if (!expanded) next()
         }}
       >
-        <div className="sliding-rectangle" style={{ top: rectTop, height: choices.length * height }}>
+        <div
+          role="listbox"
+          aria-activedescendant={`choice-${selectedChoice}`}
+          className="sliding-rectangle"
+          style={{ top: rectTop, height: choices.length * height }}
+        >
           {choices.map((choice, i) => {
             const disabled = isDisabled(choice)
             const selected = i === selectedIndex
 
             return (
-              <label
+              <div
                 className="choice-label"
                 key={i}
+                id={`choice-${selectedChoice}`}
+                role="option"
                 aria-selected={selected}
                 aria-disabled={disabled}
                 style={{
                   height: height,
                   borderBottom: i !== choices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
                   background: selected ? '#eee' : 'white',
-                  color: disabled ? '#999' : '#000',
+                  color: disabled ? '#999' : undefined,
                   fontWeight: selected ? 500 : 400,
                   cursor: disabled ? 'not-allowed' : 'pointer',
-                  opacity: disabled ? 0.6 : 1,
+                  opacity: disabled ? 0.6 : undefined,
                 }}
                 onClick={(e) => {
-                  if (selected) {
-                    e.preventDefault()
+                  const el = e.currentTarget
+                  prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+
+                  if (i === selectedIndex) {
+                    e.stopPropagation()
                     next()
+                  } else if (!disabled) {
+                    setSelectedChoice(choice)
                   }
                 }}
               >
-                <input
-                  className="choice-radio-input"
-                  type="radio"
-                  name="vertical-select"
-                  value={choice}
-                  checked={choices[i]! === selectedChoice}
-                  onChange={(e) => setSelectedChoice(e.target.value)}
-                  disabled={disabledChoices.includes(choice)}
-                />
                 {choice}
-              </label>
+              </div>
             )
           })}
         </div>
       </div>
-      {/* <select
-        name={`choicesFor-${choiceGroup.name}`}
-        value={selectedChoice}
-        onChange={onChange}
-        className={cls(['select-choice', hide && 'hidden'])}
-        style={{ '--lvl': lvl }}
-      >
-        {choiceGroup.choices.map((choice, i) => (
-          <option key={i} value={choice} disabled={choiceGroup.disabled.includes(choice)}>
-            {choice}
-          </option>
-        ))}
-      </select> */}
       {children}
     </div>
   )
-
-  function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const el = e.target
-    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
-    setSelectedChoice(el.value)
-  }
 }

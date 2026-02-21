@@ -2,7 +2,7 @@
   position: relative;
 
   &:hover {
-    .select-choice,
+    .custom-select-wrapper,
     .copy-button {
       opacity: 1;
     }
@@ -14,7 +14,7 @@
   --select-right-base: 42px;
   --select-gap: 2px;
 
-  .wrapper {
+  .custom-select-wrapper {
     position: absolute;
     z-index: 3;
     width: var(--select-width);
@@ -27,6 +27,9 @@
     border-style: solid;
     border-width: 1px 2px 2px 1px;
     border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
+
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, background-color 0.4s ease-in-out;
 
     &:hover {
       border-color: hsl(0, 0%, 72%) hsl(0, 0%, 66%) hsl(0, 0%, 66%) hsl(0, 0%, 72%);
@@ -42,7 +45,6 @@
     width: 100%;
     box-sizing: border-box;
     background: #fff;
-    z-index: 5;
     transition: top 180ms cubic-bezier(0.2, 0.9, 0.2, 1);
     overflow: hidden;
     border-radius: 5px;
@@ -50,30 +52,9 @@
   }
 
   .choice-label {
-    display: block;
     line-height: 20px;
-    padding-left: 12px;
-    padding-right: 12px;
-    box-sizing: border-box;
-    cursor: pointer;
+    padding: 0px 12px;
     user-select: none;
-  }
-
-  .choice-radio-input {
-    display: none;
-  }
-
-  /* each select increments the level */
-  .select-choice {
-    position: absolute;
-    z-index: 3;
-    height: 25px;
-    top: var(--select-top-position);
-    width: var(--select-width);
-    right: calc(var(--select-right-base) + (var(--lvl) * (var(--select-width) + var(--select-gap))));
-
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out, background-color 0.4s ease-in-out;
   }
 
   .hidden {
@@ -81,13 +62,13 @@
   }
 
   /* choice visibility logic */
-  select:has(option:nth-of-type(1):not(:checked)) ~ .choice:nth-of-type(1),
-  select:has(option:nth-of-type(2):not(:checked)) ~ .choice:nth-of-type(2),
-  select:has(option:nth-of-type(3):not(:checked)) ~ .choice:nth-of-type(3),
-  select:has(option:nth-of-type(4):not(:checked)) ~ .choice:nth-of-type(4),
-  select:has(option:nth-of-type(5):not(:checked)) ~ .choice:nth-of-type(5),
-  select:has(option:nth-of-type(6):not(:checked)) ~ .choice:nth-of-type(6),
-  select:has(option:nth-of-type(7):not(:checked)) ~ .choice:nth-of-type(7) {
+  input:nth-last-of-type(1):not(:checked) ~ div.choice:nth-last-of-type(1),
+  input:nth-last-of-type(2):not(:checked) ~ div.choice:nth-last-of-type(2),
+  input:nth-last-of-type(3):not(:checked) ~ div.choice:nth-last-of-type(3),
+  input:nth-last-of-type(4):not(:checked) ~ div.choice:nth-last-of-type(4),
+  input:nth-last-of-type(5):not(:checked) ~ div.choice:nth-last-of-type(5),
+  input:nth-last-of-type(6):not(:checked) ~ div.choice:nth-last-of-type(6),
+  input:nth-last-of-type(7):not(:checked) ~ div.choice:nth-last-of-type(7) {
     display: none;
   }
 }

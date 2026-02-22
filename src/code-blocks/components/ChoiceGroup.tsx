@@ -44,11 +44,16 @@ function ChoiceGroup({
   }
 
   return (
-    <div data-choice-group={choiceGroup.name} className="choice-group">
-      {choices.map((choice, i) => (
-        // Radio inputs are used to control choice visibility using CSS
-        <input key={i} id={`radioFor-${choice}`} type="radio" checked={selectedChoice === choice} hidden readOnly />
-      ))}
+    <div data-choice-group={groupName} className="choice-group">
+      {/* Hidden select used to control choice visibility via CSS */}
+      <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
+        {choiceGroup.choices.map((choice, i) => (
+          <option key={i} value={choice}>
+            {choice}
+          </option>
+        ))}
+      </select>
+      {children}
       <div
         aria-haspopup="listbox"
         aria-expanded={expanded}
@@ -109,7 +114,6 @@ function ChoiceGroup({
           })}
         </div>
       </div>
-      {children}
     </div>
   )
 }

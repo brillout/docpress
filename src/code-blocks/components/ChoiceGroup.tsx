@@ -55,6 +55,7 @@ function ChoiceGroup({
       </select>
       {children}
       <div
+        id={`choicesFor-${groupName}`}
         aria-haspopup="listbox"
         aria-expanded={expanded}
         className={cls(['custom-select-wrapper', (hide || isDisabled(selectedChoice)) && 'hidden'])}
@@ -70,8 +71,8 @@ function ChoiceGroup({
         }}
       >
         <div
-          role="listbox"
           aria-activedescendant={`choice-${selectedChoice}`}
+          role="listbox"
           className="sliding-rectangle"
           style={{ top: rectTop, height: choices.length * height }}
         >
@@ -81,12 +82,11 @@ function ChoiceGroup({
 
             return (
               <div
-                className="choice-label"
                 key={i}
-                id={`choice-${selectedChoice}`}
-                role="option"
                 aria-selected={selected}
                 aria-disabled={disabled}
+                role="option"
+                className="choice-label"
                 style={{
                   height: height,
                   borderBottom: i !== choices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
@@ -99,9 +99,8 @@ function ChoiceGroup({
                 onClick={(e) => {
                   const el = e.currentTarget
                   prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
-
+                  e.stopPropagation()
                   if (i === selectedIndex) {
-                    e.stopPropagation()
                     next()
                   } else if (!disabled) {
                     setSelectedChoice(choice)

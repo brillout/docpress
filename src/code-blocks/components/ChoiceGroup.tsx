@@ -59,11 +59,7 @@ function ChoiceGroup({
         aria-haspopup="listbox"
         aria-expanded={expanded}
         className={cls(['custom-select-wrapper', (hide || isDisabled(selectedChoice)) && 'hidden'])}
-        style={{
-          '--lvl': lvl,
-          height: height,
-          overflow: expanded ? 'visible' : 'hidden',
-        }}
+        style={{ '--lvl': lvl, height: height }}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         onClick={() => {
@@ -90,11 +86,6 @@ function ChoiceGroup({
                 style={{
                   height: height,
                   borderBottom: i !== choices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
-                  background: selected ? '#eee' : 'white',
-                  color: disabled ? '#999' : undefined,
-                  fontWeight: selected ? 500 : 400,
-                  cursor: disabled ? 'not-allowed' : 'pointer',
-                  opacity: disabled ? 0.6 : undefined,
                 }}
                 onClick={(e) => {
                   const el = e.currentTarget

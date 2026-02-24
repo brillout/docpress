@@ -83,10 +83,7 @@ function ChoiceGroup({
                 aria-disabled={disabled}
                 role="option"
                 className="choice-label"
-                style={{
-                  height: height,
-                  borderBottom: i !== choices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
-                }}
+                style={{ height: height, lineHeight: `${height}px` }}
                 onClick={(e) => {
                   const el = e.currentTarget
                   prevPositionRef.current = { top: el.getBoundingClientRect().top, el }

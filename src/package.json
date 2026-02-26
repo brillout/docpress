@@ -82,7 +82,7 @@
     "@types/react-dom": "^19.2.2",
     "mdast-util-directive": "^3.1.0",
     "mdast-util-mdx-jsx": "^3.2.0",
-    "vike": "0.4.253-commit-332f31b"
+    "vike": "^0.4.250"
   },
   "repository": "https://github.com/brillout/docpress",
   "license": "MIT",

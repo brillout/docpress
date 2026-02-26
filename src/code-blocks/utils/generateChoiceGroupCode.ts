@@ -28,6 +28,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): Md
   const vikeConfig = getVikeConfig()
   const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
   const choiceGroup = findChoiceGroup(vikeConfig, choices)
+  console.log('vikeConfig.config.docpress', vikeConfig.config.docpress)
 
   const mergedChoiceNodes = choiceGroup.choices.map((choice) => {
     const node = choiceNodes.find((n) => n.choiceValue === choice)

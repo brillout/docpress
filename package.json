@@ -30,10 +30,5 @@
     "playwright-chromium": "1.57.0",
     "prettier": "^2.8.7",
     "vitest": "^4.0.4"
-  },
-  "pnpm": {
-    "overrides": {
-      "vike": "link:../vike/packages/vike"
-    }
   }
 }

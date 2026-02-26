@@ -5,7 +5,7 @@
   "scripts": {
     "======== Build": "",
     "// Build vite.config.ts and +config.ts (other files don't need to be built as @brillout/docpress is noExternal)": "",
-    "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
+    "build": "rm -rf dist/ && tsc --project tsconfig.build.json",
     "======== Develop": "",
     "// Typecheck": "",
     "dev": "tsc --watch",

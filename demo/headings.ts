@@ -2,7 +2,7 @@ export { headings }
 export { headingsDetached }
 export { categories }
 
-import { iconScroll, iconCompass, iconGear, iconLoudspeaker } from '@brillout/docpress' with { type: 'runtime' }
+import { iconScroll, iconCompass, iconGear, iconLoudspeaker } from '@brillout/docpress' with { type: 'vike-pointer' }
 import type { HeadingDefinition, HeadingDetachedDefinition, Config } from '@brillout/docpress'
 
 const categories: Config['categories'] = [

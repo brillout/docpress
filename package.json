@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@brillout/test-e2e": "^0.6.20",
     "@brillout/docpress": "workspace:^",
+    "@brillout/test-e2e": "^0.6.20",
     "playwright-chromium": "1.57.0",
     "prettier": "^2.8.7",
     "vitest": "^4.0.4"

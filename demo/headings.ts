@@ -10,7 +10,7 @@ import {
   type HeadingDetachedDefinition,
   type Config,
   iconLoudspeaker,
-} from '@brillout/docpress'
+} from '@brillout/docpress' with { type: 'runtime' }
 
 const categories: Config['categories'] = [
   //

@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "files": ["vite.config.ts", "+config.ts", "global.d.ts", "index.ts"]
+  "files": ["vite.config.ts", "+config.ts", "global.d.ts"]
 }

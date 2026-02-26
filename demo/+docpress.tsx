@@ -4,8 +4,8 @@ import type { Config } from '@brillout/docpress'
 import logo from './assets/logo.svg'
 import favicon from './assets/favicon.svg'
 import { headings, headingsDetached, categories } from './headings'
-import { TopNavigation } from './TopNavigation'
-import React from 'react'
+// import { TopNavigation } from './TopNavigation'
+// import React from 'react'
 
 const config: Config = {
   name: 'Demo',
@@ -43,7 +43,7 @@ const config: Config = {
   docsDir: 'demo',
 
   // globalNote: <GlobalNoteWarning />,
-  topNavigation: <TopNavigation />,
+  // topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
 }
 

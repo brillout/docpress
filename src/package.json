@@ -7,7 +7,7 @@
     "// Build vite.config.ts and +config.ts (other files don't need to be built as @brillout/docpress is noExternal)": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.config.json",
     "======== Develop": "",
-    "// Typecheck + build vite.config.ts and +config.ts": "",
+    "// Typecheck": "",
     "dev": "tsc --watch",
     "========= Release": "",
     "release": "release-me patch",

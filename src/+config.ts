@@ -18,7 +18,7 @@ const config = {
   hydrationCanBeAborted: true,
   meta: {
     docpress: {
-      env: { server: true, client: true },
+      env: { server: true, client: true, config: true },
       global: true,
     },
     choices: {

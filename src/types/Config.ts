@@ -1,6 +1,7 @@
 export type { Config, ChoicesConfig }
 
 import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading.js'
+import type React from 'react'
 
 type Config = {
   name: string

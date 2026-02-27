@@ -4,6 +4,8 @@ export type { HeadingDetachedDefinition }
 export type { HeadingDefinition }
 export type { StringArray }
 
+import type React from 'react'
+
 type HeadingResolved = {
   url?: null | string
   level: number

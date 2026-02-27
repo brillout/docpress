@@ -1,3 +1,21 @@
+## [0.16.18](https://github.com/brillout/docpress/compare/v0.16.17...v0.16.18) (2026-02-27)
+
+
+### Bug Fixes
+
+* polish changelog button ([f899c92](https://github.com/brillout/docpress/commit/f899c927d33baf9b2bf39bc348ec5b37b8f35c79))
+
+
+
+## [0.16.17](https://github.com/brillout/docpress/compare/v0.16.16...v0.16.17) (2026-02-26)
+
+
+### Bug Fixes
+
+* import +docpress at build time (fix [#86](https://github.com/brillout/docpress/issues/86)) ([#110](https://github.com/brillout/docpress/issues/110)) ([de4d384](https://github.com/brillout/docpress/commit/de4d3846b125f79351705c290f73adfb4b356dfa))
+
+
+
 ## [0.16.16](https://github.com/brillout/docpress/compare/v0.16.15...v0.16.16) (2026-02-15)
 
 

@@ -51,8 +51,8 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       vike:
-        specifier: ^0.4.254
-        version: 0.4.254(vite@6.3.5(@types/node@24.10.0))
+        specifier: ^0.4.255
+        version: 0.4.255(vite@6.3.5(@types/node@24.10.0))
     devDependencies:
       '@docsearch/react':
         specifier: link:../src/node_modules/@docsearch/react/
@@ -146,8 +146,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       vike:
-        specifier: ^0.4.254
-        version: 0.4.254(vite@6.3.5(@types/node@24.10.0))
+        specifier: ^0.4.255
+        version: 0.4.255(vite@6.3.5(@types/node@24.10.0))
 
 packages:
 
@@ -2062,8 +2062,8 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  vike@0.4.254:
-    resolution: {integrity: sha512-SAOMSguscIg8HUDfufdpQd+lfiso8MhD9SyCUO9DqpMPS5KErPd8EvE5fxiMfLOeuQLzXNdBK8zpE6vSHXt/LA==}
+  vike@0.4.255:
+    resolution: {integrity: sha512-pVRovPzIcxPiSg1nkkHg0+PGDc+qMupHw/xgWCvmJHhHO0qfuQ6UgiMq+OdEKB9q64NJJ6uuDXDtpVgvmYUu3w==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -4452,7 +4452,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vike@0.4.254(vite@6.3.5(@types/node@24.10.0)):
+  vike@0.4.255(vite@6.3.5(@types/node@24.10.0)):
     dependencies:
       '@babel/core': 7.29.0
       '@babel/types': 7.29.0

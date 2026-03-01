@@ -72,35 +72,33 @@ function ChoiceGroup({
           className="sliding-rectangle"
           style={{ top: rectTop, height: choices.length * height }}
         >
-          {choices.map((choice, i) => {
-            const disabled = isDisabled(choice)
-            const selected = i === selectedIndex
-
-            return (
-              <div
-                key={i}
-                aria-selected={selected}
-                aria-disabled={disabled}
-                role="option"
-                className="choice-label"
-                style={{ height: height, lineHeight: `${height}px` }}
-                onClick={(e) => {
-                  const el = e.currentTarget
-                  prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
-                  e.stopPropagation()
-                  if (i === selectedIndex) {
-                    next()
-                  } else if (!disabled) {
-                    setSelectedChoice(choice)
-                  }
-                }}
-              >
-                {choice}
-              </div>
-            )
-          })}
+          {choices.map((choice, i) => (
+            <div
+              id={choice}
+              key={i}
+              aria-selected={i === selectedIndex}
+              aria-disabled={isDisabled(choice)}
+              role="option"
+              className="choice-label"
+              style={{ height: height, lineHeight: `${height}px` }}
+              onClick={handleOnClick}
+            >
+              {choice}
+            </div>
+          ))}
         </div>
       </div>
     </div>
   )
+
+  function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.stopPropagation()
+    const el = e.currentTarget
+    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    if (el.ariaSelected === 'true') {
+      next()
+    } else if (el.ariaDisabled === 'false') {
+      setSelectedChoice(el.id)
+    }
+  }
 }

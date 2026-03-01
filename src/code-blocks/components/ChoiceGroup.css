@@ -2,29 +2,91 @@
   position: relative;
 
   &:hover {
-    .select-choice,
+    .custom-select-wrapper,
     .copy-button {
       opacity: 1;
     }
   }
 
   /* layout */
-  --select-width: 85px;
+  --select-width: 120px;
   --select-top-position: 10px;
   --select-right-base: 42px;
   --select-gap: 2px;
+  --border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
 
-  /* each select increments the level */
-  .select-choice {
+  .custom-select-wrapper {
+    background: #eee;
     position: absolute;
     z-index: 3;
-    height: 25px;
-    top: var(--select-top-position);
     width: var(--select-width);
+    top: var(--select-top-position);
     right: calc(var(--select-right-base) + (var(--lvl) * (var(--select-width) + var(--select-gap))));
+    user-select: none;
+    overflow: hidden;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px 2px 2px 1px;
+    border-color: var(--border-color);
 
     opacity: 0;
-    transition: opacity 0.5s ease-in-out, background-color 0.4s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .sliding-rectangle {
+    position: absolute;
+    border-radius: 5px;
+    border-color: var(--border-color);
+    width: 100%;
+    overflow: hidden;
+    transition: top 180ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  }
+
+  .custom-select-wrapper[aria-expanded='true'] {
+    overflow: visible;
+    border-width: 0;
+
+    .sliding-rectangle {
+      border-style: solid;
+      border-width: 1px 2px 2px 1px;
+    }
+  }
+
+  .choice-label {
+    background: #fff;
+    font-weight: 400;
+    padding: 0 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    user-select: none;
+    transition: background 120ms ease;
+  }
+
+  .choice-label:last-child {
+    border-bottom: none;
+  }
+
+  .choice-label:hover {
+    background: #f5f5f5;
+  }
+
+  .choice-label[aria-selected='true'] {
+    background: #eee;
+    font-weight: 500;
+  }
+
+  .choice-label[aria-selected='true']:hover::after {
+    content: ' »';
+    font-size: 14px;
+    opacity: 0.6;
+    float: right;
+  }
+
+  .choice-label[aria-disabled='true'] {
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.8;
   }
 
   .hidden {

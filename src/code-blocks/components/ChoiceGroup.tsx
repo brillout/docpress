@@ -80,10 +80,10 @@ function ChoiceGroup({
               aria-disabled={isDisabled(choice)}
               role="option"
               className="choice-label"
-              style={{ height: height, lineHeight: `${height}px` }}
+              style={{ height: height }}
               onClick={handleOnClick}
             >
-              {choice}
+              <span>{choice}</span>
             </div>
           ))}
         </div>

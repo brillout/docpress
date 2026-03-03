@@ -121,6 +121,7 @@ function ChoiceGroup({
     e.stopPropagation()
     const el = e.currentTarget
     prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    setHoveredIndex(null)
     if (el.ariaSelected === 'true') {
       next()
     } else if (el.ariaDisabled === 'false') {

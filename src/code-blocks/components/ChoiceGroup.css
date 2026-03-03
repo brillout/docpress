@@ -59,6 +59,17 @@
     span {
       flex: 1;
     }
+
+    &::after {
+      --animation-width: 0.15em;
+      position: relative;
+      padding-right: var(--animation-width);
+      padding-left: var(--animation-width);
+      margin-right: -1px;
+      font-size: 1.08em;
+      left: 0;
+      transition: left 500ms ease;
+    }
   }
 
   .custom-select-wrapper[aria-expanded='false'] {
@@ -66,7 +77,7 @@
     border-width: 1px 2px 2px 1px;
 
     .choice-label:after {
-      content: ' ↕';
+      content: '»';
     }
   }
 
@@ -79,12 +90,27 @@
       border-width: 1px 2px 2px 1px;
     }
 
-    .choice-label:hover::after {
-      content: ' «';
+    .choice-label::after {
+      content: '';
     }
 
-    .choice-label[aria-selected='true']:hover::after {
-      content: ' »';
+    .choice-label[aria-selected='true']::after {
+      content: '»';
+    }
+    /* Hide the selected » when hovering anywhere in the list */
+    .sliding-rectangle:hover .choice-label[aria-selected='true']::after {
+      content: '';
+    }
+
+    .choice-label:hover::after {
+      left: calc(-1 * var(--animation-width));
+      content: '«';
+    }
+
+    .choice-label[aria-selected='true']:hover::after,
+    .sliding-rectangle:hover .choice-label[aria-selected='true']:hover::after {
+      left: var(--animation-width);
+      content: '»';
     }
   }
 
@@ -98,7 +124,6 @@
 
   .choice-label[aria-selected='true'] {
     background: #eee;
-    font-weight: 600;
   }
 
   .choice-label[aria-disabled='true'] {

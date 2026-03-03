@@ -95,7 +95,7 @@ function ChoiceGroup({
             viewBox="0 0 7 6"
             className={cls([
               'choice-icon',
-              hoveredIndex === null ? null : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
+              hoveredIndex === null ? undefined : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
             ])}
             style={{ top: iconTop }}
           >

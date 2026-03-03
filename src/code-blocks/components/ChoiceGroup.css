@@ -84,7 +84,7 @@
     }
 
     &.hover-other {
-      transform: translateX(-0.3em);
+      transform: translateX(-0.1em);
       .chevron-upper {
         transform: rotate(90deg);
       }

@@ -99,11 +99,17 @@ function ChoiceGroup({
             ])}
             style={{ top: iconTop }}
           >
-            <g className="chevron-left">
-              <path d="M 0 0 L 4 3 L 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+            <g className="chevron-upper">
+              <path d="M 0 0 L 4 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </g>
-            <g className="chevron-right">
-              <path d="M 5 0 L 9 3 L 5 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+            <g className="chevron-lower">
+              <path d="M 4 3 L 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+            </g>
+            <g className="chevron-upper">
+              <path d="M 6 0 L 10 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+            </g>
+            <g className="chevron-lower">
+              <path d="M 10 3 L 6 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </g>
           </svg>
         </div>

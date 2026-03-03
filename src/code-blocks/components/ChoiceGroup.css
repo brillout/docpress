@@ -61,11 +61,15 @@
     }
 
     &::after {
-      width: 1.5em;
+      --animation-width: 0.15em;
       text-align: center;
       position: relative;
+      padding-right: var(--animation-width);
+      padding-left: var(--animation-width);
+      margin-right: -1px;
+      font-size: 1.08em;
       left: 0;
-      transition: left 1200ms ease;
+      transition: left 500ms ease;
     }
   }
 
@@ -74,7 +78,6 @@
     border-width: 1px 2px 2px 1px;
 
     .choice-label:after {
-      left: 0;
       content: '»';
     }
   }
@@ -99,17 +102,16 @@
     /* Hide the selected » when hovering anywhere in the list */
     .sliding-rectangle:hover .choice-label[aria-selected='true']::after {
       content: '';
-      left: 0;
     }
 
     .choice-label:hover::after {
-      left: -0.4em;
+      left: calc(-1 * var(--animation-width));
       content: '«';
     }
 
     .choice-label[aria-selected='true']:hover::after,
     .sliding-rectangle:hover .choice-label[aria-selected='true']:hover::after {
-      left: 0.4em;
+      left: var(--animation-width);
       content: '»';
     }
   }
@@ -124,7 +126,6 @@
 
   .choice-label[aria-selected='true'] {
     background: #eee;
-    font-weight: 600;
   }
 
   .choice-label[aria-disabled='true'] {

@@ -28,7 +28,9 @@ function ChoiceGroup({
 
   const height = 25
   const [expanded, setExpanded] = useState(false)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const rectTop = -selectedIndex * height
+  const iconTop = (hoveredIndex ?? selectedIndex) * height
 
   // Cycle to next ENABLED option
   const next = () => {
@@ -81,11 +83,14 @@ function ChoiceGroup({
               role="option"
               className="choice-label"
               style={{ height: height }}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
               onClick={handleOnClick}
             >
               <span>{choice}</span>
             </div>
           ))}
+          <span className="choice-icon" style={{ top: iconTop }}>»</span>
         </div>
       </div>
     </div>

@@ -90,13 +90,22 @@ function ChoiceGroup({
               <span>{choice}</span>
             </div>
           ))}
-          <span
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 10 6"
             className={cls([
               'choice-icon',
               hoveredIndex === null ? null : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
             ])}
             style={{ top: iconTop }}
-          >»</span>
+          >
+            <g className="chevron-left">
+              <path d="M 0 0 L 4 3 L 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+            </g>
+            <g className="chevron-right">
+              <path d="M 5 0 L 9 3 L 5 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+            </g>
+          </svg>
         </div>
       </div>
     </div>

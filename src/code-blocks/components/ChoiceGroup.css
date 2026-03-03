@@ -65,16 +65,34 @@
     position: absolute;
     right: 5px;
     width: 1em;
-    text-align: center;
-    transition: top 180ms cubic-bezier(0.2, 0.9, 0.2, 1), transform 200ms ease;
+    overflow: visible;
+    transition: top 180ms cubic-bezier(0.2, 0.9, 0.2, 1);
     pointer-events: none;
+
+    .chevron-left,
+    .chevron-right {
+      transition: transform 300ms ease;
+    }
+
+    .chevron-left {
+      transform-origin: 20% 50%;
+    }
+
+    .chevron-right {
+      transform-origin: 70% 50%;
+    }
 
     &.hover-selected {
       transform: translateX(0.3em);
     }
 
     &.hover-other {
-      transform: translateX(-0.3em) scaleX(-1);
+      transform: translateX(-0.3em);
+
+      .chevron-left,
+      .chevron-right {
+        transform: rotate(180deg);
+      }
     }
   }
 

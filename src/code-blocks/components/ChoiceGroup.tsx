@@ -92,7 +92,7 @@ function ChoiceGroup({
           ))}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 10 6"
+            viewBox="0 0 7 6"
             className={cls([
               'choice-icon',
               hoveredIndex === null ? null : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
@@ -100,16 +100,16 @@ function ChoiceGroup({
             style={{ top: iconTop }}
           >
             <g className="chevron-upper">
-              <path d="M 0 0 L 4 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path d="M 0 0 L 3 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </g>
             <g className="chevron-lower">
-              <path d="M 4 3 L 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path d="M 3 3 L 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </g>
             <g className="chevron-upper">
-              <path d="M 6 0 L 10 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path d="M 4 0 L 7 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </g>
             <g className="chevron-lower">
-              <path d="M 10 3 L 6 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path d="M 7 3 L 4 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </g>
           </svg>
         </div>

@@ -77,16 +77,13 @@
     }
 
     &.hover-selected {
-      transform: translateX(0.3em);
+      .chevron-upper { transform: rotate(90deg); }
+      .chevron-lower { transform: rotate(-90deg); }
     }
 
     &.hover-other {
-      transform: translateX(-0.3em);
-
-      .chevron-upper,
-      .chevron-lower {
-        transform: scaleX(-1);
-      }
+      .chevron-upper { transform: rotate(-90deg); }
+      .chevron-lower { transform: rotate(90deg); }
     }
   }
 

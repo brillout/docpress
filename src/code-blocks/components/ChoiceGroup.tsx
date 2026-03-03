@@ -84,6 +84,7 @@ function ChoiceGroup({
               onClick={handleOnClick}
             >
               <span>{choice}</span>
+              <span className="choice-icon">»</span>
             </div>
           ))}
         </div>

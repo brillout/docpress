@@ -61,16 +61,17 @@ function ChangelogButton() {
       <div
         className="button"
         style={{
-          background: '#f9f9f9',
+          background: 'transparent',
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: 5,
-          paddingRight: 5,
-          paddingTop: 3,
-          paddingBottom: 3,
+          paddingLeft: 4,
+          paddingRight: 4,
+          paddingTop: 2,
+          paddingBottom: 2,
           fontSize: '0.92em',
           lineHeight: '1em',
           marginLeft: 1,
+          borderRadius: 3,
         }}
       >
         <span

@@ -89,6 +89,10 @@
     }
 
     .choice-label::after {
+      content: '';
+    }
+
+    .choice-label[aria-selected='true']::after {
       content: '»';
     }
 

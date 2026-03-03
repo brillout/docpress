@@ -62,7 +62,6 @@
 
     &::after {
       --animation-width: 0.15em;
-      text-align: center;
       position: relative;
       padding-right: var(--animation-width);
       padding-left: var(--animation-width);
@@ -98,7 +97,6 @@
     .choice-label[aria-selected='true']::after {
       content: '»';
     }
-
     /* Hide the selected » when hovering anywhere in the list */
     .sliding-rectangle:hover .choice-label[aria-selected='true']::after {
       content: '';

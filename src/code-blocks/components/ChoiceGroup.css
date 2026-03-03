@@ -61,14 +61,13 @@
     }
   }
 
-  .choice-icon {
-    display: inline-block;
-    transition: transform 200ms ease;
-  }
-
   .custom-select-wrapper[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
+
+    .choice-label:after {
+      content: ' ↕';
+    }
   }
 
   .custom-select-wrapper[aria-expanded='true'] {
@@ -80,12 +79,12 @@
       border-width: 1px 2px 2px 1px;
     }
 
-    .choice-label[aria-selected='true']:hover .choice-icon {
-      transform: translateX(3px);
+    .choice-label:hover::after {
+      content: ' «';
     }
 
-    .choice-label:not([aria-selected='true']):hover .choice-icon {
-      transform: translateX(-3px) scaleX(-1);
+    .choice-label[aria-selected='true']:hover::after {
+      content: ' »';
     }
   }
 

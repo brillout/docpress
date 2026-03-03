@@ -1,3 +1,12 @@
+## [0.16.19](https://github.com/brillout/docpress/compare/v0.16.18...v0.16.19) (2026-03-03)
+
+
+### Bug Fixes
+
+* polish changelog button ([ac2af7b](https://github.com/brillout/docpress/commit/ac2af7b7801a480278d538449d43d176fbc3a7ed))
+
+
+
 ## [0.16.18](https://github.com/brillout/docpress/compare/v0.16.17...v0.16.18) (2026-02-27)
 
 

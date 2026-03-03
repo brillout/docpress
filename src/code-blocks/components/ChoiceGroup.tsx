@@ -90,7 +90,13 @@ function ChoiceGroup({
               <span>{choice}</span>
             </div>
           ))}
-          <span className="choice-icon" style={{ top: iconTop }}>»</span>
+          <span
+            className={cls([
+              'choice-icon',
+              hoveredIndex === null ? null : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
+            ])}
+            style={{ top: iconTop }}
+          >»</span>
         </div>
       </div>
     </div>

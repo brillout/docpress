@@ -96,12 +96,19 @@
       content: '»';
     }
 
+    /* Hide the selected » when hovering anywhere in the list */
+    .sliding-rectangle:hover .choice-label[aria-selected='true']::after {
+      content: '';
+      left: 0;
+    }
+
     .choice-label:hover::after {
       left: -0.4em;
       content: '«';
     }
 
-    .choice-label[aria-selected='true']:hover::after {
+    .choice-label[aria-selected='true']:hover::after,
+    .sliding-rectangle:hover .choice-label[aria-selected='true']:hover::after {
       left: 0.4em;
       content: '»';
     }

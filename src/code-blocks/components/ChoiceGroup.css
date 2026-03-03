@@ -85,7 +85,7 @@
 
       .chevron-upper,
       .chevron-lower {
-        transform: scaleY(-1);
+        transform: scaleX(-1);
       }
     }
   }

@@ -61,18 +61,22 @@
     }
 
     &::after {
-      content: '»';
       width: 1.5em;
       text-align: center;
       position: relative;
       left: 0;
-      transition: left 200ms ease, transform 200ms ease;
+      transition: left 1200ms ease;
     }
   }
 
   .custom-select-wrapper[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
+
+    .choice-label:after {
+      left: 0;
+      content: '»';
+    }
   }
 
   .custom-select-wrapper[aria-expanded='true'] {
@@ -86,12 +90,12 @@
 
     .choice-label:hover::after {
       left: -0.4em;
-      transform: scaleX(-1);
+      content: '«';
     }
 
     .choice-label[aria-selected='true']:hover::after {
       left: 0.4em;
-      transform: scaleX(1);
+      content: '»';
     }
   }
 

@@ -71,15 +71,9 @@
 
     .chevron-upper,
     .chevron-lower {
-      transition: transform 300ms ease;
-    }
-
-    .chevron-upper {
-      transform-origin: 0% 25%;
-    }
-
-    .chevron-lower {
-      transform-origin: 0% 75%;
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      transition: transform 2000ms ease;
     }
 
     &.hover-selected {

@@ -40,6 +40,7 @@ function ChoiceGroup({
       nextIndex = (nextIndex + 1) % choices.length
       if (!isDisabled(choices[nextIndex]!)) {
         setSelectedChoice(choices[nextIndex]!)
+        setHoveredIndex(nextIndex)
         return
       }
     }
@@ -121,7 +122,6 @@ function ChoiceGroup({
     e.stopPropagation()
     const el = e.currentTarget
     prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
-    setHoveredIndex(null)
     if (el.ariaSelected === 'true') {
       next()
     } else if (el.ariaDisabled === 'false') {

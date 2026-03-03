@@ -73,7 +73,7 @@
     .chevron-lower {
       transform-box: fill-box;
       transform-origin: 50% 50%;
-      transition: transform 2000ms ease;
+      transition: transform 180ms ease;
     }
 
     &.hover-selected {

@@ -59,26 +59,44 @@
     span {
       flex: 1;
     }
+  }
 
-    &::after {
-      --animation-width: 0.15em;
-      position: relative;
-      padding-right: var(--animation-width);
-      padding-left: var(--animation-width);
-      margin-right: -1px;
-      font-size: 1.08em;
-      left: 0;
-      transition: left 500ms ease;
+  .choice-icon {
+    position: absolute;
+    margin-top: 0.7em;
+    margin-right: 0.1em;
+    right: 5px;
+    width: 0.6em;
+    color: #666;
+    overflow: visible;
+    transition: all 180ms cubic-bezier(0.2, 0.9, 0.2, 1);
+    pointer-events: none;
+
+    .chevron-upper,
+    .chevron-lower {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      transition: all 180ms ease;
+    }
+
+    &.hover-selected {
+      transform: translateX(0.3em);
+    }
+
+    &.hover-other {
+      transform: translateX(-0.1em);
+      .chevron-upper {
+        transform: rotate(90deg);
+      }
+      .chevron-lower {
+        transform: rotate(-90deg);
+      }
     }
   }
 
   .custom-select-wrapper[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
-
-    .choice-label:after {
-      content: '»';
-    }
   }
 
   .custom-select-wrapper[aria-expanded='true'] {
@@ -88,29 +106,6 @@
     .sliding-rectangle {
       border-style: solid;
       border-width: 1px 2px 2px 1px;
-    }
-
-    .choice-label::after {
-      content: '';
-    }
-
-    .choice-label[aria-selected='true']::after {
-      content: '»';
-    }
-    /* Hide the selected » when hovering anywhere in the list */
-    .sliding-rectangle:hover .choice-label[aria-selected='true']::after {
-      content: '';
-    }
-
-    .choice-label:hover::after {
-      left: calc(-1 * var(--animation-width));
-      content: '«';
-    }
-
-    .choice-label[aria-selected='true']:hover::after,
-    .sliding-rectangle:hover .choice-label[aria-selected='true']:hover::after {
-      left: var(--animation-width);
-      content: '»';
     }
   }
 

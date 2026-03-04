@@ -28,9 +28,7 @@ function ChoiceGroup({
 
   const height = 25
   const [expanded, setExpanded] = useState(false)
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const rectTop = -selectedIndex * height
-  const iconTop = (hoveredIndex ?? selectedIndex) * height
 
   // Cycle to next ENABLED option
   const next = () => {
@@ -40,7 +38,6 @@ function ChoiceGroup({
       nextIndex = (nextIndex + 1) % choices.length
       if (!isDisabled(choices[nextIndex]!)) {
         setSelectedChoice(choices[nextIndex]!)
-        setHoveredIndex(nextIndex)
         return
       }
     }
@@ -84,44 +81,11 @@ function ChoiceGroup({
               role="option"
               className="choice-label"
               style={{ height: height }}
-              onMouseEnter={() => setHoveredIndex(i)}
-              onMouseLeave={() => setHoveredIndex(null)}
               onClick={handleOnClick}
             >
               <span>{choice}</span>
             </div>
           ))}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 7 6"
-            className={cls([
-              'choice-icon',
-              hoveredIndex === null ? undefined : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
-              isDisabled(choices[hoveredIndex!]!) && 'hover-disabled',
-            ])}
-            style={{ top: iconTop }}
-          >
-            <g className="chevron-upper">
-              <path d="M 0 0 L 3 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-            </g>
-            <g className="chevron-lower">
-              <path d="M 3 3 L 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-            </g>
-            <g className="chevron-upper">
-              <path d="M 4 0 L 7 3" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-            </g>
-            <g className="chevron-lower">
-              <path d="M 7 3 L 4 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-            </g>
-            <g className="circled-division-slash">
-              <path
-                d="M3.5 -0.2a3.2 3.2 0 1 1 0 6.4a3.2 3.2 0 1 1 0-6.4M0.4 5.6L6.6 0.4"
-                strokeWidth="1.3"
-                fill="none"
-                strokeLinecap="round"
-              />
-            </g>
-          </svg>
         </div>
       </div>
     </div>

@@ -1,3 +1,12 @@
+## [0.16.20](https://github.com/brillout/docpress/compare/v0.16.19...v0.16.20) (2026-03-04)
+
+
+### Bug Fixes
+
+* don't set id for <h1> ([dfd93e8](https://github.com/brillout/docpress/commit/dfd93e8a8c97c9dbac29d7225df639aadcff86bf))
+
+
+
 ## [0.16.19](https://github.com/brillout/docpress/compare/v0.16.18...v0.16.19) (2026-03-03)
 
 

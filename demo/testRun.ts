@@ -130,13 +130,13 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectJs()
 
-    await page.selectOption(`select[name="choicesFor-codeLang"]:visible`, { index: isDev ? 0 : 1 })
+    if (!isDev) {
+      await page.locator('#choicesFor-codeLang:visible').first().getByRole('option', { name: 'TypeScript' }).click()
+    }
 
     await autoRetry(
       async () => {
-        if (isDev) {
-          await expectJs()
-        } else {
+        if (!isDev) {
           await expectTs()
         }
       },
@@ -212,7 +212,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('select[name="choicesFor-server"]:visible').nth(2).selectOption('Fastify')
+      await page.locator('#choicesFor-server:visible').nth(2).getByRole('option', { name: 'Fastify' }).click()
       const text = await getVisibleText(page)
       hasFirstChoice(text, false)
       hasSecondChoice(text, false)
@@ -223,14 +223,14 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     await expectFirstChoice()
 
-    await page.selectOption(`select[name="choicesFor-pkgManager"]:visible`, { index: isDev ? 0 : 1 })
-    await page.selectOption(`select[name="choicesFor-server"]:visible`, { index: isDev ? 0 : 1 })
+    if (!isDev) {
+      await page.locator('#choicesFor-pkgManager:visible').first().getByRole('option', { name: 'pnpm' }).click()
+      await page.locator('#choicesFor-server:visible').first().getByRole('option', { name: 'Express' }).click()
+    }
 
     await autoRetry(
       async () => {
-        if (isDev) {
-          await expectFirstChoice()
-        } else {
+        if (!isDev) {
           await expectSecondChoice()
           await expectFastifyChoice()
         }

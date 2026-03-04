@@ -193,7 +193,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
         {pageTitleParsed && !pageContext.resolved.pageDesign?.hideTitle && (
           <div>
             <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 15 }} />
-            <h1 id={`${pageContext.urlPathname.replace('/', '')}`}>{pageTitleParsed}</h1>
+            <h1>{pageTitleParsed}</h1>
           </div>
         )}
         {children}

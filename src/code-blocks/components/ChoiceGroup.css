@@ -72,8 +72,13 @@
     transition: all 180ms cubic-bezier(0.2, 0.9, 0.2, 1);
     pointer-events: none;
 
+    .circled-division-slash {
+      display: none;
+    }
+
     .chevron-upper,
-    .chevron-lower {
+    .chevron-lower,
+    .circled-division-slash {
       transform-box: fill-box;
       transform-origin: 50% 50%;
       transition: all 180ms ease;
@@ -89,6 +94,18 @@
         transform: rotate(90deg);
       }
       .chevron-lower {
+        transform: rotate(-90deg);
+      }
+    }
+
+    &.hover-disabled {
+      .chevron-upper,
+      .chevron-lower {
+        display: none;
+      }
+      .circled-division-slash {
+        display: inline;
+        stroke: #999;
         transform: rotate(-90deg);
       }
     }

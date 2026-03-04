@@ -97,6 +97,7 @@ function ChoiceGroup({
             className={cls([
               'choice-icon',
               hoveredIndex === null ? undefined : hoveredIndex === selectedIndex ? 'hover-selected' : 'hover-other',
+              isDisabled(choices[hoveredIndex!]!) && 'hover-disabled',
             ])}
             style={{ top: iconTop }}
           >
@@ -111,6 +112,14 @@ function ChoiceGroup({
             </g>
             <g className="chevron-lower">
               <path d="M 7 3 L 4 6" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+            </g>
+            <g className="circled-division-slash">
+              <path
+                d="M3.5 -0.2a3.2 3.2 0 1 1 0 6.4a3.2 3.2 0 1 1 0-6.4M0.4 5.6L6.6 0.4"
+                strokeWidth="1.3"
+                fill="none"
+                strokeLinecap="round"
+              />
             </g>
           </svg>
         </div>

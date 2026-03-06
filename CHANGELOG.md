@@ -1,3 +1,12 @@
+## [0.16.23](https://github.com/brillout/docpress/compare/v0.16.22...v0.16.23) (2026-03-06)
+
+
+### Bug Fixes
+
+* improve eyes icon ([a559efe](https://github.com/brillout/docpress/commit/a559efe54d8446e4e0c9b4ebcc432c2260f4a277))
+
+
+
 ## [0.16.22](https://github.com/brillout/docpress/compare/v0.16.21...v0.16.22) (2026-03-06)
 
 

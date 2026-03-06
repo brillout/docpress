@@ -9,7 +9,7 @@ import React from 'react'
 
 const config: Config = {
   name: 'Demo',
-  version: '0.4.200',
+  version: '0.4.255',
   url: 'fake-website.example.org',
   tagline: 'DocPress Demonstration.',
   logo,

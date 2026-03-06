@@ -61,11 +61,13 @@ function ChangelogButton() {
       <div
         className="button"
         style={{
-          background: 'transparent',
+          background: '#ffffff4f',
+          fontFamily: 'monospace',
+          letterSpacing: -1,
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: 4,
-          paddingRight: 4,
+          paddingLeft: 5,
+          paddingRight: 5,
           paddingTop: 2,
           paddingBottom: 2,
           fontSize: '0.92em',
@@ -83,9 +85,9 @@ function ChangelogButton() {
             color: 'var(--color-text)',
           }}
         >
-          v{version}
+          {version}
         </span>
-        <img className="decolorize-6" src={iconChangelog} height={15} style={{ marginLeft: 6 }} />
+        <img className="decolorize-6" src={iconChangelog} height={14} style={{ marginLeft: 5 }} />
       </div>
     </a>
   )

@@ -77,6 +77,9 @@ function resolvePageContext(pageContext: PageContextServer) {
     }
   }
 
+  // Don't show landing page in navigation
+  navItemsAll = navItemsAll.filter((navItem) => navItem.url !== '/')
+
   const resolved = {
     navItemsAll,
     navItemsDetached,

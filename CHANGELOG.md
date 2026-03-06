@@ -1,3 +1,17 @@
+## [0.16.22](https://github.com/brillout/docpress/compare/v0.16.21...v0.16.22) (2026-03-06)
+
+
+### Bug Fixes
+
+* polish changelog button ([7bce616](https://github.com/brillout/docpress/commit/7bce61680ca7814a381fd6a0fced3c2393074bf0))
+
+
+### Features
+
+* iconEyes ([89e9f37](https://github.com/brillout/docpress/commit/89e9f379b7b81c62728bb8ae72166c76c479643d))
+
+
+
 ## [0.16.21](https://github.com/brillout/docpress/compare/v0.16.20...v0.16.21) (2026-03-06)
 
 

@@ -1,3 +1,12 @@
+## [0.16.21](https://github.com/brillout/docpress/compare/v0.16.20...v0.16.21) (2026-03-06)
+
+
+### Bug Fixes
+
+* don't show landing page in navigation ([22c458c](https://github.com/brillout/docpress/commit/22c458c4d042b5bf26e3b4b6eb784309592e0529))
+
+
+
 ## [0.16.20](https://github.com/brillout/docpress/compare/v0.16.19...v0.16.20) (2026-03-04)
 
 

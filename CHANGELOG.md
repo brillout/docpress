@@ -1,3 +1,44 @@
+## [0.16.23](https://github.com/brillout/docpress/compare/v0.16.22...v0.16.23) (2026-03-06)
+
+
+### Bug Fixes
+
+* improve eyes icon ([a559efe](https://github.com/brillout/docpress/commit/a559efe54d8446e4e0c9b4ebcc432c2260f4a277))
+
+
+
+## [0.16.22](https://github.com/brillout/docpress/compare/v0.16.21...v0.16.22) (2026-03-06)
+
+
+### Bug Fixes
+
+* polish changelog button ([7bce616](https://github.com/brillout/docpress/commit/7bce61680ca7814a381fd6a0fced3c2393074bf0))
+
+
+### Features
+
+* iconEyes ([89e9f37](https://github.com/brillout/docpress/commit/89e9f379b7b81c62728bb8ae72166c76c479643d))
+
+
+
+## [0.16.21](https://github.com/brillout/docpress/compare/v0.16.20...v0.16.21) (2026-03-06)
+
+
+### Bug Fixes
+
+* don't show landing page in navigation ([22c458c](https://github.com/brillout/docpress/commit/22c458c4d042b5bf26e3b4b6eb784309592e0529))
+
+
+
+## [0.16.20](https://github.com/brillout/docpress/compare/v0.16.19...v0.16.20) (2026-03-04)
+
+
+### Bug Fixes
+
+* don't set id for <h1> ([dfd93e8](https://github.com/brillout/docpress/commit/dfd93e8a8c97c9dbac29d7225df639aadcff86bf))
+
+
+
 ## [0.16.19](https://github.com/brillout/docpress/compare/v0.16.18...v0.16.19) (2026-03-03)
 
 

@@ -69,7 +69,8 @@
       padding-right: var(--animation-width);
       padding-left: var(--animation-width);
       margin-right: -1px;
-      font-size: 1.08em;
+      font-size: 1.13em;
+      opacity: 0.75;
       left: 0;
       transition: left 500ms ease;
     }

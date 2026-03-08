@@ -106,8 +106,13 @@
       content: '';
     }
 
-    .choice-label[aria-disabled='true']:hover::after {
-      content: '⊘';
+    .choice-label[aria-disabled='true']:hover {
+      cursor: default;
+
+      &::after {
+        content: '⊘';
+        left: 0;
+      }
     }
 
     .choice-label:hover::after {

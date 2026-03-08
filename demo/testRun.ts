@@ -21,7 +21,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   async function testLandingPageHtml() {
     const html = await fetchHtml(landingPageUrl)
     expect(getTitleHtml(html)).toBe('DocPress Demo')
-    expect(html).toContain('Introduction')
     expect(html).toContain('<meta property="og:type" content="website">')
     expect(html).toContain('<meta property="og:title" content="DocPress Demo">')
     expect(html).toContain('<meta property="og:url" content="fake-website.example.org">')

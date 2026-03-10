@@ -111,6 +111,7 @@
 #nav-left {
   .nav-item-level-1 {
     display: flex;
+    cursor: pointer;
     margin-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
   }
   .nav-head-logo {
@@ -120,5 +121,10 @@
   .nav-item-level-3,
   .nav-item-level-4 {
     padding-left: min(30px, max(8px, 30 * (1vw - 12.7px)));
+  }
+  .collapsible-icon {
+    position: static;
+    margin-left: auto;
+    padding-left: 6px;
   }
 }

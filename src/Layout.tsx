@@ -16,6 +16,7 @@ export { scrollFadeMask }
 
 import React from 'react'
 import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent.js'
+import { Collapsible } from './MenuModal/Collapsible.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { usePageContext } from './renderer/usePageContext.js'
 import { ExternalLinks } from './ExternalLinks.js'
@@ -265,23 +266,55 @@ function getStyleNavLeft() {
 }`
 }
 
-function NavigationContent(props: {
-  navItems: NavItem[]
-  showOnlyRelevant?: true
-}) {
+function NavigationContent(props: { navItems: NavItem[]; showOnlyRelevant?: true }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
-  let navItemsRelevant = navItemsWithComputed
-  if (props.showOnlyRelevant)
-    navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant || navItemGroup.level === 1)
-  const navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
+  if (props.showOnlyRelevant) {
+    const sections = groupBySections(navItemsWithComputed)
+    return (
+      <div className="navigation-content" style={{ marginTop: 10 }}>
+        {sections.map((section, i) => (
+          <Collapsible
+            key={i}
+            head={(onClick) => <NavItemComponent navItem={section.level1} onClick={onClick} />}
+            disabled={false}
+            collapsedInit={!section.level1.isRelevant}
+          >
+            {section.children.map((navItem, j) => (
+              <NavItemComponent key={j} navItem={navItem} />
+            ))}
+          </Collapsible>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="navigation-content" style={{ marginTop: 10 }}>
-      {navContent}
+      {navItemsWithComputed.map((navItem, i) => (
+        <NavItemComponent key={i} navItem={navItem} />
+      ))}
     </div>
   )
+}
+
+type NavItemsSection = {
+  level1: ReturnType<typeof getNavItemsWithComputed>[number]
+  children: ReturnType<typeof getNavItemsWithComputed>
+}
+function groupBySections(navItems: ReturnType<typeof getNavItemsWithComputed>): NavItemsSection[] {
+  const sections: NavItemsSection[] = []
+  let current: NavItemsSection | null = null
+  for (const navItem of navItems) {
+    if (navItem.level === 1) {
+      current = { level1: navItem, children: [] }
+      sections.push(current)
+    } else if (current) {
+      current.children.push(navItem)
+    }
+  }
+  return sections
 }
 
 function isNavLeftAlwaysHidden() {

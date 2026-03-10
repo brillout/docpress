@@ -94,7 +94,7 @@ function NavItemComponent({
     children = (
       <>
         {icon}
-        {children}
+        <span className="nav-item-title">{children}</span>
         <Chevron className="collapsible-icon" height={9} />
       </>
     )

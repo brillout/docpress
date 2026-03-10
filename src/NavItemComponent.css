@@ -53,10 +53,12 @@
     }
   }
   #nav-left & {
-    border-bottom: 3px solid var(--color-category);
-    padding-bottom: 2px;
     margin-top: 3px;
     margin-bottom: 10px;
+    .nav-item-title {
+      border-bottom: 3px solid var(--color-category);
+      padding-bottom: 2px;
+    }
   }
 }
 .nav-item-level-2 {
@@ -110,7 +112,7 @@
 
 #nav-left {
   .nav-item-level-1 {
-    display: inline-flex;
+    display: flex;
     cursor: pointer;
     margin-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
   }
@@ -124,6 +126,7 @@
   }
   .collapsible-icon {
     position: static;
+    margin-left: auto;
     padding-left: 6px;
   }
 }

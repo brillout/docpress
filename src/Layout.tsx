@@ -273,7 +273,8 @@ function NavigationContent(props: {
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
   let navItemsRelevant = navItemsWithComputed
-  if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
+  if (props.showOnlyRelevant)
+    navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant || navItemGroup.level === 1)
   const navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
 
   return (

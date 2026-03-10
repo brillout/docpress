@@ -1,6 +1,7 @@
 @import './code/inline.css';
 @import './code/block.css';
 @import './code/diff.css';
+@import './code/highlight.css';
 
 /* For code blocks, see Pre.css instead */
 

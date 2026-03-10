@@ -23,9 +23,9 @@ function Collapsible({
 
   const onClick = () => {
     if (!disabled) {
-      setIsAnimating(true)
       if (!collapsed) {
-        // If expanding, set height to current scroll height before animation
+        // Collapsing: animate height to 0, then set display:none
+        setIsAnimating(true)
         contentRef.current!.style.height = `${contentRef.current!.scrollHeight}px`
         // Force a reflow
         contentRef.current!.offsetHeight
@@ -49,6 +49,7 @@ function Collapsible({
         ref={contentRef}
         onTransitionEnd={onTransitionEnd}
         style={{
+          display: !showContent && !isAnimating ? 'none' : undefined,
           height: !showContent ? 0 : isAnimating ? contentRef.current!.scrollHeight : 'auto',
           overflow: 'hidden',
           transition: 'none 0.3s ease',

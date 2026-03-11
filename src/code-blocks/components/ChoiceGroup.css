@@ -51,7 +51,7 @@
     align-items: center;
     flex-wrap: nowrap;
     background: #fff;
-    padding: 0 5px;
+    padding: 0 3px 0 5px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background 120ms ease;
@@ -61,14 +61,13 @@
     }
 
     &::after {
-      display: inline-block;
+      content: '»';
       width: 15px;
       text-align: end;
-      --animation-width: 0.15em;
+      --animation-width: 2px;
       position: relative;
       padding-right: var(--animation-width);
       padding-left: var(--animation-width);
-      margin-right: -1px;
       font-size: 1.13em;
       opacity: 0.75;
       left: 0;
@@ -79,10 +78,6 @@
   .custom-select-wrapper[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
-
-    .choice-label:after {
-      content: '»';
-    }
   }
 
   .custom-select-wrapper[aria-expanded='true'] {
@@ -94,36 +89,22 @@
       border-width: 1px 2px 2px 1px;
     }
 
-    .choice-label::after {
-      content: '';
-    }
-
-    .choice-label[aria-selected='true']::after {
-      content: '»';
-    }
-    /* Hide the selected » when hovering anywhere in the list */
-    .sliding-rectangle:hover .choice-label[aria-selected='true']::after {
-      content: '';
-    }
-
-    .choice-label[aria-disabled='true']:hover {
-      cursor: default;
-
-      &::after {
+    .sliding-rectangle:hover {
+      .choice-label::after {
+        content: '';
+      }
+      .choice-label:hover::after {
+        left: calc(-1 * var(--animation-width));
+        content: '«';
+      }
+      .choice-label[aria-selected='true']:hover::after {
+        left: var(--animation-width);
+        content: '»';
+      }
+      .choice-label[aria-disabled='true']:hover::after {
         content: '⊘';
         left: 0;
       }
-    }
-
-    .choice-label:hover::after {
-      left: calc(-1 * var(--animation-width));
-      content: '«';
-    }
-
-    .choice-label[aria-selected='true']:hover::after,
-    .sliding-rectangle:hover .choice-label[aria-selected='true']:hover::after {
-      left: var(--animation-width);
-      content: '»';
     }
   }
 
@@ -141,6 +122,7 @@
 
   .choice-label[aria-disabled='true'] {
     color: #999;
+    cursor: default;
     opacity: 0.8;
   }
 

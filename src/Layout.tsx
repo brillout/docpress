@@ -136,6 +136,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   }
   #nav-left {
     min-width: ${navLeftWidthMax + blockMargin}px;
+    transition: width 0.3s ease;
   }
 }
 .page-content {

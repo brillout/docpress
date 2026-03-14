@@ -9,10 +9,9 @@
   }
 
   /* layout */
-  --select-width: 100px;
-  --select-top-position: 10px;
-  --select-right-base: 42px;
-  --select-gap: 2px;
+  --top-position: 10px;
+  --right-base: 42px;
+  --right-offset: 0px;
   --border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
 
   .custom-select-wrapper {
@@ -20,8 +19,8 @@
     background: #eee;
     z-index: 3;
     font-size: 13.3333px;
-    top: var(--select-top-position);
-    right: calc(var(--select-right-base) + (var(--lvl) * (var(--select-width) + var(--select-gap))));
+    top: var(--top-position);
+    right: calc(var(--right-base) + (var(--right-offset)));
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */

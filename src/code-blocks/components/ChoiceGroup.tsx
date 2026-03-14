@@ -1,6 +1,6 @@
 export { ChoiceGroup }
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelectedChoice } from '../hooks/useSelectedChoice.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
@@ -18,10 +18,21 @@ function ChoiceGroup({
   choiceGroup,
   lvl,
   hide = false,
-}: { children: React.ReactNode; choiceGroup: TChoiceGroup; lvl: number; hide: boolean }) {
+}: { children: React.ReactNode; choiceGroup: TChoiceGroup; lvl: string; hide: boolean }) {
+  const level = Number(lvl)
   const { name: groupName, choices, default: defaultChoice, disabled: disabledChoices } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
+  const choiceGroupRef = useRef<HTMLDivElement>(null)
+  const [rightOffset, setRightOffset] = useState(0)
+
+  useEffect(() => {
+    if (level === 0 || !choiceGroupRef.current) return
+    const parentCustomSelect = choiceGroupRef.current.closest(`[data-lvl="${level - 1}"]`)!.lastElementChild!
+    const width = parentCustomSelect.getBoundingClientRect().width
+
+    setRightOffset(level * width + 2)
+  }, [])
 
   const isDisabled = (choice: string) => disabledChoices.includes(choice)
   const selectedIndex = choices.indexOf(selectedChoice)
@@ -44,7 +55,7 @@ function ChoiceGroup({
   }
 
   return (
-    <div data-choice-group={groupName} className="choice-group">
+    <div ref={choiceGroupRef} data-choice-group={groupName} data-lvl={level} className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choiceGroup.choices.map((choice, i) => (
@@ -59,7 +70,7 @@ function ChoiceGroup({
         aria-haspopup="listbox"
         aria-expanded={expanded}
         className={cls(['custom-select-wrapper', (hide || isDisabled(selectedChoice)) && 'hidden'])}
-        style={{ '--lvl': lvl, height: height }}
+        style={{ height: height, '--right-offset': `${rightOffset}px` }}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         onClick={() => {

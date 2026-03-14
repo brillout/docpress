@@ -1,3 +1,12 @@
+## [0.16.24](https://github.com/brillout/docpress/compare/v0.16.23...v0.16.24) (2026-03-14)
+
+
+### Features
+
+* code block line highlighting ([fcd6f6b](https://github.com/brillout/docpress/commit/fcd6f6bf41c5faee16c6b75d538b14ff37b6d1fb))
+
+
+
 ## [0.16.23](https://github.com/brillout/docpress/compare/v0.16.22...v0.16.23) (2026-03-06)
 
 

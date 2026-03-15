@@ -52,6 +52,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   installSectionUrlHashs()
   setHydrationIsFinished()
   initGoogleAnalytics(pageContext)
+  initUmami(pageContext)
 
   globalObject.isNotFirstRender = true
 }
@@ -102,5 +103,48 @@ declare global {
   interface Window {
     dataLayer: any[]
     gtag: (...args: any[]) => void
+  }
+}
+
+async function initUmami(pageContext: PageContextClient) {
+  // Only add script tag on first render
+  if (globalObject.isNotFirstRender) {
+    return
+  }
+
+  // Simple way to plug in umami
+  const umamiId = pageContext.config.docpress.umamiId;
+  if (!umamiId) {
+    return
+  }
+
+  try {
+    await addScript('https://cloud.umami.is/script.js', {
+      'data-website-id': umamiId,
+    })
+  } catch {
+    // Umami analytics unavailable
+  }
+}
+
+/** https://umami.is/docs/tracker-functions */
+type Umami = {
+  track: {
+    (): void
+    (eventName: string): void
+    (data: object): void
+    (eventName: string, data: object): void
+  }
+  identify: {
+    (uniqueId: string): void
+    (data: object): string
+    (uniqueId: string, data: object): void
+  }
+}
+
+declare global {
+  interface Window {
+    /** Script load is not guaranteed */
+    umami?: Umami;
   }
 }

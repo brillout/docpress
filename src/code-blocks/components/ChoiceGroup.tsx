@@ -69,7 +69,7 @@ function ChoiceGroup({
         id={`choicesFor-${groupName}`}
         aria-haspopup="listbox"
         aria-expanded={expanded}
-        className={cls(['custom-select-wrapper', (hide || isDisabled(selectedChoice)) && 'hidden'])}
+        className={cls(['select-container', (hide || isDisabled(selectedChoice)) && 'hidden'])}
         style={{ height: height, '--right-offset': `${rightOffset}px` }}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}

@@ -2,7 +2,7 @@
   position: relative;
 
   &:hover {
-    .custom-select-wrapper,
+    .select-container,
     .copy-button {
       opacity: 1;
     }
@@ -14,7 +14,7 @@
   --right-offset: 0px;
   --border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
 
-  .custom-select-wrapper {
+  .select-container {
     position: absolute;
     background: #eee;
     z-index: 3;
@@ -94,12 +94,12 @@
     }
   }
 
-  .custom-select-wrapper[aria-expanded='false'] {
+  .select-container[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
   }
 
-  .custom-select-wrapper[aria-expanded='true'] {
+  .select-container[aria-expanded='true'] {
     overflow: visible;
     border-width: 0;
 

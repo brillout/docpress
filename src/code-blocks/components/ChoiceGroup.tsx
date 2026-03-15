@@ -21,6 +21,7 @@ function ChoiceGroup({
 }: { children: React.ReactNode; choiceGroup: TChoiceGroup; lvl: string; hide: boolean }) {
   const level = Number(lvl)
   const { name: groupName, choices, default: defaultChoice, disabled: disabledChoices } = choiceGroup
+  // TODO/after-PR-merge rename useSelectedChoice useCurrentSelection
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const choiceGroupRef = useRef<HTMLDivElement>(null)

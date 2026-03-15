@@ -90,7 +90,7 @@ function ChoiceGroup({
               aria-selected={i === selectedIndex}
               aria-disabled={isDisabled(choice)}
               role="option"
-              className="choice-label"
+              className="select-choice"
               style={{ height: height }}
               onClick={handleOnClick}
             >

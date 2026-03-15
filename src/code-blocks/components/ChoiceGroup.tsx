@@ -71,7 +71,7 @@ function ChoiceGroup({
         aria-haspopup="listbox"
         aria-expanded={expanded}
         className={cls(['select-container', (hide || isDisabled(selectedChoice)) && 'hidden'])}
-        style={{ height: height, '--right-offset': `${rightOffset}px` }}
+        style={{ height, '--right-offset': `${rightOffset}px` }}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         onClick={() => {
@@ -92,7 +92,7 @@ function ChoiceGroup({
               aria-disabled={isDisabled(choice)}
               role="option"
               className="select-choice"
-              style={{ height: height }}
+              style={{ height }}
               onClick={handleOnClick}
             >
               <span>{choice}</span>

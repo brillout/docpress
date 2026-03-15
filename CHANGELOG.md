@@ -1,3 +1,12 @@
+## [0.16.25](https://github.com/brillout/docpress/compare/v0.16.24...v0.16.25) (2026-03-15)
+
+
+### Features
+
+* add umami analytics ([#115](https://github.com/brillout/docpress/issues/115)) ([13ebf03](https://github.com/brillout/docpress/commit/13ebf036737cdc2c7b5e77b6db411eb387027fc2))
+
+
+
 ## [0.16.24](https://github.com/brillout/docpress/compare/v0.16.23...v0.16.24) (2026-03-14)
 
 

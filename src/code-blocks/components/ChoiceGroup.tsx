@@ -41,7 +41,7 @@ function ChoiceGroup({
   const [expanded, setExpanded] = useState(false)
   const rectTop = -selectedIndex * height
 
-  // Cycle to next ENABLED option
+  // Cycle to next option
   const next = () => {
     let nextIndex = selectedIndex
 

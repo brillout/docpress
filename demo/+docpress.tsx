@@ -26,6 +26,8 @@ const config: Config = {
   headingsDetached,
   categories,
 
+  umamiId: 'eccdd65f-7c78-4544-8e1e-a6e3bfc86ad6',
+
   algolia: {
     appId: 'YMV9Y4B58S',
     apiKey: '9ac178c1a29ba00e8afb98365015f677',

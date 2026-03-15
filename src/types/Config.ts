@@ -35,6 +35,7 @@ type Config = {
     indexName: string
   }
   googleAnalytics?: string
+  umamiId?: string
 
   i18n?: true
   pressKit?: true

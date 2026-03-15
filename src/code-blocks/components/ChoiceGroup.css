@@ -60,7 +60,6 @@
     }
 
     &::after {
-      content: '»';
       width: 15px;
       text-align: end;
       --animation-width: 2px;
@@ -73,17 +72,20 @@
       transition: left 500ms ease;
     }
 
+    &::after {
+      content: '»';
+    }
     .sliding-rectangle:hover & {
       &::after {
         content: '';
       }
       &:hover::after {
-        left: calc(-1 * var(--animation-width));
         content: '«';
+        left: calc(-1 * var(--animation-width));
       }
       &[aria-selected='true']:hover::after {
-        left: var(--animation-width);
         content: '»';
+        left: var(--animation-width);
       }
       &[aria-disabled='true']:hover::after {
         content: '⊘';

@@ -2,7 +2,7 @@ export { config as default }
 
 import type { Config } from 'vike/types'
 import { viteConfig } from './vite.config.js'
-import type { Config as DocpressConfig, ChoicesConfig } from './types/Config.js'
+import type { Config as DocpressConfig } from './types/Config.js'
 import type { PageSection } from './parsePageSections.js'
 import type { Resolved } from './resolvePageContext.js'
 
@@ -18,10 +18,6 @@ const config = {
   hydrationCanBeAborted: true,
   meta: {
     docpress: {
-      env: { server: true, client: true, config: true },
-      global: true,
-    },
-    choices: {
       env: { server: true, client: true, config: true },
       global: true,
     },
@@ -41,11 +37,9 @@ declare global {
     }
     interface Config {
       docpress?: DocpressConfig
-      choices?: ChoicesConfig
     }
     interface ConfigResolved {
       docpress: DocpressConfig
-      choices: ChoicesConfig
       pageSectionsExport: PageSection[] | undefined
     }
   }

@@ -7,7 +7,11 @@ import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import remarkDirective from 'remark-directive'
-import { transformerNotationDiff, transformerNotationHighlight } from '@shikijs/transformers'
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight,
+  transformerNotationWordHighlight,
+} from '@shikijs/transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
@@ -20,7 +24,12 @@ const prettyCode = [
   {
     theme: 'github-light',
     keepBackground: false,
-    transformers: [transformerNotationDiff(), transformerNotationHighlight(), shikiTransformerAutoLinks()],
+    transformers: [
+      transformerNotationDiff(),
+      transformerNotationHighlight(),
+      transformerNotationWordHighlight(),
+      shikiTransformerAutoLinks(),
+    ],
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]

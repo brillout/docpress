@@ -113,7 +113,7 @@ async function initUmami(pageContext: PageContextClient) {
   }
 
   // Simple way to plug in umami
-  const umamiId = pageContext.config.docpress.umamiId;
+  const umamiId = pageContext.config.docpress.umamiId
   if (!umamiId) {
     return
   }
@@ -145,6 +145,6 @@ type Umami = {
 declare global {
   interface Window {
     /** Script load is not guaranteed */
-    umami?: Umami;
+    umami?: Umami
   }
 }

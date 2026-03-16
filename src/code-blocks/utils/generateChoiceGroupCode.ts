@@ -111,7 +111,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): Md
 }
 
 function findChoiceGroup(vikeConfig: VikeConfig, choices: string[]) {
-  const { choices: choicesConfig } = vikeConfig.config
+  const { choices: choicesConfig } = vikeConfig.config.docpress
   const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
   const groupName = Object.keys(choicesAll).find((key) => {

@@ -2,7 +2,6 @@
 
 li {
     display: list-item;
-    unicode-bidi: isolate;
 }
 
 ul {

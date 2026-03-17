@@ -1,0 +1,10 @@
+/* user agent default: */
+
+li {
+    display: list-item;
+    unicode-bidi: isolate;
+}
+
+ul {
+    list-style-type: disc;
+}

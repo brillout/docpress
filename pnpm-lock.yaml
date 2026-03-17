@@ -63,6 +63,9 @@ importers:
       '@brillout/picocolors':
         specifier: ^1.0.10
         version: 1.0.30
+      '@brillout/shiki-transformers':
+        specifier: ^4.0.2
+        version: 4.0.2
       '@docsearch/css':
         specifier: 3.9.0
         version: 3.9.0
@@ -463,6 +466,10 @@ packages:
   '@brillout/release-me@0.4.8':
     resolution: {integrity: sha512-3WtVJNyEU8EINekZ51sYEB4pGHcZTM7Ljip/vkUDguwTwe2AY6DjSd4Vgqs84a7H7u5j0OrXDAiMAmCti4QSfQ==}
     hasBin: true
+
+  '@brillout/shiki-transformers@4.0.2':
+    resolution: {integrity: sha512-LELxHWwiIcYoUc/V0KWgfQMWOjRXNebJt9Z1NM9InjPUQ8fsL0ZxttD7qoBzFvaFIbEUJre3N5jc9FmM5b5MBQ==}
+    engines: {node: '>=20'}
 
   '@brillout/test-e2e@0.6.20':
     resolution: {integrity: sha512-bhrUsLtmlPg0QayXS1ni7SpCG4cV19sXEV8s1uslXhpEWYujQieRqBUMUfFFkHp97Fl9uo/8xYqJ9zwEFoBNUw==}
@@ -2623,6 +2630,11 @@ snapshots:
       semver: 7.7.2
     transitivePeerDependencies:
       - conventional-commits-filter
+
+  '@brillout/shiki-transformers@4.0.2':
+    dependencies:
+      '@shikijs/core': 4.0.2
+      '@shikijs/types': 4.0.2
 
   '@brillout/test-e2e@0.6.20':
     dependencies:

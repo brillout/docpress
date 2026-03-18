@@ -25,14 +25,16 @@ function ChoiceGroup({
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const choiceGroupRef = useRef<HTMLDivElement>(null)
-  const [rightOffset, setRightOffset] = useState(0)
+  const [rightOffset, setRightOffset] = useState(level === 0 ? null : 142)
 
   useEffect(() => {
     if (level === 0 || !choiceGroupRef.current) return
-    const parentCustomSelect = choiceGroupRef.current.closest(`[data-lvl="${level - 1}"]`)!.lastElementChild!
-    const width = parentCustomSelect.getBoundingClientRect().width
+    const parentChoiceGroup = choiceGroupRef.current.closest(`[data-lvl="${level - 1}"]`)! as HTMLDivElement
+    const parentCustomSelect = parentChoiceGroup.lastElementChild! as HTMLDivElement
+    const parentRightOffset =
+      parentChoiceGroup.offsetWidth - (parentCustomSelect.offsetLeft + parentCustomSelect.offsetWidth)
 
-    setRightOffset(level * width + 2)
+    setRightOffset(parentRightOffset + parentCustomSelect.offsetWidth + 2)
   }, [])
 
   const isDisabled = (choice: string) => disabledChoices.includes(choice)
@@ -71,7 +73,7 @@ function ChoiceGroup({
         aria-haspopup="listbox"
         aria-expanded={expanded}
         className={cls(['select-container', (hide || isDisabled(selectedChoice)) && 'hidden'])}
-        style={{ height, '--right-offset': `${rightOffset}px` }}
+        style={{ height, right: level ? `${rightOffset}px` : '42px' }}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         onClick={() => {

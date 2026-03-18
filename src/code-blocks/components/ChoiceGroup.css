@@ -10,8 +10,6 @@
 
   /* layout */
   --top-position: 10px;
-  --right-base: 42px;
-  --right-offset: 0px;
   --border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
 
   .select-container {
@@ -20,7 +18,6 @@
     z-index: 3;
     font-size: 13.3333px;
     top: var(--top-position);
-    right: calc(var(--right-base) + (var(--right-offset)));
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
@@ -138,7 +135,7 @@
   }
 
   .hidden {
-    display: none !important;
+    visibility: hidden;
   }
 
   /* choice visibility logic */

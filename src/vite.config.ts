@@ -7,7 +7,12 @@ import { parsePageSections } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import remarkDirective from 'remark-directive'
-import { transformerNotationDiff, transformerNotationHighlight } from '@shikijs/transformers'
+import { transformerNotationDiff, transformerNotationWordHighlight } from '@shikijs/transformers'
+// @brillout/shiki-transformers adds color parameter `[!code highlight:#abc]` where #abc is a color
+// https://github.com/shikijs/shiki/issues/1264
+// https://shiki.style/packages/transformers#transformernotationhighlight
+// https://github.com/shikijs/shiki/compare/main...brillout:shiki:brillout/highlight-color-param
+import { transformerNotationHighlight } from '@brillout/shiki-transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
@@ -20,7 +25,12 @@ const prettyCode = [
   {
     theme: 'github-light',
     keepBackground: false,
-    transformers: [transformerNotationDiff(), transformerNotationHighlight(), shikiTransformerAutoLinks()],
+    transformers: [
+      transformerNotationDiff(),
+      transformerNotationHighlight(),
+      transformerNotationWordHighlight(),
+      shikiTransformerAutoLinks(),
+    ],
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]

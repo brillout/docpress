@@ -1,6 +1,6 @@
 {
   "name": "@brillout/docpress",
-  "version": "0.16.24",
+  "version": "0.16.26",
   "type": "module",
   "scripts": {
     "======== Build": "",
@@ -16,12 +16,13 @@
   },
   "dependencies": {
     "@brillout/picocolors": "^1.0.10",
+    "@brillout/shiki-transformers": "^4.0.2",
     "@docsearch/css": "3.9.0",
     "@docsearch/react": "3.9.0",
     "@mdx-js/mdx": "3.0.1",
     "@mdx-js/react": "3.0.1",
     "@mdx-js/rollup": "3.0.1",
-    "@shikijs/transformers": "1.2.0",
+    "@shikijs/transformers": "^4.0.2",
     "@vitejs/plugin-react-swc": "^3.10.2",
     "detype": "^2.0.2",
     "estree-util-value-to-estree": "^3.5.0",

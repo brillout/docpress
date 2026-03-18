@@ -33,12 +33,24 @@ Custom URL hash:
 
 ```js
 console.log('hello')
-console.log(`wo${'r'}ld`) // [!code highlight]
+console.log(`wo${'r'}ld`)
 ```
 
 ```
 No language
 Second line
+```
+
+### Highlight
+
+```js
+// [!code word:client.]
+// pages/dashboard/+data.client.js
+console.log('hello')
+console.log(`wo${'r'}ld`) // default highlight // [!code highlight]
+console.log(`wo${'r'}ld`) // blue highlight // [!code highlight:#abc]
+const sum = 1 + 1 // green highlight // [!code highlight:#bca]
+const fn = () => 1 + 1 // purple highlight // [!code highlight:#bac]
 ```
 
 ### Diff

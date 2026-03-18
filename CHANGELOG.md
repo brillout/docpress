@@ -1,3 +1,28 @@
+## [0.16.26](https://github.com/brillout/docpress/compare/v0.16.25...v0.16.26) (2026-03-17)
+
+
+### Bug Fixes
+
+* @shikijs/transformers@^4.0.2 ([3dcc48a](https://github.com/brillout/docpress/commit/3dcc48a081794bda69295fbefe26fabcce36d1f5))
+* move `+choices` back to `+docpress.choices` ([#116](https://github.com/brillout/docpress/issues/116)) ([a80d5bf](https://github.com/brillout/docpress/commit/a80d5bf584dc3a8405e1452ff70adda5763dbf11))
+
+
+### Features
+
+* `[!code word:Hello]` ([a44e733](https://github.com/brillout/docpress/commit/a44e733829c5957355526a1b77b0ca9dfe9afa71))
+* code highlight color param ([e6445fa](https://github.com/brillout/docpress/commit/e6445fa45ffd5c287e79e4dca89d1faa36b00b16))
+
+
+
+## [0.16.25](https://github.com/brillout/docpress/compare/v0.16.24...v0.16.25) (2026-03-15)
+
+
+### Features
+
+* add umami analytics ([#115](https://github.com/brillout/docpress/issues/115)) ([13ebf03](https://github.com/brillout/docpress/commit/13ebf036737cdc2c7b5e77b6db411eb387027fc2))
+
+
+
 ## [0.16.24](https://github.com/brillout/docpress/compare/v0.16.23...v0.16.24) (2026-03-14)
 
 

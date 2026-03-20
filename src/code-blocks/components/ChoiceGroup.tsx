@@ -1,6 +1,7 @@
 export { ChoiceGroup }
 
 import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useSelectedChoice } from '../hooks/useSelectedChoice.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
@@ -25,16 +26,12 @@ function ChoiceGroup({
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const choiceGroupRef = useRef<HTMLDivElement>(null)
-  const [rightOffset, setRightOffset] = useState(level === 0 ? null : 142)
+  const [domReady, setDomReady] = useState(false)
+  const selectContainerEl = choiceGroupRef.current?.closest(`[data-lvl="0"]`)?.lastElementChild as HTMLDivElement
 
   useEffect(() => {
-    if (level === 0 || !choiceGroupRef.current) return
-    const parentChoiceGroup = choiceGroupRef.current.closest(`[data-lvl="${level - 1}"]`)! as HTMLDivElement
-    const parentCustomSelect = parentChoiceGroup.lastElementChild! as HTMLDivElement
-    const parentRightOffset =
-      parentChoiceGroup.offsetWidth - (parentCustomSelect.offsetLeft + parentCustomSelect.offsetWidth)
-
-    setRightOffset(parentRightOffset + parentCustomSelect.offsetWidth + 2)
+    if (!choiceGroupRef.current) return
+    setDomReady(true)
   }, [])
 
   const isDisabled = (choice: string) => disabledChoices.includes(choice)
@@ -68,40 +65,45 @@ function ChoiceGroup({
         ))}
       </select>
       {children}
-      <div
-        id={`choicesFor-${groupName}`}
-        aria-haspopup="listbox"
-        aria-expanded={expanded}
-        className={cls(['select-container', (hide || isDisabled(selectedChoice)) && 'hidden'])}
-        style={{ height, right: level ? `${rightOffset}px` : '42px' }}
-        onMouseEnter={() => setExpanded(true)}
-        onMouseLeave={() => setExpanded(false)}
-        onClick={() => {
-          if (!expanded) next()
-        }}
-      >
-        <div
-          aria-activedescendant={`choice-${selectedChoice}`}
-          role="listbox"
-          className="sliding-rectangle"
-          style={{ top: rectTop, height: choices.length * height }}
-        >
-          {choices.map((choice, i) => (
+      {level === 0 && <div className="selects-container"></div>}
+      {domReady &&
+        createPortal(
+          <div
+            id={`choicesFor-${groupName}`}
+            aria-haspopup="listbox"
+            aria-expanded={expanded}
+            className={cls(['select-container', (hide || isDisabled(selectedChoice)) && 'hidden'])}
+            style={{ height }}
+            onMouseEnter={() => setExpanded(true)}
+            onMouseLeave={() => setExpanded(false)}
+            onClick={() => {
+              if (!expanded) next()
+            }}
+          >
             <div
-              id={choice}
-              key={i}
-              aria-selected={i === selectedIndex}
-              aria-disabled={isDisabled(choice)}
-              role="option"
-              className="select-choice"
-              style={{ height }}
-              onClick={handleOnClick}
+              aria-activedescendant={`choice-${selectedChoice}`}
+              role="listbox"
+              className="sliding-rectangle"
+              style={{ top: rectTop, height: choices.length * height }}
             >
-              <span>{choice}</span>
+              {choices.map((choice, i) => (
+                <div
+                  id={choice}
+                  key={i}
+                  aria-selected={i === selectedIndex}
+                  aria-disabled={isDisabled(choice)}
+                  role="option"
+                  className="select-choice"
+                  style={{ height }}
+                  onClick={handleOnClick}
+                >
+                  <span>{choice}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>,
+          selectContainerEl,
+        )}
     </div>
   )
 

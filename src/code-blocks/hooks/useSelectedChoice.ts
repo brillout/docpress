@@ -25,7 +25,7 @@ function initializeChoiceGroup() {
     const storageKey = `docpress:choice:${choiceGroupName}`
     const selectedChoice = localStorage.getItem(storageKey)
     if (selectedChoice) {
-      const selectEl = groupEl.querySelector<HTMLSelectElement>(`.select-choice`)!
+      const selectEl = groupEl.querySelector<HTMLSelectElement>(`select[name="choicesFor-${choiceGroupName}"]`)!
       const selectedIndex = [...selectEl.options].findIndex((option) => option.value === selectedChoice)
       if (selectedIndex === -1) {
         localStorage.removeItem(storageKey)

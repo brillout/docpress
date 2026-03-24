@@ -1,3 +1,12 @@
+## [0.16.27](https://github.com/brillout/docpress/compare/v0.16.26...v0.16.27) (2026-03-24)
+
+
+### Features
+
+* forward <Link> props ([480238b](https://github.com/brillout/docpress/commit/480238b52af6d8e3b29689ce7ba460b1ca874e0e))
+
+
+
 ## [0.16.26](https://github.com/brillout/docpress/compare/v0.16.25...v0.16.26) (2026-03-17)
 
 

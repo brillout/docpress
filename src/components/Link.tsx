@@ -16,6 +16,7 @@ function Link({
   doNotInferSectionTitle,
   noWarning,
   children,
+  ...props
 }: {
   href: string
   text?: string | React.ReactNode
@@ -23,7 +24,7 @@ function Link({
   doNotInferSectionTitle?: boolean
   noWarning?: boolean
   children?: React.ReactNode
-}) {
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   const pageContext = usePageContext()
   assertUsage(
     href.startsWith('/') || href.startsWith('#'),
@@ -45,7 +46,11 @@ function Link({
     }
   }
 
-  return <a href={href}>{text}</a>
+  return (
+    <a {...props} href={href}>
+      {text}
+    </a>
+  )
 }
 
 function getLinkText({

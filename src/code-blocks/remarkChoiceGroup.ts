@@ -71,6 +71,25 @@ function remarkChoiceGroup() {
 
       process()
     })
+
+    visit(tree, 'mdxJsxFlowElement', (node, index, parent) => {
+      if (!parent || typeof index === 'undefined') return
+      if (node.name === 'ChoiceGroup') {
+        const attribute = node.attributes.find(
+          (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'lvl',
+        )
+        const lvlValue = attribute?.value
+        if (lvlValue === '0') {
+          const replacement: MdxJsxFlowElement = {
+            type: 'mdxJsxFlowElement',
+            name: 'CustomSelectsContainer',
+            attributes: [],
+            children: [node],
+          }
+          parent.children.splice(index, 1, replacement)
+        }
+      }
+    })
   }
 }
 

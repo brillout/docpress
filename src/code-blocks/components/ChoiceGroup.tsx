@@ -12,34 +12,89 @@ type TChoiceGroup = {
   choices: string[]
   default: string
   disabled: string[]
-  hidden?: Boolean
+  hidden?: boolean
 }
 
-function ChoiceGroup({
-  children,
-  choiceGroup,
-  lvl,
-  hide = false,
-}: { children: React.ReactNode; choiceGroup: TChoiceGroup; lvl: string; hide: boolean }) {
-  const { setChoiceGroups } = useContext(CustomSelectsContainerContext)
+type PortalTarget = { level: number; el: HTMLDivElement }
+
+type ContextType = {
+  choiceGroups: (TChoiceGroup | undefined)[]
+  addChoiceGroup: (level: number, choiceGroup: TChoiceGroup) => void
+  targets: PortalTarget[]
+  addTarget: (target: PortalTarget) => void
+  removeTarget: (target: PortalTarget) => void
+}
+
+const CustomSelectsContainerContext = createContext<ContextType | undefined>(undefined)
+
+function useCustomSelectsContext() {
+  const ctx = useContext(CustomSelectsContainerContext)
+  if (!ctx) throw new Error('useCustomSelectsContext must be used inside provider')
+  return ctx
+}
+
+function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
+  const [choiceGroups, setChoiceGroups] = useState<TChoiceGroup[]>([])
+  const [targets, setTargets] = useState<PortalTarget[]>([])
+
+  function addChoiceGroup(level: number, choiceGroup: TChoiceGroup) {
+    setChoiceGroups((prev) => {
+      if (prev[level]?.name === choiceGroup.name) return prev
+      const newItems = [...prev]
+      newItems[level] = choiceGroup
+      return newItems
+    })
+  }
+  function addTarget(target: PortalTarget) {
+    setTargets((prev) => {
+      if (prev.find((t) => t.el === target.el)) return prev
+      return [...prev, target]
+    })
+  }
+  function removeTarget(target: PortalTarget) {
+    setTargets((prev) => prev.filter((t) => t.el !== target.el))
+  }
+
+  return (
+    <CustomSelectsContainerContext value={{ choiceGroups, targets, addChoiceGroup, addTarget, removeTarget }}>
+      {children}
+      {targets.map((target) =>
+        choiceGroups
+          .slice(0, target.level + 1)
+          .reverse()
+          .map((choiceGroup, i) =>
+            createPortal(<CustomSelect key={`${target.level}-${i}`} choiceGroup={choiceGroup} />, target.el),
+          ),
+      )}
+    </CustomSelectsContainerContext>
+  )
+}
+
+type ChoiceGroupProps = {
+  children: React.ReactNode
+  choiceGroup: TChoiceGroup
+  lvl: string
+  hide: boolean
+}
+
+function ChoiceGroup({ children, choiceGroup, lvl, hide = false }: ChoiceGroupProps) {
   const level = Number(lvl)
+  const { addChoiceGroup, addTarget, removeTarget } = useCustomSelectsContext()
   const { name: groupName, choices, default: defaultChoice } = choiceGroup
   // TODO/after-PR-merge rename useSelectedChoice useCurrentSelection
   const [selectedChoice] = useSelectedChoice(groupName, defaultChoice)
-  const choiceGroupRef = useRef<HTMLDivElement>(null)
+  const targetRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!choiceGroupRef.current) return
-    setChoiceGroups((prev) => {
-      if (prev[level] !== undefined) return prev
-      const newItems = [...prev]
-      newItems[level] = { ...choiceGroup, hidden: hide }
-      return newItems
-    })
+    addChoiceGroup(level, { ...choiceGroup, hidden: hide })
+    if (!targetRef.current) return
+    const target: PortalTarget = { level, el: targetRef.current }
+    addTarget(target)
+    return () => removeTarget(target)
   }, [])
 
   return (
-    <div ref={choiceGroupRef} data-choice-group={groupName} data-lvl={level} className="choice-group">
+    <div data-choice-group={groupName} data-lvl={level} className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map((choice, i) => (
@@ -49,35 +104,7 @@ function ChoiceGroup({
         ))}
       </select>
       {children}
-      {level === 0 && <div className="selects-container"></div>}
-    </div>
-  )
-}
-
-const CustomSelectsContainerContext = createContext<{
-  choiceGroups: TChoiceGroup[]
-  setChoiceGroups: React.Dispatch<React.SetStateAction<TChoiceGroup[]>>
-}>({ choiceGroups: [], setChoiceGroups: () => {} })
-
-function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
-  const [choiceGroups, setChoiceGroups] = useState<TChoiceGroup[]>([])
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  return (
-    <div ref={containerRef}>
-      <CustomSelectsContainerContext value={{ choiceGroups, setChoiceGroups }}>
-        {containerRef.current &&
-          choiceGroups
-            .flat()
-            .reverse()
-            .map((choiceGroup, i) =>
-              createPortal(
-                <CustomSelect key={i} choiceGroup={choiceGroup} />,
-                containerRef.current!.querySelector('.selects-container')!,
-              ),
-            )}
-        {children}
-      </CustomSelectsContainerContext>
+      <div ref={targetRef} className={`selects-container`} />
     </div>
   )
 }
@@ -87,17 +114,14 @@ function CustomSelect({ choiceGroup }: { choiceGroup: TChoiceGroup }) {
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
 
-  const isDisabled = (choice: string) => disabledChoices.includes(choice)
-  const selectedIndex = choices.indexOf(selectedChoice)
-
-  const height = 25
   const [expanded, setExpanded] = useState(false)
+  const selectedIndex = choices.indexOf(selectedChoice)
+  const height = 25
   const rectTop = -selectedIndex * height
 
-  // Cycle to next option
+  const isDisabled = (choice: string) => disabledChoices.includes(choice)
   const next = () => {
     let nextIndex = selectedIndex
-
     for (let i = 0; i < choices.length; i++) {
       nextIndex = (nextIndex + 1) % choices.length
       if (!isDisabled(choices[nextIndex]!)) {
@@ -147,9 +171,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: TChoiceGroup }) {
     e.stopPropagation()
     const el = e.currentTarget
     prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
-    if (el.ariaSelected === 'true') {
+    if (el.getAttribute('aria-selected') === 'true') {
       next()
-    } else if (el.ariaDisabled === 'false') {
+    } else if (el.getAttribute('aria-disabled') === 'false') {
       setSelectedChoice(el.id)
     }
   }

@@ -2,7 +2,7 @@
   position: relative;
 
   &:hover {
-    .selects-container,
+    .select-container,
     .copy-button {
       opacity: 1;
     }
@@ -10,22 +10,17 @@
 
   /* layout */
   --top-position: 10px;
+  --right-base: 42px;
+  --right-offset: 0px;
   --border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
 
-  .selects-container {
-    position: absolute;
-    display: flex;
-    gap: 2px;
-    z-index: 3;
-    top: var(--top-position);
-    right: 42px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
-
   .select-container {
+    position: absolute;
     background: #eee;
+    z-index: 3;
     font-size: 13.3333px;
+    top: var(--top-position);
+    right: calc(var(--right-base) + (var(--right-offset)));
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
@@ -35,6 +30,9 @@
     border-radius: 5px;
     border-style: solid;
     border-color: var(--border-color);
+
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
   }
 
   .sliding-rectangle {
@@ -74,26 +72,21 @@
       transition: left 500ms ease, opacity 150ms ease-in-out;
       opacity: 0;
     }
-
     .sliding-rectangle:hover &:hover::after {
       opacity: 1;
     }
-
     &[aria-selected='true'] {
       &::after {
         content: '»' !important;
         opacity: 1;
       }
-
       .sliding-rectangle:hover &:not(:hover)::after {
         opacity: 0;
       }
-
       &:hover::after {
         left: var(--animation-width);
       }
     }
-
     &[aria-disabled='true'] {
       &::after {
         content: '⊘';
@@ -101,12 +94,10 @@
         left: 1px;
       }
     }
-
     &:not([aria-selected='true']):not([aria-disabled='true']) {
       &::after {
         content: '«';
       }
-
       &:hover::after {
         left: calc(-1 * var(--animation-width));
       }
@@ -147,7 +138,7 @@
   }
 
   .hidden {
-    visibility: hidden;
+    display: none !important;
   }
 
   /* choice visibility logic */

@@ -47,7 +47,7 @@ function remarkPkgManager() {
       }
 
       const choiceNodes = [...nodes].map(([name, node]) => ({ choiceValue: name, children: [node] }))
-      const replacement = generateChoiceGroupCode(choiceNodes)
+      const replacement = generateChoiceGroupCode(choiceNodes, parent)
 
       replacement.data ??= { customDataChoice: choice, customDataFilter: replacement.type }
       parent.children.splice(index, 1, replacement)

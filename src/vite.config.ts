@@ -34,7 +34,7 @@ const prettyCode = [
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
-const remarkPlugins = [remarkGfm, remarkDirective, remarkDetype, remarkPkgManager, remarkChoiceGroup]
+const remarkPlugins = [remarkGfm, remarkDirective, remarkChoiceGroup, remarkDetype, remarkPkgManager]
 
 const config: UserConfig = {
   root,

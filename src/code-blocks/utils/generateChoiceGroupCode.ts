@@ -60,7 +60,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
       ],
       children: choiceChildren,
       data: {
-        customDataParentGroup: {
+        customDataParentChoiceGroup: {
           name: choiceGroup.name,
           choice: choiceNode.choiceValue,
           default: choiceGroup.default,
@@ -70,12 +70,12 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     })
   }
 
-  if (parent.data?.customDataParentGroup) {
-    const { lvl: parentLvl, ...parentGroup } = parent.data.customDataParentGroup
+  if (parent.data?.customDataParentChoiceGroup) {
+    const { lvl: parentLvl, ...parentChoiceGroup } = parent.data.customDataParentChoiceGroup
 
     attributes.push({
       type: 'mdxJsxAttribute',
-      name: 'parentGroup',
+      name: 'parentChoiceGroup',
       value: {
         type: 'mdxJsxAttributeValueExpression',
         value: '',
@@ -88,7 +88,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
               // @ts-ignore: Missing properties in type definition
               {
                 type: 'ExpressionStatement',
-                expression: valueToEstree(parentGroup),
+                expression: valueToEstree(parentChoiceGroup),
               },
             ],
           },
@@ -97,7 +97,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     })
 
     lvl += parentLvl
-    parent.data.customDataParentGroup = undefined
+    parent.data.customDataParentChoiceGroup = undefined
   }
 
   attributes.push({

@@ -101,7 +101,7 @@ declare module 'mdast' {
   export interface Data {
     customDataChoice?: string
     customDataFilter?: string
-    customDataParentGroup?: {
+    customDataParentChoiceGroup?: {
       name: string
       choice: string
       default: string

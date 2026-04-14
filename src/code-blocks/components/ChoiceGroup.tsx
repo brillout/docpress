@@ -1,6 +1,6 @@
 export { ChoiceGroup, CustomSelectsContainer }
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useSelectedChoice } from '../hooks/useSelectedChoice.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
@@ -15,16 +15,16 @@ type TChoiceGroup = {
   lvl: number
 }
 
-type ParentGroup = {
+type ParentChoiceGroup = {
   name: string
   default: string
 }
 
-type ChoiceGroupWithParent = TChoiceGroup & { parentGroup?: ParentGroup & { choices: string[] } }
+type ChoiceGroupWithParent = TChoiceGroup & { parentChoiceGroup?: ParentChoiceGroup & { choices: string[] } }
 
 type ContextType = {
   choiceGroupAll: ChoiceGroupWithParent[]
-  registerChoiceGroup: (choiceGroup: TChoiceGroup, parentGroup?: ParentGroup & { choice: string }) => void
+  registerChoiceGroup: (choiceGroup: TChoiceGroup, parentChoiceGroup?: ParentChoiceGroup & { choice: string }) => void
 }
 
 const CustomSelectsContainerContext = createContext<ContextType | undefined>(undefined)
@@ -38,46 +38,43 @@ function useCustomSelectsContext() {
 function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
   const [choiceGroupAll, setChoiceGroupAll] = useState<ChoiceGroupWithParent[]>([])
 
-  const registerChoiceGroup = useCallback(
-    (choiceGroup: TChoiceGroup, parentGroup?: ParentGroup & { choice: string }) => {
-      setChoiceGroupAll((prev) => {
-        const { lvl } = choiceGroup
-        const existing = prev[lvl]
+  function registerChoiceGroup(choiceGroup: TChoiceGroup, parentChoiceGroup?: ParentChoiceGroup & { choice: string }) {
+    setChoiceGroupAll((prev) => {
+      const index = prev.findIndex((g) => g.name === choiceGroup.name)
+      const existing = prev[index]
 
-        if (existing) {
-          if (!parentGroup || !existing.parentGroup) return prev
+      if (!existing) {
+        return [
+          ...prev,
+          {
+            ...choiceGroup,
+            ...(parentChoiceGroup && {
+              parentChoiceGroup: {
+                ...parentChoiceGroup,
+                choices: [parentChoiceGroup.choice],
+              },
+            }),
+          },
+        ]
+      }
 
-          const mergedChoices = new Set([...existing.parentGroup.choices, parentGroup.choice])
+      if (!parentChoiceGroup || !existing.parentChoiceGroup) return prev
 
-          if (mergedChoices.size === existing.parentGroup.choices.length) return prev
+      const existingChoices = existing.parentChoiceGroup.choices
+      const mergedChoices = new Set([...existingChoices, parentChoiceGroup.choice])
+      if (mergedChoices.size === existingChoices.length) return prev
 
-          const next = [...prev]
-          next[lvl] = {
-            ...existing,
-            parentGroup: {
-              ...existing.parentGroup,
-              choices: [...mergedChoices],
-            },
-          }
-          return next
-        }
-
-        const next = [...prev]
-        next[lvl] = {
-          ...choiceGroup,
-          ...(parentGroup && {
-            parentGroup: {
-              ...parentGroup,
-              choices: [parentGroup.choice],
-            },
-          }),
-        }
-
-        return next
-      })
-    },
-    [],
-  )
+      const next = [...prev]
+      next[index] = {
+        ...existing,
+        parentChoiceGroup: {
+          ...existing.parentChoiceGroup,
+          choices: [...mergedChoices],
+        },
+      }
+      return next
+    })
+  }
 
   return (
     <CustomSelectsContainerContext.Provider value={{ choiceGroupAll, registerChoiceGroup }}>
@@ -89,16 +86,16 @@ function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
 type ChoiceGroupProps = {
   children: React.ReactNode
   choiceGroup: TChoiceGroup
-  parentGroup?: ParentGroup & { choice: string }
+  parentChoiceGroup?: ParentChoiceGroup & { choice: string }
 }
 
-function ChoiceGroup({ children, choiceGroup, parentGroup }: ChoiceGroupProps) {
+function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupProps) {
   const { name: groupName, choices, default: defaultChoice, lvl } = choiceGroup
   // TODO/after-PR-merge rename useSelectedChoice useCurrentSelection
   const [selectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const { choiceGroupAll, registerChoiceGroup } = useCustomSelectsContext()
 
-  useEffect(() => registerChoiceGroup(choiceGroup, parentGroup), [])
+  useEffect(() => registerChoiceGroup(choiceGroup, parentChoiceGroup), [])
 
   return (
     <div data-choice-group={groupName} data-lvl={lvl} className="choice-group">
@@ -113,44 +110,36 @@ function ChoiceGroup({ children, choiceGroup, parentGroup }: ChoiceGroupProps) {
       {children}
       {lvl === 0 && (
         <div className={`selects-container`}>
-          {choiceGroupAll.map((choiceGroup, i) => (
-            <CustomSelect key={i} choiceGroup={choiceGroup} />
-          ))}
+          {choiceGroupAll
+            .slice()
+            .sort((a, b) => a.lvl - b.lvl)
+            .map((choiceGroup, i) => (
+              <CustomSelect key={i} choiceGroup={choiceGroup} />
+            ))}
         </div>
       )}
     </div>
   )
 }
 
-function CustomSelect({
-  choiceGroup,
-}: { choiceGroup: TChoiceGroup & { parentGroup?: ParentGroup & { choices: string[] } } }) {
+function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const {
     name: groupName,
     choices,
     default: defaultChoice,
     disabled: disabledChoices,
     hidden,
-    parentGroup,
+    parentChoiceGroup,
   } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
-
-  function isHidden() {
-    if (parentGroup) {
-      const [parentSelectedChoice] = useSelectedChoice(parentGroup.name, parentGroup.default)
-      return !parentGroup.choices.includes(parentSelectedChoice) || hidden
-    }
-    return hidden
-  }
-
   const [expanded, setExpanded] = useState(false)
   const selectedIndex = choices.indexOf(selectedChoice)
   const height = 25
   const rectTop = -selectedIndex * height
 
   const isDisabled = (choice: string) => disabledChoices.includes(choice)
-  const next = () => {
+  function next() {
     let nextIndex = selectedIndex
     for (let i = 0; i < choices.length; i++) {
       nextIndex = (nextIndex + 1) % choices.length
@@ -159,6 +148,13 @@ function CustomSelect({
         return
       }
     }
+  }
+  function isHidden() {
+    if (parentChoiceGroup) {
+      const [parentSelectedChoice] = useSelectedChoice(parentChoiceGroup.name, parentChoiceGroup.default)
+      return !parentChoiceGroup.choices.includes(parentSelectedChoice) || hidden
+    }
+    return hidden
   }
 
   return (

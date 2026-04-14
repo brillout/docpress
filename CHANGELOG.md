@@ -1,3 +1,12 @@
+## [0.16.30](https://github.com/brillout/docpress/compare/v0.16.29...v0.16.30) (2026-04-14)
+
+
+### Bug Fixes
+
+* make @vitejs/plugin-react a peer dep ([be62387](https://github.com/brillout/docpress/commit/be62387857512be3d14bb21c7f363c8e7afd0c9d))
+
+
+
 ## [0.16.29](https://github.com/brillout/docpress/compare/v0.16.28...v0.16.29) (2026-04-14)
 
 

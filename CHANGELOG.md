@@ -1,3 +1,13 @@
+## [0.16.28](https://github.com/brillout/docpress/compare/v0.16.27...v0.16.28) (2026-04-14)
+
+
+### Bug Fixes
+
+* improve +choices UI ([#109](https://github.com/brillout/docpress/issues/109)) ([18673dc](https://github.com/brillout/docpress/commit/18673dc4cf92b685bf7536347dd6f93c1c8f415f))
+* use Vite 8 ([#123](https://github.com/brillout/docpress/issues/123)) ([ce858d5](https://github.com/brillout/docpress/commit/ce858d5a5c5fd309cebf0062b007aaadcb2daa00))
+
+
+
 ## [0.16.27](https://github.com/brillout/docpress/compare/v0.16.26...v0.16.27) (2026-03-24)
 
 

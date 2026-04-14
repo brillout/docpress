@@ -41,6 +41,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.2
         version: 19.2.2(@types/react@19.2.2)
+      '@vitejs/plugin-react':
+        specifier: ^6.0.0
+        version: 6.0.1(vite@8.0.8(@types/node@24.10.0))
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -53,6 +56,9 @@ importers:
       vike:
         specifier: ^0.4.255
         version: 0.4.255(vite@8.0.8(@types/node@24.10.0))
+      vite:
+        specifier: ^8.0.8
+        version: 8.0.8(@types/node@24.10.0)
     devDependencies:
       '@docsearch/react':
         specifier: link:../src/node_modules/@docsearch/react/
@@ -84,9 +90,6 @@ importers:
       '@shikijs/transformers':
         specifier: ^4.0.2
         version: 4.0.2
-      '@vitejs/plugin-react':
-        specifier: ^6.0.1
-        version: 6.0.1(vite@8.0.8(@types/node@24.10.0))
       detype:
         specifier: ^2.0.2
         version: 2.0.2
@@ -120,9 +123,6 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
-      vite:
-        specifier: ^8.0.8
-        version: 8.0.8(@types/node@24.10.0)
     devDependencies:
       '@brillout/release-me':
         specifier: ^0.4.8
@@ -142,6 +142,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.2
         version: 19.2.2(@types/react@19.2.2)
+      '@vitejs/plugin-react':
+        specifier: ^6.0.1
+        version: 6.0.1(vite@8.0.8(@types/node@24.10.0))
       mdast-util-directive:
         specifier: ^3.1.0
         version: 3.1.0
@@ -151,6 +154,9 @@ importers:
       vike:
         specifier: ^0.4.255
         version: 0.4.255(vite@8.0.8(@types/node@24.10.0))
+      vite:
+        specifier: ^8.0.8
+        version: 8.0.8(@types/node@24.10.0)
 
 packages:
 

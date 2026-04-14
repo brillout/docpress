@@ -1,3 +1,12 @@
+## [0.16.29](https://github.com/brillout/docpress/compare/v0.16.28...v0.16.29) (2026-04-14)
+
+
+### Bug Fixes
+
+* make Vite peer dependency ([da58a20](https://github.com/brillout/docpress/commit/da58a201690e7f570019608dad2d10bb7c97f24b))
+
+
+
 ## [0.16.28](https://github.com/brillout/docpress/compare/v0.16.27...v0.16.28) (2026-04-14)
 
 

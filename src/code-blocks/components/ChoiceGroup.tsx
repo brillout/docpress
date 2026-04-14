@@ -109,7 +109,7 @@ function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupPr
       </select>
       {children}
       {lvl === 0 && (
-        <div className={`selects-container`}>
+        <div className={`choice-group__selects`}>
           {choiceGroupAll
             .slice()
             .sort((a, b) => a.lvl - b.lvl)
@@ -162,7 +162,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
       aria-expanded={expanded}
-      className={cls(['select-container', (isHidden() || isDisabled(selectedChoice)) && 'hidden'])}
+      className={cls(['choice-select', (isHidden() || isDisabled(selectedChoice)) && 'hidden'])}
       style={{ height }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
@@ -173,7 +173,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       <div
         aria-activedescendant={`choice-${selectedChoice}`}
         role="listbox"
-        className="sliding-rectangle"
+        className="choice-select__list"
         style={{ top: rectTop, height: choices.length * height }}
       >
         {choices.map((choice, i) => (
@@ -183,7 +183,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             aria-selected={i === selectedIndex}
             aria-disabled={isDisabled(choice)}
             role="option"
-            className="select-choice"
+            className="choice-select__option"
             style={{ height }}
             onClick={handleOnClick}
           >

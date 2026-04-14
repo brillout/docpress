@@ -1,3 +1,12 @@
+## [0.16.31](https://github.com/brillout/docpress/compare/v0.16.30...v0.16.31) (2026-04-14)
+
+
+### Bug Fixes
+
+* more reliable `+choices` UI ([#122](https://github.com/brillout/docpress/issues/122)) ([ed99226](https://github.com/brillout/docpress/commit/ed992263d83ac4faacf631f93c2ee5f89763bb19))
+
+
+
 ## [0.16.30](https://github.com/brillout/docpress/compare/v0.16.29...v0.16.30) (2026-04-14)
 
 

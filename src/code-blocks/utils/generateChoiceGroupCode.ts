@@ -24,7 +24,9 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
   },
 }
 
-function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): MdxJsxFlowElement {
+function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
+  let lvl: number = parent.type === 'mdxJsxFlowElement' ? 1 : 0
+
   const vikeConfig = getVikeConfig()
   const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
   const choiceGroup = findChoiceGroup(vikeConfig, choices)
@@ -41,6 +43,63 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): Md
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
+  for (const choiceNode of mergedChoiceNodes) {
+    const choiceChildren: (BlockContent | DefinitionContent)[] = []
+    if (choiceNode.children.every((node) => node.type === 'containerDirective')) {
+      choiceChildren.push(...choiceNode.children.flatMap((node) => [...node.children]))
+    } else {
+      choiceChildren.push(...choiceNode.children)
+    }
+
+    children.push({
+      type: 'mdxJsxFlowElement',
+      name: 'div',
+      attributes: [
+        { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
+        { type: 'mdxJsxAttribute', name: 'className', value: 'choice' },
+      ],
+      children: choiceChildren,
+      data: {
+        customDataParentChoiceGroup: {
+          name: choiceGroup.name,
+          choice: choiceNode.choiceValue,
+          default: choiceGroup.default,
+          lvl,
+        },
+      },
+    })
+  }
+
+  if (parent.data?.customDataParentChoiceGroup) {
+    const { lvl: parentLvl, ...parentChoiceGroup } = parent.data.customDataParentChoiceGroup
+
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'parentChoiceGroup',
+      value: {
+        type: 'mdxJsxAttributeValueExpression',
+        value: '',
+        data: {
+          estree: {
+            type: 'Program',
+            sourceType: 'module',
+            comments: [],
+            body: [
+              // @ts-ignore: Missing properties in type definition
+              {
+                type: 'ExpressionStatement',
+                expression: valueToEstree(parentChoiceGroup),
+              },
+            ],
+          },
+        },
+      },
+    })
+
+    lvl += parentLvl
+    parent.data.customDataParentChoiceGroup = undefined
+  }
+
   attributes.push({
     type: 'mdxJsxAttribute',
     name: 'choiceGroup',
@@ -54,60 +113,33 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent?: Parent): Md
           comments: [],
           body: [
             // @ts-ignore: Missing properties in type definition
-            { type: 'ExpressionStatement', expression: valueToEstree(choiceGroup) },
+            {
+              type: 'ExpressionStatement',
+              expression: valueToEstree({ ...choiceGroup, hidden: choiceNodes.length === 1 || hide, lvl }),
+            },
           ],
         },
       },
     },
   })
 
-  if (choiceNodes.length === 1) {
-    attributes.push({ type: 'mdxJsxAttribute', name: 'hide' })
-  }
-
-  let initLvl: number
-
-  switch (parent?.type) {
-    case 'root':
-      initLvl = 0
-      break
-    case 'mdxJsxFlowElement':
-      initLvl = 1
-      break
-
-    default:
-      initLvl = 0
-      break
-  }
-
-  attributes.push({ type: 'mdxJsxAttribute', name: 'lvl', value: `${initLvl}` })
-
-  for (const choiceNode of mergedChoiceNodes) {
-    const choiceChildren: (BlockContent | DefinitionContent)[] = []
-    if (choiceNode.children.every((node) => node.type === 'containerDirective')) {
-      choiceChildren.push(...choiceNode.children.flatMap((node) => [...node.children]))
-    } else {
-      choiceChildren.push(...choiceNode.children)
-    }
-    for (const child of choiceChildren) increaseLvl(child)
-
-    children.push({
-      type: 'mdxJsxFlowElement',
-      name: 'div',
-      attributes: [
-        { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
-        { type: 'mdxJsxAttribute', name: 'className', value: 'choice' },
-      ],
-      children: choiceChildren,
-    })
-  }
-
-  return {
+  const choiceGroupNode: MdxJsxFlowElement = {
     type: 'mdxJsxFlowElement',
     name: 'ChoiceGroup',
     attributes,
     children,
   }
+
+  if (lvl === 0) {
+    return {
+      type: 'mdxJsxFlowElement',
+      name: 'CustomSelectsContainer',
+      attributes: [],
+      children: [choiceGroupNode],
+    }
+  }
+
+  return choiceGroupNode
 }
 
 function findChoiceGroup(vikeConfig: VikeConfig, choices: string[]) {
@@ -132,14 +164,4 @@ function findChoiceGroup(vikeConfig: VikeConfig, choices: string[]) {
   }
 
   return choiceGroup
-}
-
-function increaseLvl(node: BlockContent | DefinitionContent) {
-  if (node.type === 'mdxJsxFlowElement' && node.name === 'ChoiceGroup') {
-    const attribute = node.attributes.find(
-      (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'lvl',
-    )
-    const lvlValue = attribute?.value
-    if (lvlValue) attribute.value = `${Number(lvlValue) + 1}`
-  }
 }

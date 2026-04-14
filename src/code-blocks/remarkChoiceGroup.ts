@@ -101,5 +101,11 @@ declare module 'mdast' {
   export interface Data {
     customDataChoice?: string
     customDataFilter?: string
+    customDataParentChoiceGroup?: {
+      name: string
+      choice: string
+      default: string
+      lvl: number
+    }
   }
 }

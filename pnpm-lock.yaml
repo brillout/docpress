@@ -53,6 +53,9 @@ importers:
       vike:
         specifier: ^0.4.255
         version: 0.4.255(vite@8.0.8(@types/node@24.10.0))
+      vite:
+        specifier: ^8.0.8
+        version: 8.0.8(@types/node@24.10.0)
     devDependencies:
       '@docsearch/react':
         specifier: link:../src/node_modules/@docsearch/react/
@@ -120,9 +123,6 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
-      vite:
-        specifier: ^8.0.8
-        version: 8.0.8(@types/node@24.10.0)
     devDependencies:
       '@brillout/release-me':
         specifier: ^0.4.8
@@ -151,6 +151,9 @@ importers:
       vike:
         specifier: ^0.4.255
         version: 0.4.255(vite@8.0.8(@types/node@24.10.0))
+      vite:
+        specifier: ^8.0.8
+        version: 8.0.8(@types/node@24.10.0)
 
 packages:
 

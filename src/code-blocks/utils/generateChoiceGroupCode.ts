@@ -25,7 +25,7 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
 }
 
 function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
-  let lvl: number = parent.type === 'mdxJsxFlowElement' ? 1 : 0
+  let lvl: number = 0
 
   const vikeConfig = getVikeConfig()
   const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
@@ -96,7 +96,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
       },
     })
 
-    lvl += parentLvl
+    lvl = parentLvl + 1
     parent.data.customDataParentChoiceGroup = undefined
   }
 

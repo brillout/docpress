@@ -1,3 +1,12 @@
+## [0.16.32](https://github.com/brillout/docpress/compare/v0.16.31...v0.16.32) (2026-04-15)
+
+
+### Bug Fixes
+
+* correct choice-group nesting level calculation ([#125](https://github.com/brillout/docpress/issues/125)) ([9e527b0](https://github.com/brillout/docpress/commit/9e527b07619834c8d80a41b8837c6db3d22ae661))
+
+
+
 ## [0.16.31](https://github.com/brillout/docpress/compare/v0.16.30...v0.16.31) (2026-04-14)
 
 

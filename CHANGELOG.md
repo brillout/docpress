@@ -1,3 +1,12 @@
+## [0.16.33](https://github.com/brillout/docpress/compare/v0.16.32...v0.16.33) (2026-04-16)
+
+
+### Bug Fixes
+
+* improve handling of hidden state in choice-group parent-child merging ([#126](https://github.com/brillout/docpress/issues/126)) ([c6eecd6](https://github.com/brillout/docpress/commit/c6eecd6baadf9f72afff0e2e4f9ea077fcd6123b))
+
+
+
 ## [0.16.32](https://github.com/brillout/docpress/compare/v0.16.31...v0.16.32) (2026-04-15)
 
 

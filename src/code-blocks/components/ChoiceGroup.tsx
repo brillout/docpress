@@ -51,7 +51,7 @@ function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
             ...(parentChoiceGroup && {
               parentChoiceGroup: {
                 ...parentChoiceGroup,
-                choices: [parentChoiceGroup.choice],
+                choices: !choiceGroup.hidden ? [parentChoiceGroup.choice] : [],
               },
             }),
           },
@@ -61,7 +61,9 @@ function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
       if (!parentChoiceGroup || !existing.parentChoiceGroup) return prev
 
       const existingChoices = existing.parentChoiceGroup.choices
-      const mergedChoices = new Set([...existingChoices, parentChoiceGroup.choice])
+      if (!choiceGroup.hidden) existing.parentChoiceGroup.choices.push(parentChoiceGroup.choice)
+
+      const mergedChoices = new Set([...existing.parentChoiceGroup.choices])
       if (mergedChoices.size === existingChoices.length) return prev
 
       const next = [...prev]
@@ -152,7 +154,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   function isHidden() {
     if (parentChoiceGroup) {
       const [parentSelectedChoice] = useSelectedChoice(parentChoiceGroup.name, parentChoiceGroup.default)
-      return !parentChoiceGroup.choices.includes(parentSelectedChoice) || hidden
+      return !parentChoiceGroup.choices.includes(parentSelectedChoice)
     }
     return hidden
   }

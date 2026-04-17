@@ -27,7 +27,7 @@ import {
 } from './MenuModal/toggleMenuModal.js'
 import { MenuModal } from './MenuModal.js'
 import { autoScrollNav_SSR } from './autoScrollNav.js'
-import { initializeChoiceGroup_SSR } from './code-blocks/hooks/useSelectedChoice.js'
+import { initializeChoiceGroup_SSR } from './code-blocks/hooks/useCurrentSelection.js'
 import { SearchLink } from './docsearch/SearchLink.js'
 import { navigate } from 'vike/client/router'
 import { css } from './utils/css.js'

@@ -1,4 +1,4 @@
-export { useSelectedChoice }
+export { useCurrentSelection }
 export { initializeChoiceGroup_SSR }
 
 import { useLocalStorage } from './useLocalStorage.js'
@@ -12,7 +12,7 @@ const keyPrefix = 'docpress'
  * @param defaultValue Default choice value.
  * @returns `[selectedChoice, setSelectedChoice]`.
  */
-function useSelectedChoice(choiceGroupName: string, defaultValue: string) {
+function useCurrentSelection(choiceGroupName: string, defaultValue: string) {
   return useLocalStorage(`${keyPrefix}:choice:${choiceGroupName}`, defaultValue)
 }
 

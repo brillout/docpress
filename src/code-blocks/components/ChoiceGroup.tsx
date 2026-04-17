@@ -1,7 +1,7 @@
 export { ChoiceGroup, CustomSelectsContainer }
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useSelectedChoice } from '../hooks/useSelectedChoice.js'
+import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
 import './ChoiceGroup.css'
@@ -93,8 +93,7 @@ type ChoiceGroupProps = {
 
 function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupProps) {
   const { name: groupName, choices, default: defaultChoice, lvl } = choiceGroup
-  // TODO/after-PR-merge rename useSelectedChoice useCurrentSelection
-  const [selectedChoice] = useSelectedChoice(groupName, defaultChoice)
+  const [selectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const { choiceGroupAll, registerChoiceGroup } = useCustomSelectsContext()
 
   useEffect(() => registerChoiceGroup(choiceGroup, parentChoiceGroup), [])
@@ -133,7 +132,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     hidden,
     parentChoiceGroup,
   } = choiceGroup
-  const [selectedChoice, setSelectedChoice] = useSelectedChoice(groupName, defaultChoice)
+  const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const [expanded, setExpanded] = useState(false)
   const selectedIndex = choices.indexOf(selectedChoice)
@@ -153,7 +152,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   }
   function isHidden() {
     if (parentChoiceGroup) {
-      const [parentSelectedChoice] = useSelectedChoice(parentChoiceGroup.name, parentChoiceGroup.default)
+      const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup.name, parentChoiceGroup.default)
       return !parentChoiceGroup.choices.includes(parentSelectedChoice)
     }
     return hidden

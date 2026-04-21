@@ -1,3 +1,12 @@
+## [0.16.34](https://github.com/brillout/docpress/compare/v0.16.33...v0.16.34) (2026-04-21)
+
+
+### Bug Fixes
+
+* re-exports all icons ([8d650e4](https://github.com/brillout/docpress/commit/8d650e4f20d13cfffdebf448e94b317eb27c6417))
+
+
+
 ## [0.16.33](https://github.com/brillout/docpress/compare/v0.16.32...v0.16.33) (2026-04-16)
 
 

@@ -51,10 +51,12 @@ const config: Config = {
     server: {
       choices: ['Hono', 'Express', 'Fastify'],
       default: 'Hono',
+      secondary: false,
     },
     uiFrameworkVikeExtension: {
       choices: ['vike-react', 'vike-vue', 'vike-solid'],
       default: 'vike-react',
+      secondary: false,
     },
   },
 }

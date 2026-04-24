@@ -13,6 +13,7 @@ type TChoiceGroup = {
   disabled: string[]
   hidden: boolean
   lvl: number
+  secondary: boolean
 }
 
 type ParentChoiceGroup = {
@@ -93,7 +94,7 @@ type ChoiceGroupProps = {
 
 function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupProps) {
   const { name: groupName, choices, default: defaultChoice, lvl } = choiceGroup
-  const [selectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const [{ value: selectedChoice }] = useCurrentSelection(groupName, defaultChoice)
   const { choiceGroupAll, registerChoiceGroup } = useCustomSelectsContext()
 
   useEffect(() => registerChoiceGroup(choiceGroup, parentChoiceGroup), [])
@@ -131,9 +132,12 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     disabled: disabledChoices,
     hidden,
     parentChoiceGroup,
+    secondary,
   } = choiceGroup
-  const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const [{ value: selectedChoice, fromLocalStorage }, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+
   const prevPositionRef = useRestoreScroll([selectedChoice])
+  const alwaysVisible = !secondary && !fromLocalStorage
   const [expanded, setExpanded] = useState(false)
   const selectedIndex = choices.indexOf(selectedChoice)
   const height = 25
@@ -153,7 +157,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   function isHidden() {
     if (parentChoiceGroup) {
       const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup.name, parentChoiceGroup.default)
-      return !parentChoiceGroup.choices.includes(parentSelectedChoice)
+      return !parentChoiceGroup.choices.includes(parentSelectedChoice.value)
     }
     return hidden
   }
@@ -162,9 +166,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     <div
       id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
-      aria-expanded={expanded}
+      aria-expanded={alwaysVisible ? true : expanded}
       className={cls(['choice-select', (isHidden() || isDisabled(selectedChoice)) && 'hidden'])}
-      style={{ height }}
+      style={{ height, opacity: alwaysVisible ? 1 : undefined }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       onClick={() => {
@@ -181,7 +185,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
           <div
             id={choice}
             key={i}
-            aria-selected={i === selectedIndex}
+            aria-selected={alwaysVisible ? false : i === selectedIndex}
             aria-disabled={isDisabled(choice)}
             role="option"
             className="choice-select__option"

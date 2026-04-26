@@ -179,7 +179,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         aria-activedescendant={`choice-${selectedChoice}`}
         role="listbox"
         className="choice-select__list"
-        style={{ top: rectTop, height: choices.length * height }}
+        style={alwaysVisible ? { display: 'flex' } : { top: rectTop, height: choices.length * height }}
       >
         {choices.map((choice, i) => (
           <div

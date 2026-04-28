@@ -167,6 +167,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
       aria-expanded={alwaysVisible ? true : expanded}
+      data-always-visible={alwaysVisible}
       className={cls(['choice-select', (isHidden() || isDisabled(selectedChoice)) && 'hidden'])}
       style={{ height, opacity: alwaysVisible ? 1 : undefined }}
       onMouseEnter={() => setExpanded(true)}

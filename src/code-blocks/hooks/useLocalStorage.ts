@@ -2,6 +2,11 @@ export { useLocalStorage }
 
 import { useCallback, useSyncExternalStore } from 'react'
 
+type LocalStorageSnapshot = {
+  value: string
+  fromLocalStorage: boolean
+}
+
 /**
  * A simple, generic `useLocalStorage` hook with SSR and cross-tab support.
  *
@@ -11,6 +16,9 @@ import { useCallback, useSyncExternalStore } from 'react'
  * @returns A tuple `[value, setValue]`.
  */
 function useLocalStorage(storageKey: string, clientValue: string, ssrValue?: string) {
+  let lastSnapshot: LocalStorageSnapshot | null = null
+  const serverSnapshot = { value: ssrValue ?? clientValue, fromLocalStorage: false }
+
   const subscribe = useCallback(
     (callback: () => void) => {
       const listener = (e: StorageEvent) => {
@@ -22,9 +30,20 @@ function useLocalStorage(storageKey: string, clientValue: string, ssrValue?: str
     [storageKey],
   )
 
-  const getSnapshot = useCallback(() => {
+  const getClientSnapshot = useCallback((): LocalStorageSnapshot => {
     const storedValue = localStorage.getItem(storageKey)
-    return storedValue || clientValue
+
+    const next =
+      storedValue !== null
+        ? { value: storedValue, fromLocalStorage: true }
+        : { value: clientValue, fromLocalStorage: false }
+
+    if (lastSnapshot && lastSnapshot.value === next.value && lastSnapshot.fromLocalStorage === next.fromLocalStorage) {
+      return lastSnapshot
+    }
+
+    lastSnapshot = next
+    return next
   }, [storageKey, clientValue])
 
   const setValue = (value: string) => {
@@ -33,7 +52,7 @@ function useLocalStorage(storageKey: string, clientValue: string, ssrValue?: str
     window.dispatchEvent(new StorageEvent('storage', { key: storageKey }))
   }
 
-  const value = useSyncExternalStore(subscribe, getSnapshot, () => ssrValue || clientValue)
+  const value = useSyncExternalStore(subscribe, getClientSnapshot, () => serverSnapshot)
 
   return [value, setValue] as const
 }

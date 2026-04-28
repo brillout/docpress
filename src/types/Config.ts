@@ -65,4 +65,5 @@ type Category =
 type Choice = {
   choices: string[]
   default: string
+  secondary: boolean
 }

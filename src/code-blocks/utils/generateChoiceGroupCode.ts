@@ -2,6 +2,7 @@ export { generateChoiceGroupCode }
 export type { ChoiceNode }
 
 import type { VikeConfig } from 'vike/types'
+import type { Config } from '../../types/Config.js'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
@@ -13,14 +14,16 @@ type ChoiceNode = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> = {
+const CHOICES_BUILT_IN: Config['choices'] = {
   codeLang: {
     choices: ['JavaScript', 'TypeScript'],
     default: 'JavaScript',
+    secondary: true,
   },
   pkgManager: {
     choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
     default: 'npm',
+    secondary: true,
   },
 }
 

@@ -2,7 +2,7 @@
   position: relative;
 
   &:hover {
-    .choice-group__selects,
+    .choice-select,
     .copy-button {
       opacity: 1;
     }
@@ -20,8 +20,6 @@
     z-index: 3;
     top: var(--top-position);
     right: 42px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
   }
 
   .choice-select {
@@ -36,6 +34,8 @@
     border-radius: 5px;
     border-style: solid;
     border-color: var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
   }
 
   .choice-select__list {
@@ -114,12 +114,17 @@
     }
   }
 
-  .choice-select[aria-expanded='false'] {
+  .choice-select[aria-expanded='false'],
+  .choice-select[data-always-visible='true'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
+
+    .choice-select__option[aria-disabled='true'] {
+      display: none;
+    }
   }
 
-  .choice-select[aria-expanded='true'] {
+  .choice-select[aria-expanded='true']:not([data-always-visible='true']) {
     overflow: visible;
     border-width: 0;
 

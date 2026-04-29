@@ -186,7 +186,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
           <div
             id={choice}
             key={i}
-            aria-selected={alwaysVisible ? false : i === selectedIndex}
+            aria-selected={i === selectedIndex}
             aria-disabled={isDisabled(choice)}
             role="option"
             className="choice-select__option"
@@ -203,7 +203,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     e.stopPropagation()
     const el = e.currentTarget
     prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
-    if (el.getAttribute('aria-selected') === 'true') {
+    if (el.getAttribute('aria-selected') === 'true' && !alwaysVisible) {
       next()
     } else if (el.getAttribute('aria-disabled') === 'false') {
       setSelectedChoice(el.id)

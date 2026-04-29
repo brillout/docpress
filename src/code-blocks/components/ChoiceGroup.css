@@ -114,6 +114,24 @@
     }
   }
 
+  .choice-select[data-always-visible='true'] {
+    .choice-select__option {
+      &[aria-selected='true'] {
+        &::after {
+          content: '«';
+          opacity: 0;
+        }
+        .choice-select__list:hover &:not(:hover) {
+          background: #fff;
+        }
+        &:hover::after {
+          opacity: 1;
+          left: calc(-1 * var(--animation-width));
+        }
+      }
+    }
+  }
+
   .choice-select[aria-expanded='false'],
   .choice-select[data-always-visible='true'] {
     overflow: hidden;

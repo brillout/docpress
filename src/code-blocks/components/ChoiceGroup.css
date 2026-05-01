@@ -53,65 +53,10 @@
     align-items: center;
     flex-wrap: nowrap;
     background: #fff;
-    padding: 0 3px 0 5px;
+    padding: 0 3px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background 120ms ease;
-
-    span {
-      flex: 1;
-    }
-
-    &::after {
-      width: 15px;
-      text-align: end;
-      --animation-width: 2px;
-      position: relative;
-      padding-right: var(--animation-width);
-      padding-left: var(--animation-width);
-      font-size: 1.13em;
-      color: #666;
-      left: 0;
-      transition: left 500ms ease, opacity 150ms ease-in-out;
-      opacity: 0;
-    }
-
-    .choice-select__list:hover &:hover::after {
-      opacity: 1;
-    }
-
-    &[aria-selected='true'] {
-      &::after {
-        content: '»' !important;
-        opacity: 1;
-      }
-
-      .choice-select__list:hover &:not(:hover)::after {
-        opacity: 0;
-      }
-
-      &:hover::after {
-        left: var(--animation-width);
-      }
-    }
-
-    &[aria-disabled='true'] {
-      &::after {
-        content: '⊘';
-        font-size: 1em;
-        left: 1px;
-      }
-    }
-
-    &:not([aria-selected='true']):not([aria-disabled='true']) {
-      &::after {
-        content: '«';
-      }
-
-      &:hover::after {
-        left: calc(-1 * var(--animation-width));
-      }
-    }
   }
 
   .choice-select[aria-expanded='false'] {
@@ -143,7 +88,7 @@
 
   .choice-select__option[aria-disabled='true'] {
     color: #999;
-    cursor: default;
+    cursor: not-allowed;
     opacity: 0.8;
   }
 

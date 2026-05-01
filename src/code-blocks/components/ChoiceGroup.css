@@ -53,7 +53,7 @@
     align-items: center;
     flex-wrap: nowrap;
     background: #fff;
-    padding: 0 3px;
+    padding: 0 6px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background 120ms ease;

@@ -188,7 +188,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             style={{ height }}
             onClick={handleOnClick}
           >
-            <span>{choice}</span>
+            {choice}
           </div>
         ))}
       </div>

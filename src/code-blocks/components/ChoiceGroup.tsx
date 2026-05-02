@@ -135,10 +135,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     secondary,
   } = choiceGroup
   const [{ value: selectedChoice, fromLocalStorage }, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-
   const prevPositionRef = useRestoreScroll([selectedChoice])
-  const alwaysVisible = !secondary && !fromLocalStorage
   const [expanded, setExpanded] = useState(false)
+  const alwaysVisible = !secondary && !fromLocalStorage
   const selectedIndex = choices.indexOf(selectedChoice)
   const height = 25
   const rectTop = -selectedIndex * height

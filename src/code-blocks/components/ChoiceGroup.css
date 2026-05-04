@@ -1,13 +1,6 @@
 .choice-group {
   position: relative;
 
-  &:hover {
-    .choice-group__selects,
-    .copy-button {
-      opacity: 1;
-    }
-  }
-
   /* layout */
   --top-position: 10px;
   --border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
@@ -20,8 +13,6 @@
     z-index: 3;
     top: var(--top-position);
     right: 42px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
   }
 
   .choice-select {

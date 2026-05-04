@@ -13,12 +13,6 @@ pre {
     position: relative;
   }
 
-  &:hover {
-    .copy-button {
-      opacity: 1;
-    }
-  }
-
   .copy-button {
     position: absolute !important;
     top: 10px;
@@ -28,8 +22,7 @@ pre {
     height: 25px;
     width: 30px;
     background-color: #f7f7f7;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out, background-color 0.4s ease-in-out;
+    transition: background-color 0.4s ease-in-out;
 
     &:not(:hover) {
       background-color: #eee;

@@ -1,0 +1,35 @@
+import React from 'react'
+import { Tabs, TabList, Tab } from 'react-tabs'
+import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
+import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
+import type { TChoiceGroup } from './ChoiceGroup.js'
+import './TabsComponent.css'
+
+export { TabsComponent }
+
+function TabsComponent({
+  choiceGroup,
+  children,
+}: { choiceGroup: Omit<TChoiceGroup, 'lvl'>; children: React.ReactNode }) {
+  const { name: groupName, choices, default: defaultChoice } = choiceGroup
+  const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const prevPositionRef = useRestoreScroll([selectedChoice])
+  const selectedIndex = choices.indexOf(selectedChoice)
+
+  return (
+    <Tabs selectedIndex={selectedIndex} onSelect={handleOnSelect} forceRenderTabPanel={true}>
+      <TabList>
+        {choices.map((choice, index) => (
+          <Tab key={index}>{choice}</Tab>
+        ))}
+      </TabList>
+      {children}
+    </Tabs>
+  )
+
+  function handleOnSelect(index: number, _last: number, event: Event) {
+    const el = event.currentTarget as HTMLDivElement
+    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    setSelectedChoice(choices[index]!)
+  }
+}

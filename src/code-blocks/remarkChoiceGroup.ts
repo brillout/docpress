@@ -5,24 +5,29 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+import { generateChoiceGroupCode, generateTabs } from './utils/generateChoiceGroupCode.js'
 
 function remarkChoiceGroup() {
   return function (tree: Root) {
     visit(tree, (node) => {
       if (node.type === 'code') {
         if (!node.meta) return
-        const meta = parseMetaString(node.meta, ['choice'])
-        const { choice } = meta.props
+        const meta = parseMetaString(node.meta, ['choice', 'dropdown'])
+        const { choice, dropdown } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { customDataChoice: choice, customDataFilter: `code-${node.lang}` }
+        if (choice)
+          node.data ??= {
+            customDataChoice: choice,
+            customDataFilter: `code-${node.lang}`,
+            customDataIsDropdown: !!dropdown,
+          }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return
         const { id: choice } = node.attributes
         if (choice) {
-          node.data ??= { customDataChoice: choice, customDataFilter: node.type }
+          node.data ??= { customDataChoice: choice, customDataFilter: choice, customDataIsDropdown: false }
           node.attributes = {}
         }
       }
@@ -34,6 +39,7 @@ function remarkChoiceGroup() {
 
       let start = -1
       let end = 0
+      let isDropDown = false
 
       const process = () => {
         if (start === -1 || start === end) return
@@ -41,8 +47,13 @@ function remarkChoiceGroup() {
         const choiceNodesFiltered = filterChoices(nodes)
         const replacements: MdxJsxFlowElement[] = []
 
-        for (const choiceNodes of choiceNodesFiltered) {
-          const replacement = generateChoiceGroupCode(choiceNodes, node)
+        if (isDropDown) {
+          for (const choiceNodes of choiceNodesFiltered) {
+            const replacement = generateChoiceGroupCode(choiceNodes, node)
+            replacements.push(replacement)
+          }
+        } else {
+          const replacement = generateTabs(choiceNodesFiltered.flat())
           replacements.push(replacement)
         }
         replaced.add(replacements)
@@ -51,6 +62,7 @@ function remarkChoiceGroup() {
 
         end = start
         start = -1
+        isDropDown = false
       }
 
       for (; end < node.children.length; end++) {
@@ -65,6 +77,9 @@ function remarkChoiceGroup() {
           process()
           continue
         }
+
+        if (child.data.customDataIsDropdown) isDropDown = true
+        if (!isDropDown) child.data.customDataFilter = child.data.customDataChoice
 
         if (start === -1) start = end
       }
@@ -101,6 +116,7 @@ declare module 'mdast' {
   export interface Data {
     customDataChoice?: string
     customDataFilter?: string
+    customDataIsDropdown?: boolean
     customDataParentChoiceGroup?: {
       name: string
       choice: string

@@ -5,7 +5,7 @@ import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import { assertUsage } from '../utils/assert.js'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+import { generateDropdown } from './utils/generateChoiceGroupCode.js'
 import { transform as detype } from 'detype'
 import pc from '@brillout/picocolors'
 
@@ -70,7 +70,7 @@ function transformYaml(node: CodeNode) {
     { choiceValue: 'JavaScript', children: [yamlJsCode] },
     { choiceValue: 'TypeScript', children: [codeBlock] },
   ]
-  const replacement = generateChoiceGroupCode(choiceNodes, parent, true)
+  const replacement = generateDropdown(choiceNodes, parent, true)
   replacement.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
 
   parent.children.splice(index, 1, replacement)
@@ -143,7 +143,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   ]
   // Add `hide` prop to `<ChoiceGroup>` if the only change was replacing `.ts` with `.js`
   const hide = codeBlockReplacedJs === codeBlockContentJs
-  const replacement = generateChoiceGroupCode(choiceNodes, parent, hide)
+  const replacement = generateDropdown(choiceNodes, parent, hide)
 
   replacement.data ??= { ...data }
 

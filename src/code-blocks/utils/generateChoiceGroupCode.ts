@@ -1,4 +1,4 @@
-export { generateChoiceGroupCode, generateTabs }
+export { generateDropdown, generateTabs }
 export type { ChoiceNode }
 
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
@@ -23,7 +23,7 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
   },
 }
 
-function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
+function generateDropdown(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
   let lvl: number = 0
   const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
   const attributes: MdxJsxAttribute[] = []

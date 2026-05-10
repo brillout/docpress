@@ -5,7 +5,7 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroupCode, generateTabs } from './utils/generateChoiceGroupCode.js'
+import { generateDropdown, generateTabs } from './utils/generateChoiceGroupCode.js'
 
 function remarkChoiceGroup() {
   return function (tree: Root) {
@@ -49,7 +49,7 @@ function remarkChoiceGroup() {
 
         if (isDropDown) {
           for (const choiceNodes of choiceNodesFiltered) {
-            const replacement = generateChoiceGroupCode(choiceNodes, node)
+            const replacement = generateDropdown(choiceNodes, node)
             replacements.push(replacement)
           }
         } else {

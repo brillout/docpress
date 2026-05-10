@@ -5,7 +5,7 @@ import type { VFile } from '@mdx-js/mdx/internal-create-format-aware-processors'
 import { visit } from 'unist-util-visit'
 import convert_ from 'npm-to-yarn'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+import { generateDropdown } from './utils/generateChoiceGroupCode.js'
 import { assertUsage } from '../utils/assert.js'
 import pc from '@brillout/picocolors'
 // @ts-expect-error The type of npm-to-yarn doesn't work with `"moduleResolution": "Node16"`
@@ -47,7 +47,7 @@ function remarkPkgManager() {
       }
 
       const choiceNodes = [...nodes].map(([name, node]) => ({ choiceValue: name, children: [node] }))
-      const replacement = generateChoiceGroupCode(choiceNodes, parent)
+      const replacement = generateDropdown(choiceNodes, parent)
 
       replacement.data ??= { customDataChoice: choice, customDataFilter: replacement.type }
       parent.children.splice(index, 1, replacement)

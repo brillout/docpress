@@ -59,55 +59,15 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   if (parent.data?.customDataParentChoiceGroup) {
     const { lvl: parentLvl, ...parentChoiceGroup } = parent.data.customDataParentChoiceGroup
 
-    attributes.push({
-      type: 'mdxJsxAttribute',
-      name: 'parentChoiceGroup',
-      value: {
-        type: 'mdxJsxAttributeValueExpression',
-        value: '',
-        data: {
-          estree: {
-            type: 'Program',
-            sourceType: 'module',
-            comments: [],
-            body: [
-              // @ts-ignore: Missing properties in type definition
-              {
-                type: 'ExpressionStatement',
-                expression: valueToEstree(parentChoiceGroup),
-              },
-            ],
-          },
-        },
-      },
-    })
+    attributes.push(expressionToAttribute('parentChoiceGroup', parentChoiceGroup))
 
     lvl = parentLvl + 1
     parent.data.customDataParentChoiceGroup = undefined
   }
 
-  attributes.push({
-    type: 'mdxJsxAttribute',
-    name: 'choiceGroup',
-    value: {
-      type: 'mdxJsxAttributeValueExpression',
-      value: '',
-      data: {
-        estree: {
-          type: 'Program',
-          sourceType: 'module',
-          comments: [],
-          body: [
-            // @ts-ignore: Missing properties in type definition
-            {
-              type: 'ExpressionStatement',
-              expression: valueToEstree({ ...choiceGroup, hidden: choiceNodes.length === 1 || hide, lvl }),
-            },
-          ],
-        },
-      },
-    },
-  })
+  attributes.push(
+    expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 || hide, lvl }),
+  )
 
   const choiceGroupNode: MdxJsxFlowElement = {
     type: 'mdxJsxFlowElement',
@@ -150,28 +110,7 @@ function generateTabs(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
     })
   }
 
-  attributes.push({
-    type: 'mdxJsxAttribute',
-    name: 'choiceGroup',
-    value: {
-      type: 'mdxJsxAttributeValueExpression',
-      value: '',
-      data: {
-        estree: {
-          type: 'Program',
-          sourceType: 'module',
-          comments: [],
-          body: [
-            // @ts-ignore: Missing properties in type definition
-            {
-              type: 'ExpressionStatement',
-              expression: valueToEstree(choiceGroup),
-            },
-          ],
-        },
-      },
-    },
-  })
+  attributes.push(expressionToAttribute('choiceGroup', choiceGroup))
 
   return {
     type: 'mdxJsxFlowElement',
@@ -214,4 +153,29 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   })
 
   return { choiceGroup, mergedChoiceNodes }
+}
+
+function expressionToAttribute(name: string, value: unknown): MdxJsxAttribute {
+  return {
+    type: 'mdxJsxAttribute',
+    name,
+    value: {
+      type: 'mdxJsxAttributeValueExpression',
+      value: '',
+      data: {
+        estree: {
+          type: 'Program',
+          sourceType: 'module',
+          comments: [],
+          body: [
+            // @ts-ignore: Missing properties in type definition
+            {
+              type: 'ExpressionStatement',
+              expression: valueToEstree(value),
+            },
+          ],
+        },
+      },
+    },
+  }
 }

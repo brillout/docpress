@@ -17,7 +17,20 @@ function TabsComponent({
   const selectedIndex = choices.indexOf(selectedChoice)
 
   return (
-    <Tabs selectedIndex={selectedIndex} onSelect={handleOnSelect} forceRenderTabPanel={true}>
+    <Tabs
+      data-choice-group={groupName}
+      selectedIndex={selectedIndex}
+      onSelect={handleOnSelect}
+      forceRenderTabPanel={true}
+    >
+      {/* Hidden select used to control tablist and tabpanel styling and visibility via CSS. */}
+      <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
+        {choices.map((choice, i) => (
+          <option key={i} value={choice}>
+            {choice}
+          </option>
+        ))}
+      </select>
       <TabList>
         {choices.map((choice, index) => (
           <Tab key={index}>{choice}</Tab>

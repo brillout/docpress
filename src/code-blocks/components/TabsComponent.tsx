@@ -31,7 +31,7 @@ function TabsComponent({
           </option>
         ))}
       </select>
-      <TabList>
+      <TabList id={`choicesFor-${groupName}`}>
         {choices.map((choice, index) => (
           <Tab key={index}>{choice}</Tab>
         ))}

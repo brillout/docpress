@@ -30,13 +30,6 @@ function generateDropdown(choiceNodes: ChoiceNode[], parent: Parent, hide: boole
   const children: MdxJsxFlowElement[] = []
 
   for (const choiceNode of mergedChoiceNodes) {
-    const choiceChildren: (BlockContent | DefinitionContent)[] = []
-    if (choiceNode.children.every((node) => node.type === 'containerDirective')) {
-      choiceChildren.push(...choiceNode.children.flatMap((node) => [...node.children]))
-    } else {
-      choiceChildren.push(...choiceNode.children)
-    }
-
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
@@ -44,7 +37,7 @@ function generateDropdown(choiceNodes: ChoiceNode[], parent: Parent, hide: boole
         { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
         { type: 'mdxJsxAttribute', name: 'className', value: 'choice' },
       ],
-      children: choiceChildren,
+      children: choiceNode.children,
       data: {
         customDataParentChoiceGroup: {
           name: choiceGroup.name,

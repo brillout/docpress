@@ -235,7 +235,7 @@ const a: number = 1
 
 ## ChoiceGroup
 
-Using `choice=choice-name` meta to group code blocks into multiple choices:
+Using `choice=choice-name` meta to group code blocks into tabs:
 
 ```shell choice=Hono
 npm i hono @photonjs/hono
@@ -243,6 +243,10 @@ npm i hono @photonjs/hono
 
 ```shell choice=Express
 npm i express @photonjs/express
+```
+
+```shell choice=Fastify
+npm install fastify fastify-raw-body @photonjs/fastify
 ```
 
 ```ts choice=Hono file-added
@@ -259,23 +263,6 @@ function startServer() {
 
 export default startServer()
 ```
-
-```ts choice=Express file-added
-// server/index.ts
-
-import express from 'express'
-import { apply, serve } from 'vike-photon/express'
-
-function startServer() {
-  const app = express()
-  apply(app)
-  return serve(app)
-}
-
-export default startServer()
-```
-
-Skipping one or more choices from `+choices['groupName']` caused those options to be disabled in the select dropdown.
 
 ```ts choice=Express file-added
 // server/index.ts
@@ -313,7 +300,7 @@ async function startServer() {
 export default startServer()
 ```
 
-Some paragraph.
+Using only one choice hides the tab list:
 
 :::Choice{#Express}
 > Express.js is deprecated.

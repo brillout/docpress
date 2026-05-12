@@ -153,31 +153,31 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - Choice Group`, async () => {
-    const firstChoiceText1 = 'npm install hono @photonjs/hono'
-    const firstChoiceText2 = "import { Hono } from 'hono'"
-    const secondChoiceText1 = 'pnpm add express @photonjs/express'
-    const secondChoiceText2 = "import express from 'express'"
+    const honoNpmChoiceText = 'npm install hono @photonjs/hono'
+    const expressPnpmChoiceText = 'pnpm add express @photonjs/express'
+    const honoChoiceText = "import { Hono } from 'hono'"
+    const expressChoiceText = "import express from 'express'"
     const fastifyChoiceText = "import fastify from 'fastify'"
 
-    const hasFirstChoice = (text: string | null, yes = true) => {
+    const hasHonoChoice = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
       if (yes) {
-        expect(text).toContain(firstChoiceText1)
-        expect(text).toContain(firstChoiceText2)
+        expect(text).toContain(honoNpmChoiceText)
+        expect(text).toContain(honoChoiceText)
       } else {
-        expect(text).not.toContain(firstChoiceText1)
-        expect(text).not.toContain(firstChoiceText2)
+        expect(text).not.toContain(honoNpmChoiceText)
+        expect(text).not.toContain(honoChoiceText)
       }
     }
 
-    const hasSecondChoice = (text: string | null, yes = true) => {
+    const hasExpressChoice = (text: string | null, yes = true) => {
       expect(text).not.toBe(null)
       if (yes) {
-        expect(text).toContain(secondChoiceText1)
-        expect(text).toContain(secondChoiceText2)
+        expect(text).toContain(expressPnpmChoiceText)
+        expect(text).toContain(expressChoiceText)
       } else {
-        expect(text).not.toContain(secondChoiceText1)
-        expect(text).not.toContain(secondChoiceText2)
+        expect(text).not.toContain(expressPnpmChoiceText)
+        expect(text).not.toContain(expressChoiceText)
       }
     }
 
@@ -192,35 +192,35 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     const textFull = await page.textContent('body')
 
-    hasFirstChoice(textFull)
-    hasSecondChoice(textFull)
+    hasHonoChoice(textFull)
+    hasExpressChoice(textFull)
     hasFastifyChoice(textFull)
 
-    const expectFirstChoice = async () => {
+    const expectHonoChoice = async () => {
       const text = await getVisibleText(page)
-      hasFirstChoice(text)
-      hasSecondChoice(text, false)
+      hasHonoChoice(text)
+      hasExpressChoice(text, false)
       hasFastifyChoice(text, false)
     }
 
-    const expectSecondChoice = async () => {
+    const expectExpressChoice = async () => {
       const text = await getVisibleText(page)
-      hasFirstChoice(text, false)
-      hasSecondChoice(text)
+      hasHonoChoice(text, false)
+      hasExpressChoice(text)
       hasFastifyChoice(text, false)
     }
 
     const expectFastifyChoice = async () => {
       await page.locator('#choicesFor-server').first().getByRole('tab', { name: 'Fastify' }).click()
       const text = await getVisibleText(page)
-      hasFirstChoice(text, false)
-      hasSecondChoice(text, false)
+      hasHonoChoice(text, false)
+      hasExpressChoice(text, false)
       hasFastifyChoice(text)
     }
 
     await page.evaluate(() => window.localStorage.clear())
 
-    await expectFirstChoice()
+    await expectHonoChoice()
 
     if (!isDev) {
       await page.locator('#choicesFor-pkgManager:visible').first().getByRole('option', { name: 'pnpm' }).click()
@@ -230,7 +230,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await autoRetry(
       async () => {
         if (!isDev) {
-          await expectSecondChoice()
+          await expectExpressChoice()
           await expectFastifyChoice()
         }
       },

@@ -11,7 +11,7 @@ function TabsComponent({
   choiceGroup,
   children,
 }: { choiceGroup: Omit<TChoiceGroup, 'lvl'>; children: React.ReactNode }) {
-  const { name: groupName, choices, default: defaultChoice } = choiceGroup
+  const { name: groupName, choices, default: defaultChoice, hidden } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const selectedIndex = choices.indexOf(selectedChoice)
@@ -31,7 +31,7 @@ function TabsComponent({
           </option>
         ))}
       </select>
-      <TabList id={`choicesFor-${groupName}`}>
+      <TabList id={`choicesFor-${groupName}`} hidden={hidden}>
         {choices.map((choice, index) => (
           <Tab key={index}>{choice}</Tab>
         ))}

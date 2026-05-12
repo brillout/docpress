@@ -103,7 +103,7 @@ function generateTabs(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
     })
   }
 
-  attributes.push(expressionToAttribute('choiceGroup', choiceGroup))
+  attributes.push(expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 }))
 
   return {
     type: 'mdxJsxFlowElement',

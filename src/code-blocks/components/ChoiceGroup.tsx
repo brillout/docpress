@@ -1,5 +1,4 @@
 export { ChoiceGroup, CustomSelectsContainer }
-export type { TChoiceGroup }
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'

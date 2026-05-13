@@ -16,6 +16,7 @@ import { transformerNotationHighlight } from '@brillout/shiki-transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
+import { shikiTransformerMdxDiff } from './code-blocks/shikiTransformerMdxDiff.js'
 import { remarkPkgManager } from './code-blocks/remarkPkgManager.js'
 import { remarkChoiceGroup } from './code-blocks/remarkChoiceGroup.js'
 
@@ -26,6 +27,7 @@ const prettyCode = [
     theme: 'github-light',
     keepBackground: false,
     transformers: [
+      shikiTransformerMdxDiff(),
       transformerNotationDiff(),
       transformerNotationHighlight(),
       transformerNotationWordHighlight(),

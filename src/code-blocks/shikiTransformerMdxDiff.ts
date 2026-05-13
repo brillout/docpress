@@ -20,7 +20,7 @@ function shikiTransformerMdxDiff(): ShikiTransformer {
   return {
     name: 'docpress-shiki-mdx-diff',
     preprocess(code) {
-      if (this.options.lang !== 'mdx') return
+      if (this.options.lang !== 'mdx') return code
 
       const markerLines: Record<number, MarkerType> = {}
       const cleanedLines: string[] = []
@@ -54,7 +54,7 @@ function shikiTransformerMdxDiff(): ShikiTransformer {
       return cleanedLines.join('\n')
     },
     pre(pre) {
-      if (this.options.lang !== 'mdx') return
+      if (this.options.lang !== 'mdx') return pre
       const markerLines = (this.meta as Record<string, unknown>)[markerLinesMetaKey] as
         | Record<number, MarkerType>
         | undefined
@@ -62,7 +62,7 @@ function shikiTransformerMdxDiff(): ShikiTransformer {
       return this.addClassToHast(pre, 'has-diff')
     },
     line(line, lineNumber) {
-      if (this.options.lang !== 'mdx') return
+      if (this.options.lang !== 'mdx') return line
       const markerLines = (this.meta as Record<string, unknown>)[markerLinesMetaKey] as
         | Record<number, MarkerType>
         | undefined

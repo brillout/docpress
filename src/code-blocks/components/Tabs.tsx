@@ -1,28 +1,29 @@
+export { Tabs }
+
 import React from 'react'
-import { Tabs, TabList, Tab } from 'react-tabs'
+import { Tabs as ReactTabs, TabList, Tab, TabPanel } from 'react-tabs'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
-import type { TChoiceGroup } from './ChoiceGroup.js'
-import './TabsComponent.css'
+import { usePageContext } from '../../renderer/usePageContext.js'
+import { assertUsage } from '../../utils/assert.js'
+import './Tabs.css'
 
-export { TabsComponent }
+function Tabs({ choice, children }: { choice: string; children: React.ReactNode }) {
+  const groupName = choice
+  const pageContext = usePageContext()
+  const choicesAll = pageContext.config.docpress.choices
+  assertUsage(
+    choicesAll && choicesAll[groupName],
+    `Missing "choices" for [${groupName}]. Define it in +docpress.choices.`,
+  )
 
-function TabsComponent({
-  choiceGroup,
-  children,
-}: { choiceGroup: Omit<TChoiceGroup, 'lvl'>; children: React.ReactNode }) {
-  const { name: groupName, choices, default: defaultChoice, hidden } = choiceGroup
+  const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const prevPositionRef = useRestoreScroll([selectedChoice])
   const selectedIndex = choices.indexOf(selectedChoice)
 
   return (
-    <Tabs
-      data-choice-group={groupName}
-      selectedIndex={selectedIndex}
-      onSelect={handleOnSelect}
-      forceRenderTabPanel={true}
-    >
+    <ReactTabs data-choice-group={groupName} selectedIndex={selectedIndex} onSelect={handleOnSelect}>
       {/* Hidden select used to control tablist and tabpanel styling and visibility via CSS. */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map((choice, i) => (
@@ -31,13 +32,17 @@ function TabsComponent({
           </option>
         ))}
       </select>
-      <TabList id={`choicesFor-${groupName}`} hidden={hidden}>
+      <TabList id={`choicesFor-${groupName}`}>
         {choices.map((choice, index) => (
           <Tab key={index}>{choice}</Tab>
         ))}
       </TabList>
       {children}
-    </Tabs>
+      {/* Render empty TabPanels to suppress the warning: "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs`." */}
+      {choices.map((_, index) => (
+        <TabPanel key={index} />
+      ))}
+    </ReactTabs>
   )
 
   function handleOnSelect(index: number, _last: number, event: Event) {

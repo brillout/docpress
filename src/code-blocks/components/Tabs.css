@@ -12,17 +12,6 @@
     border-bottom: 2px solid #aaa;
     color: var(--color-text);
   }
-
-  /* tabpanel visibility logic */
-  select:has(option:nth-of-type(1):not(:checked)) ~ [role='tabpanel']:nth-of-type(1),
-  select:has(option:nth-of-type(2):not(:checked)) ~ [role='tabpanel']:nth-of-type(2),
-  select:has(option:nth-of-type(3):not(:checked)) ~ [role='tabpanel']:nth-of-type(3),
-  select:has(option:nth-of-type(4):not(:checked)) ~ [role='tabpanel']:nth-of-type(4),
-  select:has(option:nth-of-type(5):not(:checked)) ~ [role='tabpanel']:nth-of-type(5),
-  select:has(option:nth-of-type(6):not(:checked)) ~ [role='tabpanel']:nth-of-type(6),
-  select:has(option:nth-of-type(7):not(:checked)) ~ [role='tabpanel']:nth-of-type(7) {
-    display: none;
-  }
 }
 
 .react-tabs__tab-list {

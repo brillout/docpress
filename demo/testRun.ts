@@ -211,7 +211,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('#choicesFor-server').first().getByRole('tab', { name: 'Fastify' }).click()
+      await page.locator('#choicesFor-server:visible').first().getByRole('option', { name: 'Fastify' }).click()
       const text = await getVisibleText(page)
       hasHonoChoice(text, false)
       hasExpressChoice(text, false)
@@ -224,7 +224,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
     if (!isDev) {
       await page.locator('#choicesFor-pkgManager:visible').first().getByRole('option', { name: 'pnpm' }).click()
-      await page.locator('#choicesFor-server').first().getByRole('tab', { name: 'Express' }).click()
+      await page.locator('#choicesFor-server:visible').first().getByRole('option', { name: 'Express' }).click()
     }
 
     await autoRetry(

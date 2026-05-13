@@ -1,4 +1,4 @@
-export { generateDropdown, generateTabs }
+export { generateChoiceGroupCode }
 export type { ChoiceNode }
 
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
@@ -23,13 +23,20 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
   },
 }
 
-function generateDropdown(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
+function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
   let lvl: number = 0
   const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
   for (const choiceNode of mergedChoiceNodes) {
+    const choiceChildren: (BlockContent | DefinitionContent)[] = []
+    if (choiceNode.children.every((node) => node.type === 'containerDirective')) {
+      choiceChildren.push(...choiceNode.children.flatMap((node) => [...node.children]))
+    } else {
+      choiceChildren.push(...choiceNode.children)
+    }
+
     children.push({
       type: 'mdxJsxFlowElement',
       name: 'div',
@@ -37,7 +44,7 @@ function generateDropdown(choiceNodes: ChoiceNode[], parent: Parent, hide: boole
         { type: 'mdxJsxAttribute', name: 'data-choice-value', value: choiceNode.choiceValue },
         { type: 'mdxJsxAttribute', name: 'className', value: 'choice' },
       ],
-      children: choiceNode.children,
+      children: choiceChildren,
       data: {
         customDataParentChoiceGroup: {
           name: choiceGroup.name,
@@ -79,38 +86,6 @@ function generateDropdown(choiceNodes: ChoiceNode[], parent: Parent, hide: boole
   }
 
   return choiceGroupNode
-}
-
-function generateTabs(choiceNodes: ChoiceNode[]): MdxJsxFlowElement {
-  const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
-
-  const attributes: MdxJsxAttribute[] = []
-  const children: MdxJsxFlowElement[] = []
-
-  for (const choiceNode of mergedChoiceNodes) {
-    const choiceChildren: (BlockContent | DefinitionContent)[] = []
-    if (choiceNode.children.every((node) => node.type === 'containerDirective')) {
-      choiceChildren.push(...choiceNode.children.flatMap((node) => [...node.children]))
-    } else {
-      choiceChildren.push(...choiceNode.children)
-    }
-
-    children.push({
-      type: 'mdxJsxFlowElement',
-      name: 'TabPanel',
-      attributes: [],
-      children: choiceChildren,
-    })
-  }
-
-  attributes.push(expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 }))
-
-  return {
-    type: 'mdxJsxFlowElement',
-    name: 'TabsComponent',
-    attributes,
-    children,
-  }
 }
 
 function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {

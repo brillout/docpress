@@ -1,4 +1,4 @@
-import { Link, FileRemoved, FileAdded, CodeBlockTransformer, Contribution } from '@brillout/docpress'
+import { Link, FileRemoved, FileAdded, CodeBlockTransformer, Contribution, Tabs } from '@brillout/docpress'
 
 This page is for testing/developing DocPress features.
 
@@ -235,7 +235,7 @@ const a: number = 1
 
 ## ChoiceGroup
 
-Using `choice=choice-name` meta to group code blocks into tabs:
+Using `choice=choice-name` meta to group code blocks into multiple choices:
 
 ```shell choice=Hono
 npm i hono @photonjs/hono
@@ -249,6 +249,9 @@ npm i express @photonjs/express
 npm install fastify fastify-raw-body @photonjs/fastify
 ```
 
+Using the `<Tabs choice="choice-name">` component to also display tabbed choices:
+
+<Tabs choice={'server'}>
 ```ts choice=Hono file-added
 // server/index.ts
 
@@ -299,6 +302,7 @@ async function startServer() {
 
 export default startServer()
 ```
+</Tabs>
 
 Using only one choice hides the tab list:
 

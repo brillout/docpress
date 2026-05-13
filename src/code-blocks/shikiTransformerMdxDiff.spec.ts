@@ -26,7 +26,7 @@ describe('shikiTransformerMdxDiff', () => {
     expect(html).not.toContain('[!code ++]')
   })
 
-  it('does not alter non-mdx languages', async () => {
+  it('does not interfere with non-mdx diff parsing', async () => {
     const html = await highlight('const answer = 42 // [!code ++]', 'js')
     expect(html).toContain('has-diff')
     expect(html).toContain('line diff add')

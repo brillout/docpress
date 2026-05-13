@@ -14,7 +14,7 @@ function Tabs({ choice, children }: { choice: string; children: React.ReactNode 
   const choicesAll = pageContext.config.docpress.choices
   assertUsage(
     choicesAll && choicesAll[groupName],
-    `Missing "choices" for [${groupName}]. Define it in +docpress.choices.`,
+    `${groupName} is unknown`,
   )
 
   const { choices, default: defaultChoice } = choicesAll[groupName]

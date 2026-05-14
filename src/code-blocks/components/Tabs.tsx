@@ -59,11 +59,9 @@ function Tabs({ choice }: { choice: string }) {
 
     switch (e.key) {
       case 'ArrowRight':
-      case 'ArrowDown':
         nextIndex = (selectedIndex + 1) % choices.length
         break
       case 'ArrowLeft':
-      case 'ArrowUp':
         nextIndex = (selectedIndex - 1 + choices.length) % choices.length
         break
       case 'Home':

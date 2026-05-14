@@ -1,7 +1,6 @@
 export { generateChoiceGroupCode }
 export type { ChoiceNode }
 
-import type { VikeConfig } from 'vike/types'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
@@ -26,20 +25,7 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
 
 function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
   let lvl: number = 0
-
-  const vikeConfig = getVikeConfig()
-  const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
-  const choiceGroup = findChoiceGroup(vikeConfig, choices)
-
-  const mergedChoiceNodes = choiceGroup.choices.map((choice) => {
-    const node = choiceNodes.find((n) => n.choiceValue === choice)
-
-    return {
-      choiceValue: choice,
-      children: node?.children ?? [],
-    }
-  })
-
+  const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
 
@@ -73,55 +59,15 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   if (parent.data?.customDataParentChoiceGroup) {
     const { lvl: parentLvl, ...parentChoiceGroup } = parent.data.customDataParentChoiceGroup
 
-    attributes.push({
-      type: 'mdxJsxAttribute',
-      name: 'parentChoiceGroup',
-      value: {
-        type: 'mdxJsxAttributeValueExpression',
-        value: '',
-        data: {
-          estree: {
-            type: 'Program',
-            sourceType: 'module',
-            comments: [],
-            body: [
-              // @ts-ignore: Missing properties in type definition
-              {
-                type: 'ExpressionStatement',
-                expression: valueToEstree(parentChoiceGroup),
-              },
-            ],
-          },
-        },
-      },
-    })
+    attributes.push(expressionToAttribute('parentChoiceGroup', parentChoiceGroup))
 
     lvl = parentLvl + 1
     parent.data.customDataParentChoiceGroup = undefined
   }
 
-  attributes.push({
-    type: 'mdxJsxAttribute',
-    name: 'choiceGroup',
-    value: {
-      type: 'mdxJsxAttributeValueExpression',
-      value: '',
-      data: {
-        estree: {
-          type: 'Program',
-          sourceType: 'module',
-          comments: [],
-          body: [
-            // @ts-ignore: Missing properties in type definition
-            {
-              type: 'ExpressionStatement',
-              expression: valueToEstree({ ...choiceGroup, hidden: choiceNodes.length === 1 || hide, lvl }),
-            },
-          ],
-        },
-      },
-    },
-  })
+  attributes.push(
+    expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 || hide, lvl }),
+  )
 
   const choiceGroupNode: MdxJsxFlowElement = {
     type: 'mdxJsxFlowElement',
@@ -142,7 +88,9 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   return choiceGroupNode
 }
 
-function findChoiceGroup(vikeConfig: VikeConfig, choices: string[]) {
+function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
+  const vikeConfig = getVikeConfig()
+  const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
   const { choices: choicesConfig } = vikeConfig.config.docpress
   const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
@@ -163,5 +111,39 @@ function findChoiceGroup(vikeConfig: VikeConfig, choices: string[]) {
     disabled,
   }
 
-  return choiceGroup
+  const mergedChoiceNodes: ChoiceNode[] = choiceGroup.choices.map((choice) => {
+    const node = choiceNodes.find((node) => node.choiceValue === choice)
+
+    return {
+      choiceValue: choice,
+      children: node?.children ?? [],
+    }
+  })
+
+  return { choiceGroup, mergedChoiceNodes }
+}
+
+function expressionToAttribute(name: string, value: unknown): MdxJsxAttribute {
+  return {
+    type: 'mdxJsxAttribute',
+    name,
+    value: {
+      type: 'mdxJsxAttributeValueExpression',
+      value: '',
+      data: {
+        estree: {
+          type: 'Program',
+          sourceType: 'module',
+          comments: [],
+          body: [
+            // @ts-ignore: Missing properties in type definition
+            {
+              type: 'ExpressionStatement',
+              expression: valueToEstree(value),
+            },
+          ],
+        },
+      },
+    },
+  }
 }

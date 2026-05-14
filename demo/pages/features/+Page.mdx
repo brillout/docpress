@@ -1,4 +1,4 @@
-import { Link, FileRemoved, FileAdded, CodeBlockTransformer, Contribution } from '@brillout/docpress'
+import { Link, FileRemoved, FileAdded, CodeBlockTransformer, Contribution, Tabs } from '@brillout/docpress'
 
 This page is for testing/developing DocPress features.
 
@@ -245,6 +245,14 @@ npm i hono @photonjs/hono
 npm i express @photonjs/express
 ```
 
+```shell choice=Fastify
+npm install fastify fastify-raw-body @photonjs/fastify
+```
+
+Using the `<Tabs choice="choice-name">` component to also display tabbed choices:
+
+<Tabs choice={'server'} />
+
 ```ts choice=Hono file-added
 // server/index.ts
 
@@ -259,23 +267,6 @@ function startServer() {
 
 export default startServer()
 ```
-
-```ts choice=Express file-added
-// server/index.ts
-
-import express from 'express'
-import { apply, serve } from 'vike-photon/express'
-
-function startServer() {
-  const app = express()
-  apply(app)
-  return serve(app)
-}
-
-export default startServer()
-```
-
-Skipping one or more choices from `+choices['groupName']` caused those options to be disabled in the select dropdown.
 
 ```ts choice=Express file-added
 // server/index.ts

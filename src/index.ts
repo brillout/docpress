@@ -1,7 +1,16 @@
 /**********/
 /* PUBLIC */
 /**********/
-export { CodeBlockTransformer, Link, RepoLink, FileAdded, FileRemoved, ImportMeta, Emoji } from './components/index.js'
+export {
+  CodeBlockTransformer,
+  Link,
+  RepoLink,
+  FileAdded,
+  FileRemoved,
+  ImportMeta,
+  Emoji,
+  Tabs,
+} from './components/index.js'
 export { MenuToggle } from './Layout.js'
 export * from './components/Note.js'
 export * from './icons/index.js'

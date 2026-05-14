@@ -19,7 +19,7 @@ function Tabs({ choice }: { choice: string }) {
   const selectedIndex = choices.indexOf(selectedChoice)
 
   return (
-    <div className="react-tabs" data-choice-group={groupName}>
+    <div className="choice-tabs" data-choice-group={groupName}>
       {/* Hidden select used to control tablist styling via CSS. */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map((choice, i) => (
@@ -28,12 +28,12 @@ function Tabs({ choice }: { choice: string }) {
           </option>
         ))}
       </select>
-      <ul id={`choicesFor-${groupName}`} className="react-tabs__tab-list" role="tablist">
+      <ul id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="tablist">
         {choices.map((choice, i) => (
           <li
             key={i}
             id={choice}
-            className="react-tabs__tab"
+            className="choice-tabs__tab"
             role="tab"
             aria-selected={i === selectedIndex}
             tabIndex={i === selectedIndex ? 0 : -1}

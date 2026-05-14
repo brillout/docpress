@@ -26,7 +26,6 @@
     "detype": "^2.0.2",
     "estree-util-value-to-estree": "^3.5.0",
     "npm-to-yarn": "^3.0.1",
-    "react-tabs": "^6.1.1",
     "rehype-pretty-code": "0.13.0",
     "remark-directive": "^4.0.0",
     "remark-gfm": "4.0.0",

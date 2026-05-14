@@ -1,21 +1,17 @@
 export { Tabs }
 
 import React from 'react'
-import { Tabs as ReactTabs, TabList, Tab, TabPanel } from 'react-tabs'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
 
-function Tabs({ choice, children }: { choice: string; children: React.ReactNode }) {
+function Tabs({ choice }: { choice: string }) {
   const groupName = choice
   const pageContext = usePageContext()
   const choicesAll = pageContext.config.docpress.choices
-  assertUsage(
-    choicesAll && choicesAll[groupName],
-    `${groupName} is unknown`,
-  )
+  assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
 
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
@@ -23,8 +19,8 @@ function Tabs({ choice, children }: { choice: string; children: React.ReactNode 
   const selectedIndex = choices.indexOf(selectedChoice)
 
   return (
-    <ReactTabs data-choice-group={groupName} selectedIndex={selectedIndex} onSelect={handleOnSelect}>
-      {/* Hidden select used to control tablist and tabpanel styling and visibility via CSS. */}
+    <div className="react-tabs" data-choice-group={groupName}>
+      {/* Hidden select used to control tablist styling via CSS. */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map((choice, i) => (
           <option key={i} value={choice}>
@@ -32,22 +28,66 @@ function Tabs({ choice, children }: { choice: string; children: React.ReactNode 
           </option>
         ))}
       </select>
-      <TabList id={`choicesFor-${groupName}`}>
-        {choices.map((choice, index) => (
-          <Tab key={index}>{choice}</Tab>
+      <ul id={`choicesFor-${groupName}`} className="react-tabs__tab-list" role="tablist">
+        {choices.map((choice, i) => (
+          <li
+            key={i}
+            id={choice}
+            className="react-tabs__tab"
+            role="tab"
+            aria-selected={i === selectedIndex}
+            tabIndex={i === selectedIndex ? 0 : -1}
+            onClick={(e) => handleOnClick(e, i)}
+            onKeyDown={handleOnKeyDown}
+          >
+            {choice}
+          </li>
         ))}
-      </TabList>
-      {children}
-      {/* Render empty TabPanels to suppress the warning: "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs`." */}
-      {choices.map((_, index) => (
-        <TabPanel key={index} />
-      ))}
-    </ReactTabs>
+      </ul>
+    </div>
   )
 
-  function handleOnSelect(index: number, _last: number, event: Event) {
-    const el = event.currentTarget as HTMLDivElement
+  function handleOnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) {
+    const el = e.currentTarget
     prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
     setSelectedChoice(choices[index]!)
   }
+
+  function handleOnKeyDown(e: React.KeyboardEvent<HTMLLIElement>) {
+    const el = e.currentTarget
+    let nextIndex = selectedIndex
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextIndex = (selectedIndex + 1) % choices.length
+        break
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextIndex = (selectedIndex - 1 + choices.length) % choices.length
+        break
+      case 'Home':
+        nextIndex = 0
+        break
+      case 'End':
+        nextIndex = choices.length - 1
+        break
+      default:
+        return
+    }
+
+    e.preventDefault()
+    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    const nextChoice = choices[nextIndex]!
+    setSelectedChoice(nextChoice)
+    const tabEl = el.parentElement?.parentElement as HTMLDivElement
+
+    if (!isInViewport(tabEl)) tabEl.scrollIntoView({ block: 'start', behavior: 'smooth' })
+    el.focus()
+  }
+}
+
+function isInViewport(el: Element) {
+  const rect = el.getBoundingClientRect()
+  return rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth
 }

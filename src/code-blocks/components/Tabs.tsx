@@ -15,7 +15,7 @@ function Tabs({ choice }: { choice: string }) {
 
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  const prevPositionRef = useRestoreScroll([selectedChoice])
+  const setPrevPosition = useRestoreScroll([selectedChoice])
   const selectedIndex = choices.indexOf(selectedChoice)
 
   return (
@@ -49,7 +49,7 @@ function Tabs({ choice }: { choice: string }) {
 
   function handleOnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) {
     const el = e.currentTarget
-    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    setPrevPosition(el)
     setSelectedChoice(choices[index]!)
   }
 
@@ -75,7 +75,7 @@ function Tabs({ choice }: { choice: string }) {
     }
 
     e.preventDefault()
-    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    setPrevPosition(el)
     const nextChoice = choices[nextIndex]!
     setSelectedChoice(nextChoice)
     const tabEl = el.parentElement?.parentElement as HTMLDivElement

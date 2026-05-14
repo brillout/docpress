@@ -133,7 +133,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     parentChoiceGroup,
   } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  const prevPositionRef = useRestoreScroll([selectedChoice])
+  const setPrevPosition = useRestoreScroll([selectedChoice])
   const [expanded, setExpanded] = useState(false)
   const selectedIndex = choices.indexOf(selectedChoice)
   const height = 25
@@ -197,7 +197,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.stopPropagation()
     const el = e.currentTarget
-    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+    setPrevPosition(el)
     if (el.getAttribute('aria-selected') === 'true') {
       next()
     } else if (el.getAttribute('aria-disabled') === 'false') {

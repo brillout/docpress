@@ -11,7 +11,7 @@ type ScrollPosition = { top: number; el: Element }
  * preserving the user’s scroll position.
  *
  * @param deps Dependencies that trigger scroll restoration
- * @returns Ref holding the tracked element and its previous top position
+ * @returns Function to set the previous top position
  */
 function useRestoreScroll(deps: React.DependencyList) {
   const prevPositionRef = useRef<ScrollPosition | null>(null)
@@ -27,5 +27,9 @@ function useRestoreScroll(deps: React.DependencyList) {
     prevPositionRef.current = null
   }, deps)
 
-  return prevPositionRef
+  const setPrevPosition = (el: Element) => {
+    prevPositionRef.current = { top: el.getBoundingClientRect().top, el }
+  }
+
+  return setPrevPosition
 }

@@ -1,3 +1,17 @@
+## [0.16.35](https://github.com/brillout/docpress/compare/v0.16.34...v0.16.35) (2026-05-16)
+
+
+### Bug Fixes
+
+* remove hover-based opacity hiding for select dropdown and copy button ([#131](https://github.com/brillout/docpress/issues/131)) ([c93930f](https://github.com/brillout/docpress/commit/c93930f38e036906e2a27e1bd97f802746c48729))
+
+
+### Features
+
+* Tabs ([#132](https://github.com/brillout/docpress/issues/132)) ([e38e467](https://github.com/brillout/docpress/commit/e38e467575540855538c0abb359e0855df24a346))
+
+
+
 ## [0.16.34](https://github.com/brillout/docpress/compare/v0.16.33...v0.16.34) (2026-04-21)
 
 

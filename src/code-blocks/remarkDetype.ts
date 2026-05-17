@@ -33,6 +33,9 @@ function remarkDetype() {
       // Skip if 'ts-only' meta is present
       if (node.meta?.includes('ts-only')) return
 
+      // Skip if 'customDataChoice' is 'TypeScript'
+      if (node.data?.customDataChoice === 'TypeScript') return
+
       // Collect this node for post-processing
       code_nodes.push({ codeBlock: node, index, parent })
     })

@@ -25,6 +25,11 @@ const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> =
 
 function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide: boolean = false): MdxJsxFlowElement {
   let lvl: number = 0
+  const customHidden = choiceNodes.some((node) =>
+    node.children.some((node) => node.type === 'containerDirective' && node.children[0]!.type !== 'code'),
+  )
+  const hidden = hide || customHidden
+
   const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
@@ -66,7 +71,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   }
 
   attributes.push(
-    expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 || hide, lvl }),
+    expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }),
   )
 
   const choiceGroupNode: MdxJsxFlowElement = {

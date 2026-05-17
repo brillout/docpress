@@ -109,7 +109,7 @@ function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupPr
         ))}
       </select>
       {children}
-      {lvl === 0 && (
+      {lvl === 0 && !choiceGroup.hidden && (
         <div className={`choice-group__selects`}>
           {choiceGroupAll
             .slice()

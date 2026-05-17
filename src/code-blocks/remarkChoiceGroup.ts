@@ -28,9 +28,8 @@ function remarkChoiceGroup() {
       }
     })
 
-    const replaced = new WeakSet()
     visit(tree, (node) => {
-      if (!('children' in node) || replaced.has(node)) return 'skip'
+      if (!('children' in node) || node.data?.customDataIsVisited) return 'skip'
 
       let start = -1
       let end = 0
@@ -43,9 +42,10 @@ function remarkChoiceGroup() {
 
         for (const choiceNodes of choiceNodesFiltered) {
           const replacement = generateChoiceGroupCode(choiceNodes, node)
+          replacement.data ??= {}
+          replacement.data.customDataIsVisited = true
           replacements.push(replacement)
         }
-        replaced.add(replacements)
 
         node.children.splice(start, end - start, ...replacements)
 
@@ -56,7 +56,7 @@ function remarkChoiceGroup() {
       for (; end < node.children.length; end++) {
         const child = node.children[end]!
 
-        if (!['code', 'mdxJsxFlowElement', 'containerDirective'].includes(child.type)) {
+        if (!['code', 'containerDirective'].includes(child.type)) {
           process()
           continue
         }
@@ -85,7 +85,6 @@ function filterChoices(nodes: ChoiceNode['children']) {
       .map((node) => {
         const choice = node.data!.customDataChoice!
         const nodes = nodesByChoice.get(choice) ?? []
-        node.data!.customDataChoice = undefined
         nodes.push(node)
         nodesByChoice.set(choice, nodes)
       })
@@ -99,6 +98,7 @@ function filterChoices(nodes: ChoiceNode['children']) {
 
 declare module 'mdast' {
   export interface Data {
+    customDataIsVisited?: boolean
     customDataChoice?: string
     customDataFilter?: string
     customDataParentChoiceGroup?: {

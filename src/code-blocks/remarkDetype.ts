@@ -54,9 +54,6 @@ function transformYaml(node: CodeNode) {
   // Skip wrapping if the YAML code block hasn't changed
   if (codeBlockContentJs === codeBlock.value) return
 
-  const meta = parseMetaString(codeBlock.meta, ['choice'])
-  const { choice } = meta.props
-  codeBlock.meta = meta.rest
   const { position, ...rest } = codeBlock
 
   // Create a new code node for the JS version based on the modified YAML
@@ -71,20 +68,15 @@ function transformYaml(node: CodeNode) {
     { choiceValue: 'TypeScript', children: [codeBlock] },
   ]
   const replacement = generateChoiceGroupCode(choiceNodes, parent, true)
-  replacement.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
 
   parent.children.splice(index, 1, replacement)
 }
 
 async function transformTsToJs(node: CodeNode, file: VFile) {
   const { codeBlock, index, parent } = node
-  const meta = parseMetaString(codeBlock.meta, ['max-width', 'choice'])
+  const meta = parseMetaString(codeBlock.meta, ['max-width'])
   const maxWidth = Number(meta.props['max-width'])
-  const { choice } = meta.props
   codeBlock.meta = meta.rest
-
-  codeBlock.data ??= { customDataChoice: choice, customDataFilter: 'codeLang' }
-  if (choice === 'TypeScript') return
 
   let codeBlockReplacedJs = replaceFileNameSuffixes(codeBlock.value)
   let codeBlockContentJs = ''
@@ -126,7 +118,7 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // No wrapping needed if JS and TS code are still identical
   if (codeBlockContentJs === codeBlock.value) return
 
-  const { position, lang, data, ...rest } = codeBlock
+  const { position, lang, ...rest } = codeBlock
 
   const tsCode: Code = { ...rest, lang }
   const jsCode: Code = {
@@ -144,8 +136,6 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
   // Add `hide` prop to `<ChoiceGroup>` if the only change was replacing `.ts` with `.js`
   const hide = codeBlockReplacedJs === codeBlockContentJs
   const replacement = generateChoiceGroupCode(choiceNodes, parent, hide)
-
-  replacement.data ??= { ...data }
 
   parent.children.splice(index, 1, replacement)
 }

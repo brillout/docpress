@@ -1,3 +1,14 @@
+## [0.16.36](https://github.com/brillout/docpress/compare/v0.16.35...v0.16.36) (2026-05-18)
+
+
+### Bug Fixes
+
+* improve and simplify choice handling in `remarkDetype` ([#142](https://github.com/brillout/docpress/issues/142)) ([5743954](https://github.com/brillout/docpress/commit/5743954333711ec019590758608916e647946312))
+* improve hidden logic for ChoiceGroup dropdown rendering ([#143](https://github.com/brillout/docpress/issues/143)) ([797f17e](https://github.com/brillout/docpress/commit/797f17e4a43a35854fef757c3e9489c16bbfc893))
+* raise choice-select dropdown z-index when expanded ([3867953](https://github.com/brillout/docpress/commit/3867953fceca31858a9bba7c78759337f275f845))
+
+
+
 ## [0.16.35](https://github.com/brillout/docpress/compare/v0.16.34...v0.16.35) (2026-05-16)
 
 

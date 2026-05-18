@@ -10,7 +10,6 @@
     display: flex;
     flex-direction: row-reverse;
     gap: 2px;
-    z-index: 3;
     top: var(--top-position);
     right: 42px;
   }
@@ -18,6 +17,7 @@
   .choice-select {
     background: #eee;
     font-size: 13.3333px;
+    z-index: 3;
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
@@ -58,6 +58,7 @@
   .choice-select[aria-expanded='true'] {
     overflow: visible;
     border-width: 0;
+    z-index: 5;
 
     .choice-select__list {
       border-style: solid;

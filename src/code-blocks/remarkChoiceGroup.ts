@@ -16,7 +16,10 @@ function remarkChoiceGroup() {
         const { choice } = meta.props
         node.meta = meta.rest
 
-        if (choice) node.data ??= { customDataChoice: choice, customDataFilter: `code-${node.lang}` }
+        if (choice) {
+          const filter = ['jsx', 'tsx', 'vue'].includes(node.lang ?? '') ? 'code-component' : `code-${node.lang}`
+          node.data ??= { customDataChoice: choice, customDataFilter: filter }
+        }
       }
       if (node.type === 'containerDirective' && node.name === 'Choice') {
         if (!node.attributes) return

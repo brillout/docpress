@@ -108,12 +108,12 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   })
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const disabled = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice))
+  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice))
 
   const choiceGroup = {
     name: groupName,
     ...choicesAll[groupName]!,
-    disabled,
+    emptyChoices,
   }
 
   const mergedChoiceNodes: ChoiceNode[] = choiceGroup.choices.map((choice) => {

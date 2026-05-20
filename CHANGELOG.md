@@ -1,3 +1,12 @@
+## [0.16.37](https://github.com/brillout/docpress/compare/v0.16.36...v0.16.37) (2026-05-20)
+
+
+### Bug Fixes
+
+* group `jsx|tsx` and `vue` code blocks together ([#144](https://github.com/brillout/docpress/issues/144)) ([6b10ca1](https://github.com/brillout/docpress/commit/6b10ca1397cc40f9b155451e2b2cd230be5a1d25))
+
+
+
 ## [0.16.36](https://github.com/brillout/docpress/compare/v0.16.35...v0.16.36) (2026-05-18)
 
 

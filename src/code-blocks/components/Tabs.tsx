@@ -7,7 +7,7 @@ import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
 
-function Tabs({ choice }: { choice: string }) {
+function Tabs({ choice, hiddenChoices = [] }: { choice: string; hiddenChoices: string[] }) {
   const groupName = choice
   const pageContext = usePageContext()
   const choicesAll = pageContext.config.docpress.choices
@@ -16,7 +16,9 @@ function Tabs({ choice }: { choice: string }) {
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
-  const selectedIndex = choices.indexOf(selectedChoice)
+  const isHidden = (choice: string) => hiddenChoices.includes(choice)
+  const filteredChoices = choices.filter((choice) => !isHidden(choice))
+  const selectedIndex = filteredChoices.indexOf(selectedChoice)
 
   return (
     <div className="choice-tabs" data-choice-group={groupName}>
@@ -33,6 +35,7 @@ function Tabs({ choice }: { choice: string }) {
           <li
             key={i}
             id={choice}
+            style={{ display: isHidden(choice) ? 'none' : undefined }}
             className="choice-tabs__tab"
             role="tab"
             aria-selected={i === selectedIndex}
@@ -59,16 +62,16 @@ function Tabs({ choice }: { choice: string }) {
 
     switch (e.key) {
       case 'ArrowRight':
-        nextIndex = (selectedIndex + 1) % choices.length
+        nextIndex = (selectedIndex + 1) % filteredChoices.length
         break
       case 'ArrowLeft':
-        nextIndex = (selectedIndex - 1 + choices.length) % choices.length
+        nextIndex = (selectedIndex - 1 + filteredChoices.length) % filteredChoices.length
         break
       case 'Home':
         nextIndex = 0
         break
       case 'End':
-        nextIndex = choices.length - 1
+        nextIndex = filteredChoices.length - 1
         break
       default:
         return
@@ -76,7 +79,7 @@ function Tabs({ choice }: { choice: string }) {
 
     e.preventDefault()
     setPrevPosition(el)
-    const nextChoice = choices[nextIndex]!
+    const nextChoice = filteredChoices[nextIndex]!
     setSelectedChoice(nextChoice)
     const tabEl = el.parentElement?.parentElement as HTMLDivElement
 

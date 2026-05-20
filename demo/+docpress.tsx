@@ -49,7 +49,7 @@ const config: Config = {
   navMaxWidth: 1140,
   choices: {
     server: {
-      choices: ['Hono', 'Express', 'Fastify'],
+      choices: ['Hono', 'Express', 'Fastify', 'H3'],
       default: 'Hono',
     },
     uiFrameworkVikeExtension: {

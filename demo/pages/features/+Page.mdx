@@ -251,7 +251,9 @@ npm install fastify fastify-raw-body @photonjs/fastify
 
 Using the `<Tabs choice="choice-name">` component to also display tabbed choices:
 
-<Tabs choice={'server'} />
+> Passing `hiddenChoices={['choice-name']}` to hide specific choices from the tab list.
+
+<Tabs choice={'server'} hiddenChoices={['H3']} />
 
 ```ts choice=Hono file-added
 // server/index.ts

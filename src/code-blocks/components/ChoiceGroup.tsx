@@ -9,8 +9,8 @@ import './ChoiceGroup.css'
 type TChoiceGroup = {
   name: string
   choices: string[]
+  emptyChoices: string[]
   default: string
-  disabled: string[]
   hidden: boolean
   lvl: number
 }
@@ -124,31 +124,20 @@ function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupPr
 }
 
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
-  const {
-    name: groupName,
-    choices,
-    default: defaultChoice,
-    disabled: disabledChoices,
-    hidden,
-    parentChoiceGroup,
-  } = choiceGroup
+  const { name: groupName, choices, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const [expanded, setExpanded] = useState(false)
-  const selectedIndex = choices.indexOf(selectedChoice)
+
+  const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
+  const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice))
+  const selectedIndex = filteredChoices.indexOf(selectedChoice)
   const height = 25
   const rectTop = -selectedIndex * height
 
-  const isDisabled = (choice: string) => disabledChoices.includes(choice)
   function next() {
-    let nextIndex = selectedIndex
-    for (let i = 0; i < choices.length; i++) {
-      nextIndex = (nextIndex + 1) % choices.length
-      if (!isDisabled(choices[nextIndex]!)) {
-        setSelectedChoice(choices[nextIndex]!)
-        return
-      }
-    }
+    const nextIndex = (selectedIndex + 1) % filteredChoices.length
+    setSelectedChoice(filteredChoices[nextIndex]!)
   }
   function isHidden() {
     if (parentChoiceGroup) {
@@ -163,7 +152,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
       aria-expanded={expanded}
-      className={cls(['choice-select', (isHidden() || isDisabled(selectedChoice)) && 'hidden'])}
+      className={cls(['choice-select', (isHidden() || isEmptyChoice(selectedChoice)) && 'hidden'])}
       style={{ height }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
@@ -175,14 +164,13 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         aria-activedescendant={`choice-${selectedChoice}`}
         role="listbox"
         className="choice-select__list"
-        style={{ top: rectTop, height: choices.length * height }}
+        style={{ top: rectTop, height: filteredChoices.length * height }}
       >
-        {choices.map((choice, i) => (
+        {filteredChoices.map((choice, i) => (
           <div
             id={choice}
             key={i}
             aria-selected={i === selectedIndex}
-            aria-disabled={isDisabled(choice)}
             role="option"
             className="choice-select__option"
             style={{ height }}
@@ -200,7 +188,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     setPrevPosition(el)
     if (el.getAttribute('aria-selected') === 'true') {
       next()
-    } else if (el.getAttribute('aria-disabled') === 'false') {
+    } else {
       setSelectedChoice(el.id)
     }
   }

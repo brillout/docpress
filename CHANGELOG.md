@@ -1,3 +1,12 @@
+## [0.16.39](https://github.com/brillout/docpress/compare/v0.16.38...v0.16.39) (2026-05-21)
+
+
+### Bug Fixes
+
+* rename `hiddenChoices` to `hide` in Tabs component ([f50a8af](https://github.com/brillout/docpress/commit/f50a8afc2afcbb68fa8e141818ccf03f5e27e770))
+
+
+
 ## [0.16.38](https://github.com/brillout/docpress/compare/v0.16.37...v0.16.38) (2026-05-21)
 
 

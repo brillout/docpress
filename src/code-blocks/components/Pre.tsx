@@ -30,8 +30,8 @@ function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & Add
       className={cls([className, props['file-added'] && classAdded, props['file-removed'] && classRemoved])}
       {...rest}
     >
-      {!props['hide-menu'] && <CopyButton />}
       {children}
+      {!props['hide-menu'] && <CopyButton />}
     </pre>
   )
 }

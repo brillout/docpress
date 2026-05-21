@@ -7,7 +7,7 @@ import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
 
-function Tabs({ choice, hiddenChoices = [] }: { choice: string; hiddenChoices: string[] }) {
+function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const groupName = choice
   const pageContext = usePageContext()
   const choicesAll = pageContext.config.docpress.choices
@@ -16,7 +16,7 @@ function Tabs({ choice, hiddenChoices = [] }: { choice: string; hiddenChoices: s
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
-  const isHidden = (choice: string) => hiddenChoices.includes(choice)
+  const isHidden = (choice: string) => hide.includes(choice)
   const filteredChoices = choices.filter((choice) => !isHidden(choice))
   const selectedIndex = filteredChoices.indexOf(selectedChoice)
 

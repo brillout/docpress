@@ -1,3 +1,13 @@
+## [0.16.38](https://github.com/brillout/docpress/compare/v0.16.37...v0.16.38) (2026-05-21)
+
+
+### Bug Fixes
+
+* hide empty choices from dropdown and tab list ([#145](https://github.com/brillout/docpress/issues/145)) ([0181603](https://github.com/brillout/docpress/commit/01816038676e3efe03cef5baf42000c670504457))
+* prevent choice-dropdown and copy-button from overlapping incorrectly ([#146](https://github.com/brillout/docpress/issues/146)) ([#147](https://github.com/brillout/docpress/issues/147)) ([74dcfa3](https://github.com/brillout/docpress/commit/74dcfa3f25da6368fcbcf7e41c550be04bea3496))
+
+
+
 ## [0.16.37](https://github.com/brillout/docpress/compare/v0.16.36...v0.16.37) (2026-05-20)
 
 

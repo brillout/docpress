@@ -17,7 +17,6 @@
   .choice-select {
     background: #eee;
     font-size: 13.3333px;
-    z-index: 3;
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
@@ -58,7 +57,7 @@
   .choice-select[aria-expanded='true'] {
     overflow: visible;
     border-width: 0;
-    z-index: 5;
+    z-index: 1;
 
     .choice-select__list {
       border-style: solid;

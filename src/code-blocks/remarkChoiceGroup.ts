@@ -1,14 +1,17 @@
 export { remarkChoiceGroup }
 
 import type { Root } from 'mdast'
+import type { Plugin, Transformer } from 'unified'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+import { remarkPkgManager } from './remarkPkgManager.js'
+import { remarkDetype } from './remarkDetype.js'
 
-function remarkChoiceGroup() {
-  return function (tree: Root) {
+const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
+  return async (tree, file) => {
     visit(tree, (node) => {
       if (node.type === 'code') {
         if (!node.meta) return
@@ -74,6 +77,10 @@ function remarkChoiceGroup() {
 
       process()
     })
+
+    await remarkDetype.call(this)(tree, file)
+    remarkPkgManager.call(this)(tree, file)
+
   }
 }
 

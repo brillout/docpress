@@ -15,18 +15,15 @@ type TChoiceGroup = {
   lvl: number
 }
 
-type ParentChoiceGroup = {
-  name: string
-  default: string
+type ChoiceGroupWithParent = TChoiceGroup & {
+  parentChoiceGroup?: {
+    name: string
+    default: string
+    choices: string[]
+  }
 }
 
-type ChoiceGroupWithParent = TChoiceGroup & { parentChoiceGroup?: ParentChoiceGroup & { choices: string[] } }
-
-type ContextType = {
-  choiceGroupAll: ChoiceGroupWithParent[]
-}
-
-const CustomSelectsContainerContext = createContext<ContextType | undefined>(undefined)
+const CustomSelectsContainerContext = createContext<{ choiceGroupAll: ChoiceGroupWithParent[] } | undefined>(undefined)
 
 function useCustomSelectsContext() {
   const ctx = useContext(CustomSelectsContainerContext)
@@ -34,21 +31,14 @@ function useCustomSelectsContext() {
   return ctx
 }
 
-function CustomSelectsContainer({ children, choiceGroupAll }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
-
-  return (
-    <CustomSelectsContainerContext value={{ choiceGroupAll }}>
-      {children}
-    </CustomSelectsContainerContext>
-  )
+function CustomSelectsContainer({
+  children,
+  choiceGroupAll,
+}: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
+  return <CustomSelectsContainerContext value={{ choiceGroupAll }}>{children}</CustomSelectsContainerContext>
 }
 
-type ChoiceGroupProps = {
-  children: React.ReactNode
-  choiceGroup: TChoiceGroup
-}
-
-function ChoiceGroup({ children, choiceGroup }: ChoiceGroupProps) {
+function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; choiceGroup: TChoiceGroup }) {
   const { name: groupName, choices, default: defaultChoice, lvl } = choiceGroup
   const [selectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const { choiceGroupAll } = useCustomSelectsContext()
@@ -66,12 +56,9 @@ function ChoiceGroup({ children, choiceGroup }: ChoiceGroupProps) {
       {children}
       {lvl === 0 && !choiceGroup.hidden && (
         <div className={`choice-group__selects`}>
-          {choiceGroupAll
-            .slice()
-            .sort((a, b) => a.lvl - b.lvl)
-            .map((choiceGroup, i) => (
-              <CustomSelect key={i} choiceGroup={choiceGroup} />
-            ))}
+          {choiceGroupAll.map((choiceGroup, i) => (
+            <CustomSelect key={i} choiceGroup={choiceGroup} />
+          ))}
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 export { ChoiceGroup, CustomSelectsContainer }
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
@@ -24,7 +24,6 @@ type ChoiceGroupWithParent = TChoiceGroup & { parentChoiceGroup?: ParentChoiceGr
 
 type ContextType = {
   choiceGroupAll: ChoiceGroupWithParent[]
-  registerChoiceGroup: (choiceGroup: TChoiceGroup, parentChoiceGroup?: ParentChoiceGroup & { choice: string }) => void
 }
 
 const CustomSelectsContainerContext = createContext<ContextType | undefined>(undefined)
@@ -35,68 +34,24 @@ function useCustomSelectsContext() {
   return ctx
 }
 
-function CustomSelectsContainer({ children }: { children: React.ReactNode }) {
-  const [choiceGroupAll, setChoiceGroupAll] = useState<ChoiceGroupWithParent[]>([])
-
-  function registerChoiceGroup(choiceGroup: TChoiceGroup, parentChoiceGroup?: ParentChoiceGroup & { choice: string }) {
-    setChoiceGroupAll((prev) => {
-      const index = prev.findIndex((g) => g.name === choiceGroup.name)
-      const existing = prev[index]
-
-      if (!existing) {
-        return [
-          ...prev,
-          {
-            ...choiceGroup,
-            ...(parentChoiceGroup && {
-              parentChoiceGroup: {
-                ...parentChoiceGroup,
-                choices: !choiceGroup.hidden ? [parentChoiceGroup.choice] : [],
-              },
-            }),
-          },
-        ]
-      }
-
-      if (!parentChoiceGroup || !existing.parentChoiceGroup) return prev
-
-      const existingChoices = existing.parentChoiceGroup.choices
-      if (!choiceGroup.hidden) existing.parentChoiceGroup.choices.push(parentChoiceGroup.choice)
-
-      const mergedChoices = new Set([...existing.parentChoiceGroup.choices])
-      if (mergedChoices.size === existingChoices.length) return prev
-
-      const next = [...prev]
-      next[index] = {
-        ...existing,
-        parentChoiceGroup: {
-          ...existing.parentChoiceGroup,
-          choices: [...mergedChoices],
-        },
-      }
-      return next
-    })
-  }
+function CustomSelectsContainer({ children, choiceGroupAll }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
 
   return (
-    <CustomSelectsContainerContext.Provider value={{ choiceGroupAll, registerChoiceGroup }}>
+    <CustomSelectsContainerContext value={{ choiceGroupAll }}>
       {children}
-    </CustomSelectsContainerContext.Provider>
+    </CustomSelectsContainerContext>
   )
 }
 
 type ChoiceGroupProps = {
   children: React.ReactNode
   choiceGroup: TChoiceGroup
-  parentChoiceGroup?: ParentChoiceGroup & { choice: string }
 }
 
-function ChoiceGroup({ children, choiceGroup, parentChoiceGroup }: ChoiceGroupProps) {
+function ChoiceGroup({ children, choiceGroup }: ChoiceGroupProps) {
   const { name: groupName, choices, default: defaultChoice, lvl } = choiceGroup
   const [selectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  const { choiceGroupAll, registerChoiceGroup } = useCustomSelectsContext()
-
-  useEffect(() => registerChoiceGroup(choiceGroup, parentChoiceGroup), [])
+  const { choiceGroupAll } = useCustomSelectsContext()
 
   return (
     <div data-choice-group={groupName} data-lvl={lvl} className="choice-group">

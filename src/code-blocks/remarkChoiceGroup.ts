@@ -6,7 +6,7 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
-import { generateChoiceGroupCode } from './utils/generateChoiceGroupCode.js'
+import { generateChoiceGroupCode, expressionToAttribute } from './utils/generateChoiceGroupCode.js'
 import { remarkPkgManager } from './remarkPkgManager.js'
 import { remarkDetype } from './remarkDetype.js'
 
@@ -81,6 +81,49 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
     await remarkDetype.call(this)(tree, file)
     remarkPkgManager.call(this)(tree, file)
 
+    visit(tree, 'mdxJsxFlowElement', (node) => {
+      if (node.name !== 'CustomSelectsContainer') return 'skip'
+
+      const choiceGroupAll: ChoiceGroupWithParent[] = []
+
+      visit(node, 'mdxJsxFlowElement', (child) => {
+        if (child.name !== 'ChoiceGroup') return
+
+        const choiceGroup = child.data?.customDataChoiceGroup
+        const parentChoiceGroup = child.data?.customDataParentChoiceGroup
+
+        if (!choiceGroup) return
+
+        const existing = choiceGroupAll.find((g) => g.name === choiceGroup.name)
+
+        // first occurrence
+        if (!existing) {
+          choiceGroupAll.push({
+            ...choiceGroup,
+            ...(parentChoiceGroup && {
+              parentChoiceGroup: {
+                name: parentChoiceGroup.name,
+                default: parentChoiceGroup.default,
+                choices: !choiceGroup.hidden ? [parentChoiceGroup.choice] : [],
+              },
+            }),
+          })
+
+          return
+        }
+
+        // merge parent choices
+        if (parentChoiceGroup && existing.parentChoiceGroup && !choiceGroup.hidden) {
+          existing.parentChoiceGroup.choices = [
+            ...new Set([...existing.parentChoiceGroup.choices, parentChoiceGroup.choice]),
+          ]
+        }
+      })
+
+      node.attributes.push(expressionToAttribute('choiceGroupAll', choiceGroupAll))
+
+      return 'skip'
+    })
   }
 }
 
@@ -106,15 +149,25 @@ function filterChoices(nodes: ChoiceNode['children']) {
   return [...filteredChoices]
 }
 
+type ChoiceGroup = {
+  name: string
+  choices: string[]
+  emptyChoices: string[]
+  default: string
+  hidden: boolean
+  lvl: number
+}
+type ParentChoiceGroup = { name: string; default: string }
+type ChoiceGroupWithParent = ChoiceGroup & { parentChoiceGroup?: ParentChoiceGroup & { choices: string[] } }
+
 declare module 'mdast' {
   export interface Data {
     customDataIsVisited?: boolean
     customDataChoice?: string
     customDataFilter?: string
-    customDataParentChoiceGroup?: {
-      name: string
+    customDataChoiceGroup?: ChoiceGroup
+    customDataParentChoiceGroup?: ParentChoiceGroup & {
       choice: string
-      default: string
       lvl: number
     }
   }

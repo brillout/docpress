@@ -1,8 +1,8 @@
-export { generateChoiceGroupCode }
+export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
-import type { MdxJsxAttribute, MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
+import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
 import { assertUsage } from '../../utils/assert.js'
 import { valueToEstree } from 'estree-util-value-to-estree'
@@ -33,6 +33,15 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
+  let data: MdxJsxFlowElementData = {}
+
+  if (parent.data?.customDataParentChoiceGroup) {
+    const { lvl: parentLvl } = parent.data.customDataParentChoiceGroup
+    lvl = parentLvl + 1
+
+    data.customDataParentChoiceGroup = parent.data.customDataParentChoiceGroup
+    parent.data = undefined
+  }
 
   for (const choiceNode of mergedChoiceNodes) {
     const choiceChildren: (BlockContent | DefinitionContent)[] = []
@@ -51,34 +60,31 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
       ],
       children: choiceChildren,
       data: {
-        customDataParentChoiceGroup: {
-          name: choiceGroup.name,
-          choice: choiceNode.choiceValue,
-          default: choiceGroup.default,
-          lvl,
-        },
+        ...(!Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name) && {
+          customDataParentChoiceGroup: {
+            name: choiceGroup.name,
+            choice: choiceNode.choiceValue,
+            default: choiceGroup.default,
+            lvl,
+          },
+        }),
       },
     })
   }
 
-  if (parent.data?.customDataParentChoiceGroup) {
-    const { lvl: parentLvl, ...parentChoiceGroup } = parent.data.customDataParentChoiceGroup
+  const choiceGroupAttr = { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }
 
-    attributes.push(expressionToAttribute('parentChoiceGroup', parentChoiceGroup))
-
-    lvl = parentLvl + 1
-    parent.data.customDataParentChoiceGroup = undefined
-  }
-
-  attributes.push(
-    expressionToAttribute('choiceGroup', { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }),
-  )
+  attributes.push(expressionToAttribute('choiceGroup', choiceGroupAttr))
 
   const choiceGroupNode: MdxJsxFlowElement = {
     type: 'mdxJsxFlowElement',
     name: 'ChoiceGroup',
     attributes,
     children,
+    data: {
+      ...data,
+      customDataChoiceGroup: choiceGroupAttr,
+    },
   }
 
   if (lvl === 0) {

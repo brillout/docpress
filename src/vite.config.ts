@@ -14,9 +14,7 @@ import { transformerNotationDiff, transformerNotationWordHighlight } from '@shik
 // https://github.com/shikijs/shiki/compare/main...brillout:shiki:brillout/highlight-color-param
 import { transformerNotationHighlight } from '@brillout/shiki-transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
-import { remarkDetype } from './code-blocks/remarkDetype.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
-import { remarkPkgManager } from './code-blocks/remarkPkgManager.js'
 import { remarkChoiceGroup } from './code-blocks/remarkChoiceGroup.js'
 
 const root = process.cwd()
@@ -34,7 +32,7 @@ const prettyCode = [
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
-const remarkPlugins = [remarkGfm, remarkDirective, remarkChoiceGroup, remarkDetype, remarkPkgManager]
+const remarkPlugins = [remarkGfm, remarkDirective, remarkChoiceGroup]
 
 const config: UserConfig = {
   root,

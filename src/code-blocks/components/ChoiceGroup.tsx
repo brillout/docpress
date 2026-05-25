@@ -105,13 +105,13 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       >
         {filteredChoices.map((choice, i) => (
           <div
-            id={choice}
+            id={`choice-${choice}`}
             key={i}
             aria-selected={i === selectedIndex}
             role="option"
             className="choice-select__option"
             style={{ height }}
-            onClick={handleOnClick}
+            onClick={(e) => handleOnClick(e, choice)}
           >
             {choice}
           </div>
@@ -119,14 +119,14 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       </div>
     </div>
   )
-  function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, choice: string) {
     e.stopPropagation()
     const el = e.currentTarget
     setPrevPosition(el)
     if (el.getAttribute('aria-selected') === 'true') {
       next()
     } else {
-      setSelectedChoice(el.id)
+      setSelectedChoice(choice)
     }
   }
 }

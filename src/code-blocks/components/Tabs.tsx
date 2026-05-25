@@ -34,13 +34,13 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
         {choices.map((choice, i) => (
           <li
             key={choice}
-            id={choice}
+            id={`tab-${choice}`}
             style={{ display: isHidden(choice) ? 'none' : undefined }}
             className="choice-tabs__tab"
             role="tab"
             aria-selected={i === selectedIndex}
             tabIndex={i === selectedIndex ? 0 : -1}
-            onClick={(e) => handleOnClick(e, i)}
+            onClick={(e) => handleOnClick(e, choice)}
             onKeyDown={handleOnKeyDown}
           >
             {choice}
@@ -50,10 +50,9 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
     </div>
   )
 
-  function handleOnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) {
-    const el = e.currentTarget
-    setPrevPosition(el)
-    setSelectedChoice(choices[index]!)
+  function handleOnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, choice: string) {
+    setPrevPosition(e.currentTarget)
+    setSelectedChoice(choice)
   }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLLIElement>) {

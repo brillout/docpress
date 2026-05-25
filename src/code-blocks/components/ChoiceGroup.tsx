@@ -70,6 +70,8 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const [expanded, setExpanded] = useState(false)
+  const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name ?? '', parentChoiceGroup?.default ?? '')
+  const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
 
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice))
@@ -81,20 +83,13 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     const nextIndex = (selectedIndex + 1) % filteredChoices.length
     setSelectedChoice(filteredChoices[nextIndex]!)
   }
-  function isHidden() {
-    if (parentChoiceGroup) {
-      const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup.name, parentChoiceGroup.default)
-      return !parentChoiceGroup.choices.includes(parentSelectedChoice)
-    }
-    return hidden
-  }
 
   return (
     <div
       id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
       aria-expanded={expanded}
-      className={cls(['choice-select', (isHidden() || isEmptyChoice(selectedChoice)) && 'hidden'])}
+      className={cls(['choice-select', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
       style={{ height }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}

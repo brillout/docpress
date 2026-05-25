@@ -24,8 +24,8 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
     <div className="choice-tabs" data-choice-group={groupName}>
       {/* Hidden select used to control tablist styling via CSS. */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
-        {choices.map((choice, i) => (
-          <option key={i} value={choice}>
+        {choices.map((choice) => (
+          <option key={choice} value={choice}>
             {choice}
           </option>
         ))}
@@ -33,14 +33,14 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
       <ul id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="tablist">
         {choices.map((choice, i) => (
           <li
-            key={i}
-            id={choice}
+            key={choice}
+            id={`tab-${choice}`}
             style={{ display: isHidden(choice) ? 'none' : undefined }}
             className="choice-tabs__tab"
             role="tab"
             aria-selected={i === selectedIndex}
             tabIndex={i === selectedIndex ? 0 : -1}
-            onClick={(e) => handleOnClick(e, i)}
+            onClick={(e) => handleOnClick(e, choice)}
             onKeyDown={handleOnKeyDown}
           >
             {choice}
@@ -50,10 +50,9 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
     </div>
   )
 
-  function handleOnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) {
-    const el = e.currentTarget
-    setPrevPosition(el)
-    setSelectedChoice(choices[index]!)
+  function handleOnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, choice: string) {
+    setPrevPosition(e.currentTarget)
+    setSelectedChoice(choice)
   }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLLIElement>) {

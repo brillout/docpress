@@ -47,8 +47,8 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
     <div data-choice-group={groupName} data-lvl={lvl} className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
-        {choices.map((choice, i) => (
-          <option key={i} value={choice}>
+        {choices.map((choice) => (
+          <option key={choice} value={choice}>
             {choice}
           </option>
         ))}
@@ -56,8 +56,8 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
       {children}
       {lvl === 0 && !choiceGroup.hidden && (
         <div className={`choice-group__selects`}>
-          {choiceGroupAll.map((choiceGroup, i) => (
-            <CustomSelect key={i} choiceGroup={choiceGroup} />
+          {choiceGroupAll.map((choiceGroup) => (
+            <CustomSelect key={choiceGroup.name} choiceGroup={choiceGroup} />
           ))}
         </div>
       )}
@@ -65,37 +65,27 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
   )
 }
 
+const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const { name: groupName, choices, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  const setPrevPosition = useRestoreScroll([selectedChoice])
   const [expanded, setExpanded] = useState(false)
+  const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
+  const setPrevPosition = useRestoreScroll([selectedChoice])
 
+  const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice))
   const selectedIndex = filteredChoices.indexOf(selectedChoice)
-  const height = 25
-  const rectTop = -selectedIndex * height
-
-  function next() {
-    const nextIndex = (selectedIndex + 1) % filteredChoices.length
-    setSelectedChoice(filteredChoices[nextIndex]!)
-  }
-  function isHidden() {
-    if (parentChoiceGroup) {
-      const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup.name, parentChoiceGroup.default)
-      return !parentChoiceGroup.choices.includes(parentSelectedChoice)
-    }
-    return hidden
-  }
+  const rectTop = -selectedIndex * OPTION_HEIGHT
 
   return (
     <div
       id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
       aria-expanded={expanded}
-      className={cls(['choice-select', (isHidden() || isEmptyChoice(selectedChoice)) && 'hidden'])}
-      style={{ height }}
+      className={cls(['choice-select', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
+      style={{ height: OPTION_HEIGHT }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       onClick={() => {
@@ -106,17 +96,17 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         aria-activedescendant={`choice-${selectedChoice}`}
         role="listbox"
         className="choice-select__list"
-        style={{ top: rectTop, height: filteredChoices.length * height }}
+        style={{ top: rectTop, height: filteredChoices.length * OPTION_HEIGHT }}
       >
         {filteredChoices.map((choice, i) => (
           <div
-            id={choice}
-            key={i}
+            id={`choice-${choice}`}
+            key={choice}
             aria-selected={i === selectedIndex}
             role="option"
             className="choice-select__option"
-            style={{ height }}
-            onClick={handleOnClick}
+            style={{ height: OPTION_HEIGHT }}
+            onClick={(e) => handleOnClick(e, choice)}
           >
             {choice}
           </div>
@@ -124,14 +114,19 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       </div>
     </div>
   )
-  function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+
+  function next() {
+    const nextIndex = (selectedIndex + 1) % filteredChoices.length
+    setSelectedChoice(filteredChoices[nextIndex]!)
+  }
+  function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, choice: string) {
     e.stopPropagation()
     const el = e.currentTarget
     setPrevPosition(el)
     if (el.getAttribute('aria-selected') === 'true') {
       next()
     } else {
-      setSelectedChoice(el.id)
+      setSelectedChoice(choice)
     }
   }
 }

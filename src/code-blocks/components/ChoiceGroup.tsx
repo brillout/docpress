@@ -47,8 +47,8 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
     <div data-choice-group={groupName} data-lvl={lvl} className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
-        {choices.map((choice, i) => (
-          <option key={i} value={choice}>
+        {choices.map((choice) => (
+          <option key={choice} value={choice}>
             {choice}
           </option>
         ))}
@@ -56,8 +56,8 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
       {children}
       {lvl === 0 && !choiceGroup.hidden && (
         <div className={`choice-group__selects`}>
-          {choiceGroupAll.map((choiceGroup, i) => (
-            <CustomSelect key={i} choiceGroup={choiceGroup} />
+          {choiceGroupAll.map((choiceGroup) => (
+            <CustomSelect key={choiceGroup.name} choiceGroup={choiceGroup} />
           ))}
         </div>
       )}
@@ -106,7 +106,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         {filteredChoices.map((choice, i) => (
           <div
             id={`choice-${choice}`}
-            key={i}
+            key={choice}
             aria-selected={i === selectedIndex}
             role="option"
             className="choice-select__option"

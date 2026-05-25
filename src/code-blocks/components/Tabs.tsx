@@ -24,8 +24,8 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
     <div className="choice-tabs" data-choice-group={groupName}>
       {/* Hidden select used to control tablist styling via CSS. */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
-        {choices.map((choice, i) => (
-          <option key={i} value={choice}>
+        {choices.map((choice) => (
+          <option key={choice} value={choice}>
             {choice}
           </option>
         ))}
@@ -33,7 +33,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
       <ul id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="tablist">
         {choices.map((choice, i) => (
           <li
-            key={i}
+            key={choice}
             id={choice}
             style={{ display: isHidden(choice) ? 'none' : undefined }}
             className="choice-tabs__tab"

@@ -52,9 +52,9 @@ const config: Config = {
       choices: ['Hono', 'Express', 'Fastify', 'H3'],
       default: 'Hono',
     },
-    uiFrameworkVikeExtension: {
-      choices: ['vike-react', 'vike-vue', 'vike-solid'],
-      default: 'vike-react',
+    uiFramework: {
+      choices: ['React', 'Vue', 'Solid'],
+      default: 'React',
     },
   },
 }

@@ -1,6 +1,7 @@
 export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
+import type { Choices } from '../../types/Config.js'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
@@ -12,14 +13,25 @@ type ChoiceNode = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> = {
+// TODO: determine icon representation for CHOICES_BUILT_IN given lack of SVG/file import support
+const CHOICES_BUILT_IN: Choices = {
   codeLang: {
     choices: ['JavaScript', 'TypeScript'],
     default: 'JavaScript',
+    icons: {
+      JavaScript: 'iconJavascript',
+      TypeScript: 'iconTypescript',
+    },
   },
   pkgManager: {
     choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
     default: 'npm',
+    icons: {
+      npm: 'iconNpm',
+      pnpm: 'iconPnpm',
+      Bun: 'iconBun',
+      Yarn: 'iconYarn',
+    },
   },
 }
 
@@ -121,6 +133,13 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
     ...choicesAll[groupName]!,
     emptyChoices,
   }
+
+  const missingIcons = choices.filter((choice) => !(choice in choiceGroup.icons))
+
+  assertUsage(
+    missingIcons.length === 0,
+    `Missing icon(s) for [${missingIcons}]. Define it in +docpress.choices[${choiceGroup.name}].`,
+  )
 
   const mergedChoiceNodes: ChoiceNode[] = choiceGroup.choices.map((choice) => {
     const node = choiceNodes.find((node) => node.choiceValue === choice)

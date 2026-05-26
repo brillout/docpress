@@ -5,6 +5,7 @@ import logo from './assets/logo.svg'
 import favicon from './assets/favicon.svg'
 import { headings, headingsDetached, categories } from './headings'
 import { TopNavigation } from './TopNavigation'
+import { iconHono, iconExpress, iconFastify, iconH3, iconReact, iconVue, iconSolid } from './assets/choices-icons'
 import React from 'react'
 
 const config: Config = {
@@ -51,10 +52,21 @@ const config: Config = {
     server: {
       choices: ['Hono', 'Express', 'Fastify', 'H3'],
       default: 'Hono',
+      icons: {
+        Hono: iconHono,
+        Express: iconExpress,
+        Fastify: iconFastify,
+        H3: iconH3
+      }
     },
     uiFramework: {
       choices: ['React', 'Vue', 'Solid'],
       default: 'React',
+      icons: {
+        'React': iconReact,
+        'Vue': iconVue,
+        'Solid': iconSolid
+      }
     },
   },
 }

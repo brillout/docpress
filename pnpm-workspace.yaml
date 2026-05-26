@@ -1,3 +1,7 @@
 packages:
   - 'src/'
   - 'demo/'
+allowBuilds:
+  '@biomejs/biome': true
+  esbuild: true
+  playwright-chromium: true

@@ -151,7 +151,7 @@ function filterChoices(nodes: ChoiceNode['children']) {
 
 type ChoiceGroup = {
   name: string
-  choices: string[]
+  choices: { name: string; icon: string }[]
   emptyChoices: string[]
   default: string
   hidden: boolean

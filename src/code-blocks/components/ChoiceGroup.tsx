@@ -8,7 +8,7 @@ import './ChoiceGroup.css'
 
 type TChoiceGroup = {
   name: string
-  choices: string[]
+  choices: { name: string; icon: string }[]
   emptyChoices: string[]
   default: string
   hidden: boolean
@@ -47,7 +47,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
     <div data-choice-group={groupName} data-lvl={lvl} className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
-        {choices.map((choice) => (
+        {choices.map(({ name: choice }) => (
           <option key={choice} value={choice}>
             {choice}
           </option>
@@ -75,8 +75,8 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
 
   const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
-  const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice))
-  const selectedIndex = filteredChoices.indexOf(selectedChoice)
+  const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))
+  const selectedIndex = filteredChoices.findIndex((choice) => choice.name === selectedChoice)
   const rectTop = -selectedIndex * OPTION_HEIGHT
 
   return (
@@ -98,7 +98,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         className="choice-select__list"
         style={{ top: rectTop, height: filteredChoices.length * OPTION_HEIGHT }}
       >
-        {filteredChoices.map((choice, i) => (
+        {filteredChoices.map(({ name: choice }, i) => (
           <div
             id={`choice-${choice}`}
             key={choice}
@@ -117,7 +117,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
 
   function next() {
     const nextIndex = (selectedIndex + 1) % filteredChoices.length
-    setSelectedChoice(filteredChoices[nextIndex]!)
+    setSelectedChoice(filteredChoices[nextIndex]!.name)
   }
   function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, choice: string) {
     e.stopPropagation()

@@ -63,9 +63,8 @@ type Category =
     }
 
 type Choice = {
-  choices: string[]
+  choices: { name: string; icon: string }[]
   default: string
-  icons: Record<string, string>
 }
 
 type Choices = Record<string, Choice>

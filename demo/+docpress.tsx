@@ -50,23 +50,21 @@ const config: Config = {
   navMaxWidth: 1140,
   choices: {
     server: {
-      choices: ['Hono', 'Express', 'Fastify', 'H3'],
+      choices: [
+        { name: 'Hono', icon: iconHono },
+        { name: 'Express', icon: iconExpress },
+        { name: 'Fastify', icon: iconFastify },
+        { name: 'H3', icon: iconH3 },
+      ],
       default: 'Hono',
-      icons: {
-        Hono: iconHono,
-        Express: iconExpress,
-        Fastify: iconFastify,
-        H3: iconH3
-      }
     },
     uiFramework: {
-      choices: ['React', 'Vue', 'Solid'],
+      choices: [
+        { name: 'React', icon: iconReact },
+        { name: 'Vue', icon: iconVue },
+        { name: 'Solid', icon: iconSolid },
+      ],
       default: 'React',
-      icons: {
-        'React': iconReact,
-        'Vue': iconVue,
-        'Solid': iconSolid
-      }
     },
   },
 }

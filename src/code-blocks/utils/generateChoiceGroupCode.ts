@@ -16,22 +16,20 @@ type ChoiceNode = {
 // TODO: determine icon representation for CHOICES_BUILT_IN given lack of SVG/file import support
 const CHOICES_BUILT_IN: Choices = {
   codeLang: {
-    choices: ['JavaScript', 'TypeScript'],
+    choices: [
+      { name: 'JavaScript', icon: 'iconJavascript' },
+      { name: 'TypeScript', icon: 'iconTypescript' },
+    ],
     default: 'JavaScript',
-    icons: {
-      JavaScript: 'iconJavascript',
-      TypeScript: 'iconTypescript',
-    },
   },
   pkgManager: {
-    choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
+    choices: [
+      { name: 'npm', icon: 'iconNpm' },
+      { name: 'pnpm', icon: 'iconPnpm' },
+      { name: 'Bun', icon: 'iconBun' },
+      { name: 'Yarn', icon: 'iconYarn' },
+    ],
     default: 'npm',
-    icons: {
-      npm: 'iconNpm',
-      pnpm: 'iconPnpm',
-      Bun: 'iconBun',
-      Yarn: 'iconYarn',
-    },
   },
 }
 
@@ -119,14 +117,16 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
 
   const groupName = Object.keys(choicesAll).find((key) => {
     // get only the values that exist in both choices and choicesAll[key].choices
-    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice))
+    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice.name))
     // if nothing exists, skip this key
     if (existsChoices.length === 0) return false
     return true
   })
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice))
+  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice.name)).map(
+    (choice) => choice.name,
+  )
 
   const choiceGroup = {
     name: groupName,
@@ -134,18 +134,11 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
     emptyChoices,
   }
 
-  const missingIcons = choices.filter((choice) => !(choice in choiceGroup.icons))
-
-  assertUsage(
-    missingIcons.length === 0,
-    `Missing icon(s) for [${missingIcons}]. Define it in +docpress.choices[${choiceGroup.name}].`,
-  )
-
   const mergedChoiceNodes: ChoiceNode[] = choiceGroup.choices.map((choice) => {
-    const node = choiceNodes.find((node) => node.choiceValue === choice)
+    const node = choiceNodes.find((node) => node.choiceValue === choice.name)
 
     return {
-      choiceValue: choice,
+      choiceValue: choice.name,
       children: node?.children ?? [],
     }
   })

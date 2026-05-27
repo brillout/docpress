@@ -17,21 +17,21 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)
-  const filteredChoices = choices.filter((choice) => !isHidden(choice))
-  const selectedIndex = filteredChoices.indexOf(selectedChoice)
+  const filteredChoices = choices.filter((choice) => !isHidden(choice.name))
+  const selectedIndex = filteredChoices.findIndex((choice) => choice.name === selectedChoice)
 
   return (
     <div className="choice-tabs" data-choice-group={groupName}>
       {/* Hidden select used to control tablist styling via CSS. */}
       <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
-        {choices.map((choice) => (
+        {choices.map(({ name: choice }) => (
           <option key={choice} value={choice}>
             {choice}
           </option>
         ))}
       </select>
       <ul id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="tablist">
-        {choices.map((choice, i) => (
+        {choices.map(({ name: choice }, i) => (
           <li
             key={choice}
             id={`tab-${choice}`}
@@ -79,7 +79,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
     e.preventDefault()
     setPrevPosition(el)
     const nextChoice = filteredChoices[nextIndex]!
-    setSelectedChoice(nextChoice)
+    setSelectedChoice(nextChoice.name)
     const tabEl = el.parentElement?.parentElement as HTMLDivElement
 
     if (!isInViewport(tabEl)) tabEl.scrollIntoView({ block: 'start', behavior: 'smooth' })

@@ -2,6 +2,7 @@ export { ChoiceGroup, CustomSelectsContainer }
 
 import type { ChoiceGroup as TChoiceGroup, ChoiceGroupWithParent } from '../types.js'
 import React, { createContext, useContext, useState } from 'react'
+import { usePageContext } from '../../renderer/usePageContext.js'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
@@ -51,12 +52,14 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
 
 const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
-  const { name: groupName, choices, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup } = choiceGroup
+  const choicesAll = usePageContext().config.docpress.choices
+  const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const [expanded, setExpanded] = useState(false)
   const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
+  const { choices } = isBuiltIn ? choiceGroup : choicesAll![groupName]!
   const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))

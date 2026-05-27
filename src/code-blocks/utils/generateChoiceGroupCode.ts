@@ -84,7 +84,12 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     })
   }
 
-  const choiceGroupAttr: ChoiceGroup = { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }
+  const choiceGroupAttr: ChoiceGroup = {
+    ...choiceGroup,
+    hidden: choiceNodes.length === 1 || hidden,
+    lvl,
+    isBuiltIn: Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name),
+  }
 
   attributes.push(expressionToAttribute('choiceGroup', choiceGroupAttr))
 

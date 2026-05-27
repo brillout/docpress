@@ -15,20 +15,21 @@ type ChoiceNode = {
 }
 
 // TODO: determine icon representation for CHOICES_BUILT_IN given lack of SVG/file import support
+// use SVG URLs for now
 const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
   codeLang: {
     choices: [
-      { name: 'JavaScript', icon: 'iconJavascript' },
-      { name: 'TypeScript', icon: 'iconTypescript' },
+      { name: 'JavaScript', icon: 'https://www.svgrepo.com/show/452045/js.svg' },
+      { name: 'TypeScript', icon: 'https://www.svgrepo.com/show/349540/typescript.svg' },
     ],
     default: 'JavaScript',
   },
   pkgManager: {
     choices: [
-      { name: 'npm', icon: 'iconNpm' },
-      { name: 'pnpm', icon: 'iconPnpm' },
-      { name: 'Bun', icon: 'iconBun' },
-      { name: 'Yarn', icon: 'iconYarn' },
+      { name: 'npm', icon: 'https://www.svgrepo.com/show/452077/npm.svg' },
+      { name: 'pnpm', icon: 'https://www.svgrepo.com/show/373778/light-pnpm.svg' },
+      { name: 'Bun', icon: 'https://www.svgrepo.com/show/354588/yarn.svg' },
+      { name: 'Yarn', icon: 'https://bun.com/logo.svg' },
     ],
     default: 'npm',
   },

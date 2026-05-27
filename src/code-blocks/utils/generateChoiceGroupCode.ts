@@ -28,8 +28,8 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
     choices: [
       { name: 'npm', icon: 'https://www.svgrepo.com/show/452077/npm.svg' },
       { name: 'pnpm', icon: 'https://www.svgrepo.com/show/373778/light-pnpm.svg' },
-      { name: 'Bun', icon: 'https://www.svgrepo.com/show/354588/yarn.svg' },
-      { name: 'Yarn', icon: 'https://bun.com/logo.svg' },
+      { name: 'Bun', icon: 'https://bun.com/logo.svg' },
+      { name: 'Yarn', icon: 'https://www.svgrepo.com/show/354588/yarn.svg' },
     ],
     default: 'npm',
   },

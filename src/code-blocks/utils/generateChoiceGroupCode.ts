@@ -1,7 +1,7 @@
 export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
-import type { Choices } from '../../types/Config.js'
+import type { Config } from '../../types/Config.js'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
@@ -14,7 +14,7 @@ type ChoiceNode = {
 }
 
 // TODO: determine icon representation for CHOICES_BUILT_IN given lack of SVG/file import support
-const CHOICES_BUILT_IN: Choices = {
+const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
   codeLang: {
     choices: [
       { name: 'JavaScript', icon: 'iconJavascript' },

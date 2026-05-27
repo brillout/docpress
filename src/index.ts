@@ -18,6 +18,7 @@ export { assert } from './utils/assert.js'
 export { parseMarkdownMini } from './parseMarkdownMini.js'
 export type { Config } from './types/Config.js'
 export type { HeadingDefinition, HeadingDetachedDefinition } from './types/Heading.js'
+export type { ChoiceGroup, ChoiceGroupWithParent } from './code-blocks/remarkChoiceGroup.js'
 // The only place usePageContext() is used at:
 // https://github.com/vikejs/vike/blob/0b1b109f64aafbed23a1c2ac2630e6146a270ec0/packages/vike.dev/components/CommunityNote.tsx#L4
 export { usePageContext } from './renderer/usePageContext.js'

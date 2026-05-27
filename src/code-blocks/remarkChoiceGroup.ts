@@ -1,8 +1,10 @@
 export { remarkChoiceGroup }
+export type { ChoiceGroup, ChoiceGroupWithParent }
 
 import type { Root } from 'mdast'
 import type { Plugin, Transformer } from 'unified'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
+import type { Config } from '../types/Config.js'
 import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
@@ -149,11 +151,9 @@ function filterChoices(nodes: ChoiceNode['children']) {
   return [...filteredChoices]
 }
 
-type ChoiceGroup = {
+type ChoiceGroup = NonNullable<Config['choices']>[string] & {
   name: string
-  choices: { name: string; icon: string }[]
   emptyChoices: string[]
-  default: string
   hidden: boolean
   lvl: number
 }

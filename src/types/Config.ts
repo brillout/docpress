@@ -1,4 +1,4 @@
-export type { Config, Choices }
+export type { Config }
 
 import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading.js'
 import type React from 'react'
@@ -66,5 +66,3 @@ type Choice = {
   choices: { name: string; icon: string }[]
   default: string
 }
-
-type Choices = Record<string, Choice>

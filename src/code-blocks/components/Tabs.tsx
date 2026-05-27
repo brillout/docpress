@@ -31,7 +31,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
         ))}
       </select>
       <ul id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="tablist">
-        {choices.map(({ name: choice }, i) => (
+        {choices.map(({ name: choice, icon }, i) => (
           <li
             key={choice}
             id={`tab-${choice}`}
@@ -43,7 +43,10 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
             onClick={(e) => handleOnClick(e, choice)}
             onKeyDown={handleOnKeyDown}
           >
-            {choice}
+            <span className="choice-tabs__tab-content">
+              <img src={icon} alt="" aria-hidden="true" />
+              {choice}
+            </span>
           </li>
         ))}
       </ul>

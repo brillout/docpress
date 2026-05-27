@@ -82,7 +82,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         className="choice-select__list"
         style={{ top: rectTop, height: filteredChoices.length * OPTION_HEIGHT }}
       >
-        {filteredChoices.map(({ name: choice }, i) => (
+        {filteredChoices.map(({ name: choice, icon }, i) => (
           <div
             id={`choice-${choice}`}
             key={choice}
@@ -92,7 +92,10 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             style={{ height: OPTION_HEIGHT }}
             onClick={(e) => handleOnClick(e, choice)}
           >
-            {choice}
+            <span className="choice-select__option-content">
+              <img src={icon} alt="" aria-hidden="true" />
+              {choice}
+            </span>
           </div>
         ))}
       </div>

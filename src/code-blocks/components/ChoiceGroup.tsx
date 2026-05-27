@@ -1,6 +1,6 @@
 export { ChoiceGroup, CustomSelectsContainer }
 
-import type { ChoiceGroup as TChoiceGroup, ChoiceGroupWithParent } from '@brillout/docpress'
+import type { ChoiceGroup as TChoiceGroup, ChoiceGroupWithParent } from '../types.js'
 import React, { createContext, useContext, useState } from 'react'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'

@@ -2,7 +2,7 @@ export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
 import type { Config } from '../../types/Config.js'
-import type { ChoiceGroup } from '../remarkChoiceGroup.js'
+import type { ChoiceGroup } from '../types.js'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'

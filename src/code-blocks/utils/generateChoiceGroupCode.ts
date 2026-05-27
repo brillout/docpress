@@ -2,6 +2,7 @@ export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
 import type { Config } from '../../types/Config.js'
+import type { ChoiceGroup } from '../remarkChoiceGroup.js'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
@@ -82,7 +83,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     })
   }
 
-  const choiceGroupAttr = { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }
+  const choiceGroupAttr: ChoiceGroup = { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }
 
   attributes.push(expressionToAttribute('choiceGroup', choiceGroupAttr))
 

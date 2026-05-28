@@ -19,17 +19,33 @@ type ChoiceNode = {
 const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
   codeLang: {
     choices: [
-      { name: 'JavaScript', icon: 'https://www.svgrepo.com/show/452045/js.svg' },
-      { name: 'TypeScript', icon: 'https://www.svgrepo.com/show/349540/typescript.svg' },
+      {
+        name: 'JavaScript',
+        icon: 'https://www.svgrepo.com/show/452045/js.svg',
+        iconStyle: { position: 'relative', top: -0.5 },
+      },
+      {
+        name: 'TypeScript',
+        icon: 'https://www.svgrepo.com/show/349540/typescript.svg',
+        iconStyle: { position: 'relative', top: -0.5 },
+      },
     ],
     default: 'JavaScript',
   },
   pkgManager: {
     choices: [
-      { name: 'npm', icon: 'https://www.svgrepo.com/show/452077/npm.svg' },
+      {
+        name: 'npm',
+        icon: 'https://www.svgrepo.com/show/452077/npm.svg',
+        iconStyle: { position: 'relative', top: 1.5 },
+      },
       { name: 'pnpm', icon: 'https://www.svgrepo.com/show/373778/light-pnpm.svg' },
       { name: 'Bun', icon: 'https://bun.com/logo.svg' },
-      { name: 'Yarn', icon: 'https://www.svgrepo.com/show/354588/yarn.svg' },
+      {
+        name: 'Yarn',
+        icon: 'https://www.svgrepo.com/show/354588/yarn.svg',
+        iconStyle: { position: 'relative', top: -0.5 },
+      },
     ],
     default: 'npm',
   },

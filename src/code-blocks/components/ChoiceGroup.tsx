@@ -50,7 +50,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
   )
 }
 
-const OPTION_HEIGHT = 25
+const OPTION_HEIGHT = 24
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const choicesAll = usePageContext().config.docpress.choices
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup

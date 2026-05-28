@@ -42,6 +42,7 @@
 .choice-tabs__tab img {
   width: 14px;
   height: 14px;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 400px) {

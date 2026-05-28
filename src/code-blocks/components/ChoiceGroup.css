@@ -52,12 +52,14 @@
   .choice-select__option-content {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    margin-left: 3px;
+    margin-right: 3px;
   }
 
   .choice-select__option img {
     width: 14px;
     height: 14px;
+    margin-right: 5px;
   }
 
   .choice-select[aria-expanded='false'] {

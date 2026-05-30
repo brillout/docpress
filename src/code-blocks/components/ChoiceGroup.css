@@ -58,6 +58,16 @@
   .choice-select__option img {
     width: 14px;
     height: 14px;
+
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: filter 180ms ease, opacity 180ms ease;
+  }
+
+  .choice-select:hover .choice-select__option img,
+  .choice-select[aria-expanded='true'] .choice-select__option img {
+    filter: grayscale(0%);
+    opacity: 1;
   }
 
   .choice-select[aria-expanded='false'] {

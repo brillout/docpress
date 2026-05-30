@@ -60,8 +60,9 @@
     height: 14px;
 
     filter: grayscale(100%);
-    opacity: 0.6;
-    transition: filter 180ms ease, opacity 180ms ease;
+    opacity: 0.8;
+    --transition: 500ms ease;
+    transition: filter var(--transition), opacity var(--transition);
   }
 
   .choice-select:hover .choice-select__option img,

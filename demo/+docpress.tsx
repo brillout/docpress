@@ -60,7 +60,7 @@ const config: Config = {
     },
     uiFramework: {
       choices: [
-        { name: 'React', icon: iconReact, iconStyle: { position: 'relative', top: -0.5 } },
+        { name: 'React', icon: iconReact, iconStyle: { position: 'relative', top: -0.5, opacity: 1 } },
         { name: 'Vue', icon: iconVue, iconStyle: { position: 'relative', top: -0.5 } },
         { name: 'Solid', icon: iconSolid, iconStyle: { position: 'relative', top: -0.5 } },
       ],

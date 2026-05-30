@@ -63,6 +63,6 @@ type Category =
     }
 
 type Choice = {
-  choices: string[]
+  choices: { name: string; icon: string; iconStyle?: React.CSSProperties }[]
   default: string
 }

@@ -1,6 +1,8 @@
 export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
+import type { Config } from '../../types/Config.js'
+import type { ChoiceGroup } from '../types.js'
 import type { BlockContent, DefinitionContent, Parent } from 'mdast'
 import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from 'mdast-util-mdx-jsx'
 import { getVikeConfig } from 'vike/plugin'
@@ -12,13 +14,39 @@ type ChoiceNode = {
   children: (BlockContent | DefinitionContent)[]
 }
 
-const CHOICES_BUILT_IN: Record<string, { choices: string[]; default: string }> = {
+// TODO: determine icon representation for CHOICES_BUILT_IN given lack of SVG/file import support
+// use SVG URLs for now
+const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
   codeLang: {
-    choices: ['JavaScript', 'TypeScript'],
+    choices: [
+      {
+        name: 'JavaScript',
+        icon: 'https://www.svgrepo.com/show/452045/js.svg',
+        iconStyle: { position: 'relative', top: -0.5 },
+      },
+      {
+        name: 'TypeScript',
+        icon: 'https://www.svgrepo.com/show/349540/typescript.svg',
+        iconStyle: { position: 'relative', top: -0.5 },
+      },
+    ],
     default: 'JavaScript',
   },
   pkgManager: {
-    choices: ['npm', 'pnpm', 'Bun', 'Yarn'],
+    choices: [
+      {
+        name: 'npm',
+        icon: 'https://www.svgrepo.com/show/452077/npm.svg',
+        iconStyle: { position: 'relative', top: 1.5 },
+      },
+      { name: 'pnpm', icon: 'https://www.svgrepo.com/show/373778/light-pnpm.svg' },
+      { name: 'Bun', icon: 'https://bun.com/logo.svg' },
+      {
+        name: 'Yarn',
+        icon: 'https://www.svgrepo.com/show/354588/yarn.svg',
+        iconStyle: { position: 'relative', top: -0.5 },
+      },
+    ],
     default: 'npm',
   },
 }
@@ -72,7 +100,12 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     })
   }
 
-  const choiceGroupAttr = { ...choiceGroup, hidden: choiceNodes.length === 1 || hidden, lvl }
+  const choiceGroupAttr: ChoiceGroup = {
+    ...choiceGroup,
+    hidden: choiceNodes.length === 1 || hidden,
+    lvl,
+    isBuiltIn: Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name),
+  }
 
   attributes.push(expressionToAttribute('choiceGroup', choiceGroupAttr))
 
@@ -107,14 +140,16 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
 
   const groupName = Object.keys(choicesAll).find((key) => {
     // get only the values that exist in both choices and choicesAll[key].choices
-    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice))
+    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice.name))
     // if nothing exists, skip this key
     if (existsChoices.length === 0) return false
     return true
   })
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice))
+  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice.name)).map(
+    (choice) => choice.name,
+  )
 
   const choiceGroup = {
     name: groupName,
@@ -123,10 +158,10 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   }
 
   const mergedChoiceNodes: ChoiceNode[] = choiceGroup.choices.map((choice) => {
-    const node = choiceNodes.find((node) => node.choiceValue === choice)
+    const node = choiceNodes.find((node) => node.choiceValue === choice.name)
 
     return {
-      choiceValue: choice,
+      choiceValue: choice.name,
       children: node?.children ?? [],
     }
   })

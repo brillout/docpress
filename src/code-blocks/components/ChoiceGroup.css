@@ -49,6 +49,28 @@
     transition: background 120ms ease;
   }
 
+  .choice-select__option-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .choice-select__option img {
+    width: 14px;
+    height: 14px;
+
+    filter: grayscale(100%);
+    opacity: 0.8;
+    --transition: 500ms ease;
+    transition: filter var(--transition), opacity var(--transition);
+  }
+
+  .choice-select:hover .choice-select__option img,
+  .choice-select[aria-expanded='true'] .choice-select__option img {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
   .choice-select[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;

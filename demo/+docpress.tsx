@@ -5,6 +5,7 @@ import logo from './assets/logo.svg'
 import favicon from './assets/favicon.svg'
 import { headings, headingsDetached, categories } from './headings'
 import { TopNavigation } from './TopNavigation'
+import { iconHono, iconExpress, iconFastify, iconH3, iconReact, iconVue, iconSolid } from './assets/choices-icons'
 import React from 'react'
 
 const config: Config = {
@@ -49,12 +50,21 @@ const config: Config = {
   navMaxWidth: 1140,
   choices: {
     server: {
-      choices: ['Hono', 'Express', 'Fastify', 'H3'],
+      choices: [
+        { name: 'Hono', icon: iconHono, iconStyle: { width: 13, height: 13 } },
+        { name: 'Express', icon: iconExpress },
+        { name: 'Fastify', icon: iconFastify, iconStyle: { position: 'relative', top: 1 } },
+        { name: 'H3', icon: iconH3 },
+      ],
       default: 'Hono',
     },
-    uiFrameworkVikeExtension: {
-      choices: ['vike-react', 'vike-vue', 'vike-solid'],
-      default: 'vike-react',
+    uiFramework: {
+      choices: [
+        { name: 'React', icon: iconReact, iconStyle: { position: 'relative', top: -0.5, opacity: 1 } },
+        { name: 'Vue', icon: iconVue, iconStyle: { position: 'relative', top: -0.5 } },
+        { name: 'Solid', icon: iconSolid, iconStyle: { position: 'relative', top: -0.5 } },
+      ],
+      default: 'React',
     },
   },
 }

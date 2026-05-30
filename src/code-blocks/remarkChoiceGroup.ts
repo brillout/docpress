@@ -4,6 +4,7 @@ import type { Root } from 'mdast'
 import type { Plugin, Transformer } from 'unified'
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx'
 import type { ChoiceNode } from './utils/generateChoiceGroupCode.js'
+import type { ChoiceGroup, ChoiceGroupWithParent, ParentChoiceGroup } from './types.js'
 import { visit } from 'unist-util-visit'
 import { parseMetaString } from './rehypeMetaToProps.js'
 import { generateChoiceGroupCode, expressionToAttribute } from './utils/generateChoiceGroupCode.js'
@@ -148,17 +149,6 @@ function filterChoices(nodes: ChoiceNode['children']) {
 
   return [...filteredChoices]
 }
-
-type ChoiceGroup = {
-  name: string
-  choices: string[]
-  emptyChoices: string[]
-  default: string
-  hidden: boolean
-  lvl: number
-}
-type ParentChoiceGroup = { name: string; default: string }
-type ChoiceGroupWithParent = ChoiceGroup & { parentChoiceGroup?: ParentChoiceGroup & { choices: string[] } }
 
 declare module 'mdast' {
   export interface Data {

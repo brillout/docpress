@@ -96,8 +96,10 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             onClick={(e) => handleOnClick(e, choice)}
           >
             <span className="choice-select__option-content">
-              <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
-              {choice}
+              <span className="choice-select__option-icon">
+                <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+              </span>
+              <span className="choice-select__option-label">{choice}</span>
             </span>
           </div>
         ))}

@@ -44,8 +44,10 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
             onKeyDown={handleOnKeyDown}
           >
             <span className="choice-tabs__tab-content">
-              <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
-              {choice}
+              <span className="choice-tabs__tab-icon">
+                <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+              </span>
+              <span className="choice-tabs__tab-label">{choice}</span>
             </span>
           </li>
         ))}

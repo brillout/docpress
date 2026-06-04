@@ -35,12 +35,23 @@
 .choice-tabs__tab-content {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
+  line-height: 1;
+}
+
+.choice-tabs__tab-icon {
+  display: flex;
+  width: 16px;
+  flex-shrink: 0;
 }
 
 .choice-tabs__tab img {
-  width: 14px;
   height: 14px;
+  max-width: 16px;
+}
+
+.choice-tabs__tab-label {
+  font-weight: 16px;
 }
 
 @media screen and (max-width: 400px) {

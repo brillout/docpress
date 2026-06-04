@@ -51,8 +51,8 @@
   .choice-select__option-content {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
-    line-height: normal;
+    gap: 3px;
+    line-height: 1;
   }
 
   .choice-select__option-icon {
@@ -64,9 +64,8 @@
   }
 
   .choice-select__option-icon img {
-    object-fit: contain;
-    width: 14px;
-    height: 14px;
+    height: 13px;
+    max-width: 16px;
 
     filter: grayscale(100%);
     opacity: 0.8;

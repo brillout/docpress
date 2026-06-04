@@ -52,7 +52,7 @@ const config: Config = {
     server: {
       choices: [
         { name: 'Hono', icon: iconHono },
-        { name: 'Express', icon: iconExpress },
+        { name: 'Express', icon: iconExpress, iconStyle: { objectFit: 'contain' } },
         { name: 'Fastify', icon: iconFastify },
         { name: 'H3', icon: iconH3 },
       ],

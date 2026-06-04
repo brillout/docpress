@@ -43,7 +43,7 @@
     flex-wrap: nowrap;
     background: #fff;
     padding: 0 6px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background 120ms ease;
   }
@@ -97,10 +97,6 @@
       border-style: solid;
       border-width: 1px 2px 2px 1px;
     }
-  }
-
-  .choice-select__option:last-child {
-    border-bottom: none;
   }
 
   .choice-select__option:hover {

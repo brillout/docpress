@@ -8,6 +8,7 @@ import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from '
 import { getVikeConfig } from 'vike/plugin'
 import { assertUsage } from '../../utils/assert.js'
 import { valueToEstree } from 'estree-util-value-to-estree'
+import { JAVASCRIPT_ICON, TYPESCRIPT_ICON, NPM_ICON, PNPM_ICON, BUN_ICON, YARN_ICON } from './constant.js'
 
 type ChoiceNode = {
   choiceValue: string
@@ -21,21 +22,21 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
     choices: [
       {
         name: 'JavaScript',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+        icon: JAVASCRIPT_ICON,
       },
       {
         name: 'TypeScript',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
+        icon: TYPESCRIPT_ICON,
       },
     ],
     default: 'JavaScript',
   },
   pkgManager: {
     choices: [
-      { name: 'npm', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/npm/npm-original.svg' },
-      { name: 'pnpm', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pnpm/pnpm-original.svg' },
-      { name: 'Bun', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg' },
-      { name: 'Yarn', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/yarn/yarn-original.svg' },
+      { name: 'npm', icon: NPM_ICON },
+      { name: 'pnpm', icon: PNPM_ICON },
+      { name: 'Bun', icon: BUN_ICON },
+      { name: 'Yarn', icon: YARN_ICON },
     ],
     default: 'npm',
   },

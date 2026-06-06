@@ -1,6 +1,6 @@
 export { Tabs }
 
-import React from 'react'
+import React, { useId } from 'react'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { usePageContext } from '../../renderer/usePageContext.js'
@@ -12,21 +12,21 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const pageContext = usePageContext()
   const choicesAll = pageContext.config.docpress.choices
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
-
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const id = useId()
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)
 
   return (
     <div className="choice-tabs" data-choice-group={groupName}>
-      <div className="choice-tabs__tab-list" role="radiogroup">
+      <div id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="radiogroup">
         {choices.map(({ name: choice, icon, iconStyle }) => (
           <label key={choice} className="choice-tabs__tab" style={{ display: isHidden(choice) ? 'none' : undefined }}>
             <input
               className="choice-tabs__radio"
               type="radio"
-              name={`choicesFor-${groupName}`}
+              name={`radio-${id}`}
               value={choice}
               checked={selectedChoice === choice}
               onChange={(e) => {

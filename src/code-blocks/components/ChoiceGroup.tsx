@@ -1,7 +1,7 @@
 export { ChoiceGroup, CustomSelectsContainer }
 
 import type { ChoiceGroup as TChoiceGroup, ChoiceGroupWithParent } from '../types.js'
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useId, useState } from 'react'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
@@ -52,6 +52,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
 
 const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
+  const id = useId()
   const choicesAll = usePageContext().config.docpress.choices
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
@@ -80,26 +81,31 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       }}
     >
       <div
-        aria-activedescendant={`choice-${selectedChoice}`}
-        role="listbox"
+        role="radiogroup"
         className="choice-select__list"
         style={{ top: rectTop, height: filteredChoices.length * OPTION_HEIGHT }}
       >
-        {filteredChoices.map(({ name: choice, icon, iconStyle }, i) => (
-          <div
+        {filteredChoices.map(({ name: choice, icon, iconStyle }) => (
+          <label
             id={`choice-${choice}`}
             key={choice}
-            aria-selected={i === selectedIndex}
-            role="option"
             className="choice-select__option"
             style={{ height: OPTION_HEIGHT }}
             onClick={(e) => handleOnClick(e, choice)}
           >
+            <input
+              type="radio"
+              className="choice-select__radio"
+              name={`radio-${id}`}
+              value={choice}
+              checked={selectedChoice === choice}
+              readOnly
+            />
             <span className="choice-select__option-content">
               <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
               {choice}
             </span>
-          </div>
+          </label>
         ))}
       </div>
     </div>
@@ -109,11 +115,12 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     const nextIndex = (selectedIndex + 1) % filteredChoices.length
     setSelectedChoice(filteredChoices[nextIndex]!.name)
   }
-  function handleOnClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, choice: string) {
-    e.stopPropagation()
+  function handleOnClick(e: React.MouseEvent<HTMLLabelElement, MouseEvent>, choice: string) {
+    e.preventDefault()
     const el = e.currentTarget
     setPrevPosition(el)
-    if (el.getAttribute('aria-selected') === 'true') {
+    const isSame = selectedChoice === choice
+    if (isSame) {
       next()
     } else {
       setSelectedChoice(choice)

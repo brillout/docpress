@@ -83,7 +83,7 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
     remarkPkgManager.call(this)(tree, file)
 
     visit(tree, 'mdxJsxFlowElement', (node) => {
-      if (node.name !== 'CustomSelectsContainer') return 'skip'
+      if (node.name !== 'ChoiceGroupContainer') return 'skip'
 
       const choiceGroupAll: ChoiceGroupWithParent[] = []
 

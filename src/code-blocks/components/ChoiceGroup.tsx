@@ -28,13 +28,13 @@ function ChoiceGroupContainer({
 }
 
 function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; choiceGroup: TChoiceGroup }) {
-  const { name: groupName, choices, default: defaultChoice, lvl } = choiceGroup
+  const { name: groupName, choices, default: defaultChoice } = choiceGroup
   const [selectedChoice] = useCurrentSelection(groupName, defaultChoice)
 
   return (
-    <div data-choice-group={groupName} data-lvl={lvl} className="choice-group">
+    <div className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
-      <select name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
+      <select data-choice-group={groupName} name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map(({ name: choice }) => (
           <option key={choice} value={choice}>
             {choice}

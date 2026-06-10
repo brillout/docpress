@@ -19,8 +19,13 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const isHidden = (choice: string) => hide.includes(choice)
 
   return (
-    <div className="choice-tabs" data-choice-group={groupName}>
-      <div id={`choicesFor-${groupName}`} className="choice-tabs__tab-list" role="radiogroup">
+    <div className="choice-tabs">
+      <div
+        id={`choicesFor-${groupName}`}
+        className="choice-tabs__tab-list"
+        role="radiogroup"
+        data-choice-group={groupName}
+      >
         {choices.map(({ name: choice, icon, iconStyle }) => (
           <label key={choice} className="choice-tabs__tab" style={{ display: isHidden(choice) ? 'none' : undefined }}>
             <input

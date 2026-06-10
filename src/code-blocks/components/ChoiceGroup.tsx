@@ -80,6 +80,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         role="radiogroup"
         className="choice-select__list"
         style={{ top: rectTop, height: filteredChoices.length * OPTION_HEIGHT }}
+        data-choice-group={groupName}
       >
         {filteredChoices.map(({ name: choice, icon, iconStyle }) => (
           <label

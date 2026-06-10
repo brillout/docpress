@@ -61,15 +61,13 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))
   const selectedIndex = filteredChoices.findIndex((choice) => choice.name === selectedChoice)
-  const rectTop = -selectedIndex * OPTION_HEIGHT
 
   return (
     <div
-      id={`choicesFor-${groupName}`}
       aria-haspopup="listbox"
       aria-expanded={expanded}
       className={cls(['choice-select', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
-      style={{ height: OPTION_HEIGHT }}
+      style={{ '--option-height': `${OPTION_HEIGHT}px` }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       onClick={() => {
@@ -77,17 +75,17 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       }}
     >
       <div
+        id={`choicesFor-${groupName}`}
         role="radiogroup"
         className="choice-select__list"
-        style={{ top: rectTop, height: filteredChoices.length * OPTION_HEIGHT }}
+        style={{ height: filteredChoices.length * OPTION_HEIGHT }}
         data-choice-group={groupName}
       >
         {filteredChoices.map(({ name: choice, icon, iconStyle }) => (
           <label
             id={`choice-${choice}`}
             key={choice}
-            className="choice-select__option"
-            style={{ height: OPTION_HEIGHT }}
+            className={`choice-select__option`}
             onClick={(e) => handleOnClick(e, choice)}
           >
             <input

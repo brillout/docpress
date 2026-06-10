@@ -8,13 +8,13 @@ import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
 
 function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
+  const radioId = useId()
   const groupName = choice
   const pageContext = usePageContext()
   const choicesAll = pageContext.config.docpress.choices
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  const id = useId()
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)
 
@@ -31,7 +31,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
             <input
               className="choice-tabs__radio"
               type="radio"
-              name={`radio-${id}`}
+              name={`radio-${radioId}`}
               value={choice}
               checked={selectedChoice === choice}
               onChange={(e) => {

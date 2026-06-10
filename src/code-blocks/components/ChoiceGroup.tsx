@@ -48,7 +48,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
 
 const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
-  const id = useId()
+  const radioId = useId()
   const choicesAll = usePageContext().config.docpress.choices
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
@@ -93,7 +93,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             <input
               type="radio"
               className="choice-select__radio"
-              name={`radio-${id}`}
+              name={`radio-${radioId}`}
               value={choice}
               checked={selectedChoice === choice}
               readOnly

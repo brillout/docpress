@@ -130,7 +130,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await expectJs()
 
     if (!isDev) {
-      await page.locator('#choicesFor-codeLang').first().getByRole('option', { name: 'TypeScript' }).click()
+      await page.getByLabel('TypeScript').first().check()
     }
 
     await autoRetry(
@@ -211,7 +211,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('#choicesFor-server').first().getByRole('option', { name: 'Fastify' }).click()
+      await page.getByLabel('Fastify').first().check()
       const text = await getVisibleText(page)
       hasHonoChoice(text, false)
       hasExpressChoice(text, false)
@@ -223,8 +223,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await expectHonoChoice()
 
     if (!isDev) {
-      await page.locator('#choicesFor-pkgManager').first().getByRole('option', { name: 'pnpm' }).click()
-      await page.locator('#choicesFor-server').first().getByRole('option', { name: 'Express' }).click()
+      await page.getByLabel('pnpm').first().check()
+      await page.getByLabel('Express').first().check()
     }
 
     await autoRetry(

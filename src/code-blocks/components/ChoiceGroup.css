@@ -91,7 +91,6 @@
   .choice-select[aria-expanded='false'] {
     overflow: hidden;
     border-width: 1px 2px 2px 1px;
-    transition: overflow 0s 180ms allow-discrete, z-index 0s 180ms allow-discrete;
 
     .choice-select__option:has(.choice-select__radio:checked) {
       opacity: 1;

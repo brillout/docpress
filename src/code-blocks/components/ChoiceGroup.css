@@ -87,6 +87,8 @@
   }
 
   .choice-select[aria-expanded='false'] {
+    transition: overflow 120ms allow-discrete ease-in;
+
     .choice-select__option:has(.choice-select__radio:checked) {
       box-shadow: none;
       opacity: 1;

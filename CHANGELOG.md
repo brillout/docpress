@@ -1,3 +1,19 @@
+## [0.16.40](https://github.com/brillout/docpress/compare/v0.16.39...v0.16.40) (2026-06-15)
+
+
+### Bug Fixes
+
+* improve choice group resolution to prefer complete matches ([#161](https://github.com/brillout/docpress/issues/161)) ([731960d](https://github.com/brillout/docpress/commit/731960d74dd00502d76d198ed102b8243d3bd263))
+* show the dropdown as early as possible ([#149](https://github.com/brillout/docpress/issues/149)) ([e9de7a7](https://github.com/brillout/docpress/commit/e9de7a70d050bf00b4634afd4470f4a5bc17ecde))
+* small improvements and polish for ChoiceGroup and Tabs components ([#151](https://github.com/brillout/docpress/issues/151)) ([e80152d](https://github.com/brillout/docpress/commit/e80152dc854f1a67fcfb4f5298393879aff2792b))
+
+
+### Features
+
+* `+choices` icons ([#153](https://github.com/brillout/docpress/issues/153)) ([f57eafd](https://github.com/brillout/docpress/commit/f57eafdc53142172bde46eb197f2810bfc1da71a))
+
+
+
 ## [0.16.39](https://github.com/brillout/docpress/compare/v0.16.38...v0.16.39) (2026-05-21)
 
 

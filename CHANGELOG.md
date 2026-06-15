@@ -1,3 +1,12 @@
+## [0.16.41](https://github.com/brillout/docpress/compare/v0.16.40...v0.16.41) (2026-06-15)
+
+
+### Bug Fixes
+
+* prevent ChoiceGroup crash when a choice has multiple code blocks ([#162](https://github.com/brillout/docpress/issues/162)) ([fef3655](https://github.com/brillout/docpress/commit/fef36558b0910569aef7927f79d6715c673115d7))
+
+
+
 ## [0.16.40](https://github.com/brillout/docpress/compare/v0.16.39...v0.16.40) (2026-06-15)
 
 

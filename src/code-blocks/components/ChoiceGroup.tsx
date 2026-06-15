@@ -41,7 +41,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
       {children}
       {lvl === 0 && !choiceGroup.hidden && (
         <div className={`choice-group__selects`}>
-          {choiceGroupAll.map((choiceGroup) => (
+          {(choiceGroupAll ?? []).map((choiceGroup) => (
             <CustomSelect key={choiceGroup.name} choiceGroup={choiceGroup} />
           ))}
         </div>

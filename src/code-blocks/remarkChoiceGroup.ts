@@ -83,7 +83,10 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
     remarkPkgManager.call(this)(tree, file)
 
     visit(tree, 'mdxJsxFlowElement', (node) => {
-      if (node.name !== 'CustomSelectsContainer') return 'skip'
+      // Descend into non-container nodes so that a `CustomSelectsContainer` nested inside another JSX
+      // element (e.g. react-tabs `<Tabs>`/`<TabPanel>`, or a `<div>`) still gets visited and its
+      // `choiceGroupAll` attribute injected. (Returning 'skip' here would stop the descent.)
+      if (node.name !== 'CustomSelectsContainer') return
 
       const choiceGroupAll: ChoiceGroupWithParent[] = []
 

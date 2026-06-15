@@ -4,11 +4,13 @@
   /* layout */
   --top-position: 10px;
   --border-radius: 5px;
-  --transition-select-duration-1: 1800ms;
-  --transition-select-duration-2: 1800ms;
+  --transition-select-duration-1: 1000ms;
+  --transition-select-duration-2: 1500ms;
+  --transition-select-duration-3: 1500ms;
   --transition-select: overflow var(--transition-select-duration-2) allow-discrete ease-in;
-  --transition-select-list: top var(--transition-select-duration-1) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow var(--transition-select-duration-1) ease;
-  --transition-select-option: background var(--transition-select-duration-2) ease, opacity var(--transition-select-duration-1) ease-out, box-shadow var(--transition-select-duration-1) ease-out;
+  --transition-select-list-expand: top var(--transition-select-duration-3) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow var(--transition-select-duration-3) ease;
+  --transition-select-list-collapse: top var(--transition-select-duration-1) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow var(--transition-select-duration-1) ease;
+  --transition-select-option: background var(--transition-select-duration-1) ease, opacity var(--transition-select-duration-1) ease-out, box-shadow var(--transition-select-duration-1) ease-out;
   --transition-select-icon: filter 500ms ease, opacity 500ms ease;
 
   .choice-group__selects {
@@ -41,7 +43,6 @@
     top: 0;
     border-radius: var(--border-radius);
     width: 100%;
-    transition: var(--transition-select-list);
   }
 
   .choice-select__option {
@@ -94,6 +95,10 @@
   .choice-select[aria-expanded='false'] {
     transition: var(--transition-select);
 
+    .choice-select__list {
+      transition: var(--transition-select-list-collapse);
+    }
+
     .choice-select__option {
       box-shadow: none;
 
@@ -112,6 +117,7 @@
     }
 
     .choice-select__list {
+      transition: var(--transition-select-list-expand);
       box-shadow: 0.8px 0.8px 0 hsl(0, 0%, 75%), 2px 2px 0 hsl(0, 0%, 72%);
 
       &:has(.choice-select__option:active) {

@@ -1,4 +1,4 @@
-export { generateChoiceGroupCode, expressionToAttribute }
+export { generateChoiceGroupCode, expressionToAttribute, resolveChoiceGroupName, CHOICES_BUILT_IN }
 export type { ChoiceNode }
 
 import type { Config } from '../../types/Config.js'
@@ -138,13 +138,7 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   const { choices: choicesConfig } = vikeConfig.config.docpress
   const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
-  const groupName = Object.keys(choicesAll).find((key) => {
-    // get only the values that exist in both choices and choicesAll[key].choices
-    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice.name))
-    // if nothing exists, skip this key
-    if (existsChoices.length === 0) return false
-    return true
-  })
+  const groupName = resolveChoiceGroupName(choices, choicesAll)
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
   const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice.name)).map(
@@ -167,6 +161,28 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   })
 
   return { choiceGroup, mergedChoiceNodes }
+}
+
+// Resolve which choice group a block belongs to, given the set of choice values the block is
+// tagged with. Pick the BEST match: prefer a group that provides ALL of the block's values
+// (complete match), then the group with the largest overlap. Resolving to the first group that
+// merely shares ANY value would mis-resolve a custom group that collides with a built-in on a
+// single value — e.g. a `runtime` group [Node, Bun, Deno, Cloudflare] sharing `Bun` with the
+// built-in `pkgManager` [npm, pnpm, Bun, Yarn] would wrongly resolve to `pkgManager`.
+function resolveChoiceGroupName(choices: string[], choicesAll: NonNullable<Config['choices']>): string | undefined {
+  return Object.keys(choicesAll)
+    .map((key) => {
+      const groupChoices = choicesAll[key]!.choices.map((choice) => choice.name)
+      return {
+        key,
+        // number of the block's values that this group provides
+        overlap: groupChoices.filter((name) => choices.includes(name)).length,
+        // whether this group provides ALL of the block's values
+        complete: choices.every((choice) => groupChoices.includes(choice)),
+      }
+    })
+    .filter((group) => group.overlap > 0)
+    .sort((a, b) => Number(b.complete) - Number(a.complete) || b.overlap - a.overlap)[0]?.key
 }
 
 function expressionToAttribute(name: string, value: unknown): MdxJsxAttribute {

@@ -138,13 +138,12 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   const { choices: choicesConfig } = vikeConfig.config.docpress
   const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
 
-  const groupName = Object.keys(choicesAll).find((key) => {
-    // get only the values that exist in both choices and choicesAll[key].choices
-    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice.name))
-    // if nothing exists, skip this key
-    if (existsChoices.length === 0) return false
-    return true
-  })
+  // Resolve to the group that defines ALL of the block's values. Matching a group that merely
+  // shares ANY value would mis-resolve a custom group that collides with a built-in on a single
+  // value — e.g. a `runtime` group [Node, Bun, Deno, Cloudflare] sharing `Bun` with `pkgManager`.
+  const groupName = Object.keys(choicesAll).find((key) =>
+    choices.every((choice) => choicesAll[key]!.choices.some(({ name }) => name === choice)),
+  )
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
   const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice.name)).map(

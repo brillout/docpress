@@ -4,9 +4,11 @@
   /* layout */
   --top-position: 10px;
   --border-radius: 5px;
-  --transition-select: overflow 120ms allow-discrete ease-in;
-  --transition-select-list: top 180ms cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 180ms ease;
-  --transition-select-option: background 120ms ease, opacity 180ms ease-out, box-shadow 180ms ease-out;
+  --transition-select-duration-1: 1800ms;
+  --transition-select-duration-2: 1800ms;
+  --transition-select: overflow var(--transition-select-duration-2) allow-discrete ease-in;
+  --transition-select-list: top var(--transition-select-duration-1) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow var(--transition-select-duration-1) ease;
+  --transition-select-option: background var(--transition-select-duration-2) ease, opacity var(--transition-select-duration-1) ease-out, box-shadow var(--transition-select-duration-1) ease-out;
   --transition-select-icon: filter 500ms ease, opacity 500ms ease;
 
   .choice-group__selects {

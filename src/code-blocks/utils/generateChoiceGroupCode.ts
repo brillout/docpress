@@ -68,7 +68,11 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     lvl = parentLvl + 1
 
     data.customDataParentChoiceGroup = parent.data.customDataParentChoiceGroup
-    parent.data = undefined
+    // Keep the marker on the parent: a single choice can contain several toggleable code blocks
+    // (e.g. two TypeScript blocks, or a TypeScript block + an `npm` command). Each of them spawns
+    // its own nested choice group and must inherit the same parent level. Clearing the marker here
+    // would make every group after the first resolve to `lvl: 0`, wrapping it in its own
+    // `CustomSelectsContainer` — which then renders without `choiceGroupAll` and crashes.
   }
 
   for (const choiceNode of mergedChoiceNodes) {

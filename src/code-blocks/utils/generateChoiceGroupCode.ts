@@ -1,4 +1,4 @@
-export { generateChoiceGroupCode, expressionToAttribute, resolveChoiceGroupName, CHOICES_BUILT_IN }
+export { generateChoiceGroupCode, expressionToAttribute }
 export type { ChoiceNode }
 
 import type { Config } from '../../types/Config.js'

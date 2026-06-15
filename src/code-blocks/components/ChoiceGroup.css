@@ -8,9 +8,13 @@
   --transition-select-duration-2: 1500ms;
   --transition-select-duration-3: 1500ms;
   --transition-select: overflow var(--transition-select-duration-2) allow-discrete ease-in;
-  --transition-select-list-expand: top var(--transition-select-duration-3) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow var(--transition-select-duration-3) ease;
-  --transition-select-list-collapse: top var(--transition-select-duration-1) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow var(--transition-select-duration-1) ease;
-  --transition-select-option: background var(--transition-select-duration-1) ease, opacity var(--transition-select-duration-1) ease-out, box-shadow var(--transition-select-duration-1) ease-out, border-radius var(--transition-select-duration-1) ease-in-out;
+  --transition-select-list-expand: top var(--transition-select-duration-3) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow
+    var(--transition-select-duration-3) ease;
+  --transition-select-list-collapse: top var(--transition-select-duration-1) cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow
+    var(--transition-select-duration-1) ease;
+  --transition-select-option: background var(--transition-select-duration-1) ease, opacity
+    var(--transition-select-duration-1) ease-out, box-shadow var(--transition-select-duration-1) ease-out, border-radius
+    var(--transition-select-duration-1) ease-in-out;
   --transition-select-icon: filter 500ms ease, opacity 500ms ease;
 
   .choice-group__selects {

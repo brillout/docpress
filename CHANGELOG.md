@@ -1,3 +1,12 @@
+## [0.16.42](https://github.com/brillout/docpress/compare/v0.16.41...v0.16.42) (2026-06-15)
+
+
+### Bug Fixes
+
+* ChoiceGroup injection in nested JSX elements (telefunc/telefunc[#323](https://github.com/brillout/docpress/issues/323)) ([#163](https://github.com/brillout/docpress/issues/163)) ([a96f07c](https://github.com/brillout/docpress/commit/a96f07cba6fe0e1fd01e3f629abdaa75d5245ebb))
+
+
+
 ## [0.16.41](https://github.com/brillout/docpress/compare/v0.16.40...v0.16.41) (2026-06-15)
 
 

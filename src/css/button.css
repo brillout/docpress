@@ -12,14 +12,18 @@ button,
   border-radius: 5px;
   border: none;
 
-  box-shadow: 0.8px 0.8px 0 hsl(0, 0%, 75%), 2px 2px 0 hsl(0, 0%, 72%);
+  box-shadow: 0.8px 0.8px 0px 1.8px hsl(0, 0%, 75%), 2px 2px 0px 1px hsl(0, 0%, 72%);
 
   &:hover {
-    box-shadow: 0.8px 0.8px 0 hsl(0, 0%, 72%), 2px 2px 0 hsl(0, 0%, 66%);
+    box-shadow: 0.8px 0.8px 0px 1.8px hsl(0, 0%, 72%), 2px 2px 0px 1px hsl(0, 0%, 66%);
   }
 
   &:active {
-    box-shadow: inset 1.2px 1.2px 0 hsl(0, 0%, 66%), inset -0.8px -0.8px 0 hsl(0, 0%, 72%);
+    box-shadow:
+      inset 1.2px 1.2px 0 hsl(0, 0%, 66%),
+      inset -0.8px -0.8px 0 hsl(0, 0%, 72%),
+      0.8px 0.8px 0px 1.8px hsl(0, 0%, 75%),
+      1.2px 1.2px 0px 1px hsl(0, 0%, 72%);
   }
 
   &:disabled {

@@ -21,9 +21,9 @@
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
-    gap: 4px;
+    gap: 5px;
     top: var(--top-position);
-    right: 44px;
+    right: 45px;
   }
 
   .choice-select {
@@ -38,7 +38,7 @@
 
     border: none;
     border-radius: var(--border-radius);
-    box-shadow: 0.8px 0.8px 0 hsl(0, 0%, 75%), 2px 2px 0 hsl(0, 0%, 72%);
+    box-shadow: 0.8px 0.8px 0px 1.8px hsl(0, 0%, 75%), 2px 2px 0px 1px hsl(0, 0%, 72%);
     overflow: hidden;
   }
 
@@ -46,6 +46,7 @@
     position: relative;
     top: 0;
     border-radius: var(--border-radius);
+    box-shadow: 0.8px 0.8px 0px 1.8px hsl(0, 0%, 75%), 2px 2px 0px 1px hsl(0, 0%, 72%);
     width: 100%;
   }
 
@@ -119,19 +120,26 @@
 
     &:has(.choice-select__option:active) {
       box-shadow: none;
+      .choice-select__option {
+        box-shadow: none;
+      }
     }
 
     .choice-select__list {
       transition: var(--transition-select-list-expand);
-      box-shadow: 0.8px 0.8px 0 hsl(0, 0%, 75%), 2px 2px 0 hsl(0, 0%, 72%);
+      box-shadow: 0.8px 0.8px 0px 1.8px hsl(0, 0%, 72%), 2px 2px 0px 1px hsl(0, 0%, 66%);
 
       &:has(.choice-select__option:active) {
-        box-shadow: 0.8px 0.8px 0 hsl(0, 0%, 75%), 1.2px 1.2px 0 hsl(0, 0%, 72%);
+        box-shadow: 0.8px 0.8px 0px 1.8px hsl(0, 0%, 75%), 1.2px 1.2px 0px 1px hsl(0, 0%, 72%);
       }
     }
 
     .choice-select__option {
       opacity: 1;
+
+      &:active {
+        box-shadow: inset 1.2px 1.2px hsl(0, 0%, 66%), inset -0.8px -0.8px hsl(0, 0%, 72%) !important;
+      }
     }
   }
 

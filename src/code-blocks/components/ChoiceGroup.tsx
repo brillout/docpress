@@ -18,7 +18,7 @@ function ChoiceGroupContainer({
       {children}
       {renderCustomSelect && (
         <div className={`choice-group__selects`}>
-          {choiceGroupAll.map((choiceGroup) => (
+          {(choiceGroupAll ?? []).map((choiceGroup) => (
             <CustomSelect key={choiceGroup.name} choiceGroup={choiceGroup} />
           ))}
         </div>

@@ -67,7 +67,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       aria-haspopup="listbox"
       aria-expanded={expanded}
       className={cls(['choice-select', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
-      style={{ '--option-height': `${OPTION_HEIGHT}px` }}
+      style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       onClick={() => {
@@ -78,7 +78,6 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         id={`choicesFor-${groupName}`}
         role="radiogroup"
         className="choice-select__list"
-        style={{ height: filteredChoices.length * OPTION_HEIGHT }}
         data-choice-group={groupName}
       >
         {filteredChoices.map(({ name: choice, icon, iconStyle }) => (

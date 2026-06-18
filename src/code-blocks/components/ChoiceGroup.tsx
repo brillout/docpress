@@ -64,44 +64,39 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
 
   return (
     <div
-      aria-haspopup="listbox"
+      id={`choicesFor-${groupName}`}
       aria-expanded={expanded}
-      className={cls(['choice-select', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
+      role="radiogroup"
+      className={cls(['choice-select__list', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
       style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       onClick={() => {
         if (!expanded) next()
       }}
+      data-choice-group={groupName}
     >
-      <div
-        id={`choicesFor-${groupName}`}
-        role="radiogroup"
-        className="choice-select__list"
-        data-choice-group={groupName}
-      >
-        {filteredChoices.map(({ name: choice, icon, iconStyle }) => (
-          <label
-            id={`choice-${choice}`}
-            key={choice}
-            className={`choice-select__option`}
-            onClick={(e) => handleOnClick(e, choice)}
-          >
-            <input
-              type="radio"
-              className="choice-select__radio"
-              name={`radio-${radioId}`}
-              value={choice}
-              checked={selectedChoice === choice}
-              readOnly
-            />
-            <span className="choice-select__option-content">
-              <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
-              {choice}
-            </span>
-          </label>
-        ))}
-      </div>
+      {filteredChoices.map(({ name: choice, icon, iconStyle }) => (
+        <label
+          id={`choice-${choice}`}
+          key={choice}
+          className={`choice-select__option`}
+          onClick={(e) => handleOnClick(e, choice)}
+        >
+          <input
+            type="radio"
+            className="choice-select__radio"
+            name={`radio-${radioId}`}
+            value={choice}
+            checked={selectedChoice === choice}
+            readOnly
+          />
+          <span className="choice-select__option-content">
+            <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+            {choice}
+          </span>
+        </label>
+      ))}
     </div>
   )
 

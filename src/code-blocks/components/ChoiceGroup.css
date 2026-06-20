@@ -24,7 +24,7 @@
   .choice-select__list {
     position: relative;
     font-size: 13.3333px;
-    background: #eee;
+    background: transparent;
     height: calc(var(--choice-count) * var(--option-height));
     top: 0;
 
@@ -36,6 +36,23 @@
     border-radius: var(--border-radius);
     width: 100%;
     transition: var(--transition-select-list);
+  }
+
+  .choice-select__border {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: var(--option-height);
+
+    border-style: solid;
+    border-width: 1px 2px 2px 1px;
+    border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
+
+    border-radius: var(--border-radius);
+    pointer-events: none;
+
+    transition: top var(--transition-select-list-duration) ease-in-out, height
+      var(--transition-select-list-duration) ease-in-out;
   }
 
   .choice-select__option {
@@ -102,6 +119,10 @@
   .choice-select__list[aria-expanded='true'] {
     z-index: 1;
     clip-path: inset(0px round var(--border-radius)) !important;
+    .choice-select__border {
+      top: 0 !important;
+      height: calc(var(--choice-count) * var(--option-height)) ;
+    }
   }
 
   .choice-select__option:hover {
@@ -117,11 +138,14 @@
   }
 
   .choice-select__list:has(.choice-select__option:nth-of-type(1) .choice-select__radio:checked) {
-    top: calc(0 * var(--option-height));
+    top: 0;
     clip-path: inset(
       calc(0 * var(--option-height)) 0 calc((var(--choice-count) - 0 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: 0;
+    }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(2) .choice-select__radio:checked) {
     top: calc(-1 * var(--option-height));
@@ -129,6 +153,9 @@
       calc(1 * var(--option-height)) 0 calc((var(--choice-count) - 1 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: var(--option-height);
+    }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(3) .choice-select__radio:checked) {
     top: calc(-2 * var(--option-height));
@@ -136,6 +163,9 @@
       calc(2 * var(--option-height)) 0 calc((var(--choice-count) - 2 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: calc(2 * var(--option-height));
+    }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(4) .choice-select__radio:checked) {
     top: calc(-3 * var(--option-height));
@@ -143,6 +173,9 @@
       calc(3 * var(--option-height)) 0 calc((var(--choice-count) - 3 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: calc(3 * var(--option-height));
+    }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(5) .choice-select__radio:checked) {
     top: calc(-4 * var(--option-height));
@@ -150,6 +183,9 @@
       calc(4 * var(--option-height)) 0 calc((var(--choice-count) - 4 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: calc(4 * var(--option-height));
+    }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(6) .choice-select__radio:checked) {
     top: calc(-5 * var(--option-height));
@@ -157,6 +193,9 @@
       calc(5 * var(--option-height)) 0 calc((var(--choice-count) - 5 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: calc(5 * var(--option-height));
+    }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(7) .choice-select__radio:checked) {
     top: calc(-6 * var(--option-height));
@@ -164,6 +203,9 @@
       calc(6 * var(--option-height)) 0 calc((var(--choice-count) - 6 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
+    .choice-select__border {
+      top: calc(6 * var(--option-height));
+    }
   }
 }
 

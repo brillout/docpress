@@ -76,6 +76,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       }}
       data-choice-group={groupName}
     >
+      <div className="choice-select__border" />
       {filteredChoices.map(({ name: choice, icon, iconStyle }) => (
         <label
           id={`choice-${choice}`}

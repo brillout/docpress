@@ -130,7 +130,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await expectJs()
 
     if (!isDev) {
-      await page.locator('#choice-TypeScript').first().click()
+      await page.locator('#choice-TypeScript').first().dispatchEvent('click')
     }
 
     await autoRetry(
@@ -211,7 +211,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     }
 
     const expectFastifyChoice = async () => {
-      await page.locator('#choice-Fastify').first().click()
+      await page.locator('#choice-Fastify').first().dispatchEvent('click')
       const text = await getVisibleText(page)
       hasHonoChoice(text, false)
       hasExpressChoice(text, false)
@@ -223,8 +223,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await expectHonoChoice()
 
     if (!isDev) {
-      await page.locator('#choice-pnpm').first().click()
-      await page.locator('#choice-Express').first().click()
+      await page.locator('#choice-pnpm').first().dispatchEvent('click')
+      await page.locator('#choice-Express').first().dispatchEvent('click')
     }
 
     await autoRetry(

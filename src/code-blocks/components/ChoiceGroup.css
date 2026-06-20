@@ -4,12 +4,11 @@
   /* layout */
   --top-position: 10px;
   --border-radius: 5px;
-  --transition-select-list-duration: 1000ms;
-  --transition-select-option-duration: 1000ms;
+  --transition-select-list-duration: 180ms;
+  --transition-select-option-duration: 120ms;
   --transition-select-list: top var(--transition-select-list-duration) cubic-bezier(0.2, 0.9, 0.2, 1), clip-path
     var(--transition-select-list-duration) ease-in-out;
-  --transition-select-option: background var(--transition-select-option-duration) ease, border-radius
-    var(--transition-select-option-duration) ease-in-out;
+  --transition-select-option: background var(--transition-select-option-duration) ease;
   --transition-select-icon: filter 500ms ease, opacity 500ms ease;
 
   .choice-group__selects {
@@ -51,8 +50,8 @@
     border-radius: var(--border-radius);
     pointer-events: none;
 
-    transition: top var(--transition-select-list-duration) ease-in-out, height
-      var(--transition-select-list-duration) ease-in-out;
+    transition: top var(--transition-select-list-duration) ease-in-out, height var(--transition-select-list-duration)
+      ease-in-out;
   }
 
   .choice-select__option {
@@ -94,26 +93,10 @@
     transition: var(--transition-select-icon);
   }
 
-  .choice-select__option:first-child {
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-  }
-
-  .choice-select__option:last-child {
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-  }
-
   .choice-select__list:hover .choice-select__option img,
   .choice-select__list[aria-expanded='true'] .choice-select__option img {
     filter: grayscale(0%);
     opacity: 1;
-  }
-
-  .choice-select__list[aria-expanded='false'] {
-    .choice-select__option:has(.choice-select__radio:checked) {
-      border-radius: var(--border-radius);
-    }
   }
 
   .choice-select__list[aria-expanded='true'] {
@@ -121,7 +104,7 @@
     clip-path: inset(0px round var(--border-radius)) !important;
     .choice-select__border {
       top: 0 !important;
-      height: calc(var(--choice-count) * var(--option-height)) ;
+      height: calc(var(--choice-count) * var(--option-height));
     }
   }
 

@@ -1,3 +1,12 @@
+## [0.16.43](https://github.com/brillout/docpress/compare/v0.16.42...v0.16.43) (2026-06-21)
+
+
+### Bug Fixes
+
+* Refactor Select and Tabs components to use radio inputs (UI polish) ([#160](https://github.com/brillout/docpress/issues/160)) ([abc6ef0](https://github.com/brillout/docpress/commit/abc6ef037eb0fcc2f84766173681590c7b5454cd))
+
+
+
 ## [0.16.42](https://github.com/brillout/docpress/compare/v0.16.41...v0.16.42) (2026-06-15)
 
 

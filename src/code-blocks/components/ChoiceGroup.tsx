@@ -53,6 +53,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const [expanded, setExpanded] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
@@ -67,10 +68,20 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       id={`choicesFor-${groupName}`}
       aria-expanded={expanded}
       role="radiogroup"
-      className={cls(['choice-select__list', (isHidden || isEmptyChoice(selectedChoice)) && 'hidden'])}
+      className={cls([
+        'choice-select__list',
+        (isHidden || isEmptyChoice(selectedChoice)) && 'hidden',
+        isHovered && 'hovered',
+      ])}
       style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
-      onMouseEnter={() => setExpanded(true)}
+      onMouseEnter={() => {
+        setExpanded(true)
+        setIsHovered(true)
+      }}
       onMouseLeave={() => setExpanded(false)}
+      onTransitionEnd={() => {
+        if (!expanded) setIsHovered(false)
+      }}
       onClick={() => {
         if (!expanded) next()
       }}

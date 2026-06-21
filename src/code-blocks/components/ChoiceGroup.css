@@ -96,8 +96,11 @@
     }
   }
 
-  .choice-select__list:not([aria-expanded='true']) {
-    transition: none !important;
+  .choice-select__list:not(.hovered) {
+    transition: none;
+    .choice-select__border {
+      transition: none;
+    }
   }
 
   .choice-select__option:not(:last-child) {

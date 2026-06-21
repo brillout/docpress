@@ -26,18 +26,6 @@
   color: color-mix(in srgb, var(--color-text) 80%, white 20%);
 }
 
-.choice-tabs__radio {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .choice-tabs__tab-content {
   display: inline-flex;
   align-items: center;

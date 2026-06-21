@@ -29,7 +29,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
         {choices.map(({ name: choice, icon, iconStyle }) => (
           <label key={choice} className="choice-tabs__tab" style={{ display: isHidden(choice) ? 'none' : undefined }}>
             <input
-              className="choice-tabs__radio"
+              className="choice-tabs__radio sr-only"
               type="radio"
               name={`radio-${radioId}`}
               value={choice}

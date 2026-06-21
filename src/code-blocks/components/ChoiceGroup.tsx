@@ -86,7 +86,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         >
           <input
             type="radio"
-            className="choice-select__radio"
+            className="choice-select__radio sr-only"
             name={`radio-${radioId}`}
             value={choice}
             checked={selectedChoice === choice}

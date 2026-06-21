@@ -101,6 +101,9 @@
     .choice-select__border {
       transition: none;
     }
+    .choice-select__option {
+      transition: none;
+    }
   }
 
   .choice-select__option:not(:last-child) {

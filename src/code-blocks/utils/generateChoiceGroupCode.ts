@@ -130,7 +130,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   if (lvl === 0) {
     return {
       type: 'mdxJsxFlowElement',
-      name: 'CustomSelectsContainer',
+      name: 'ChoiceGroupContainer',
       attributes: [],
       children: [choiceGroupNode],
     }

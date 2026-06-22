@@ -2,13 +2,7 @@
   -webkit-tap-highlight-color: transparent;
 
   /* tablist style logic */
-  select:has(option:nth-of-type(1):checked) ~ ul[role='tablist'] li:nth-of-type(1),
-  select:has(option:nth-of-type(2):checked) ~ ul[role='tablist'] li:nth-of-type(2),
-  select:has(option:nth-of-type(3):checked) ~ ul[role='tablist'] li:nth-of-type(3),
-  select:has(option:nth-of-type(4):checked) ~ ul[role='tablist'] li:nth-of-type(4),
-  select:has(option:nth-of-type(5):checked) ~ ul[role='tablist'] li:nth-of-type(5),
-  select:has(option:nth-of-type(6):checked) ~ ul[role='tablist'] li:nth-of-type(6),
-  select:has(option:nth-of-type(7):checked) ~ ul[role='tablist'] li:nth-of-type(7) {
+  .choice-tabs__tab:has(.choice-tabs__radio:checked) {
     border-bottom: 2px solid #aaa;
     color: var(--color-text);
   }
@@ -35,22 +29,23 @@
 .choice-tabs__tab-content {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 6px;
   line-height: 1;
 }
 
 .choice-tabs__tab-icon {
   display: flex;
+  justify-content: flex-end;
   width: 16px;
 }
 
-.choice-tabs__tab img {
+.choice-tabs__tab-icon img {
   height: 14px;
   max-width: 16px;
 }
 
 .choice-tabs__tab-label {
-  font-weight: 16px;
+  font-size: 16px;
 }
 
 @media screen and (max-width: 400px) {

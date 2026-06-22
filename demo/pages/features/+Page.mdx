@@ -371,3 +371,29 @@ Props:
 - **children**: Content rendered only on the client-side after hydration.
 - **fallback** (optional): Content shown during SSR and before hydration completes.
 :::
+
+A single choice can contain several toggleable code blocks (each one spawns a nested JavaScript/TypeScript choice group):
+
+:::Choice{#React}
+```ts
+// +config.ts
+const config: { ssr: boolean } = { ssr: false }
+```
+
+```ts
+// Component.tsx
+const greeting: string = 'Hello from React'
+```
+:::
+
+:::Choice{#Vue}
+```ts
+// +config.ts
+const config: { ssr: boolean } = { ssr: false }
+```
+
+```ts
+// Component.vue
+const greeting: string = 'Hello from Vue'
+```
+:::

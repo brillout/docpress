@@ -1,3 +1,64 @@
+## [0.16.45](https://github.com/brillout/docpress/compare/v0.16.44...v0.16.45) (2026-06-22)
+
+
+### Bug Fixes
+
+* fall back to an available choice when the selected one is absent on the page ([#169](https://github.com/brillout/docpress/issues/169)) ([#170](https://github.com/brillout/docpress/issues/170)) ([afd0a81](https://github.com/brillout/docpress/commit/afd0a813670a893af301e3d74b977026dae93090))
+
+
+
+## [0.16.44](https://github.com/brillout/docpress/compare/v0.16.43...v0.16.44) (2026-06-22)
+
+
+### Bug Fixes
+
+* restore `string[]` choices, optional icons, and fix nested ChoiceGroup crash ([#168](https://github.com/brillout/docpress/issues/168)) ([7844b7e](https://github.com/brillout/docpress/commit/7844b7e673b681bd56afcb609e1d6771c8c12e7a))
+
+
+
+## [0.16.43](https://github.com/brillout/docpress/compare/v0.16.42...v0.16.43) (2026-06-21)
+
+
+### Bug Fixes
+
+* Refactor Select and Tabs components to use radio inputs (UI polish) ([#160](https://github.com/brillout/docpress/issues/160)) ([abc6ef0](https://github.com/brillout/docpress/commit/abc6ef037eb0fcc2f84766173681590c7b5454cd))
+
+
+
+## [0.16.42](https://github.com/brillout/docpress/compare/v0.16.41...v0.16.42) (2026-06-15)
+
+
+### Bug Fixes
+
+* ChoiceGroup injection in nested JSX elements (telefunc/telefunc[#323](https://github.com/brillout/docpress/issues/323)) ([#163](https://github.com/brillout/docpress/issues/163)) ([a96f07c](https://github.com/brillout/docpress/commit/a96f07cba6fe0e1fd01e3f629abdaa75d5245ebb))
+
+
+
+## [0.16.41](https://github.com/brillout/docpress/compare/v0.16.40...v0.16.41) (2026-06-15)
+
+
+### Bug Fixes
+
+* prevent ChoiceGroup crash when a choice has multiple code blocks ([#162](https://github.com/brillout/docpress/issues/162)) ([fef3655](https://github.com/brillout/docpress/commit/fef36558b0910569aef7927f79d6715c673115d7))
+
+
+
+## [0.16.40](https://github.com/brillout/docpress/compare/v0.16.39...v0.16.40) (2026-06-15)
+
+
+### Bug Fixes
+
+* improve choice group resolution to prefer complete matches ([#161](https://github.com/brillout/docpress/issues/161)) ([731960d](https://github.com/brillout/docpress/commit/731960d74dd00502d76d198ed102b8243d3bd263))
+* show the dropdown as early as possible ([#149](https://github.com/brillout/docpress/issues/149)) ([e9de7a7](https://github.com/brillout/docpress/commit/e9de7a70d050bf00b4634afd4470f4a5bc17ecde))
+* small improvements and polish for ChoiceGroup and Tabs components ([#151](https://github.com/brillout/docpress/issues/151)) ([e80152d](https://github.com/brillout/docpress/commit/e80152dc854f1a67fcfb4f5298393879aff2792b))
+
+
+### Features
+
+* `+choices` icons ([#153](https://github.com/brillout/docpress/issues/153)) ([f57eafd](https://github.com/brillout/docpress/commit/f57eafdc53142172bde46eb197f2810bfc1da71a))
+
+
+
 ## [0.16.39](https://github.com/brillout/docpress/compare/v0.16.38...v0.16.39) (2026-05-21)
 
 

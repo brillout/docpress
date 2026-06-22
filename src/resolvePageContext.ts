@@ -18,6 +18,7 @@ import { jsxToTextContent } from './utils/jsxToTextContent.js'
 import pc from '@brillout/picocolors'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { determineNavItemsColumnLayout } from './determineNavItemsColumnLayout.js'
+import { resolveChoices } from './code-blocks/utils/resolveChoices.js'
 
 type PageSectionResolved = {
   url: string | null
@@ -80,6 +81,8 @@ function resolvePageContext(pageContext: PageContextServer) {
   // Don't show landing page in navigation
   navItemsAll = navItemsAll.filter((navItem) => navItem.url !== '/')
 
+  const choices = config.choices && resolveChoices(config.choices)
+
   const resolved = {
     navItemsAll,
     navItemsDetached,
@@ -89,6 +92,7 @@ function resolvePageContext(pageContext: PageContextServer) {
     pageTitle,
     documentTitle,
     activeCategoryName,
+    choices,
   }
   return resolved
 }

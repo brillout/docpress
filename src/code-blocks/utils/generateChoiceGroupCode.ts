@@ -8,6 +8,7 @@ import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from '
 import { getVikeConfig } from 'vike/plugin'
 import { assertUsage } from '../../utils/assert.js'
 import { valueToEstree } from 'estree-util-value-to-estree'
+import { resolveChoices } from './resolveChoices.js'
 import { JAVASCRIPT_ICON, TYPESCRIPT_ICON, NPM_ICON, PNPM_ICON, BUN_ICON, YARN_ICON } from './constant.js'
 
 type ChoiceNode = {
@@ -59,7 +60,14 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     lvl = parentLvl + 1
 
     data.customDataParentChoiceGroup = parent.data.customDataParentChoiceGroup
+    /*
+    // Keep the marker on the parent: a single choice can contain several toggleable code blocks
+    // (e.g. two TypeScript blocks, or a TypeScript block + an `npm` command). Each of them spawns
+    // its own nested choice group and must inherit the same parent level. Clearing the marker here
+    // would make every group after the first resolve to `lvl: 0`, wrapping it in its own
+    // `CustomSelectsContainer` — which then renders without `choiceGroupAll` and crashes.
     parent.data = undefined
+    */
   }
 
   for (const choiceNode of mergedChoiceNodes) {
@@ -84,6 +92,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
             name: choiceGroup.name,
             choice: choiceNode.choiceValue,
             default: choiceGroup.default,
+            emptyChoices: choiceGroup.emptyChoices,
             lvl,
           },
         }),
@@ -114,7 +123,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   if (lvl === 0) {
     return {
       type: 'mdxJsxFlowElement',
-      name: 'CustomSelectsContainer',
+      name: 'ChoiceGroupContainer',
       attributes: [],
       children: [choiceGroupNode],
     }
@@ -127,24 +136,22 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   const vikeConfig = getVikeConfig()
   const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
   const { choices: choicesConfig } = vikeConfig.config.docpress
-  const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
+  const choicesAll = resolveChoices({ ...CHOICES_BUILT_IN, ...choicesConfig })
 
-  const groupName = Object.keys(choicesAll).find((key) => {
-    // get only the values that exist in both choices and choicesAll[key].choices
-    const existsChoices = choicesAll[key]!.choices.filter((choice) => choices.includes(choice.name))
-    // if nothing exists, skip this key
-    if (existsChoices.length === 0) return false
-    return true
-  })
+  // Resolve to the group that defines ALL of the block's values. Matching a group that merely
+  // shares ANY value would mis-resolve a custom group that collides with a built-in on a single
+  // value — e.g. a `runtime` group [Node, Bun, Deno, Cloudflare] sharing `Bun` with `pkgManager`.
+  const groupName = Object.keys(choicesAll).find((key) =>
+    choices.every((choice) => choicesAll[key]!.choices.some(({ name }) => name === choice)),
+  )
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice.name)).map(
-    (choice) => choice.name,
-  )
+  const group = choicesAll[groupName]!
+  const emptyChoices = group.choices.filter((choice) => !choices.includes(choice.name)).map((choice) => choice.name)
 
   const choiceGroup = {
     name: groupName,
-    ...choicesAll[groupName]!,
+    ...group,
     emptyChoices,
   }
 

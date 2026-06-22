@@ -5,17 +5,15 @@ import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
-import { normalizeChoices } from '../utils/normalizeChoices.js'
 import './Tabs.css'
 
 function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const radioId = useId()
   const groupName = choice
   const pageContext = usePageContext()
-  const choicesAll = pageContext.config.docpress.choices
+  const choicesAll = pageContext.resolved.choices
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
-  const { default: defaultChoice } = choicesAll[groupName]
-  const choices = normalizeChoices(choicesAll[groupName].choices)
+  const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)

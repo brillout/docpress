@@ -1,3 +1,12 @@
+## [0.16.45](https://github.com/brillout/docpress/compare/v0.16.44...v0.16.45) (2026-06-22)
+
+
+### Bug Fixes
+
+* fall back to an available choice when the selected one is absent on the page ([#169](https://github.com/brillout/docpress/issues/169)) ([#170](https://github.com/brillout/docpress/issues/170)) ([afd0a81](https://github.com/brillout/docpress/commit/afd0a813670a893af301e3d74b977026dae93090))
+
+
+
 ## [0.16.44](https://github.com/brillout/docpress/compare/v0.16.43...v0.16.44) (2026-06-22)
 
 

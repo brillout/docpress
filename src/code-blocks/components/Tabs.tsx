@@ -3,6 +3,7 @@ export { Tabs }
 import React, { useId } from 'react'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
+import { getAvailableChoice } from '../utils/getAvailableChoice.js'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
@@ -14,7 +15,9 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const choicesAll = pageContext.resolved.choices
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
   const { choices, default: defaultChoice } = choicesAll[groupName]
-  const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  // A hidden tab can't be shown, so treat `hide` as the unavailable choices (#169)
+  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, hide, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)
 

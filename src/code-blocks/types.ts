@@ -10,5 +10,5 @@ type ChoiceGroup = Omit<NonNullable<Config['choices']>[string], 'choices'> & {
   lvl: number
   isBuiltIn?: boolean
 }
-type ParentChoiceGroup = { name: string; default: string }
+type ParentChoiceGroup = { name: string; default: string; emptyChoices: string[] }
 type ChoiceGroupWithParent = ChoiceGroup & { parentChoiceGroup?: ParentChoiceGroup & { choices: string[] } }

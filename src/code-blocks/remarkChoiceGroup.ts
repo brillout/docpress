@@ -109,6 +109,7 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
                 name: parentChoiceGroup.name,
                 default: parentChoiceGroup.default,
                 choices: !choiceGroup.hidden ? [parentChoiceGroup.choice] : [],
+                emptyChoices: parentChoiceGroup.emptyChoices,
               },
             }),
           })

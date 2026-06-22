@@ -13,7 +13,7 @@ function ChoiceGroupContainer({
   children,
   choiceGroupAll,
 }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
-  const renderCustomSelect = choiceGroupAll.some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
+  const renderCustomSelect = (choiceGroupAll ?? []).some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
   return (
     <div className="choice-group-container">
       {children}

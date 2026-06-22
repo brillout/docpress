@@ -33,10 +33,10 @@ function initializeChoiceGroup() {
       case 'SELECT':
         const selectEl = groupEl as HTMLSelectElement
         const option = [...selectEl.options].find((opt) => opt.value === selectedChoice)
-        // Stored choice no longer exists in this group → it's stale, clean it up.
+        // No option: stale choice removed from the config → forget it.
+        // data-empty: choice exists in the group but has no content on this page → keep the
+        // server-rendered fallback rather than selecting a blank choice (#169).
         if (!option) localStorage.removeItem(storageKey)
-        // Apply the stored choice only if it has content on this page. Otherwise keep the
-        // server-rendered fallback (default / first available choice) to avoid showing nothing (#169).
         else if (!option.hasAttribute('data-empty')) selectEl.value = selectedChoice
         break
       case 'DIV':

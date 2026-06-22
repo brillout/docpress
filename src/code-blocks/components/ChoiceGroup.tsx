@@ -31,7 +31,6 @@ function ChoiceGroupContainer({
 function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; choiceGroup: TChoiceGroup }) {
   const { name: groupName, choices, default: defaultChoice, emptyChoices } = choiceGroup
   const [selectedChoiceStored] = useCurrentSelection(groupName, defaultChoice)
-  // Fall back to an available choice when the stored one has no content on this page (#169)
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
 
   return (
@@ -39,7 +38,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
       {/* Hidden select used to control choice visibility via CSS */}
       <select data-choice-group={groupName} name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map(({ name: choice }) => (
-          // `data-empty` lets the SSR script (initializeChoiceGroup) skip choices with no content on this page
+          // data-empty is read by the initializeChoiceGroup SSR script (useCurrentSelection.ts)
           <option key={choice} value={choice} data-empty={emptyChoices.includes(choice) ? '' : undefined}>
             {choice}
           </option>
@@ -57,7 +56,6 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
   const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  // Fall back to an available choice when the stored one has no content on this page (#169)
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
   const [expanded, setExpanded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)

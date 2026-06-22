@@ -16,7 +16,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  // Fall back to an available choice when the stored one isn't shown on this page (#169)
+  // A hidden tab can't be shown, so treat `hide` as the unavailable choices (#169)
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, hide, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)

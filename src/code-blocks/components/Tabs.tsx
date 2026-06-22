@@ -5,6 +5,7 @@ import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
+import { normalizeChoices } from '../utils/normalizeChoices.js'
 import './Tabs.css'
 
 function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
@@ -13,7 +14,8 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const pageContext = usePageContext()
   const choicesAll = pageContext.config.docpress.choices
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
-  const { choices, default: defaultChoice } = choicesAll[groupName]
+  const { default: defaultChoice } = choicesAll[groupName]
+  const choices = normalizeChoices(choicesAll[groupName].choices)
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const setPrevPosition = useRestoreScroll([selectedChoice])
   const isHidden = (choice: string) => hide.includes(choice)
@@ -40,7 +42,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
               }}
             />
             <span className="choice-tabs__tab-content">
-              <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+              {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
               {choice}
             </span>
           </label>

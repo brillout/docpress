@@ -6,6 +6,7 @@ import { usePageContext } from '../../renderer/usePageContext.js'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { cls } from '../../utils/cls.js'
+import { normalizeChoices } from '../utils/normalizeChoices.js'
 import './ChoiceGroup.css'
 
 function ChoiceGroupContainer({
@@ -57,7 +58,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
-  const { choices } = isBuiltIn ? choiceGroup : choicesAll![groupName]!
+  const choices = normalizeChoices((isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices)
   const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))
@@ -104,7 +105,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             readOnly
           />
           <span className="choice-select__option-content">
-            <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+            {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
             {choice}
           </span>
         </label>

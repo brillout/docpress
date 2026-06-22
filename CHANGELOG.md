@@ -1,3 +1,12 @@
+## [0.16.44](https://github.com/brillout/docpress/compare/v0.16.43...v0.16.44) (2026-06-22)
+
+
+### Bug Fixes
+
+* restore `string[]` choices, optional icons, and fix nested ChoiceGroup crash ([#168](https://github.com/brillout/docpress/issues/168)) ([7844b7e](https://github.com/brillout/docpress/commit/7844b7e673b681bd56afcb609e1d6771c8c12e7a))
+
+
+
 ## [0.16.43](https://github.com/brillout/docpress/compare/v0.16.42...v0.16.43) (2026-06-21)
 
 

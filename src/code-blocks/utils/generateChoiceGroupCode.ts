@@ -101,6 +101,7 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
             name: choiceGroup.name,
             choice: choiceNode.choiceValue,
             default: choiceGroup.default,
+            emptyChoices: choiceGroup.emptyChoices,
             lvl,
           },
         }),

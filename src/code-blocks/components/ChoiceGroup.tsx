@@ -59,10 +59,15 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
   const [expanded, setExpanded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
-  const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
+  let [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
+  let isHidden = hidden
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
-  const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
+  if (parentChoiceGroup) {
+    const { choices, emptyChoices, default: defaultChoice } = parentChoiceGroup
+    parentSelectedChoice = getAvailableChoice(parentSelectedChoice, choices, emptyChoices, defaultChoice)
+    isHidden = !parentChoiceGroup.choices.includes(parentSelectedChoice)
+  }
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))
   const selectedIndex = filteredChoices.findIndex((choice) => choice.name === selectedChoice)

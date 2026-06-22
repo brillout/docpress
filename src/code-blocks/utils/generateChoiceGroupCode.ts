@@ -8,6 +8,7 @@ import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxFlowElementData } from '
 import { getVikeConfig } from 'vike/plugin'
 import { assertUsage } from '../../utils/assert.js'
 import { valueToEstree } from 'estree-util-value-to-estree'
+import { resolveChoices } from './resolveChoices.js'
 
 type ChoiceNode = {
   choiceValue: string
@@ -143,7 +144,7 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   const vikeConfig = getVikeConfig()
   const choices = choiceNodes.map((choiceNode) => choiceNode.choiceValue)
   const { choices: choicesConfig } = vikeConfig.config.docpress
-  const choicesAll = { ...CHOICES_BUILT_IN, ...choicesConfig }
+  const choicesAll = resolveChoices({ ...CHOICES_BUILT_IN, ...choicesConfig })
 
   // Resolve to the group that defines ALL of the block's values. Matching a group that merely
   // shares ANY value would mis-resolve a custom group that collides with a built-in on a single
@@ -153,13 +154,12 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
   )
   assertUsage(groupName, `Missing group name for [${choices}]. Define it in +docpress.choices.`)
 
-  const emptyChoices = choicesAll[groupName]!.choices.filter((choice) => !choices.includes(choice.name)).map(
-    (choice) => choice.name,
-  )
+  const group = choicesAll[groupName]!
+  const emptyChoices = group.choices.filter((choice) => !choices.includes(choice.name)).map((choice) => choice.name)
 
   const choiceGroup = {
     name: groupName,
-    ...choicesAll[groupName]!,
+    ...group,
     emptyChoices,
   }
 

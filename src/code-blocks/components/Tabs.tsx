@@ -11,7 +11,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
   const radioId = useId()
   const groupName = choice
   const pageContext = usePageContext()
-  const choicesAll = pageContext.config.docpress.choices
+  const choicesAll = pageContext.resolved.choices
   assertUsage(choicesAll && choicesAll[groupName], `${groupName} is unknown`)
   const { choices, default: defaultChoice } = choicesAll[groupName]
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
@@ -40,7 +40,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
               }}
             />
             <span className="choice-tabs__tab-content">
-              <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+              {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
               {choice}
             </span>
           </label>

@@ -12,7 +12,7 @@ function ChoiceGroupContainer({
   children,
   choiceGroupAll,
 }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
-  const renderCustomSelect = choiceGroupAll.some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
+  const renderCustomSelect = (choiceGroupAll ?? []).some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
   return (
     <div className="choice-group-container">
       {children}
@@ -49,7 +49,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
 const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
-  const choicesAll = usePageContext().config.docpress.choices
+  const choicesAll = usePageContext().resolved.choices
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const [expanded, setExpanded] = useState(false)
@@ -57,7 +57,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
-  const { choices } = isBuiltIn ? choiceGroup : choicesAll![groupName]!
+  const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
   const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))
@@ -104,7 +104,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             readOnly
           />
           <span className="choice-select__option-content">
-            <img src={icon} alt="" aria-hidden="true" style={iconStyle} />
+            {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
             {choice}
           </span>
         </label>

@@ -1,4 +1,4 @@
-export type { Config }
+export type { Config, Choice, ChoiceItem }
 
 import type { HeadingDefinition, HeadingDetachedDefinition } from './Heading.js'
 import type React from 'react'
@@ -62,7 +62,9 @@ type Category =
       hide?: boolean
     }
 
+/** A choice. A plain `string` is shorthand for `{ name: string }` (no icon). */
+type ChoiceItem = { name: string; icon?: string; iconStyle?: React.CSSProperties }
 type Choice = {
-  choices: { name: string; icon: string; iconStyle?: React.CSSProperties }[]
+  choices: (string | ChoiceItem)[]
   default: string
 }

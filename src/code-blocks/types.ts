@@ -1,9 +1,10 @@
 export type { ChoiceGroup, ChoiceGroupWithParent, ParentChoiceGroup }
 
-import type { Config } from '../types/Config.js'
+import type { Config, ChoiceItem } from '../types/Config.js'
 
-type ChoiceGroup = NonNullable<Config['choices']>[string] & {
+type ChoiceGroup = Omit<NonNullable<Config['choices']>[string], 'choices'> & {
   name: string
+  choices: ChoiceItem[]
   emptyChoices: string[]
   hidden: boolean
   lvl: number

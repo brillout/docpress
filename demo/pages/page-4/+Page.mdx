@@ -1,1 +1,13 @@
 Page 4
+
+## Choice group fallback
+
+This page only defines `React` and `Vue` for the `uiFramework` choice group (no `Solid`). It's used to test that selecting a choice that has no content here (e.g. `Solid`, selected on another page) falls back to an available choice instead of showing nothing — https://github.com/brillout/docpress/issues/169.
+
+```js choice=React
+const reactChoiceContent = 1
+```
+
+```js choice=Vue
+const vueChoiceContent = 1
+```

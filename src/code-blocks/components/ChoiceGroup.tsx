@@ -5,6 +5,7 @@ import React, { useId, useState } from 'react'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
+import { getAvailableChoice } from '../utils/getAvailableChoice.js'
 import { cls } from '../../utils/cls.js'
 import './ChoiceGroup.css'
 
@@ -28,15 +29,18 @@ function ChoiceGroupContainer({
 }
 
 function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; choiceGroup: TChoiceGroup }) {
-  const { name: groupName, choices, default: defaultChoice } = choiceGroup
-  const [selectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const { name: groupName, choices, default: defaultChoice, emptyChoices } = choiceGroup
+  const [selectedChoiceStored] = useCurrentSelection(groupName, defaultChoice)
+  // Fall back to an available choice when the stored one has no content on this page (#169)
+  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
 
   return (
     <div className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select data-choice-group={groupName} name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map(({ name: choice }) => (
-          <option key={choice} value={choice}>
+          // `data-empty` lets the SSR script (initializeChoiceGroup) skip choices with no content on this page
+          <option key={choice} value={choice} data-empty={emptyChoices.includes(choice) ? '' : undefined}>
             {choice}
           </option>
         ))}
@@ -51,13 +55,15 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
   const choicesAll = usePageContext().resolved.choices
   const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
-  const [selectedChoice, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
+  const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
+  // Fall back to an available choice when the stored one has no content on this page (#169)
+  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
   const [expanded, setExpanded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
-  const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
   const isHidden = parentChoiceGroup ? !parentChoiceGroup.choices.includes(parentSelectedChoice) : hidden
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)
   const filteredChoices = choices.filter((choice) => !isEmptyChoice(choice.name))

@@ -238,6 +238,25 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     )
   })
 
+  const page4URL = '/page-4'
+  test(`${page4URL} - Choice Group fallback when selected choice is absent (#169)`, async () => {
+    await page.goto(getServerUrl() + page4URL)
+    // Emulate a `uiFramework` choice (`Solid`) selected on another page. `page-4` only defines
+    // `React`/`Vue` for that group, so `Solid` has no content here. Before the fix this showed
+    // nothing; now it falls back to the default (`React`).
+    await page.evaluate(() => window.localStorage.setItem('docpress:choice:uiFramework', 'Solid'))
+    await page.goto(getServerUrl() + page4URL)
+    await autoRetry(
+      async () => {
+        const text = await getVisibleText(page)
+        expect(text).toContain('reactChoiceContent')
+        expect(text).not.toContain('vueChoiceContent')
+      },
+      { timeout: 5 * 1000 },
+    )
+    await page.evaluate(() => window.localStorage.clear())
+  })
+
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)

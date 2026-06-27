@@ -43,10 +43,8 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
               }}
             />
             <span className="choice-tabs__tab-content">
-              <span className="choice-tabs__tab-icon">
-                {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
-              </span>
-              <span className="choice-tabs__tab-label">{choice}</span>
+              {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
+              {choice}
             </span>
           </label>
         ))}

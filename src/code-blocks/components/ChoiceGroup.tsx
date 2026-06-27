@@ -113,10 +113,8 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             readOnly
           />
           <span className="choice-select__option-content">
-            <span className="choice-select__option-icon">
-              {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
-            </span>
-            <span className="choice-select__option-label">{choice}</span>
+            {icon && <img src={icon} alt="" aria-hidden="true" style={iconStyle} />}
+            {choice}
           </span>
         </label>
       ))}

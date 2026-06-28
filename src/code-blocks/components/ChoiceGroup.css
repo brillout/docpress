@@ -106,7 +106,6 @@
   .choice-select__list[aria-expanded='true'] {
     z-index: 1;
     clip-path: inset(0px round var(--border-radius)) !important;
-
     .choice-select__border {
       top: 0 !important;
       height: calc(var(--choice-count) * var(--option-height));
@@ -115,11 +114,9 @@
 
   .choice-select__list:not(.hovered) {
     transition: none;
-
     .choice-select__border {
       transition: none;
     }
-
     .choice-select__option {
       transition: none;
     }
@@ -147,79 +144,66 @@
       calc(0 * var(--option-height)) 0 calc((var(--choice-count) - 0 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: 0;
     }
   }
-
   .choice-select__list:has(.choice-select__option:nth-of-type(2) .choice-select__radio:checked) {
     top: calc(-1 * var(--option-height));
     clip-path: inset(
       calc(1 * var(--option-height)) 0 calc((var(--choice-count) - 1 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: var(--option-height);
     }
   }
-
   .choice-select__list:has(.choice-select__option:nth-of-type(3) .choice-select__radio:checked) {
     top: calc(-2 * var(--option-height));
     clip-path: inset(
       calc(2 * var(--option-height)) 0 calc((var(--choice-count) - 2 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: calc(2 * var(--option-height));
     }
   }
-
   .choice-select__list:has(.choice-select__option:nth-of-type(4) .choice-select__radio:checked) {
     top: calc(-3 * var(--option-height));
     clip-path: inset(
       calc(3 * var(--option-height)) 0 calc((var(--choice-count) - 3 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: calc(3 * var(--option-height));
     }
   }
-
   .choice-select__list:has(.choice-select__option:nth-of-type(5) .choice-select__radio:checked) {
     top: calc(-4 * var(--option-height));
     clip-path: inset(
       calc(4 * var(--option-height)) 0 calc((var(--choice-count) - 4 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: calc(4 * var(--option-height));
     }
   }
-
   .choice-select__list:has(.choice-select__option:nth-of-type(6) .choice-select__radio:checked) {
     top: calc(-5 * var(--option-height));
     clip-path: inset(
       calc(5 * var(--option-height)) 0 calc((var(--choice-count) - 5 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: calc(5 * var(--option-height));
     }
   }
-
   .choice-select__list:has(.choice-select__option:nth-of-type(7) .choice-select__radio:checked) {
     top: calc(-6 * var(--option-height));
     clip-path: inset(
       calc(6 * var(--option-height)) 0 calc((var(--choice-count) - 6 - 1) * var(--option-height)) 0 round
         var(--border-radius)
     );
-
     .choice-select__border {
       top: calc(6 * var(--option-height));
     }

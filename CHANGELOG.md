@@ -1,3 +1,12 @@
+## [0.16.47](https://github.com/brillout/docpress/compare/v0.16.46...v0.16.47) (2026-06-28)
+
+
+### Features
+
+* +docpress.changelog URL ([e86b303](https://github.com/brillout/docpress/commit/e86b3034db11eda62aa5c7de86fe152f04d92bb0))
+
+
+
 ## [0.16.46](https://github.com/brillout/docpress/compare/v0.16.45...v0.16.46) (2026-06-28)
 
 

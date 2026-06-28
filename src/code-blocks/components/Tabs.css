@@ -51,18 +51,15 @@
   align-items: center;
   gap: 6px;
   line-height: 1;
-  font-size: 16px;
-  padding-inline: 4px;
+  padding-inline: 2px;
 }
 
-img {
-  display: block;
-  max-width: 100%;
+.choice-tabs__tab-label {
+  font-size: 16px;
 }
 
 .choice-tabs__tab-content img {
-  width: 16px;
-  height: 16px;
+  height: 13px;
 }
 
 @media screen and (max-width: 400px) {

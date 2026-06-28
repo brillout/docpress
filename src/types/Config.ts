@@ -18,12 +18,24 @@ type Config = {
       }
   banner?: string
 
+  /**
+   * Raw HTML injected at the end of `<head>` on every page.
+   *
+   * Use for a small inline `<script>`/`<style>` that must run before first
+   * paint — e.g. a no-flash theme script that reads a cookie and applies the
+   * palette before the page renders (relevant for prerendered/static pages,
+   * where there is no request to read the cookie from at render time).
+   *
+   * Emitted verbatim (not escaped), so only pass trusted, self-authored markup.
+   */
+  headHtml?: string
+
   github: string
   discord?: string
   twitter?: string
   bluesky?: string
   linkedin?: string
-  changelog?: boolean
+  changelog?: boolean | string
 
   headings: HeadingDefinition[]
   headingsDetached: HeadingDetachedDefinition[]

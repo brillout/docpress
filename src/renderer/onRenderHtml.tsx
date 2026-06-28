@@ -30,11 +30,16 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
         <meta name="viewport" content="width=device-width,initial-scale=1">
         ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.config.docpress)}
         ${getAlgoliaTags(pageContext)}
+        ${getHeadHtml(pageContext.globalContext.config.docpress)}
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
       </body>
     </html>`
+}
+
+function getHeadHtml(config: Config) {
+  return config.headHtml ? dangerouslySkipEscape(config.headHtml) : ''
 }
 
 function getAlgoliaTags(pageContext: PageContextServer) {

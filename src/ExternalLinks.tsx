@@ -46,10 +46,11 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
 
 function ChangelogButton() {
   const pageContext = usePageContext()
-  const { version, github } = pageContext.globalContext.config.docpress
+  const { version, github, changelog } = pageContext.globalContext.config.docpress
+  const changeLogUrl = typeof changelog === 'string' ? changelog : `${github}/blob/main/CHANGELOG.md`
   return (
     <a
-      href={`${github}/blob/main/CHANGELOG.md`}
+      href={changeLogUrl}
       className="colorize-on-hover"
       style={{
         display: 'flex',

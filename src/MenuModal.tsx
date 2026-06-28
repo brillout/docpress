@@ -26,7 +26,7 @@ function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; is
           width: '100%',
           top: 'var(--nav-head-height)',
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
-          background: '#ededef',
+          background: 'var(--color-surface, #ededef)',
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
           maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
@@ -169,8 +169,8 @@ function CloseButton({ className }: { className: string }) {
           cx="11.45"
           cy="11.45"
           r="10.607"
-          fill="#ececec"
-          stroke="#666"
+          fill="var(--color-surface, #ececec)"
+          stroke="var(--color-muted, #666)"
           strokeDashoffset="251.44"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -179,8 +179,8 @@ function CloseButton({ className }: { className: string }) {
         />
         <path
           d="m7.5904 6.2204 3.86 3.86 3.84-3.84a0.92 0.92 0 0 1 0.66-0.29 1 1 0 0 1 1 1 0.9 0.9 0 0 1-0.27 0.66l-3.89 3.84 3.89 3.89a0.9 0.9 0 0 1 0.27 0.61 1 1 0 0 1-1 1 0.92 0.92 0 0 1-0.69-0.27l-3.81-3.86-3.85 3.85a0.92 0.92 0 0 1-0.65 0.28 1 1 0 0 1-1-1 0.9 0.9 0 0 1 0.27-0.66l3.89-3.84-3.89-3.89a0.9 0.9 0 0 1-0.27-0.61 1 1 0 0 1 1-1c0.24 3e-3 0.47 0.1 0.64 0.27z"
-          fill="#666"
-          stroke="#666"
+          fill="var(--color-muted, #666)"
+          stroke="var(--color-muted, #666)"
           strokeWidth=".11719"
         />
       </svg>

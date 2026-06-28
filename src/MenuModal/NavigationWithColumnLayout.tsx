@@ -138,7 +138,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 ${/* Button style */ ''}
 .menu-toggle-${i} {
   html.menu-modal-show.menu-modal-show-${i} & {
-    color: black !important;
+    color: var(--color-text, black) !important;
     [class^='decolorize-'],
     [class*=' decolorize-'] {
       filter: grayscale(0) opacity(1) !important;

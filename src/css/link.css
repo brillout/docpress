@@ -2,5 +2,5 @@ a {
   text-decoration: none;
 }
 .doc-page a[href]:not(.nav-item) {
-  color: #4747ff;
+  color: var(--color-primary, #4747ff);
 }

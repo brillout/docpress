@@ -51,7 +51,11 @@
 }
 
 body {
-  --color-active-value: 0.03;
-  --color-active: rgba(0, 0, 0, var(--color-active-value));
-  --color-active-double: rgba(0, 0, 0, calc(2 * var(--color-active-value)));
+  /* Hover/active tint mixed from the text color so it tracks the active
+     appearance (light text -> light tint on dark). The `#000` fallback makes an
+     unthemed site identical to the original `rgba(0, 0, 0, value)`:
+     color-mix(in srgb, #000 3%, transparent) === rgba(0, 0, 0, 0.03). */
+  --color-active-value: 3%;
+  --color-active: color-mix(in srgb, var(--color-text, #000) var(--color-active-value), transparent);
+  --color-active-double: color-mix(in srgb, var(--color-text, #000) calc(2 * var(--color-active-value)), transparent);
 }

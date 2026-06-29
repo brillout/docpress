@@ -94,7 +94,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         margin: 'auto',
       }}
     >
-      <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
+      <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
         {/* #175: top nav + dropdown. Sticky on doc pages, not the landing page.
             The modal is inside it because `container-type` on the page wrapper
             traps `position: fixed`. */}
@@ -452,6 +452,20 @@ function getStyleLayout() {
 }
 `
 
+  // #175: the top nav uses a consistent white border-bottom and no shadow on every page. Doc pages
+  // get the border from the left nav's full-width background (.nav-head-bg) on desktop and from the
+  // mobile rule below; either way drop the inline shadow. The landing page has no .nav-head-bg, so
+  // give its top nav the same direct border (and no shadow) for consistency.
+  style += css`
+.doc-page .nav-head:not(.is-nav-left) {
+  box-shadow: none !important;
+}
+.landing-page .nav-head:not(.is-nav-left) {
+  border-bottom: var(--block-margin) solid var(--color-bg-white);
+  box-shadow: none !important;
+}
+`
+
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
     style += css`
@@ -469,6 +483,10 @@ function getStyleLayout() {
     --main-view-padding: 10px !important;
   }
   ${getStyleNavLeftHidden()}
+  ${/* #175: mobile hides the left nav's full-width background, so the top nav carries the same white border-bottom desktop shows there (the inline shadow is already dropped for all doc pages above). */ ''}
+  .nav-head:not(.is-nav-left) {
+    border-bottom: var(--block-margin) solid var(--color-bg-white);
+  }
 }
 `
   } else {

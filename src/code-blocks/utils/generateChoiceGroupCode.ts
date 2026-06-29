@@ -24,12 +24,12 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
       {
         name: 'JavaScript',
         icon: JAVASCRIPT_ICON,
-        iconStyleDropdown: { height: '13px' },
+        iconStyle: { marginBottom: '0.5px', height: '11.5px' },
       },
       {
         name: 'TypeScript',
         icon: TYPESCRIPT_ICON,
-        iconStyleDropdown: { height: '13px' },
+        iconStyle: { marginBottom: '0.5px', height: '11.5px' },
       },
     ],
     default: 'JavaScript',

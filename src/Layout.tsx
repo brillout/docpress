@@ -184,6 +184,25 @@ function PageContent({ children }: { children: React.ReactNode }) {
         }),
       }}
     >
+      {/* #175: give the main content the same soft shadow below the sticky top nav that the
+          left nav menu gets from its scroll-fade mask. A sticky strip pinned just below the nav
+          fades a shadow over the content as it scrolls underneath; its negative margin keeps it
+          out of the layout flow so it doesn't shift the content down. */}
+      {!isLandingPage && (
+        <div
+          aria-hidden
+          className="page-content-nav-shadow"
+          style={{
+            position: 'sticky',
+            top: 'var(--nav-head-height)',
+            height: 8,
+            marginBottom: -8,
+            zIndex: 1,
+            pointerEvents: 'none',
+            background: 'linear-gradient(to bottom, var(--color-shadow, rgba(0, 0, 0, 0.13)), rgba(0, 0, 0, 0))',
+          }}
+        />
+      )}
       <div
         className="page-content"
         style={{
@@ -346,10 +365,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: sticky top nav casts a small shadow over the content below it (a white border left a retina seam line); left nav keeps the border.
+        // #175: sticky top nav uses a shadow (a white border left a retina seam line); left nav keeps the border.
         ...(isNavLeft
           ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
-          : { boxShadow: '0 4px 8px var(--color-shadow, rgba(0, 0, 0, 0.14))' }),
+          : { boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }),
       }}
     >
       {isNavLeft && <NavHeadLeftFullWidthBackground />}

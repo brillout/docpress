@@ -268,7 +268,9 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test('client-side navigation', async () => {
-    await page.click('#nav-left a[href="/"]')
+    // The logo lives in the top nav now (the left-sidebar nav head is hidden on
+    // desktop since #175), so click that one to navigate home client-side.
+    await page.click('.nav-head:not(.is-nav-left) a[href="/"]')
     await autoRetry(
       async () => {
         await testLandingPageClient()

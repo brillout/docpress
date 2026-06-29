@@ -229,7 +229,6 @@ function NavLeft() {
             top: 'var(--nav-head-height)',
           }}
         >
-          <NavHead isNavLeft={true} />
           <div
             style={{
               backgroundColor: 'var(--color-bg-gray)',
@@ -302,29 +301,20 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
-// Two <NavHead> instances are rendered:
-//  - The left-side <NavHead> shown on documentation pages on desktop
-//  - The top <NavHead> shown otherwise
-function NavHead({ isNavLeft }: { isNavLeft?: true }) {
+// A single top <NavHead> is rendered. (#175 dropped the left-sidebar nav head;
+// the left column is now the navigation tree only.)
+function NavHead() {
   const pageContext = usePageContext()
   const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
   const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
 
   const navHeadSecondary = (
     <div
-      className={cls(['nav-head-secondary', isNavLeft && 'show-on-nav-hover add-transition'])}
+      className="nav-head-secondary"
       style={{
         padding: 0,
         display: 'flex',
         height: '100%',
-        ...(isNavLeft
-          ? {
-              position: 'absolute',
-              left: '100%',
-              top: 0,
-              width: mainViewWidthMax, // guaranteed real estate
-            }
-          : {}),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}
@@ -342,17 +332,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
+      className={cls(['nav-head link-hover-animation', !!navMaxWidth && 'has-max-width'])}
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: sticky top nav uses a shadow (a white border left a retina seam line); left nav keeps the border.
-        ...(isNavLeft
-          ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
-          : { boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }),
+        // #175: the single top nav uses a consistent white border-bottom and no shadow on every page.
+        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
       }}
     >
-      {isNavLeft && <NavHeadLeftFullWidthBackground />}
       <div
         style={{
           // DON'T REMOVE this container: it's needed for the `cqw` values
@@ -368,7 +355,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           style={{
             width: '100%',
             // #175: top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
-            maxWidth: isNavLeft ? navMaxWidth : bodyMaxWidth,
+            maxWidth: bodyMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
@@ -377,7 +364,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
             justifyContent: 'center',
           }}
         >
-          {!hideNavHeadLogo && <NavHeadLogo isNavLeft={isNavLeft} />}
+          {!hideNavHeadLogo && <NavHeadLogo />}
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
@@ -393,7 +380,7 @@ function getStyleLayout() {
   // Mobile
   style += css`
 @media(max-width: ${viewMobile}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-menu-toggle {
       justify-content: flex-end !important;
       padding-right: var(--main-view-padding) !important;
@@ -410,7 +397,7 @@ function getStyleLayout() {
   // Mobile + tablet
   style += css`
 @media(max-width: ${viewTablet}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-secondary {
       display: none !important;
     }
@@ -420,7 +407,7 @@ function getStyleLayout() {
   // Tablet
   style += css`
 @media(max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-content {
       --icon-text-padding: 8px;
       --padding-side: 20px;
@@ -431,7 +418,7 @@ function getStyleLayout() {
   // Desktop small + desktop
   style += css`
 @media(min-width: ${viewTablet + 1}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-content {
       --icon-text-padding: min(8px, 0.5cqw);
       --padding-side: min(20px, 1.2cqw);
@@ -452,29 +439,9 @@ function getStyleLayout() {
 }
 `
 
-  // #175: the top nav uses a consistent white border-bottom and no shadow on every page. Doc pages
-  // get the border from the left nav's full-width background (.nav-head-bg) on desktop and from the
-  // mobile rule below; either way drop the inline shadow. The landing page has no .nav-head-bg, so
-  // give its top nav the same direct border (and no shadow) for consistency.
-  style += css`
-.doc-page .nav-head:not(.is-nav-left) {
-  box-shadow: none !important;
-}
-.landing-page .nav-head:not(.is-nav-left) {
-  border-bottom: var(--block-margin) solid var(--color-bg-white);
-  box-shadow: none !important;
-}
-`
-
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
     style += css`
-@container container-viewport (min-width: ${viewDesktop}px) {
-  ${/* #175: keep the full-width top nav on doc pages too; the left column is the nav tree only. */ ''}
-  .nav-head.is-nav-left {
-    display: none !important;
-  }
-}
 @container container-viewport (max-width: ${viewDesktop - 1}px) {
   #nav-left, #nav-left-margin {
     display: none;
@@ -483,10 +450,6 @@ function getStyleLayout() {
     --main-view-padding: 10px !important;
   }
   ${getStyleNavLeftHidden()}
-  ${/* #175: mobile hides the left nav's full-width background, so the top nav carries the same white border-bottom desktop shows there (the inline shadow is already dropped for all doc pages above). */ ''}
-  .nav-head:not(.is-nav-left) {
-    border-bottom: var(--block-margin) solid var(--color-bg-white);
-  }
 }
 `
   } else {
@@ -518,37 +481,7 @@ function unexpandNav() {
   }, 1000)
 }
 
-function NavHeadLeftFullWidthBackground() {
-  return (
-    <>
-      <div
-        className="nav-head-bg show-on-nav-hover add-transition"
-        style={{
-          height: '100%',
-          zIndex: -1,
-          background: 'var(--color-bg-gray)',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          boxSizing: 'content-box',
-          borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
-        }}
-      />
-      <Style>{
-        // (min-width: 0px) => trick to always apply => @container seems to always require a condition
-        css`
-@container container-viewport (min-width: 0px) {
-  .nav-head-bg {
-     width: 100cqw;
-  }
-}
-`
-      }</Style>
-    </>
-  )
-}
-
-function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
+function NavHeadLogo() {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress
@@ -588,14 +521,8 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
         alignItems: 'center',
         height: '100%',
         color: 'inherit',
-        ...(!isNavLeft
-          ? {
-              paddingLeft: 'var(--main-view-padding)',
-              paddingRight: 'var(--padding-side)',
-            }
-          : {
-              paddingLeft: 15,
-            }),
+        paddingLeft: 'var(--main-view-padding)',
+        paddingRight: 'var(--padding-side)',
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}

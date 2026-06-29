@@ -13,6 +13,13 @@ h3 {
   margin-bottom: 20px;
 }
 
+/* #175: the sticky top nav covers the top of the viewport, so offset anchored
+   headings by the nav height (plus a little breathing room) when scrolled to via
+   a `#hash` link — otherwise the heading lands hidden under the nav. */
+.doc-page :is(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: calc(var(--nav-head-height) + 16px);
+}
+
 .doc-page h2,
 .doc-page h3 {
   margin-bottom: 16px;

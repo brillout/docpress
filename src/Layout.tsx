@@ -98,7 +98,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {/* #175: top nav + dropdown. Sticky on doc pages, not the landing page.
             The modal is inside it because `container-type` on the page wrapper
             traps `position: fixed`. */}
-        <div className="nav-head-sticky" style={{ position: isLandingPage ? 'relative' : 'sticky', top: 0, zIndex: 100 }}>
+        <div className="nav-head-sticky" style={{ position: isLandingPage ? 'relative' : 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }}>
           <NavHead />
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
         </div>
@@ -346,10 +346,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: sticky top nav uses a shadow (a white border left a retina seam line); left nav keeps the border.
-        ...(isNavLeft
-          ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
-          : { boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }),
+        // #175: left nav keeps a white border-bottom below its header; the sticky top nav casts its shadow from the wrapper.
+        ...(isNavLeft && { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }),
       }}
     >
       {isNavLeft && <NavHeadLeftFullWidthBackground />}

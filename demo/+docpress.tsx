@@ -51,13 +51,23 @@ const config: Config = {
   choices: {
     server: {
       choices: [
-        { name: 'Hono', icon: iconHono, iconStyle: { dropdown: { height: '13px' } } },
+        {
+          name: 'Hono',
+          icon: iconHono,
+          iconStyle: { marginBottom: '1.5px' },
+        },
         {
           name: 'Express',
           icon: iconExpress,
-          iconStyle: { dropdown: { objectFit: 'contain', width: '14px', marginTop: '1px' } },
+          iconStyle: { objectFit: 'contain' },
+          iconStyleTab: { height: '11.5px' },
         },
-        { name: 'Fastify', icon: iconFastify, iconStyle: { dropdown: { width: '14px', marginTop: '1px' } } },
+        {
+          name: 'Fastify',
+          icon: iconFastify,
+          iconStyleDropdown: { width: '14px' },
+          iconStyleTab: { width: '18px' },
+        },
         { name: 'H3', icon: iconH3 },
       ],
       default: 'Hono',

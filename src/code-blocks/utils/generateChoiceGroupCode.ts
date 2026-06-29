@@ -24,12 +24,12 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
       {
         name: 'JavaScript',
         icon: JAVASCRIPT_ICON,
-        iconStyle: { dropdown: { height: '13px' } },
+        iconStyleDropdown: { height: '13px' },
       },
       {
         name: 'TypeScript',
         icon: TYPESCRIPT_ICON,
-        iconStyle: { dropdown: { height: '13px' } },
+        iconStyleDropdown: { height: '13px' },
       },
     ],
     default: 'JavaScript',
@@ -38,8 +38,13 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
     choices: [
       { name: 'npm', icon: NPM_ICON },
       { name: 'pnpm', icon: PNPM_ICON },
-      { name: 'Bun', icon: BUN_ICON, iconStyle: { dropdown: { width: '14px', marginTop: '1px' } } },
-      { name: 'Yarn', icon: YARN_ICON },
+      {
+        name: 'Bun',
+        icon: BUN_ICON,
+        iconStyle: { marginBottom: '1px' },
+        iconStyleDropdown: { height: '11px' },
+      },
+      { name: 'Yarn', icon: YARN_ICON, iconStyle: { height: '12px' } },
     ],
     default: 'npm',
   },

@@ -97,7 +97,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       data-choice-group={groupName}
     >
       <div className="choice-select__border" />
-      {filteredChoices.map(({ name: choice, icon, iconStyle: { dropdown } = {} }) => (
+      {filteredChoices.map(({ name: choice, icon, iconStyle, iconStyleDropdown }) => (
         <label
           id={`choice-${choice}`}
           key={choice}
@@ -114,7 +114,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
           />
           <span className="choice-select__option-content">
             <span className="choice-select__option-icon">
-              {icon && <img src={icon} alt="" aria-hidden="true" style={dropdown} />}
+              {icon && <img src={icon} alt="" aria-hidden="true" style={{ ...iconStyle, ...iconStyleDropdown }} />}
             </span>
             <span className="choice-select__option-label">{choice}</span>
           </span>

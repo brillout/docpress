@@ -78,10 +78,9 @@ type Category =
 type ChoiceItem = {
   name: string
   icon?: string
-  iconStyle?: {
-    dropdown?: React.CSSProperties
-    tab?: React.CSSProperties
-  }
+  iconStyle?: React.CSSProperties
+  iconStyleDropdown?: React.CSSProperties
+  iconStyleTab?: React.CSSProperties
 }
 type Choice = {
   choices: (string | ChoiceItem)[]

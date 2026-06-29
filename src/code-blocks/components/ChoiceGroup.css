@@ -87,6 +87,7 @@
 
   .choice-select__option-content img {
     width: 13px;
+    height: 12px;
 
     filter: grayscale(100%);
     opacity: 0.8;

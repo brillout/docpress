@@ -29,7 +29,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
         role="radiogroup"
         data-choice-group={groupName}
       >
-        {choices.map(({ name: choice, icon, iconStyle: { tab } = {} }) => (
+        {choices.map(({ name: choice, icon, iconStyle, iconStyleTab }) => (
           <label key={choice} className="choice-tabs__tab" style={{ display: isHidden(choice) ? 'none' : undefined }}>
             <input
               className="choice-tabs__radio sr-only"
@@ -43,7 +43,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
               }}
             />
             <span className="choice-tabs__tab-content">
-              {icon && <img src={icon} alt="" aria-hidden="true" style={tab} />}
+              {icon && <img src={icon} alt="" aria-hidden="true" style={{ ...iconStyle, ...iconStyleTab }} />}
               <span className="choice-tabs__tab-label">{choice}</span>
             </span>
           </label>

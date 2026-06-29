@@ -346,10 +346,10 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: sticky top nav uses a shadow (a white border left a retina seam line); left nav keeps the border.
+        // #175: sticky top nav casts a small shadow over the content below it (a white border left a retina seam line); left nav keeps the border.
         ...(isNavLeft
           ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
-          : { boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }),
+          : { boxShadow: '0 2px 4px var(--color-shadow, rgba(0, 0, 0, 0.1))' }),
       }}
     >
       {isNavLeft && <NavHeadLeftFullWidthBackground />}

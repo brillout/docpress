@@ -56,6 +56,6 @@ body {
      unthemed site identical to the original `rgba(0, 0, 0, value)`:
      color-mix(in srgb, #000 3%, transparent) === rgba(0, 0, 0, 0.03). */
   --color-active-value: 3%;
-  --color-active: color-mix(in srgb, var(--color-text, #000) var(--color-active-value), transparent);
-  --color-active-double: color-mix(in srgb, var(--color-text, #000) calc(2 * var(--color-active-value)), transparent);
+  --color-active: color-mix(in srgb, var(--dp-color-text, #000) var(--color-active-value), transparent);
+  --color-active-double: color-mix(in srgb, var(--dp-color-text, #000) calc(2 * var(--color-active-value)), transparent);
 }

@@ -13,19 +13,19 @@
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     pointer-events: none;
-    font-family: var(--font-mono, monospace);
+    font-family: var(--dp-font-mono, monospace);
     font-size: 12px;
     content: attr(aria-label);
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    background: var(--color-bg, #fdfdfd);
+    background: var(--dp-color-bg, #fdfdfd);
     padding: 3px 10px;
-    box-shadow: var(--color-shadow, rgb(0 0 0 / 8%)) 2px 4px 7px 0px;
+    box-shadow: var(--dp-color-shadow, rgb(0 0 0 / 8%)) 2px 4px 7px 0px;
     border-radius: 5px;
-    color: var(--color-text, #333);
+    color: var(--dp-color-text, #333);
     letter-spacing: -0.02em;
-    border: 1px solid var(--color-border, #e3e3e3);
+    border: 1px solid var(--dp-color-border, #e3e3e3);
     z-index: 1;
     /* Atlernative: https://stackoverflow.com/questions/30086913/css-positioned-absolute-element-automatic-width-outside-of-parents-bounds/57379329#57379329
     width: max-content;

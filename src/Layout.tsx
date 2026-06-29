@@ -95,11 +95,8 @@ function Layout({ children }: { children: React.ReactNode }) {
       }}
     >
       <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
-        {/* #175: sticky header wrapping the top nav + its dropdown, so both pin
-            together while scrolling. The modal must live inside this sticky,
-            positioned ancestor: `position: fixed` wouldn't pin it to the viewport
-            because the page wrapper sets `container-type`, which becomes the
-            containing block for fixed descendants too. */}
+        {/* #175: sticky top nav + dropdown. The modal must be inside this sticky
+            ancestor: `container-type` on the page wrapper traps `position: fixed`. */}
         <div className="nav-head-sticky" style={{ position: 'sticky', top: 0, zIndex: 100 }}>
           <NavHead />
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
@@ -227,8 +224,7 @@ function NavLeft() {
         <div
           style={{
             position: 'sticky',
-            // #175: sit below the sticky top nav (was `top: 0`, back when the
-            // sidebar carried its own nav head).
+            // #175: sit below the sticky top nav.
             top: 'var(--nav-head-height)',
           }}
         >
@@ -349,10 +345,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: the left nav keeps the white block-margin separator; the sticky
-        // top nav uses a soft shadow instead, so a scrolled page doesn't leave a
-        // floating white line under it (a subpixel seam exposed the white body on
-        // retina/macOS).
+        // #175: sticky top nav uses a shadow (a white border left a retina seam line); left nav keeps the border.
         ...(isNavLeft
           ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
           : { boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }),
@@ -364,10 +357,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
-          // #175: cap the cqw context so the spacing between nav items (derived
-          // from `cqw`) is identical on the landing page (full-width wrapper) and
-          // doc pages (wrapper capped at bodyMaxWidth). Without this the landing
-          // nav, sitting in a wider wrapper, gets wider gaps between items.
+          // #175: cap the cqw context so nav-item spacing matches between landing and doc pages.
           maxWidth: bodyMaxWidth,
           margin: '0 auto',
         }}
@@ -376,7 +366,8 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           className="nav-head-content"
           style={{
             width: '100%',
-            maxWidth: navMaxWidth,
+            // #175: top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
+            maxWidth: isNavLeft ? navMaxWidth : bodyMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
@@ -464,11 +455,7 @@ function getStyleLayout() {
   if (!isNavLeftAlwaysHidden()) {
     style += css`
 @container container-viewport (min-width: ${viewDesktop}px) {
-  ${/* #175 prototype: keep the full-width top nav on doc pages too, so every
-        page shows the same top nav as the landing page. Previously the top nav
-        was hidden on wide desktop and swapped for a left-sidebar nav head (logo
-        + hover-revealed links). Now the top nav stays and the left column is the
-        navigation tree only, sitting beneath it. */ ''}
+  ${/* #175: keep the full-width top nav on doc pages too; the left column is the nav tree only. */ ''}
   .nav-head.is-nav-left {
     display: none !important;
   }

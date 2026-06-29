@@ -22,9 +22,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
         id="menu-modal-wrapper"
         className="link-hover-animation add-transition show-on-nav-hover"
         style={{
-          // #175: absolute inside the sticky header wrapper, so the dropdown
-          // pins right under the nav and tracks it on scroll (it used to be
-          // anchored to the document, so it scrolled off-screen).
+          // #175: absolute inside the sticky header so the dropdown tracks the nav on scroll.
           position: 'absolute',
           width: '100%',
           top: 'var(--nav-head-height)',

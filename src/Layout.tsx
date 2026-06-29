@@ -220,7 +220,9 @@ function NavLeft() {
         <div
           style={{
             position: 'sticky',
-            top: 0,
+            // #175: sit below the sticky top nav (was `top: 0`, back when the
+            // sidebar carried its own nav head).
+            top: 'var(--nav-head-height)',
           }}
         >
           <NavHead isNavLeft={true} />
@@ -340,7 +342,9 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
-        position: 'relative',
+        // #175: the top nav sticks to the top while scrolling (the left-side
+        // nav head keeps `relative` — it positions its full-width background).
+        ...(isNavLeft ? { position: 'relative' } : { position: 'sticky', top: 0, zIndex: 100 }),
       }}
     >
       {isNavLeft && <NavHeadLeftFullWidthBackground />}

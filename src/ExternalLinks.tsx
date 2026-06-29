@@ -63,7 +63,7 @@ function ChangelogButton() {
         className="button"
         style={{
           background: '#ffffff4f',
-          fontFamily: 'monospace',
+          fontFamily: 'var(--font-mono, monospace)',
           letterSpacing: -1,
           display: 'flex',
           alignItems: 'center',

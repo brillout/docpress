@@ -13,7 +13,7 @@
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     pointer-events: none;
-    font-family: monospace;
+    font-family: var(--font-mono, monospace);
     font-size: 12px;
     content: attr(aria-label);
     position: absolute;

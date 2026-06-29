@@ -443,36 +443,13 @@ function getStyleLayout() {
   if (!isNavLeftAlwaysHidden()) {
     style += css`
 @container container-viewport (min-width: ${viewDesktop}px) {
-  .nav-head:not(.is-nav-left) {
-    display: none !important;
-  }
+  ${/* #175 prototype: keep the full-width top nav on doc pages too, so every
+        page shows the same top nav as the landing page. Previously the top nav
+        was hidden on wide desktop and swapped for a left-sidebar nav head (logo
+        + hover-revealed links). Now the top nav stays and the left column is the
+        navigation tree only, sitting beneath it. */ ''}
   .nav-head.is-nav-left {
-    .nav-head-content {
-      --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-      & > :not(.always-shown) {
-        --padding-side: min(24px, 27 * (1cqw - 2.5px));
-      }
-      & > * {
-        flex-grow: 0.5;
-      }
-      & > .nav-head-menu-toggle {
-        flex-grow: 1;
-      }
-    }
-  }
-  .show-on-nav-hover {
-    opacity: 0;
-    transition-property: opacity;
-    pointer-events: none;
-  }
-  html:not(.unexpand-nav) {
-    & .nav-head.is-nav-left:hover .show-on-nav-hover,
-    &:has(.nav-head:hover) #menu-modal-wrapper.show-on-nav-hover,
-    &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
-    &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
-      opacity: 1;
-      pointer-events: all;
-    }
+    display: none !important;
   }
 }
 @container container-viewport (max-width: ${viewDesktop - 1}px) {

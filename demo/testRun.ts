@@ -268,7 +268,6 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test('client-side navigation', async () => {
-    // #175: the logo is in the top nav now (the left-sidebar one is hidden on desktop).
     await page.click('.nav-head:not(.is-nav-left) a[href="/"]')
     await autoRetry(
       async () => {

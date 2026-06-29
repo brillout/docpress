@@ -98,7 +98,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         {/* #175: top nav + dropdown. Sticky on doc pages, not the landing page.
             The modal is inside it because `container-type` on the page wrapper
             traps `position: fixed`. */}
-        <div className="nav-head-sticky" style={{ position: isLandingPage ? 'relative' : 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ position: isLandingPage ? 'relative' : 'sticky', top: 0, zIndex: 100 }}>
           <NavHead />
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
         </div>

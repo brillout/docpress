@@ -364,6 +364,12 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
+          // #175: cap the cqw context so the spacing between nav items (derived
+          // from `cqw`) is identical on the landing page (full-width wrapper) and
+          // doc pages (wrapper capped at bodyMaxWidth). Without this the landing
+          // nav, sitting in a wider wrapper, gets wider gaps between items.
+          maxWidth: bodyMaxWidth,
+          margin: '0 auto',
         }}
       >
         <div

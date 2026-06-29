@@ -349,7 +349,7 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
         // #175: sticky top nav casts a small shadow over the content below it (a white border left a retina seam line); left nav keeps the border.
         ...(isNavLeft
           ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
-          : { boxShadow: '0 2px 4px var(--color-shadow, rgba(0, 0, 0, 0.1))' }),
+          : { boxShadow: '0 4px 8px var(--color-shadow, rgba(0, 0, 0, 0.14))' }),
       }}
     >
       {isNavLeft && <NavHeadLeftFullWidthBackground />}

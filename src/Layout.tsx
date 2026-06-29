@@ -94,9 +94,16 @@ function Layout({ children }: { children: React.ReactNode }) {
         margin: 'auto',
       }}
     >
-      <MenuModal isTopNav={isLandingPage} isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
       <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
-        <NavHead />
+        {/* #175: sticky header wrapping the top nav + its dropdown, so both pin
+            together while scrolling. The modal must live inside this sticky,
+            positioned ancestor: `position: fixed` wouldn't pin it to the viewport
+            because the page wrapper sets `container-type`, which becomes the
+            containing block for fixed descendants too. */}
+        <div className="nav-head-sticky" style={{ position: 'sticky', top: 0, zIndex: 100 }}>
+          <NavHead />
+          <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
+        </div>
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
@@ -341,10 +348,14 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
       className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
       style={{
         backgroundColor: 'var(--color-bg-gray)',
-        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
-        // #175: the top nav sticks to the top while scrolling (the left-side
-        // nav head keeps `relative` — it positions its full-width background).
-        ...(isNavLeft ? { position: 'relative' } : { position: 'sticky', top: 0, zIndex: 100 }),
+        position: 'relative',
+        // #175: the left nav keeps the white block-margin separator; the sticky
+        // top nav uses a soft shadow instead, so a scrolled page doesn't leave a
+        // floating white line under it (a subpixel seam exposed the white body on
+        // retina/macOS).
+        ...(isNavLeft
+          ? { borderBottom: 'var(--block-margin) solid var(--color-bg-white)' }
+          : { boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)' }),
       }}
     >
       {isNavLeft && <NavHeadLeftFullWidthBackground />}

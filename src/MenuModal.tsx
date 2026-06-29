@@ -14,7 +14,7 @@ import {
 } from './MenuModal/toggleMenuModal.js'
 import { EditLink } from './EditLink.js'
 
-function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; isNavLeftAlwaysHidden_: boolean }) {
+function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean }) {
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -22,7 +22,10 @@ function MenuModal({ isTopNav, isNavLeftAlwaysHidden_ }: { isTopNav: boolean; is
         id="menu-modal-wrapper"
         className="link-hover-animation add-transition show-on-nav-hover"
         style={{
-          position: isTopNav ? 'absolute' : 'fixed',
+          // #175: absolute inside the sticky header wrapper, so the dropdown
+          // pins right under the nav and tracks it on scroll (it used to be
+          // anchored to the document, so it scrolled off-screen).
+          position: 'absolute',
           width: '100%',
           top: 'var(--nav-head-height)',
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`

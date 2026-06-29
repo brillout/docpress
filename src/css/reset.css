@@ -1,12 +1,6 @@
 * {
   box-sizing: border-box;
 }
-html {
-  /* Always reserve the scrollbar gutter, so the centered top nav doesn't shift a
-     few pixels when moving between a page that scrolls and one that doesn't.
-     No-op when the browser uses overlay scrollbars. */
-  scrollbar-gutter: stable;
-}
 body {
   margin: 0;
 }

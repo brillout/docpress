@@ -10,6 +10,12 @@
 ## [0.16.46](https://github.com/brillout/docpress/compare/v0.16.45...v0.16.46) (2026-06-28)
 
 
+### Features
+
+* make the palette overridable and add an opt-in dark appearance ([#171](https://github.com/brillout/docpress/issues/171)) ([8911e39](https://github.com/brillout/docpress/commit/8911e3919d637d4169697e9a396104b532e58466))
+* add config.headHtml to inject markup into &lt;head&gt; ([#172](https://github.com/brillout/docpress/issues/172)) ([57cb987](https://github.com/brillout/docpress/commit/57cb987ebd04b80b34b00eb943d3571a033595ca))
+
+
 
 ## [0.16.45](https://github.com/brillout/docpress/compare/v0.16.44...v0.16.45) (2026-06-22)
 

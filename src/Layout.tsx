@@ -69,7 +69,8 @@ const whitespaceBuster2: React.CSSProperties = {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.resolved
+  const { isLandingPage, pageDesign } = pageContext.resolved
+  const isTopNavSticky = !isLandingPage && (pageDesign?.topNavSticky ?? true)
 
   let content: React.JSX.Element
   if (isLandingPage) {
@@ -86,6 +87,8 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
+        // Offset for elements sitting below the sticky top nav
+        ['--nav-head-sticky-offset']: isTopNavSticky ? 'var(--nav-head-height)' : '0px',
         ['--main-view-padding']: `${mainViewPadding}px`,
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
@@ -95,7 +98,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       }}
     >
       <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
-        <div style={{ position: isLandingPage ? 'relative' : 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
           <NavHead />
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
@@ -223,8 +226,8 @@ function NavLeft() {
         <div
           style={{
             position: 'sticky',
-            // Sit below the sticky top nav
-            top: 'var(--nav-head-height)',
+            // Sit below the sticky top nav (or at the very top when the top nav isn't sticky)
+            top: 'var(--nav-head-sticky-offset)',
           }}
         >
           <div
@@ -236,7 +239,7 @@ function NavLeft() {
               id="navigation-container"
               style={{
                 top: 0,
-                height: `calc(100vh - var(--nav-head-height) - var(--block-margin))`,
+                height: `calc(100vh - var(--nav-head-sticky-offset) - var(--block-margin))`,
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,

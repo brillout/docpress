@@ -28,6 +28,12 @@ type PageDesign = {
   hideTitle?: true
   hideMenuLeft?: true
   contentMaxWidth?: number
+  /**
+   * Whether the top navigation sticks to the top of the viewport while scrolling.
+   *
+   * @default true
+   */
+  topNavSticky?: boolean
 }
 
 type HeadingDetachedResolved = Omit<HeadingResolved, 'level' | 'linkBreadcrumb'> & {

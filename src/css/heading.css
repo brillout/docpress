@@ -13,6 +13,11 @@ h3 {
   margin-bottom: 20px;
 }
 
+/* Offset headings below the sticky top nav. */
+.doc-page :is(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: calc(var(--nav-head-height) + 16px);
+}
+
 .doc-page h2,
 .doc-page h3 {
   margin-bottom: 16px;

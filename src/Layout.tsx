@@ -336,8 +336,11 @@ function NavHead() {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: the single top nav uses a consistent white border-bottom and no shadow on every page.
-        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
+        // #175: consistent white separator under the top nav, drawn with box-shadow rather than
+        // border-bottom so it adds 0 layout height. A real border made the nav --block-margin taller
+        // than --nav-head-height (63→67px), and the sticky left sidebar + nav-height math key off
+        // --nav-head-height, so the 4px mismatch broke the sidebar's sticky positioning.
+        boxShadow: `0 ${blockMargin}px 0 var(--color-bg-white)`,
       }}
     >
       <div

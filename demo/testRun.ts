@@ -268,7 +268,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test('client-side navigation', async () => {
-    await page.click('.nav-head:not(.is-nav-left) a[href="/"]')
+    await page.click('.nav-head a[href="/"]')
     await autoRetry(
       async () => {
         await testLandingPageClient()

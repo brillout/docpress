@@ -95,11 +95,9 @@ function Layout({ children }: { children: React.ReactNode }) {
       }}
     >
       <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
-        {/* #175: top nav + dropdown. Sticky on doc pages, not the landing page.
-            The modal is inside it because `container-type` on the page wrapper
-            traps `position: fixed`. */}
         <div style={{ position: isLandingPage ? 'relative' : 'sticky', top: 0, zIndex: 100 }}>
           <NavHead />
+          {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
         </div>
         {content}
@@ -225,7 +223,7 @@ function NavLeft() {
         <div
           style={{
             position: 'sticky',
-            // #175: sit below the sticky top nav.
+            // Sit below the sticky top nav
             top: 'var(--nav-head-height)',
           }}
         >
@@ -301,8 +299,6 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
-// A single top <NavHead> is rendered. (#175 dropped the left-sidebar nav head;
-// the left column is now the navigation tree only.)
 function NavHead() {
   const pageContext = usePageContext()
   const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
@@ -336,10 +332,6 @@ function NavHead() {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: consistent white separator under the top nav, drawn with box-shadow rather than
-        // border-bottom so it adds 0 layout height. A real border made the nav --block-margin taller
-        // than --nav-head-height (63→67px), and the sticky left sidebar + nav-height math key off
-        // --nav-head-height, so the 4px mismatch broke the sidebar's sticky positioning.
         boxShadow: `0 ${blockMargin}px 0 var(--color-bg-white)`,
       }}
     >
@@ -348,7 +340,7 @@ function NavHead() {
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
-          // #175: cap the cqw context so nav-item spacing matches between landing and doc pages.
+          // Cap the cqw context so nav-item spacing matches between landing and doc pages.
           maxWidth: bodyMaxWidth,
           margin: '0 auto',
         }}
@@ -357,7 +349,7 @@ function NavHead() {
           className="nav-head-content"
           style={{
             width: '100%',
-            // #175: top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
+            // Top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
             maxWidth: bodyMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',

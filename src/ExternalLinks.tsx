@@ -63,7 +63,7 @@ function ChangelogButton() {
         className="button"
         style={{
           background: '#ffffff4f',
-          fontFamily: 'var(--font-mono, monospace)',
+          fontFamily: 'var(--dp-font-mono, monospace)',
           letterSpacing: -1,
           display: 'flex',
           alignItems: 'center',
@@ -83,7 +83,7 @@ function ChangelogButton() {
           style={{
             position: 'relative',
             top: 1,
-            color: 'var(--color-text)',
+            color: 'var(--dp-color-text)',
           }}
         >
           {version}

@@ -10,5 +10,5 @@ code {
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.063137255);
   font-size: 1.1em;
-  font-family: var(--font-mono, monospace);
+  font-family: var(--dp-font-mono, monospace);
 }

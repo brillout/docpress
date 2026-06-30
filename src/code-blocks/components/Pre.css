@@ -5,7 +5,7 @@ pre > code {
   */
   background: rgba(0, 0, 0, 0.043137255);
   font-size: 1em;
-  font-family: var(--font-mono, monospace);
+  font-family: var(--dp-font-mono, monospace);
 }
 
 /* Copy button */

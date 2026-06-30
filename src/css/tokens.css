@@ -1,34 +1,41 @@
 /*
  * Color tokens (opt-in, zero default change).
  *
+ * The themeable seam is `--dp-`-prefixed (`--dp-color-*`, `--dp-font-*`). The
+ * prefix matters: DocPress used to read bare `--color-*` / `--font-*`, which are
+ * the same names Tailwind and daisyUI emit to the global `:root`. A host using
+ * either could bleed its palette into DocPress (e.g. a leaked `--color-bg` on
+ * route prefetch). Reading `--dp-*` instead means only values set FOR DocPress
+ * apply.
+ *
  * No light palette is defined here on purpose: every consumer reads
- * `var(--color-x, <literal>)` and falls back to its original literal, so an
+ * `var(--dp-color-x, <literal>)` and falls back to its original literal, so an
  * unthemed DocPress site renders exactly as before. A site re-themes by setting
- * the `--color-*` variables (on :root or body), and turns on a dark appearance
- * by adding the `dark` class or `[data-theme="dark"]`. There is no
- * `prefers-color-scheme` switch, so the OS setting never changes a site that
- * has not opted in.
+ * the `--dp-color-*` / `--dp-font-*` variables (on :root or body), and turns on
+ * a dark appearance by adding the `dark` class or `[data-theme="dark"]`. There
+ * is no `prefers-color-scheme` switch, so the OS setting never changes a site
+ * that has not opted in.
  */
 :root {
-  /* --color-text has a single original value and pre-existing consumers that
+  /* --dp-color-text has a single original value and pre-existing consumers that
      read it bare (nav items, tabs), so it is defined here (was `body {}`). It
      stays overridable (a `body`/`:root` override or the dark block below wins).
      The ambiguous greys are intentionally NOT defined here: their consumers fall
      back to their own original literal, so light rendering is unchanged. */
-  --color-text: #323d48;
+  --dp-color-text: #323d48;
 
   /* Long-standing internal aliases, kept resolving to their original defaults. */
-  --color-bg-white: var(--color-bg, #fdfdfd);
-  --color-bg-gray: var(--color-surface, #f5f5f5);
+  --color-bg-white: var(--dp-color-bg, #fdfdfd);
+  --color-bg-gray: var(--dp-color-surface, #f5f5f5);
 }
 
 :root.dark,
 :root[data-theme='dark'] {
-  --color-bg: #0d0f14;
-  --color-surface: #161922;
-  --color-text: #d7dce5;
-  --color-muted: #8b95a5;
-  --color-border: #2b313c;
-  --color-primary: #8aa0ff;
-  --color-shadow: rgba(0, 0, 0, 0.45);
+  --dp-color-bg: #0d0f14;
+  --dp-color-surface: #161922;
+  --dp-color-text: #d7dce5;
+  --dp-color-muted: #8b95a5;
+  --dp-color-border: #2b313c;
+  --dp-color-primary: #8aa0ff;
+  --dp-color-shadow: rgba(0, 0, 0, 0.45);
 }

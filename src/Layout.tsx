@@ -336,8 +336,8 @@ function NavHead() {
       style={{
         backgroundColor: 'var(--color-bg-gray)',
         position: 'relative',
-        // #175: the single top nav uses a consistent white border-bottom and no shadow on every page.
-        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
+        // bisect: revert #179 border change — restore the subtle box-shadow (no +4px solid white border).
+        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)',
       }}
     >
       <div
@@ -439,6 +439,17 @@ function getStyleLayout() {
 }
 `
 
+  // bisect: revert #179 border change — restore the per-page box-shadow/border overrides.
+  style += css`
+.doc-page .nav-head {
+  box-shadow: none !important;
+}
+.landing-page .nav-head {
+  border-bottom: var(--block-margin) solid var(--color-bg-white);
+  box-shadow: none !important;
+}
+`
+
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
     style += css`
@@ -450,6 +461,10 @@ function getStyleLayout() {
     --main-view-padding: 10px !important;
   }
   ${getStyleNavLeftHidden()}
+  ${/* bisect: revert #179 border change — restore the white border-bottom below desktop. */ ''}
+  .nav-head {
+    border-bottom: var(--block-margin) solid var(--color-bg-white);
+  }
 }
 `
   } else {

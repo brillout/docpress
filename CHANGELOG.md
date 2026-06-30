@@ -1,3 +1,12 @@
+## [0.16.49](https://github.com/brillout/docpress/compare/v0.16.48...v0.16.49) (2026-06-30)
+
+
+### Features
+
+* namespace the theme CSS variables with --dp- ([#176](https://github.com/brillout/docpress/issues/176)) ([a9c0483](https://github.com/brillout/docpress/commit/a9c0483a70d6caf8b74f55a3b09aca5838e3c7b7)), closes [#171](https://github.com/brillout/docpress/issues/171) [#174](https://github.com/brillout/docpress/issues/174)
+
+
+
 ## [0.16.48](https://github.com/brillout/docpress/compare/v0.16.47...v0.16.48) (2026-06-30)
 
 

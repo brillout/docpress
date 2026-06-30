@@ -87,7 +87,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
-        // The offset that sticky elements (top nav, <NavLeft>) sit below. Zero when the top nav scrolls away.
+        // Offset for elements sitting below the sticky top nav
         ['--nav-head-sticky-offset']: isTopNavSticky ? 'var(--nav-head-height)' : '0px',
         ['--main-view-padding']: `${mainViewPadding}px`,
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
@@ -226,7 +226,7 @@ function NavLeft() {
         <div
           style={{
             position: 'sticky',
-            // Sit below the sticky top nav (or at the very top when the top nav scrolls away)
+            // Sit below the sticky top nav (or at the very top when the top nav isn't sticky)
             top: 'var(--nav-head-sticky-offset)',
           }}
         >

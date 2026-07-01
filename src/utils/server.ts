@@ -1,7 +1,5 @@
 export * from './client.js'
 export * from './isBrowser.js'
-export * from './filter.js'
 export * from './determineSectionUrlHash.js'
 export * from './jsxToTextContent.js'
-export * from './objectAssign.js'
 export * from './Emoji/index.js'

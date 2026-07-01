@@ -4,7 +4,7 @@
   /* tablist style logic */
   .choice-tabs__tab:has(.choice-tabs__radio:checked) {
     border-color: #aaa;
-    color: var(--color-text);
+    color: var(--dp-color-text);
   }
 }
 
@@ -39,8 +39,9 @@
   justify-content: center;
   align-items: center;
 
-  color: color-mix(in srgb, var(--color-text) 80%, white 20%);
   border-bottom: 2px solid transparent;
+  /* lighten --dp-color-text by 20% */
+  color: color-mix(in srgb, var(--dp-color-text) 80%, white 20%);
 }
 
 .choice-tabs__tab-content {
@@ -70,7 +71,7 @@
 }
 
 .choice-tabs__tab:hover {
-  color: var(--color-text);
+  color: var(--dp-color-text);
 }
 
 .choice-tabs__tab--disabled {

@@ -13,7 +13,7 @@
 .nav-item-level-4 {
   padding-top: 14px;
   margin-bottom: -1px;
-  color: var(--color-muted, #999);
+  color: var(--dp-color-muted, #999);
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.15ch;
@@ -30,7 +30,7 @@
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.14ch;
-  color: var(--color-text);
+  color: var(--dp-color-text);
   #menu-modal-wrapper & {
     margin-top: 10px;
     padding-left: 9px;
@@ -63,7 +63,7 @@
   font-size: 14.4px;
   font-weight: 400;
   letter-spacing: 0.15ch;
-  color: var(--color-text);
+  color: var(--dp-color-text);
   padding-left: var(--padding-left-global);
   padding-right: 0;
   --padding: 4px;
@@ -74,7 +74,7 @@
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.15ch;
-  color: var(--color-text);
+  color: var(--dp-color-text);
   --padding: 5px;
 
   padding: var(--padding) 0;
@@ -82,7 +82,7 @@
 }
 .nav-item-level-3 {
   --shadow-size: 9px;
-  --shadow-color: var(--color-shadow, rgba(0, 0, 0, 0.11));
+  --shadow-color: var(--dp-color-shadow, rgba(0, 0, 0, 0.11));
   --shadow-size-minus: calc(-1 * var(--shadow-size));
   --shadow-top: inset 0px var(--shadow-size) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
   --shadow-bottom: inset 0px var(--shadow-size-minus) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);

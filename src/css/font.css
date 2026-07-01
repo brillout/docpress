@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 body {
-  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-family: var(--dp-font-sans, 'Inter', sans-serif);
 }
 button {
   font-family: inherit;
 }
 body {
-  color: var(--color-text, #323d48);
+  color: var(--dp-color-text, #323d48);
   line-height: 1.5;
 }

@@ -69,7 +69,8 @@ const whitespaceBuster2: React.CSSProperties = {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
-  const { isLandingPage } = pageContext.resolved
+  const { isLandingPage, pageDesign } = pageContext.resolved
+  const isTopNavSticky = !isLandingPage && (pageDesign?.topNavSticky ?? true)
 
   let content: React.JSX.Element
   if (isLandingPage) {
@@ -82,10 +83,12 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        ['--color-bg-gray']: 'var(--color-surface, #f5f5f5)',
+        ['--color-bg-gray']: 'var(--dp-color-surface, #f5f5f5)',
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
+        // Offset for elements sitting below the sticky top nav
+        ['--nav-head-sticky-offset']: isTopNavSticky ? 'var(--nav-head-height)' : '0px',
         ['--main-view-padding']: `${mainViewPadding}px`,
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
@@ -94,9 +97,12 @@ function Layout({ children }: { children: React.ReactNode }) {
         margin: 'auto',
       }}
     >
-      <MenuModal isTopNav={isLandingPage} isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
-      <div className={isLandingPage ? '' : 'doc-page'} style={whitespaceBuster1}>
-        <NavHead />
+      <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
+        <div style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
+          <NavHead />
+          {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
+          <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
+        </div>
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
@@ -220,10 +226,10 @@ function NavLeft() {
         <div
           style={{
             position: 'sticky',
-            top: 0,
+            // Sit below the sticky top nav (or at the very top when the top nav isn't sticky)
+            top: 'var(--nav-head-sticky-offset)',
           }}
         >
-          <NavHead isNavLeft={true} />
           <div
             style={{
               backgroundColor: 'var(--color-bg-gray)',
@@ -233,7 +239,7 @@ function NavLeft() {
               id="navigation-container"
               style={{
                 top: 0,
-                height: `calc(100vh - var(--nav-head-height) - var(--block-margin))`,
+                height: `calc(100vh - var(--nav-head-sticky-offset) - var(--block-margin))`,
                 overflowY: 'auto',
                 overscrollBehavior: 'contain',
                 paddingBottom: 40,
@@ -296,29 +302,18 @@ const menuLinkStyle: React.CSSProperties = {
   justifyContent: 'center',
 }
 
-// Two <NavHead> instances are rendered:
-//  - The left-side <NavHead> shown on documentation pages on desktop
-//  - The top <NavHead> shown otherwise
-function NavHead({ isNavLeft }: { isNavLeft?: true }) {
+function NavHead() {
   const pageContext = usePageContext()
   const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
   const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
 
   const navHeadSecondary = (
     <div
-      className={cls(['nav-head-secondary', isNavLeft && 'show-on-nav-hover add-transition'])}
+      className="nav-head-secondary"
       style={{
         padding: 0,
         display: 'flex',
         height: '100%',
-        ...(isNavLeft
-          ? {
-              position: 'absolute',
-              left: '100%',
-              top: 0,
-              width: mainViewWidthMax, // guaranteed real estate
-            }
-          : {}),
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}
@@ -336,35 +331,38 @@ function NavHead({ isNavLeft }: { isNavLeft?: true }) {
 
   return (
     <div
-      className={cls(['nav-head link-hover-animation', isNavLeft && 'is-nav-left', !!navMaxWidth && 'has-max-width'])}
+      className={cls(['nav-head link-hover-animation', !!navMaxWidth && 'has-max-width'])}
       style={{
         backgroundColor: 'var(--color-bg-gray)',
-        borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
         position: 'relative',
+        boxShadow: `0 ${blockMargin}px 0 var(--color-bg-white)`,
       }}
     >
-      {isNavLeft && <NavHeadLeftFullWidthBackground />}
       <div
         style={{
           // DON'T REMOVE this container: it's needed for the `cqw` values
           container: 'container-nav-head / inline-size',
           width: '100%',
+          // Cap the cqw context so nav-item spacing matches between landing and doc pages.
+          maxWidth: bodyMaxWidth,
+          margin: '0 auto',
         }}
       >
         <div
           className="nav-head-content"
           style={{
             width: '100%',
-            maxWidth: navMaxWidth,
+            // Top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
+            maxWidth: bodyMaxWidth,
             margin: 'auto',
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
-            color: 'var(--color-muted, #666)',
+            color: 'var(--dp-color-muted, #666)',
             display: 'flex',
             justifyContent: 'center',
           }}
         >
-          {!hideNavHeadLogo && <NavHeadLogo isNavLeft={isNavLeft} />}
+          {!hideNavHeadLogo && <NavHeadLogo />}
           <div className="desktop-grow" style={{ display: 'none' }} />
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
@@ -380,7 +378,7 @@ function getStyleLayout() {
   // Mobile
   style += css`
 @media(max-width: ${viewMobile}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-menu-toggle {
       justify-content: flex-end !important;
       padding-right: var(--main-view-padding) !important;
@@ -397,7 +395,7 @@ function getStyleLayout() {
   // Mobile + tablet
   style += css`
 @media(max-width: ${viewTablet}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-secondary {
       display: none !important;
     }
@@ -407,7 +405,7 @@ function getStyleLayout() {
   // Tablet
   style += css`
 @media(max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-content {
       --icon-text-padding: 8px;
       --padding-side: 20px;
@@ -418,7 +416,7 @@ function getStyleLayout() {
   // Desktop small + desktop
   style += css`
 @media(min-width: ${viewTablet + 1}px) {
-  .nav-head:not(.is-nav-left) {
+  .nav-head {
     .nav-head-content {
       --icon-text-padding: min(8px, 0.5cqw);
       --padding-side: min(20px, 1.2cqw);
@@ -442,39 +440,6 @@ function getStyleLayout() {
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
     style += css`
-@container container-viewport (min-width: ${viewDesktop}px) {
-  .nav-head:not(.is-nav-left) {
-    display: none !important;
-  }
-  .nav-head.is-nav-left {
-    .nav-head-content {
-      --icon-text-padding: min(8px, 7 * (1cqw - 2.5px));
-      & > :not(.always-shown) {
-        --padding-side: min(24px, 27 * (1cqw - 2.5px));
-      }
-      & > * {
-        flex-grow: 0.5;
-      }
-      & > .nav-head-menu-toggle {
-        flex-grow: 1;
-      }
-    }
-  }
-  .show-on-nav-hover {
-    opacity: 0;
-    transition-property: opacity;
-    pointer-events: none;
-  }
-  html:not(.unexpand-nav) {
-    & .nav-head.is-nav-left:hover .show-on-nav-hover,
-    &:has(.nav-head:hover) #menu-modal-wrapper.show-on-nav-hover,
-    &.menu-modal-show .nav-head.is-nav-left .show-on-nav-hover,
-    &.menu-modal-show #menu-modal-wrapper.show-on-nav-hover {
-      opacity: 1;
-      pointer-events: all;
-    }
-  }
-}
 @container container-viewport (max-width: ${viewDesktop - 1}px) {
   #nav-left, #nav-left-margin {
     display: none;
@@ -514,37 +479,7 @@ function unexpandNav() {
   }, 1000)
 }
 
-function NavHeadLeftFullWidthBackground() {
-  return (
-    <>
-      <div
-        className="nav-head-bg show-on-nav-hover add-transition"
-        style={{
-          height: '100%',
-          zIndex: -1,
-          background: 'var(--color-bg-gray)',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          boxSizing: 'content-box',
-          borderBottom: 'var(--block-margin) solid var(--color-bg-white)',
-        }}
-      />
-      <Style>{
-        // (min-width: 0px) => trick to always apply => @container seems to always require a condition
-        css`
-@container container-viewport (min-width: 0px) {
-  .nav-head-bg {
-     width: 100cqw;
-  }
-}
-`
-      }</Style>
-    </>
-  )
-}
-
-function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
+function NavHeadLogo() {
   const pageContext = usePageContext()
 
   const { navLogo } = pageContext.globalContext.config.docpress
@@ -584,14 +519,8 @@ function NavHeadLogo({ isNavLeft }: { isNavLeft?: true }) {
         alignItems: 'center',
         height: '100%',
         color: 'inherit',
-        ...(!isNavLeft
-          ? {
-              paddingLeft: 'var(--main-view-padding)',
-              paddingRight: 'var(--padding-side)',
-            }
-          : {
-              paddingLeft: 15,
-            }),
+        paddingLeft: 'var(--main-view-padding)',
+        paddingRight: 'var(--padding-side)',
       }}
       href="/"
       onContextMenu={!navLogo ? undefined : onContextMenu}
@@ -670,7 +599,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
           width: 11,
           marginLeft: 'calc(var(--icon-text-padding) - 1px)',
           flexShrink: 0,
-          color: 'var(--color-muted, #888)',
+          color: 'var(--dp-color-muted, #888)',
           position: 'relative',
           top: 1,
         }}

@@ -1,3 +1,27 @@
+## [0.16.49](https://github.com/brillout/docpress/compare/v0.16.48...v0.16.49) (2026-06-30)
+
+
+### Features
+
+* namespace the theme CSS variables with --dp- ([#176](https://github.com/brillout/docpress/issues/176)) ([a9c0483](https://github.com/brillout/docpress/commit/a9c0483a70d6caf8b74f55a3b09aca5838e3c7b7)), closes [#171](https://github.com/brillout/docpress/issues/171) [#174](https://github.com/brillout/docpress/issues/174)
+
+
+
+## [0.16.48](https://github.com/brillout/docpress/compare/v0.16.47...v0.16.48) (2026-06-30)
+
+
+### Bug Fixes
+
+* keep the top nav visible on doc pages ([#175](https://github.com/brillout/docpress/issues/175)) ([#177](https://github.com/brillout/docpress/issues/177)) ([f4cf475](https://github.com/brillout/docpress/commit/f4cf4750ea64c2165c389e361b2bba9a50f3d728))
+
+
+### Features
+
+* add `topNavSticky` per-page setting to make the top nav non-sticky ([#184](https://github.com/brillout/docpress/issues/184)) ([1a0701b](https://github.com/brillout/docpress/commit/1a0701b9a3591d01b5b7b6358a055c111cfaba85))
+* tokenize typography via --font-* CSS variables ([3e1b3b7](https://github.com/brillout/docpress/commit/3e1b3b7ddd712ba481fdccded6f927745827f6ad)), closes [#171](https://github.com/brillout/docpress/issues/171)
+
+
+
 ## [0.16.47](https://github.com/brillout/docpress/compare/v0.16.46...v0.16.47) (2026-06-28)
 
 

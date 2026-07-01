@@ -75,7 +75,13 @@ type Category =
     }
 
 /** A choice. A plain `string` is shorthand for `{ name: string }` (no icon). */
-type ChoiceItem = { name: string; icon?: string; iconStyle?: React.CSSProperties }
+type ChoiceItem = {
+  name: string
+  icon?: string
+  iconStyle?: React.CSSProperties
+  iconStyleDropdown?: React.CSSProperties
+  iconStyleTab?: React.CSSProperties
+}
 type Choice = {
   choices: (string | ChoiceItem)[]
   default: string

@@ -9,6 +9,7 @@ import { getVikeConfig } from 'vike/plugin'
 import { assertUsage } from '../../utils/assert.js'
 import { valueToEstree } from 'estree-util-value-to-estree'
 import { resolveChoices } from './resolveChoices.js'
+import { JAVASCRIPT_ICON, TYPESCRIPT_ICON, NPM_ICON, PNPM_ICON, BUN_ICON, YARN_ICON } from './constant.js'
 
 type ChoiceNode = {
   choiceValue: string
@@ -22,31 +23,28 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
     choices: [
       {
         name: 'JavaScript',
-        icon: 'https://www.svgrepo.com/show/452045/js.svg',
-        iconStyle: { position: 'relative', top: -0.5 },
+        icon: JAVASCRIPT_ICON,
+        iconStyle: { marginBottom: '0.5px', height: '11.5px' },
       },
       {
         name: 'TypeScript',
-        icon: 'https://www.svgrepo.com/show/349540/typescript.svg',
-        iconStyle: { position: 'relative', top: -0.5 },
+        icon: TYPESCRIPT_ICON,
+        iconStyle: { marginBottom: '0.5px', height: '11.5px' },
       },
     ],
     default: 'JavaScript',
   },
   pkgManager: {
     choices: [
+      { name: 'npm', icon: NPM_ICON },
+      { name: 'pnpm', icon: PNPM_ICON },
       {
-        name: 'npm',
-        icon: 'https://www.svgrepo.com/show/452077/npm.svg',
-        iconStyle: { position: 'relative', top: 1.5 },
+        name: 'Bun',
+        icon: BUN_ICON,
+        iconStyle: { marginBottom: '1px' },
+        iconStyleDropdown: { height: '11px' },
       },
-      { name: 'pnpm', icon: 'https://www.svgrepo.com/show/373778/light-pnpm.svg' },
-      { name: 'Bun', icon: 'https://bun.com/logo.svg' },
-      {
-        name: 'Yarn',
-        icon: 'https://www.svgrepo.com/show/354588/yarn.svg',
-        iconStyle: { position: 'relative', top: -0.5 },
-      },
+      { name: 'Yarn', icon: YARN_ICON, iconStyle: { height: '12px' } },
     ],
     default: 'npm',
   },

@@ -1,3 +1,12 @@
+# [0.17.0](https://github.com/brillout/docpress/compare/v0.16.50...v0.17.0) (2026-07-08)
+
+
+### Bug Fixes
+
+* make `<Link text />` throw in favor of `<Link>...</Link>` ([5458b9a](https://github.com/brillout/docpress/commit/5458b9abcf3799caac78c3d4b2d8d96f76140057))
+
+
+
 ## [0.16.50](https://github.com/brillout/docpress/compare/v0.16.49...v0.16.50) (2026-07-02)
 
 

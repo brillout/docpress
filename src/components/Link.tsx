@@ -30,9 +30,11 @@ function Link({
     href.startsWith('/') || href.startsWith('#'),
     `<Link href /> prop \`href==='${href}'\` but should start with '/' or '#'`,
   )
-  assertUsage(!text || !children, 'Cannot use both `text` or `children`')
-  // assertWarning(!text, 'prop `text` is deprecated')
-  text = text ?? children
+  assertUsage(
+    !text,
+    'The `text` prop of `<Link>` is deprecated, use `<Link>...</Link>` instead of `<Link text="..." />`',
+  )
+  text = children
 
   const linkTextData = getLinkTextData({ href, pageContext, doNotInferSectionTitle, noWarning })
   if (!text) {

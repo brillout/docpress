@@ -1,3 +1,12 @@
+## [0.17.1](https://github.com/brillout/docpress/compare/v0.17.0...v0.17.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* prevent option cycling on first touch in custom select ([#188](https://github.com/brillout/docpress/issues/188)) ([e820c18](https://github.com/brillout/docpress/commit/e820c18d0408608f5fcbc47a37dfdbb13339fc35))
+
+
+
 # [0.17.0](https://github.com/brillout/docpress/compare/v0.16.50...v0.17.0) (2026-07-08)
 
 

@@ -1,7 +1,7 @@
 export { ChoiceGroup, ChoiceGroupContainer }
 
 import type { ChoiceGroup as TChoiceGroup, ChoiceGroupWithParent } from '../types.js'
-import React, { useId, useState } from 'react'
+import React, { useId, useRef, useState } from 'react'
 import { usePageContext } from '../../renderer/usePageContext.js'
 import { useCurrentSelection } from '../hooks/useCurrentSelection.js'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
@@ -59,6 +59,8 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
   const [expanded, setExpanded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const lastPointerType = useRef<React.PointerEvent['pointerType']>('mouse')
+
   let [parentSelectedChoice] = useCurrentSelection(parentChoiceGroup?.name || '', parentChoiceGroup?.default || '')
   let isHidden = hidden
   const setPrevPosition = useRestoreScroll([selectedChoice])
@@ -83,7 +85,10 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         isHovered && 'hovered',
       ])}
       style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
-      onMouseEnter={() => {
+      onPointerDownCapture={(e) => (lastPointerType.current = e.pointerType)}
+      onPointerEnter={(e) => {
+        lastPointerType.current = e.pointerType
+        if (lastPointerType.current !== 'mouse') return
         setExpanded(true)
         setIsHovered(true)
       }}
@@ -92,11 +97,10 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         if (!expanded) setIsHovered(false)
       }}
       onClick={() => {
-        if (!expanded) next()
+        if (lastPointerType.current === 'mouse' && !expanded) next()
       }}
       data-choice-group={groupName}
     >
-      <div className="choice-select__border" />
       {filteredChoices.map(({ name: choice, icon, iconStyle, iconStyleDropdown }) => (
         <label
           id={`choice-${choice}`}
@@ -118,6 +122,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             </span>
             <span className="choice-select__option-label">{choice}</span>
           </span>
+          <div className="choice-select__border" />
         </label>
       ))}
     </div>
@@ -129,6 +134,13 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   }
   function handleOnClick(e: React.MouseEvent<HTMLLabelElement, MouseEvent>, choice: string) {
     e.preventDefault()
+
+    if (!expanded) {
+      setExpanded(true)
+      setIsHovered(true)
+      return
+    }
+
     const el = e.currentTarget
     setPrevPosition(el)
     const isSame = selectedChoice === choice

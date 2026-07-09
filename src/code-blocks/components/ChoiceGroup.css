@@ -139,6 +139,48 @@
     display: none !important;
   }
 
+  @media not all and (hover: hover) and (pointer: fine) {
+    .choice-select__option {
+      padding: 5px;
+    }
+    @container container-viewport (max-width: 620px) {
+      .choice-select__option-label {
+        font-size: 12px !important;
+      }
+      .choice-select__option-icon {
+        width: 13px !important;
+      }
+      .choice-select__option-content img {
+        width: 11.5px !important;
+        height: 11.5px !important;
+      }
+    }
+    @container container-viewport (max-width: 550px) {
+      .choice-select__option-label {
+        font-size: 11px !important;
+      }
+      .choice-select__option-icon {
+        width: 12px !important;
+      }
+      .choice-select__option-content img {
+        width: 11px !important;
+        height: 11px !important;
+      }
+    }
+    @container container-viewport (max-width: 450px) {
+      .choice-select__option-label {
+        font-size: 10px !important;
+      }
+      .choice-select__option-icon {
+        width: 11px !important;
+      }
+      .choice-select__option-content img {
+        width: 10px !important;
+        height: 10px !important;
+      }
+    }
+  }
+
   .choice-select__list:has(.choice-select__option:nth-of-type(1) .choice-select__radio:checked) {
     top: 0;
     clip-path: inset(

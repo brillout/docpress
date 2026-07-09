@@ -139,6 +139,9 @@
     display: none !important;
   }
 
+  /* Keep these breakpoints in sync with:
+  * https://github.com/brillout/docpress/blob/08b63e867c4c052479e19a6943ca5535b2762d02/src/css/code/block.css#L40-L56
+  */
   @media not all and (hover: hover) and (pointer: fine) {
     .choice-select__option {
       padding: 5px;

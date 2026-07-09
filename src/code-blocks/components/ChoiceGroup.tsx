@@ -149,5 +149,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
     } else {
       setSelectedChoice(choice)
     }
+
+    if (lastPointerType.current !== 'mouse') setExpanded(false)
   }
 }

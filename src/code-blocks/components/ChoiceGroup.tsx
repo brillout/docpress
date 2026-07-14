@@ -83,6 +83,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         'choice-select__list',
         (isHidden || isEmptyChoice(selectedChoice)) && 'hidden',
         isHovered && 'hovered',
+        !isBuiltIn && 'show-on-hover',
       ])}
       style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
       onPointerDownCapture={(e) => (lastPointerType.current = e.pointerType)}

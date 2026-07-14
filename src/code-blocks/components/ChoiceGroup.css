@@ -7,14 +7,19 @@
   --transition-select-list-duration: 180ms;
   --transition-select-option-duration: 120ms;
   --transition-select-list: top var(--transition-select-list-duration) cubic-bezier(0.2, 0.9, 0.2, 1), clip-path
-    var(--transition-select-list-duration) ease-in-out;
+    var(--transition-select-list-duration) ease-in-out, opacity 500ms ease-in-out !important;
   --transition-select-option: background var(--transition-select-option-duration) ease;
   --transition-select-icon: filter 500ms ease, opacity 500ms ease;
+
+  &:hover {
+    .show-on-hover {
+      opacity: 1;
+    }
+  }
 
   .choice-group__selects {
     position: absolute;
     display: flex;
-    flex-direction: row-reverse;
     gap: 2px;
     top: var(--top-position);
     right: 42px;
@@ -37,6 +42,10 @@
     border-radius: var(--border-radius);
     min-width: max-content;
     transition: var(--transition-select-list);
+  }
+
+  .show-on-hover {
+    opacity: 0;
   }
 
   .choice-select__border {
@@ -114,7 +123,7 @@
   }
 
   .choice-select__list:not(.hovered) {
-    transition: none;
+    transition: opacity 200ms ease-in-out;
     .choice-select__border {
       transition: none;
     }
@@ -143,6 +152,9 @@
   * https://github.com/brillout/docpress/blob/08b63e867c4c052479e19a6943ca5535b2762d02/src/css/code/block.css#L40-L56
   */
   @media not all and (hover: hover) and (pointer: fine) {
+    .choice-select__list {
+      opacity: 1 !important;
+    }
     .choice-select__option {
       padding: 5px;
     }

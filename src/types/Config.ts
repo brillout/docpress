@@ -85,4 +85,5 @@ type ChoiceItem = {
 type Choice = {
   choices: (string | ChoiceItem)[]
   default: string
+  hoverVisibility?: boolean
 }

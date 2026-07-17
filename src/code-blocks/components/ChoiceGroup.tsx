@@ -53,7 +53,15 @@ const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
   const choicesAll = usePageContext().resolved.choices
-  const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
+  const {
+    name: groupName,
+    emptyChoices,
+    default: defaultChoice,
+    hidden,
+    parentChoiceGroup,
+    isBuiltIn,
+    hoverVisibility,
+  } = choiceGroup
   const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
   const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
@@ -83,7 +91,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         'choice-select__list',
         (isHidden || isEmptyChoice(selectedChoice)) && 'hidden',
         isHovered && 'hovered',
-        !isBuiltIn && 'show-on-hover',
+        hoverVisibility && 'show-on-hover',
       ])}
       style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
       onPointerDownCapture={(e) => (lastPointerType.current = e.pointerType)}

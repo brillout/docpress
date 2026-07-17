@@ -85,5 +85,10 @@ type ChoiceItem = {
 type Choice = {
   choices: (string | ChoiceItem)[]
   default: string
-  hoverVisibility?: boolean
+  /**
+   * Whether to always show the dropdown.
+   *
+   * @default false
+   */
+  alwaysShow?: boolean
 }

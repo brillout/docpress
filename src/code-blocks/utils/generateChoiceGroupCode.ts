@@ -47,7 +47,7 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
       { name: 'Yarn', icon: YARN_ICON, iconStyle: { height: '12px' } },
     ],
     default: 'npm',
-    hoverVisibility: false,
+    alwaysShow: true,
   },
 }
 
@@ -161,7 +161,7 @@ function resolveChoiceGroupNodes(choiceNodes: ChoiceNode[]) {
     name: groupName,
     ...group,
     emptyChoices,
-    hoverVisibility: group.hoverVisibility !== false,
+    alwaysShow: !!group.alwaysShow,
   }
 
   const mergedChoiceNodes: ChoiceNode[] = choiceGroup.choices.map((choice) => {

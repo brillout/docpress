@@ -22,7 +22,8 @@ pre {
     height: 25px;
     width: 30px;
     background-color: #f7f7f7;
-    transition: background-color 0.4s ease-in-out;
+    opacity: 0;
+    transition: background-color 0.4s ease-in-out, opacity 200ms ease-in-out;
 
     &:not(:hover) {
       background-color: #eee;

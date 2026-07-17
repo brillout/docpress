@@ -14,8 +14,10 @@ function ChoiceGroupContainer({
   choiceGroupAll,
 }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
   const renderCustomSelect = (choiceGroupAll ?? []).some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
+  const alwaysShow = (choiceGroupAll ?? []).some((choiceGroup) => renderCustomSelect && !!choiceGroup.alwaysShow)
+
   return (
-    <div className="choice-group-container">
+    <div className={cls(['choice-group-container', alwaysShow && 'always-show'])}>
       {children}
       {renderCustomSelect && (
         <div className={`choice-group__selects`}>
@@ -53,15 +55,7 @@ const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
   const choicesAll = usePageContext().resolved.choices
-  const {
-    name: groupName,
-    emptyChoices,
-    default: defaultChoice,
-    hidden,
-    parentChoiceGroup,
-    isBuiltIn,
-    hoverVisibility,
-  } = choiceGroup
+  const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
   const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
   const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
   const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
@@ -91,7 +85,6 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         'choice-select__list',
         (isHidden || isEmptyChoice(selectedChoice)) && 'hidden',
         isHovered && 'hovered',
-        hoverVisibility && 'show-on-hover',
       ])}
       style={{ '--option-height': `${OPTION_HEIGHT}px`, '--choice-count': filteredChoices.length }}
       onPointerDownCapture={(e) => (lastPointerType.current = e.pointerType)}

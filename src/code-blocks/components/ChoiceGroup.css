@@ -21,6 +21,7 @@
   .choice-group__selects {
     position: absolute;
     display: flex;
+    flex-direction: row-reverse;
     gap: 2px;
     top: var(--top-position);
     right: 42px;

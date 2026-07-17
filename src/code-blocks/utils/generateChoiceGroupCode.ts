@@ -33,7 +33,6 @@ const CHOICES_BUILT_IN: NonNullable<Config['choices']> = {
       },
     ],
     default: 'JavaScript',
-    hoverVisibility: true,
   },
   pkgManager: {
     choices: [

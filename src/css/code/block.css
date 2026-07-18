@@ -38,6 +38,9 @@ figure[data-rehype-pretty-code-figure] {
  *  - https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121
  */
 @media not all and (hover: hover) and (pointer: fine) {
+  .copy-button {
+    opacity: 1 !important;
+  }
   @container container-viewport (max-width: 620px) {
     pre > code {
       font-size: 0.7em !important;

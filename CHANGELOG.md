@@ -1,3 +1,12 @@
+## [0.17.4](https://github.com/brillout/docpress/compare/v0.17.3...v0.17.4) (2026-07-18)
+
+
+### Bug Fixes
+
+* always show copy button on touch devices, not only in ChoiceGroup ([#192](https://github.com/brillout/docpress/issues/192)) ([8660dd7](https://github.com/brillout/docpress/commit/8660dd78c697da0aa0bf9f1ab60efa1b209f8154))
+
+
+
 ## [0.17.3](https://github.com/brillout/docpress/compare/v0.17.2...v0.17.3) (2026-07-18)
 
 

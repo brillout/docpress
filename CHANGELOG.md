@@ -1,3 +1,13 @@
+## [0.17.3](https://github.com/brillout/docpress/compare/v0.17.2...v0.17.3) (2026-07-18)
+
+
+### Bug Fixes
+
+* collapse dropdown after selection on touch devices ([#190](https://github.com/brillout/docpress/issues/190)) ([8e2558a](https://github.com/brillout/docpress/commit/8e2558a75a3bc7dbe29333edbdbc9ebddbe2c2b9))
+* Hide `+choices` dropdown and show upon hovering ([#191](https://github.com/brillout/docpress/issues/191)) ([a7a9c5f](https://github.com/brillout/docpress/commit/a7a9c5f8068a65cfa7ff462e04c5bc07b0adcaa1))
+
+
+
 ## [0.17.2](https://github.com/brillout/docpress/compare/v0.17.1...v0.17.2) (2026-07-09)
 
 

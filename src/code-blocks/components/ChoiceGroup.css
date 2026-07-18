@@ -1,3 +1,10 @@
+.choice-group-container.always-show {
+  .choice-group__selects,
+  .copy-button {
+    opacity: 1 !important;
+  }
+}
+
 .choice-group-container {
   position: relative;
 
@@ -18,6 +25,12 @@
     gap: 2px;
     top: var(--top-position);
     right: 42px;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   .choice-select__list {
@@ -143,6 +156,10 @@
   * https://github.com/brillout/docpress/blob/08b63e867c4c052479e19a6943ca5535b2762d02/src/css/code/block.css#L40-L56
   */
   @media not all and (hover: hover) and (pointer: fine) {
+    .choice-group__selects,
+    .copy-button {
+      opacity: 1 !important;
+    }
     .choice-select__option {
       padding: 5px;
     }
@@ -254,6 +271,18 @@
       top: calc(6 * var(--option-height));
     }
   }
+}
+
+.choice-group-container:has(.choice-group__selects:hover) .copy-button {
+  opacity: 1;
+}
+
+.choice-group:has(.choice:hover) .copy-button {
+  opacity: 1;
+}
+
+.choice-group:has(.choice:hover) ~ .choice-group__selects {
+  opacity: 1;
 }
 
 .choice-group {

@@ -85,4 +85,10 @@ type ChoiceItem = {
 type Choice = {
   choices: (string | ChoiceItem)[]
   default: string
+  /**
+   * Whether to always show the dropdown.
+   *
+   * @default false
+   */
+  alwaysShow?: boolean
 }

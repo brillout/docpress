@@ -14,8 +14,10 @@ function ChoiceGroupContainer({
   choiceGroupAll,
 }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
   const renderCustomSelect = (choiceGroupAll ?? []).some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
+  const alwaysShow = (choiceGroupAll ?? []).some((choiceGroup) => renderCustomSelect && !!choiceGroup.alwaysShow)
+
   return (
-    <div className="choice-group-container">
+    <div className={cls(['choice-group-container', alwaysShow && 'always-show'])}>
       {children}
       {renderCustomSelect && (
         <div className={`choice-group__selects`}>

@@ -1,3 +1,12 @@
+## [0.17.5](https://github.com/brillout/docpress/compare/v0.17.4...v0.17.5) (2026-08-21)
+
+
+### Bug Fixes
+
+* ship type declarations for CSS side-effect imports (TypeScript 7) ([#193](https://github.com/brillout/docpress/issues/193)) ([3064ee9](https://github.com/brillout/docpress/commit/3064ee92b0a8adb93de53c54a19c509ccd987535))
+
+
+
 ## [0.17.4](https://github.com/brillout/docpress/compare/v0.17.3...v0.17.4) (2026-07-18)
 
 

@@ -46,7 +46,10 @@
     "./renderer/onCreatePageContext": "./renderer/onCreatePageContext.ts",
     ".": "./index.ts",
     "./config": "./dist/+config.js",
-    "./style": "./css/index.css",
+    "./style": {
+      "types": "./style.d.ts",
+      "default": "./css/index.css"
+    },
     "./types": {
       "types": "./types.d.ts"
     }

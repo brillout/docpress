@@ -14,6 +14,10 @@ const highlighterOptions: BundledHighlighterOptions<BundledLanguage, BundledThem
   langs: ['plaintext'],
 }
 
+// TEMPORARY WORKAROUND
+// TO-DO/eventually: remove this file (and its usages in vite.config.ts) once Rehype Pretty Code loads lazily embedded
+// grammars deterministically, e.g. by using Shiki's `guessEmbeddedLanguages()`.
+//
 // Rehype Pretty Code loads grammars on-demand into a single highlighter that is shared by the client-side and
 // server-side builds. Some grammars *lazily* embed other grammars, e.g. the markdown grammar lazily embeds the `yaml`
 // grammar (for frontmatter) and most other grammars (for fenced code blocks): a lazily embedded grammar is used only if
@@ -23,6 +27,14 @@ const highlighterOptions: BundledHighlighterOptions<BundledLanguage, BundledThem
 // which differs between the client-side and server-side builds, leading to a hydration mismatch (React error #418).
 //
 // We make the highlighting deterministic by loading all grammars upfront (~0.5s and ~30MB, once per process).
+//
+// See:
+//  - https://github.com/brillout/docpress/pull/195
+//  - https://github.com/shikijs/shiki/pull/791 (Shiki lazily embeds grammars for performance: "users should already
+//    be loading the languages they need")
+//  - https://github.com/shikijs/shiki/issues/979 (same problem: `wikitext` doesn't load `html`)
+//  - https://github.com/shikijs/shiki/pull/1299 (`guessEmbeddedLanguages()` detects frontmatter, but Rehype Pretty Code
+//    doesn't use it — the problem still exists with rehype-pretty-code@0.14.5 and shiki@4.4.3)
 const highlighters = new Map<string, Promise<Highlighter>>()
 function getHighlighter(options: BundledHighlighterOptions<BundledLanguage, BundledTheme>): Promise<Highlighter> {
   const key = JSON.stringify(options)
@@ -52,6 +64,7 @@ async function createHighlighter(
   return highlighter
 }
 
+// Part of the TEMPORARY WORKAROUND above.
 // We load the grammars before the build starts (instead of during the first MDX transform): Rolldown warns when
 // plugins take a significant share of the build time, which the ~0.5s of grammar loading does for small builds.
 function warmUpHighlighter(): Plugin {

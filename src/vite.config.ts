@@ -24,6 +24,7 @@ const prettyCode = [
   {
     theme: highlighterTheme,
     keepBackground: false,
+    // TEMPORARY WORKAROUND, see getHighlighter.ts
     getHighlighter,
     transformers: [
       transformerNotationDiff(),
@@ -42,6 +43,7 @@ const config: UserConfig = {
     parsePageSections(),
     mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     react(),
+    // TEMPORARY WORKAROUND, see getHighlighter.ts
     warmUpHighlighter(),
   ],
   optimizeDeps: {

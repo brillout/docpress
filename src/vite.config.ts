@@ -16,13 +16,16 @@ import { transformerNotationHighlight } from '@brillout/shiki-transformers'
 import { rehypeMetaToProps } from './code-blocks/rehypeMetaToProps.js'
 import { shikiTransformerAutoLinks } from './code-blocks/shikiTransformerAutoLinks.js'
 import { remarkChoiceGroup } from './code-blocks/remarkChoiceGroup.js'
+import { getHighlighter, warmUpHighlighter, highlighterTheme } from './code-blocks/getHighlighter.js'
 
 const root = process.cwd()
 const prettyCode = [
   rehypePrettyCode,
   {
-    theme: 'github-light',
+    theme: highlighterTheme,
     keepBackground: false,
+    // TEMPORARY WORKAROUND, see getHighlighter.ts
+    getHighlighter,
     transformers: [
       transformerNotationDiff(),
       transformerNotationHighlight(),
@@ -40,6 +43,8 @@ const config: UserConfig = {
     parsePageSections(),
     mdx({ rehypePlugins, remarkPlugins, providerImportSource: '@brillout/docpress' }) as PluginOption,
     react(),
+    // TEMPORARY WORKAROUND, see getHighlighter.ts
+    warmUpHighlighter(),
   ],
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-dom/client'],

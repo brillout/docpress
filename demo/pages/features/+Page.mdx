@@ -41,6 +41,19 @@ No language
 Second line
 ```
 
+### Lazily embedded grammars
+
+The YAML frontmatter is highlighted: the markdown grammar lazily embeds the `yaml` grammar, which DocPress makes sure to load (see `getHighlighter.ts`).
+
+```md
+---
+title: Some Title
+author: Some Author
+---
+
+Some markdown.
+```
+
 ### Highlight
 
 ```js

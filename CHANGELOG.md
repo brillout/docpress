@@ -1,3 +1,13 @@
+## [0.17.6](https://github.com/brillout/docpress/compare/v0.17.5...v0.17.6) (2026-09-02)
+
+
+### Bug Fixes
+
+* make code block highlighting deterministic (fixes hydration mismatch, React error [#418](https://github.com/brillout/docpress/issues/418)) ([#195](https://github.com/brillout/docpress/issues/195)) ([95d65c6](https://github.com/brillout/docpress/commit/95d65c64694e91250cc18eb4fdf57cc27c473738))
+* show the dropdown of code blocks nested in a `<Tabs>` choice ([#194](https://github.com/brillout/docpress/issues/194)) ([2f8a130](https://github.com/brillout/docpress/commit/2f8a13049a35ded2d2647922a6e6cb23fdedc57d))
+
+
+
 ## [0.17.5](https://github.com/brillout/docpress/compare/v0.17.4...v0.17.5) (2026-08-21)
 
 

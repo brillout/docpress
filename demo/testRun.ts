@@ -238,6 +238,29 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     )
   })
 
+  test(`${featuresURL} - Choice Group nested in a <Tabs> choice`, async () => {
+    // The `uiFramework` group is toggled by `<Tabs>` (its choices start with prose, so it has no dropdown) — but the
+    // code blocks it contains still get their own npm/pnpm dropdown, also inside blockquotes.
+    const reactChoice = page.locator('.choice[data-choice-value="React"]', { hasText: 'Install vike-react' })
+    expect(await reactChoice.count()).toBe(1)
+    expect(await reactChoice.locator('.choice-select__list[data-choice-group="pkgManager"]').count()).toBe(2)
+    expect(await reactChoice.locator('blockquote .choice-select__list[data-choice-group="pkgManager"]').count()).toBe(1)
+    const vueChoice = page.locator('.choice[data-choice-value="Vue"]', { hasText: 'Install vike-vue' })
+    expect(await vueChoice.locator('.choice-select__list[data-choice-group="pkgManager"]').count()).toBe(1)
+    expect(await vueChoice.locator('.choice-select__list[data-choice-group="codeLang"]').count()).toBe(1)
+
+    // Multi-line commands are converted line by line (comments and package names containing `npm` are left alone)
+    const text = await page.textContent('body')
+    expect(text).toContain('npm install vike-react')
+    expect(text).toContain('pnpm add vike-react')
+    expect(text).toContain('yarn add vike-react')
+    expect(text).toContain('bun add vike-react')
+    expect(text).toContain('# Make sure you install skills-npm\nnpm install -D skills-npm\nnpx skills-npm setup')
+    expect(text).toContain('# Make sure you install skills-npm\npnpm add -D skills-npm\npnpm dlx skills-npm setup')
+    expect(text).toContain('# Make sure you install skills-npm\nyarn add --dev skills-npm\nyarn dlx skills-npm setup')
+    expect(text).toContain('# Make sure you install skills-npm\nbun add --dev skills-npm\nbun x skills-npm setup')
+  })
+
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)

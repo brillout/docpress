@@ -372,6 +372,46 @@ Props:
 - **fallback** (optional): Content shown during SSR and before hydration completes.
 :::
 
+A choice that starts with prose is toggled only by `<Tabs>` (no dropdown for the choice group itself) — the code blocks it contains still get their own dropdown, also inside blockquotes:
+
+<Tabs choice={'uiFramework'} />
+
+:::Choice{#React}
+Install `vike-react`:
+
+```shell
+npm i vike-react
+```
+
+> Also works inside a blockquote. (Multi-line commands are converted line by line; `npm` inside a package name is left alone.)
+> ```shell
+> # Make sure you install skills-npm
+> npm i -D skills-npm
+> npx skills-npm setup
+> ```
+:::
+
+:::Choice{#Vue}
+Install `vike-vue`:
+
+```shell
+npm i vike-vue
+```
+
+```ts
+// +config.ts
+const config: { ssr: boolean } = { ssr: true }
+```
+:::
+
+:::Choice{#Solid}
+Install `vike-solid`:
+
+```shell
+npm i vike-solid
+```
+:::
+
 A single choice can contain several toggleable code blocks (each one spawns a nested JavaScript/TypeScript choice group):
 
 :::Choice{#React}

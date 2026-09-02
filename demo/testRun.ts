@@ -50,6 +50,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       expect(getTitleHtml(html)).toBe('Features | Demo')
       expect(await getTitleClient()).toBe('Features | Demo')
       expectAlgoliaCategory(html, 'Overview', 1)
+      // The YAML frontmatter of the ```md code block is highlighted, see getHighlighter.ts
+      expect(html).toContain('>author</span>')
     }
   })
   test(`${featuresURL} - custom URL hash`, async () => {

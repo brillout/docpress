@@ -56,9 +56,11 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
   const customHidden = choiceNodes.some((node) =>
     node.children.some((node) => node.type === 'containerDirective' && node.children[0]!.type !== 'code'),
   )
-  const hidden = hide || customHidden
+  // A hidden group doesn't render a dropdown: its choices are toggled by `<Tabs>`, or there is only one choice.
+  const hidden = hide || customHidden || choiceNodes.length === 1
 
   const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
+  const isBuiltIn = Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name)
   const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
   let data: MdxJsxFlowElementData = {}
@@ -95,24 +97,32 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
       ],
       children: choiceChildren,
       data: {
-        ...(!Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name) && {
-          customDataParentChoiceGroup: {
-            name: choiceGroup.name,
-            choice: choiceNode.choiceValue,
-            default: choiceGroup.default,
-            emptyChoices: choiceGroup.emptyChoices,
-            lvl,
-          },
-        }),
+        // Mark the choice as parent so that the groups nested in it (e.g. the npm/pnpm toggle of a code block, or
+        // the JS/TS toggle) render their dropdown in this group's `<ChoiceGroupContainer>`, next to this group's
+        // dropdown, and only while this choice is selected.
+        // A hidden group renders no dropdown and its choices usually start with prose (it's toggled by `<Tabs>`), so
+        // the top-right corner of its container isn't the top-right corner of a code block: don't mark its choices,
+        // so that nested groups get their own `<ChoiceGroupContainer>` positioned at the code block instead. (That
+        // container is shown/hidden along with the choice, so no parent tracking is needed.)
+        ...(!isBuiltIn &&
+          !hidden && {
+            customDataParentChoiceGroup: {
+              name: choiceGroup.name,
+              choice: choiceNode.choiceValue,
+              default: choiceGroup.default,
+              emptyChoices: choiceGroup.emptyChoices,
+              lvl,
+            },
+          }),
       },
     })
   }
 
   const choiceGroupAttr: ChoiceGroup = {
     ...choiceGroup,
-    hidden: choiceNodes.length === 1 || hidden,
+    hidden,
     lvl,
-    isBuiltIn: Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name),
+    isBuiltIn,
   }
 
   attributes.push(expressionToAttribute('choiceGroup', choiceGroupAttr))

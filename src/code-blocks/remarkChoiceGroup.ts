@@ -83,7 +83,7 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
     remarkPkgManager.call(this)(tree, file)
 
     visit(tree, 'mdxJsxFlowElement', (node) => {
-      // Descend into non-container nodes so that a `CustomSelectsContainer` nested inside another JSX
+      // Descend into non-container nodes so that a `ChoiceGroupContainer` nested inside another JSX
       // element (e.g. react-tabs `<Tabs>`/`<TabPanel>`, or a `<div>`) still gets visited and its
       // `choiceGroupAll` attribute injected. (Returning 'skip' here would stop the descent.)
       if (node.name !== 'ChoiceGroupContainer') return
@@ -91,6 +91,10 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
       const choiceGroupAll: ChoiceGroupWithParent[] = []
 
       visit(node, 'mdxJsxFlowElement', (child) => {
+        // A nested container renders its own dropdowns: e.g. a code block inside a choice of a hidden group (a
+        // `:::Choice` toggled by `<Tabs>`), or inside a blockquote. Don't collect its groups here — it gets its own
+        // `choiceGroupAll` attribute when the outer traversal reaches it.
+        if (child !== node && child.name === 'ChoiceGroupContainer') return 'skip'
         if (child.name !== 'ChoiceGroup') return
 
         const choiceGroup = child.data?.customDataChoiceGroup
@@ -127,7 +131,7 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
 
       node.attributes.push(expressionToAttribute('choiceGroupAll', choiceGroupAll))
 
-      return 'skip'
+      // Don't return 'skip': nested containers need their own `choiceGroupAll` attribute.
     })
   }
 }

@@ -34,7 +34,7 @@ function remarkPkgManager() {
           type: node.type,
           lang: node.lang,
           meta: node.meta,
-          value: convert(node.value, pm.toLowerCase() as 'pnpm' | 'bun' | 'yarn'),
+          value: convertCommands(node.value, pm.toLowerCase() as 'pnpm' | 'bun' | 'yarn'),
         })
       }
 
@@ -44,4 +44,18 @@ function remarkPkgManager() {
       parent.children.splice(index, 1, replacement)
     })
   }
+}
+
+// If the string contains `npx`, npm-to-yarn only replaces its first `npx` occurrence and leaves the rest of the string
+// untouched (e.g. the `npm install` line of a multi-line command): convert each line separately.
+function convertCommands(value: string, pm: 'pnpm' | 'yarn' | 'bun'): string {
+  return value
+    .split('\n')
+    .map((line) => (hasNpmCommand(line) ? convert(line, pm) : line))
+    .join('\n')
+}
+// Whether the line contains an `npm`/`npx` command. (Not a package name such as `skills-npm`, nor a comment like
+// `# Make sure you install skills-npm`, which npm-to-yarn would mangle.)
+function hasNpmCommand(line: string): boolean {
+  return /(^|\s)np[mx](\s|$)/.test(line)
 }

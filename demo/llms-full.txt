@@ -1,0 +1,515 @@
+A page that throws an error.
+
+<p><div>Including <code>div</code> inside <code>p</code> chokes React/MDX.</div></p>
+
+import { Link, FileRemoved, FileAdded, CodeBlockTransformer, Contribution } from '@brillout/docpress'
+
+This page is for testing/developing DocPress features.
+
+## Detached pages
+
+- <Link href="/orphan" />
+- <Link href="/orphan-2" />
+
+## `<Link>`
+
+- <Link href="/some-page" /> (basic link)
+- <Link href="/orphan" /> (link to detached page)
+- <Link href="#link" /> (same-page link, non-inferred original heading title without needing `sectionTitles`)
+- <Link href="/notes#danger" /> (page link with hash)
+- <Link href="#basic" /> (same-page link, sub heading)
+- <Link href="#custom-hash" /> (custom hash)
+
+### Custom URL hash for section heading{#custom-hash}
+
+Custom URL hash:
+
+```mdx
+### Custom URL hash for section heading{#custom-hash}
+```
+
+> DocPress doesn't yet support `<h2 id="url-hash">${sectionTitle}</h2>` (it's a consideration to support it).
+
+## Code blocks
+
+### Basic
+
+```js
+console.log('hello')
+console.log(`wo${'r'}ld`)
+```
+
+```
+No language
+Second line
+```
+
+### Diff
+
+Powered by `shiki` and `rehype-pretty-code`.
+
+Code diffs powered by `import { transformerNotationDiff } from '@shikijs/transformers'` and custom CSS rule at `css/code/diff.css`.
+
+```ts
+// /pages/+config.ts
+
+import type { Config } from 'vike/types'
+
+export default {
+  meta: {
+    Page: {
+      // some comment https://github.com/brillout/docpress#readme
+       env: { server: true, client: true }, // [!code --]
+       env: { server: true } // [!code ++]
+    }
+  }
+} satisfies Config
+```
+
+Removed/Added file using `<FileRemoved>`/`<FileAdded>` wrapper:
+
+<FileRemoved>
+```js
+// old.js
+export default /* ... */
+```
+</FileRemoved>
+
+<FileAdded>
+```js
+// new.js
+
+export default /* ... */
+```
+</FileAdded>
+
+Old school diffs:
+
+```diff
+  no change
+- deleted
+  no change
++ added
+  no change
+```
+
+### `<CodeBlockTransformer>`
+
+`<CodeBlockTransformer lineBreak="white-space">`
+
+<CodeBlockTransformer lineBreak="white-space">
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'node_modules/some-library/dist/esm/some-file' imported from node_modules/some-library/dist/esm/index.js
+Did you mean to import some-file.js?
+```
+</CodeBlockTransformer>
+
+`<CodeBlockTransformer lineBreak="break-word">`
+
+<CodeBlockTransformer lineBreak="break-word">
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'node_modules/some-library/dist/esm/some-file' imported from node_modules/some-library/dist/esm/index.js
+Did you mean to import some-file.js?
+```
+</CodeBlockTransformer>
+
+## JavaScript toggle
+
+```ts
+const hello: string = 'world'
+```
+
+Note how `.ts` is replaced with `.js`:
+
+```ts
+// some-file-name.ts
+
+const foo: { bar: number } = { bar: 42 } // someOtherFile.ts
+// DocPress just uses a replaceAll() call: .ts
+```
+
+> Also works:
+> - In blockquotes
+> - In bullet points
+>   ```ts
+>   // Some TypeScript comment
+>   type SomeMessage = {
+>     msg: string
+>   }
+>   // Some comment
+>   const someMessage: SomeMessage = {
+>     msg: 'world'
+>   }
+>   ```
+
+Using `ts-only`:
+```ts ts-only
+// some-file-name.ts
+
+type Hello = {
+  msg: string
+}
+const hello: Hello = {
+  msg: 'world'
+}
+```
+
+Using `yaml` (misusing the `yaml` language to list the filesystem):
+
+```yaml
+pages/+config.ts
+pages/(marketing)/+config.ts
+pages/(marketing)/index/+Page.ts # landing page
+```
+
+Using custom magic comments to ignore incorrect syntax, usually when displaying code diffs:
+
+- Using `// @detype-replace dummyVarName varName` above the affected line.
+- Using `// @detype-uncomment ` at the beginning of the affected line.
+
+```ts
+const hello: string = 'world' // [!code --]
+// @detype-replace dummyhello hello
+const dummyhello: string[] = ['hello', 'world'] // [!code ++]
+
+// @detype-uncomment function greeting() { // [!code --]
+function greeting(name: string) { // [!code ++]
+  // ...
+}
+```
+
+JS toggle is only shown if code changes (note how `file.ts` => `file.js` isn't a reason enough to show the toggle)
+
+```ts
+// file.ts
+console.log(42)
+```
+
+Using `hide-menu` to hide the copy button, e.g.:
+
+- Bash output:
+  ```bash hide-menu
+  > vike dev
+
+    Vike v0.4.234  ready in 526 ms
+    ➜  Local:   http://localhost:3000/
+    ➜  Network: use --host to expose
+    ➜  press h + enter to show help
+  ```
+
+- TypeScript typings with `ts-only` meta:
+  ```ts ts-only hide-menu
+  type Value = Record<string, string>
+  type BodyAttributes = Value | ((pageContext) => Value)
+  ```
+
+Using `max-width`:
+
+```ts max-width=50
+async function onNewTodo(text: string) {
+  await sql(
+    'INSERT INTO todo_items VALUES (:text, :authorId)',
+    { text, authorId: user.id }
+  )
+}
+```
+
+## Links in code blocks
+
+```ts
+// https://vike.dev
+const a: number = 1
+```
+
+```ts
+// Some comment.
+
+const msg: string = 'Some code block.'
+console.log(msg)
+```
+
+import { Link } from '@brillout/docpress'
+
+## English
+
+Foo
+
+## 简体中文{#chinese}
+
+Bar
+
+import { Advanced, Warning, Construction, Danger, NoteWithoutIcon, NoteWithCustomIcon, Contribution } from '@brillout/docpress'
+
+## Generic
+
+> Some note.
+
+>  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+>  nostra, per inceptos himenaeos.
+>
+>  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+>  dui ac porta. Duis tincidunt pretium ullamcorper.
+
+## `<Advanced>`
+
+<Advanced>
+  Some warning.
+</Advanced>
+
+<Advanced>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</Advanced>
+
+## `<Warning>`
+
+<Warning>
+  Some warning.
+</Warning>
+
+<Warning>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</Warning>
+
+## `<Construction>`
+
+<Construction>
+  This is work-in-progress.
+</Construction>
+
+<Construction>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</Construction>
+
+## `<Contribution>`
+
+<Contribution>
+  Author: `brillout`
+</Contribution>
+
+<Contribution>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</Contribution>
+
+## `<Danger>`
+
+<Danger>
+  Some danger.
+</Danger>
+
+<Danger>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</Danger>
+
+## `<NoteWithoutIcon>`
+
+<NoteWithoutIcon>
+  Some note.
+</NoteWithoutIcon>
+
+<NoteWithoutIcon>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</NoteWithoutIcon>
+
+## `<NoteWithCustomIcon>`
+
+<NoteWithCustomIcon icon={<span style={{fontSize: "1.1em"}}>⚗️</span>}>
+  Some note.
+</NoteWithCustomIcon>
+
+<NoteWithCustomIcon icon={<span style={{fontSize: "1.1em"}}>⚗️</span>}>
+  Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia
+  nostra, per inceptos himenaeos.
+
+  Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus
+  dui ac porta. Duis tincidunt pretium ullamcorper.
+</NoteWithCustomIcon>
+
+import { Link } from '@brillout/docpress'
+
+This page is "detached": it isn't included in the left-side navigation.
+
+Another <Link href="/orphan-2" />.
+
+Same page link for orphan page: <Link href="#some-section" />.
+
+## Some SecTion
+
+Just to test the subheadings navigation.
+
+## Another Section
+
+More content.
+
+Curabitur luctus finibus tellus eget tristique. Vivamus aliquam mollis ligula at dapibus.
+
+Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus dui ac porta. Duis tincidunt pretium ullamcorper.
+
+Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus dui ac porta. Duis tincidunt pretium ullamcorper.
+
+Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus dui ac porta. Duis tincidunt pretium ullamcorper.
+
+Proin vulputate elit eget porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+Etiam in nibh et lorem varius suscipit vitae vitae ligula. In blandit mattis erat. Proin congue cursus dui ac porta. Duis tincidunt pretium ullamcorper.
+
+import { Link } from '@brillout/docpress'
+import { LoremIpsum } from '../index/LoremIpsum.tsx'
+
+Detached page without any section.
+
+Detached page with sections: <Link href="/orphan" />.
+
+```js
+// Some code block
+```
+
+<LoremIpsum />
+
+Page 1
+
+Page 2
+
+Some random text to get a long paragraph.
+Some random text to get a long paragraph.
+Some random text to get a long paragraph.
+Some random text to get a long paragraph.
+Some random text to get a long paragraph.
+
+```ts
+// Some code block
+const a: 1 = 1
+```
+
+Page 3
+
+Page 4
+
+Some press kit...
+
+Some pricing page.
+
+import { Link, Warning, Contribution } from '@brillout/docpress'
+
+What we have been working on in June.
+
+> We're [looking for sponsors](https://github.com/vikejs/vike/issues/1350) 💚
+
+<Contribution>
+We're [looking for sponsors](https://github.com/vikejs/vike/issues/1350).
+</Contribution>
+
+<Warning>This is a draft.</Warning>
+
+**Features**
+
+<Link href="#improved-nested-layouts" /><br/>
+<Link href="#pages-marketing" /><br/>
+
+## Improved Nested Layouts
+
+Vike now has first-class support for nested layouts.
+
+```yaml
+# Outer layout, common to all pages
+pages/+Layout.js
+# Layout for product page
+pages/product/@id/+Layout.js
+# Nested layout
+pages/product/@id/pricing/+Page.js
+# Nested layout
+pages/product/@id/reviews/+Page.js
+```
+
+> Fetching data in outer layouts is work-in-progress, see [#1689 - [Nested Layouts] Fetch data on layout-level](https://github.com/vikejs/vike/issues/1689).
+
+> 🙏 Author: [`Blankeos`](https://github.com/Blankeos), [`brillout`](https://github.com/brillout)
+
+<Contribution>
+Authors: [`Blankeos`](https://github.com/Blankeos), [`brillout`](https://github.com/brillout)
+</Contribution>
+
+## `pages/(marketing)/`
+
+You can now organize your pages into groups:
+
+```yaml
+FILESYSTEM                             URL
+================================       ==================
+pages/(marketing)/index/+Page.js       /
+pages/(marketing)/about/+Page.js       /about
+pages/admin-panel/index/+Page.js       /admin-panel
+pages/admin-panel/users/+Page.js       /admin-panel/users
+```
+> The directory `(marketing)` is ignored because it's wrapped by parentheses.
+
+Beyond improved organization, it allows you to apply different configurations to different pages.
+
+> 🙏 Author: [`brillout`](https://github.com/brillout)
+
+<Contribution>
+Author: [`brillout`](https://github.com/brillout)
+</Contribution>
+
+import { Hello } from './Hello'
+import './index.css'
+import { Link } from '@brillout/docpress'
+import CodeBlock from '../index/CodeBlock.mdx'
+
+Some documentation page.
+
+MDX can import React compoments: <Hello />.
+
+Some CSS can as well be imported: <span className="colored">colored text</span>.
+
+MDX importing another MDX component:
+<CodeBlock />
+
+Page not in the navigation: <Link href="/orphan" />.
+
+## Some Section
+
+Bla
+
+## Other Section
+
+Blu
+
+Using `pageDesign` to customize page appearance (hide title, hide the menu on the left, large content width).
+
+## Some section
+
+Tiny page. It shouldn't have any scrollbar.
+
+> To test scrollbar behavior:
+>  1. Open Google Chrome > `chrome://flags`.
+>  2. Search for `Overlay Scrollbars` and set it to `Disabled`.

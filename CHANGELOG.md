@@ -1,3 +1,12 @@
+## [0.17.7](https://github.com/brillout/docpress/compare/v0.17.6...v0.17.7) (2026-09-23)
+
+
+### Bug Fixes
+
+* only fall back to another choice if the page has no content for the selected one ([#196](https://github.com/brillout/docpress/issues/196)) ([be48d75](https://github.com/brillout/docpress/commit/be48d75de02a9eb34dfa810fb38cea34e5fcd3e8))
+
+
+
 ## [0.17.6](https://github.com/brillout/docpress/compare/v0.17.5...v0.17.6) (2026-09-02)
 
 

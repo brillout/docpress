@@ -276,6 +276,14 @@
   opacity: 1;
 }
 
+/* The group doesn't have content for the selected choice (e.g. the `Other` tab is selected while the group only has a
+ * code block for `Hono` and `Express`): hide the dropdowns — also before hydration, when they're still rendered for the
+ * choice selected on the server-side.
+ */
+.choice-group-container:has(> .choice-group > select > option[data-empty]:checked) > .choice-group__selects {
+  display: none;
+}
+
 .choice-group:has(.choice:hover) .copy-button {
   opacity: 1;
 }

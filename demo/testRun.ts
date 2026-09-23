@@ -263,6 +263,88 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(text).toContain('# Make sure you install skills-npm\nbun add --dev skills-npm\nbun x skills-npm setup')
   })
 
+  test(`${featuresURL} - Choice Group without content for the selected choice`, async () => {
+    // A group displays nothing while a choice it doesn't have content for is selected: it doesn't fall back to another
+    // choice. (Only a choice absent from the whole page falls back, see `H3` below.)
+    const expressNoteText = 'Express.js is deprecated.'
+    const tsOnlyText = 'Some content only shown to TypeScript users.'
+    const honoChoiceText = "import { Hono } from 'hono'"
+    const helloReactText = 'Hello from React'
+    const installSolidText = 'Install vike-solid'
+
+    {
+      const html = await fetchHtml(featuresURL)
+      const getSelectedChoiceSSR = (text: string) =>
+        page.evaluate(
+          ([html, text]) => {
+            const doc = new DOMParser().parseFromString(html, 'text/html')
+            const choiceEl = [...doc.querySelectorAll('.choice')].filter((el) => el.textContent!.includes(text)).pop()!
+            return choiceEl.closest('.choice-group')!.querySelector('select')!.value
+          },
+          [html, text] as const,
+        )
+      expect(await getSelectedChoiceSSR(expressNoteText)).toBe('Hono')
+      expect(await getSelectedChoiceSSR(tsOnlyText)).toBe('JavaScript')
+    }
+
+    const expectVisible = async (text: string, yes = true) => {
+      await autoRetry(
+        async () => {
+          const visibleText = await getVisibleText(page)
+          if (yes) {
+            expect(visibleText).toContain(text)
+          } else {
+            expect(visibleText).not.toContain(text)
+          }
+        },
+        { timeout: 5 * 1000 },
+      )
+    }
+    const clickTab = async (choiceGroup: string, choice: string) => {
+      await page
+        .locator(`.choice-tabs__tab-list[data-choice-group="${choiceGroup}"] label`, { hasText: choice })
+        .click()
+    }
+    const load = async (choices: Record<string, string> = {}) => {
+      await page.evaluate((choices) => {
+        window.localStorage.clear()
+        for (const [group, choice] of Object.entries(choices))
+          window.localStorage.setItem(`docpress:choice:${group}`, choice)
+      }, choices)
+      await page.goto(getServerUrl() + featuresURL)
+      await page.waitForFunction(() => (window as any).__docpress_hydrationFinished)
+    }
+
+    await load()
+    await expectVisible(honoChoiceText)
+    await expectVisible(expressNoteText, false)
+    await expectVisible(tsOnlyText, false)
+
+    await clickTab('server', 'Express')
+    await expectVisible(expressNoteText)
+    await clickTab('server', 'Fastify')
+    await expectVisible(expressNoteText, false)
+    await clickTab('server', 'Hono')
+    await expectVisible(honoChoiceText)
+    await expectVisible(expressNoteText, false)
+
+    // The `React`/`Vue` group displays nothing while the `Solid` tab is selected
+    await expectVisible(helloReactText)
+    await clickTab('uiFramework', 'Solid')
+    await expectVisible(installSolidText)
+    await expectVisible(helloReactText, false)
+
+    await load({ codeLang: 'TypeScript' })
+    await expectVisible(tsOnlyText)
+
+    // `H3` is absent from the page (hidden from the tabs, without content): fall back to the default choice (#169)
+    await load({ server: 'H3' })
+    await expectVisible(honoChoiceText)
+    await expectVisible(expressNoteText, false)
+
+    await page.evaluate(() => window.localStorage.clear())
+  })
+
   const somePageUrl = '/some-page'
   test(`${somePageUrl} - custom <Pre> injected into nested MDX`, async () => {
     await page.goto(getServerUrl() + somePageUrl)

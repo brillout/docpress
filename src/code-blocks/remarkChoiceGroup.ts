@@ -82,6 +82,15 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
     await remarkDetype.call(this)(tree, file)
     remarkPkgManager.call(this)(tree, file)
 
+    const absentChoicesAll = getAbsentChoices(tree)
+
+    visit(tree, 'mdxJsxFlowElement', (node) => {
+      const choiceGroup = node.name === 'ChoiceGroup' && node.data?.customDataChoiceGroup
+      if (!choiceGroup) return
+      const absentChoices = absentChoicesAll[choiceGroup.name]!
+      node.attributes.push(expressionToAttribute('choiceGroup', { ...choiceGroup, absentChoices }))
+    })
+
     visit(tree, 'mdxJsxFlowElement', (node) => {
       // Descend into non-container nodes so that a `ChoiceGroupContainer` nested inside another JSX
       // element (e.g. react-tabs `<Tabs>`/`<TabPanel>`, or a `<div>`) still gets visited and its
@@ -108,12 +117,13 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
         if (!existing) {
           choiceGroupAll.push({
             ...choiceGroup,
+            absentChoices: absentChoicesAll[choiceGroup.name]!,
             ...(parentChoiceGroup && {
               parentChoiceGroup: {
                 name: parentChoiceGroup.name,
                 default: parentChoiceGroup.default,
                 choices: !choiceGroup.hidden ? [parentChoiceGroup.choice] : [],
-                emptyChoices: parentChoiceGroup.emptyChoices,
+                absentChoices: absentChoicesAll[parentChoiceGroup.name]!,
               },
             }),
           })
@@ -134,6 +144,20 @@ const remarkChoiceGroup: Plugin<[], Root> = (): Transformer<Root> => {
       // Don't return 'skip': nested containers need their own `choiceGroupAll` attribute.
     })
   }
+}
+
+// The choices that no group of the page has content for. A choice is displayed by all groups of the page, including
+// the groups that don't have content for it (they then display nothing): only a choice absent from the page falls back
+// to another choice, see getAvailableChoice().
+function getAbsentChoices(tree: Root) {
+  const absentChoicesAll: Record<string, string[]> = {}
+  visit(tree, 'mdxJsxFlowElement', (node) => {
+    const choiceGroup = node.name === 'ChoiceGroup' && node.data?.customDataChoiceGroup
+    if (!choiceGroup) return
+    const { name, emptyChoices } = choiceGroup
+    absentChoicesAll[name] = (absentChoicesAll[name] ?? emptyChoices).filter((choice) => emptyChoices.includes(choice))
+  })
+  return absentChoicesAll
 }
 
 function filterChoices(nodes: ChoiceNode['children']) {
@@ -163,8 +187,8 @@ declare module 'mdast' {
     customDataIsVisited?: boolean
     customDataChoice?: string
     customDataFilter?: string
-    customDataChoiceGroup?: ChoiceGroup
-    customDataParentChoiceGroup?: ParentChoiceGroup & {
+    customDataChoiceGroup?: Omit<ChoiceGroup, 'absentChoices'>
+    customDataParentChoiceGroup?: Omit<ParentChoiceGroup, 'absentChoices'> & {
       choice: string
       lvl: number
     }

@@ -31,17 +31,23 @@ function ChoiceGroupContainer({
 }
 
 function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; choiceGroup: TChoiceGroup }) {
-  const { name: groupName, choices, default: defaultChoice, emptyChoices } = choiceGroup
+  const { name: groupName, choices, default: defaultChoice, emptyChoices, absentChoices } = choiceGroup
   const [selectedChoiceStored] = useCurrentSelection(groupName, defaultChoice)
-  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
+  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, absentChoices, defaultChoice)
 
   return (
     <div className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
       <select data-choice-group={groupName} name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
         {choices.map(({ name: choice }) => (
-          // data-empty is read by the initializeChoiceGroup SSR script (useCurrentSelection.ts)
-          <option key={choice} value={choice} data-empty={emptyChoices.includes(choice) ? '' : undefined}>
+          // data-absent is read by the initializeChoiceGroup SSR script (useCurrentSelection.ts)
+          // data-empty is read by ChoiceGroup.css
+          <option
+            key={choice}
+            value={choice}
+            data-absent={absentChoices.includes(choice) ? '' : undefined}
+            data-empty={emptyChoices.includes(choice) ? '' : undefined}
+          >
             {choice}
           </option>
         ))}
@@ -55,10 +61,18 @@ const OPTION_HEIGHT = 25
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
   const choicesAll = usePageContext().resolved.choices
-  const { name: groupName, emptyChoices, default: defaultChoice, hidden, parentChoiceGroup, isBuiltIn } = choiceGroup
+  const {
+    name: groupName,
+    emptyChoices,
+    absentChoices,
+    default: defaultChoice,
+    hidden,
+    parentChoiceGroup,
+    isBuiltIn,
+  } = choiceGroup
   const choices = (isBuiltIn ? choiceGroup : choicesAll![groupName]!).choices
   const [selectedChoiceStored, setSelectedChoice] = useCurrentSelection(groupName, defaultChoice)
-  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, emptyChoices, defaultChoice)
+  const selectedChoice = getAvailableChoice(selectedChoiceStored, choices, absentChoices, defaultChoice)
   const [expanded, setExpanded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const lastPointerType = useRef<React.PointerEvent['pointerType']>('mouse')
@@ -68,8 +82,8 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const setPrevPosition = useRestoreScroll([selectedChoice])
 
   if (parentChoiceGroup) {
-    const { choices, emptyChoices, default: defaultChoice } = parentChoiceGroup
-    parentSelectedChoice = getAvailableChoice(parentSelectedChoice, choices, emptyChoices, defaultChoice)
+    const { choices, absentChoices, default: defaultChoice } = parentChoiceGroup
+    parentSelectedChoice = getAvailableChoice(parentSelectedChoice, choices, absentChoices, defaultChoice)
     isHidden = !parentChoiceGroup.choices.includes(parentSelectedChoice)
   }
   const isEmptyChoice = (choice: string) => emptyChoices.includes(choice)

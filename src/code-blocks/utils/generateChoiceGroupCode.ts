@@ -61,7 +61,6 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
 
   const { choiceGroup, mergedChoiceNodes } = resolveChoiceGroupNodes(choiceNodes)
   const isBuiltIn = Object.keys(CHOICES_BUILT_IN).includes(choiceGroup.name)
-  const attributes: MdxJsxAttribute[] = []
   const children: MdxJsxFlowElement[] = []
   let data: MdxJsxFlowElementData = {}
 
@@ -110,7 +109,6 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
               name: choiceGroup.name,
               choice: choiceNode.choiceValue,
               default: choiceGroup.default,
-              emptyChoices: choiceGroup.emptyChoices,
               lvl,
             },
           }),
@@ -118,23 +116,22 @@ function generateChoiceGroupCode(choiceNodes: ChoiceNode[], parent: Parent, hide
     })
   }
 
-  const choiceGroupAttr: ChoiceGroup = {
+  const choiceGroupData: Omit<ChoiceGroup, 'absentChoices'> = {
     ...choiceGroup,
     hidden,
     lvl,
     isBuiltIn,
   }
 
-  attributes.push(expressionToAttribute('choiceGroup', choiceGroupAttr))
-
   const choiceGroupNode: MdxJsxFlowElement = {
     type: 'mdxJsxFlowElement',
     name: 'ChoiceGroup',
-    attributes,
+    // The `choiceGroup` attribute is added by remarkChoiceGroup() once all groups of the page are known
+    attributes: [],
     children,
     data: {
       ...data,
-      customDataChoiceGroup: choiceGroupAttr,
+      customDataChoiceGroup: choiceGroupData,
     },
   }
 

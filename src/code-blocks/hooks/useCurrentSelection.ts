@@ -34,10 +34,10 @@ function initializeChoiceGroup() {
         const selectEl = groupEl as HTMLSelectElement
         const option = [...selectEl.options].find((opt) => opt.value === selectedChoice)
         // No option: stale choice removed from the config → forget it.
-        // data-empty: choice exists in the group but has no content on this page → keep the
+        // data-absent: choice exists in the group but has no content on this page → keep the
         // server-rendered fallback rather than selecting a blank choice (#169).
         if (!option) localStorage.removeItem(storageKey)
-        else if (!option.hasAttribute('data-empty')) selectEl.value = selectedChoice
+        else if (!option.hasAttribute('data-absent')) selectEl.value = selectedChoice
         break
       case 'DIV':
         const radioEl = groupEl.querySelector<HTMLInputElement>(`input[type="radio"][value="${selectedChoice}"]`)

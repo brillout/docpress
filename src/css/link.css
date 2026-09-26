@@ -1,6 +1,6 @@
 a {
   text-decoration: none;
 }
-.doc-page a[href]:not(.nav-item, .toc-item) {
+.doc-page a[href]:not(.nav-item, .toc-item, .version-badge) {
   color: var(--dp-color-primary);
 }

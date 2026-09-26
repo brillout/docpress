@@ -6,11 +6,11 @@ import iconTwitter from './icons/twitter.svg'
 import iconDiscord from './icons/discord.svg'
 import iconBluesky from './icons/bluesky.svg'
 import iconLinkedin from './icons/linkedin.svg'
-import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext.js'
 import '@docsearch/css'
 import { ThemeToggle } from './theme/ThemeToggle.js'
+import './ExternalLinks.css'
 
 function ExternalLinks(props: { style?: React.CSSProperties }) {
   const pageContext = usePageContext()
@@ -55,49 +55,8 @@ function ChangelogButton() {
   const { version, github, changelog } = pageContext.globalContext.config.docpress
   const changeLogUrl = typeof changelog === 'string' ? changelog : `${github}/blob/main/CHANGELOG.md`
   return (
-    <a
-      href={changeLogUrl}
-      className="colorize-on-hover"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 3px',
-        height: '100%',
-      }}
-    >
-      <div
-        className="button"
-        style={{
-          background: 'color-mix(in srgb, var(--dp-color-surface-elevated) 31%, transparent)',
-          fontFamily: 'var(--dp-font-mono)',
-          letterSpacing: -1,
-          display: 'flex',
-          alignItems: 'center',
-          paddingLeft: 5,
-          paddingRight: 5,
-          paddingTop: 2,
-          paddingBottom: 2,
-          fontSize: '0.92em',
-          lineHeight: '1em',
-          marginLeft: 1,
-          borderRadius: 3,
-        }}
-      >
-        <span
-          id="version-number"
-          className="decolorize-7"
-          style={{
-            position: 'relative',
-            top: 1,
-            color: 'var(--dp-color-text)',
-          }}
-        >
-          {version}
-        </span>
-        <span className="dp-icon-mono" style={{ display: 'inline-flex', marginLeft: 5 }}>
-          <img className="decolorize-6" src={iconChangelog} height={14} />
-        </span>
-      </div>
+    <a href={changeLogUrl} className="version-badge" aria-label="Changelog">
+      <span id="version-number">v{version}</span>
     </a>
   )
 }
@@ -114,11 +73,7 @@ function LinkIcon({
 
   return (
     <>
-      <a
-        className={mono ? 'colorize-on-hover dp-icon-mono' : 'colorize-on-hover'}
-        href={href}
-        style={{ padding: 3, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
-      >
+      <a className={mono ? 'icon-button colorize-on-hover dp-icon-mono' : 'icon-button colorize-on-hover'} href={href}>
         <img className={className} src={icon} height={height} style={{ ...style, height }} />
       </a>
     </>

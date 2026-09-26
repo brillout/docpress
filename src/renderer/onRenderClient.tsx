@@ -13,6 +13,7 @@ import { initKeyBindings } from '../initKeyBindings.js'
 import { initOnNavigation } from './initOnNavigation.js'
 import { setHydrationIsFinished } from './getHydrationPromise.js'
 import { addScript } from '../utils/addScript.js'
+import { initThemeListener } from '../theme/applyTheme.js'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -53,6 +54,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   setHydrationIsFinished()
   initGoogleAnalytics(pageContext)
   initUmami(pageContext)
+  if (!globalObject.isNotFirstRender && pageContext.config.docpress.darkMode) initThemeListener()
 
   globalObject.isNotFirstRender = true
 }

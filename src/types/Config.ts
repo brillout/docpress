@@ -30,6 +30,15 @@ type Config = {
    */
   headHtml?: string
 
+  /**
+   * Adds a light/dark/system switch to the top bar.
+   *
+   * The appearance follows the OS (`prefers-color-scheme`) until the user picks one, which is persisted in `localStorage`.
+   *
+   * @default false
+   */
+  darkMode?: boolean
+
   github: string
   discord?: string
   twitter?: string

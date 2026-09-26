@@ -1,0 +1,23 @@
+/* DocSearch's own dark palette only applies to `html[data-theme=dark]`: map it to the DocPress palette instead */
+:root.dark,
+:root[data-theme='dark'] {
+  --docsearch-text-color: var(--dp-color-text);
+  --docsearch-muted-color: var(--dp-color-muted);
+  --docsearch-primary-color: var(--dp-color-primary);
+  --docsearch-highlight-color: var(--dp-color-primary);
+  --docsearch-container-background: rgba(0, 0, 0, 0.6);
+  --docsearch-modal-background: var(--dp-color-surface);
+  --docsearch-modal-shadow: inset 1px 1px 0 0 var(--dp-color-border), 0 3px 8px 0 rgb(0 0 0 / 60%);
+  --docsearch-searchbox-background: var(--dp-color-bg);
+  --docsearch-searchbox-focus-background: var(--dp-color-bg);
+  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--dp-color-primary);
+  --docsearch-hit-color: var(--dp-color-text);
+  --docsearch-hit-active-color: #fff;
+  --docsearch-hit-background: var(--dp-color-surface-elevated);
+  --docsearch-hit-shadow: none;
+  --docsearch-key-gradient: linear-gradient(-26.5deg, var(--dp-color-border), var(--dp-color-surface-elevated));
+  --docsearch-key-shadow: inset 0 -2px 0 0 var(--dp-color-border), inset 0 0 1px 1px var(--dp-color-border-strong);
+  --docsearch-footer-background: var(--dp-color-surface-elevated);
+  --docsearch-footer-shadow: inset 0 1px 0 0 var(--dp-color-border);
+  --docsearch-logo-color: var(--dp-color-text);
+}

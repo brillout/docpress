@@ -57,3 +57,12 @@ figure[data-rehype-pretty-code-figure] {
     }
   }
 }
+
+/* Dual Shiki themes (see getHighlighter.ts): each token carries both colors as CSS variables */
+code[data-theme] span {
+  color: var(--shiki-light);
+}
+:root.dark code[data-theme] span,
+:root[data-theme='dark'] code[data-theme] span {
+  color: var(--shiki-dark);
+}

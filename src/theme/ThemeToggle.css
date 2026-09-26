@@ -1,0 +1,29 @@
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  padding: 0;
+  margin-left: 4px;
+  border: 0;
+  border-radius: var(--dp-radius-md);
+  background: transparent;
+  color: var(--dp-color-muted);
+  cursor: pointer;
+  &:hover {
+    color: var(--dp-color-text);
+    background: var(--dp-color-surface-hover);
+  }
+}
+.theme-toggle-icon {
+  display: none;
+  line-height: 0;
+}
+/* Before the <head> script ran (it always runs before paint) or without JS: show the default */
+:root:not([data-theme-preference]) .theme-toggle-system,
+:root[data-theme-preference='system'] .theme-toggle-system,
+:root[data-theme-preference='light'] .theme-toggle-light,
+:root[data-theme-preference='dark'] .theme-toggle-dark {
+  display: inline-flex;
+}

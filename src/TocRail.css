@@ -1,0 +1,53 @@
+#toc-rail {
+  display: none;
+  flex-shrink: 0;
+  background: var(--color-bg-gray);
+}
+.toc-rail-sticky {
+  position: sticky;
+  top: var(--nav-head-sticky-offset);
+  max-height: calc(100vh - var(--nav-head-sticky-offset));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 32px 16px 32px 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* The track the active marker sits on */
+    border-left: 1px solid var(--dp-color-border);
+  }
+}
+.toc-rail-title {
+  font-size: var(--dp-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dp-color-muted);
+  margin-bottom: 10px;
+}
+.toc-item {
+  position: relative;
+  display: block;
+  padding: 4px 0 4px 14px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--dp-color-muted);
+  &:hover {
+    color: var(--dp-color-text);
+  }
+  &.toc-item-active {
+    color: var(--dp-color-primary);
+    border-left-color: var(--dp-color-primary);
+  }
+  code {
+    font-size: 0.92em;
+    padding: 1px 4px;
+  }
+}
+.toc-item-level-3 {
+  padding-left: 26px;
+  font-size: 12.5px;
+}

@@ -83,6 +83,15 @@ function resolvePageContext(pageContext: PageContextServer) {
 
   const choices = config.choices && resolveChoices(config.choices)
 
+  // "On this page": the page's `##` and `###` headings
+  const tocItems = pageSections
+    .filter((pageSection) => pageSection.pageSectionId !== null && [2, 3].includes(pageSection.pageSectionLevel))
+    .map((pageSection) => ({
+      id: pageSection.pageSectionId!,
+      title: pageSection.pageSectionTitle,
+      level: pageSection.pageSectionLevel,
+    }))
+
   const resolved = {
     navItemsAll,
     navItemsDetached,
@@ -93,6 +102,7 @@ function resolvePageContext(pageContext: PageContextServer) {
     documentTitle,
     activeCategoryName,
     choices,
+    tocItems,
   }
   return resolved
 }

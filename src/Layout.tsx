@@ -35,6 +35,7 @@ import { Style } from './utils/Style.js'
 import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { EditLink } from './EditLink.js'
+import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
 import './Layout.css'
 
 const blockMargin = 4
@@ -47,7 +48,8 @@ const viewMobile = 450
 const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
-const bodyMaxWidth = 1300
+// Wide enough for the three columns: left navigation + page content + "On this page"
+const bodyMaxWidth = 1520
 
 // Scroll fade effect at top/bottom edges
 const scrollFadeMask: React.CSSProperties = {
@@ -126,6 +128,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
           </>
         )}
         <PageContent>{children}</PageContent>
+        {!isNavLeftAlwaysHidden() && <TocRail />}
       </div>
       <Style>{css`
 @container container-viewport (max-width: ${viewDesktopLarge - 1}px) {
@@ -148,6 +151,28 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 @container container-viewport (max-width: ${viewDesktopLarge - 1}px) and (min-width: ${viewDesktop}px) {
   .page-content {
     --hash-offset: 27px;
+  }
+}
+@container container-viewport (min-width: ${viewTocRail}px) {
+  #toc-rail {
+    display: block;
+    width: ${tocRailWidth}px;
+  }
+  .doc-page:has(#toc-rail) {
+    /* The page content gives up some width to the rail */
+    .page-wrapper {
+      min-width: ${mainViewWidthMax - 120}px !important;
+    }
+    /* The rail lists the page's sections: don't also expand them in the left navigation */
+    #nav-left .nav-item-level-3 {
+      display: none;
+    }
+  }
+}
+@container container-viewport (min-width: ${viewTocRail}px) and (max-width: ${viewTocRail + 119}px) {
+  .doc-page:has(#toc-rail) #nav-left {
+    /* Make room for the rail */
+    min-width: ${navLeftWidthMin + blockMargin}px;
   }
 }
 `}</Style>

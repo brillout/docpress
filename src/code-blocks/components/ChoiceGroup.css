@@ -8,8 +8,8 @@
 .choice-group-container {
   position: relative;
 
-  --bevel-1: var(--dp-color-border-strong);
-  --bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 94%, var(--dp-color-text));
+  --bevel-1: color-mix(in srgb, var(--dp-color-border-strong) 75%, var(--dp-color-bg));
+  --bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 84%, var(--dp-color-bg));
 
   /* layout */
   --top-position: 10px;

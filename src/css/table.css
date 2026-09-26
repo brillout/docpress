@@ -7,7 +7,7 @@ table {
 table td,
 table th {
   padding: 8px;
-  border: 1px solid var(--dp-color-border);
+  border: 1px solid color-mix(in srgb, var(--dp-color-border-strong) 60%, var(--dp-color-bg));
 }
 table th {
   text-align: left;

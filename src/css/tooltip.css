@@ -19,7 +19,7 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    background: var(--dp-color-surface-elevated);
+    background: var(--dp-color-bg);
     padding: 3px 10px;
     box-shadow: var(--dp-shadow-popover);
     border-radius: var(--dp-radius-md);

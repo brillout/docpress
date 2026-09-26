@@ -1,6 +1,6 @@
 button,
 .button {
-  background-color: var(--dp-color-surface-elevated);
+  background-color: color-mix(in srgb, var(--dp-color-surface-elevated), var(--dp-color-surface));
   color: var(--dp-color-text);
   border: 1px solid var(--dp-color-border-strong);
   border-radius: var(--dp-radius-md);
@@ -9,9 +9,9 @@ button,
 
 /* Raised button */
 .raised {
-  --bevel-1: var(--dp-color-border-strong);
-  --bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 94%, var(--dp-color-text));
-  --bevel-3: color-mix(in srgb, var(--dp-color-border-strong) 85%, var(--dp-color-text));
+  --bevel-1: color-mix(in srgb, var(--dp-color-border-strong) 75%, var(--dp-color-bg));
+  --bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 84%, var(--dp-color-bg));
+  --bevel-3: var(--dp-color-border-strong);
   cursor: pointer;
   border-radius: var(--dp-radius-md);
   border-style: solid;

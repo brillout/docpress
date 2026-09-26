@@ -18,12 +18,10 @@
   /* Surfaces */
   --dp-color-bg: #fdfdfd;
   --dp-color-surface: #f5f5f5;
-  /* Tint mixed from the text color, so it follows the appearance (dark text -> dark tint on light, and vice versa) */
-  --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-text) 3%, transparent);
   /* Floating UI: dropdowns, tooltips, buttons */
   --dp-color-surface-elevated: #ffffff;
   --dp-color-border: #e3e3e3;
-  --dp-color-border-strong: #bfbfbf;
+  --dp-color-border-strong: #aaa;
 
   /* Text */
   --dp-color-text: #323d48;
@@ -33,7 +31,6 @@
 
   /* Accent */
   --dp-color-primary: #4747ff;
-  --dp-color-primary-soft: color-mix(in srgb, var(--dp-color-primary) 10%, transparent);
 
   /* Code */
   --dp-color-code-bg: rgba(0, 0, 0, 0.043);
@@ -65,8 +62,14 @@
   --dp-font-size-h1: 2.3em;
   --dp-font-size-h2: 1.8em;
   --dp-font-size-h3: 1.25em;
-  --dp-font-size-sm: 14.4px;
   --dp-font-size-xs: 12px;
+}
+
+/* Tokens derived from other tokens. On `body` (not `:root`) so that they're computed from a site's `body` overrides. */
+body {
+  /* Tint mixed from the text color, so it follows the appearance (dark text -> dark tint on light, and vice versa) */
+  --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-text) 3%, transparent);
+  --dp-color-primary-soft: color-mix(in srgb, var(--dp-color-primary) 10%, transparent);
 
   /* Long-standing aliases, used by host sites (e.g. telefunc.com's landing page) */
   --color-bg-white: var(--dp-color-bg);

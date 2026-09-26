@@ -83,7 +83,6 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        ['--color-bg-gray']: 'var(--dp-color-surface, #f5f5f5)',
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `63px`,
@@ -357,7 +356,7 @@ function NavHead() {
             margin: 'auto',
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
-            color: 'var(--dp-color-muted, #666)',
+            color: 'var(--dp-color-muted)',
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -599,7 +598,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
           width: 11,
           marginLeft: 'calc(var(--icon-text-padding) - 1px)',
           flexShrink: 0,
-          color: 'var(--dp-color-muted, #888)',
+          color: 'var(--dp-color-subtle)',
           position: 'relative',
           top: 1,
         }}

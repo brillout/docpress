@@ -7,8 +7,8 @@
 
 /* Inline <code> */
 code {
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.063137255);
+  border-radius: var(--dp-radius-sm);
+  background: var(--dp-color-code-inline-bg);
   font-size: 1.1em;
-  font-family: var(--dp-font-mono, monospace);
+  font-family: var(--dp-font-mono);
 }

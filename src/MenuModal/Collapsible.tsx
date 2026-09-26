@@ -25,7 +25,7 @@ function Collapsible({
     if (!disabled) {
       setIsAnimating(true)
       if (!collapsed) {
-        // If expanding, set height to current scroll height before animation
+        // If collapsing, set height to current scroll height before animation
         contentRef.current!.style.height = `${contentRef.current!.scrollHeight}px`
         // Force a reflow
         contentRef.current!.offsetHeight
@@ -34,8 +34,8 @@ function Collapsible({
     }
   }
 
-  const onTransitionEnd = () => {
-    setIsAnimating(false)
+  const onTransitionEnd = (e: React.TransitionEvent) => {
+    if (e.propertyName === 'height') setIsAnimating(false)
   }
 
   const showContent = disabled ? true : !collapsed
@@ -50,6 +50,7 @@ function Collapsible({
         onTransitionEnd={onTransitionEnd}
         style={{
           height: !showContent ? 0 : isAnimating ? contentRef.current!.scrollHeight : 'auto',
+          width: !showContent ? 0 : 'auto',
           overflow: 'hidden',
           transition: 'none 0.3s ease',
           transitionProperty: 'height, margin-bottom',
@@ -57,7 +58,7 @@ function Collapsible({
         }}
         aria-expanded={showContent}
       >
-        {children}
+        <div style={{ minWidth: 'max-content' }}>{children}</div>
       </div>
     </div>
   )

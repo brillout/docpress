@@ -10,6 +10,9 @@
 
   /* layout */
   --top-position: 10px;
+  &:has(.code-block-header) {
+    --top-position: 6px;
+  }
   --border-radius: var(--dp-radius-md);
   --transition-select-list-duration: 180ms;
   --transition-select-option-duration: 120ms;
@@ -58,9 +61,7 @@
     right: 0;
     height: var(--option-height);
 
-    border-style: solid;
-    border-width: 1px 2px 2px 1px;
-    border-color: var(--dp-bevel-1) var(--dp-bevel-2) var(--dp-bevel-2) var(--dp-bevel-1);
+    border: 1px solid var(--dp-color-border);
 
     border-radius: var(--border-radius);
     pointer-events: none;
@@ -302,5 +303,31 @@
   select:has(option:nth-of-type(6):not(:checked)) ~ .choice:nth-of-type(6),
   select:has(option:nth-of-type(7):not(:checked)) ~ .choice:nth-of-type(7) {
     display: none;
+  }
+}
+
+/* Hover devices: the dropdown appears upon hovering; it already names the choice, so the label steps aside meanwhile */
+@media (hover: hover) and (pointer: fine) {
+  .choice-group-container:not(.always-show):has(> .choice-group__selects):hover .code-block-language {
+    visibility: hidden;
+  }
+}
+/* Where the dropdown is always shown (touch devices, `alwaysShow`), the header makes room for it instead */
+.choice-group-container.always-show:has(> .choice-group__selects) .code-block-header {
+  padding-right: min(60%, 260px);
+}
+@media not all and (hover: hover) and (pointer: fine) {
+  .choice-group-container:has(> .choice-group__selects) .code-block-header {
+    padding-right: min(60%, 260px);
+  }
+}
+/* The always-shown JavaScript/TypeScript dropdown already names the language */
+.choice-group-container.always-show:has(> .choice-group__selects):has(select[data-choice-group='codeLang'])
+  .code-block-language {
+  visibility: hidden;
+}
+@media not all and (hover: hover) and (pointer: fine) {
+  .choice-group-container:has(> .choice-group__selects):has(select[data-choice-group='codeLang']) .code-block-language {
+    visibility: hidden;
   }
 }

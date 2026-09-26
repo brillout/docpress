@@ -1,14 +1,19 @@
-table th {
-  background-color: var(--dp-color-surface);
-}
+/* Horizontal hairlines only, no cell backgrounds */
 table {
   border-collapse: collapse;
+  font-size: 0.9375em;
 }
 table td,
 table th {
-  padding: 8px;
-  border: 1px solid color-mix(in srgb, var(--dp-color-border-strong) 60%, var(--dp-color-bg));
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid var(--dp-color-border);
+  text-align: left;
+  vertical-align: top;
 }
 table th {
-  text-align: left;
+  font-weight: 600;
+  border-bottom-color: var(--dp-color-border-strong);
+}
+table tr > :last-child {
+  padding-right: 0;
 }

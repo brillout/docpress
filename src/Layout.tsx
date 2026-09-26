@@ -41,14 +41,15 @@ import './Layout.css'
 // Hairline between the top nav, the left nav and the page
 const blockMargin = 1
 const mainViewPadding = 20
-const mainViewWidthMaxInner = 800
-const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
+// About 75 characters per line
+const mainViewWidthMaxInner = 720
+const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 760 // 760 = 720 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1141 // 1141 = 840 + 300 + 1
-const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1211 // 1211 = 840 + 370 + 1
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1061 // 1061 = 760 + 300 + 1
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1131 // 1131 = 760 + 370 + 1
 // Wide enough for the three columns: left navigation + page content + "On this page"
 const bodyMaxWidth = 1520
 

@@ -1,5 +1,17 @@
-pre > code {
+pre {
+  /* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
+  font-size: 13px;
+  line-height: 1.5;
   background: var(--dp-color-code-bg);
+  border: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-lg);
+}
+.doc-page pre {
+  font-size: 14px;
+  line-height: 1.7;
+}
+pre > code {
+  background: transparent;
   font-size: 1em;
   font-family: var(--dp-font-mono);
 }
@@ -18,18 +30,22 @@ pre {
 
   .copy-button {
     position: absolute !important;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     margin: 0;
-    height: 25px;
-    width: 30px;
-    background-color: var(--dp-color-surface-elevated);
-    color: var(--dp-color-text);
+    padding: 0;
+    height: 28px;
+    width: 28px;
+    border: 0;
+    border-radius: var(--dp-radius-md);
+    background: transparent;
+    color: var(--dp-color-muted);
     opacity: 0;
-    transition: background-color 0.4s ease-in-out, opacity 200ms ease-in-out;
+    transition: color 150ms ease, background-color 150ms ease, opacity 150ms ease;
 
-    &:not(:hover) {
-      background-color: var(--dp-color-surface);
+    &:hover {
+      color: var(--dp-color-text);
+      background-color: var(--dp-color-surface-hover);
     }
 
     & svg {
@@ -40,6 +56,32 @@ pre {
       stroke-linejoin: round;
     }
   }
+}
+
+/* Header row: language, and the choice dropdown + copy button (positioned over it) */
+.code-block-header {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-lg) var(--dp-radius-lg) 0 0;
+  background: color-mix(in srgb, var(--dp-color-text) 2.5%, transparent);
+  font-family: var(--dp-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dp-color-muted);
+  /* Room for the copy button */
+  padding-right: 48px;
+  .code-block-language {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+pre:has(> .code-block-header) .copy-button {
+  top: 5px;
+  right: 6px;
 }
 
 /* Workaround for shiki regression */

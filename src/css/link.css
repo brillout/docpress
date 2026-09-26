@@ -4,3 +4,8 @@ a {
 .doc-page a[href]:not(.nav-item, .toc-item, .version-badge) {
   color: var(--dp-color-primary);
 }
+.doc-page .page-content a[href]:not(.page-pagination-link, .page-edit-link, .toc-item):hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}

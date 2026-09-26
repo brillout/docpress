@@ -9,6 +9,13 @@
 code {
   border-radius: var(--dp-radius-sm);
   background: var(--dp-color-code-inline-bg);
-  font-size: 1.1em;
+  font-size: 0.875em;
   font-family: var(--dp-font-mono);
+  letter-spacing: normal;
+}
+/* In headings and the "On this page" rail, code is plain monospace text */
+:is(h1, h2, h3, h4, h5, h6, .toc-item) code {
+  background: none;
+  padding: 0;
+  font-size: 0.92em;
 }

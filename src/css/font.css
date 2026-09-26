@@ -10,3 +10,8 @@ body {
   color: var(--dp-color-text);
   line-height: 1.5;
 }
+
+/* Long-form reading: the line height of the reference docs sites (1.7) */
+.page-content {
+  line-height: 1.7;
+}

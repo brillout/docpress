@@ -1,11 +1,7 @@
 pre > code {
-  /*
-  background-color: #f4f4f4;
-  0.043137255 = 1 - (#f4 / #ff)
-  */
-  background: rgba(0, 0, 0, 0.043137255);
+  background: var(--dp-color-code-bg);
   font-size: 1em;
-  font-family: var(--dp-font-mono, monospace);
+  font-family: var(--dp-font-mono);
 }
 
 /* Copy button */
@@ -27,12 +23,13 @@ pre {
     margin: 0;
     height: 25px;
     width: 30px;
-    background-color: #f7f7f7;
+    background-color: var(--dp-color-surface-elevated);
+    color: var(--dp-color-text);
     opacity: 0;
     transition: background-color 0.4s ease-in-out, opacity 200ms ease-in-out;
 
     &:not(:hover) {
-      background-color: #eee;
+      background-color: var(--dp-color-surface);
     }
 
     & svg {

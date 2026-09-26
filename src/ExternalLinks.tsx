@@ -17,6 +17,7 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
   const iconI18n = !i18n ? null : (
     <LinkIcon
       className="decolorize-4"
+      mono
       icon={iconLanguages}
       href={'/languages'}
       style={{ height: 21, position: 'relative', top: 0, left: 0 }}
@@ -31,10 +32,12 @@ function ExternalLinks(props: { style?: React.CSSProperties }) {
         ...props.style,
       }}
     >
-      <LinkIcon className="decolorize-4" icon={iconGithub} href={github} iconSizeBoost={1} />
+      <LinkIcon className="decolorize-4" mono icon={iconGithub} href={github} iconSizeBoost={1} />
       {iconI18n}
       {discord && <LinkIcon className="decolorize-6" icon={iconDiscord} href={discord} />}
-      {twitter && <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} />}
+      {twitter && (
+        <LinkIcon className="decolorize-4" mono icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} />
+      )}
       {bluesky && <LinkIcon className="decolorize-6" icon={iconBluesky} href={`https://bsky.app/profile/${bluesky}`} />}
       {linkedin && (
         <LinkIcon className="decolorize-6" icon={iconLinkedin} href={`https://www.linkedin.com/company/${linkedin}`} />
@@ -62,8 +65,8 @@ function ChangelogButton() {
       <div
         className="button"
         style={{
-          background: '#ffffff4f',
-          fontFamily: 'var(--dp-font-mono, monospace)',
+          background: 'color-mix(in srgb, var(--dp-color-surface-elevated) 31%, transparent)',
+          fontFamily: 'var(--dp-font-mono)',
           letterSpacing: -1,
           display: 'flex',
           alignItems: 'center',
@@ -88,7 +91,9 @@ function ChangelogButton() {
         >
           {version}
         </span>
-        <img className="decolorize-6" src={iconChangelog} height={14} style={{ marginLeft: 5 }} />
+        <span className="dp-icon-mono" style={{ display: 'inline-flex', marginLeft: 5 }}>
+          <img className="decolorize-6" src={iconChangelog} height={14} />
+        </span>
       </div>
     </a>
   )
@@ -100,13 +105,14 @@ function LinkIcon({
   href,
   style,
   iconSizeBoost = 0,
-}: { className: string; icon: string; href: string; style?: any; iconSizeBoost?: number }) {
+  mono,
+}: { className: string; icon: string; href: string; style?: any; iconSizeBoost?: number; mono?: true }) {
   const height = 18 + iconSizeBoost
 
   return (
     <>
       <a
-        className="colorize-on-hover"
+        className={mono ? 'colorize-on-hover dp-icon-mono' : 'colorize-on-hover'}
         href={href}
         style={{ padding: 3, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
       >

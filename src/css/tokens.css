@@ -34,15 +34,19 @@
 
   /* Code */
   --dp-color-code-bg: rgba(0, 0, 0, 0.043);
-  --dp-color-code-inline-bg: rgba(0, 0, 0, 0.063);
+  --dp-color-code-inline-bg: rgba(0, 0, 0, 0.05);
   --dp-color-code-highlight: rgba(0, 0, 0, 0.1);
   --dp-color-diff-add-bg: #d7ecdf;
   --dp-color-diff-add: #89d189;
   --dp-color-diff-remove-bg: #fbdcda;
   --dp-color-diff-remove: #f18383;
 
-  /* Status */
+  /* Status (callouts, copy feedback) */
   --dp-color-success: #28a745;
+  --dp-color-info: #3b6fe0;
+  --dp-color-warning: #c27c00;
+  --dp-color-danger: #d42a3c;
+  --dp-color-advanced: #b0359a;
 
   /* Shadows */
   --dp-color-shadow: rgba(0, 0, 0, 0.11);
@@ -58,7 +62,8 @@
 
   /* Type */
   --dp-font-sans: 'Inter', sans-serif;
-  --dp-font-mono: monospace;
+  /* Not bare `monospace`: browsers render it at 13px instead of the inherited size, and pick wide fonts (Courier, DejaVu) */
+  --dp-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
   --dp-font-size-h1: 2.3em;
   --dp-font-size-h2: 1.8em;
   --dp-font-size-h3: 1.25em;
@@ -98,12 +103,16 @@ body {
   --dp-color-primary: #8aa0ff;
 
   --dp-color-code-bg: rgba(255, 255, 255, 0.035);
-  --dp-color-code-inline-bg: rgba(255, 255, 255, 0.08);
+  --dp-color-code-inline-bg: rgba(255, 255, 255, 0.07);
   --dp-color-code-highlight: rgba(255, 255, 255, 0.1);
   --dp-color-diff-add-bg: rgba(46, 160, 67, 0.2);
   --dp-color-diff-remove-bg: rgba(248, 81, 73, 0.2);
 
   --dp-color-success: #3fb950;
+  --dp-color-info: #6f9bff;
+  --dp-color-warning: #e3a33b;
+  --dp-color-danger: #f26b78;
+  --dp-color-advanced: #e27bd0;
 
   --dp-color-shadow: rgba(0, 0, 0, 0.45);
   --dp-shadow-popover: 2px 4px 7px 0 rgb(0 0 0 / 45%);

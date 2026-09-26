@@ -10,6 +10,9 @@
 
   /* layout */
   --top-position: 10px;
+  &:has(.code-block-header) {
+    --top-position: 6px;
+  }
   --border-radius: var(--dp-radius-md);
   --transition-select-list-duration: 180ms;
   --transition-select-option-duration: 120ms;

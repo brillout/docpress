@@ -24,12 +24,19 @@ type AdditionalProps = {
 
 function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & AdditionalProps) {
   const { className, ...rest } = props
+  const language = (props as Record<string, unknown>)['data-language']
+  const languageLabel = typeof language === 'string' ? getLanguageLabel(language) : null
 
   return (
     <pre
       className={cls([className, props['file-added'] && classAdded, props['file-removed'] && classRemoved])}
       {...rest}
     >
+      {languageLabel && (
+        <div className="code-block-header">
+          <span className="code-block-language">{languageLabel}</span>
+        </div>
+      )}
       {children}
       {!props['hide-menu'] && <CopyButton />}
     </pre>
@@ -74,7 +81,8 @@ function CopyButton() {
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
     let success: boolean
     const preEl = e.currentTarget.parentElement!
-    let text = preEl.textContent || ''
+    // Only the code, not the header
+    let text = preEl.querySelector('code')?.textContent || ''
     text = removeTrailingWhitespaces(text)
     try {
       await navigator.clipboard.writeText(text)
@@ -86,6 +94,38 @@ function CopyButton() {
     onCopy(success)
   }
 }
+const languageLabels: Record<string, string> = {
+  js: 'JavaScript',
+  javascript: 'JavaScript',
+  jsx: 'JSX',
+  ts: 'TypeScript',
+  typescript: 'TypeScript',
+  tsx: 'TSX',
+  vue: 'Vue',
+  svelte: 'Svelte',
+  json: 'JSON',
+  jsonc: 'JSON',
+  html: 'HTML',
+  css: 'CSS',
+  md: 'Markdown',
+  mdx: 'MDX',
+  yaml: 'YAML',
+  yml: 'YAML',
+  toml: 'TOML',
+  sh: 'Shell',
+  shell: 'Shell',
+  bash: 'Shell',
+  zsh: 'Shell',
+  diff: 'Diff',
+  sql: 'SQL',
+  graphql: 'GraphQL',
+  dockerfile: 'Dockerfile',
+}
+function getLanguageLabel(language: string): string | null {
+  if (language === 'plaintext' || language === 'text' || language === 'txt') return null
+  return languageLabels[language] ?? language
+}
+
 function removeTrailingWhitespaces(text: string) {
   return text
     .split('\n')

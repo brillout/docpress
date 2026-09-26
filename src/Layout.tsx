@@ -14,8 +14,8 @@ export { scrollFadeMask }
 //   - But we still use @media because using @container is complicated(/buggy?) to use inside <MenuModal> because of `position: fixed`.
 // - We use --padding-side because we cannot set a fixed max-width on the <NavHead> container .nav-head-content — DocPress doesn't know how many extra <NavHead> elements the user adds using the +docpress.topNavigation setting.
 
-import React from 'react'
-import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent.js'
+import React, { useId, useState } from 'react'
+import { getNavItemsWithComputed, NavItem, NavItemComponent, type NavItemComputed } from './NavItemComponent.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { usePageContext } from './renderer/usePageContext.js'
 import { ExternalLinks } from './ExternalLinks.js'
@@ -38,7 +38,8 @@ import { EditLink } from './EditLink.js'
 import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
 import './Layout.css'
 
-const blockMargin = 4
+// Hairline between the top nav, the left nav and the page
+const blockMargin = 1
 const mainViewPadding = 20
 const mainViewWidthMaxInner = 800
 const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
@@ -46,8 +47,8 @@ const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
-const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1141 // 1141 = 840 + 300 + 1
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1211 // 1211 = 840 + 370 + 1
 // Wide enough for the three columns: left navigation + page content + "On this page"
 const bodyMaxWidth = 1520
 
@@ -120,11 +121,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
         {!isNavLeftAlwaysHidden() && (
           <>
             <NavLeft />
-            <div
-              id="nav-left-margin"
-              className="low-prio-grow"
-              style={{ width: 0, maxWidth: 50, background: 'var(--color-bg-gray)' }}
-            />
+            <div id="nav-left-margin" className="low-prio-grow" style={{ width: 0, maxWidth: 50 }} />
           </>
         )}
         <PageContent>{children}</PageContent>
@@ -204,7 +201,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
         // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
         minWidth: 0,
         ...ifDocPage({
-          backgroundColor: 'var(--color-bg-gray)',
           paddingBottom: 50,
         }),
       }}
@@ -241,7 +237,7 @@ function NavLeft() {
         id="nav-left"
         className="link-hover-animation"
         style={{
-          borderRight: 'var(--block-margin) solid var(--color-bg-white)',
+          borderRight: 'var(--block-margin) solid var(--dp-color-border)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
@@ -254,11 +250,7 @@ function NavLeft() {
             top: 'var(--nav-head-sticky-offset)',
           }}
         >
-          <div
-            style={{
-              backgroundColor: 'var(--color-bg-gray)',
-            }}
-          >
+          <div>
             <div
               id="navigation-container"
               style={{
@@ -304,11 +296,61 @@ function NavigationContent(props: {
 
   let navItemsRelevant = navItemsWithComputed
   if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
-  const navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
+  const navContent = groupByLabel(navItemsRelevant).map(({ label, navItems, key }, i) => {
+    const items = navItems.map((navItem, j) => <NavItemComponent navItem={navItem} key={j} />)
+    return label ? (
+      // Keyed by identity (not index), so that a group's collapsed state doesn't leak to another group upon navigation
+      <NavGroup label={label} key={key}>
+        {items}
+      </NavGroup>
+    ) : (
+      <React.Fragment key={i}>{items}</React.Fragment>
+    )
+  })
 
   return (
     <div className="navigation-content" style={{ marginTop: 10 }}>
       {navContent}
+    </div>
+  )
+}
+// A group is a level-4 heading (e.g. `Basics`) and the items up to the next level-4 or level-1 heading
+function groupByLabel(navItems: NavItemComputed[]) {
+  const groups: { label: NavItemComputed | null; navItems: NavItemComputed[]; key: string }[] = []
+  let current: (typeof groups)[number] | null = null
+  let category = ''
+  for (const navItem of navItems) {
+    if (navItem.level === 1) category = navItem.title
+    if (navItem.level === 4 || navItem.level === 1 || !current) {
+      current = { label: navItem.level === 4 ? navItem : null, navItems: [], key: `${category}/${navItem.title}` }
+      groups.push(current)
+      if (navItem.level === 4) continue
+    }
+    current.navItems.push(navItem)
+  }
+  return groups
+}
+// Collapsible group of the left navigation. Rendered expanded (the server doesn't know what the user collapsed).
+function NavGroup({ label, children }: { label: NavItemComputed; children: React.ReactNode }) {
+  const [collapsed, setCollapsed] = useState(false)
+  const id = useId()
+  return (
+    <div className="nav-group">
+      <button
+        type="button"
+        className="nav-group-toggle"
+        aria-expanded={!collapsed}
+        aria-controls={id}
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        <NavItemComponent navItem={label} />
+        <svg className="nav-group-chevron" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+          <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+      </button>
+      <div id={id} hidden={collapsed}>
+        {children}
+      </div>
     </div>
   )
 }
@@ -357,9 +399,9 @@ function NavHead() {
     <div
       className={cls(['nav-head link-hover-animation', !!navMaxWidth && 'has-max-width'])}
       style={{
-        backgroundColor: 'var(--color-bg-gray)',
+        backgroundColor: 'var(--dp-color-bg)',
         position: 'relative',
-        boxShadow: `0 ${blockMargin}px 0 var(--color-bg-white)`,
+        boxShadow: `0 ${blockMargin}px 0 var(--dp-color-border)`,
       }}
     >
       <div

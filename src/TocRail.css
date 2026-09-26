@@ -1,7 +1,6 @@
 #toc-rail {
   display: none;
   flex-shrink: 0;
-  background: var(--color-bg-gray);
 }
 .toc-rail-sticky {
   position: sticky;

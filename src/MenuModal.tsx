@@ -27,7 +27,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
           width: '100%',
           top: 'var(--nav-head-height)',
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
-          background: 'var(--dp-color-surface)',
+          background: 'var(--dp-color-bg)',
           transitionProperty: 'opacity',
           transitionTimingFunction: 'ease',
           maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
@@ -76,7 +76,7 @@ function BorderBottom() {
     <div
       id="border-bottom"
       style={{
-        background: 'var(--color-bg-white)',
+        background: 'var(--dp-color-border)',
         height: 'var(--block-margin)',
         width: '100%',
       }}
@@ -91,6 +91,24 @@ function Nav() {
 
 function getStyle() {
   return css`
+.menu-modal-close {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-bg);
+  color: var(--dp-color-muted);
+  cursor: pointer;
+}
+
 @media(min-width: ${viewTablet + 1}px) {
   #menu-modal-scroll-container {
     max-height: calc(100vh - var(--nav-head-height) - var(--block-margin));
@@ -160,32 +178,20 @@ ${/* Hide same-page headings navigation */ ''}
 
 function CloseButton({ className }: { className: string }) {
   return (
-    <div
-      className={className}
-      onClick={closeMenuModal}
-      style={{ position: 'fixed', top: 0, right: 0, zIndex: 10, padding: 11, cursor: 'pointer' }}
-    >
-      <svg width="48.855" height="48.855" version="1.1" viewBox="0 0 22.901 22.901" xmlns="http://www.w3.org/2000/svg">
-        <circle
-          cx="11.45"
-          cy="11.45"
-          r="10.607"
-          fill="var(--dp-color-surface)"
-          stroke="var(--dp-color-muted)"
-          strokeDashoffset="251.44"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.6875"
-          style={{ paintOrder: 'normal' }}
-        />
-        <path
-          d="m7.5904 6.2204 3.86 3.86 3.84-3.84a0.92 0.92 0 0 1 0.66-0.29 1 1 0 0 1 1 1 0.9 0.9 0 0 1-0.27 0.66l-3.89 3.84 3.89 3.89a0.9 0.9 0 0 1 0.27 0.61 1 1 0 0 1-1 1 0.92 0.92 0 0 1-0.69-0.27l-3.81-3.86-3.85 3.85a0.92 0.92 0 0 1-0.65 0.28 1 1 0 0 1-1-1 0.9 0.9 0 0 1 0.27-0.66l3.89-3.84-3.89-3.89a0.9 0.9 0 0 1-0.27-0.61 1 1 0 0 1 1-1c0.24 3e-3 0.47 0.1 0.64 0.27z"
-          fill="var(--dp-color-muted)"
-          stroke="var(--dp-color-muted)"
-          strokeWidth=".11719"
-        />
+    <button type="button" className={`menu-modal-close ${className}`} onClick={closeMenuModal} aria-label="Close menu">
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        aria-hidden="true"
+      >
+        <path d="M18 6 6 18M6 6l12 12" />
       </svg>
-    </div>
+    </button>
   )
 }
 

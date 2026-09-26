@@ -32,31 +32,44 @@
   letter-spacing: 0.14ch;
   color: var(--dp-color-text);
   #menu-modal-wrapper & {
+    align-items: center;
     margin-top: 10px;
-    padding-left: 9px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    border-left: 3px solid var(--color-category);
+    padding: 6px 0 6px 12px;
+    border-left: 2px solid var(--color-category);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    img {
+      height: 18px !important;
+      width: 18px !important;
+      margin: 0 8px 0 0 !important;
+    }
+    /* Mobile: collapsible categories */
     .collapsible-expanded &,
     .collapsible-collapsed & {
       text-decoration: underline;
       text-decoration-color: var(--color-category);
-      text-decoration-thickness: 3px;
-      text-underline-offset: .3em;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 6px;
       border: 0;
       margin: 0;
-      padding: 10px;
-      padding-left: 14px;
+      padding: 12px 10px 12px 14px;
       img {
         display: none;
       }
     }
   }
+  /* The left navigation shows a single category: a quiet label, like the group labels below it */
   #nav-left & {
-    border-bottom: 3px solid var(--color-category);
-    padding-bottom: 2px;
-    margin-top: 3px;
-    margin-bottom: 10px;
+    align-items: center;
+    margin: 24px 0 12px var(--nav-indent);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--dp-color-muted);
+    img {
+      height: 16px !important;
+      width: 16px !important;
+      margin: 0 8px 0 0 !important;
+    }
   }
 }
 .nav-item-level-2 {
@@ -109,9 +122,6 @@
 }
 
 #nav-left {
-  .nav-item-level-1 {
-    margin-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
-  }
   .nav-head-logo {
     padding-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
   }
@@ -119,5 +129,139 @@
   .nav-item-level-3,
   .nav-item-level-4 {
     padding-left: min(30px, max(8px, 30 * (1vw - 12.7px)));
+  }
+}
+
+/* API names are plain monospace text, not pills */
+.nav-item code {
+  background: none;
+  padding: 0;
+  letter-spacing: normal;
+}
+.nav-item-level-2,
+.nav-item-level-3,
+.nav-item-level-4 {
+  letter-spacing: normal;
+}
+
+/* Left navigation: a hairline down each group; the current page is its text color and a segment of the hairline */
+#nav-left {
+  --nav-indent: clamp(16px, 30 * (1vw - 12.7px), 30px);
+  .nav-item-level-2,
+  .nav-item-level-3 {
+    margin: 0 12px 0 var(--nav-indent);
+    padding: 5px 12px;
+    border-left: 1px solid var(--dp-color-border);
+    white-space: normal;
+    color: var(--dp-color-muted);
+    background: none;
+    &:hover {
+      color: var(--dp-color-text);
+      border-left-color: var(--dp-color-border-strong);
+      background: none;
+    }
+    &.is-active {
+      color: var(--dp-color-primary);
+      border-left-color: var(--dp-color-primary);
+      background: none;
+    }
+  }
+  .nav-item-level-2 {
+    font-size: 14px;
+    code {
+      font-size: 13.5px;
+      line-height: 1;
+    }
+    &.is-active {
+      font-weight: 500;
+    }
+  }
+  /* The current page's sections (shown when there is no "On this page" rail) */
+  .nav-item-level-3 {
+    --box-shadow-top: 0 0;
+    --box-shadow-bottom: 0 0;
+    box-shadow: none;
+    font-size: 13px;
+    padding-left: 24px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    &.is-active {
+      color: var(--dp-color-muted);
+      border-left-color: var(--dp-color-border);
+    }
+  }
+  .nav-item-level-4 {
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dp-color-text);
+  }
+}
+
+/* Collapsible groups (level-4 headings) of the left navigation */
+.nav-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: calc(100% - 12px - var(--nav-indent));
+  margin: 20px 12px 6px var(--nav-indent);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--dp-color-muted);
+  text-align: left;
+  cursor: pointer;
+  &:hover {
+    color: var(--dp-color-text);
+  }
+}
+.nav-group:first-child .nav-group-toggle,
+.nav-item-level-1 + .nav-group .nav-group-toggle {
+  margin-top: 6px;
+}
+.nav-group-chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+  .nav-group-toggle[aria-expanded='false'] & {
+    transform: rotate(-90deg);
+  }
+}
+
+/* The Docs menu (and the mobile menu): the category's color bar is the only vertical line, so items are plain rows */
+#menu-modal-wrapper {
+  .nav-item-level-2,
+  .nav-item-level-3 {
+    --box-shadow-top: 0 0;
+    --box-shadow-bottom: 0 0;
+    box-shadow: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    white-space: normal;
+    color: var(--dp-color-muted);
+    background: none;
+    &:hover {
+      color: var(--dp-color-text);
+      background: none;
+    }
+  }
+  .nav-item-level-2.is-active {
+    color: var(--dp-color-primary);
+    font-weight: 500;
+  }
+  .nav-item-level-3 {
+    padding-left: calc(var(--padding-left-global) + 12px);
+    font-size: 13px;
+    &.is-active {
+      background: none;
+    }
+  }
+  .nav-item-level-4 {
+    padding-top: 16px;
+    padding-bottom: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dp-color-text);
   }
 }

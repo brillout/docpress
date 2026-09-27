@@ -120,6 +120,8 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
 ${/* Opening: visible at once (e.g. to move the focus inside) */ ''}
 html.menu-modal-show #menu-modal-wrapper {
   transition-property: opacity !important;
+  transition-duration: var(--dp-duration-reveal) !important;
+  transition-timing-function: var(--dp-ease-out) !important;
 }
 
 @media(min-width: ${viewTablet + 1}px) {
@@ -172,10 +174,14 @@ html.menu-modal-show #menu-modal-wrapper {
   html:not(.menu-modal-show) #menu-modal-wrapper {
     opacity: 0;
     pointer-events: none;
+    ${/* Closing is quicker than opening */ ''}
+    transition-duration: var(--dp-duration);
   }
   ${/* Disable scrolling of main view */ ''}
   html.menu-modal-show {
     overflow: hidden !important;
+    ${/* The page doesn't shift sideways when its (classic) scrollbar goes away */ ''}
+    scrollbar-gutter: stable;
   }
   #menu-modal-wrapper {
     --nav-head-height: 0px !important;

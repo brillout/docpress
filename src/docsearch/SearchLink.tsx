@@ -1,6 +1,6 @@
 export { SearchLink }
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { openDocsearchModal } from './toggleDocsearchModal.js'
 import './SearchLink.css'
 
@@ -24,6 +24,7 @@ function SearchLink(props: PropsAnchor) {
       }}
       role="button"
       tabIndex={0}
+      aria-label="Search"
       aria-keyshortcuts="Control+K Meta+K"
       onKeyDown={(ev) => {
         if (ev.key !== 'Enter' && ev.key !== ' ') return
@@ -40,13 +41,15 @@ function SearchLink(props: PropsAnchor) {
   )
 }
 
-// The server doesn't know the platform: render `Ctrl K` and switch to `⌘K` on Apple devices after hydration
+// The server doesn't know the platform: both are rendered, and CSS shows `⌘K` on Apple devices (the `dp-apple` class is
+// set before the first paint, see onRenderHtml.tsx): the hint doesn't change after hydration
 function ShortcutHint() {
-  const [isApple, setIsApple] = useState(false)
-  useEffect(() => {
-    setIsApple(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent))
-  }, [])
-  return <kbd className="search-box-kbd">{isApple ? '⌘K' : 'Ctrl K'}</kbd>
+  return (
+    <kbd className="search-box-kbd">
+      <span className="search-box-kbd-other">Ctrl K</span>
+      <span className="search-box-kbd-apple">⌘K</span>
+    </kbd>
+  )
 }
 
 function SearchIcon() {

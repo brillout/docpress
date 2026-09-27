@@ -56,6 +56,12 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   useEffect(() => {
     if (ids.length === 0) return
     let frame: number | null = null
+    let jump: { id: string; scrollY: number } | null = null
+    const onJump = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1))
+      jump = id ? { id, scrollY: window.scrollY } : null
+      onScroll()
+    }
     const update = () => {
       frame = null
       // The n-th element with the n-th occurrence of an id (a page can repeat a heading)
@@ -79,11 +85,12 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       tops.forEach((top, i) => {
         if (top !== null && top <= line) activeIndex = i
       })
-      // Just jumped to a section (e.g. a click on the rail): it's the active one while its heading is in view
-      const jumpedTo = ids.indexOf(decodeURIComponent(window.location.hash.slice(1)))
-      const jumpedToTop = tops[jumpedTo]
-      if (jumpedToTop != null && jumpedToTop >= stickyOffset - 1 && jumpedToTop < window.innerHeight) {
-        activeIndex = jumpedTo
+      // Just jumped to a section (e.g. a click on the rail): it's the active one until the reader scrolls away
+      if (jump && Math.abs(window.scrollY - jump.scrollY) < 8) {
+        const jumpedTo = ids.indexOf(jump.id)
+        if (jumpedTo !== -1) activeIndex = jumpedTo
+      } else {
+        jump = null
       }
       setActiveIndex(activeIndex)
       if (withProgress) {
@@ -99,14 +106,14 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     const onScroll = () => {
       if (frame === null) frame = requestAnimationFrame(update)
     }
-    update()
+    onJump()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll, { passive: true })
-    window.addEventListener('hashchange', onScroll)
+    window.addEventListener('hashchange', onJump)
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
-      window.removeEventListener('hashchange', onScroll)
+      window.removeEventListener('hashchange', onJump)
       if (frame !== null) cancelAnimationFrame(frame)
     }
     // Also re-measure upon navigation: two pages can have the same headings

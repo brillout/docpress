@@ -1,6 +1,7 @@
 #toc-rail {
   display: none;
   flex-shrink: 0;
+  order: 1;
 }
 .toc-rail-sticky {
   position: sticky;
@@ -21,27 +22,28 @@
   }
 }
 .toc-rail-title {
+  margin-bottom: 8px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--dp-color-text);
-  margin-bottom: 8px;
 }
 .toc-item {
   position: relative;
   display: block;
-  padding: 4px 0 4px 14px;
+  padding: 5px 0 5px 14px;
   margin-left: -1px;
   border-left: 2px solid transparent;
   color: var(--dp-color-muted);
-  &:hover {
-    color: var(--dp-color-text);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
   }
+  /* Ink (not a hue) and a segment of the track: it stands out also in grayscale. Not bolder: long items would re-wrap
+   * while scrolling. */
   &.toc-item-active {
-    color: var(--dp-color-primary);
-    border-left-color: var(--dp-color-primary);
-  }
-  /* Inside, not clipped by the scroll container */
-  &:focus-visible {
-    outline-offset: -2px;
+    color: var(--dp-color-heading);
+    border-left-color: var(--dp-color-heading);
   }
   code {
     font-size: 0.9em;
@@ -52,7 +54,9 @@
   padding-left: 26px;
 }
 
-/* Reading progress (`tocProgress`): each item's bar fills as its section is read */
+/* Reading progress (`tocProgress`): each item's bar fills as its section is read. A ladder of luminance, so that the
+ * current section always stands out (also in grayscale): unread (hairline) < read (light) < current (dark track, ink
+ * fill). */
 .toc-progress {
   ul {
     border-left: 0;
@@ -75,12 +79,18 @@
       background: var(--dp-color-border);
     }
     &::after {
-      background: var(--dp-color-primary);
+      background: color-mix(in srgb, var(--dp-color-heading) 22%, var(--dp-color-bg));
       transform: scaleY(var(--toc-progress, 0));
       transform-origin: top;
     }
     &.toc-item-active {
-      color: var(--dp-color-primary);
+      color: var(--dp-color-heading);
+      &::before {
+        background: color-mix(in srgb, var(--dp-color-heading) 45%, var(--dp-color-bg));
+      }
+      &::after {
+        background: var(--dp-color-heading);
+      }
     }
   }
 }

@@ -13,7 +13,7 @@
 .collapsible-expanded,
 .collapsible-collapsed {
   .collapsible-icon {
-    transition: transform 0.3s ease-in-out !important;
+    transition: transform var(--dp-duration-reveal) var(--dp-ease-out) !important;
     display: initial;
     @media (prefers-reduced-motion: reduce) {
       transition: none !important;
@@ -23,8 +23,10 @@
 .collapsible-collapsed .collapsible-icon {
   transform: rotate(-90deg);
 }
+/* The whole row is the target */
 .collapsible-head {
   display: block;
+  width: 100%;
   padding: 0;
   border: 0;
   background: none;

@@ -46,7 +46,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           <div
             id={`menu-navigation-${i}`}
             className="menu-navigation-content"
-            style={{ transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform, visibility' }}
+            style={{ transition: 'none 0.2s var(--dp-ease-out)', transitionProperty: 'opacity, transform, visibility' }}
             key={i}
           >
             {columnLayout.isFullWidthCategory ? (
@@ -144,8 +144,10 @@ ${/* Button style */ ''}
     [class*=' decolorize-'] {
       filter: grayscale(0) opacity(1) !important;
     }
+    ${/* The open menu continues the top bar (same color): the tab isn't tinted */ ''}
     &::before {
       top: 0;
+      background-color: transparent;
     }
     & .caret-icon-left {
       transform: rotate(-90deg);

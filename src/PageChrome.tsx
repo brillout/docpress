@@ -32,11 +32,13 @@ function PageHeader({ title }: { title: React.JSX.Element }) {
 function CopyPageButton() {
   const { github } = usePageContext().globalContext.config.docpress
   const sourcePath = usePageSourcePath()
-  const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
+  const [status, setStatus] = useState<'idle' | 'pending' | 'copied' | 'failed'>('idle')
   const repo = /^https:\/\/github\.com\/([^/]+\/[^/]+)/.exec(github)?.[1]
   if (!repo) return null
   const sourceUrl = `https://raw.githubusercontent.com/${repo}/main${sourcePath}`
   const onClick = async () => {
+    // Fetching: the icon dims (PageChrome.css)
+    setStatus('pending')
     const text = fetch(sourceUrl).then((res) => {
       if (!res.ok) throw new Error(`${res.status} ${sourceUrl}`)
       return res.text()
@@ -54,13 +56,15 @@ function CopyPageButton() {
       console.error(err)
       setStatus('failed')
     }
-    setTimeout(() => setStatus('idle'), 1500)
+    setTimeout(() => setStatus('idle'), 2000)
   }
   // The label doesn't change (the button keeps its width): the icon and a screen reader announcement show the status
   return (
     <>
-      <button type="button" className="copy-page-button" onClick={onClick}>
+      <button type="button" className="copy-page-button" onClick={onClick} data-status={status}>
         <svg
+          // A new icon blends in (a11y.css); fetching keeps the copy icon
+          key={status === 'pending' ? 'idle' : status}
           viewBox="0 0 24 24"
           width="14"
           height="14"

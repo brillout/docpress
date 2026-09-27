@@ -9,17 +9,18 @@
   position: relative;
 
   /* layout: vertically centered in the code block's header, like the copy button (Pre.css) */
-  --top-position: 7.5px;
+  --top-position: 7px;
   @container container-viewport (max-width: 550px) {
-    --top-position: 4.5px;
+    --top-position: 4px;
   }
-  --border-radius: var(--dp-radius-md);
+  /* Like the copy button */
+  --border-radius: var(--dp-radius-sm);
   --transition-select-list-duration: 180ms;
   --transition-select-option-duration: 120ms;
-  --transition-select-list: top var(--transition-select-list-duration) cubic-bezier(0.2, 0.9, 0.2, 1), clip-path
-    var(--transition-select-list-duration) ease-in-out;
+  --transition-select-list: top var(--transition-select-list-duration) var(--dp-ease-out), clip-path
+    var(--transition-select-list-duration) var(--dp-ease-out);
   --transition-select-option: background var(--transition-select-option-duration) ease;
-  --transition-select-icon: filter 500ms ease, opacity 500ms ease;
+  --transition-select-icon: filter var(--dp-duration) ease, opacity var(--dp-duration) ease;
 
   .choice-group__selects {
     position: absolute;
@@ -27,9 +28,15 @@
     flex-direction: row-reverse;
     gap: 2px;
     top: var(--top-position);
-    right: 42px;
+    right: 39px;
     opacity: 0;
-    transition: opacity 200ms ease-in-out;
+    /* In sync with the copy button (Pre.css) */
+    transition: opacity var(--dp-duration) ease;
+    /* Raised, like the copy button (a box-shadow would be clipped, see clip-path) */
+    filter: drop-shadow(0 1px 1px rgb(20 20 15 / 3%)) drop-shadow(0 1px 2px rgb(20 20 15 / 7%));
+    :root.dark & {
+      filter: drop-shadow(0 1px 2px rgb(0 0 0 / 40%));
+    }
 
     &:hover {
       opacity: 1;
@@ -61,13 +68,14 @@
     right: 0;
     height: var(--option-height);
 
-    border: 1px solid var(--dp-color-border);
+    /* The edge of a raised chip (a shadow would be clipped, see clip-path) */
+    border: 1px solid var(--dp-color-ring);
 
     border-radius: var(--border-radius);
     pointer-events: none;
 
-    transition: top var(--transition-select-list-duration) ease-in-out, height var(--transition-select-list-duration)
-      ease-in-out;
+    transition: top var(--transition-select-list-duration) var(--dp-ease-out), height
+      var(--transition-select-list-duration) var(--dp-ease-out);
   }
 
   .choice-select__option {
@@ -108,8 +116,16 @@
     transition: var(--transition-select-icon);
   }
 
+  /* Like the header's language label */
   .choice-select__option-label {
-    font-size: 13.3333px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dp-color-muted);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .choice-select__option:hover .choice-select__option-label {
+      color: var(--dp-color-text);
+    }
   }
 
   .choice-select__list:hover .choice-select__option img,
@@ -141,12 +157,30 @@
     box-shadow: inset 0 -1px 0 var(--dp-color-border);
   }
 
-  .choice-select__option:hover {
-    background: var(--dp-color-surface);
+  @media (hover: hover) and (pointer: fine) {
+    .choice-select__option:hover {
+      background: color-mix(in srgb, var(--dp-color-text) 4%, var(--dp-color-surface-elevated));
+    }
   }
 
-  .choice-select__option:has(.choice-select__radio:checked) {
-    background: color-mix(in srgb, var(--dp-color-surface) 94%, var(--dp-color-text));
+  /* The selected option, while the list is open: recessed and in heavier ink (not only a tint: hovering tints too). Its
+   * bolder width is reserved (::after), so that the list doesn't grow. */
+  .choice-select__list[aria-expanded='true'] .choice-select__option:has(.choice-select__radio:checked) {
+    background: var(--dp-color-surface);
+    .choice-select__option-label {
+      font-weight: 650;
+      color: var(--dp-color-heading);
+    }
+  }
+  .choice-select__option-label {
+    display: inline-grid;
+    &::after {
+      content: attr(data-label) / '';
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      font-weight: 650;
+    }
   }
 
   .hidden {

@@ -1,6 +1,7 @@
 export { toggleMenuModal }
 export { closeMenuModal }
 export { closeMenuModalAndFocusToggle }
+export { focusMenuFirstLink }
 // Hover handling
 export { ignoreHoverOnTouchStart }
 export { openMenuModalOnMouseEnter }
@@ -67,6 +68,18 @@ function closeMenuModalAndFocusToggle() {
   const hasFocus = document.getElementById('menu-modal-wrapper')!.contains(document.activeElement)
   closeMenuModal()
   if (hasFocus) toggle?.focus()
+}
+
+// Keyboard: the opened dropdown's first link gets the focus (on mobile, openDialog() focuses the close button).
+// Two frames: the dropdown becomes visible (visibility transition) first.
+function focusMenuFirstLink(menuId: number) {
+  const { classList } = document.documentElement
+  if (isMobileNav() || !classList.contains('menu-modal-show') || getCurrentMenuId() !== menuId) return
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>(`#menu-navigation-${menuId} a[href]`)?.focus()
+    }),
+  )
 }
 
 // Mobile: the menu is a full-screen dialog, keyboard focus stays inside it

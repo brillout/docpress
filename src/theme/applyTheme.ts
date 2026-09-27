@@ -39,12 +39,20 @@ function setThemePreference(preference: ThemePreference) {
   } catch {}
   switchTheme()
 }
-// Without transitions: every color changes in the same frame
+// A crossfade of the whole page: every color changes together (no element lags behind with its own hover
+// transition), smoothly. Instant with reduced motion, or without View Transitions support.
 function switchTheme() {
   const { classList } = document.documentElement
   classList.add('dp-theme-switching')
-  applyTheme(preferenceInMemory)
-  requestAnimationFrame(() => requestAnimationFrame(() => classList.remove('dp-theme-switching')))
+  const done = () => requestAnimationFrame(() => requestAnimationFrame(() => classList.remove('dp-theme-switching')))
+  const apply = () => applyTheme(preferenceInMemory)
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!document.startViewTransition || isReducedMotion) {
+    apply()
+    done()
+    return
+  }
+  document.startViewTransition(apply).finished.finally(done)
 }
 
 let isListening = false

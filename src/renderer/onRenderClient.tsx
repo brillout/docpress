@@ -9,11 +9,13 @@ import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav.js'
 import { installSectionUrlHashs } from '../installSectionUrlHashs.js'
 import { getGlobalObject } from '../utils/client.js'
-import { initKeyBindings } from '../initKeyBindings.js'
+import { initKeyBindings, initInputModality } from '../initKeyBindings.js'
 import { initOnNavigation } from './initOnNavigation.js'
 import { setHydrationIsFinished } from './getHydrationPromise.js'
 import { addScript } from '../utils/addScript.js'
 import { initThemeListener } from '../theme/applyTheme.js'
+import { initDocsearchFocusReturn } from '../docsearch/toggleDocsearchModal.js'
+import { initTooltipGroup } from '../tooltips.js'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -22,7 +24,10 @@ const globalObject = getGlobalObject<{
 
 addEcosystemStamp()
 initKeyBindings()
+initInputModality()
 initOnNavigation()
+initDocsearchFocusReturn()
+initTooltipGroup()
 
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()
@@ -35,6 +40,8 @@ async function onRenderClient(pageContext: PageContextClient) {
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
 
   const container = document.getElementById('page-view')!
+  // The current page's chip in the navigation swaps without a fade (see a11y.css)
+  if (!pageContext.isHydration) document.documentElement.classList.add('dp-nav-switching')
   if (pageContext.isHydration) {
     globalObject.root = ReactDOM.hydrateRoot(container, page)
   } else {
@@ -45,10 +52,17 @@ async function onRenderClient(pageContext: PageContextClient) {
   }
   if (!pageContext.isHydration) {
     applyHead(pageContext)
-    announcePage()
+    getAnnouncer().textContent = document.title
+  } else {
+    // Created empty beforehand: a live region announces changes, not its creation
+    getAnnouncer()
   }
 
   await renderPromise
+  // After a frame painted with the new current page
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => document.documentElement.classList.remove('dp-nav-switching')),
+  )
 
   autoScrollNav()
   installSectionUrlHashs()
@@ -65,7 +79,7 @@ function applyHead(pageContext: PageContextClient) {
 }
 
 // Client-side navigation: screen readers announce the new page (outside React: nothing to hydrate)
-function announcePage() {
+function getAnnouncer() {
   let announcer = document.getElementById('dp-route-announcer')
   if (!announcer) {
     announcer = document.createElement('div')
@@ -74,7 +88,7 @@ function announcePage() {
     announcer.setAttribute('aria-live', 'polite')
     document.body.appendChild(announcer)
   }
-  announcer.textContent = document.title
+  return announcer
 }
 
 function onRenderStart() {

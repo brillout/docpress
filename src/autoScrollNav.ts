@@ -15,6 +15,8 @@ function autoScrollNav() {
   if (!container) return
   const linkRect = navLink.getBoundingClientRect()
   const containerRect = container.getBoundingClientRect()
+  // Already in view (e.g. the link the user just clicked): the navigation stays still. 20px: the container's fading edges.
+  if (linkRect.top >= containerRect.top + 20 && linkRect.bottom <= containerRect.bottom - 20) return
   // Center the link
   container.scrollTop += linkRect.top - containerRect.top - (container.clientHeight - linkRect.height) / 2
 }

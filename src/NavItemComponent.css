@@ -35,7 +35,7 @@
   #menu-modal-wrapper & {
     margin-top: 10px;
     padding: 6px 0 6px 12px;
-    border-left: 2px solid var(--color-category);
+    border-left: 3px solid var(--color-category);
     img {
       height: 18px !important;
       width: 18px !important;
@@ -57,8 +57,13 @@
       }
     }
   }
-  /* The left navigation shows a single category; on the breadcrumb's line (PageChrome) */
+  /* The left navigation shows a single category; on the breadcrumb's line (PageChrome). Marked with its color, like
+   * in the Docs menu. */
   #nav-left & {
+    text-decoration: underline 2px var(--color-category);
+    text-underline-offset: 7px;
+    /* Not clipped (.nav-item's overflow) */
+    overflow: visible;
     margin: 11px 0 12px var(--nav-indent);
     img {
       height: 16px !important;
@@ -144,47 +149,62 @@
 .landing-page {
   --nav-indent: clamp(16px, 30 * (1vw - 12.7px), 30px);
 }
-/* Left navigation: a hairline down each group; the current page is its text color and a segment of the hairline */
+/* Left navigation: plain rows, the text on the navigation's text edge (--nav-indent). The current page is raised: a
+ * white chip, heavier and darker text. Not only a color: it stands out also in grayscale (see DESIGN.md). Hovering
+ * recesses a row instead, so that a hovered row never looks like the current page. */
 #nav-left {
-  .nav-item-level-2,
-  .nav-item-level-3 {
-    margin: 0 12px 0 var(--nav-indent);
-    padding: 5px 12px;
-    border-left: 1px solid var(--dp-color-border);
+  .nav-item-level-2 {
+    /* The chip reaches a bit past the text edge, but not up to the viewport's edge */
+    --inset: min(10px, var(--nav-indent) - 8px);
+    margin: 1px 12px 1px calc(var(--nav-indent) - var(--inset));
+    padding: 6px var(--inset);
+    border-radius: var(--dp-radius-md);
     white-space: normal;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 450;
     color: var(--dp-color-muted);
     background: none;
-    &:hover {
-      color: var(--dp-color-text);
-      border-left-color: var(--dp-color-border-strong);
-      background: none;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--dp-color-text);
+        background: var(--dp-color-surface-hover);
+      }
     }
     &.is-active {
-      color: var(--dp-color-primary);
-      border-left-color: var(--dp-color-primary);
-      background: none;
+      color: var(--dp-color-heading);
+      font-weight: 600;
+      background: var(--dp-color-surface-elevated);
+      box-shadow: var(--dp-shadow-raised);
     }
   }
-  .nav-item-level-2 {
-    font-size: 14px;
-    &.is-active {
-      font-weight: 500;
-    }
-  }
-  /* The current page's sections (shown when there is no "On this page" rail) */
+  /* The current page's sections (shown when there is no "On this page" rail): hanging under it, on a hairline */
   .nav-item-level-3 {
     --box-shadow-top: 0 0;
     --box-shadow-bottom: 0 0;
     box-shadow: none;
+    margin: 0 12px 0 calc(var(--nav-indent) + 6px);
+    padding: 4px 10px 4px 12px;
+    border-left: 1px solid var(--dp-color-border);
+    white-space: normal;
     font-size: 13px;
-    padding-left: 24px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    &.is-active {
-      color: var(--dp-color-muted);
-      border-left-color: var(--dp-color-border);
+    line-height: 19px;
+    color: var(--dp-color-muted);
+    background: none;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--dp-color-text);
+        border-left-color: var(--dp-color-border-strong);
+      }
     }
   }
+  .nav-item-level-3.nav-item-first-of-its-kind {
+    margin-top: 4px;
+  }
+  .nav-item-level-3.nav-item-last-of-its-kind {
+    margin-bottom: 5px;
+  }
+  /* Group labels */
   .nav-item-level-4 {
     padding: 0;
     font-size: 13px;
@@ -198,18 +218,23 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  width: calc(100% - 12px - var(--nav-indent));
+  box-sizing: border-box;
+  /* The label on the navigation's text edge; 6px around it for the focus ring (drawn inside, like the rows') */
+  width: calc(100% - 12px - var(--nav-indent) + 6px);
   /* 24px hit area, same rhythm as without padding */
-  margin: 16px 12px 2px var(--nav-indent);
-  padding: 4px 0;
+  margin: 18px 12px 4px calc(var(--nav-indent) - 6px);
+  padding: 4px 6px;
   border: 0;
   border-radius: var(--dp-radius-sm);
   background: none;
-  color: var(--dp-color-muted);
+  /* The chevron */
+  color: var(--dp-color-subtle);
   text-align: left;
   cursor: pointer;
-  &:hover {
-    color: var(--dp-color-text);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
   }
 }
 .nav-group:first-child .nav-group-toggle,
@@ -219,7 +244,7 @@
 .nav-group-chevron {
   margin-left: auto;
   flex-shrink: 0;
-  transition: transform 150ms ease;
+  transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
   .nav-group-toggle[aria-expanded='false'] & {
     transform: rotate(-90deg);
   }
@@ -238,27 +263,77 @@
     white-space: normal;
     color: var(--dp-color-muted);
     background: none;
-    &:hover {
-      color: var(--dp-color-text);
-      background: none;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--dp-color-text);
+        background: none;
+      }
     }
   }
+  /* Raised, like in the left navigation (the text doesn't move) */
   .nav-item-level-2.is-active {
-    color: var(--dp-color-primary);
-    font-weight: 500;
+    margin: 0 8px 0 6px;
+    padding-left: calc(var(--padding-left-global) - 6px);
+    padding-right: 8px;
+    border-radius: var(--dp-radius-md);
+    color: var(--dp-color-heading);
+    font-weight: 600;
+    background: var(--dp-color-surface-elevated);
+    box-shadow: var(--dp-shadow-raised);
   }
+  /* The current page's sections: hanging under it on a hairline, like in the left navigation */
   .nav-item-level-3 {
-    padding-left: calc(var(--padding-left-global) + 12px);
+    margin-left: calc(var(--padding-left-global) + 6px);
+    padding-left: 12px;
+    border-left: 1px solid var(--dp-color-border);
     font-size: 13px;
     &.is-active {
       background: none;
     }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-left-color: var(--dp-color-border-strong);
+      }
+    }
+  }
+  .nav-item-level-3.nav-item-first-of-its-kind {
+    margin-top: 4px;
+  }
+  .nav-item-level-3.nav-item-last-of-its-kind {
+    margin-bottom: 5px;
+  }
+  /* Touch: rows are comfortable targets */
+  @media (pointer: coarse) {
+    .nav-item-level-2 {
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+    .nav-item-level-3 {
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
   }
   .nav-item-level-4 {
     padding-top: 16px;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
     font-size: 13px;
     font-weight: 600;
     color: var(--dp-color-text);
+  }
+}
+/* Collapsing animates the height (grid rows 1fr <-> 0fr); collapsed items leave the tab order once hidden */
+.nav-group-items {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--dp-duration-reveal) var(--dp-ease-out), opacity var(--dp-duration-reveal)
+    var(--dp-ease-out), visibility var(--dp-duration-reveal);
+  > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+  &[data-collapsed] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
   }
 }

@@ -57,7 +57,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
   )
 }
 
-const OPTION_HEIGHT = 25
+const OPTION_HEIGHT = 26
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
   const choicesAll = usePageContext().resolved.choices
@@ -146,7 +146,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             <span className={cls(['choice-select__option-icon', iconMono && 'dp-icon-mono'])}>
               {icon && <img src={icon} alt="" aria-hidden="true" style={{ ...iconStyle, ...iconStyleDropdown }} />}
             </span>
-            <span className="choice-select__option-label">{choice}</span>
+            <span className="choice-select__option-label" data-label={choice}>
+              {choice}
+            </span>
           </span>
           <div className="choice-select__border" />
         </label>

@@ -22,6 +22,7 @@ import { usePageContext } from './renderer/usePageContext.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import {
   closeMenuModalOnMouseLeaveToggle,
+  focusMenuFirstLink,
   ignoreHoverOnTouchStart,
   openMenuModalOnMouseEnter,
   toggleMenuModal,
@@ -53,8 +54,8 @@ const viewMobile = 450
 const viewTablet = 1016
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1061 // 1061 = 760 + 300 + 1
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1131 // 1131 = 760 + 370 + 1
-// Wide enough for the three columns: left navigation + page content + "On this page"
-const bodyMaxWidth = 1520
+// The frame: left navigation + page content + "On this page", and not wider (the eye doesn't travel far)
+const bodyMaxWidth = 1340
 
 // Scroll fade effect at top/bottom edges
 const scrollFadeMask: React.CSSProperties = {
@@ -211,8 +212,10 @@ ${
             <div id="nav-left-margin" className="low-prio-grow" style={{ width: 0, maxWidth: 50 }} />
           </>
         )}
-        <PageContent>{children}</PageContent>
+        {/* Before the page content in the HTML (it's parsed and painted with the first chunk: the content doesn't
+            shift when it arrives), after it on the screen (flex order, TocRail.css) */}
         {!isNavLeftAlwaysHidden() && <TocRail />}
+        <PageContent>{children}</PageContent>
       </div>
     </>
   )
@@ -237,6 +240,8 @@ function PageContent({ children }: { children: React.ReactNode }) {
   return (
     <main
       id="main-content"
+      // The skip link moves the focus here
+      tabIndex={-1}
       className="page-wrapper low-prio-grow"
       style={{
         // We must set min-width to avoid layout overflow on mobile/desktop view.
@@ -387,8 +392,8 @@ function NavGroup({ label, children }: { label: NavItemComputed; children: React
           <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
       </button>
-      <div id={id} hidden={collapsed}>
-        {children}
+      <div id={id} className="nav-group-items" data-collapsed={collapsed || undefined}>
+        <div>{children}</div>
       </div>
     </div>
   )
@@ -403,7 +408,6 @@ function isNavLeftAlwaysHidden() {
 const menuLinkStyle: React.CSSProperties = {
   height: '100%',
   padding: '0 var(--padding-side)',
-  paddingTop: 2,
   justifyContent: 'center',
 }
 
@@ -534,6 +538,15 @@ function getStyleLayout() {
   .nav-head {
     .nav-head-secondary {
       display: none !important;
+    }
+    /* The ring hugs the icon and the label (the cell is tight here) */
+    .nav-head-menu-toggle:focus-visible {
+      outline: none;
+      .text-menu {
+        outline: 2px solid var(--dp-color-primary);
+        outline-offset: 4px;
+        border-radius: var(--dp-radius-sm);
+      }
     }
     .nav-head-theme-toggle {
       flex-grow: 0 !important;
@@ -748,6 +761,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
         if (ev.key !== 'Enter' && ev.key !== ' ') return
         ev.preventDefault()
         toggleMenuModal(menuId)
+        focusMenuFirstLink(menuId)
       }}
       onMouseEnter={() => {
         openMenuModalOnMouseEnter(menuId)
@@ -802,7 +816,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
   }
   & .caret-icon-left,
   & .caret-icon-right {
-    transition: transform .4s cubic-bezier(.4,0, .2, 1);
+    transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
   }
   & .caret-icon-left {
     transform-origin: 25% 50%;

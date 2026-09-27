@@ -64,10 +64,12 @@ function Collapsible({
         onTransitionEnd={onTransitionEnd}
         style={{
           height: !showContent ? 0 : isAnimating ? contentRef.current!.scrollHeight : 'auto',
-          overflow: 'hidden',
+          // Clipped only while collapsed or animating (focus rings of the items aren't cut)
+          overflow: !showContent || isAnimating ? 'hidden' : undefined,
           // Collapsed: out of the tab order, once the animation is done
           visibility: !showContent && !isAnimating ? 'hidden' : undefined,
-          transition: 'none 0.3s ease',
+          // Like the left navigation's groups
+          transition: 'none var(--dp-duration-reveal) var(--dp-ease-out)',
           transitionProperty: 'height, margin-bottom',
           marginBottom: (showContent && marginBottomOnExpand) || undefined,
         }}

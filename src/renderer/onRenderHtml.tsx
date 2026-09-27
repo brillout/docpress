@@ -32,6 +32,7 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
         ${getOpenGraphTags(pageContext.urlPathname, documentTitle, pageContext.globalContext.config.docpress)}
         ${getAlgoliaTags(pageContext)}
         ${getThemeScript(pageContext.globalContext.config.docpress)}
+        ${getPlatformScript(pageContext.globalContext.config.docpress)}
         ${getHeadHtml(pageContext.globalContext.config.docpress)}
       </head>
       <body>
@@ -43,6 +44,15 @@ async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
 // Runs before the first paint, so that the page never flashes the wrong appearance
 function getThemeScript(config: Config) {
   return config.darkMode ? dangerouslySkipEscape(`<script>${applyTheme_SSR}</script>`) : ''
+}
+
+// The search's shortcut hint is `⌘K` on Apple devices (SearchLink.tsx): decided before the first paint
+function getPlatformScript(config: Config) {
+  return config.algolia
+    ? dangerouslySkipEscape(
+        `<script>if(/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent))document.documentElement.classList.add('dp-apple')</script>`,
+      )
+    : ''
 }
 
 function getHeadHtml(config: Config) {

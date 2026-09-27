@@ -3,8 +3,8 @@
 
   /* tablist style logic */
   .choice-tabs__tab:has(.choice-tabs__radio:checked) {
-    border-color: var(--dp-color-text);
-    color: var(--dp-color-text);
+    border-color: var(--dp-color-heading);
+    color: var(--dp-color-heading);
   }
 }
 
@@ -70,8 +70,10 @@
   }
 }
 
-.choice-tabs__tab:hover {
-  color: var(--dp-color-text);
+@media (hover: hover) and (pointer: fine) {
+  .choice-tabs__tab:hover {
+    color: var(--dp-color-text);
+  }
 }
 
 .choice-tabs__tab--disabled {

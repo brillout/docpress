@@ -12,35 +12,45 @@
  *  - The dark appearance is the `dark` class or `[data-theme="dark"]` on <html>:
  *    setting only the variables of the dark block below re-themes every surface.
  *
- * The light values are DocPress's original colors.
+ * Material logic (see DESIGN.md): the page is an off-white; raised things (the current page in the navigation,
+ * chips, popovers) are white with a hairline ring; recessed things (code, hover tints) are a few percent darker.
  */
 :root {
   /* Surfaces */
-  --dp-color-bg: #fdfdfd;
-  --dp-color-surface: #f5f5f5;
-  /* Floating UI: dropdowns, tooltips, buttons */
+  /* The page: off-white, never glaring */
+  --dp-color-bg: #fbfbfa;
+  /* Recessed: code, search field, hover tints */
+  --dp-color-surface: #f3f3f1;
+  /* Raised: the current page in the navigation, chips, dropdowns, tooltips */
   --dp-color-surface-elevated: #ffffff;
-  --dp-color-border: #e3e3e3;
-  --dp-color-border-strong: #aaa;
+  --dp-color-border: #e7e6e3;
+  --dp-color-border-strong: #b3b2ad;
+  /* The edge of raised things */
+  --dp-color-ring: rgb(20 20 15 / 8%);
+  --dp-color-ring-hover: rgb(20 20 15 / 16%);
 
-  /* Text */
+  /* Text: three tiers */
+  --dp-color-heading: #171b21;
   --dp-color-text: #323d48;
-  --dp-color-muted: #666;
-  /* Low emphasis: icons, carets, anchors, group labels */
-  --dp-color-subtle: #8c8c8c;
+  --dp-color-muted: #5c6370;
+  /* Low emphasis: icons, carets, anchors, group labels (AA as text) */
+  --dp-color-subtle: #6b717c;
 
   /* Accent */
   /* #4747ff darkened a notch: WCAG AA (4.5:1) also on the inline-code tint */
   --dp-color-primary: #3b3bf5;
 
   /* Code */
-  /* White: the syntax theme's colors are AA on white, not on grey */
-  --dp-color-code-bg: var(--dp-color-surface-elevated);
-  --dp-color-code-inline-bg: rgba(0, 0, 0, 0.05);
-  --dp-color-code-highlight: rgba(0, 0, 0, 0.1);
-  --dp-color-diff-add-bg: #d7ecdf;
+  /* A recessed well. The syntax colors are adjusted to AA on it: keep in sync with code-blocks/themes.ts */
+  --dp-color-code-bg: #f3f3f1;
+  --dp-color-code-ring: rgb(20 20 15 / 5%);
+  /* The header row (language, copy): one step deeper than the well */
+  --dp-color-code-tray: #ebecea;
+  --dp-color-code-inline-bg: rgb(20 20 15 / 5.5%);
+  --dp-color-code-highlight: rgb(20 20 15 / 5%);
+  --dp-color-diff-add-bg: #e1f0e6;
   --dp-color-diff-add: #1a7f37;
-  --dp-color-diff-remove-bg: #fbdcda;
+  --dp-color-diff-remove-bg: #fce4e2;
   --dp-color-diff-remove: #cf222e;
 
   /* Status (callouts, copy feedback) */
@@ -52,21 +62,28 @@
 
   /* Shadows */
   --dp-color-shadow: rgba(0, 0, 0, 0.11);
-  --dp-shadow-popover: 2px 4px 7px 0 rgb(0 0 0 / 8%);
+  --dp-shadow-popover: 0 0 0 1px var(--dp-color-ring), 0 2px 4px rgb(20 20 15 / 4%), 0 8px 24px -4px rgb(20 20 15 / 10%);
+  /* Raised: the ring is a shadow (not a border), so raising something doesn't shift the layout */
+  --dp-shadow-raised: 0 0 0 1px var(--dp-color-ring), 0 1px 1px rgb(20 20 15 / 3%), 0 1px 3px rgb(20 20 15 / 8%);
+  --dp-shadow-raised-hover: 0 0 0 1px var(--dp-color-ring-hover), 0 1px 1px rgb(20 20 15 / 4%), 0 2px 4px
+    rgb(20 20 15 / 9%);
 
   /* Monochrome icons (`.dp-icon-mono`) are black SVGs: 1 inverts them to white */
   --dp-icon-invert: 0;
 
-  /* Hover / active transitions */
+  /* Motion: color changes (hover) are short and plain; things that move or appear use a strong ease-out */
   --dp-duration: 150ms;
+  --dp-duration-press: 160ms;
+  --dp-duration-reveal: 220ms;
+  --dp-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
-  /* Radii */
+  /* Radii (concentric: a 6px control inside a 10px well, inset 4px) */
   --dp-radius-sm: 4px;
-  --dp-radius-md: 5px;
-  --dp-radius-lg: 7px;
+  --dp-radius-md: 6px;
+  --dp-radius-lg: 10px;
 
   /* Type */
-  --dp-font-sans: 'Inter', sans-serif;
+  --dp-font-sans: 'Inter', 'Inter Fallback', sans-serif;
   /* Not bare `monospace`: browsers render it at 13px instead of the inherited size, and pick wide fonts (Courier, DejaVu) */
   --dp-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
   --dp-font-size-h1: 2.25rem;
@@ -77,8 +94,9 @@
 
 /* Tokens derived from other tokens. On `body` (not `:root`) so that they're computed from a site's `body` overrides. */
 body {
-  /* Tint mixed from the text color, so it follows the appearance (dark text -> dark tint on light, and vice versa) */
-  --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-text) 3%, transparent);
+  /* Hovering recesses (the opposite of raised, e.g. the current page): a tint of the recessed surface, which is darker
+   * than the page in both appearances */
+  --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-surface) 75%, transparent);
   --dp-color-primary-soft: color-mix(in srgb, var(--dp-color-primary) 10%, transparent);
 
   /* Raised (bevelled) borders: lightest, middle, darkest */
@@ -95,20 +113,26 @@ body {
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --dp-color-bg: #0d0f14;
-  --dp-color-surface: #161922;
-  --dp-color-surface-elevated: #1d212b;
-  --dp-color-border: #2b313c;
-  --dp-color-border-strong: #454d5c;
+  /* Recessed things are darker than the page, raised things lighter */
+  --dp-color-bg: #17191d;
+  --dp-color-surface: #111317;
+  --dp-color-surface-elevated: #22252a;
+  --dp-color-border: #2c2f35;
+  --dp-color-border-strong: #4a4f57;
+  --dp-color-ring: rgb(255 255 255 / 8%);
+  --dp-color-ring-hover: rgb(255 255 255 / 16%);
 
-  --dp-color-text: #d7dce5;
-  --dp-color-muted: #8b95a5;
-  --dp-color-subtle: #6b7483;
+  --dp-color-heading: #eeeff1;
+  --dp-color-text: #d8dade;
+  --dp-color-muted: #9aa0aa;
+  --dp-color-subtle: #868c96;
 
   --dp-color-primary: #8aa0ff;
 
-  --dp-color-code-bg: rgba(255, 255, 255, 0.035);
-  --dp-color-code-inline-bg: rgba(255, 255, 255, 0.07);
+  --dp-color-code-bg: #111317;
+  --dp-color-code-ring: rgb(255 255 255 / 6%);
+  --dp-color-code-tray: #0c0d10;
+  --dp-color-code-inline-bg: rgb(255 255 255 / 7%);
   --dp-color-code-highlight: rgba(255, 255, 255, 0.08);
   --dp-color-diff-add-bg: rgba(46, 160, 67, 0.15);
   --dp-color-diff-remove-bg: rgba(248, 81, 73, 0.2);
@@ -122,7 +146,9 @@ body {
   --dp-color-advanced: #e27bd0;
 
   --dp-color-shadow: rgba(0, 0, 0, 0.45);
-  --dp-shadow-popover: 2px 4px 7px 0 rgb(0 0 0 / 45%);
+  --dp-shadow-popover: 0 0 0 1px var(--dp-color-ring), 0 2px 4px rgb(0 0 0 / 25%), 0 8px 24px -4px rgb(0 0 0 / 50%);
+  --dp-shadow-raised: 0 0 0 1px var(--dp-color-ring), 0 1px 2px rgb(0 0 0 / 40%);
+  --dp-shadow-raised-hover: 0 0 0 1px var(--dp-color-ring-hover), 0 1px 3px rgb(0 0 0 / 50%);
 
   --dp-icon-invert: 1;
 }

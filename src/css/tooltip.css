@@ -2,16 +2,31 @@
  * - Don't show tooltip on mobile devices:
  * - https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121
  */
+/* Shown after a short delay (hovering past doesn't trigger it). Along the top nav, once one is shown, the neighbors' show
+ * at once, without a fade, until the pointer has left the row for a moment (`data-tooltip-instant`, see tooltips.ts). */
 @media (hover: hover) and (pointer: fine) {
-  [aria-label]:not(:where(nav, aside)) {
+  [aria-label]:not(:where(nav, aside, .search-link)) {
     position: relative;
   }
-  [aria-label]:not(:where(nav, aside)):hover::before {
+  [aria-label]:not(:where(nav, aside, .search-link)):hover::before {
     opacity: 1;
+    translate: 0 0;
+    transition-delay: 350ms;
   }
-  [aria-label]:not(:where(nav, aside))::before {
+  .nav-head[data-tooltip-instant] [aria-label]:not(:where(nav, aside, .search-link))::before {
+    transition-delay: 0s;
+    transition-duration: 0s;
+  }
+  /* Keyboard: the label of the focused control, at once */
+  [aria-label]:not(:where(nav, aside, .search-link)):focus-visible::before {
+    opacity: 1;
+    translate: 0 0;
+    transition: none;
+  }
+  [aria-label]:not(:where(nav, aside, .search-link))::before {
     opacity: 0;
-    transition: opacity var(--dp-duration) ease;
+    translate: 0 -3px;
+    transition: opacity 125ms var(--dp-ease-out), translate 125ms var(--dp-ease-out);
     pointer-events: none;
     font-family: var(--dp-font-sans);
     font-size: 12px;
@@ -21,12 +36,11 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    background: var(--dp-color-bg);
-    padding: 3px 10px;
+    background: var(--dp-color-surface-elevated);
+    padding: 4px 10px;
     box-shadow: var(--dp-shadow-popover);
     border-radius: var(--dp-radius-md);
     color: var(--dp-color-text);
-    border: 1px solid var(--dp-color-border);
     z-index: 1;
     /* Atlernative: https://stackoverflow.com/questions/30086913/css-positioned-absolute-element-automatic-width-outside-of-parents-bounds/57379329#57379329
     width: max-content;
@@ -40,7 +54,7 @@
     transform: none;
   }
   /* Show below */
-  [aria-label]:not(:where(nav, aside)):not([data-label-position])::before {
+  [aria-label]:not(:where(nav, aside, .search-link)):not([data-label-position])::before {
     top: 100%;
     margin-top: 5px;
   }
@@ -49,7 +63,7 @@
    * - Copy-to-clipboard button
    * - <UsedBy> component for Vike's landing page
    */
-  [aria-label]:not(:where(nav, aside))[data-label-position='top-left']::before {
+  [aria-label]:not(:where(nav, aside, .search-link))[data-label-position='top-left']::before {
     bottom: 100%;
     margin-bottom: 7px;
     margin-left: calc(50% + 13px);

@@ -64,7 +64,7 @@ function copyLink(heading: HTMLElement) {
   navigator.clipboard?.writeText(window.location.href).then(
     () => {
       heading.classList.add('heading-link-copied')
-      setTimeout(() => heading.classList.remove('heading-link-copied'), 1200)
+      setTimeout(() => heading.classList.remove('heading-link-copied'), 2000)
     },
     () => {},
   )

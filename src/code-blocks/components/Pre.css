@@ -1,13 +1,14 @@
+/* A recessed well: a few percent darker than the page, a faint ring as its edge, no shadow */
 pre {
   /* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
   font-size: 13px;
   line-height: 1.5;
   background: var(--dp-color-code-bg);
-  border: 1px solid var(--dp-color-border);
+  border: 1px solid var(--dp-color-code-ring);
   border-radius: var(--dp-radius-lg);
 }
 .doc-page pre {
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.7;
 }
 pre > code {
@@ -35,24 +36,28 @@ pre {
 
   .copy-button {
     position: absolute !important;
-    /* Vertically centered on the first line of code */
-    top: 14px;
-    right: 8px;
+    /* Vertically centered on the first line of code; the same right edge as in the header */
+    top: 15px;
+    right: 6px;
     margin: 0;
     padding: 0;
-    height: 28px;
-    width: 28px;
+    height: 26px;
+    width: 26px;
     border: 0;
-    border-radius: var(--dp-radius-md);
-    background: transparent;
+    /* Concentric with the well's corner */
+    border-radius: var(--dp-radius-sm);
+    /* A raised chip on the well */
+    background: var(--dp-color-surface-elevated);
+    box-shadow: var(--dp-shadow-raised);
     color: var(--dp-color-muted);
     opacity: 0;
-    transition: color var(--dp-duration) ease, background-color var(--dp-duration) ease, opacity var(--dp-duration) ease;
+    transition: color var(--dp-duration) ease, box-shadow var(--dp-duration) ease, opacity var(--dp-duration) ease,
+      transform var(--dp-duration-press) var(--dp-ease-out);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         color: var(--dp-color-text);
-        background-color: var(--dp-color-surface-hover);
+        box-shadow: var(--dp-shadow-raised-hover);
       }
     }
 
@@ -73,9 +78,9 @@ pre {
   height: 38px;
   /* Same left edge as the code (pre [data-line]) */
   padding: 0 16px;
-  border-bottom: 1px solid var(--dp-color-border);
+  /* A tray: one step deeper than the well (no divider) */
   border-radius: calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px) 0 0;
-  background: color-mix(in srgb, var(--dp-color-text) 2.5%, transparent);
+  background: var(--dp-color-code-tray);
   font-family: var(--dp-font-sans);
   font-size: 12px;
   font-weight: 500;
@@ -90,7 +95,7 @@ pre {
 }
 /* Vertically centered in the header */
 pre:has(> .code-block-header) .copy-button {
-  top: 5px;
+  top: 6px;
   right: 6px;
 }
 /* Touch devices always show the copy button: the first line doesn't run under it */
@@ -106,7 +111,7 @@ pre:has(> .code-block-header) .copy-button {
     font-size: 11px;
   }
   pre:has(> .code-block-header) .copy-button {
-    top: 2px;
+    top: 3px;
   }
   pre:not(:has(> .code-block-header)) .copy-button {
     top: 8px;

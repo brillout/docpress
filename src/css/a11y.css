@@ -2,19 +2,52 @@
 
 /* Short transitions on hover and active states */
 .nav-item,
-.nav-group-toggle,
 .toc-item,
-.icon-button,
-.theme-toggle,
-.version-badge,
-.search-box,
-.choice-tabs__tab {
+.search-box {
   transition-property: color, background-color, border-color, box-shadow;
   transition-duration: var(--dp-duration);
   transition-timing-function: ease;
 }
 
-/* Theme switch (applyTheme.ts): every color changes at once */
+/* Pressable controls respond to the press */
+:is(
+    .copy-page-button,
+    .copy-button,
+    .icon-button,
+    .theme-toggle,
+    .version-badge,
+    .menu-modal-close,
+    .nav-group-toggle,
+    .collapsible-head,
+    .choice-tabs__tab
+  ) {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: var(--dp-duration), var(--dp-duration), var(--dp-duration), var(--dp-duration),
+    var(--dp-duration-press);
+  transition-timing-function: ease, ease, ease, ease, var(--dp-ease-out);
+  &:active {
+    transform: scale(0.97);
+  }
+}
+.page-pagination-link {
+  transition: box-shadow var(--dp-duration) ease, transform var(--dp-duration-press) var(--dp-ease-out);
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+/* The current page changes at once upon navigation (onRenderClient.tsx): the old and new chips swap in the same frame */
+.dp-nav-switching .nav-item {
+  transition: none !important;
+}
+
+/* Theme switch (applyTheme.ts): a crossfade of the whole page */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+/* No element transitions while the page is captured and crossfaded */
 .dp-theme-switching,
 .dp-theme-switching *,
 .dp-theme-switching *::before,
@@ -43,6 +76,13 @@
     outline-offset: 2px;
   }
 }
+/* The skip link's target: below the sticky top nav, without a focus ring around the whole page */
+#main-content {
+  scroll-margin-top: var(--nav-head-sticky-offset);
+  &:focus {
+    outline: none;
+  }
+}
 .skip-link {
   position: absolute;
   top: 8px;
@@ -50,7 +90,7 @@
   z-index: 1000;
   padding: 8px 12px;
   border-radius: var(--dp-radius-md);
-  background: var(--dp-color-bg);
+  background: var(--dp-color-surface-elevated);
   color: var(--dp-color-text);
   box-shadow: var(--dp-shadow-popover);
   &:not(:focus) {
@@ -70,6 +110,11 @@
 .menu-toggle:focus-visible {
   outline-offset: -3px;
   border-radius: var(--dp-radius-md);
+}
+/* Navigation rows (sidebar, menus, rail): the ring inside the row, rounded like the other rings */
+:is(.nav-item, .toc-item, .nav-group-toggle):focus-visible {
+  outline-offset: -2px;
+  border-radius: var(--dp-radius-sm);
 }
 /* Visually hidden radios: ring on the visible label */
 .choice-select__option:has(.choice-select__radio:focus-visible),
@@ -93,4 +138,50 @@ pre:has(:focus-visible) .copy-button {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* The browser's own surfaces follow the palette */
+::selection {
+  background-color: color-mix(in srgb, var(--dp-color-primary) 22%, transparent);
+}
+html {
+  accent-color: var(--dp-color-primary);
+  caret-color: var(--dp-color-primary);
+  scrollbar-color: var(--dp-color-border-strong) transparent;
+}
+
+/* Copy buttons: the new icon (e.g. the check after copying) blends in */
+:is(.copy-button, .copy-page-button) svg {
+  transition: opacity 200ms var(--dp-ease-out), scale 200ms var(--dp-ease-out), filter 200ms var(--dp-ease-out);
+  @starting-style {
+    opacity: 0;
+    scale: 0.8;
+    filter: blur(2px);
+  }
+}
+
+/* Touch: small controls get a hit area of at least 44px (the visuals don't change) */
+@media not all and (hover: hover) and (pointer: fine) {
+  :is(.copy-page-button, .version-badge, .edit-link) {
+    position: relative;
+  }
+  :is(.copy-button, .copy-page-button, .version-badge, .edit-link)::after {
+    content: '';
+    position: absolute;
+    inset: min(0px, calc((100% - 44px) / 2));
+  }
+}
+
+/* Keyboard-initiated disclosures don't animate (see initInputModality()). 1ms, not 0: `transitionend` still fires. */
+[data-input='keyboard']
+  :is(
+    #menu-navigation-container,
+    .nav-group-items,
+    .nav-group-chevron,
+    .collapsible > div[id],
+    .collapsible-icon,
+    .caret-icon-left,
+    .caret-icon-right
+  ) {
+  transition-duration: 1ms !important;
 }

@@ -47,19 +47,23 @@
 }
 
 .decolorize-8 {
-  filter: grayscale(1) brightness(var(--dp-decolorize-brightness)) opacity(0.8);
+  filter: grayscale(1) opacity(0.8);
 }
 .decolorize-7 {
-  filter: grayscale(1) brightness(var(--dp-decolorize-brightness)) opacity(0.7);
+  filter: grayscale(1) opacity(0.7);
 }
 .decolorize-6 {
-  filter: grayscale(1) brightness(var(--dp-decolorize-brightness)) opacity(0.6);
+  filter: grayscale(1) opacity(0.6);
 }
 .decolorize-5 {
-  filter: grayscale(1) brightness(var(--dp-decolorize-brightness)) opacity(0.5);
+  filter: grayscale(1) opacity(0.5);
 }
 .decolorize-4 {
-  filter: grayscale(1) brightness(var(--dp-decolorize-brightness)) opacity(0.4);
+  filter: grayscale(1) opacity(0.4);
+}
+/* The opacities above are tuned for a light background. Dark: one level, near the muted text color. */
+:root.dark :is([class^='decolorize-'], [class*=' decolorize-']) {
+  filter: grayscale(1) brightness(1.6) opacity(0.55);
 }
 
 body {

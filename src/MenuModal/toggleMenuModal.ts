@@ -1,5 +1,6 @@
 export { toggleMenuModal }
 export { closeMenuModal }
+export { closeMenuModalAndFocusToggle }
 // Hover handling
 export { ignoreHoverOnTouchStart }
 export { openMenuModalOnMouseEnter }
@@ -36,6 +37,7 @@ async function open(menuNavigationId?: number) {
   }
   classList.add('menu-modal-show')
   updateAriaExpanded()
+  if (isMobileNav()) openDialog()
   if (menuNavigationId !== undefined) {
     const currentModalId = getCurrentMenuId()
     if (currentModalId === menuNavigationId) return
@@ -56,6 +58,50 @@ function closeMenuModal() {
     enableDisplayOnlyOne()
     classList.remove('menu-modal-show')
     updateAriaExpanded()
+    closeDialog()
+  }
+}
+// Keyboard (Escape, close button): the focused element is being hidden, focus the menu's toggle instead
+function closeMenuModalAndFocusToggle() {
+  const toggle = document.querySelector<HTMLElement>(`.menu-toggle-${getCurrentMenuId()}`)
+  const hasFocus = document.getElementById('menu-modal-wrapper')!.contains(document.activeElement)
+  closeMenuModal()
+  if (hasFocus) toggle?.focus()
+}
+
+// Mobile: the menu is a full-screen dialog, keyboard focus stays inside it
+function openDialog() {
+  const wrapper = document.getElementById('menu-modal-wrapper')!
+  wrapper.setAttribute('role', 'dialog')
+  wrapper.setAttribute('aria-modal', 'true')
+  wrapper.setAttribute('aria-label', 'Menu')
+  wrapper.addEventListener('keydown', trapFocus)
+  const closeButton = wrapper.querySelector<HTMLElement>('.menu-modal-close')!
+  // Apply the styles (the menu is now visible) before focusing
+  getComputedStyle(closeButton).visibility
+  closeButton.focus()
+}
+function closeDialog() {
+  const wrapper = document.getElementById('menu-modal-wrapper')!
+  wrapper.removeAttribute('role')
+  wrapper.removeAttribute('aria-modal')
+  wrapper.removeAttribute('aria-label')
+  wrapper.removeEventListener('keydown', trapFocus)
+}
+function trapFocus(ev: KeyboardEvent) {
+  if (ev.key !== 'Tab') return
+  const wrapper = ev.currentTarget as HTMLElement
+  const focusables = Array.from(wrapper.querySelectorAll<HTMLElement>('a[href], button')).filter((el) =>
+    el.checkVisibility({ visibilityProperty: true }),
+  )
+  const first = focusables[0]!
+  const last = focusables[focusables.length - 1]!
+  if (ev.shiftKey && document.activeElement === first) {
+    ev.preventDefault()
+    last.focus()
+  } else if (!ev.shiftKey && document.activeElement === last) {
+    ev.preventDefault()
+    first.focus()
   }
 }
 function updateAriaExpanded() {
@@ -115,6 +161,10 @@ function getCurrentMenuId(): null | number {
 function initScrollListener() {
   if (!isBrowser()) return
   window.addEventListener('scroll', closeMenuModal, { passive: true })
+  // Keyboard focus leaving the top nav and the menu closes the menu (it would cover the focused element)
+  document.addEventListener('focusin', (ev) => {
+    if (!(ev.target as Element).closest('.nav-head, #menu-modal-wrapper')) closeMenuModal()
+  })
 }
 
 function toggleMenuModal(menuId: number) {

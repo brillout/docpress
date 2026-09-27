@@ -68,9 +68,20 @@ function CopyButton() {
       '❌'
     )
   return (
-    <button className="copy-button" aria-label={tooltip} data-label-position="top-left" type="button" onClick={onClick}>
-      {icon}
-    </button>
+    <>
+      <button
+        className="copy-button"
+        aria-label={tooltip}
+        data-label-position="top-left"
+        type="button"
+        onClick={onClick}
+      >
+        {icon}
+      </button>
+      <span className="sr-only" aria-live="polite">
+        {isSuccess === null ? '' : isSuccess ? 'Copied' : 'Copy failed'}
+      </span>
+    </>
   )
   async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
     let success: boolean

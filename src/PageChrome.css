@@ -12,7 +12,8 @@
   font-size: 14px;
   color: var(--dp-color-muted);
   > span + span::before {
-    content: '/';
+    /* Not read aloud */
+    content: '/' / '';
     margin-right: 6px;
     color: var(--dp-color-subtle);
   }
@@ -37,9 +38,11 @@
   color: var(--dp-color-muted);
   font-size: 13px;
   white-space: nowrap;
-  &:hover {
-    color: var(--dp-color-text);
-    border-color: var(--dp-color-border-strong);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+      border-color: var(--dp-color-border-strong);
+    }
   }
 }
 
@@ -76,8 +79,10 @@
   border: 1px solid var(--dp-color-border);
   border-radius: var(--dp-radius-lg);
   color: var(--dp-color-primary);
-  &:hover {
-    border-color: var(--dp-color-primary);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: var(--dp-color-primary);
+    }
   }
 }
 .page-pagination-next {
@@ -106,8 +111,10 @@
   gap: 6px;
   font-size: 14px;
   color: var(--dp-color-muted);
-  &:hover {
-    color: var(--dp-color-text);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
   }
 }
 .page-edit-link {

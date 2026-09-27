@@ -30,6 +30,10 @@
 /* Full-height top bar cells: ring inside, like the menu toggles' */
 .nav-head a:focus-visible:not(.icon-button, .version-badge) {
   outline-offset: -3px;
+  border-radius: var(--dp-radius-md);
+}
+.page-content a:focus-visible {
+  border-radius: var(--dp-radius-sm);
 }
 /* The ring hugs the visible search box, not its cell */
 .search-link:focus-visible {
@@ -65,6 +69,7 @@
 /* Clipped by `overflow: hidden` (the hover slide-in): draw the ring inside */
 .menu-toggle:focus-visible {
   outline-offset: -3px;
+  border-radius: var(--dp-radius-md);
 }
 /* Visually hidden radios: ring on the visible label */
 .choice-select__option:has(.choice-select__radio:focus-visible),

@@ -2,6 +2,7 @@ export { Layout }
 export { MenuToggle }
 export { viewDesktop }
 export { viewTablet }
+export { viewMobile }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { bodyMaxWidth }
@@ -104,17 +105,19 @@ function Layout({ children }: { children: React.ReactNode }) {
     >
       {/* Before the markup it styles: the first paint has the right layout */}
       <Style>{getStyleLayout()}</Style>
-      {/* Focused elements aren't hidden under the sticky top nav */}
-      {isTopNavSticky && <Style>{`html { scroll-padding-top: ${navHeadHeight + 16}px; }`}</Style>}
+      {/* Focused elements aren't hidden under the sticky top nav (for headings, see heading.css) */}
+      {isTopNavSticky && (
+        <Style>{`:where(a, button, input, select, textarea, summary, [tabindex]):focus { scroll-margin-top: ${navHeadHeight + 16}px; }`}</Style>
+      )}
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
       <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
-        <div style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
+        <header style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
           <NavHead />
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
-        </div>
+        </header>
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
@@ -152,36 +155,40 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
     --hash-offset: 27px;
   }
 }
+${
+  // Not `.doc-page:has(#toc-rail)`: <TocRail> is the page's last element, the first paint would miss it
+  isNavLeftAlwaysHidden()
+    ? ''
+    : css`
 @container container-viewport (min-width: ${viewTocRail}px) {
   #toc-rail {
     display: block;
     width: ${tocRailWidth}px;
   }
-  .doc-page:has(#toc-rail) {
-    /* The page content gives up some width to the rail */
-    .page-wrapper {
-      min-width: ${mainViewWidthMax - 120}px !important;
-    }
-    /* The rail lists the page's sections: don't also expand them in the left navigation */
-    #nav-left .nav-item-level-3 {
-      display: none;
-    }
+  /* The page content gives up some width to the rail */
+  .page-wrapper {
+    min-width: ${mainViewWidthMax - 120}px !important;
+  }
+  /* The rail lists the page's sections: don't also expand them in the left navigation */
+  #nav-left .nav-item-level-3 {
+    display: none;
+  }
+  /* The content is centered between the left navigation and the rail */
+  #nav-left-margin {
+    display: none;
+  }
+  .page-content {
+    margin-inline: auto;
   }
 }
 @container container-viewport (min-width: ${viewTocRail}px) and (max-width: ${viewTocRail + 119}px) {
-  .doc-page:has(#toc-rail) #nav-left {
+  #nav-left {
     /* Make room for the rail */
     min-width: ${navLeftWidthMin + blockMargin}px;
   }
-}
-${
-  isNavLeftAlwaysHidden()
-    ? ''
-    : css`
-/* The logo lines up with the left navigation's text */
-@container container-viewport (min-width: ${viewDesktop}px) {
-  .nav-head-logo {
-    padding-left: var(--nav-indent) !important;
+  /* Some air between the three columns (the measure is still ~70 characters) */
+  .page-content {
+    --main-view-padding: 32px;
   }
 }`
 }
@@ -412,6 +419,8 @@ function NavHead() {
         padding: 0,
         display: 'flex',
         height: '100%',
+        // The site's own top nav links (`topNavigation`) don't wrap
+        whiteSpace: 'nowrap',
       }}
     >
       {pageContext.globalContext.config.docpress.topNavigation}
@@ -428,7 +437,8 @@ function NavHead() {
   )
 
   return (
-    <header
+    <nav
+      aria-label="Main"
       className={cls(['nav-head link-hover-animation', !!navMaxWidth && 'has-max-width'])}
       style={{
         backgroundColor: 'var(--dp-color-bg)',
@@ -476,7 +486,7 @@ function NavHead() {
           {navHeadSecondary}
         </div>
       </div>
-    </header>
+    </nav>
   )
 }
 function getStyleLayout() {
@@ -496,6 +506,25 @@ function getStyleLayout() {
         flex-grow: 1;
       }
     }
+    /* With the theme toggle (four items): the logo on the left, the actions grouped on the right, evenly spaced */
+    .nav-head-content:has(> .nav-head-theme-toggle) {
+      justify-content: flex-end !important;
+      & > * {
+        flex-grow: 0;
+      }
+      & > .nav-head-logo {
+        flex-grow: 1;
+      }
+      .search-link {
+        padding-inline: 0 !important;
+      }
+      .nav-head-menu-toggle {
+        padding-left: 0 !important;
+      }
+      .nav-head-theme-toggle {
+        margin-inline: 6px;
+      }
+    }
   }
 }`
 
@@ -509,6 +538,8 @@ function getStyleLayout() {
     .nav-head-theme-toggle {
       flex-grow: 0 !important;
       align-self: center;
+      /* Same line as its neighbors (\`menuLinkStyle\`) */
+      margin-top: 2px;
     }
   }
 }
@@ -552,6 +583,14 @@ function getStyleLayout() {
   }
 }
 `
+
+  // The logo lines up with the left navigation's text (also on pages without it: the logo doesn't move between pages)
+  style += css`
+@container container-viewport (min-width: ${viewDesktop}px) {
+  .nav-head-logo {
+    padding-left: var(--nav-indent) !important;
+  }
+}`
 
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
@@ -607,6 +646,7 @@ function NavHeadLogo() {
       <>
         <img
           src={logo}
+          alt=""
           style={{
             height: iconSize,
             width: iconSize,
@@ -806,6 +846,7 @@ function DocsIcon() {
   return (
     <img
       src={iconBooks}
+      alt=""
       width={18}
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', position: 'relative', top: 2 }}
       className="decolorize-5"

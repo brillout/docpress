@@ -1,6 +1,6 @@
 export { Collapsible }
 
-import React, { useRef, useState } from 'react'
+import React, { useId, useRef, useState } from 'react'
 import { cls } from '../utils/cls.js'
 import './Collapsible.css'
 
@@ -18,6 +18,7 @@ function Collapsible({
   marginBottomOnExpand?: number
 }) {
   const [collapsed, setCollapsed] = useState(collapsedInit)
+  const id = useId()
   const [isAnimating, setIsAnimating] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -44,8 +45,21 @@ function Collapsible({
     <div
       className={cls(['collapsible', !disabled && (showContent ? 'collapsible-expanded' : 'collapsible-collapsed')])}
     >
-      {head(onClick)}
+      {disabled ? (
+        head(onClick)
+      ) : (
+        <button
+          type="button"
+          className="collapsible-head"
+          aria-expanded={showContent}
+          aria-controls={id}
+          onClick={onClick}
+        >
+          {head(() => {})}
+        </button>
+      )}
       <div
+        id={id}
         ref={contentRef}
         onTransitionEnd={onTransitionEnd}
         style={{
@@ -57,7 +71,6 @@ function Collapsible({
           transitionProperty: 'height, margin-bottom',
           marginBottom: (showContent && marginBottomOnExpand) || undefined,
         }}
-        aria-expanded={showContent}
       >
         {children}
       </div>

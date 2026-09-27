@@ -11,9 +11,11 @@
   color: var(--dp-color-muted);
   font-size: 14px;
   transition: border-color 150ms ease, color 150ms ease;
-  .search-link:hover & {
-    border-color: var(--dp-color-border-strong);
-    color: var(--dp-color-text);
+  @media (hover: hover) and (pointer: fine) {
+    .search-link:hover & {
+      border-color: var(--dp-color-border-strong);
+      color: var(--dp-color-text);
+    }
   }
 }
 /* The input-style box is the hover affordance: no hover tint on the whole cell */
@@ -30,6 +32,12 @@
   font-size: 11.5px;
   line-height: 1.4;
   white-space: nowrap;
+}
+/* Narrow phones: the top nav also holds the logo, the theme toggle and the menu */
+@media (max-width: 400px) {
+  .search-box-text {
+    display: none;
+  }
 }
 /* No keyboard shortcut on touch devices */
 @media not all and (hover: hover) and (pointer: fine) {

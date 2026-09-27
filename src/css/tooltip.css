@@ -15,6 +15,8 @@
     pointer-events: none;
     font-family: var(--dp-font-sans);
     font-size: 12px;
+    /* Not inherited: icon buttons have line-height 0 */
+    line-height: 1.5;
     content: attr(aria-label);
     position: absolute;
     left: 50%;
@@ -30,6 +32,12 @@
     width: max-content;
     */
     white-space: nowrap;
+  }
+  /* The top nav's right-most items: aligned to the right, so that the tooltip doesn't overflow the viewport */
+  .nav-head :is(.theme-toggle, .version-badge)[aria-label]::before {
+    left: auto;
+    right: 0;
+    transform: none;
   }
   /* Show below */
   [aria-label]:not(:where(nav, aside)):not([data-label-position])::before {

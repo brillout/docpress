@@ -1,18 +1,22 @@
 export { ThemeToggle }
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { toggleTheme } from './applyTheme.js'
 import { cls } from '../utils/cls.js'
 import './ThemeToggle.css'
 
-// Both icons are rendered; CSS shows the current appearance's
+// Both icons are rendered; CSS shows the current appearance's. The switch's state is set after hydration (the
+// server-rendered HTML doesn't depend on the appearance).
 function ThemeToggle({ className }: { className?: string }) {
+  const isDark = useIsDark()
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={isDark}
       className={cls(['theme-toggle', className])}
       onClick={toggleTheme}
-      aria-label="Toggle dark mode"
+      aria-label="Dark mode"
     >
       <svg {...svgProps} className="theme-toggle-icon theme-toggle-light">
         <circle cx="12" cy="12" r="4" />
@@ -23,6 +27,19 @@ function ThemeToggle({ className }: { className?: string }) {
       </svg>
     </button>
   )
+}
+
+function useIsDark() {
+  const [isDark, setIsDark] = useState<boolean | undefined>(undefined)
+  useEffect(() => {
+    const root = document.documentElement
+    const update = () => setIsDark(root.classList.contains('dark'))
+    update()
+    const observer = new MutationObserver(update)
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
+  return isDark
 }
 
 const svgProps = {

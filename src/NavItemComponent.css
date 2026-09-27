@@ -50,7 +50,8 @@
       text-underline-offset: 6px;
       border: 0;
       margin: 0;
-      padding: 12px 10px 12px 14px;
+      /* Text on the same edge as the items' */
+      padding: 12px 10px 12px 15px;
       img {
         display: none;
       }
@@ -139,7 +140,8 @@
 }
 
 /* The left navigation's text edge (the top nav's logo aligns to it) */
-.doc-page {
+.doc-page,
+.landing-page {
   --nav-indent: clamp(16px, 30 * (1vw - 12.7px), 30px);
 }
 /* Left navigation: a hairline down each group; the current page is its text color and a segment of the hairline */

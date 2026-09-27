@@ -69,6 +69,7 @@ function NavItemComponent({
   const icon = navItem.titleIcon && (
     <img
       src={navItem.titleIcon}
+      alt=""
       style={{ height: iconSize, width: iconSize, marginRight: 8, marginLeft: 2, ...navItem.titleIconStyle }}
     />
   )
@@ -104,6 +105,7 @@ function NavItemComponent({
     href: navItem.url ?? undefined,
     children,
     onClick,
+    'aria-current': navItem.url && navItem.isActive ? 'page' : undefined,
     className: [
       'nav-item',
       'nav-item-level-' + navItem.level,

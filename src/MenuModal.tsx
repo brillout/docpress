@@ -3,12 +3,12 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { css } from './utils/css.js'
-import { bodyMaxWidth, viewDesktop, viewTablet, scrollFadeMask } from './Layout.js'
+import { bodyMaxWidth, viewDesktop, viewTablet, viewMobile, scrollFadeMask } from './Layout.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import { Style } from './utils/Style.js'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout.js'
 import {
-  closeMenuModal,
+  closeMenuModalAndFocusToggle,
   closeMenuModalOnMouseLeave,
   keepMenuModalOpenOnMouseOver,
 } from './MenuModal/toggleMenuModal.js'
@@ -40,6 +40,8 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
         onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModalOnMouseLeave}
       >
+        {/* First: the first focus stop of the (mobile) dialog */}
+        <CloseButton className="show-only-on-mobile" />
         <div
           id="menu-modal-scroll-container"
           style={{
@@ -62,11 +64,10 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
               <ExternalLinks style={{ height: 50 }} withThemeToggle={false} />
             </div>
             <Center>
-              <EditLink className="menu-edit-link">Edit page</EditLink>
+              <EditLink className="menu-edit-link">Edit this page</EditLink>
             </Center>
           </div>
         </div>
-        <CloseButton className="show-only-on-mobile" />
         <BorderBottom />
       </div>
     </>
@@ -116,6 +117,10 @@ function getStyle() {
 html:not(.menu-modal-show) #menu-modal-wrapper {
   visibility: hidden;
 }
+${/* Opening: visible at once (e.g. to move the focus inside) */ ''}
+html.menu-modal-show #menu-modal-wrapper {
+  transition-property: opacity !important;
+}
 
 @media(min-width: ${viewTablet + 1}px) {
   #menu-modal-scroll-container {
@@ -155,6 +160,12 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
     ${/* The first row lines up with the close button */ ''}
     padding-top: 10px;
   }
+  ${/* Tablet: the categories aren't collapsible, their heads have a top margin */ ''}
+  @media(min-width: ${viewMobile + 1}px) {
+    #menu-modal-scroll-container {
+      padding-top: 5.5px;
+    }
+  }
   #border-bottom {
     display: none;
   }
@@ -191,7 +202,12 @@ ${/* Hide same-page headings navigation */ ''}
 
 function CloseButton({ className }: { className: string }) {
   return (
-    <button type="button" className={`menu-modal-close ${className}`} onClick={closeMenuModal} aria-label="Close menu">
+    <button
+      type="button"
+      className={`menu-modal-close ${className}`}
+      onClick={closeMenuModalAndFocusToggle}
+      aria-label="Close menu"
+    >
       <svg
         viewBox="0 0 24 24"
         width="20"

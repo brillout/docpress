@@ -45,6 +45,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   }
   if (!pageContext.isHydration) {
     applyHead(pageContext)
+    announcePage()
   }
 
   await renderPromise
@@ -61,6 +62,19 @@ async function onRenderClient(pageContext: PageContextClient) {
 
 function applyHead(pageContext: PageContextClient) {
   document.title = pageContext.resolved.documentTitle
+}
+
+// Client-side navigation: screen readers announce the new page (outside React: nothing to hydrate)
+function announcePage() {
+  let announcer = document.getElementById('dp-route-announcer')
+  if (!announcer) {
+    announcer = document.createElement('div')
+    announcer.id = 'dp-route-announcer'
+    announcer.className = 'sr-only'
+    announcer.setAttribute('aria-live', 'polite')
+    document.body.appendChild(announcer)
+  }
+  announcer.textContent = document.title
 }
 
 function onRenderStart() {

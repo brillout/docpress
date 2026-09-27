@@ -60,6 +60,19 @@ pre {
   font-size: 12px;
   font-weight: 500;
   color: var(--dp-color-muted);
+  /* Room for the copy button */
+  padding-right: 48px;
+  .code-block-language {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+/* Touch devices always show the choice dropdown, which already names the language */
+@media not all and (hover: hover) and (pointer: fine) {
+  .choice-group-container:has(> .choice-group__selects) .code-block-language {
+    visibility: hidden;
+  }
 }
 pre:has(> .code-block-header) .copy-button {
   top: 6px;

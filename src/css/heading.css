@@ -97,7 +97,8 @@ h3 {
   .doc-page h3[id]:hover::before {
     background-color: var(--dp-color-muted);
   }
-  .doc-page :is(h2, h3).heading-link-copied::before {
+  .doc-page h2[id].heading-link-copied::before,
+  .doc-page h3[id].heading-link-copied::before {
     background-color: var(--dp-color-success) !important;
     --heading-link-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
   }

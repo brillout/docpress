@@ -150,9 +150,10 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
               {choice}
             </span>
           </span>
-          <div className="choice-select__border" />
         </label>
       ))}
+      {/* One outline (8% alpha: stacked copies would darken it), positioned on the selected option (ChoiceGroup.css) */}
+      <div className="choice-select__border" />
     </div>
   )
 

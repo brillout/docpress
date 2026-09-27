@@ -132,7 +132,8 @@ html.menu-modal-show #menu-modal-wrapper {
 
 @media(min-width: ${viewTablet + 1}px) {
   #menu-modal-scroll-container {
-    max-height: calc(100vh - var(--nav-head-height) - var(--block-margin));
+    ${/* 16px: the popover's bottom edge (and shadow) stays on screen when the viewport is short */ ''}
+    max-height: calc(100vh - var(--nav-head-height) - var(--block-margin) - 16px);
     ${/* https://github.com/brillout/docpress/issues/23 */ ''}
     ${/* https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow */ ''}
     ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
@@ -150,7 +151,7 @@ html.menu-modal-show #menu-modal-wrapper {
   }
   ${/* The columns (and the categories' color bars) don't touch the popover's sides */ ''}
   .menu-navigation-content {
-    padding: 0 12px;
+    padding: 5px 12px 0;
     box-sizing: border-box;
   }
   ${/* Rounded corners only where the popover doesn't reach the viewport's sides (+20px: a classic scrollbar) */ ''}

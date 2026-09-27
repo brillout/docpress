@@ -193,21 +193,34 @@ html {
   transition-duration: 1ms !important;
 }
 
-/* Scroll containers (left navigation, menus) fade at their edges, only while they actually scroll: a scroll timeline is
- * inactive (the animation doesn't apply) when there is nothing to scroll. Without scroll timelines, they always fade. */
-@keyframes dp-scroll-fade {
-  from,
-  to {
-    mask-image: linear-gradient(
-      to bottom,
-      rgb(0 0 0 / 30%) 0,
-      black 20px,
-      black calc(100% - 20px),
-      rgb(0 0 0 / 30%) 100%
-    );
-  }
-}
+/* Scroll containers (left navigation, menus) fade at an edge only where there is more to scroll to: a scroll-driven
+ * animation (at the top, only the bottom edge fades; at the end, only the top edge). A scroll timeline is inactive when
+ * there is nothing to scroll: no fade. Without scroll timelines, both edges always fade. */
 .scroll-fade {
-  animation: dp-scroll-fade linear both;
-  animation-timeline: scroll(self);
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 30%) 0, black 20px, black calc(100% - 20px), rgb(0 0 0 / 30%) 100%);
+}
+@supports (animation-timeline: scroll()) {
+  @keyframes dp-scroll-fade {
+    0% {
+      mask-image: linear-gradient(to bottom, black calc(100% - 20px), rgb(0 0 0 / 30%) 100%);
+    }
+    2%,
+    98% {
+      mask-image: linear-gradient(
+        to bottom,
+        rgb(0 0 0 / 30%) 0,
+        black 20px,
+        black calc(100% - 20px),
+        rgb(0 0 0 / 30%) 100%
+      );
+    }
+    100% {
+      mask-image: linear-gradient(to bottom, rgb(0 0 0 / 30%) 0, black 20px);
+    }
+  }
+  .scroll-fade {
+    mask-image: none;
+    animation: dp-scroll-fade linear both;
+    animation-timeline: scroll(self);
+  }
 }

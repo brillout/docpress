@@ -215,7 +215,10 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
 
 function closeMenuModalOnMouseLeave() {
   if (ignoreHover()) return
-  closeMenuModal()
+  const menuId = getCurrentMenuId()
+  if (menuId === null) return closeMenuModal()
+  // Like leaving a toggle, not at once: the pointer may be on its way to a toggle (across the top nav's hairline)
+  closeMenuModalOnMouseLeaveToggle(menuId)
 }
 function keepMenuModalOpenOnMouseOver() {
   if (ignoreHover()) return

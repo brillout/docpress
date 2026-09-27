@@ -1,0 +1,113 @@
+.page-header {
+  margin-bottom: 8px;
+  h1 {
+    margin: 0;
+  }
+}
+.page-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--dp-color-muted);
+  > span + span::before {
+    content: '/';
+    margin-right: 6px;
+    color: var(--dp-color-subtle);
+  }
+}
+.page-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.copy-page-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  margin-top: 6px;
+  padding: 0 10px;
+  border: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-bg);
+  color: var(--dp-color-muted);
+  font-size: 13px;
+  white-space: nowrap;
+  &:hover {
+    color: var(--dp-color-text);
+    border-color: var(--dp-color-border-strong);
+  }
+}
+
+/* Narrow screens: icon only, so the title keeps the width (the label stays for screen readers) */
+@container container-viewport (max-width: 600px) {
+  .copy-page-button {
+    width: 30px;
+    padding: 0;
+    justify-content: center;
+  }
+  .copy-page-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+.page-footer {
+  margin-top: 64px;
+}
+.page-pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.doc-page .page-pagination-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 16px;
+  border: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-lg);
+  color: var(--dp-color-primary);
+  &:hover {
+    border-color: var(--dp-color-primary);
+  }
+}
+.page-pagination-next {
+  text-align: right;
+}
+.page-pagination-label {
+  font-size: 12px;
+  color: var(--dp-color-muted);
+}
+.page-pagination-title {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  code {
+    background: none;
+    padding: 0;
+  }
+}
+@container container-viewport (max-width: 600px) {
+  .page-pagination {
+    grid-template-columns: 1fr;
+  }
+}
+.doc-page .page-edit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--dp-color-muted);
+  &:hover {
+    color: var(--dp-color-text);
+  }
+}

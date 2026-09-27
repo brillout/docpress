@@ -34,7 +34,7 @@ import { css } from './utils/css.js'
 import { Style } from './utils/Style.js'
 import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
-import { EditLink } from './EditLink.js'
+import { PageHeader, PageFooter } from './PageChrome.js'
 import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
 import './Layout.css'
 
@@ -217,13 +217,9 @@ function PageContent({ children }: { children: React.ReactNode }) {
         }}
       >
         {/* globalNote */}
-        {pageTitleParsed && !pageContext.resolved.pageDesign?.hideTitle && (
-          <div>
-            <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 15 }} />
-            <h1>{pageTitleParsed}</h1>
-          </div>
-        )}
+        {pageTitleParsed && !pageContext.resolved.pageDesign?.hideTitle && <PageHeader title={pageTitleParsed} />}
         {children}
+        {!isLandingPage && <PageFooter />}
       </div>
     </div>
   )

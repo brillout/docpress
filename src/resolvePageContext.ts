@@ -100,6 +100,8 @@ function resolvePageContext(pageContext: PageContextServer) {
     if (tocItem) tocItem.length += pageSection.pageSectionLength ?? 0
   }
 
+  const { breadcrumb, pagePrev, pageNext } = getPageNavigation(headingsResolved, urlPathname)
+
   const resolved = {
     navItemsAll,
     navItemsDetached,
@@ -111,8 +113,36 @@ function resolvePageContext(pageContext: PageContextServer) {
     activeCategoryName,
     choices,
     tocItems,
+    breadcrumb,
+    pagePrev,
+    pageNext,
   }
   return resolved
+}
+
+// The page's place in the navigation: its category and group (breadcrumb), and the pages before and after it
+function getPageNavigation(headings: HeadingResolved[], urlPathname: string) {
+  type PageLink = { url: string; title: string }
+  const pages: PageLink[] = []
+  let breadcrumb: string[] = []
+  let category: string | null = null
+  let group: string | null = null
+  for (const heading of headings) {
+    if (heading.level === 1) {
+      category = heading.titleInNav
+      group = null
+    }
+    if (heading.level === 4) group = heading.titleInNav
+    if (heading.level === 2 && heading.url && heading.url !== '/') {
+      if (heading.url === urlPathname) breadcrumb = [category, group].filter((title) => title !== null)
+      pages.push({ url: heading.url, title: heading.titleInNav })
+    }
+  }
+  const index = pages.findIndex((page) => page.url === urlPathname)
+  // Detached pages (not in the navigation) have neither
+  const pagePrev: PageLink | null = index > 0 ? pages[index - 1]! : null
+  const pageNext: PageLink | null = index !== -1 && index < pages.length - 1 ? pages[index + 1]! : null
+  return { breadcrumb, pagePrev, pageNext }
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {

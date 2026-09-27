@@ -1,4 +1,5 @@
 export { EditLink }
+export { usePageSourcePath }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
@@ -13,10 +14,7 @@ function EditLink({
   const pageContext = usePageContext()
   const iconSize = 13
   const icon = <img src={iconPencil} width={iconSize} height={iconSize} style={{ marginRight: 6 }} />
-  const { urlPathname } = pageContext
-  const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
-  const docsDir = pageContext.globalContext.config.docpress.docsDir ?? 'docs'
-  const editLink = getRepoHref(`/${docsDir}/pages${fsPath}`, true)
+  const editLink = getRepoHref(usePageSourcePath(), true)
   return (
     <a
       href={editLink}
@@ -41,4 +39,13 @@ function EditLink({
       {icon} Edit{verbose ? ' page' : ''}
     </a>
   )
+}
+
+// The page's source file, relative to the repository root
+function usePageSourcePath() {
+  const pageContext = usePageContext()
+  const { urlPathname } = pageContext
+  const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
+  const docsDir = pageContext.globalContext.config.docpress.docsDir ?? 'docs'
+  return `/${docsDir}/pages${fsPath}`
 }

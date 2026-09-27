@@ -12,7 +12,7 @@ const tocRailWidth = 220
 // Three columns: left navigation + page content + "On this page"
 const viewTocRail = 1280
 
-// Height of all progress segments together, distributed proportionally to the sections' lengths
+// Height of all progress segments together, distributed by the sections' lengths (source lines, see parsePageSections.ts)
 const progressTrackHeight = 380
 const progressSegmentHeightMin = 28
 

@@ -40,8 +40,8 @@ type Config = {
   darkMode?: boolean
 
   /**
-   * "On this page" rail: show reading progress. Each section gets a bar proportional to its length, filled as the
-   * reader scrolls through it.
+   * "On this page" rail: show reading progress. Each section gets a bar roughly proportional to its length (its number of
+   * source lines, with a minimum height), filled as the reader scrolls through it.
    *
    * @default false
    */

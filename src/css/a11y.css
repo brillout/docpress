@@ -193,34 +193,59 @@ html {
   transition-duration: 1ms !important;
 }
 
-/* Scroll containers (left navigation, menus) fade at an edge only where there is more to scroll to: a scroll-driven
- * animation (at the top, only the bottom edge fades; at the end, only the top edge). A scroll timeline is inactive when
- * there is nothing to scroll: no fade. Without scroll timelines, both edges always fade. */
+/* Scroll containers (left navigation, menus) fade at an edge only where there is more to scroll to, and the fade grows
+ * over the first (last) 20px of scroll: scroll-driven animations of the fade's size and strength. A scroll timeline is
+ * inactive when there is nothing to scroll: no fade. Without scroll timelines, both edges always fade. */
+@property --dp-fade-top {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --dp-fade-top-alpha {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
+@property --dp-fade-bottom {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --dp-fade-bottom-alpha {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
 .scroll-fade {
   mask-image: linear-gradient(to bottom, rgb(0 0 0 / 30%) 0, black 20px, black calc(100% - 20px), rgb(0 0 0 / 30%) 100%);
 }
 @supports (animation-timeline: scroll()) {
-  @keyframes dp-scroll-fade {
-    0% {
-      mask-image: linear-gradient(to bottom, black calc(100% - 20px), rgb(0 0 0 / 30%) 100%);
+  @keyframes dp-fade-top {
+    to {
+      --dp-fade-top: 20px;
+      --dp-fade-top-alpha: 30%;
     }
-    2%,
-    98% {
-      mask-image: linear-gradient(
-        to bottom,
-        rgb(0 0 0 / 30%) 0,
-        black 20px,
-        black calc(100% - 20px),
-        rgb(0 0 0 / 30%) 100%
-      );
+  }
+  @keyframes dp-fade-bottom {
+    from {
+      --dp-fade-bottom: 20px;
+      --dp-fade-bottom-alpha: 30%;
     }
-    100% {
-      mask-image: linear-gradient(to bottom, rgb(0 0 0 / 30%) 0, black 20px);
+    to {
+      --dp-fade-bottom: 0px;
+      --dp-fade-bottom-alpha: 100%;
     }
   }
   .scroll-fade {
-    mask-image: none;
-    animation: dp-scroll-fade linear both;
-    animation-timeline: scroll(self);
+    animation: dp-fade-top linear both, dp-fade-bottom linear both;
+    animation-timeline: scroll(self), scroll(self);
+    animation-range: 0 20px, calc(100% - 20px) 100%;
+    mask-image: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / var(--dp-fade-top-alpha)) 0,
+      black var(--dp-fade-top),
+      black calc(100% - var(--dp-fade-bottom)),
+      rgb(0 0 0 / var(--dp-fade-bottom-alpha)) 100%
+    );
   }
 }

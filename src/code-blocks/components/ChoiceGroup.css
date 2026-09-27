@@ -26,7 +26,8 @@
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
-    gap: 2px;
+    /* The chips' spacing in the header (the copy button is 6px away too) */
+    gap: 6px;
     top: var(--top-position);
     right: 39px;
     opacity: 0;
@@ -154,7 +155,7 @@
   }
 
   /* Separators between the options, while the list is open (closed, the chip has only its ring) */
-  .choice-select__list[aria-expanded='true'] .choice-select__option:not(:last-child) {
+  .choice-select__list[aria-expanded='true'] .choice-select__option:not(:last-of-type) {
     box-shadow: inset 0 -1px 0 var(--dp-color-border);
   }
 
@@ -395,4 +396,9 @@
     .code-block-language {
     visibility: hidden;
   }
+}
+
+/* The open list is above the next code blocks (the wrapper's drop-shadow filter makes it a stacking context) */
+.choice-group__selects:has(> .choice-select__list:is([aria-expanded='true'], .hovered)) {
+  z-index: 2;
 }

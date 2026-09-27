@@ -30,7 +30,7 @@ function applyTheme(preferenceInMemory?: string) {
 }
 
 function cycleThemePreference() {
-  const current = document.documentElement.getAttribute('data-theme-preference') as ThemePreference
+  const current = (document.documentElement.getAttribute('data-theme-preference') ?? 'system') as ThemePreference
   const next = themePreferences[(themePreferences.indexOf(current) + 1) % themePreferences.length]!
   setThemePreference(next)
 }

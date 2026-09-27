@@ -39,6 +39,14 @@ type Config = {
    */
   darkMode?: boolean
 
+  /**
+   * "On this page" rail: show reading progress. Each section gets a bar proportional to its length, filled as the
+   * reader scrolls through it.
+   *
+   * @default false
+   */
+  tocProgress?: boolean
+
   github: string
   discord?: string
   twitter?: string

@@ -11,6 +11,7 @@ import React from 'react'
 const config: Config = {
   name: 'Demo',
   darkMode: true,
+  tocProgress: true,
   version: '0.4.255',
   url: 'fake-website.example.org',
   tagline: 'DocPress Demonstration.',

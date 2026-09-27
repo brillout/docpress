@@ -12,16 +12,23 @@ const tocRailWidth = 220
 // Three columns: left navigation + page content + "On this page"
 const viewTocRail = 1280
 
-// The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item is set
-// after hydration (no active item in the HTML => no hydration mismatch).
+// Height of all progress segments together, distributed proportionally to the sections' lengths
+const progressTrackHeight = 380
+const progressSegmentHeightMin = 28
+
+// The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item (and the
+// reading progress) is set after hydration: no active item in the HTML => no hydration mismatch. The progress
+// segments' heights are computed from the build-time section lengths, so they don't shift the layout on load.
 function TocRail() {
   const pageContext = usePageContext()
   const { tocItems } = pageContext.resolved
-  const activeId = useActiveSection(tocItems)
+  const { tocProgress } = pageContext.globalContext.config.docpress
+  const activeId = useActiveSection(tocItems, !!tocProgress)
   if (tocItems.length === 0) return null
+  const lengthTotal = tocItems.reduce((sum, item) => sum + item.length, 0) || 1
   return (
     <aside id="toc-rail" aria-labelledby="toc-rail-title">
-      <nav className="toc-rail-sticky">
+      <nav className={cls(['toc-rail-sticky', tocProgress && 'toc-progress'])}>
         <div id="toc-rail-title" className="toc-rail-title">
           On this page
         </div>
@@ -32,6 +39,16 @@ function TocRail() {
                 href={`#${item.id}`}
                 className={cls(['toc-item', `toc-item-level-${item.level}`, item.id === activeId && 'toc-item-active'])}
                 aria-current={item.id === activeId ? 'location' : undefined}
+                style={
+                  !tocProgress
+                    ? undefined
+                    : {
+                        minHeight: Math.max(
+                          progressSegmentHeightMin,
+                          Math.round((progressTrackHeight * item.length) / lengthTotal),
+                        ),
+                      }
+                }
               >
                 {parseMarkdownMini(item.title)}
               </a>
@@ -44,7 +61,8 @@ function TocRail() {
 }
 
 // The active section is the last heading scrolled past the top of the viewport (below the sticky top nav).
-function useActiveSection(tocItems: { id: string }[]) {
+// With `withProgress`, each item also gets `--toc-progress` (0 to 1): how much of its section has been read.
+function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const { urlPathname } = usePageContext()
   const ids = tocItems.map((item) => item.id)
@@ -56,16 +74,26 @@ function useActiveSection(tocItems: { id: string }[]) {
       frame = null
       const headings = ids.map((id) => document.getElementById(id)).filter((el) => el !== null)
       if (headings.length === 0) return
-      const offset = getStickyOffset() + 80
+      const line = getStickyOffset() + 80
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
       let active = headings[0]!
       for (const heading of headings) {
-        if (heading.getBoundingClientRect().top <= offset) active = heading
+        if (heading.getBoundingClientRect().top <= line) active = heading
         else break
       }
       // Scrolled to the bottom: the last sections may be too short to ever reach the top
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
       if (isAtBottom) active = headings[headings.length - 1]!
       setActiveId(active.id)
+      if (withProgress) {
+        const contentBottom = document.querySelector('.page-content')?.getBoundingClientRect().bottom ?? 0
+        headings.forEach((heading, i) => {
+          const start = heading.getBoundingClientRect().top
+          const end = headings[i + 1]?.getBoundingClientRect().top ?? contentBottom
+          const progress = isAtBottom ? 1 : Math.min(1, Math.max(0, (line - start) / Math.max(1, end - start)))
+          const item = document.querySelector<HTMLElement>(`#toc-rail .toc-item[href="#${CSS.escape(heading.id)}"]`)
+          item?.style.setProperty('--toc-progress', String(progress))
+        })
+      }
     }
     const onScroll = () => {
       if (frame === null) frame = requestAnimationFrame(update)
@@ -79,7 +107,7 @@ function useActiveSection(tocItems: { id: string }[]) {
       if (frame !== null) cancelAnimationFrame(frame)
     }
     // Also re-measure upon navigation: two pages can have the same headings
-  }, [idsKey, urlPathname])
+  }, [idsKey, urlPathname, withProgress])
   return activeId
 }
 

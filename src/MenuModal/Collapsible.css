@@ -15,6 +15,9 @@
   .collapsible-icon {
     transition: transform 0.3s ease-in-out !important;
     display: initial;
+    @media (prefers-reduced-motion: reduce) {
+      transition: none !important;
+    }
   }
 }
 .collapsible-collapsed .collapsible-icon {

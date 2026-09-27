@@ -1,7 +1,7 @@
 a {
   text-decoration: none;
 }
-.doc-page a[href]:not(.nav-item, .toc-item, .version-badge, .page-pagination-link, .edit-link) {
+.doc-page a[href]:not(.nav-item, .toc-item, .icon-button, .version-badge, .page-pagination-link, .edit-link) {
   color: var(--dp-color-primary);
 }
 .doc-page .page-content a[href]:not(.page-pagination-link, .edit-link, .toc-item):hover {

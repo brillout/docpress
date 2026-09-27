@@ -56,9 +56,9 @@
       }
     }
   }
-  /* The left navigation shows a single category */
+  /* The left navigation shows a single category; on the breadcrumb's line (PageChrome) */
   #nav-left & {
-    margin: 24px 0 12px var(--nav-indent);
+    margin: 11px 0 12px var(--nav-indent);
     img {
       height: 16px !important;
       width: 16px !important;

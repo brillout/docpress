@@ -56,6 +56,8 @@
 
   /* Monochrome icons (`.dp-icon-mono`) are black SVGs: 1 inverts them to white */
   --dp-icon-invert: 0;
+  /* Grayed-out icons (`.decolorize-*`): lifted in the dark appearance, where mid-gray sinks into the background */
+  --dp-decolorize-brightness: 1;
 
   /* Hover / active transitions */
   --dp-duration: 150ms;
@@ -123,4 +125,5 @@ body {
   --dp-shadow-popover: 2px 4px 7px 0 rgb(0 0 0 / 45%);
 
   --dp-icon-invert: 1;
+  --dp-decolorize-brightness: 1.6;
 }

@@ -152,6 +152,8 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    ${/* The first row lines up with the close button */ ''}
+    padding-top: 10px;
   }
   #border-bottom {
     display: none;

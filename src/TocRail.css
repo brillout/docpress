@@ -8,7 +8,8 @@
   max-height: calc(100vh - var(--nav-head-sticky-offset));
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 32px 16px 32px 0;
+  /* The title shares the breadcrumb's line (PageChrome) */
+  padding: 22px 16px 32px 0;
   font-size: 13.5px;
   line-height: 1.4;
   ul {

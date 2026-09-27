@@ -18,7 +18,8 @@ table th {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid var(--dp-color-border);
   text-align: left;
-  vertical-align: top;
+  /* First lines aligned, also with glyphs of different sizes */
+  vertical-align: baseline;
 }
 table th {
   font-weight: 600;

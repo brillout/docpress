@@ -10,6 +10,9 @@
 
   /* layout: vertically centered in the code block's header, like the copy button (Pre.css) */
   --top-position: 7.5px;
+  @container container-viewport (max-width: 550px) {
+    --top-position: 4.5px;
+  }
   --border-radius: var(--dp-radius-md);
   --transition-select-list-duration: 180ms;
   --transition-select-option-duration: 120ms;
@@ -303,28 +306,58 @@
   }
 }
 
+/* The dropdown floats over the header of the container's first code block (not the headers of other or nested ones) */
 /* Hover devices: the dropdown appears upon hovering; it already names the choice, so the label steps aside meanwhile */
 @media (hover: hover) and (pointer: fine) {
-  .choice-group-container:not(.always-show):has(> .choice-group__selects):hover .code-block-language {
+  .choice-group-container:not(.always-show):has(> .choice-group__selects):hover
+    > .choice-group
+    > .choice
+    > figure:first-child
+    > pre
+    > .code-block-header
+    .code-block-language {
     visibility: hidden;
   }
 }
 /* Where the dropdown is always shown (touch devices, `alwaysShow`), the header makes room for it instead */
-.choice-group-container.always-show:has(> .choice-group__selects) .code-block-header {
+.choice-group-container.always-show:has(> .choice-group__selects)
+  > .choice-group
+  > .choice
+  > figure:first-child
+  > pre
+  > .code-block-header {
   padding-right: min(60%, 260px);
 }
 @media not all and (hover: hover) and (pointer: fine) {
-  .choice-group-container:has(> .choice-group__selects) .code-block-header {
+  .choice-group-container:has(> .choice-group__selects)
+    > .choice-group
+    > .choice
+    > figure:first-child
+    > pre
+    > .code-block-header {
     padding-right: min(60%, 260px);
   }
 }
 /* The always-shown JavaScript/TypeScript dropdown already names the language */
-.choice-group-container.always-show:has(> .choice-group__selects):has(select[data-choice-group='codeLang'])
+.choice-group-container.always-show:has(> .choice-group__selects):has(
+    > .choice-group > select[data-choice-group='codeLang']
+  )
+  > .choice-group
+  > .choice
+  > figure:first-child
+  > pre
+  > .code-block-header
   .code-block-language {
   visibility: hidden;
 }
 @media not all and (hover: hover) and (pointer: fine) {
-  .choice-group-container:has(> .choice-group__selects):has(select[data-choice-group='codeLang']) .code-block-language {
+  .choice-group-container:has(> .choice-group__selects):has(> .choice-group > select[data-choice-group='codeLang'])
+    > .choice-group
+    > .choice
+    > figure:first-child
+    > pre
+    > .code-block-header
+    .code-block-language {
     visibility: hidden;
   }
 }

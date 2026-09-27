@@ -35,9 +35,9 @@ pre {
 
   .copy-button {
     position: absolute !important;
-    /* Vertically centered in the header (38px) */
-    top: 5px;
-    right: 6px;
+    /* Vertically centered on the first line of code */
+    top: 14px;
+    right: 8px;
     margin: 0;
     padding: 0;
     height: 28px;
@@ -49,9 +49,11 @@ pre {
     opacity: 0;
     transition: color var(--dp-duration) ease, background-color var(--dp-duration) ease, opacity var(--dp-duration) ease;
 
-    &:hover {
-      color: var(--dp-color-text);
-      background-color: var(--dp-color-surface-hover);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--dp-color-text);
+        background-color: var(--dp-color-surface-hover);
+      }
     }
 
     & svg {
@@ -86,17 +88,28 @@ pre {
     text-overflow: ellipsis;
   }
 }
+/* Vertically centered in the header */
+pre:has(> .code-block-header) .copy-button {
+  top: 5px;
+  right: 6px;
+}
+/* Touch devices always show the copy button: the first line doesn't run under it */
+@media not all and (hover: hover) and (pointer: fine) {
+  pre:not(:has(> .code-block-header)):has(> .copy-button) > code > [data-line]:first-child {
+    padding-right: 44px;
+  }
+}
 /* Phones: the header doesn't dominate the (smaller) code */
 @container container-viewport (max-width: 550px) {
   .code-block-header {
     height: 32px;
     font-size: 11px;
   }
-  pre .copy-button {
+  pre:has(> .code-block-header) .copy-button {
     top: 2px;
   }
-  .choice-group-container {
-    --top-position: 4.5px;
+  pre:not(:has(> .code-block-header)) .copy-button {
+    top: 8px;
   }
 }
 

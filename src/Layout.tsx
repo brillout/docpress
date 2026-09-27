@@ -304,10 +304,11 @@ function NavigationContent(props: {
 
   let navItemsRelevant = navItemsWithComputed
   if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
-  const navContent = groupByLabel(navItemsRelevant).map(({ label, navItems }, i) => {
+  const navContent = groupByLabel(navItemsRelevant).map(({ label, navItems, key }, i) => {
     const items = navItems.map((navItem, j) => <NavItemComponent navItem={navItem} key={j} />)
     return label ? (
-      <NavGroup label={label} key={i}>
+      // Keyed by identity (not index), so that a group's collapsed state doesn't leak to another group upon navigation
+      <NavGroup label={label} key={key}>
         {items}
       </NavGroup>
     ) : (
@@ -323,11 +324,13 @@ function NavigationContent(props: {
 }
 // A group is a level-4 heading (e.g. `Basics`) and the items up to the next level-4 or level-1 heading
 function groupByLabel(navItems: NavItemComputed[]) {
-  const groups: { label: NavItemComputed | null; navItems: NavItemComputed[] }[] = []
+  const groups: { label: NavItemComputed | null; navItems: NavItemComputed[]; key: string }[] = []
   let current: (typeof groups)[number] | null = null
+  let category = ''
   for (const navItem of navItems) {
+    if (navItem.level === 1) category = navItem.title
     if (navItem.level === 4 || navItem.level === 1 || !current) {
-      current = { label: navItem.level === 4 ? navItem : null, navItems: [] }
+      current = { label: navItem.level === 4 ? navItem : null, navItems: [], key: `${category}/${navItem.title}` }
       groups.push(current)
       if (navItem.level === 4) continue
     }

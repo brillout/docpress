@@ -58,8 +58,8 @@ function transform(code: string) {
         || line.startsWith('<h2')
         */
       ) {
-        const { pageSectionId, pageSectionLevel, pageSectionTitle, headingHtml } = parsePageSection(line)
-        pageSections.push({ pageSectionId, pageSectionLevel, pageSectionTitle, pageSectionLength: 0 })
+        const { headingHtml, ...pageSection } = parsePageSection(line)
+        pageSections.push(pageSection)
         return headingHtml
       }
 

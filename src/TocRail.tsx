@@ -74,21 +74,22 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       frame = null
       const headings = ids.map((id) => document.getElementById(id)).filter((el) => el !== null)
       if (headings.length === 0) return
+      // Measure once, then compute and paint
+      const tops = headings.map((heading) => heading.getBoundingClientRect().top)
+      const contentBottom = document.querySelector('.page-content')?.getBoundingClientRect().bottom ?? 0
       const line = getStickyOffset() + 80
       const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
-      let active = headings[0]!
-      for (const heading of headings) {
-        if (heading.getBoundingClientRect().top <= line) active = heading
-        else break
-      }
       // Scrolled to the bottom: the last sections may be too short to ever reach the top
-      if (isAtBottom) active = headings[headings.length - 1]!
-      setActiveId(active.id)
+      let activeIndex = 0
+      tops.forEach((top, i) => {
+        if (top <= line) activeIndex = i
+      })
+      if (isAtBottom) activeIndex = headings.length - 1
+      setActiveId(headings[activeIndex]!.id)
       if (withProgress) {
-        const contentBottom = document.querySelector('.page-content')?.getBoundingClientRect().bottom ?? 0
         headings.forEach((heading, i) => {
-          const start = heading.getBoundingClientRect().top
-          const end = headings[i + 1]?.getBoundingClientRect().top ?? contentBottom
+          const start = tops[i]!
+          const end = tops[i + 1] ?? contentBottom
           const progress = isAtBottom ? 1 : Math.min(1, Math.max(0, (line - start) / Math.max(1, end - start)))
           const item = document.querySelector<HTMLElement>(`#toc-rail .toc-item[href="#${CSS.escape(heading.id)}"]`)
           item?.style.setProperty('--toc-progress', String(progress))

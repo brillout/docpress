@@ -1,17 +1,13 @@
-export { applyTheme }
 export { applyTheme_SSR }
-export { cycleThemePreference }
-export { themePreferences }
+export { toggleTheme }
 export { initThemeListener }
-export type { ThemePreference }
 
+// Stored in localStorage `docpress:theme`; absent => follow the OS
 type ThemePreference = 'light' | 'dark' | 'system'
-// The toggle's order
-const themePreferences: ThemePreference[] = ['system', 'light', 'dark']
 
 // Inlined in <head> (`applyTheme_SSR`), so that the page is painted with the right appearance: no flash of the wrong theme.
 // - WARNING: We cannot use TypeScript here because we serialize the function.
-// - The toggle's icon is picked by CSS from `data-theme-preference`, so the server-rendered HTML doesn't depend on the preference (no hydration mismatch).
+// - The toggle's icon is picked by CSS from the `dark` class, so the server-rendered HTML doesn't depend on the theme (no hydration mismatch).
 const applyTheme_SSR = `applyTheme();${applyTheme.toString()}`
 // `preferenceInMemory`: the user's pick when it couldn't be persisted (e.g. storage disabled or full)
 function applyTheme(preferenceInMemory?: string) {
@@ -21,18 +17,16 @@ function applyTheme(preferenceInMemory?: string) {
       preference = localStorage.getItem('docpress:theme') || 'system'
     } catch {}
   }
-  if (preference !== 'light' && preference !== 'dark') preference = 'system'
   const isDark =
-    preference === 'dark' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  const root = document.documentElement
-  root.classList.toggle('dark', isDark)
-  root.setAttribute('data-theme-preference', preference)
+    preference === 'dark' || (preference !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.classList.toggle('dark', isDark)
 }
 
-function cycleThemePreference() {
-  const current = (document.documentElement.getAttribute('data-theme-preference') ?? 'system') as ThemePreference
-  const next = themePreferences[(themePreferences.indexOf(current) + 1) % themePreferences.length]!
-  setThemePreference(next)
+// Switches to the other appearance; switching back to the OS's appearance follows the OS again
+function toggleTheme() {
+  const isDark = !document.documentElement.classList.contains('dark')
+  const isDarkOs = window.matchMedia('(prefers-color-scheme: dark)').matches
+  setThemePreference(isDark === isDarkOs ? 'system' : isDark ? 'dark' : 'light')
 }
 
 let preferenceInMemory: ThemePreference | undefined
@@ -43,7 +37,14 @@ function setThemePreference(preference: ThemePreference) {
     else localStorage.setItem('docpress:theme', preference)
     preferenceInMemory = undefined
   } catch {}
+  switchTheme()
+}
+// Without transitions: every color changes in the same frame
+function switchTheme() {
+  const { classList } = document.documentElement
+  classList.add('dp-theme-switching')
   applyTheme(preferenceInMemory)
+  requestAnimationFrame(() => requestAnimationFrame(() => classList.remove('dp-theme-switching')))
 }
 
 let isListening = false
@@ -51,9 +52,9 @@ function initThemeListener() {
   if (isListening) return
   isListening = true
   // Follow the OS while the preference is `system`
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme(preferenceInMemory))
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', switchTheme)
   // Keep other tabs in sync (`key === null` => the storage was cleared)
   window.addEventListener('storage', (ev) => {
-    if (ev.key === 'docpress:theme' || ev.key === null) applyTheme(preferenceInMemory)
+    if (ev.key === 'docpress:theme' || ev.key === null) switchTheme()
   })
 }

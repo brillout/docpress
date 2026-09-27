@@ -84,21 +84,13 @@ function resolvePageContext(pageContext: PageContextServer) {
   const choices = config.choices && resolveChoices(config.choices)
 
   // "On this page": the page's `##` and `###` headings
-  const tocItems: { id: string; title: string; level: number; length: number }[] = []
-  for (const pageSection of pageSections) {
-    const isTocItem = pageSection.pageSectionId !== null && [2, 3].includes(pageSection.pageSectionLevel)
-    if (isTocItem) {
-      tocItems.push({
-        id: pageSection.pageSectionId!,
-        title: pageSection.pageSectionTitle,
-        level: pageSection.pageSectionLevel,
-        length: 0,
-      })
-    }
-    // A rail item spans its own section and the `####`+ sections below it
-    const tocItem = tocItems[tocItems.length - 1]
-    if (tocItem) tocItem.length += pageSection.pageSectionLength ?? 0
-  }
+  const tocItems = pageSections
+    .filter((pageSection) => pageSection.pageSectionId !== null && [2, 3].includes(pageSection.pageSectionLevel))
+    .map((pageSection) => ({
+      id: pageSection.pageSectionId!,
+      title: pageSection.pageSectionTitle,
+      level: pageSection.pageSectionLevel,
+    }))
 
   const { breadcrumb, pagePrev, pageNext } = getPageNavigation(headingsResolved, urlPathname)
 

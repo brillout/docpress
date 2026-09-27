@@ -12,25 +12,18 @@ const tocRailWidth = 220
 // Three columns: left navigation + page content + "On this page"
 const viewTocRail = 1280
 
-// Height of all progress segments together, distributed by the sections' lengths (source lines, see parsePageSections.ts)
-const progressTrackHeight = 380
-const progressSegmentHeightMin = 28
-// Capped, so that one long section doesn't push the rest of the rail out of view
-const progressSegmentHeightMax = 96
-
 // The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item (and the
-// reading progress) is set after hydration: no active item in the HTML => no hydration mismatch. The progress
-// segments' heights are computed from the build-time section lengths, so they don't shift the layout on load.
+// reading progress) is set after hydration: no active item in the HTML => no hydration mismatch.
 function TocRail() {
   const pageContext = usePageContext()
   const { tocItems } = pageContext.resolved
   const { tocProgress } = pageContext.globalContext.config.docpress
   const activeId = useActiveSection(tocItems, !!tocProgress)
-  if (tocItems.length === 0) return null
-  const lengthTotal = tocItems.reduce((sum, item) => sum + item.length, 0) || 1
+  // Empty, the column is still reserved: the page content doesn't shift between pages with and without sections
+  if (tocItems.length === 0) return <div id="toc-rail" />
   return (
-    <aside id="toc-rail" aria-labelledby="toc-rail-title">
-      <nav className={cls(['toc-rail-sticky', tocProgress && 'toc-progress'])}>
+    <div id="toc-rail">
+      <nav className={cls(['toc-rail-sticky', tocProgress && 'toc-progress'])} aria-labelledby="toc-rail-title">
         <div id="toc-rail-title" className="toc-rail-title">
           On this page
         </div>
@@ -41,19 +34,6 @@ function TocRail() {
                 href={`#${item.id}`}
                 className={cls(['toc-item', `toc-item-level-${item.level}`, item.id === activeId && 'toc-item-active'])}
                 aria-current={item.id === activeId ? 'location' : undefined}
-                style={
-                  !tocProgress
-                    ? undefined
-                    : {
-                        minHeight: Math.min(
-                          progressSegmentHeightMax,
-                          Math.max(
-                            progressSegmentHeightMin,
-                            Math.round((progressTrackHeight * item.length) / lengthTotal),
-                          ),
-                        ),
-                      }
-                }
               >
                 {parseMarkdownMini(item.title)}
               </a>
@@ -61,11 +41,11 @@ function TocRail() {
           ))}
         </ul>
       </nav>
-    </aside>
+    </div>
   )
 }
 
-// The active section is the last heading scrolled past the top of the viewport (below the sticky top nav).
+// The active section is the last heading scrolled past the activation line (see below).
 // With `withProgress`, each item also gets `--toc-progress` (0 to 1): how much of its section has been read.
 function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   const [activeId, setActiveId] = useState<string | null>(null)
@@ -82,20 +62,21 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       // Measure once, then compute and paint
       const tops = headings.map((heading) => heading.getBoundingClientRect().top)
       const contentBottom = document.querySelector('.page-content')?.getBoundingClientRect().bottom ?? 0
-      const line = getStickyOffset() + 80
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
-      // Scrolled to the bottom: the last sections may be too short to ever reach the top
+      // A heading scrolled above the line is read. Within the last viewport of scrolling, the line moves down to the
+      // viewport's bottom: the last sections, too short to ever reach the top, also get their turn.
+      const lineTop = getStickyOffset() + 80
+      const scrollRemaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY
+      const line = lineTop + (window.innerHeight - lineTop) * Math.max(0, 1 - scrollRemaining / window.innerHeight)
       let activeIndex = 0
       tops.forEach((top, i) => {
         if (top <= line) activeIndex = i
       })
-      if (isAtBottom) activeIndex = headings.length - 1
       setActiveId(headings[activeIndex]!.id)
       if (withProgress) {
         headings.forEach((heading, i) => {
           const start = tops[i]!
           const end = tops[i + 1] ?? contentBottom
-          const progress = isAtBottom ? 1 : Math.min(1, Math.max(0, (line - start) / Math.max(1, end - start)))
+          const progress = Math.min(1, Math.max(0, (line - start) / Math.max(1, end - start)))
           const item = document.querySelector<HTMLElement>(`#toc-rail .toc-item[href="#${CSS.escape(heading.id)}"]`)
           item?.style.setProperty('--toc-progress', String(progress))
         })

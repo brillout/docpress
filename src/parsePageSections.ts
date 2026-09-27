@@ -10,8 +10,6 @@ type PageSection = {
   pageSectionTitle: string
   pageSectionId: string | null
   pageSectionLevel: number
-  /** Number of non-empty source lines until the next heading: a build-time proxy of the section's rendered height */
-  pageSectionLength: number
 }
 
 function parsePageSections(): PluginOption {
@@ -30,10 +28,6 @@ function parsePageSections(): PluginOption {
 
 function transform(code: string) {
   const pageSections: PageSection[] = []
-  const countLine = (line: string) => {
-    const pageSection = pageSections[pageSections.length - 1]
-    if (pageSection && line.trim()) pageSection.pageSectionLength++
-  }
   let isCodeBlock = false
   let codeNew = code
     .split('\n')
@@ -48,7 +42,6 @@ function transform(code: string) {
         return line
       }
       if (isCodeBlock) {
-        countLine(line)
         return line
       }
 
@@ -58,12 +51,11 @@ function transform(code: string) {
         || line.startsWith('<h2')
         */
       ) {
-        const { headingHtml, ...pageSection } = parsePageSection(line)
-        pageSections.push(pageSection)
+        const { pageSectionId, pageSectionLevel, pageSectionTitle, headingHtml } = parsePageSection(line)
+        pageSections.push({ pageSectionId, pageSectionLevel, pageSectionTitle })
         return headingHtml
       }
 
-      countLine(line)
       return line
     })
     .join('\n')
@@ -100,7 +92,7 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
   const headingId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
   const headingHtml = `<h${pageSectionLevel}${headingId}>${titleParsed}</h${pageSectionLevel}>`
 
-  const pageSection = { pageSectionLevel, pageSectionTitle, pageSectionId, headingHtml, pageSectionLength: 0 }
+  const pageSection = { pageSectionLevel, pageSectionTitle, pageSectionId, headingHtml }
   return pageSection
 }
 

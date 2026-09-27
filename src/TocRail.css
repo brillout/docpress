@@ -80,7 +80,7 @@
       transform-origin: top;
     }
     &.toc-item-active {
-      color: var(--dp-color-text);
+      color: var(--dp-color-primary);
     }
   }
 }

@@ -33,7 +33,7 @@ pre {
     background-color: var(--dp-color-surface-elevated);
     color: var(--dp-color-text);
     opacity: 0;
-    transition: background-color 0.4s ease-in-out, opacity 200ms ease-in-out;
+    transition: background-color var(--dp-duration) ease, opacity var(--dp-duration) ease;
 
     &:not(:hover) {
       background-color: var(--dp-color-surface);

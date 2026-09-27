@@ -7,7 +7,8 @@ import type { BundledHighlighterOptions, BundledLanguage, BundledTheme, Highligh
 import type { Plugin } from 'vite'
 
 // Both themes are emitted as CSS variables (--shiki-light / --shiki-dark), see src/css/code/block.css
-const highlighterTheme = { light: 'github-light', dark: 'github-dark' } as const
+// The `-default` variants meet WCAG AA contrast (e.g. comments), unlike `github-light` / `github-dark`
+const highlighterTheme = { light: 'github-light-default', dark: 'github-dark-default' } as const
 // The options Rehype Pretty Code passes to `getHighlighter()`, see `rehypePrettyCode()` in
 // node_modules/rehype-pretty-code/dist/index.js
 const highlighterOptions: BundledHighlighterOptions<BundledLanguage, BundledTheme> = {

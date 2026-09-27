@@ -29,6 +29,13 @@
 [class*=' decolorize-'] {
   transition-property: filter, opacity !important;
 }
+/* Hover states: short */
+[class^='decolorize-'],
+[class*=' decolorize-'],
+.link-hover-animation a,
+.link-hover-animation .menu-toggle {
+  transition-duration: var(--dp-duration);
+}
 .link-hover-animation a,
 .menu-toggle {
   transition-property: color, background-color !important;

@@ -109,6 +109,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         setIsHovered(true)
       }}
       onMouseLeave={() => setExpanded(false)}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') setExpanded(false)
+      }}
       onTransitionEnd={() => {
         if (!expanded) setIsHovered(false)
       }}
@@ -130,7 +133,8 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             name={`radio-${radioId}`}
             value={choice}
             checked={selectedChoice === choice}
-            readOnly
+            // Keyboard: arrow keys move the checked radio
+            onChange={() => setSelectedChoice(choice)}
           />
           <span className="choice-select__option-content">
             <span className="choice-select__option-icon">

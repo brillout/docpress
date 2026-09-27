@@ -79,6 +79,6 @@
   cursor: default;
 }
 
-.choice-tabs__tab:focus {
+.choice-tabs__tab:focus:not(:focus-visible) {
   outline: none;
 }

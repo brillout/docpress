@@ -4,8 +4,7 @@ export { PageFooter }
 import React, { useState } from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
-import { usePageSourcePath } from './EditLink.js'
-import { getRepoHref } from './components/index.js'
+import { EditLink, usePageSourcePath } from './EditLink.js'
 import './PageChrome.css'
 
 // Breadcrumb, title, and "Copy page"
@@ -57,30 +56,44 @@ function CopyPageButton() {
     }
     setTimeout(() => setStatus('idle'), 1500)
   }
+  // The label doesn't change (the button keeps its width): the icon and a screen reader announcement show the status
   return (
-    <button type="button" className="copy-page-button" onClick={onClick}>
-      <svg
-        viewBox="0 0 24 24"
-        width="14"
-        height="14"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        aria-hidden="true"
-      >
-        {status === 'copied' ? (
-          <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-        ) : (
-          <>
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </>
-        )}
-      </svg>
-      <span className="copy-page-label">
-        {status === 'copied' ? 'Copied' : status === 'failed' ? 'Copy failed' : 'Copy page'}
+    <>
+      <button type="button" className="copy-page-button" onClick={onClick}>
+        <svg
+          viewBox="0 0 24 24"
+          width="14"
+          height="14"
+          fill="none"
+          stroke={
+            status === 'copied'
+              ? 'var(--dp-color-success)'
+              : status === 'failed'
+                ? 'var(--dp-color-danger)'
+                : 'currentColor'
+          }
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          {status === 'copied' ? (
+            <path d="M20 6 9 17l-5-5" />
+          ) : status === 'failed' ? (
+            <path d="M18 6 6 18M6 6l12 12" />
+          ) : (
+            <>
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </>
+          )}
+        </svg>
+        <span className="copy-page-label">Copy page</span>
+      </button>
+      <span className="sr-only" aria-live="polite">
+        {status === 'copied' ? 'Copied' : status === 'failed' ? 'Copy failed' : ''}
       </span>
-    </button>
+    </>
   )
 }
 
@@ -88,7 +101,6 @@ function CopyPageButton() {
 function PageFooter() {
   const pageContext = usePageContext()
   const { pagePrev, pageNext } = pageContext.resolved
-  const editUrl = getRepoHref(usePageSourcePath(), true)
   return (
     <footer className="page-footer">
       {(pagePrev || pageNext) && (
@@ -109,22 +121,7 @@ function PageFooter() {
           )}
         </nav>
       )}
-      <a href={editUrl} className="page-edit-link">
-        <svg
-          viewBox="0 0 24 24"
-          width="14"
-          height="14"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-        </svg>
-        Edit this page
-      </a>
+      <EditLink className="page-edit-link">Edit this page</EditLink>
     </footer>
   )
 }

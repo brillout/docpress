@@ -14,10 +14,49 @@
   transition-timing-function: ease;
 }
 
+/* Theme switch (applyTheme.ts): every color changes at once */
+.dp-theme-switching,
+.dp-theme-switching *,
+.dp-theme-switching *::before,
+.dp-theme-switching *::after {
+  transition: none !important;
+}
+
 /* Keyboard focus */
 :focus-visible {
   outline: 2px solid var(--dp-color-primary);
   outline-offset: 2px;
+}
+/* Full-height top bar cells: ring inside, like the menu toggles' */
+.nav-head a:focus-visible:not(.icon-button, .version-badge) {
+  outline-offset: -3px;
+}
+/* The ring hugs the visible search box, not its cell */
+.search-link:focus-visible {
+  outline: none;
+  .search-box {
+    outline: 2px solid var(--dp-color-primary);
+    outline-offset: 2px;
+  }
+}
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 8px 12px;
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-bg);
+  color: var(--dp-color-text);
+  box-shadow: var(--dp-shadow-popover);
+  &:not(:focus) {
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0;
+  }
 }
 /* DocSearch draws its own focus state */
 .DocSearch-Input:focus-visible {

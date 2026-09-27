@@ -28,7 +28,8 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
           top: 'var(--nav-head-height)',
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: 'var(--dp-color-bg)',
-          transitionProperty: 'opacity',
+          // `visibility`: hidden once closed (out of the tab order), visible for the whole closing transition
+          transitionProperty: 'opacity, visibility',
           transitionTimingFunction: 'ease',
           maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
           // Horizontal align
@@ -58,10 +59,10 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
                 marginTop: 10,
               }}
             >
-              <ExternalLinks style={{ height: 50 }} />
+              <ExternalLinks style={{ height: 50 }} withThemeToggle={false} />
             </div>
             <Center>
-              <EditLink style={{ justifyContent: 'center', marginTop: 8, marginBottom: 20 }} verbose />
+              <EditLink className="menu-edit-link">Edit page</EditLink>
             </Center>
           </div>
         </div>
@@ -91,6 +92,9 @@ function Nav() {
 
 function getStyle() {
   return css`
+.menu-edit-link {
+  margin: 8px 0 20px;
+}
 .menu-modal-close {
   position: fixed;
   top: 12px;
@@ -109,6 +113,10 @@ function getStyle() {
   cursor: pointer;
 }
 
+html:not(.menu-modal-show) #menu-modal-wrapper {
+  visibility: hidden;
+}
+
 @media(min-width: ${viewTablet + 1}px) {
   #menu-modal-scroll-container {
     max-height: calc(100vh - var(--nav-head-height) - var(--block-margin));
@@ -116,6 +124,9 @@ function getStyle() {
     ${/* https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow */ ''}
     ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
     overscroll-behavior: none;
+  }
+  #menu-modal-wrapper {
+    box-shadow: 0 16px 24px -16px var(--dp-color-shadow);
   }
   html:not(.menu-modal-show) {
     #menu-navigation-container {

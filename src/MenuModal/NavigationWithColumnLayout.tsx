@@ -46,7 +46,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           <div
             id={`menu-navigation-${i}`}
             className="menu-navigation-content"
-            style={{ transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform' }}
+            style={{ transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform, visibility' }}
             key={i}
           >
             {columnLayout.isFullWidthCategory ? (
@@ -123,6 +123,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   html:not(.menu-modal-show-${i}) & {
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
   }
   ${/* Sliding animation */ ''}
   html:not(.menu-modal-show-${i}).menu-modal-show & {

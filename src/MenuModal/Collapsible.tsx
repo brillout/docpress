@@ -51,6 +51,8 @@ function Collapsible({
         style={{
           height: !showContent ? 0 : isAnimating ? contentRef.current!.scrollHeight : 'auto',
           overflow: 'hidden',
+          // Collapsed: out of the tab order, once the animation is done
+          visibility: !showContent && !isAnimating ? 'hidden' : undefined,
           transition: 'none 0.3s ease',
           transitionProperty: 'height, margin-bottom',
           marginBottom: (showContent && marginBottomOnExpand) || undefined,

@@ -35,6 +35,7 @@ async function open(menuNavigationId?: number) {
     enableDisplayOnlyOne()
   }
   classList.add('menu-modal-show')
+  updateAriaExpanded()
   if (menuNavigationId !== undefined) {
     const currentModalId = getCurrentMenuId()
     if (currentModalId === menuNavigationId) return
@@ -42,6 +43,7 @@ async function open(menuNavigationId?: number) {
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
     classList.add(`menu-modal-show-${menuNavigationId}`)
+    updateAriaExpanded()
     await getHydrationPromise()
     // Because all `.menu-navigation-content` are `position: absolute` we have to propagate the content height ourselves.
     const height = window.getComputedStyle(document.getElementById(`menu-navigation-${menuNavigationId}`)!).height
@@ -53,7 +55,16 @@ function closeMenuModal() {
   if (classList.contains('menu-modal-show')) {
     enableDisplayOnlyOne()
     classList.remove('menu-modal-show')
+    updateAriaExpanded()
   }
+}
+function updateAriaExpanded() {
+  const isOpen = document.documentElement.classList.contains('menu-modal-show')
+  const currentMenuId = getCurrentMenuId()
+  document.querySelectorAll('.menu-toggle').forEach((toggle) => {
+    const isCurrent = toggle.classList.contains(`menu-toggle-${currentMenuId}`)
+    toggle.setAttribute('aria-expanded', String(isOpen && isCurrent))
+  })
 }
 let timeoutModalAnimation: NodeJS.Timeout | undefined
 function enableDisplayOnlyOne() {

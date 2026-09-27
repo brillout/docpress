@@ -7,8 +7,10 @@
 #menu-modal-wrapper .nav-item {
   --padding-left-global: 15px;
 }
+/* Same size in the left navigation and the menus; `line-height: 1`: code doesn't make its row taller */
 .nav-item code {
-  font-size: 0.9em;
+  font-size: 0.94em;
+  line-height: 1;
 }
 .nav-item-level-4 {
   padding-top: 14px;
@@ -26,18 +28,14 @@
 }
 .nav-item-level-1 {
   display: inline-flex;
-  font-size: 19px;
-  text-transform: uppercase;
+  align-items: center;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.14ch;
   color: var(--dp-color-text);
   #menu-modal-wrapper & {
-    align-items: center;
     margin-top: 10px;
     padding: 6px 0 6px 12px;
     border-left: 2px solid var(--color-category);
-    font-size: 13px;
-    letter-spacing: 0.06em;
     img {
       height: 18px !important;
       width: 18px !important;
@@ -58,13 +56,9 @@
       }
     }
   }
-  /* The left navigation shows a single category: a quiet label, like the group labels below it */
+  /* The left navigation shows a single category */
   #nav-left & {
-    align-items: center;
     margin: 24px 0 12px var(--nav-indent);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: var(--dp-color-muted);
     img {
       height: 16px !important;
       width: 16px !important;
@@ -144,9 +138,12 @@
   letter-spacing: normal;
 }
 
+/* The left navigation's text edge (the top nav's logo aligns to it) */
+.doc-page {
+  --nav-indent: clamp(16px, 30 * (1vw - 12.7px), 30px);
+}
 /* Left navigation: a hairline down each group; the current page is its text color and a segment of the hairline */
 #nav-left {
-  --nav-indent: clamp(16px, 30 * (1vw - 12.7px), 30px);
   .nav-item-level-2,
   .nav-item-level-3 {
     margin: 0 12px 0 var(--nav-indent);
@@ -168,10 +165,6 @@
   }
   .nav-item-level-2 {
     font-size: 14px;
-    code {
-      font-size: 13.5px;
-      line-height: 1;
-    }
     &.is-active {
       font-weight: 500;
     }
@@ -204,9 +197,11 @@
   align-items: center;
   gap: 6px;
   width: calc(100% - 12px - var(--nav-indent));
-  margin: 20px 12px 6px var(--nav-indent);
-  padding: 0;
+  /* 24px hit area, same rhythm as without padding */
+  margin: 16px 12px 2px var(--nav-indent);
+  padding: 4px 0;
   border: 0;
+  border-radius: var(--dp-radius-sm);
   background: none;
   color: var(--dp-color-muted);
   text-align: left;
@@ -217,7 +212,7 @@
 }
 .nav-group:first-child .nav-group-toggle,
 .nav-item-level-1 + .nav-group .nav-group-toggle {
-  margin-top: 6px;
+  margin-top: 2px;
 }
 .nav-group-chevron {
   margin-left: auto;

@@ -4,7 +4,8 @@
   gap: 8px;
   height: 34px;
   min-width: clamp(130px, 15cqw, 220px);
-  padding: 0 6px 0 10px;
+  /* The hint 7px from the field's rim (inside its 1px ring) on the right, as above and below */
+  padding: 0 8px 0 10px;
   border-radius: var(--dp-radius-md);
   background: var(--dp-color-surface-elevated);
   box-shadow: var(--dp-shadow-raised);
@@ -29,7 +30,7 @@
   color: var(--dp-color-muted);
   font-family: inherit;
   font-size: 11.5px;
-  line-height: 1.4;
+  line-height: 16px;
   white-space: nowrap;
 }
 /* Narrow phones: the top nav also holds the logo, the theme toggle and the menu */

@@ -5,6 +5,7 @@ export { viewTocRail }
 import React, { useEffect, useState } from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
+import { cls } from './utils/cls.js'
 import './TocRail.css'
 
 const tocRailWidth = 220
@@ -16,7 +17,7 @@ const viewTocRail = 1280
 function TocRail() {
   const pageContext = usePageContext()
   const { tocItems } = pageContext.resolved
-  const activeId = useActiveSection(tocItems.map((item) => item.id))
+  const activeId = useActiveSection(tocItems)
   if (tocItems.length === 0) return null
   return (
     <aside id="toc-rail" aria-labelledby="toc-rail-title">
@@ -29,9 +30,7 @@ function TocRail() {
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className={['toc-item', `toc-item-level-${item.level}`, item.id === activeId && 'toc-item-active']
-                  .filter(Boolean)
-                  .join(' ')}
+                className={cls(['toc-item', `toc-item-level-${item.level}`, item.id === activeId && 'toc-item-active'])}
                 aria-current={item.id === activeId ? 'location' : undefined}
               >
                 {parseMarkdownMini(item.title)}
@@ -45,8 +44,10 @@ function TocRail() {
 }
 
 // The active section is the last heading scrolled past the top of the viewport (below the sticky top nav).
-function useActiveSection(ids: string[]) {
+function useActiveSection(tocItems: { id: string }[]) {
   const [activeId, setActiveId] = useState<string | null>(null)
+  const { urlPathname } = usePageContext()
+  const ids = tocItems.map((item) => item.id)
   const idsKey = ids.join(' ')
   useEffect(() => {
     if (ids.length === 0) return
@@ -77,7 +78,8 @@ function useActiveSection(ids: string[]) {
       window.removeEventListener('resize', onScroll)
       if (frame !== null) cancelAnimationFrame(frame)
     }
-  }, [idsKey])
+    // Also re-measure upon navigation: two pages can have the same headings
+  }, [idsKey, urlPathname])
   return activeId
 }
 

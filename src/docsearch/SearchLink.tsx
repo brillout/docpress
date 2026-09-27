@@ -23,7 +23,13 @@ function SearchLink(props: PropsAnchor) {
         openDocsearchModal()
       }}
       role="button"
+      tabIndex={0}
       aria-keyshortcuts="Control+K Meta+K"
+      onKeyDown={(ev) => {
+        if (ev.key !== 'Enter' && ev.key !== ' ') return
+        ev.preventDefault()
+        openDocsearchModal()
+      }}
     >
       <span className="search-box">
         <SearchIcon />

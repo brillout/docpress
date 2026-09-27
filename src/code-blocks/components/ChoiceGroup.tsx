@@ -109,6 +109,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         setIsHovered(true)
       }}
       onMouseLeave={() => setExpanded(false)}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') setExpanded(false)
+      }}
       onTransitionEnd={() => {
         if (!expanded) setIsHovered(false)
       }}
@@ -130,7 +133,14 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             name={`radio-${radioId}`}
             value={choice}
             checked={selectedChoice === choice}
-            readOnly
+            // Keyboard: arrow keys move the checked radio. The native activation must not reach the label's click
+            // handler, which cancels it (mouse cycling).
+            onChange={(e) => {
+              // Like the mouse path: keep the code block in place while the page's other blocks switch too
+              setPrevPosition(e.currentTarget.closest('label')!)
+              setSelectedChoice(choice)
+            }}
+            onClick={(e) => e.stopPropagation()}
           />
           <span className="choice-select__option-content">
             <span className="choice-select__option-icon">

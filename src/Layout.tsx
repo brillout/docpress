@@ -647,7 +647,15 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
         ...props.style,
       }}
       className={[`colorize-on-hover menu-toggle menu-toggle-${menuId}`, props.className].filter(Boolean).join(' ')}
+      role="button"
+      tabIndex={0}
+      aria-haspopup="true"
       onClick={(ev) => {
+        ev.preventDefault()
+        toggleMenuModal(menuId)
+      }}
+      onKeyDown={(ev) => {
+        if (ev.key !== 'Enter' && ev.key !== ' ') return
         ev.preventDefault()
         toggleMenuModal(menuId)
       }}
@@ -696,8 +704,11 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     top: var(--nav-head-height);
     background-color: var(--color-active);
     transition-property: top !important;
-    transition: top 0.4s ease !important;
+    transition: top 180ms ease !important;
     z-index: -1;
+    @media (prefers-reduced-motion: reduce) {
+      transition: none !important;
+    }
   }
   & .caret-icon-left,
   & .caret-icon-right {

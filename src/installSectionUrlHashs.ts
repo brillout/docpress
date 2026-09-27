@@ -21,6 +21,11 @@ function installSectionUrlHashs() {
       jumpToSection()
       copyLink(heading)
     }
+    // Keyboard: focus the heading, Enter copies its link
+    heading.tabIndex = 0
+    heading.onkeydown = (ev) => {
+      if (ev.key === 'Enter') heading.click()
+    }
   })
 
   /* Let browser restore previous scroll

@@ -1,0 +1,52 @@
+/* Interaction & accessibility */
+
+/* Short transitions on hover and active states */
+.nav-item,
+.nav-group-toggle,
+.toc-item,
+.icon-button,
+.theme-toggle,
+.version-badge,
+.search-box,
+.choice-tabs__tab {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: var(--dp-duration);
+  transition-timing-function: ease;
+}
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--dp-color-primary);
+  outline-offset: 2px;
+}
+/* DocSearch draws its own focus state */
+.DocSearch-Input:focus-visible {
+  outline: none;
+}
+/* Clipped by `overflow: hidden` (the hover slide-in): draw the ring inside */
+.menu-toggle:focus-visible {
+  outline-offset: -3px;
+}
+/* Visually hidden radios: ring on the visible label */
+.choice-select__option:has(.choice-select__radio:focus-visible),
+.choice-tabs__tab:has(.choice-tabs__radio:focus-visible) {
+  outline: 2px solid var(--dp-color-primary);
+  outline-offset: -2px;
+}
+
+/* Keyboard focus inside a code block reveals its (otherwise hover-only) dropdown and copy button */
+.choice-group-container:has(:focus-visible) :is(.choice-group__selects, .copy-button),
+pre:has(:focus-visible) .copy-button {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

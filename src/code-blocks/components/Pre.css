@@ -41,7 +41,7 @@ pre {
     background: transparent;
     color: var(--dp-color-muted);
     opacity: 0;
-    transition: color 150ms ease, background-color 150ms ease, opacity 150ms ease;
+    transition: color var(--dp-duration) ease, background-color var(--dp-duration) ease, opacity var(--dp-duration) ease;
 
     &:hover {
       color: var(--dp-color-text);

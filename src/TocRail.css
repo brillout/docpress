@@ -81,7 +81,6 @@
     }
     &.toc-item-active {
       color: var(--dp-color-text);
-      font-weight: 500;
     }
   }
 }

@@ -10,11 +10,14 @@ type ThemePreference = 'light' | 'dark' | 'system'
 // - WARNING: We cannot use TypeScript here because we serialize the function.
 // - The toggle's icon is picked by CSS from `data-theme-preference`, so the server-rendered HTML doesn't depend on the preference (no hydration mismatch).
 const applyTheme_SSR = `applyTheme();${applyTheme.toString()}`
-function applyTheme() {
-  let preference = 'system'
-  try {
-    preference = localStorage.getItem('docpress:theme') || 'system'
-  } catch {}
+// `preferenceInMemory`: the user's pick when it couldn't be persisted (e.g. storage disabled or full)
+function applyTheme(preferenceInMemory?: string) {
+  let preference = preferenceInMemory || 'system'
+  if (!preferenceInMemory) {
+    try {
+      preference = localStorage.getItem('docpress:theme') || 'system'
+    } catch {}
+  }
   if (preference !== 'light' && preference !== 'dark') preference = 'system'
   const isDark =
     preference === 'dark' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -23,19 +26,22 @@ function applyTheme() {
   root.setAttribute('data-theme-preference', preference)
 }
 
+let preferenceInMemory: ThemePreference | undefined
 function setThemePreference(preference: ThemePreference) {
+  preferenceInMemory = preference
   try {
     if (preference === 'system') localStorage.removeItem('docpress:theme')
     else localStorage.setItem('docpress:theme', preference)
+    preferenceInMemory = undefined
   } catch {}
-  applyTheme()
+  applyTheme(preferenceInMemory)
 }
 
 function initThemeListener() {
   // Follow the OS while the preference is `system`
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme())
-  // Keep other tabs in sync
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme(preferenceInMemory))
+  // Keep other tabs in sync (`key === null` => the storage was cleared)
   window.addEventListener('storage', (ev) => {
-    if (ev.key === 'docpress:theme') applyTheme()
+    if (ev.key === 'docpress:theme' || ev.key === null) applyTheme(preferenceInMemory)
   })
 }

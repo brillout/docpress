@@ -61,8 +61,14 @@ figure[data-rehype-pretty-code-figure] {
 /* Dual Shiki themes (see getHighlighter.ts): each token carries both colors as CSS variables */
 code[data-theme] span {
   color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
 }
 :root.dark code[data-theme] span,
 :root[data-theme='dark'] code[data-theme] span {
   color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
 }

@@ -133,8 +133,10 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             name={`radio-${radioId}`}
             value={choice}
             checked={selectedChoice === choice}
-            // Keyboard: arrow keys move the checked radio
+            // Keyboard: arrow keys move the checked radio. The native activation must not reach the label's click
+            // handler, which cancels it (mouse cycling).
             onChange={() => setSelectedChoice(choice)}
+            onClick={(e) => e.stopPropagation()}
           />
           <span className="choice-select__option-content">
             <span className="choice-select__option-icon">

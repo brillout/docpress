@@ -713,6 +713,9 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     transition-property: top !important;
     transition: top 180ms ease !important;
     z-index: -1;
+    @media (prefers-reduced-motion: reduce) {
+      transition: none !important;
+    }
   }
   & .caret-icon-left,
   & .caret-icon-right {

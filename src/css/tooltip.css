@@ -17,6 +17,11 @@
     transition-delay: 0s;
     transition-duration: 0s;
   }
+  /* While the keyboard is used (initInputModality()), only the focused control's label shows, not also the hovered one's */
+  [data-input='keyboard'] [aria-label]:not(:where(nav, aside, .search-link)):not(:focus-visible):hover::before {
+    opacity: 0;
+    transition: none;
+  }
   /* Keyboard: the label of the focused control, at once */
   [aria-label]:not(:where(nav, aside, .search-link)):focus-visible::before {
     opacity: 1;
@@ -66,7 +71,8 @@
   [aria-label]:not(:where(nav, aside, .search-link))[data-label-position='top-left']::before {
     bottom: 100%;
     margin-bottom: 7px;
-    margin-left: calc(50% + 13px);
+    /* Flush with the control's right edge */
+    margin-left: 50%;
     transform: translate(-100%, 0);
   }
 }

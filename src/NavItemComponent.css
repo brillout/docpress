@@ -4,8 +4,9 @@
   overflow-x: hidden;
   --padding-left-global: 9px;
 }
+/* Room for the current page's chip between the category's color bar and the text */
 #menu-modal-wrapper .nav-item {
-  --padding-left-global: 15px;
+  --padding-left-global: 20px;
 }
 /* Same size in the left navigation and the menus; `line-height: 1`: code doesn't make its row taller */
 .nav-item code {
@@ -34,7 +35,8 @@
   color: var(--dp-color-text);
   #menu-modal-wrapper & {
     margin-top: 10px;
-    padding: 6px 0 6px 12px;
+    /* The text on the items' edge (--padding-left-global) */
+    padding: 6px 0 6px 17px;
     border-left: 3px solid var(--color-category);
     img {
       height: 18px !important;
@@ -51,7 +53,7 @@
       border: 0;
       margin: 0;
       /* Text on the same edge as the items' */
-      padding: 12px 10px 12px 15px;
+      padding: 12px 10px 12px 20px;
       img {
         display: none;
       }
@@ -272,8 +274,8 @@
   }
   /* Raised, like in the left navigation (the text doesn't move) */
   .nav-item-level-2.is-active {
-    margin: 0 8px 0 6px;
-    padding-left: calc(var(--padding-left-global) - 6px);
+    margin: 0 8px 0 12px;
+    padding-left: calc(var(--padding-left-global) - 12px);
     padding-right: 8px;
     border-radius: var(--dp-radius-md);
     color: var(--dp-color-heading);
@@ -330,6 +332,9 @@
   > div {
     min-height: 0;
     overflow: hidden;
+    /* Room for the current page's shadow when it's the group's last item */
+    padding-bottom: 4px;
+    margin-bottom: -4px;
   }
   &[data-collapsed] {
     grid-template-rows: 0fr;

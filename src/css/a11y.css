@@ -4,9 +4,10 @@
 .nav-item,
 .toc-item,
 .search-box {
-  transition-property: color, background-color, border-color, box-shadow;
-  transition-duration: var(--dp-duration);
-  transition-timing-function: ease;
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: var(--dp-duration), var(--dp-duration), var(--dp-duration), var(--dp-duration),
+    var(--dp-duration-press);
+  transition-timing-function: ease, ease, ease, ease, var(--dp-ease-out);
 }
 
 /* Pressable controls respond to the press */
@@ -17,8 +18,6 @@
     .theme-toggle,
     .version-badge,
     .menu-modal-close,
-    .nav-group-toggle,
-    .collapsible-head,
     .choice-tabs__tab
   ) {
   transition-property: color, background-color, border-color, box-shadow, transform;
@@ -29,15 +28,21 @@
     transform: scale(0.97);
   }
 }
-.page-pagination-link {
-  transition: box-shadow var(--dp-duration) ease, transform var(--dp-duration-press) var(--dp-ease-out);
+/* Large targets (full-width rows, cards): a subtler press, their content barely moves */
+:is(.page-pagination-link, .nav-group-toggle, .collapsible-head) {
+  transition: color var(--dp-duration) ease, box-shadow var(--dp-duration) ease, transform var(--dp-duration-press)
+    var(--dp-ease-out);
   &:active {
     transform: scale(0.99);
   }
 }
+/* The search field */
+.search-link:active .search-box {
+  transform: scale(0.98);
+}
 
 /* The current page changes at once upon navigation (onRenderClient.tsx): the old and new chips swap in the same frame */
-.dp-nav-switching .nav-item {
+:root.dp-nav-switching .nav-item {
   transition: none !important;
 }
 
@@ -48,10 +53,11 @@
   animation-timing-function: ease;
 }
 /* No element transitions while the page is captured and crossfaded */
-.dp-theme-switching,
-.dp-theme-switching *,
-.dp-theme-switching *::before,
-.dp-theme-switching *::after {
+/* `:root`: also beats other `!important` transitions (e.g. colorize-on-hover.css) */
+:root:root.dp-theme-switching,
+:root:root.dp-theme-switching *,
+:root:root.dp-theme-switching *::before,
+:root:root.dp-theme-switching *::after {
   transition: none !important;
 }
 
@@ -130,9 +136,10 @@ pre:has(:focus-visible) .copy-button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  /* `:root:root`: also beats other `!important` transitions (e.g. colorize-on-hover.css) */
+  :root:root *,
+  :root:root *::before,
+  :root:root *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

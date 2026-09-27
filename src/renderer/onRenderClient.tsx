@@ -64,7 +64,7 @@ async function onRenderClient(pageContext: PageContextClient) {
     requestAnimationFrame(() => document.documentElement.classList.remove('dp-nav-switching')),
   )
 
-  autoScrollNav()
+  autoScrollNav(!pageContext.isHydration)
   installSectionUrlHashs()
   setHydrationIsFinished()
   initGoogleAnalytics(pageContext)

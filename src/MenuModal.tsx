@@ -132,8 +132,10 @@ html.menu-modal-show #menu-modal-wrapper {
     ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
     overscroll-behavior: none;
   }
+  ${/* A popover hanging from the top bar: its extent reads also where it's narrower than the viewport */ ''}
   #menu-modal-wrapper {
-    box-shadow: 0 16px 24px -16px var(--dp-color-shadow);
+    box-shadow: var(--dp-shadow-popover);
+    border-radius: 0 0 var(--dp-radius-lg) var(--dp-radius-lg);
   }
   html:not(.menu-modal-show) {
     #menu-navigation-container {

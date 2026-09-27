@@ -106,7 +106,8 @@ body {
 
   /* Long-standing aliases, used by host sites (e.g. telefunc.com's landing page) */
   --color-bg-white: var(--dp-color-bg);
-  --color-bg-gray: var(--dp-color-surface);
+  /* Between the page and the code wells: code blocks in such sections (e.g. a landing page's hero) still sit lower */
+  --color-bg-gray: color-mix(in srgb, var(--dp-color-surface) 50%, var(--dp-color-bg));
 }
 
 :root.dark,
@@ -147,8 +148,9 @@ body {
 
   --dp-color-shadow: rgba(0, 0, 0, 0.45);
   --dp-shadow-popover: 0 0 0 1px var(--dp-color-ring), 0 2px 4px rgb(0 0 0 / 25%), 0 8px 24px -4px rgb(0 0 0 / 50%);
-  --dp-shadow-raised: 0 0 0 1px var(--dp-color-ring), 0 1px 2px rgb(0 0 0 / 40%);
-  --dp-shadow-raised-hover: 0 0 0 1px var(--dp-color-ring-hover), 0 1px 3px rgb(0 0 0 / 50%);
+  /* The ring inside: a light rim on the chip's own fill, whatever is beneath (a page, a code tray) */
+  --dp-shadow-raised: inset 0 0 0 1px var(--dp-color-ring), 0 1px 2px rgb(0 0 0 / 40%);
+  --dp-shadow-raised-hover: inset 0 0 0 1px var(--dp-color-ring-hover), 0 1px 3px rgb(0 0 0 / 50%);
 
   --dp-icon-invert: 1;
 }

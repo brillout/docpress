@@ -14,6 +14,11 @@ pre > code {
   background: transparent;
   font-size: 1em;
   font-family: var(--dp-font-mono);
+  /* Inside the pre's border (e.g. the fill of a diff) */
+  border-radius: 0 0 calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px);
+  &:first-child {
+    border-radius: calc(var(--dp-radius-lg) - 1px);
+  }
 }
 
 /* Copy button */
@@ -30,8 +35,9 @@ pre {
 
   .copy-button {
     position: absolute !important;
-    top: 8px;
-    right: 8px;
+    /* Vertically centered in the header (38px) */
+    top: 5px;
+    right: 6px;
     margin: 0;
     padding: 0;
     height: 28px;
@@ -63,9 +69,10 @@ pre {
   display: flex;
   align-items: center;
   height: 38px;
-  padding: 0 14px;
+  /* Same left edge as the code (pre [data-line]) */
+  padding: 0 16px;
   border-bottom: 1px solid var(--dp-color-border);
-  border-radius: var(--dp-radius-lg) var(--dp-radius-lg) 0 0;
+  border-radius: calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px) 0 0;
   background: color-mix(in srgb, var(--dp-color-text) 2.5%, transparent);
   font-family: var(--dp-font-sans);
   font-size: 12px;
@@ -79,9 +86,18 @@ pre {
     text-overflow: ellipsis;
   }
 }
-pre:has(> .code-block-header) .copy-button {
-  top: 5px;
-  right: 6px;
+/* Phones: the header doesn't dominate the (smaller) code */
+@container container-viewport (max-width: 550px) {
+  .code-block-header {
+    height: 32px;
+    font-size: 11px;
+  }
+  pre .copy-button {
+    top: 2px;
+  }
+  .choice-group-container {
+    --top-position: 4.5px;
+  }
 }
 
 /* Workaround for shiki regression */

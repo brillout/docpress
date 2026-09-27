@@ -13,6 +13,12 @@ code {
   font-family: var(--dp-font-mono);
   letter-spacing: normal;
 }
+:not(pre) > code {
+  /* Doesn't make its line taller than the others */
+  line-height: 1.2;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
 /* In headings and the "On this page" rail, code is plain monospace text */
 :is(h1, h2, h3, h4, h5, h6, .toc-item) code {
   background: none;

@@ -3,7 +3,7 @@
 
   /* tablist style logic */
   .choice-tabs__tab:has(.choice-tabs__radio:checked) {
-    border-color: var(--dp-color-border-strong);
+    border-color: var(--dp-color-text);
     color: var(--dp-color-text);
   }
 }

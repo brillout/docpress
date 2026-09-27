@@ -8,11 +8,8 @@
 .choice-group-container {
   position: relative;
 
-  /* layout */
-  --top-position: 10px;
-  &:has(.code-block-header) {
-    --top-position: 6px;
-  }
+  /* layout: vertically centered in the code block's header, like the copy button (Pre.css) */
+  --top-position: 7.5px;
   --border-radius: var(--dp-radius-md);
   --transition-select-list-duration: 180ms;
   --transition-select-option-duration: 120ms;

@@ -3,6 +3,16 @@ table {
   border-collapse: collapse;
   font-size: 0.9375em;
 }
+/* Too wide: the table scrolls, not the page */
+.page-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.page-content :is(img, video, iframe) {
+  max-width: 100%;
+  object-fit: contain;
+}
 table td,
 table th {
   padding: 10px 20px 10px 0;
@@ -16,4 +26,17 @@ table th {
 }
 table tr > :last-child {
   padding-right: 0;
+}
+
+/* Other content elements, in the page's palette */
+.page-content hr {
+  margin: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--dp-color-border);
+}
+.page-content summary {
+  cursor: pointer;
+  &::marker {
+    color: var(--dp-color-subtle);
+  }
 }

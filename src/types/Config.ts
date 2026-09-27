@@ -95,6 +95,8 @@ type Category =
 type ChoiceItem = {
   name: string
   icon?: string
+  /** The icon is black (e.g. a monochrome logo): it's shown white in dark mode */
+  iconMono?: boolean
   iconStyle?: React.CSSProperties
   iconStyleDropdown?: React.CSSProperties
   iconStyleTab?: React.CSSProperties

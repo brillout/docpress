@@ -19,12 +19,8 @@ function installSectionUrlHashs() {
       window.location.hash = urlHash
       // The browser doesn't jump if hash doesn't change
       jumpToSection()
-      copyLink(heading)
-    }
-    // Keyboard: focus the heading, Enter copies its link
-    heading.tabIndex = 0
-    heading.onkeydown = (ev) => {
-      if (ev.key === 'Enter') heading.click()
+      // Where the copy-link icon is shown (heading.css)
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) copyLink(heading)
     }
   })
 

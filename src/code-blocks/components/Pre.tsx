@@ -103,8 +103,6 @@ const languageLabels: Record<string, string> = {
   css: 'CSS',
   md: 'Markdown',
   mdx: 'MDX',
-  yaml: 'YAML',
-  yml: 'YAML',
   toml: 'TOML',
   sh: 'Shell',
   shell: 'Shell',
@@ -117,6 +115,8 @@ const languageLabels: Record<string, string> = {
 }
 function getLanguageLabel(language: string): string | null {
   if (language === 'plaintext' || language === 'text' || language === 'txt') return null
+  // Mostly used to list files (a common convention in docs), which aren't YAML
+  if (language === 'yaml' || language === 'yml') return null
   return languageLabels[language] ?? language
 }
 

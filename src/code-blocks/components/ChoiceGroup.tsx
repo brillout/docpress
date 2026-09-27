@@ -120,7 +120,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       }}
       data-choice-group={groupName}
     >
-      {filteredChoices.map(({ name: choice, icon, iconStyle, iconStyleDropdown }) => (
+      {filteredChoices.map(({ name: choice, icon, iconMono, iconStyle, iconStyleDropdown }) => (
         <label
           id={`choice-${choice}`}
           key={choice}
@@ -143,7 +143,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             onClick={(e) => e.stopPropagation()}
           />
           <span className="choice-select__option-content">
-            <span className="choice-select__option-icon">
+            <span className={cls(['choice-select__option-icon', iconMono && 'dp-icon-mono'])}>
               {icon && <img src={icon} alt="" aria-hidden="true" style={{ ...iconStyle, ...iconStyleDropdown }} />}
             </span>
             <span className="choice-select__option-label">{choice}</span>

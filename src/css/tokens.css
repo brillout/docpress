@@ -71,6 +71,11 @@ body {
   --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-text) 3%, transparent);
   --dp-color-primary-soft: color-mix(in srgb, var(--dp-color-primary) 10%, transparent);
 
+  /* Raised (bevelled) borders: lightest, middle, darkest */
+  --dp-bevel-1: color-mix(in srgb, var(--dp-color-border-strong) 75%, var(--dp-color-bg));
+  --dp-bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 84%, var(--dp-color-bg));
+  --dp-bevel-3: var(--dp-color-border-strong);
+
   /* Long-standing aliases, used by host sites (e.g. telefunc.com's landing page) */
   --color-bg-white: var(--dp-color-bg);
   --color-bg-gray: var(--dp-color-surface);

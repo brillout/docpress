@@ -3,6 +3,7 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { css } from './utils/css.js'
+import { cls } from './utils/cls.js'
 import { bodyMaxWidth, viewDesktop, viewTablet, viewMobile, scrollFadeMask } from './Layout.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import { Style } from './utils/Style.js'
@@ -20,7 +21,11 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
-        className="link-hover-animation add-transition show-on-nav-hover"
+        // `menu-modal-framed`: capped to the frame's width (its rounded corners, see below)
+        className={cls([
+          'link-hover-animation add-transition show-on-nav-hover',
+          !isNavLeftAlwaysHidden_ && 'menu-modal-framed',
+        ])}
         style={{
           // Absolute inside the sticky header so the dropdown tracks the nav on scroll
           position: 'absolute',
@@ -44,6 +49,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
         <CloseButton className="show-only-on-mobile" />
         <div
           id="menu-modal-scroll-container"
+          className="scroll-fade"
           style={{
             overflowX: 'hidden',
             overflowY: 'scroll',
@@ -132,10 +138,26 @@ html.menu-modal-show #menu-modal-wrapper {
     ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
     overscroll-behavior: none;
   }
-  ${/* A popover hanging from the top bar: its extent reads also where it's narrower than the viewport */ ''}
+  ${/* A popover hanging from the top bar: its extent reads also where it's narrower than the viewport. Just below the */ ''}
+  ${/* top bar's hairline (its own top edge clipped): the hairline runs unbroken. */ ''}
   #menu-modal-wrapper {
+    top: calc(var(--nav-head-height) + var(--block-margin)) !important;
     box-shadow: var(--dp-shadow-popover);
-    border-radius: 0 0 var(--dp-radius-lg) var(--dp-radius-lg);
+    clip-path: inset(0 -40px -60px -40px);
+  }
+  #border-bottom {
+    display: none;
+  }
+  ${/* The columns (and the categories' color bars) don't touch the popover's sides */ ''}
+  .menu-navigation-content {
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+  ${/* Rounded corners only where the popover doesn't reach the viewport's sides (+20px: a classic scrollbar) */ ''}
+  @media (min-width: ${bodyMaxWidth + 20}px) {
+    #menu-modal-wrapper.menu-modal-framed {
+      border-radius: 0 0 var(--dp-radius-lg) var(--dp-radius-lg);
+    }
   }
   html:not(.menu-modal-show) {
     #menu-navigation-container {

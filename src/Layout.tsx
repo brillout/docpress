@@ -57,10 +57,8 @@ const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1
 // The frame: left navigation + page content + "On this page", and not wider (the eye doesn't travel far)
 const bodyMaxWidth = 1340
 
-// Scroll fade effect at top/bottom edges
+// Scroll fade effect at top/bottom edges: `.scroll-fade` (a11y.css), only while the container actually scrolls
 const scrollFadeMask: React.CSSProperties = {
-  maskImage:
-    'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
   // Force hardware acceleration to fix Chrome rendering bug (temporary bold text upon scrolling)
   transform: 'translateZ(0)',
 }
@@ -298,6 +296,7 @@ function NavLeft() {
           <div>
             <div
               id="navigation-container"
+              className="scroll-fade"
               style={{
                 top: 0,
                 height: `calc(100vh - var(--nav-head-sticky-offset) - var(--block-margin))`,

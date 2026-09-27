@@ -6,7 +6,7 @@ html:root {
   --docsearch-muted-color: var(--dp-color-muted);
   --docsearch-container-background: rgb(0 0 0 / 35%);
   --docsearch-modal-background: var(--dp-color-surface);
-  --docsearch-modal-shadow: 0 0 0 1px var(--dp-color-border), 0 16px 48px rgb(0 0 0 / 16%);
+  --docsearch-modal-shadow: var(--dp-shadow-popover);
   --docsearch-searchbox-background: var(--dp-color-bg);
   --docsearch-searchbox-focus-background: var(--dp-color-bg);
   --docsearch-searchbox-shadow: inset 0 0 0 1.5px var(--dp-color-primary);
@@ -14,10 +14,12 @@ html:root {
   /* Text on the selected hit (its background is the primary color) */
   --docsearch-hit-active-color: var(--dp-color-bg);
   --docsearch-hit-background: var(--dp-color-surface-elevated);
-  --docsearch-hit-shadow: 0 0 0 1px var(--dp-color-border);
-  --docsearch-key-gradient: var(--dp-color-surface-elevated);
-  --docsearch-key-shadow: inset 0 0 0 1px var(--dp-color-border-strong);
-  --docsearch-footer-background: var(--dp-color-surface-elevated);
+  --docsearch-hit-shadow: var(--dp-shadow-raised);
+  /* Keys are recessed, like the search field's `Ctrl K` */
+  --docsearch-key-gradient: color-mix(in srgb, var(--dp-color-text) 6%, var(--dp-color-surface));
+  --docsearch-key-shadow: none;
+  /* The modal's own color, below a hairline */
+  --docsearch-footer-background: var(--dp-color-surface);
   --docsearch-footer-shadow: inset 0 1px 0 0 var(--dp-color-border);
   --docsearch-logo-color: var(--dp-color-muted);
   /* Fits short viewports (e.g. landscape phones) */
@@ -25,7 +27,6 @@ html:root {
 }
 html:root.dark {
   --docsearch-container-background: rgb(0 0 0 / 60%);
-  --docsearch-modal-shadow: 0 0 0 1px var(--dp-color-border), 0 16px 48px rgb(0 0 0 / 60%);
 }
 /* Below 769px, DocSearch's modal is full screen (square corners) */
 @media (min-width: 769px) {

@@ -153,7 +153,8 @@
     }
   }
 
-  .choice-select__option:not(:last-child) {
+  /* Separators between the options, while the list is open (closed, the chip has only its ring) */
+  .choice-select__list[aria-expanded='true'] .choice-select__option:not(:last-child) {
     box-shadow: inset 0 -1px 0 var(--dp-color-border);
   }
 

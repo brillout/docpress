@@ -192,3 +192,22 @@ html {
   ) {
   transition-duration: 1ms !important;
 }
+
+/* Scroll containers (left navigation, menus) fade at their edges, only while they actually scroll: a scroll timeline is
+ * inactive (the animation doesn't apply) when there is nothing to scroll. Without scroll timelines, they always fade. */
+@keyframes dp-scroll-fade {
+  from,
+  to {
+    mask-image: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 30%) 0,
+      black 20px,
+      black calc(100% - 20px),
+      rgb(0 0 0 / 30%) 100%
+    );
+  }
+}
+.scroll-fade {
+  animation: dp-scroll-fade linear both;
+  animation-timeline: scroll(self);
+}

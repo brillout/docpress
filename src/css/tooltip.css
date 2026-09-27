@@ -22,6 +22,11 @@
     opacity: 0;
     transition: none;
   }
+  /* Once the pointer is used again, only the hovered control's label shows */
+  [data-input='pointer'] [aria-label]:not(:where(nav, aside, .search-link)):focus-visible:not(:hover)::before {
+    opacity: 0;
+    transition: none;
+  }
   /* Keyboard: the label of the focused control, at once */
   [aria-label]:not(:where(nav, aside, .search-link)):focus-visible::before {
     opacity: 1;
@@ -70,7 +75,8 @@
    */
   [aria-label]:not(:where(nav, aside, .search-link))[data-label-position='top-left']::before {
     bottom: 100%;
-    margin-bottom: 7px;
+    /* Clear of the code block's top edge (the copy button sits 7px below it) */
+    margin-bottom: 11px;
     /* Flush with the control's right edge */
     margin-left: 50%;
     transform: translate(-100%, 0);

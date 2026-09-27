@@ -71,7 +71,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     //*/
     const text = await page.textContent('body')
     expect(text).toContain('Custom URL hash for section heading (custom hash)')
-    await page.click('a[href="#custom-hash"]', { timeout: 1000 })
+    // The page's own link (the "On this page" rail, earlier in the DOM, also links to the section)
+    await page.click('.page-content a[href="#custom-hash"]', { timeout: 1000 })
     await testUrlHash()
   })
   test(`${featuresURL} - JavaScript toggle`, async () => {

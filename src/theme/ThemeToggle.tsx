@@ -1,29 +1,20 @@
 export { ThemeToggle }
 
 import React from 'react'
-import { setThemePreference, type ThemePreference } from './applyTheme.js'
+import { cycleThemePreference, themePreferences, type ThemePreference } from './applyTheme.js'
 import './ThemeToggle.css'
 
-const order: ThemePreference[] = ['system', 'light', 'dark']
 const labels: Record<ThemePreference, string> = {
   system: 'Theme: system',
   light: 'Theme: light',
   dark: 'Theme: dark',
 }
 
-// Cycles system -> light -> dark. All three icons are rendered; CSS shows the one matching `data-theme-preference`.
+// All three icons are rendered; CSS shows the one matching `data-theme-preference`.
 function ThemeToggle() {
   return (
-    <button
-      type="button"
-      className="theme-toggle colorize-on-hover"
-      onClick={() => {
-        const current = (document.documentElement.getAttribute('data-theme-preference') ?? 'system') as ThemePreference
-        const next = order[(order.indexOf(current) + 1) % order.length]!
-        setThemePreference(next)
-      }}
-    >
-      {order.map((preference) => (
+    <button type="button" className="theme-toggle colorize-on-hover" onClick={cycleThemePreference}>
+      {themePreferences.map((preference) => (
         <span key={preference} className={`theme-toggle-icon theme-toggle-${preference}`}>
           <span className="sr-only">{labels[preference]}</span>
           {icons[preference]}

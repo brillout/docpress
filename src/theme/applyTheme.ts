@@ -1,10 +1,13 @@
 export { applyTheme }
 export { applyTheme_SSR }
-export { setThemePreference }
+export { cycleThemePreference }
+export { themePreferences }
 export { initThemeListener }
 export type { ThemePreference }
 
 type ThemePreference = 'light' | 'dark' | 'system'
+// The toggle's order
+const themePreferences: ThemePreference[] = ['system', 'light', 'dark']
 
 // Inlined in <head> (`applyTheme_SSR`), so that the page is painted with the right appearance: no flash of the wrong theme.
 // - WARNING: We cannot use TypeScript here because we serialize the function.
@@ -26,6 +29,12 @@ function applyTheme(preferenceInMemory?: string) {
   root.setAttribute('data-theme-preference', preference)
 }
 
+function cycleThemePreference() {
+  const current = document.documentElement.getAttribute('data-theme-preference') as ThemePreference
+  const next = themePreferences[(themePreferences.indexOf(current) + 1) % themePreferences.length]!
+  setThemePreference(next)
+}
+
 let preferenceInMemory: ThemePreference | undefined
 function setThemePreference(preference: ThemePreference) {
   preferenceInMemory = preference
@@ -37,7 +46,10 @@ function setThemePreference(preference: ThemePreference) {
   applyTheme(preferenceInMemory)
 }
 
+let isListening = false
 function initThemeListener() {
+  if (isListening) return
+  isListening = true
   // Follow the OS while the preference is `system`
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme(preferenceInMemory))
   // Keep other tabs in sync (`key === null` => the storage was cleared)

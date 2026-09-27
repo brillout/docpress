@@ -54,7 +54,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   setHydrationIsFinished()
   initGoogleAnalytics(pageContext)
   initUmami(pageContext)
-  if (!globalObject.isNotFirstRender && pageContext.config.docpress.darkMode) initThemeListener()
+  if (pageContext.config.docpress.darkMode) initThemeListener()
 
   globalObject.isNotFirstRender = true
 }

@@ -61,12 +61,14 @@ const config: Config = {
         {
           name: 'Express',
           icon: iconExpress,
+          iconMono: true,
           iconStyle: { objectFit: 'contain' },
           iconStyleTab: { height: '11.5px' },
         },
         {
           name: 'Fastify',
           icon: iconFastify,
+          iconMono: true,
           iconStyleDropdown: { width: '14px' },
           iconStyleTab: { width: '18px' },
         },

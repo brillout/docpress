@@ -3,8 +3,8 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { css } from './utils/css.js'
-import { cls } from './utils/cls.js'
 import { bodyMaxWidth, viewDesktop, viewTablet, viewMobile, scrollFadeMask } from './Layout.js'
+import { menuPaddingX } from './MenuModal/NavigationWithColumnLayout.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import { Style } from './utils/Style.js'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout.js'
@@ -21,11 +21,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
-        // `menu-modal-framed`: capped to the frame's width (its rounded corners, see below)
-        className={cls([
-          'link-hover-animation add-transition show-on-nav-hover',
-          !isNavLeftAlwaysHidden_ && 'menu-modal-framed',
-        ])}
+        className="link-hover-animation add-transition show-on-nav-hover"
         style={{
           // Absolute inside the sticky header so the dropdown tracks the nav on scroll
           position: 'absolute',
@@ -52,7 +48,8 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
           className="scroll-fade"
           style={{
             overflowX: 'hidden',
-            overflowY: 'scroll',
+            // Not \`scroll\`: it shows a classic scrollbar (arrows included) also when there's nothing to scroll
+            overflowY: 'auto',
             // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
             container: 'container-viewport / inline-size',
             ...scrollFadeMask,
@@ -132,33 +129,48 @@ html.menu-modal-show #menu-modal-wrapper {
 
 @media (width > ${viewTablet}px) {
   #menu-modal-scroll-container {
-    ${/* 16px: the popover's bottom edge (and shadow) stays on screen when the viewport is short */ ''}
-    max-height: calc(100vh - var(--nav-head-height) - var(--block-margin) - 16px);
+    ${/* 8px above, 16px below: the panel's edges (and shadow) stay on screen when the viewport is short */ ''}
+    max-height: calc(100vh - var(--nav-head-height) - 24px);
+    ${/* A scrollbar only when the menu overflows (\`scroll\` shows a classic scrollbar, arrows included, always) */ ''}
+    overflow-y: auto !important;
     ${/* https://github.com/brillout/docpress/issues/23 */ ''}
-    ${/* https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow */ ''}
-    ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
-    overscroll-behavior: none;
+    overscroll-behavior: contain;
+    border-radius: inherit;
   }
-  ${/* A popover hanging from the top bar: its extent reads also where it's narrower than the viewport. Just below the */ ''}
-  ${/* top bar's hairline (its own top edge clipped): the hairline runs unbroken. */ ''}
+  ${/* A raised panel floating just below the top bar: centered on its menu's toggle (--menu-anchor, toggleMenuModal.ts), */ ''}
+  ${/* sized to its columns (--menu-width, NavigationWithColumnLayout.tsx), kept within the frame */ ''}
   #menu-modal-wrapper {
-    top: calc(var(--nav-head-height) + var(--block-margin)) !important;
+    top: calc(var(--nav-head-height) + 8px) !important;
+    width: var(--menu-width, calc(100% - 32px)) !important;
+    left: clamp(
+      16px,
+      var(--menu-anchor, 50%) - var(--menu-width, calc(100% - 32px)) / 2,
+      100% - var(--menu-width, calc(100% - 32px)) - 16px
+    ) !important;
+    transform: none !important;
+    border-radius: var(--dp-radius-lg);
+    background: var(--dp-color-surface-elevated) !important;
     box-shadow: var(--dp-shadow-popover);
-    clip-path: inset(0 -40px -60px -40px);
+  }
+  ${/* The gap above the panel is part of it: crossing it from the toggle doesn't close the menu */ ''}
+  #menu-modal-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 9px;
+  }
+  ${/* Switching from one menu to another: the panel glides to its toggle and its width (opening: in place at once) */ ''}
+  html.menu-modal-show:not(.menu-modal-display-only-one) #menu-modal-wrapper {
+    transition-property: opacity, visibility, left, width !important;
   }
   #border-bottom {
     display: none;
   }
-  ${/* The columns (and the categories' color bars) don't touch the popover's sides */ ''}
   .menu-navigation-content {
-    padding: 5px 12px 0;
+    padding: 20px ${menuPaddingX}px 24px;
     box-sizing: border-box;
-  }
-  ${/* Rounded corners only where the popover doesn't reach the viewport's sides (+20px: a classic scrollbar) */ ''}
-  @media (width >= ${bodyMaxWidth + 20}px) {
-    #menu-modal-wrapper.menu-modal-framed {
-      border-radius: 0 0 var(--dp-radius-lg) var(--dp-radius-lg);
-    }
   }
   html:not(.menu-modal-show) {
     #menu-navigation-container {

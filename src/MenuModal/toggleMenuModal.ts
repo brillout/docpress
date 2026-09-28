@@ -44,6 +44,7 @@ async function open(menuNavigationId?: number) {
     if (currentModalId !== null) {
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
+    setMenuAnchor(menuNavigationId)
     classList.add(`menu-modal-show-${menuNavigationId}`)
     updateAriaExpanded()
     await getHydrationPromise()
@@ -240,4 +241,15 @@ function ignoreHover() {
 function isMobileNav() {
   // The same query as the CSS (@media, which counts the scrollbar and fractional widths): they never disagree
   return window.matchMedia(`(width <= ${viewTablet}px)`).matches
+}
+
+// Desktop: the menu's panel is centered on its toggle (MenuModal.tsx)
+function setMenuAnchor(menuId: number) {
+  const toggle = document.querySelector(`.menu-toggle-${menuId}`)
+  const wrapper = document.getElementById('menu-modal-wrapper')
+  const container = wrapper?.offsetParent
+  if (!toggle || !wrapper || !container) return
+  const toggleRect = toggle.getBoundingClientRect()
+  const anchor = toggleRect.left + toggleRect.width / 2 - container.getBoundingClientRect().left
+  wrapper.style.setProperty('--menu-anchor', `${anchor}px`)
 }

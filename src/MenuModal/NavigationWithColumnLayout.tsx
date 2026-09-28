@@ -1,4 +1,5 @@
 export { NavigationWithColumnLayout }
+export { menuPaddingX }
 
 import React, { useEffect, useState } from 'react'
 import { assert } from '../utils/server.js'
@@ -13,6 +14,12 @@ import { Style } from '../utils/Style.js'
 import { css } from '../utils/css.js'
 
 const marginBottomOnExpand = 15
+// Desktop: the menu is a panel sized to its columns (MenuModal.tsx)
+const menuColumnWidth = 240
+const menuColumnGap = 40
+const menuPaddingX = 28
+const getMenuWidth = (numberOfColumns: number) =>
+  numberOfColumns * menuColumnWidth + (numberOfColumns - 1) * menuColumnGap + 2 * menuPaddingX
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
@@ -109,6 +116,30 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     position: absolute;
     width: 100%;
   }
+  ${/* Columns of a fixed width, evenly spaced: the panel is sized to them (--menu-width, see MenuModal.tsx) */ ''}
+  ${navItemsByColumnLayouts
+    .map(
+      (columnLayout, i) => css`
+  html.menu-modal-show-${i} #menu-modal-wrapper {
+    --menu-width: min(${getMenuWidth(columnLayout.columns.length)}px, 100% - 32px);
+  }`,
+    )
+    .join('')}
+  .columns-wrapper {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+  }
+  .menu-columns {
+    justify-content: flex-start !important;
+    gap: ${menuColumnGap}px;
+  }
+  .menu-column {
+    flex: 0 1 ${menuColumnWidth}px !important;
+    min-width: 0;
+    max-width: none !important;
+  }
   #menu-navigation-container {
     position: relative;
     overflow: hidden;
@@ -144,10 +175,8 @@ ${/* Button style */ ''}
     [class*=' decolorize-'] {
       filter: grayscale(0) opacity(1) !important;
     }
-    ${/* The open menu continues the top bar (same color): the tab isn't tinted */ ''}
     &::before {
       top: 0;
-      background-color: transparent;
     }
     & .caret-icon-left {
       transform: rotate(-90deg);
@@ -168,6 +197,7 @@ ${/* Button style */ ''}
 function Column({ children }: { children: React.ReactNode }) {
   return (
     <div
+      className="menu-column"
       style={{
         flexGrow: 1,
         maxWidth: navLeftWidthMax,
@@ -196,7 +226,7 @@ function ColumnsWrapper({ children, style }: { children: React.ReactNode; style:
 function ColumnsLayout({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={className}
+      className={['menu-columns', className].filter(Boolean).join(' ')}
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -231,7 +261,10 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
   const numberOfColumnsMax = Math.floor(availableWidth / navLeftWidthMin) || 1
   const navItemsByColumnLayouts: NavItemsByColumnLayout[] = navItemsByColumnEntries.map(
     ({ columnEntries, isFullWidthCategory }) => {
-      const numberOfColumns = Math.min(numberOfColumnsMax, columnEntries.length)
+      const numberOfColumns = getBalancedNumberOfColumns(
+        columnEntries,
+        Math.min(numberOfColumnsMax, columnEntries.length),
+      )
       if (!isFullWidthCategory) {
         const columns: {
           categories: {
@@ -273,6 +306,29 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
     },
   )
   return navItemsByColumnLayouts
+}
+// The fewest columns that are as short as the most columns: e.g. a two-item column next to a long one is merged with a
+// neighbor (the columns balance, and the menu is narrower), unless that makes the menu taller
+function getBalancedNumberOfColumns(columnEntries: ColumnEntry[], numberOfColumnsMax: number): number {
+  // The rendered heights (px) of a category's title, a group label and an item; the current page's sections (level 3)
+  // are left out: the layout doesn't change from one page to another
+  const rowHeights: Record<number, number> = { 1: 43, 4: 40, 2: 31, 3: 0 }
+  const gapBetweenEntries = 26
+  const getEntryHeight = (columnEntry: ColumnEntry) =>
+    columnEntry.navItems.reduce((height, navItem) => height + (rowHeights[navItem.level] ?? 0), 0)
+  const getHeight = (numberOfColumns: number) => {
+    const columnHeights: number[] = []
+    columnEntries.forEach((columnEntry) => {
+      const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
+      const height = columnHeights[idx]
+      columnHeights[idx] =
+        height === undefined ? getEntryHeight(columnEntry) : height + gapBetweenEntries + getEntryHeight(columnEntry)
+    })
+    return Math.max(0, ...columnHeights.map((height) => height ?? 0))
+  }
+  const heights = Array.from({ length: numberOfColumnsMax }, (_, i) => getHeight(i + 1))
+  const heightMin = Math.min(...heights)
+  return heights.findIndex((height) => height <= heightMin) + 1
 }
 type NavItemsByColumnEntries = { columnEntries: ColumnEntry[]; isFullWidthCategory: boolean }[]
 type ColumnEntry = { navItems: NavItemComputed[]; columnMap: ColumnMap }

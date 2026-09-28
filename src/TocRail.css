@@ -78,6 +78,14 @@
 .toc-item-level-3 {
   padding-left: 28px;
 }
+/* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx) */
+.toc-progress li {
+  padding-bottom: var(--toc-extra, 0px);
+  transition: padding-bottom var(--dp-duration-reveal) var(--dp-ease-out);
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
 /* Reading progress (`tocProgress`): the sections on screen are in ink, the thumb spans them */
 .toc-progress .toc-item {
   &.toc-item-active {

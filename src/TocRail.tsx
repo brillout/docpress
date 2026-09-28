@@ -89,6 +89,11 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     if (ids.length === 0) return
     let frame: number | null = null
     let jump: { id: string; scrollY: number } | null = null
+    // While the rows glide to new lengths, the thumb is re-measured every frame
+    let animateUntil = 0
+    // The rows don't move under a pointer that's aiming at an item (it's on the rail and has just moved)
+    let pointerMovedAt = 0
+    let pointerTimeout: ReturnType<typeof setTimeout> | undefined
     const onJump = () => {
       const id = decodeURIComponent(window.location.hash.slice(1))
       jump = id ? { id, scrollY: window.scrollY } : null
@@ -130,9 +135,34 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       const list = rail?.querySelector<HTMLElement>('.toc-list')
       if (!rail || !list) return
       const items = Array.from(list.querySelectorAll<HTMLElement>('.toc-item'))
+      // A row: the item, and (with progress) the rail below it (see getRowLengths())
+      const rows = items.map((item) => item.parentElement!)
+      const pointingFor = pointerMovedAt + pointerStill - performance.now()
+      if (withProgress && rail.matches(':hover') && pointingFor > 0) {
+        clearTimeout(pointerTimeout)
+        pointerTimeout = setTimeout(onScroll, pointingFor)
+      } else if (withProgress) {
+        const lengths = tops.map((start, i) => {
+          if (start === null) return 0
+          const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
+          return Math.max(0, end - start)
+        })
+        const heights = items.map((item) => item.getBoundingClientRect().height)
+        const available =
+          parseFloat(getComputedStyle(rail).maxHeight) - (rail.scrollHeight - list.getBoundingClientRect().height)
+        // Not while reading the introduction
+        const isReading = !!jump || (tops[activeIndex] ?? Infinity) <= line
+        const rowLengths = getRowLengths(heights, lengths, available, isReading ? activeIndex : null)
+        rows.forEach((row, i) => {
+          const extra = `${Math.round(rowLengths[i]! - heights[i]!)}px`
+          if (row.style.getPropertyValue('--toc-extra') === extra) return
+          row.style.setProperty('--toc-extra', extra)
+          animateUntil = performance.now() + 300
+        })
+      }
       const listTop = list.getBoundingClientRect().top
-      const itemBoxes = items.map((item) => {
-        const rect = item.getBoundingClientRect()
+      const itemBoxes = rows.map((row) => {
+        const rect = row.getBoundingClientRect()
         return { top: rect.top - listTop, height: rect.height }
       })
       let thumb: { top: number; bottom: number } | null = null
@@ -164,10 +194,17 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         const box = itemBoxes[activeIndex]
         if (box) thumb = { top: box.top, bottom: box.top + box.height }
       }
-      const { top, bottom } = thumb ?? { top: 0, bottom: 0 }
+      let { top, bottom } = thumb ?? { top: 0, bottom: 0 }
+      // Never a sliver
+      if (thumb && bottom - top < thumbMin) {
+        const listHeight = list.getBoundingClientRect().height
+        top = Math.min(Math.max(0, (top + bottom - thumbMin) / 2), listHeight - thumbMin)
+        bottom = top + thumbMin
+      }
       list.style.setProperty('--thumb-top', `${top}px`)
       list.style.setProperty('--thumb-height', `${bottom - top}px`)
       rail.toggleAttribute('data-scrolled', window.scrollY > 200)
+      if (performance.now() < animateUntil) onScroll()
     }
     const onScroll = () => {
       if (frame === null) frame = requestAnimationFrame(update)
@@ -176,7 +213,21 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll, { passive: true })
     window.addEventListener('hashchange', onJump)
+    // Sections change length (images load, a choice is switched)
+    const resizeObserver = new ResizeObserver(onScroll)
+    const pageContent = document.querySelector('.page-content')
+    if (pageContent) resizeObserver.observe(pageContent)
+    const rail = document.querySelector('#toc-rail .toc-rail-sticky')
+    const onPointerMove = () => {
+      pointerMovedAt = performance.now()
+    }
+    rail?.addEventListener('pointermove', onPointerMove)
+    rail?.addEventListener('pointerleave', onScroll)
     return () => {
+      clearTimeout(pointerTimeout)
+      rail?.removeEventListener('pointermove', onPointerMove)
+      rail?.removeEventListener('pointerleave', onScroll)
+      resizeObserver.disconnect()
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
       window.removeEventListener('hashchange', onJump)
@@ -186,6 +237,24 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   }, [idsKey, urlPathname, withProgress])
   return activeIndex
 }
+
+const thumbMin = 16
+// A pointer that hasn't moved for this long, e.g. resting on the rail while the reader scrolls, isn't aiming
+const pointerStill = 800
+
+// The length (px) of each row: the item, and the rail below it. With reading progress, the section being read gets a
+// longer rail, as long as the section (scaled: a page of `railContentLength` px of content would fill the rail), in
+// the rail's free height: the thumb (the part of the page on screen) is never a sliver, however long the section.
+function getRowLengths(heights: number[], lengths: number[], available: number, expanded: number | null) {
+  const free = Math.max(0, available - heights.reduce((a, b) => a + b, 0))
+  return heights.map((height, i) => {
+    if (i !== expanded) return height
+    const extra = Math.min((lengths[i]! / railContentLength) * available - height, free)
+    // Not by a few px: the list would twitch for nothing
+    return extra < 24 ? height : height + extra
+  })
+}
+const railContentLength = 11000
 
 // The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky
 function getStickyOffset() {

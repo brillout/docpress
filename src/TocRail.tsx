@@ -89,11 +89,9 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     if (ids.length === 0) return
     let frame: number | null = null
     let jump: { id: string; scrollY: number } | null = null
-    // While the rows glide to new lengths, the thumb is re-measured every frame
+    // While the rows glide to new lengths (the page loaded, a section changed length), the thumb is re-measured every
+    // frame
     let animateUntil = 0
-    // The rows don't move under a pointer that's aiming at an item (it's on the rail and has just moved)
-    let pointerMovedAt = 0
-    let pointerTimeout: ReturnType<typeof setTimeout> | undefined
     const onJump = () => {
       const id = decodeURIComponent(window.location.hash.slice(1))
       jump = id ? { id, scrollY: window.scrollY } : null
@@ -137,11 +135,7 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       const items = Array.from(list.querySelectorAll<HTMLElement>('.toc-item'))
       // A row: the item, and (with progress) the rail below it (see getRowLengths())
       const rows = items.map((item) => item.parentElement!)
-      const pointingFor = pointerMovedAt + pointerStill - performance.now()
-      if (withProgress && rail.matches(':hover') && pointingFor > 0) {
-        clearTimeout(pointerTimeout)
-        pointerTimeout = setTimeout(onScroll, pointingFor)
-      } else if (withProgress) {
+      if (withProgress) {
         const lengths = tops.map((start, i) => {
           if (start === null) return 0
           const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
@@ -150,9 +144,7 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         const heights = items.map((item) => item.getBoundingClientRect().height)
         const available =
           parseFloat(getComputedStyle(rail).maxHeight) - (rail.scrollHeight - list.getBoundingClientRect().height)
-        // Not while reading the introduction
-        const isReading = !!jump || (tops[activeIndex] ?? Infinity) <= line
-        const rowLengths = getRowLengths(heights, lengths, available, isReading ? activeIndex : null)
+        const rowLengths = getRowLengths(heights, lengths, available)
         rows.forEach((row, i) => {
           const extra = `${Math.round(rowLengths[i]! - heights[i]!)}px`
           if (row.style.getPropertyValue('--toc-extra') === extra) return
@@ -217,16 +209,7 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     const resizeObserver = new ResizeObserver(onScroll)
     const pageContent = document.querySelector('.page-content')
     if (pageContent) resizeObserver.observe(pageContent)
-    const rail = document.querySelector('#toc-rail .toc-rail-sticky')
-    const onPointerMove = () => {
-      pointerMovedAt = performance.now()
-    }
-    rail?.addEventListener('pointermove', onPointerMove)
-    rail?.addEventListener('pointerleave', onScroll)
     return () => {
-      clearTimeout(pointerTimeout)
-      rail?.removeEventListener('pointermove', onPointerMove)
-      rail?.removeEventListener('pointerleave', onScroll)
       resizeObserver.disconnect()
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
@@ -239,22 +222,33 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
 }
 
 const thumbMin = 16
-// A pointer that hasn't moved for this long, e.g. resting on the rail while the reader scrolls, isn't aiming
-const pointerStill = 800
 
-// The length (px) of each row: the item, and the rail below it. With reading progress, the section being read gets a
-// longer rail, as long as the section (scaled: a page of `railContentLength` px of content would fill the rail), in
-// the rail's free height: the thumb (the part of the page on screen) is never a sliver, however long the section.
-function getRowLengths(heights: number[], lengths: number[], available: number, expanded: number | null) {
-  const free = Math.max(0, available - heights.reduce((a, b) => a + b, 0))
-  return heights.map((height, i) => {
-    if (i !== expanded) return height
-    const extra = Math.min((lengths[i]! / railContentLength) * available - height, free)
-    // Not by a few px: the list would twitch for nothing
-    return extra < 24 ? height : height + extra
-  })
+// The length (px) of each row: the item, and the rail below it. With reading progress, a section's rail is as long as
+// the section (the same px of rail per px of content for all), filling the rail's height on long pages: the thumb (the
+// part of the page on screen) is never a sliver, and nothing but the thumb moves while scrolling. A row is either the
+// item alone or clearly longer (`rowExtraMin`): a few px of extra space would read as uneven spacing.
+function getRowLengths(heights: number[], lengths: number[], available: number) {
+  const itemsHeight = heights.reduce((a, b) => a + b, 0)
+  const total = Math.max(itemsHeight, Math.min(available, lengths.reduce((a, b) => a + b, 0) * railScaleMax))
+  const rowMax = total / 2
+  const rowLengths = (scale: number) =>
+    heights.map((height, i) => {
+      const length = Math.min(scale * lengths[i]!, rowMax)
+      return length - height < rowExtraMin ? height : length
+    })
+  const sum = (scale: number) => rowLengths(scale).reduce((a, b) => a + b, 0)
+  let low = 0
+  let high = railScaleMax
+  for (let i = 0; i < 24; i++) {
+    const mid = (low + high) / 2
+    if (sum(mid) <= total) low = mid
+    else high = mid
+  }
+  return rowLengths(low)
 }
-const railContentLength = 11000
+// At most 8px of rail per 100px of content
+const railScaleMax = 0.08
+const rowExtraMin = 24
 
 // The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky
 function getStickyOffset() {

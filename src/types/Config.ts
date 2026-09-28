@@ -40,8 +40,8 @@ type Config = {
   darkMode?: boolean
 
   /**
-   * "On this page" rail: show reading progress. The rail's thumb spans the sections on screen, the section being read
-   * gets a longer rail (as long as the section, in the rail's free height), and a ring next to "Back to top" fills as
+   * "On this page" rail: show reading progress. Each section's rail is as long as the section (on long pages, the rail
+   * fills its height), the rail's thumb spans the part of the page on screen, and a ring next to "Back to top" fills as
    * the page is read.
    *
    * @default false

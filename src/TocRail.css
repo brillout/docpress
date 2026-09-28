@@ -48,8 +48,12 @@
   height: var(--thumb-height, 0);
   border-radius: 1px;
   background: var(--dp-color-primary);
-  /* Glides (e.g. upon a jump); following the scroll, the steps are small */
+  /* Glides from item to item */
   transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
+  /* Reading progress: follows the scroll 1:1, like a scrollbar's thumb */
+  .toc-progress & {
+    transition: none;
+  }
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
@@ -78,8 +82,27 @@
 .toc-item-level-3 {
   padding-left: 28px;
 }
-/* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx) */
+/* Reading progress: each section's rail is as long as the section, below its item (TocRail.tsx). The track is split
+ * before each top-level item, like a video's chapters: the lengths read as the sections', not as uneven spacing. */
+.toc-progress .toc-list::before {
+  display: none;
+}
 .toc-progress li {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 3px;
+    left: 0;
+    width: 2px;
+    border-radius: 1px;
+    background: var(--dp-color-border);
+  }
+  /* A subsection continues its section's segment */
+  &:has(+ li > .toc-item-level-3)::before {
+    bottom: 0;
+  }
   padding-bottom: var(--toc-extra, 0px);
   transition: padding-bottom var(--dp-duration-reveal) var(--dp-ease-out);
   @media (prefers-reduced-motion: reduce) {

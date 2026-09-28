@@ -174,16 +174,22 @@
     &.is-active {
       color: var(--dp-color-primary);
       font-weight: 600;
-      /* The bar, centered on the hairline */
+      /* The bar, centered on the hairline at any zoom: a copy of the hairline (same box, same border, so the same
+       * device pixels: border widths snap to them) widened by 1px on each side */
       &::before {
         content: '';
         position: absolute;
-        top: 4px;
-        bottom: 4px;
-        left: -2px;
-        width: 3px;
+        top: 5px;
+        bottom: 5px;
+        right: 100%;
+        width: 0;
+        border-left: 1px solid;
         border-radius: 2px;
-        background: currentColor;
+        box-shadow: 0 0 0 1px;
+        /* Forced colors drop box shadows */
+        @media (forced-colors: active) {
+          outline: 1px solid;
+        }
       }
     }
   }

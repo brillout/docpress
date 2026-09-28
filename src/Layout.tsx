@@ -516,6 +516,20 @@ function getStyleLayout() {
     .nav-head-menu-toggle {
       display: none !important;
     }
+    /* The search alone between the logo and the links (no \`topNavigation\`): centered in the bar */
+    .nav-head.has-max-width .nav-head-content:has(> .nav-head-secondary > .desktop-grow:first-child) {
+      display: grid !important;
+      grid-template-columns: 1fr auto 1fr;
+      & > .desktop-grow {
+        display: none !important;
+      }
+      & > .nav-head-logo {
+        justify-self: start;
+      }
+      & > .nav-head-secondary {
+        justify-self: end;
+      }
+    }
   }
 }`
 

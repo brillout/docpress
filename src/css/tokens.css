@@ -17,13 +17,13 @@
  */
 :root {
   /* Surfaces */
-  /* The page: off-white, never glaring */
-  --dp-color-bg: #fbfbfa;
+  /* The page: a light, neutral gray, never glaring */
+  --dp-color-bg: #f5f5f4;
   /* Recessed: code, search field, hover tints */
-  --dp-color-surface: #f3f3f1;
+  --dp-color-surface: #ebebe9;
   /* Raised: the current page in the navigation, chips, dropdowns, tooltips */
   --dp-color-surface-elevated: #ffffff;
-  --dp-color-border: #e7e6e3;
+  --dp-color-border: #e2e1dd;
   --dp-color-border-strong: #b3b2ad;
   /* The edge of raised things */
   --dp-color-ring: rgb(20 20 15 / 8%);
@@ -34,7 +34,7 @@
   --dp-color-text: #323d48;
   --dp-color-muted: #5c6370;
   /* Low emphasis: icons, carets, anchors, group labels (AA as text) */
-  --dp-color-subtle: #6b717c;
+  --dp-color-subtle: #676d78;
 
   /* Accent */
   /* #4747ff darkened a notch: WCAG AA (4.5:1) also on the inline-code tint */
@@ -42,10 +42,10 @@
 
   /* Code */
   /* A recessed well. The syntax colors are adjusted to AA on it: keep in sync with code-blocks/themes.ts */
-  --dp-color-code-bg: #f3f3f1;
+  --dp-color-code-bg: #ebebe9;
   --dp-color-code-ring: rgb(20 20 15 / 5%);
   /* The header row (language, copy): one step deeper than the well */
-  --dp-color-code-tray: #ebecea;
+  --dp-color-code-tray: #e3e3e1;
   --dp-color-code-inline-bg: rgb(20 20 15 / 5.5%);
   --dp-color-code-highlight: rgb(20 20 15 / 5%);
   --dp-color-diff-add-bg: #e1f0e6;

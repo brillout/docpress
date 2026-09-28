@@ -14,6 +14,8 @@ const viewTocRail = 1280
 
 // The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item (and the
 // reading progress) is set after hydration: no active item in the HTML => no hydration mismatch.
+// A thumb on the rail's track marks where the reader is: the active section, or (`tocProgress`) the part of the page
+// that's on screen, mapped onto the list.
 function TocRail() {
   const pageContext = usePageContext()
   const { tocItems } = pageContext.resolved
@@ -27,22 +29,52 @@ function TocRail() {
         <div id="toc-rail-title" className="toc-rail-title">
           On this page
         </div>
-        <ul>
-          {tocItems.map((item, i) => (
-            // A page can repeat a heading (same id)
-            <li key={i}>
-              <a
-                href={`#${item.id}`}
-                className={cls(['toc-item', `toc-item-level-${item.level}`, i === activeIndex && 'toc-item-active'])}
-                aria-current={i === activeIndex ? 'location' : undefined}
-              >
-                {parseMarkdownMini(item.title)}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="toc-list">
+          <ul>
+            {tocItems.map((item, i) => (
+              // A page can repeat a heading (same id)
+              <li key={i}>
+                <a
+                  href={`#${item.id}`}
+                  className={cls(['toc-item', `toc-item-level-${item.level}`, i === activeIndex && 'toc-item-active'])}
+                  aria-current={i === activeIndex ? 'location' : undefined}
+                >
+                  {parseMarkdownMini(item.title)}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="toc-thumb" aria-hidden="true" />
+        </div>
+        <BackToTop withProgress={!!tocProgress} />
       </nav>
     </div>
+  )
+}
+
+// With `tocProgress`, a ring shows how much of the page has been read (`--page-progress`, set by useActiveSection())
+function BackToTop({ withProgress }: { withProgress: boolean }) {
+  return (
+    <button
+      type="button"
+      className="toc-back-to-top"
+      onClick={() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        window.scrollTo({ top: 0, behavior: isReducedMotion ? 'auto' : 'smooth' })
+      }}
+    >
+      {withProgress ? (
+        <svg className="toc-progress-ring" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.25" pathLength={1} className="toc-progress-ring-track" />
+          <circle cx="8" cy="8" r="6.25" pathLength={1} className="toc-progress-ring-fill" />
+        </svg>
+      ) : (
+        <svg className="toc-back-to-top-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 12.5v-9M4 7.5l4-4 4 4" />
+        </svg>
+      )}
+      Back to top
+    </button>
   )
 }
 
@@ -93,15 +125,49 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         jump = null
       }
       setActiveIndex(activeIndex)
+      // The thumb (and, with progress, which items are on screen), painted directly: it follows every scroll frame
+      const rail = document.querySelector<HTMLElement>('#toc-rail .toc-rail-sticky')
+      const list = rail?.querySelector<HTMLElement>('.toc-list')
+      if (!rail || !list) return
+      const items = Array.from(list.querySelectorAll<HTMLElement>('.toc-item'))
+      const listTop = list.getBoundingClientRect().top
+      const itemBoxes = items.map((item) => {
+        const rect = item.getBoundingClientRect()
+        return { top: rect.top - listTop, height: rect.height }
+      })
+      let thumb: { top: number; bottom: number } | null = null
       if (withProgress) {
-        const items = document.querySelectorAll<HTMLElement>('#toc-rail .toc-item')
+        // The on-screen part of each section, mapped onto its item
+        const viewTop = stickyOffset
+        const viewBottom = window.innerHeight
         tops.forEach((start, i) => {
-          if (start === null) return
-          const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
-          const progress = Math.min(1, Math.max(0, (line - start) / Math.max(1, end - start)))
-          items[i]?.style.setProperty('--toc-progress', String(progress))
+          const box = itemBoxes[i]
+          const isVisible = (() => {
+            if (start === null || !box) return false
+            const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
+            const from = Math.max(start, viewTop)
+            const to = Math.min(end, viewBottom)
+            if (to <= from) return false
+            const length = Math.max(1, end - start)
+            const top = box.top + ((from - start) / length) * box.height
+            const bottom = box.top + ((to - start) / length) * box.height
+            thumb = { top: thumb?.top ?? top, bottom }
+            return true
+          })()
+          // Attributes (not classes): React re-renders the class names
+          items[i]?.toggleAttribute('data-visible', isVisible)
         })
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight
+        const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
+        rail.style.setProperty('--page-progress', String(pageProgress))
+      } else {
+        const box = itemBoxes[activeIndex]
+        if (box) thumb = { top: box.top, bottom: box.top + box.height }
       }
+      const { top, bottom } = thumb ?? { top: 0, bottom: 0 }
+      list.style.setProperty('--thumb-top', `${top}px`)
+      list.style.setProperty('--thumb-height', `${bottom - top}px`)
+      rail.toggleAttribute('data-scrolled', window.scrollY > 200)
     }
     const onScroll = () => {
       if (frame === null) frame = requestAnimationFrame(update)

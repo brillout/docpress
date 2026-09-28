@@ -4,9 +4,8 @@
   overflow-x: hidden;
   --padding-left-global: 9px;
 }
-/* Room for the current page's chip between the category's color bar and the text */
 #menu-modal-wrapper .nav-item {
-  --padding-left-global: 20px;
+  --padding-left-global: 15px;
 }
 /* Same size in the left navigation and the menus; `line-height: 1`: code doesn't make its row taller */
 .nav-item code {
@@ -35,8 +34,7 @@
   color: var(--dp-color-text);
   #menu-modal-wrapper & {
     margin-top: 10px;
-    /* The text on the items' edge (--padding-left-global) */
-    padding: 6px 0 6px 17px;
+    padding: 6px 0 6px 12px;
     border-left: 3px solid var(--color-category);
     img {
       height: 18px !important;
@@ -53,7 +51,7 @@
       border: 0;
       margin: 0;
       /* Text on the same edge as the items' */
-      padding: 12px 10px 12px 20px;
+      padding: 12px 10px 12px 15px;
       img {
         display: none;
       }
@@ -151,16 +149,16 @@
 .landing-page {
   --nav-indent: clamp(16px, 30 * (1vw - 12.7px), 30px);
 }
-/* Left navigation: plain rows, the text on the navigation's text edge (--nav-indent). The current page is raised: a
- * white chip, heavier and darker text. Not only a color: it stands out also in grayscale (see DESIGN.md). Hovering
- * recesses a row instead, so that a hovered row never looks like the current page. */
+/* Left navigation: a hairline down each group, on the navigation's text edge (--nav-indent). The current page: a
+ * thick bar on the hairline, and bolder text in the accent color. Not only a color: the bar and the weight tell it
+ * apart also in grayscale (see DESIGN.md). */
 #nav-left {
   .nav-item-level-2 {
-    /* The chip reaches a bit past the text edge, but not up to the viewport's edge */
-    --inset: min(10px, var(--nav-indent) - 8px);
-    margin: 1px 12px 1px calc(var(--nav-indent) - var(--inset));
-    padding: 6px var(--inset);
-    border-radius: var(--dp-radius-md);
+    margin: 0 12px 0 var(--nav-indent);
+    padding: 6px 12px;
+    /* The current page's bar overlaps the hairline (outside the padding box) */
+    overflow: visible;
+    border-left: 1px solid var(--dp-color-border);
     white-space: normal;
     font-size: 14px;
     line-height: 20px;
@@ -170,23 +168,32 @@
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         color: var(--dp-color-text);
-        background: var(--dp-color-surface-hover);
+        border-left-color: var(--dp-color-border-strong);
       }
     }
     &.is-active {
-      color: var(--dp-color-heading);
+      color: var(--dp-color-primary);
       font-weight: 600;
-      background: var(--dp-color-surface-elevated);
-      box-shadow: var(--dp-shadow-raised);
+      /* The bar, centered on the hairline */
+      &::before {
+        content: '';
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        left: -2px;
+        width: 3px;
+        border-radius: 2px;
+        background: currentColor;
+      }
     }
   }
-  /* The current page's sections (shown when there is no "On this page" rail): hanging under it, on a hairline */
+  /* The current page's sections (shown when there is no "On this page" rail): on the same hairline, indented */
   .nav-item-level-3 {
     --box-shadow-top: 0 0;
     --box-shadow-bottom: 0 0;
     box-shadow: none;
-    margin: 0 12px 0 calc(var(--nav-indent) + 6px);
-    padding: 4px 10px 4px 12px;
+    margin: 0 12px 0 var(--nav-indent);
+    padding: 4px 10px 4px 24px;
     border-left: 1px solid var(--dp-color-border);
     white-space: normal;
     font-size: 13px;
@@ -199,12 +206,6 @@
         border-left-color: var(--dp-color-border-strong);
       }
     }
-  }
-  .nav-item-level-3.nav-item-first-of-its-kind {
-    margin-top: 4px;
-  }
-  .nav-item-level-3.nav-item-last-of-its-kind {
-    margin-bottom: 5px;
   }
   /* Group labels */
   .nav-item-level-4 {
@@ -272,37 +273,29 @@
       }
     }
   }
-  /* Raised, like in the left navigation (the text doesn't move) */
+  /* Like in the left navigation: bolder text in the accent color, and a bar (next to the category's color bar) */
   .nav-item-level-2.is-active {
-    margin: 0 8px 0 12px;
-    padding-left: calc(var(--padding-left-global) - 12px);
-    padding-right: 8px;
-    border-radius: var(--dp-radius-md);
-    color: var(--dp-color-heading);
+    overflow: visible;
+    color: var(--dp-color-primary);
     font-weight: 600;
-    background: var(--dp-color-surface-elevated);
-    box-shadow: var(--dp-shadow-raised);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 7px;
+      width: 3px;
+      border-radius: 2px;
+      background: currentColor;
+    }
   }
-  /* The current page's sections: hanging under it on a hairline, like in the left navigation */
+  /* The current page's sections: indented under it */
   .nav-item-level-3 {
-    margin-left: calc(var(--padding-left-global) + 6px);
-    padding-left: 12px;
-    border-left: 1px solid var(--dp-color-border);
+    padding-left: calc(var(--padding-left-global) + 12px);
     font-size: 13px;
     &.is-active {
       background: none;
     }
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        border-left-color: var(--dp-color-border-strong);
-      }
-    }
-  }
-  .nav-item-level-3.nav-item-first-of-its-kind {
-    margin-top: 4px;
-  }
-  .nav-item-level-3.nav-item-last-of-its-kind {
-    margin-bottom: 5px;
   }
   /* Touch: rows are comfortable targets */
   @media (pointer: coarse) {

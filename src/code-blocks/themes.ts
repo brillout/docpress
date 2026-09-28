@@ -7,7 +7,7 @@ import type { ThemeRegistration } from 'shiki'
 // The surfaces code text sits on (keep in sync with src/css/tokens.css): the well (`--dp-color-code-bg`), and the well
 // under the tint of highlighted lines and of diff lines (`--dp-color-code-highlight`, `--dp-color-diff-*-bg`)
 const codeBackgrounds = {
-  light: { well: '#f3f3f1', highlighted: '#e8e8e6', diffAdd: '#e1f0e6', diffRemove: '#fce4e2' },
+  light: { well: '#ebebe9', highlighted: '#e0e0de', diffAdd: '#e1f0e6', diffRemove: '#fce4e2' },
   dark: { well: '#111317', highlighted: '#24262a', diffAdd: '#15281e', diffRemove: '#3f1f21' },
 }
 

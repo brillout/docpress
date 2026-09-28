@@ -104,7 +104,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 
   function getStyle() {
     const style = css`
-@media(min-width: ${viewTablet + 1}px) {
+@media (width > ${viewTablet}px) {
   .menu-navigation-content {
     position: absolute;
     width: 100%;

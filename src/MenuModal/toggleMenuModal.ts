@@ -11,7 +11,6 @@ export { closeMenuModalOnMouseLeaveToggle }
 
 import { viewTablet } from '../Layout.js'
 import { getHydrationPromise } from '../renderer/getHydrationPromise.js'
-import { getViewportWidth } from '../utils/getViewportWidth.js'
 import { isBrowser } from '../utils/isBrowser.js'
 
 initScrollListener()
@@ -239,5 +238,6 @@ function ignoreHover() {
   return isTouchStart || isMobileNav()
 }
 function isMobileNav() {
-  return getViewportWidth() <= viewTablet
+  // The same query as the CSS (@media, which counts the scrollbar and fractional widths): they never disagree
+  return window.matchMedia(`(width <= ${viewTablet}px)`).matches
 }

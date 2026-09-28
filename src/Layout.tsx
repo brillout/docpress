@@ -132,13 +132,13 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Style>{css`
-@container container-viewport (max-width: ${viewDesktopLarge - 1}px) {
+@container container-viewport (width < ${viewDesktopLarge}px) {
   #nav-left {
     flex-grow: 1;
     min-width: ${navLeftWidthMin + blockMargin}px;
   }
 }
-@container container-viewport (min-width: ${viewDesktopLarge}px) {
+@container container-viewport (width >= ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -149,7 +149,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 .page-content {
   --hash-offset: 24px;
 }
-@container container-viewport (max-width: ${viewDesktopLarge - 1}px) and (min-width: ${viewDesktop}px) {
+@container container-viewport (${viewDesktop}px <= width < ${viewDesktopLarge}px) {
   .page-content {
     --hash-offset: 27px;
   }
@@ -159,7 +159,7 @@ ${
   isNavLeftAlwaysHidden()
     ? ''
     : css`
-@container container-viewport (min-width: ${viewTocRail}px) {
+@container container-viewport (width >= ${viewTocRail}px) {
   #toc-rail {
     display: block;
     width: ${tocRailWidth}px;
@@ -180,7 +180,7 @@ ${
     margin-inline: auto;
   }
 }
-@container container-viewport (min-width: ${viewTocRail}px) and (max-width: ${viewTocRail + 119}px) {
+@container container-viewport (${viewTocRail}px <= width < ${viewTocRail + 120}px) {
   #nav-left {
     /* Make room for the rail */
     min-width: ${navLeftWidthMin + blockMargin}px;
@@ -195,7 +195,7 @@ ${
   !isNavLeftHiddenByTocRail
     ? ''
     : css`
-@container container-viewport (min-width: ${viewTocRail}px) {
+@container container-viewport (width >= ${viewTocRail}px) {
   #nav-left, #nav-left-margin {
     display: none;
   }
@@ -497,7 +497,7 @@ function getStyleLayout() {
 
   // Mobile
   style += css`
-@media(max-width: ${viewMobile}px) {
+@media (width <= ${viewMobile}px) {
   .nav-head {
     .nav-head-menu-toggle {
       justify-content: flex-end !important;
@@ -533,7 +533,7 @@ function getStyleLayout() {
 
   // Mobile + tablet
   style += css`
-@media(max-width: ${viewTablet}px) {
+@media (width <= ${viewTablet}px) {
   .nav-head {
     .nav-head-secondary {
       display: none !important;
@@ -555,7 +555,7 @@ function getStyleLayout() {
     }
   }
 }
-@media(min-width: ${viewTablet + 1}px) {
+@media (width > ${viewTablet}px) {
   .nav-head-theme-toggle {
     display: none !important;
   }
@@ -563,7 +563,7 @@ function getStyleLayout() {
 
   // Tablet
   style += css`
-@media(max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
+@media (${viewMobile}px < width <= ${viewTablet}px) {
   .nav-head {
     .nav-head-content {
       --icon-text-padding: 8px;
@@ -574,7 +574,7 @@ function getStyleLayout() {
 
   // Desktop small + desktop
   style += css`
-@media(min-width: ${viewTablet + 1}px) {
+@media (width > ${viewTablet}px) {
   .nav-head {
     .nav-head-content {
       --icon-text-padding: min(8px, 0.5cqw);
@@ -598,7 +598,7 @@ function getStyleLayout() {
 
   // The logo lines up with the left navigation's text (also on pages without it: the logo doesn't move between pages)
   style += css`
-@container container-viewport (min-width: ${viewDesktop}px) {
+@container container-viewport (width >= ${viewDesktop}px) {
   .nav-head-logo {
     padding-left: var(--nav-indent) !important;
   }
@@ -607,7 +607,7 @@ function getStyleLayout() {
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
     style += css`
-@container container-viewport (max-width: ${viewDesktop - 1}px) {
+@container container-viewport (width < ${viewDesktop}px) {
   #nav-left, #nav-left-margin {
     display: none;
   }
@@ -720,12 +720,12 @@ function MenuToggleMain(props: PropsDiv) {
         <MenuIcon /> Menu
       </span>
       <Style>{css`
-@media(max-width: ${viewTablet}px) {
+@media (width <= ${viewTablet}px) {
   .text-docs, .caret-icon {
     display: none !important;
   }
 }
-@media(min-width: ${viewTablet + 1}px) {
+@media (width > ${viewTablet}px) {
   .text-menu {
     display: none;
   }

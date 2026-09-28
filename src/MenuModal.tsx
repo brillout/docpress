@@ -130,7 +130,7 @@ html.menu-modal-show #menu-modal-wrapper {
   transition-timing-function: var(--dp-ease-out) !important;
 }
 
-@media(min-width: ${viewTablet + 1}px) {
+@media (width > ${viewTablet}px) {
   #menu-modal-scroll-container {
     ${/* 16px: the popover's bottom edge (and shadow) stays on screen when the viewport is short */ ''}
     max-height: calc(100vh - var(--nav-head-height) - var(--block-margin) - 16px);
@@ -155,7 +155,7 @@ html.menu-modal-show #menu-modal-wrapper {
     box-sizing: border-box;
   }
   ${/* Rounded corners only where the popover doesn't reach the viewport's sides (+20px: a classic scrollbar) */ ''}
-  @media (min-width: ${bodyMaxWidth + 20}px) {
+  @media (width >= ${bodyMaxWidth + 20}px) {
     #menu-modal-wrapper.menu-modal-framed {
       border-radius: 0 0 var(--dp-radius-lg) var(--dp-radius-lg);
     }
@@ -172,7 +172,7 @@ html.menu-modal-show #menu-modal-wrapper {
     display: none !important;
   }
 }
-@media(max-width: ${viewTablet}px) {
+@media (width <= ${viewTablet}px) {
   #menu-modal-scroll-container {
     ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
     ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
@@ -188,7 +188,7 @@ html.menu-modal-show #menu-modal-wrapper {
     padding-top: 10px;
   }
   ${/* Tablet: the categories aren't collapsible, their heads have a top margin */ ''}
-  @media(min-width: ${viewMobile + 1}px) {
+  @media (width > ${viewMobile}px) {
     #menu-modal-scroll-container {
       padding-top: 5.5px;
     }
@@ -223,7 +223,7 @@ html.menu-modal-show #menu-modal-wrapper {
 }
 
 ${/* Hide same-page headings navigation */ ''}
-@container container-viewport (min-width: ${viewDesktop}px) {
+@container container-viewport (width >= ${viewDesktop}px) {
   #menu-modal-wrapper .nav-item-level-3 {
     display: none;
   }

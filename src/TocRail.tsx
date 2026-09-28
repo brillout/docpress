@@ -187,9 +187,9 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   return activeIndex
 }
 
+// The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky
 function getStickyOffset() {
-  const value = getComputedStyle(document.querySelector('.doc-page') ?? document.body).getPropertyValue(
-    '--nav-head-sticky-offset',
-  )
-  return parseFloat(value) || 0
+  const header = document.querySelector('.doc-page > header')
+  if (!header || getComputedStyle(header).position !== 'sticky') return 0
+  return header.getBoundingClientRect().height
 }

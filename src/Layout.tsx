@@ -38,6 +38,7 @@ import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { PageHeader, PageFooter } from './PageChrome.js'
 import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
+import { CategoryTabs } from './CategoryTabs.js'
 import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
 
@@ -86,14 +87,19 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   const isNavLeftAlwaysHidden_ = isNavLeftAlwaysHidden()
+  const hasCategoryTabs = !!pageContext.globalContext.config.docpress.categoryTabs && !isLandingPage
   return (
     <div
+      className={hasCategoryTabs ? 'has-category-tabs' : undefined}
       style={{
         ['--block-margin']: `${blockMargin}px`,
         // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `${navHeadHeight}px`,
         // Offset for elements sitting below the sticky top nav
-        ['--nav-head-sticky-offset']: isTopNavSticky ? 'var(--nav-head-height)' : '0px',
+        // (The category tabs' height, see getStyleLayout())
+        ['--nav-head-sticky-offset']: isTopNavSticky
+          ? 'calc(var(--nav-head-height) + var(--nav-tabs-height, 0px))'
+          : '0px',
         ['--main-view-padding']: `${mainViewPadding}px`,
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
@@ -106,7 +112,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <Style>{getStyleLayout()}</Style>
       {/* Focused elements aren't hidden under the sticky top nav (for headings, see heading.css) */}
       {isTopNavSticky && (
-        <Style>{`:where(a, button, input, select, textarea, summary, [tabindex]):focus { scroll-margin-top: ${navHeadHeight + 16}px; }`}</Style>
+        <Style>{`:where(a, button, input, select, textarea, summary, [tabindex]):focus { scroll-margin-top: calc(var(--nav-head-sticky-offset) + 16px); }`}</Style>
       )}
       <a className="skip-link" href="#main-content">
         Skip to content
@@ -114,6 +120,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
         <header style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
           <NavHead />
+          {hasCategoryTabs && <CategoryTabs />}
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
         </header>
@@ -494,6 +501,23 @@ function NavHead() {
 }
 function getStyleLayout() {
   let style = ''
+
+  // Category tabs (`categoryTabs`): desktop only, instead of the "Docs" menu
+  style += css`
+.has-category-tabs {
+  --nav-tabs-height: 0px;
+}
+@media (width > ${viewTablet}px) {
+  .has-category-tabs {
+    --nav-tabs-height: 44px;
+    .category-tabs {
+      display: block;
+    }
+    .nav-head-menu-toggle {
+      display: none !important;
+    }
+  }
+}`
 
   // Mobile
   style += css`

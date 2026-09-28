@@ -40,12 +40,20 @@ type Config = {
   darkMode?: boolean
 
   /**
-   * "On this page" rail: show reading progress. Each section gets a bar roughly proportional to its length (its number of
-   * source lines, with a minimum height), filled as the reader scrolls through it.
+   * "On this page" rail: show reading progress. The rail's thumb spans the sections on screen, and a ring next to "Back to
+   * top" fills as the page is read.
    *
    * @default false
    */
   tocProgress?: boolean
+
+  /**
+   * Show the categories (the level-1 headings) as tabs below the top bar, on desktop, instead of the "Docs" menu. Each tab
+   * links to its category's first page; the left navigation lists the category's pages.
+   *
+   * @default false
+   */
+  categoryTabs?: boolean
 
   github: string
   discord?: string

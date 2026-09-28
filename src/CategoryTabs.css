@@ -1,0 +1,67 @@
+/* `categoryTabs` (CategoryTabs.tsx): shown on desktop, see Layout.tsx */
+.category-tabs {
+  display: none;
+  position: relative;
+  height: var(--nav-tabs-height);
+  background: var(--dp-color-bg);
+}
+.category-tabs-content {
+  display: flex;
+  height: 100%;
+  gap: 2px;
+  /* The first tab's icon on the left navigation's text edge */
+  padding: 0 var(--main-view-padding) 0 calc(var(--nav-indent) - 10px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.category-tab {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--dp-color-muted);
+  transition: color var(--dp-duration) ease;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
+  }
+  code {
+    background: none;
+    padding: 0;
+  }
+  /* The current page's category: in ink, underlined in its color (not only a color: the underline) */
+  &.is-current {
+    color: var(--dp-color-heading);
+    &::after {
+      content: '';
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 0;
+      height: 2px;
+      border-radius: 2px 2px 0 0;
+      background: var(--color-category, var(--dp-color-primary));
+    }
+  }
+}
+/* Icons in color on the current category and on hover */
+.category-tab-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.55);
+  transition: filter var(--dp-duration) ease;
+  :root.dark & {
+    filter: grayscale(1) brightness(1.6) opacity(0.55);
+  }
+  .category-tab.is-current &,
+  .category-tab:hover & {
+    filter: none;
+  }
+}

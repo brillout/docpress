@@ -6,7 +6,7 @@ import { LoremIpsum } from './LoremIpsum'
 function Page() {
   return (
     <>
-      <Block noMargin>
+      <Block>
         <Header />
         <p>This demo is used for testing and developing DocPress.</p>
         <LoremIpsum />
@@ -25,15 +25,13 @@ function Header() {
   )
 }
 
-function Block({ children, noMargin }: { children: React.ReactNode; noMargin?: true }) {
+function Block({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        backgroundColor: 'var(--color-bg-gray)',
         display: 'flex',
         justifyContent: 'center',
         paddingBottom: 20,
-        marginTop: noMargin ? 0 : 'var(--block-margin)',
       }}
     >
       <div style={{ maxWidth: 1000 }}>{children}</div>

@@ -98,12 +98,6 @@ pre:has(> .code-block-header) .copy-button {
   top: 6px;
   right: 6px;
 }
-/* Touch devices always show the copy button: the first line doesn't run under it */
-@media not all and (hover: hover) and (pointer: fine) {
-  pre:not(:has(> .code-block-header)):has(> .copy-button) > code > [data-line]:first-child {
-    padding-right: 44px;
-  }
-}
 /* Phones: the header doesn't dominate the (smaller) code */
 @container container-viewport (max-width: 550px) {
   .code-block-header {

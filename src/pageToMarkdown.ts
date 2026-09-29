@@ -53,6 +53,7 @@ const skippedSelector = [
   '.page-footer',
   '.code-block-header',
   '.choice-group__selects',
+  '.search-link',
   '[role="radiogroup"]',
   '[role="tablist"]',
   '.sr-only',
@@ -85,12 +86,19 @@ function toBlocks(parent: Element): string {
       return
     }
     if (!(node instanceof Element) || isSkipped(node)) return
-    if (!blockTags.has(node.tagName.toUpperCase())) {
-      inline += toInline(node)
+    if (blockTags.has(node.tagName.toUpperCase())) {
+      flush()
+      blocks.push(toBlock(node))
       return
     }
-    flush()
-    blocks.push(toBlock(node))
+    // Rendered as a block (e.g. a card): its own paragraph
+    if (isBlock(node)) {
+      flush()
+      inline = toInline(node)
+      flush()
+      return
+    }
+    inline += toInline(node)
   })
   flush()
   return blocks.filter(Boolean).join('\n\n')
@@ -98,7 +106,10 @@ function toBlocks(parent: Element): string {
 
 function toBlock(element: Element): string {
   const tag = element.tagName.toUpperCase()
-  if (/^H[1-6]$/.test(tag)) return `${'#'.repeat(Number(tag[1]))} ${toInlineContent(element).trim()}`
+  if (/^H[1-6]$/.test(tag))
+    return `${'#'.repeat(Number(tag[1]))} ${toInlineContent(element)
+      .trim()
+      .replace(/\s*\n\s*/g, ' ')}`
   if (tag === 'P' || tag === 'SUMMARY') {
     const text = toInlineContent(element).trim()
     return text && tag === 'SUMMARY' ? `**${text}**` : text
@@ -176,14 +187,21 @@ function toTable(table: HTMLTableElement): string {
   return [line(head!), line(Array(columns).fill('---')), ...body.map(line)].join('\n')
 }
 
-// Inline content: text, code, links, emphasis
+// Inline content: text, code, links, emphasis. An element rendered as a block (e.g. a card's title and description in
+// one link, a table in a table cell) is on its own line.
 function toInlineContent(parent: Element): string {
   let markdown = ''
   parent.childNodes.forEach((node) => {
     if (node.nodeType === Node.TEXT_NODE) markdown += collapseWhitespace(node.textContent ?? '')
-    else if (node instanceof Element && !isSkipped(node)) markdown += toInline(node)
+    else if (node instanceof Element && !isSkipped(node))
+      markdown += isBlock(node) ? `\n${toInline(node)}\n` : toInline(node)
   })
   return markdown
+}
+
+function isBlock(element: Element) {
+  const { display } = getComputedStyle(element)
+  return !display.startsWith('inline') && display !== 'contents'
 }
 
 function toInline(element: Element): string {
@@ -207,8 +225,12 @@ function toInline(element: Element): string {
     const href = element.getAttribute('href')
     if (!href) return text
     const url = toAbsoluteUrl(href)
-    const label = text.trim() || url
-    return `[${label}](${url})`
+    // A card: its title is the label, its description follows
+    const [label = url, ...description] = text
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+    return `[${label}](${url})${description.length > 0 ? `: ${description.join(' ')}` : ''}`
   }
   if (!text.trim()) return text
   if (tag === 'STRONG' || tag === 'B') return wrap(text, '**')

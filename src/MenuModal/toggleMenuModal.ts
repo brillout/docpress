@@ -156,7 +156,8 @@ let toggleLock:
     }
   | undefined
 function closeMenuModalOnMouseLeaveToggle(menuId: number) {
-  if (ignoreHover()) return
+  // Already closed (e.g. with Escape, the pointer resting on the panel): no lock, it would swallow the next opening
+  if (ignoreHover() || !document.documentElement.classList.contains('menu-modal-show')) return
   clearTimeout(toggleLock?.timeoutAction)
   const timeoutAction = setTimeout(action, 100)
   toggleLock = {

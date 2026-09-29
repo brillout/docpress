@@ -29,6 +29,7 @@
   width: 100%;
   padding: 0;
   border: 0;
+  border-radius: var(--dp-radius-md);
   background: none;
   font: inherit;
   color: inherit;

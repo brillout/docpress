@@ -1,10 +1,16 @@
 button,
 .button {
+  background-color: #fafafa;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* The same specificity as above: a site's own button styles still win */
+:where(:root.dark) button,
+:where(:root.dark) .button {
   background-color: color-mix(in srgb, var(--dp-color-surface-elevated), var(--dp-color-surface));
   color: var(--dp-color-text);
-  border: 1px solid var(--dp-color-border-strong);
-  border-radius: var(--dp-radius-md);
-  cursor: pointer;
+  border-color: var(--dp-color-border-strong);
 }
 
 /* Copy buttons: the new icon (e.g. the check after copying) blends in */

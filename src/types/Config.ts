@@ -31,7 +31,7 @@ type Config = {
   headHtml?: string
 
   /**
-   * Adds a light/dark/system switch to the top bar.
+   * Adds a light/dark toggle to the top bar.
    *
    * The appearance follows the OS (`prefers-color-scheme`) until the user picks one, which is persisted in `localStorage`.
    *

@@ -151,7 +151,7 @@
 }
 /* Left navigation: a hairline down each group, on the navigation's text edge (--nav-indent). The current page: a
  * thick bar on the hairline, and bolder text in the accent color. Not only a color: the bar and the weight tell it
- * apart also in grayscale (see DESIGN.md). */
+ * apart also in grayscale. */
 #nav-left {
   .nav-item-level-2 {
     margin: 0 12px 0 var(--nav-indent);

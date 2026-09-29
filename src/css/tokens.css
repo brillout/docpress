@@ -1,19 +1,12 @@
 /*
- * Design tokens.
+ * Design tokens. Every DocPress surface reads them, and nothing else: a site re-themes by overriding `--dp-*` (on :root
+ * or body), and the dark appearance is the `dark` class on <html> (the dark block below).
  *
- * The themeable seam is `--dp-`-prefixed. The prefix matters: DocPress used to
- * read bare `--color-*` / `--font-*`, which are the same names Tailwind and
- * daisyUI emit to the global `:root`. A host using either could bleed its
- * palette into DocPress (e.g. a leaked `--color-bg` on route prefetch). Reading
- * `--dp-*` instead means only values set FOR DocPress apply.
+ * The `--dp-` prefix keeps the `--color-*` / `--font-*` that hosts' tools (e.g. Tailwind, daisyUI) set on `:root` out
+ * of DocPress.
  *
- * Every DocPress surface reads these tokens and nothing else, so:
- *  - A site re-themes by overriding `--dp-*` (on :root or body).
- *  - The dark appearance is the `dark` class or `[data-theme="dark"]` on <html>:
- *    setting only the variables of the dark block below re-themes every surface.
- *
- * Material logic (see DESIGN.md): the page is an off-white; raised things (the current page in the navigation,
- * chips, popovers) are white with a hairline ring; recessed things (code, hover tints) are a few percent darker.
+ * The page is an off-white; raised things (the current page in the navigation, chips, popovers) are white with a
+ * hairline ring; recessed things (code, hover tints) are a few percent darker.
  */
 :root {
   /* Surfaces */
@@ -111,8 +104,7 @@ body {
   --color-bg-gray: var(--dp-color-bg);
 }
 
-:root.dark,
-:root[data-theme='dark'] {
+:root.dark {
   color-scheme: dark;
 
   /* Recessed things are darker than the page, raised things lighter */

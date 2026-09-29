@@ -4,6 +4,6 @@
 }
 
 /* Colored highlights (`[!code highlight:#abc]`) are light pastels: darken them in the dark appearance, keeping the hue */
-:root:is(.dark, [data-theme='dark']) pre .highlighted[style*='background'] {
+:root.dark pre .highlighted[style*='background'] {
   background-image: linear-gradient(rgb(0 0 0 / 70%), rgb(0 0 0 / 70%));
 }

@@ -51,12 +51,15 @@ async function open(menuNavigationId?: number) {
     followHeight(menuNavigationId)
   }
 }
-// Because all `.menu-navigation-content` are `position: absolute` we have to propagate the content height ourselves:
-// the current menu's, also when it changes (e.g. while the panel's width glides from the previous menu's)
+// Because all `.menu-navigation-content` are `position: absolute` we have to propagate the content height ourselves
+// (`--menu-height`): the current menu's, also when it changes (e.g. while the panel's width glides from the previous
+// menu's)
 let heightObserver: ResizeObserver | undefined
 function followHeight(menuId: number) {
   heightObserver ??= new ResizeObserver(([entry]) => {
-    document.getElementById('menu-navigation-container')!.style.height = window.getComputedStyle(entry!.target).height
+    document
+      .getElementById('menu-navigation-container')!
+      .style.setProperty('--menu-height', window.getComputedStyle(entry!.target).height)
   })
   heightObserver.disconnect()
   heightObserver.observe(document.getElementById(`menu-navigation-${menuId}`)!)

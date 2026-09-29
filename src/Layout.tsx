@@ -648,9 +648,6 @@ function getStyleNavLeftHidden() {
 .page-content {
   margin: auto;
 }
-#menu-modal-wrapper {
-  position: absolute !important;
-}
 `
 }
 

@@ -34,15 +34,10 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const columnWidthBase = navLeftWidthMax + 20
   const maxColumns = Math.max(...navItemsByColumnLayouts.map((layout) => layout.columns.length), 1)
   const widthMax = maxColumns * columnWidthBase
-  const columnsWrapperStyle = { maxWidth: `min(100%, ${widthMax}px)` }
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div
-        id="menu-navigation-container"
-        className="navigation-content"
-        style={{ transition: 'height 250ms var(--dp-ease-out)', height: 0 }}
-      >
+      <div id="menu-navigation-container" className="navigation-content">
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div
             id={`menu-navigation-${i}`}
@@ -52,7 +47,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           >
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
-                <ColumnsWrapper style={columnsWrapperStyle}>
+                <ColumnsWrapper>
                   <Collapsible
                     head={<NavItemComponent navItem={columnLayout.navItemLevel1} />}
                     disabled={maxColumns > 1}
@@ -73,7 +68,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                 </ColumnsWrapper>
               </div>
             ) : (
-              <ColumnsWrapper style={columnsWrapperStyle}>
+              <ColumnsWrapper>
                 <ColumnsLayout>
                   {columnLayout.columns.map((column, j) => (
                     <Column key={j}>
@@ -105,6 +100,28 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 
   function getStyle() {
     const style = css`
+.menu-columns {
+  display: flex;
+}
+.menu-column {
+  display: flex;
+  flex-direction: column;
+}
+@media (width <= ${viewTablet}px) {
+  .columns-wrapper {
+    width: 100%;
+    max-width: min(100%, ${widthMax}px);
+    margin: auto;
+    padding-left: 3px;
+  }
+  .menu-columns {
+    justify-content: space-between;
+  }
+  .menu-column {
+    flex-grow: 1;
+    max-width: ${navLeftWidthMax}px;
+  }
+}
 @media (width > ${viewTablet}px) {
   .menu-navigation-content {
     position: absolute;
@@ -119,24 +136,24 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   }`,
     )
     .join('')}
-  .columns-wrapper {
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-  }
   .menu-columns {
-    justify-content: flex-start !important;
     gap: ${menuColumnGap}px;
   }
   .menu-column {
-    flex: 0 1 ${menuColumnWidth}px !important;
+    flex: 0 1 ${menuColumnWidth}px;
     min-width: 0;
-    max-width: none !important;
   }
   #menu-navigation-container {
     position: relative;
     overflow: hidden;
+    transition: height 250ms var(--dp-ease-out);
+  }
+  ${/* Its menus are absolutely positioned: the current one's height (followHeight(), toggleMenuModal.ts) */ ''}
+  html.menu-modal-show #menu-navigation-container {
+    height: var(--menu-height);
+  }
+  html:not(.menu-modal-show) #menu-navigation-container {
+    height: 0;
   }
  ${navItemsByColumnLayouts
    .map((_, i) => {
@@ -189,46 +206,13 @@ ${/* Button style */ ''}
   }
 }
 function Column({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      className="menu-column"
-      style={{
-        flexGrow: 1,
-        maxWidth: navLeftWidthMax,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {children}
-    </div>
-  )
+  return <div className="menu-column">{children}</div>
 }
-function ColumnsWrapper({ children, style }: { children: React.ReactNode; style: React.CSSProperties }) {
-  return (
-    <div
-      className="columns-wrapper"
-      style={{
-        paddingLeft: 3,
-        margin: 'auto',
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  )
+function ColumnsWrapper({ children }: { children: React.ReactNode }) {
+  return <div className="columns-wrapper">{children}</div>
 }
 function ColumnsLayout({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div
-      className={['menu-columns', className].filter(Boolean).join(' ')}
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
-    >
-      {children}
-    </div>
-  )
+  return <div className={['menu-columns', className].filter(Boolean).join(' ')}>{children}</div>
 }
 function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)

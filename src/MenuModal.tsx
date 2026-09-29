@@ -22,19 +22,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
       <div
         id="menu-modal-wrapper"
         className="link-hover-animation show-on-nav-hover"
-        style={{
-          // Absolute inside the sticky header so the dropdown tracks the nav on scroll
-          position: 'absolute',
-          width: '100%',
-          top: 'var(--nav-head-height)',
-          zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
-          background: 'var(--dp-color-bg)',
-          maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
-          // Horizontal align
-          // https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div/32694476#32694476
-          left: '50%',
-          transform: 'translateX(-50%)',
-        }}
+        style={{ maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth }}
         onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModalOnMouseLeave}
       >
@@ -83,53 +71,37 @@ function getStyle() {
 .menu-edit-link {
   margin: 8px 0 20px;
 }
-.menu-modal-close {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--dp-radius-md);
-  background: var(--dp-color-bg);
-  color: var(--dp-color-muted);
-  cursor: pointer;
+${/* Absolute inside the sticky header, so that the dropdown tracks the nav on scroll. The maximum z-index: DocSearch's modal has 200. */ ''}
+#menu-modal-wrapper {
+  position: absolute;
+  z-index: 199;
 }
-
 ${/* Closed: out of the tab order, once the closing transition is done (it transitions \`visibility\`) */ ''}
 html:not(.menu-modal-show) #menu-modal-wrapper {
   visibility: hidden;
 }
 
 @media (width > ${viewTablet}px) {
-  #menu-modal-scroll-container {
-    ${/* 8px above, 16px below: the panel's edges (and shadow) stay on screen when the viewport is short */ ''}
-    max-height: calc(100vh - var(--nav-head-height) - 24px);
-    ${/* A scrollbar only when the menu overflows (\`scroll\` shows a classic scrollbar, arrows included, always) */ ''}
-    overflow-y: auto !important;
-    ${/* https://github.com/brillout/docpress/issues/23 */ ''}
-    overscroll-behavior: contain;
-    border-radius: inherit;
-  }
   ${/* A raised panel floating just below the top bar: centered on its menu's toggle (--menu-anchor, toggleMenuModal.ts), */ ''}
   ${/* sized to its columns (--menu-width, NavigationWithColumnLayout.tsx), kept within the frame */ ''}
   #menu-modal-wrapper {
-    top: calc(var(--nav-head-height) + 8px) !important;
-    width: var(--menu-width, calc(100% - 32px)) !important;
+    top: calc(var(--nav-head-height) + 8px);
+    width: var(--menu-width, calc(100% - 32px));
     left: clamp(
       16px,
       var(--menu-anchor, 50%) - var(--menu-width, calc(100% - 32px)) / 2,
       100% - var(--menu-width, calc(100% - 32px)) - 16px
-    ) !important;
-    transform: none !important;
+    );
     border-radius: var(--dp-radius-lg);
-    background: var(--dp-color-surface-elevated) !important;
+    background: var(--dp-color-surface-elevated);
     box-shadow: var(--dp-shadow-popover);
+  }
+  #menu-modal-scroll-container {
+    ${/* 8px above, 16px below: the panel's edges (and shadow) stay on screen when the viewport is short */ ''}
+    max-height: calc(100vh - var(--nav-head-height) - 24px);
+    ${/* https://github.com/brillout/docpress/issues/23 */ ''}
+    overscroll-behavior: contain;
+    border-radius: inherit;
   }
   ${/* The gap above the panel is part of it: crossing it from the toggle doesn't close the menu */ ''}
   #menu-modal-wrapper::before {
@@ -143,14 +115,9 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
   .menu-navigation-content {
     padding: 20px ${menuPaddingX}px 24px;
   }
-  html:not(.menu-modal-show) {
-    #menu-navigation-container {
-      height: 0 !important;
-    }
-    #menu-modal-wrapper {
-      pointer-events: none;
-      transition: opacity 250ms ease, visibility 250ms ease;
-    }
+  html:not(.menu-modal-show) #menu-modal-wrapper {
+    pointer-events: none;
+    transition: opacity 250ms ease, visibility 250ms ease;
   }
   ${/* Opening: in place, visible at once (e.g. to move the focus inside) */ ''}
   html.menu-modal-show.menu-modal-display-only-one #menu-modal-wrapper {
@@ -162,19 +129,48 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
       left var(--dp-duration-reveal) var(--dp-ease-out), width var(--dp-duration-reveal) var(--dp-ease-out);
   }
   .show-only-on-mobile {
-    display: none !important;
+    display: none;
   }
 }
 @media (width <= ${viewTablet}px) {
+  ${/* A full-screen dialog */ ''}
+  #menu-modal-wrapper {
+    top: 0;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    background: var(--dp-color-bg);
+  }
+  .menu-modal-close {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--dp-radius-md);
+    background: var(--dp-color-bg);
+    color: var(--dp-color-muted);
+    cursor: pointer;
+  }
   #menu-modal-scroll-container {
     ${/* The visible viewport (mobile browsers' toolbars come and go) */ ''}
-    height: 100dvh !important;
+    height: 100dvh;
     ${/* Place <ExternalLinks> and <EditLink> to the bottom */ ''}
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    ${/* The first row lines up with the close button */ ''}
-    padding-top: 10px;
+  }
+  ${/* The first row lines up with the close button */ ''}
+  @media (width <= ${viewMobile}px) {
+    #menu-modal-scroll-container {
+      padding-top: 10px;
+    }
   }
   ${/* Tablet: the categories aren't collapsible, their heads have a top margin */ ''}
   @media (width > ${viewMobile}px) {
@@ -194,18 +190,9 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
   }
   ${/* Disable scrolling of main view */ ''}
   html.menu-modal-show {
-    overflow: hidden !important;
+    overflow: hidden;
     ${/* The page doesn't shift sideways when its (classic) scrollbar goes away */ ''}
     scrollbar-gutter: stable;
-  }
-  #menu-modal-wrapper {
-    --nav-head-height: 0px !important;
-  }
-  #menu-navigation-container {
-    height: auto !important;
-  }
-  .columns-wrapper {
-    width: 100% !important;
   }
 }
 

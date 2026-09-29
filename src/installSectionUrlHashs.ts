@@ -60,11 +60,17 @@ function jumpToSection() {
   target.scrollIntoView()
 }
 
+// Shown for 2s after the last copy
+const copiedTimeouts = new WeakMap<HTMLElement, ReturnType<typeof setTimeout>>()
 function copyLink(heading: HTMLElement) {
   navigator.clipboard?.writeText(window.location.href).then(
     () => {
       heading.classList.add('heading-link-copied')
-      setTimeout(() => heading.classList.remove('heading-link-copied'), 2000)
+      clearTimeout(copiedTimeouts.get(heading))
+      copiedTimeouts.set(
+        heading,
+        setTimeout(() => heading.classList.remove('heading-link-copied'), 2000),
+      )
     },
     () => {},
   )

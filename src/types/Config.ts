@@ -40,9 +40,9 @@ type Config = {
   darkMode?: boolean
 
   /**
-   * "On this page" rail: show reading progress. Each section's rail is as long as the section (on long pages, the rail
-   * fills its height), the rail's thumb spans the part of the page on screen, and a ring next to "Back to top" fills as
-   * the page is read.
+   * "On this page" rail: show reading progress. The rail's thumb is the part of the page on screen, magnified: the
+   * sections on screen spread along it (their items move with their headings), the rest of the list stays compact.
+   * A ring next to "Back to top" fills as the page is read.
    *
    * @default false
    */

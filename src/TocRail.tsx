@@ -15,7 +15,7 @@ const viewTocRail = 1280
 // The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item (and the
 // reading progress) is set after hydration: no active item in the HTML => no hydration mismatch.
 // A thumb on the rail's track marks where the reader is: the active section, or (`tocProgress`) the part of the page
-// that's on screen, mapped onto the list.
+// that's on screen, magnified.
 function TocRail() {
   const pageContext = usePageContext()
   const { tocItems } = pageContext.resolved
@@ -79,7 +79,7 @@ function BackToTop({ withProgress }: { withProgress: boolean }) {
 }
 
 // The active section is the last heading scrolled past the activation line (see below), or the section just jumped to.
-// With `withProgress`, each item also gets `--toc-progress` (0 to 1): how much of its section has been read.
+// With `withProgress`, the thumb is a lens: the part of the page on screen, magnified (see update()).
 function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const { urlPathname } = usePageContext()
@@ -89,9 +89,6 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     if (ids.length === 0) return
     let frame: number | null = null
     let jump: { id: string; scrollY: number } | null = null
-    // While the rows glide to new lengths (the page loaded, a section changed length), the thumb is re-measured every
-    // frame
-    let animateUntil = 0
     const onJump = () => {
       const id = decodeURIComponent(window.location.hash.slice(1))
       jump = id ? { id, scrollY: window.scrollY } : null
@@ -133,61 +130,65 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       const list = rail?.querySelector<HTMLElement>('.toc-list')
       if (!rail || !list) return
       const items = Array.from(list.querySelectorAll<HTMLElement>('.toc-item'))
-      // A row: the item, and (with progress) the rail below it (see getRowLengths())
+      // A row: the item, and (with progress) the rail below it
       const rows = items.map((item) => item.parentElement!)
+      let thumb: { top: number; bottom: number } | null = null
       if (withProgress) {
-        const lengths = tops.map((start, i) => {
-          if (start === null) return 0
+        // The thumb is a lens: the part of the page on screen, magnified (`lens` px), in a list otherwise compact.
+        // Each section on screen gets its share of the lens below its item, so the items of the headings on screen
+        // move along the thumb like the headings move along the screen, and the list's length doesn't change.
+        const viewTop = stickyOffset
+        const viewBottom = window.innerHeight
+        const viewHeight = Math.max(1, viewBottom - viewTop)
+        const sections = tops.map((start, i) => {
+          if (start === null) return null
           const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
-          return Math.max(0, end - start)
+          return { start, end, visible: Math.max(0, Math.min(end, viewBottom) - Math.max(start, viewTop)) }
         })
         const heights = items.map((item) => item.getBoundingClientRect().height)
         const available =
           parseFloat(getComputedStyle(rail).maxHeight) - (rail.scrollHeight - list.getBoundingClientRect().height)
-        const rowLengths = getRowLengths(heights, lengths, available)
+        const free = available - heights.reduce((a, b) => a + b, 0)
+        const lens = Math.max(0, Math.min(free, available * lensShare))
         rows.forEach((row, i) => {
-          const extra = `${Math.round(rowLengths[i]! - heights[i]!)}px`
-          if (row.style.getPropertyValue('--toc-extra') === extra) return
-          row.style.setProperty('--toc-extra', extra)
-          animateUntil = performance.now() + 300
-        })
-      }
-      const listTop = list.getBoundingClientRect().top
-      const itemBoxes = rows.map((row) => {
-        const rect = row.getBoundingClientRect()
-        return { top: rect.top - listTop, height: rect.height }
-      })
-      let thumb: { top: number; bottom: number } | null = null
-      if (withProgress) {
-        // The on-screen part of each section, mapped onto its item
-        const viewTop = stickyOffset
-        const viewBottom = window.innerHeight
-        tops.forEach((start, i) => {
-          const box = itemBoxes[i]
-          const isVisible = (() => {
-            if (start === null || !box) return false
-            const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
-            const from = Math.max(start, viewTop)
-            const to = Math.min(end, viewBottom)
-            if (to <= from) return false
-            const length = Math.max(1, end - start)
-            const top = box.top + ((from - start) / length) * box.height
-            const bottom = box.top + ((to - start) / length) * box.height
-            thumb = { top: thumb?.top ?? top, bottom }
-            return true
-          })()
+          const extra = `${(lens * (sections[i]?.visible ?? 0)) / viewHeight}px`
+          if (row.style.getPropertyValue('--toc-extra') !== extra) row.style.setProperty('--toc-extra', extra)
           // Attributes (not classes): React re-renders the class names
-          items[i]?.toggleAttribute('data-visible', isVisible)
+          items[i]?.toggleAttribute('data-visible', (sections[i]?.visible ?? 0) > 0)
         })
+        // A point of the page on the rail: its section's item spans the whole section, compressed; the part on screen
+        // also spans its share of the lens
+        const listTop = list.getBoundingClientRect().top
+        const rowTops = rows.map((row) => row.getBoundingClientRect().top - listTop)
+        const toRail = (y: number) => {
+          let i = -1
+          sections.forEach((section, j) => {
+            if (section && section.start <= y) i = j
+          })
+          const section = sections[i]
+          if (!section) return 0
+          const onScreen = Math.max(0, Math.min(y, viewBottom) - Math.max(section.start, viewTop))
+          const length = Math.max(1, section.end - section.start)
+          return (
+            rowTops[i]! +
+            (heights[i]! * (Math.min(y, section.end) - section.start)) / length +
+            (lens * onScreen) / viewHeight
+          )
+        }
+        const first = sections.find((section) => section !== null)
+        const from = Math.max(viewTop, first?.start ?? Infinity)
+        const to = Math.min(viewBottom, contentBottom)
+        if (to > from) thumb = { top: toRail(from), bottom: toRail(to) }
         const scrollable = document.documentElement.scrollHeight - window.innerHeight
         const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
         rail.style.setProperty('--page-progress', String(pageProgress))
       } else {
-        const box = itemBoxes[activeIndex]
-        if (box) thumb = { top: box.top, bottom: box.top + box.height }
+        const listTop = list.getBoundingClientRect().top
+        const rect = rows[activeIndex]?.getBoundingClientRect()
+        if (rect) thumb = { top: rect.top - listTop, bottom: rect.bottom - listTop }
       }
       let { top, bottom } = thumb ?? { top: 0, bottom: 0 }
-      // Never a sliver
+      // Never a sliver (e.g. a list too long to leave room for the lens)
       if (thumb && bottom - top < thumbMin) {
         const listHeight = list.getBoundingClientRect().height
         top = Math.min(Math.max(0, (top + bottom - thumbMin) / 2), listHeight - thumbMin)
@@ -196,7 +197,6 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       list.style.setProperty('--thumb-top', `${top}px`)
       list.style.setProperty('--thumb-height', `${bottom - top}px`)
       rail.toggleAttribute('data-scrolled', window.scrollY > 200)
-      if (performance.now() < animateUntil) onScroll()
     }
     const onScroll = () => {
       if (frame === null) frame = requestAnimationFrame(update)
@@ -222,33 +222,8 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
 }
 
 const thumbMin = 16
-
-// The length (px) of each row: the item, and the rail below it. With reading progress, a section's rail is as long as
-// the section (the same px of rail per px of content for all), filling the rail's height on long pages: the thumb (the
-// part of the page on screen) is never a sliver, and nothing but the thumb moves while scrolling. A row is either the
-// item alone or clearly longer (`rowExtraMin`): a few px of extra space would read as uneven spacing.
-function getRowLengths(heights: number[], lengths: number[], available: number) {
-  const itemsHeight = heights.reduce((a, b) => a + b, 0)
-  const total = Math.max(itemsHeight, Math.min(available, lengths.reduce((a, b) => a + b, 0) * railScaleMax))
-  const rowMax = total / 2
-  const rowLengths = (scale: number) =>
-    heights.map((height, i) => {
-      const length = Math.min(scale * lengths[i]!, rowMax)
-      return length - height < rowExtraMin ? height : length
-    })
-  const sum = (scale: number) => rowLengths(scale).reduce((a, b) => a + b, 0)
-  let low = 0
-  let high = railScaleMax
-  for (let i = 0; i < 24; i++) {
-    const mid = (low + high) / 2
-    if (sum(mid) <= total) low = mid
-    else high = mid
-  }
-  return rowLengths(low)
-}
-// At most 8px of rail per 100px of content
-const railScaleMax = 0.08
-const rowExtraMin = 24
+// The lens (the thumb, with reading progress) takes this share of the rail's height, if the list leaves room for it
+const lensShare = 0.22
 
 // The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky
 function getStickyOffset() {

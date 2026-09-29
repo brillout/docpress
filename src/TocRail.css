@@ -82,32 +82,10 @@
 .toc-item-level-3 {
   padding-left: 28px;
 }
-/* Reading progress: each section's rail is as long as the section, below its item (TocRail.tsx). The track is split
- * before each top-level item, like a video's chapters: the lengths read as the sections', not as uneven spacing. */
-.toc-progress .toc-list::before {
-  display: none;
-}
+/* Reading progress: the sections on screen get their share of the lens below their item (TocRail.tsx). Follows the
+ * scroll: no transition. */
 .toc-progress li {
-  position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 3px;
-    left: 0;
-    width: 2px;
-    border-radius: 1px;
-    background: var(--dp-color-border);
-  }
-  /* A subsection continues its section's segment */
-  &:has(+ li > .toc-item-level-3)::before {
-    bottom: 0;
-  }
   padding-bottom: var(--toc-extra, 0px);
-  transition: padding-bottom var(--dp-duration-reveal) var(--dp-ease-out);
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
 }
 /* Reading progress (`tocProgress`): the sections on screen are in ink, the thumb spans them */
 .toc-progress .toc-item {

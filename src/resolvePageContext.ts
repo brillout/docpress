@@ -92,7 +92,7 @@ function resolvePageContext(pageContext: PageContextServer) {
       level: pageSection.pageSectionLevel,
     }))
 
-  const { breadcrumb, pagePrev, pageNext } = getPageNavigation(headingsResolved, urlPathname)
+  const { categories, breadcrumb, pagePrev, pageNext } = getPageNavigation(headingsResolved, urlPathname)
 
   const resolved = {
     navItemsAll,
@@ -105,6 +105,7 @@ function resolvePageContext(pageContext: PageContextServer) {
     activeCategoryName,
     choices,
     tocItems,
+    categories,
     breadcrumb,
     pagePrev,
     pageNext,
@@ -112,29 +113,44 @@ function resolvePageContext(pageContext: PageContextServer) {
   return resolved
 }
 
-// The page's place in the navigation: its category and group (breadcrumb), and the pages before and after it
+// The navigation's categories (level-1 headings) with their pages, and the page's place in it: its category and group
+// (breadcrumb), and the pages before and after it
 function getPageNavigation(headings: HeadingResolved[], urlPathname: string) {
   type PageLink = { url: string; title: string }
+  const categories: {
+    title: string
+    titleIcon?: string
+    color?: string
+    description?: string
+    pages: PageLink[]
+    isCurrent: boolean
+  }[] = []
   const pages: PageLink[] = []
   let breadcrumb: string[] = []
-  let category: string | null = null
   let group: string | null = null
   for (const heading of headings) {
     if (heading.level === 1) {
-      category = heading.titleInNav
+      const { titleInNav: title, titleIcon, color, description } = heading
+      categories.push({ title, titleIcon, color, description, pages: [], isCurrent: false })
       group = null
     }
     if (heading.level === 4) group = heading.titleInNav
     if (heading.level === 2 && heading.url && heading.url !== '/') {
-      if (heading.url === urlPathname) breadcrumb = [category, group].filter((title) => title !== null)
-      pages.push({ url: heading.url, title: heading.titleInNav })
+      const page = { url: heading.url, title: heading.titleInNav }
+      const category = categories[categories.length - 1]
+      category?.pages.push(page)
+      if (heading.url === urlPathname) {
+        breadcrumb = [category?.title ?? null, group].filter((title) => title !== null)
+        if (category) category.isCurrent = true
+      }
+      pages.push(page)
     }
   }
   const index = pages.findIndex((page) => page.url === urlPathname)
   // Detached pages (not in the navigation) have neither
   const pagePrev: PageLink | null = index > 0 ? pages[index - 1]! : null
   const pageNext: PageLink | null = index !== -1 && index < pages.length - 1 ? pages[index + 1]! : null
-  return { breadcrumb, pagePrev, pageNext }
+  return { categories, breadcrumb, pagePrev, pageNext }
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {

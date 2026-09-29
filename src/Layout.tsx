@@ -38,7 +38,7 @@ import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { PageHeader, PageFooter } from './PageChrome.js'
 import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
-import { CategoryTabs, getCategories } from './CategoryTabs.js'
+import { CategoryTabs } from './CategoryTabs.js'
 import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
 
@@ -380,7 +380,7 @@ function NavHead() {
   // With category tabs, the landing page's "Docs" is a link into the docs, where the tabs take over (on desktop)
   const docsUrl =
     categoryTabs && pageContext.resolved.isLandingPage
-      ? (docsUrlSetting ?? getCategories(pageContext).find((category) => category.url)?.url)
+      ? (docsUrlSetting ?? pageContext.resolved.categories.flatMap((category) => category.pages)[0]?.url)
       : undefined
 
   const navHeadSecondary = (

@@ -1,9 +1,7 @@
 export { CategoryTabs }
-export { getCategories }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
-import { getNavItemsWithComputed, type NavItemComputed } from './NavItemComponent.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { bodyMaxWidth } from './Layout.js'
 import { cls } from './utils/cls.js'
@@ -12,7 +10,7 @@ import './CategoryTabs.css'
 // `categoryTabs`: the categories (level-1 headings) as tabs below the top bar (desktop), each linking to its first page.
 // The current page's category is underlined in its color. The left navigation lists the category's pages.
 function CategoryTabs() {
-  const categories = getCategories(usePageContext())
+  const { categories } = usePageContext().resolved
   return (
     <nav
       className="category-tabs"
@@ -35,44 +33,21 @@ function CategoryTabs() {
         style={{ maxWidth: bodyMaxWidth, margin: '0 auto', boxSizing: 'border-box' }}
       >
         {categories.map(
-          ({ navItem, url, isCurrent }, i) =>
-            url && (
+          ({ title, titleIcon, color, pages, isCurrent }, i) =>
+            pages[0] && (
               <a
                 key={i}
-                href={url}
+                href={pages[0].url}
                 className={cls(['category-tab', isCurrent && 'is-current'])}
                 aria-current={isCurrent ? 'true' : undefined}
-                style={{ ['--color-category' as string]: navItem.color }}
+                style={{ ['--color-category' as string]: color }}
               >
-                {navItem.titleIcon && <img src={navItem.titleIcon} alt="" className="category-tab-icon" />}
-                {parseMarkdownMini(navItem.titleInNav || navItem.title)}
+                {titleIcon && <img src={titleIcon} alt="" className="category-tab-icon" />}
+                {parseMarkdownMini(title)}
               </a>
             ),
         )}
       </div>
     </nav>
   )
-}
-
-// The categories (level-1 headings), each with its pages (the first one is the category's link), and whether it holds
-// the current page
-function getCategories(pageContext: ReturnType<typeof usePageContext>) {
-  const navItems = getNavItemsWithComputed(pageContext.resolved.navItemsAll, pageContext.urlPathname)
-  const categories: {
-    navItem: NavItemComputed
-    url: string | null
-    pages: { title: string; url: string }[]
-    isCurrent: boolean
-  }[] = []
-  navItems.forEach((navItem) => {
-    if (navItem.level === 1) categories.push({ navItem, url: null, pages: [], isCurrent: false })
-    const category = categories[categories.length - 1]
-    if (!category) return
-    if (navItem.level === 2 && navItem.url) {
-      category.url ??= navItem.url
-      category.pages.push({ title: navItem.titleInNav || navItem.title, url: navItem.url })
-    }
-    if (navItem.isActive) category.isCurrent = true
-  })
-  return categories
 }

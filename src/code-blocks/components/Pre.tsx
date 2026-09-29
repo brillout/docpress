@@ -1,7 +1,8 @@
 export { Pre }
 
-import React, { useState } from 'react'
+import React from 'react'
 import { cls } from '../../utils/cls.js'
+import { useCopy, CopyAnnouncement } from '../../utils/useCopy.js'
 import './Pre.css'
 
 // Styling defined in src/css/code/diff.css
@@ -44,23 +45,16 @@ function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & Add
 }
 
 function CopyButton() {
-  const [isSuccess, setIsSuccess] = useState(null as null | boolean)
-  const onCopy = (success: boolean) => {
-    setIsSuccess(success)
-    // As long as the other copy confirmations (long enough to be seen once the eye comes back)
-    setTimeout(() => {
-      setIsSuccess(null)
-    }, 2000)
-  }
-  const tooltip = isSuccess === null ? 'Copy to clipboard' : isSuccess ? 'Copied' : 'Failed'
+  const { status, copy } = useCopy()
+  const tooltip = status === 'idle' ? 'Copy to clipboard' : status === 'copied' ? 'Copied' : 'Failed'
   const icon =
-    isSuccess === null ? (
+    status === 'idle' ? (
       // Copy icon
       <svg key="copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
       </svg>
-    ) : isSuccess ? (
+    ) : status === 'copied' ? (
       // Green checkmark
       <svg
         key="copied"
@@ -90,30 +84,17 @@ function CopyButton() {
         aria-label={tooltip}
         data-label-position="top-left"
         type="button"
-        onClick={onClick}
+        onClick={(ev) => {
+          // Only the code, not the header
+          const code = ev.currentTarget.parentElement!.querySelector('code')?.textContent || ''
+          copy(removeTrailingWhitespaces(code))
+        }}
       >
         {icon}
       </button>
-      <span className="sr-only" aria-live="polite">
-        {isSuccess === null ? '' : isSuccess ? 'Copied' : 'Copy failed'}
-      </span>
+      <CopyAnnouncement status={status} />
     </>
   )
-  async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
-    let success: boolean
-    const preEl = e.currentTarget.parentElement!
-    // Only the code, not the header
-    let text = preEl.querySelector('code')?.textContent || ''
-    text = removeTrailingWhitespaces(text)
-    try {
-      await navigator.clipboard.writeText(text)
-      success = true
-    } catch (error) {
-      console.error(error)
-      success = false
-    }
-    onCopy(success)
-  }
 }
 const languageLabels: Record<string, string> = {
   js: 'JavaScript',

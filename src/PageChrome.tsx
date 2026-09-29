@@ -1,11 +1,12 @@
 export { PageHeader }
 export { PageFooter }
 
-import React, { useState } from 'react'
+import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { EditLink } from './EditLink.js'
 import { pageToMarkdown } from './pageToMarkdown.js'
+import { useCopy, CopyAnnouncement } from './utils/useCopy.js'
 import './PageChrome.css'
 
 // Breadcrumb, title, and "Copy page"
@@ -30,21 +31,16 @@ function PageHeader({ title }: { title: React.JSX.Element }) {
 
 // Copies the page as Markdown, e.g. to paste it into an LLM (see pageToMarkdown.ts)
 function CopyPageButton() {
-  const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
-  const onClick = async () => {
-    try {
-      await navigator.clipboard.writeText(pageToMarkdown())
-      setStatus('copied')
-    } catch (err) {
-      console.error(err)
-      setStatus('failed')
-    }
-    setTimeout(() => setStatus('idle'), 2000)
-  }
+  const { status, copy } = useCopy()
   // The label doesn't change (the button keeps its width): the icon and a screen reader announcement show the status
   return (
     <>
-      <button type="button" className="copy-page-button scale-on-press" onClick={onClick} data-status={status}>
+      <button
+        type="button"
+        className="copy-page-button scale-on-press"
+        onClick={() => copy(pageToMarkdown())}
+        data-status={status}
+      >
         <svg
           // A new icon blends in (a11y.css)
           key={status}
@@ -77,9 +73,7 @@ function CopyPageButton() {
         </svg>
         <span className="copy-page-label">Copy page</span>
       </button>
-      <span className="sr-only" aria-live="polite">
-        {status === 'copied' ? 'Copied' : status === 'failed' ? 'Copy failed' : ''}
-      </span>
+      <CopyAnnouncement status={status} />
     </>
   )
 }

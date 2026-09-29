@@ -1,9 +1,6 @@
 .page-header {
   margin-bottom: 24px;
 }
-.doc-page .page-header h1 {
-  margin: 0;
-}
 .page-breadcrumb {
   display: flex;
   flex-wrap: wrap;

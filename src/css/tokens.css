@@ -105,10 +105,10 @@ body {
   --dp-bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 84%, var(--dp-color-bg));
   --dp-bevel-3: var(--dp-color-border-strong);
 
-  /* Long-standing aliases, used by host sites (e.g. telefunc.com's landing page) */
+  /* Long-standing aliases, used by host sites (e.g. telefunc.com's landing page). The page is the gray now: a gray
+   * section is the page. */
   --color-bg-white: var(--dp-color-bg);
-  /* Between the page and the code wells: code blocks in such sections (e.g. a landing page's hero) still sit lower */
-  --color-bg-gray: color-mix(in srgb, var(--dp-color-surface) 50%, var(--dp-color-bg));
+  --color-bg-gray: var(--dp-color-bg);
 }
 
 :root.dark,

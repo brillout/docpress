@@ -34,13 +34,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const columnWidthBase = navLeftWidthMax + 20
   const maxColumns = Math.max(...navItemsByColumnLayouts.map((layout) => layout.columns.length), 1)
   const widthMax = maxColumns * columnWidthBase
-  const getColumnsWrapperStyle = (columnLayout: NavItemsByColumnLayout) => {
-    const widthColumn = columnLayout.columns.length * columnWidthBase
-    return {
-      width: Math.max(700, widthColumn),
-      maxWidth: `min(100%, ${widthMax}px)`,
-    }
-  }
+  const columnsWrapperStyle = { maxWidth: `min(100%, ${widthMax}px)` }
   return (
     <>
       <Style>{getStyle()}</Style>
@@ -58,9 +52,9 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           >
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
-                <ColumnsWrapper style={getColumnsWrapperStyle(columnLayout)}>
+                <ColumnsWrapper style={columnsWrapperStyle}>
                   <Collapsible
-                    head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
+                    head={<NavItemComponent navItem={columnLayout.navItemLevel1} />}
                     disabled={maxColumns > 1}
                     collapsedInit={!columnLayout.navItemLevel1.isRelevant}
                     marginBottomOnExpand={marginBottomOnExpand}
@@ -79,14 +73,14 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                 </ColumnsWrapper>
               </div>
             ) : (
-              <ColumnsWrapper style={getColumnsWrapperStyle(columnLayout)}>
+              <ColumnsWrapper style={columnsWrapperStyle}>
                 <ColumnsLayout>
                   {columnLayout.columns.map((column, j) => (
                     <Column key={j}>
                       {column.categories.map((category, k) => (
                         <div key={k} style={{ marginBottom: 0 }}>
                           <Collapsible
-                            head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
+                            head={<NavItemComponent navItem={category.navItemLevel1} />}
                             disabled={maxColumns > 1}
                             collapsedInit={!category.navItemLevel1.isRelevant}
                             marginBottomOnExpand={marginBottomOnExpand}

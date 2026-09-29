@@ -53,26 +53,13 @@ type ColumnMap = Record<number, number>
 type PropsNavItem = PropsAnchor & PropsSpan
 type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
 type PropsSpan = React.HTMLProps<HTMLSpanElement>
-function NavItemComponent({
-  navItem,
-  onClick,
-}: {
-  navItem: NavItemComputed
-  onClick?: PropsNavItem['onClick']
-}) {
+function NavItemComponent({ navItem }: { navItem: NavItemComputed }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
   const titleJsx = parseMarkdownMini(navItem.title)
   const titleInNavJsx = parseMarkdownMini(navItem.titleInNav)
 
-  const iconSize = 25
-  const icon = navItem.titleIcon && (
-    <img
-      src={navItem.titleIcon}
-      alt=""
-      style={{ height: iconSize, width: iconSize, marginRight: 8, marginLeft: 2, ...navItem.titleIconStyle }}
-    />
-  )
+  const icon = navItem.titleIcon && <img src={navItem.titleIcon} alt="" style={navItem.titleIconStyle} />
 
   if (navItem.level === 1 || navItem.level === 4) {
     assert(navItem.url === undefined)
@@ -104,13 +91,8 @@ function NavItemComponent({
   const props: PropsNavItem = {
     href: navItem.url ?? undefined,
     children,
-    onClick,
     'aria-current': navItem.url && navItem.isActive ? 'page' : undefined,
-    className: [
-      'nav-item',
-      'nav-item-level-' + navItem.level,
-      ((navItem.url && navItem.isActive) || navItem.level === 3) && ' is-active',
-    ]
+    className: ['nav-item', 'nav-item-level-' + navItem.level, navItem.url && navItem.isActive && 'is-active']
       .filter(Boolean)
       .join(' '),
   }

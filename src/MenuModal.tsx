@@ -71,21 +71,8 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
             </Center>
           </div>
         </div>
-        <BorderBottom />
       </div>
     </>
-  )
-}
-function BorderBottom() {
-  return (
-    <div
-      id="border-bottom"
-      style={{
-        background: 'var(--dp-color-border)',
-        height: 'var(--block-margin)',
-        width: '100%',
-      }}
-    />
   )
 }
 function Nav() {
@@ -165,9 +152,6 @@ html.menu-modal-show #menu-modal-wrapper {
   html.menu-modal-show:not(.menu-modal-display-only-one) #menu-modal-wrapper {
     transition-property: opacity, visibility, left, width !important;
   }
-  #border-bottom {
-    display: none;
-  }
   .menu-navigation-content {
     padding: 20px ${menuPaddingX}px 24px;
     box-sizing: border-box;
@@ -205,9 +189,6 @@ html.menu-modal-show #menu-modal-wrapper {
       padding-top: 5.5px;
     }
   }
-  #border-bottom {
-    display: none;
-  }
   html:not(.menu-modal-show) #menu-modal-wrapper {
     opacity: 0;
     pointer-events: none;
@@ -225,9 +206,6 @@ html.menu-modal-show #menu-modal-wrapper {
   }
   #menu-navigation-container {
     height: auto !important;
-  }
-  .show-only-on-desktop {
-    display: none !important;
   }
   .columns-wrapper {
     width: 100% !important;

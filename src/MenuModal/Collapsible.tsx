@@ -11,7 +11,7 @@ function Collapsible({
   collapsedInit,
   marginBottomOnExpand,
 }: {
-  head: (onClick: () => void) => React.ReactNode
+  head: React.ReactNode
   children: React.ReactNode
   disabled: boolean
   collapsedInit: boolean
@@ -23,16 +23,14 @@ function Collapsible({
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onClick = () => {
-    if (!disabled) {
-      setIsAnimating(true)
-      if (!collapsed) {
-        // If expanding, set height to current scroll height before animation
-        contentRef.current!.style.height = `${contentRef.current!.scrollHeight}px`
-        // Force a reflow
-        contentRef.current!.offsetHeight
-      }
-      setCollapsed((prev) => !prev)
+    setIsAnimating(true)
+    if (!collapsed) {
+      // If expanding, set height to current scroll height before animation
+      contentRef.current!.style.height = `${contentRef.current!.scrollHeight}px`
+      // Force a reflow
+      contentRef.current!.offsetHeight
     }
+    setCollapsed((prev) => !prev)
   }
 
   const onTransitionEnd = () => {
@@ -46,7 +44,7 @@ function Collapsible({
       className={cls(['collapsible', !disabled && (showContent ? 'collapsible-expanded' : 'collapsible-collapsed')])}
     >
       {disabled ? (
-        head(onClick)
+        head
       ) : (
         <button
           type="button"
@@ -55,7 +53,7 @@ function Collapsible({
           aria-controls={id}
           onClick={onClick}
         >
-          {head(() => {})}
+          {head}
         </button>
       )}
       <div

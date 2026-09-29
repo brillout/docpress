@@ -44,7 +44,7 @@ function CopyPageButton() {
   // The label doesn't change (the button keeps its width): the icon and a screen reader announcement show the status
   return (
     <>
-      <button type="button" className="copy-page-button" onClick={onClick} data-status={status}>
+      <button type="button" className="copy-page-button scale-on-press" onClick={onClick} data-status={status}>
         <svg
           // A new icon blends in (a11y.css)
           key={status}
@@ -93,7 +93,7 @@ function PageFooter() {
       {(pagePrev || pageNext) && (
         <nav className="page-pagination" aria-label="Pagination">
           {pagePrev ? (
-            <a href={pagePrev.url} rel="prev" className="page-pagination-link">
+            <a href={pagePrev.url} rel="prev" className="page-pagination-link scale-on-press-subtle">
               <span className="page-pagination-label">Previous</span>
               <span className="page-pagination-title">{parseMarkdownMini(pagePrev.title)}</span>
             </a>
@@ -101,7 +101,11 @@ function PageFooter() {
             <span />
           )}
           {pageNext && (
-            <a href={pageNext.url} rel="next" className="page-pagination-link page-pagination-next">
+            <a
+              href={pageNext.url}
+              rel="next"
+              className="page-pagination-link page-pagination-next scale-on-press-subtle"
+            >
               <span className="page-pagination-label">Next</span>
               <span className="page-pagination-title">{parseMarkdownMini(pageNext.title)}</span>
             </a>

@@ -247,7 +247,7 @@ function CloseButton({ className }: { className: string }) {
   return (
     <button
       type="button"
-      className={`menu-modal-close ${className}`}
+      className={`menu-modal-close scale-on-press ${className}`}
       onClick={closeMenuModalAndFocusToggle}
       aria-label="Close menu"
     >

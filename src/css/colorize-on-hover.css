@@ -28,15 +28,9 @@
 [class^='decolorize-'],
 [class*=' decolorize-'] {
   transition-property: filter, opacity !important;
-}
-/* Hover states: short */
-[class^='decolorize-'],
-[class*=' decolorize-'],
-.link-hover-animation a,
-.link-hover-animation .menu-toggle {
   transition-duration: var(--dp-duration);
 }
-/* The raised ring fades with its fill; a press eases (see a11y.css) */
+/* The raised ring fades with its fill; a press eases (scale-on-press.css) */
 .link-hover-animation a,
 .menu-toggle {
   transition-property: color, background-color, border-color, box-shadow, transform !important;

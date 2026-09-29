@@ -86,7 +86,7 @@ function CopyButton() {
   return (
     <>
       <button
-        className="copy-button"
+        className="copy-button scale-on-press"
         aria-label={tooltip}
         data-label-position="top-left"
         type="button"

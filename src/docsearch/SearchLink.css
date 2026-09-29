@@ -11,6 +11,11 @@
   box-shadow: var(--dp-shadow-raised);
   color: var(--dp-color-muted);
   font-size: 14px;
+  transition: color var(--dp-duration) ease, box-shadow var(--dp-duration) ease, transform var(--dp-duration-press)
+    var(--dp-ease-out);
+  .search-link:active & {
+    transform: scale(0.98);
+  }
   @media (hover: hover) and (pointer: fine) {
     .search-link:hover & {
       box-shadow: var(--dp-shadow-raised-hover);

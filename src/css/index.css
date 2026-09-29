@@ -12,4 +12,5 @@
 @import '@docsearch/css/dist/style.css';
 @import './docsearch.css';
 @import './sr-only.css';
+@import './scale-on-press.css';
 @import './a11y.css';

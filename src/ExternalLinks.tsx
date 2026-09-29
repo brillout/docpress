@@ -57,7 +57,7 @@ function ChangelogButton() {
   const { version, github, changelog } = pageContext.globalContext.config.docpress
   const changeLogUrl = typeof changelog === 'string' ? changelog : `${github}/blob/main/CHANGELOG.md`
   return (
-    <a href={changeLogUrl} className="version-badge" aria-label={`Changelog (v${version})`}>
+    <a href={changeLogUrl} className="version-badge scale-on-press" aria-label={`Changelog (v${version})`}>
       v{version}
     </a>
   )
@@ -72,7 +72,7 @@ function LinkIcon({
 }: { icon: string; href: string; label: string; brandColor?: string }) {
   return (
     <a
-      className="icon-button"
+      className="icon-button scale-on-press"
       href={href}
       aria-label={label}
       style={{ ['--icon' as string]: `url("${icon}")`, ['--icon-brand-color' as string]: brandColor }}

@@ -30,7 +30,11 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
         data-choice-group={groupName}
       >
         {choices.map(({ name: choice, icon, iconMono, iconStyle, iconStyleTab }) => (
-          <label key={choice} className="choice-tabs__tab" style={{ display: isHidden(choice) ? 'none' : undefined }}>
+          <label
+            key={choice}
+            className="choice-tabs__tab scale-on-press"
+            style={{ display: isHidden(choice) ? 'none' : undefined }}
+          >
             <input
               className="choice-tabs__radio sr-only"
               type="radio"

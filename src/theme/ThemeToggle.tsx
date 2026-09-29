@@ -14,7 +14,7 @@ function ThemeToggle({ className }: { className?: string }) {
       type="button"
       role="switch"
       aria-checked={isDark}
-      className={cls(['theme-toggle', className])}
+      className={cls(['theme-toggle scale-on-press', className])}
       onClick={toggleTheme}
       aria-label="Dark mode"
     >

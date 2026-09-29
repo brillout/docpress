@@ -50,7 +50,7 @@ function Collapsible({
       ) : (
         <button
           type="button"
-          className="collapsible-head"
+          className="collapsible-head scale-on-press-subtle"
           aria-expanded={showContent}
           aria-controls={id}
           onClick={onClick}

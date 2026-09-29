@@ -205,9 +205,8 @@
     }
   }
   code {
-    padding: 0;
-    background: none;
     font-size: 0.94em;
+    line-height: 1.2;
   }
 }
 .docs-overview-all {

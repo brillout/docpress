@@ -1,28 +1,39 @@
 @import './code/inline.css';
-@import './code/block.css';
 @import './code/diff.css';
 @import './code/highlight.css';
 
 /* For code blocks, see Pre.css instead */
 
-/* Inline <code> */
 code {
-  border-radius: var(--dp-radius-sm);
-  background: var(--dp-color-code-inline-bg);
-  font-size: 0.875em;
   font-family: var(--dp-font-mono);
   letter-spacing: normal;
 }
-:not(pre) > code {
-  /* Doesn't make its line taller than the others */
+/* In the page's text: a pill that doesn't make its line taller. (Elsewhere, e.g. in headings and code blocks: plain
+ * monospace text.) */
+.page-content code:not(pre > code, :is(h1, h2, h3, h4, h5, h6, .page-pagination-title, .docs-overview-link) code) {
+  padding: 0.15em 0.4em;
+  border-radius: var(--dp-radius-sm);
+  background: var(--dp-color-code-inline-bg);
+  font-size: 0.875em;
   line-height: 1.2;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-/* In headings and the "On this page" rail, code is plain monospace text */
 :is(h1, h2, h3, h4, h5, h6, .toc-item) code {
-  background: none;
-  padding: 0;
   font-size: 0.92em;
   line-height: 1;
+}
+
+/* Dual Shiki themes (see getHighlighter.ts): each token carries both colors as CSS variables */
+code[data-theme] span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+:root.dark code[data-theme] span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
 }

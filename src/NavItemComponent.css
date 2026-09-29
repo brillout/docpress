@@ -3,14 +3,10 @@
   white-space: nowrap;
   overflow-x: hidden;
 }
-/* API names are plain monospace text, not pills. Same size in the left navigation and the menus; `line-height: 1`:
- * code doesn't make its row taller. */
+/* Same size in the left navigation and the menus; `line-height: 1`: code doesn't make its row taller */
 .nav-item code {
   font-size: 0.94em;
   line-height: 1;
-  background: none;
-  padding: 0;
-  letter-spacing: normal;
 }
 .nav-item-level-1 {
   display: inline-flex;

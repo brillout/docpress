@@ -32,8 +32,8 @@
     }
   }
   code {
-    background: none;
-    padding: 0;
+    font-size: 0.875em;
+    line-height: 1.2;
   }
   /* The current page's category: in ink, underlined in its color (not only a color: the underline) */
   &.is-current {

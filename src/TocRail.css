@@ -77,10 +77,6 @@
   &.toc-item-active {
     color: var(--dp-color-heading);
   }
-  code {
-    font-size: 0.9em;
-    padding: 1px 4px;
-  }
 }
 .toc-item-level-3 {
   padding-left: 28px;

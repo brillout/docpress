@@ -98,8 +98,8 @@
   font-weight: 500;
   overflow-wrap: anywhere;
   code {
-    background: none;
-    padding: 0;
+    font-size: 0.875em;
+    line-height: 1.2;
   }
 }
 @container container-viewport (max-width: 600px) {

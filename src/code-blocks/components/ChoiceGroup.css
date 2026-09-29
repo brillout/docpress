@@ -1,7 +1,7 @@
 .choice-group-container.always-show {
   .choice-group__selects,
   .copy-button {
-    opacity: 1 !important;
+    opacity: 1;
   }
 }
 

@@ -1,4 +1,3 @@
-export * from '../utils/Emoji/index.js'
 export * from './Link.js'
 export * from './RepoLink.js'
 export * from './Note.js'

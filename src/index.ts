@@ -8,7 +8,6 @@ export {
   FileAdded,
   FileRemoved,
   ImportMeta,
-  Emoji,
   Tabs,
   DocsOverview,
 } from './components/index.js'

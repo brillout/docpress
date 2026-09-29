@@ -96,7 +96,6 @@ type Config = {
   navLogoStyle?: React.CSSProperties
   navLogoTextStyle?: React.CSSProperties
 
-  globalNote?: React.ReactNode
   choices?: Record<string, Choice>
 }
 

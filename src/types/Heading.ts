@@ -20,6 +20,7 @@ type HeadingResolved = {
   titleIcon?: string
   titleIconStyle?: React.CSSProperties
   titleDocument?: string
+  description?: string
 }
 
 type StringArray = string[] | readonly string[]
@@ -54,7 +55,14 @@ type HeadingDetachedDefinition = HeadingDefinitionCommon & {
 }
 
 type HeadingDefinition = HeadingDefinitionCommon & {} & (
-    | ({ level: 1; color: string; titleIcon?: string; titleIconStyle?: React.CSSProperties } & IsCategory)
+    | ({
+        level: 1
+        color: string
+        titleIcon?: string
+        titleIconStyle?: React.CSSProperties
+        /** What the category covers, in a sentence: shown on the docs home (`<DocsOverview>`) */
+        description?: string
+      } & IsCategory)
     | ({ level: 4 } & IsCategory)
     | {
         level: 2

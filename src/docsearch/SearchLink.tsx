@@ -6,7 +6,7 @@ import './SearchLink.css'
 
 type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
 // Styled as a search input, opening Algolia DocSearch
-function SearchLink(props: PropsAnchor) {
+function SearchLink({ label = 'Search', ...props }: PropsAnchor & { label?: string }) {
   return (
     <a
       {...props}
@@ -34,7 +34,7 @@ function SearchLink(props: PropsAnchor) {
     >
       <span className="search-box">
         <SearchIcon />
-        <span className="search-box-text">Search</span>
+        <span className="search-box-text">{label}</span>
         <ShortcutHint />
       </span>
     </a>

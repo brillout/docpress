@@ -147,6 +147,7 @@ function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): N
     color: heading.color,
     titleIcon: heading.titleIcon,
     titleIconStyle: heading.titleIconStyle,
+    description: heading.description,
   }
 }
 function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {

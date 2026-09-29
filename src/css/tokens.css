@@ -54,7 +54,6 @@
   --dp-color-advanced: #b0359a;
 
   /* Shadows */
-  --dp-color-shadow: rgba(0, 0, 0, 0.11);
   --dp-shadow-popover: 0 0 0 1px var(--dp-color-ring), 0 2px 4px rgb(20 20 15 / 4%), 0 8px 24px -4px rgb(20 20 15 / 10%);
   /* Raised: the ring is a shadow (not a border), so raising something doesn't shift the layout. Inside: a rim on the
    * chip's own fill, the same on the page and on a code tray (and the same as the choice dropdown's border). */
@@ -83,15 +82,13 @@
   --dp-font-size-h1: 2.25rem;
   --dp-font-size-h2: 1.5rem;
   --dp-font-size-h3: 1.25rem;
-  --dp-font-size-xs: 12px;
 }
 
 /* Tokens derived from other tokens. On `body` (not `:root`) so that they're computed from a site's `body` overrides. */
 body {
-  /* Hovering recesses (the opposite of raised, e.g. the current page): a tint of the recessed surface, which is darker
-   * than the page in both appearances */
+  /* Hovering recesses (the opposite of raised): a tint of the recessed surface, which is darker than the page in both
+   * appearances */
   --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-surface) 75%, transparent);
-  --dp-color-primary-soft: color-mix(in srgb, var(--dp-color-primary) 10%, transparent);
 
   /* Raised (bevelled) borders: lightest, middle, darkest */
   --dp-bevel-1: color-mix(in srgb, var(--dp-color-border-strong) 75%, var(--dp-color-bg));
@@ -139,7 +136,6 @@ body {
   --dp-color-danger: #f26b78;
   --dp-color-advanced: #e27bd0;
 
-  --dp-color-shadow: rgba(0, 0, 0, 0.45);
   --dp-shadow-popover: 0 0 0 1px var(--dp-color-ring), 0 2px 4px rgb(0 0 0 / 25%), 0 8px 24px -4px rgb(0 0 0 / 50%);
   --dp-shadow-raised: inset 0 0 0 1px var(--dp-color-ring), 0 1px 2px rgb(0 0 0 / 40%);
   --dp-shadow-raised-hover: inset 0 0 0 1px var(--dp-color-ring-hover), 0 1px 3px rgb(0 0 0 / 50%);

@@ -102,10 +102,11 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     const update = () => {
       frame = null
       // The n-th element with the n-th occurrence of an id (a page can repeat a heading)
-      const occurrences: Record<string, number> = {}
+      const occurrences = new Map<string, number>()
       const headings = ids.map((id) => {
-        occurrences[id] = (occurrences[id] ?? -1) + 1
-        return document.querySelectorAll(`[id="${CSS.escape(id)}"]`)[occurrences[id]]
+        const occurrence = (occurrences.get(id) ?? -1) + 1
+        occurrences.set(id, occurrence)
+        return document.querySelectorAll(`[id="${CSS.escape(id)}"]`)[occurrence]
       })
       // Measure once, then compute and paint. No position: the heading isn't rendered (e.g. an unselected choice).
       const tops = headings.map((heading) =>

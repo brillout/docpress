@@ -1,12 +1,3 @@
-button,
-.button {
-  background-color: var(--dp-color-surface-elevated);
-  color: var(--dp-color-text);
-  border: 1px solid var(--dp-color-border-strong);
-  border-radius: var(--dp-radius-md);
-  cursor: pointer;
-}
-
 /* Copy buttons: the new icon (e.g. the check after copying) blends in */
 :is(.copy-button, .copy-page-button) svg {
   transition: opacity 200ms var(--dp-ease-out), scale 200ms var(--dp-ease-out), filter 200ms var(--dp-ease-out);

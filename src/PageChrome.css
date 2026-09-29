@@ -39,6 +39,7 @@
   color: var(--dp-color-muted);
   font-size: 13px;
   white-space: nowrap;
+  cursor: pointer;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       color: var(--dp-color-text);

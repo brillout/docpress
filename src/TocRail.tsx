@@ -80,8 +80,9 @@ function BackToTop({ withProgress }: { withProgress: boolean }) {
   )
 }
 
-// The active section is the last heading scrolled past the activation line (see below), or the section just jumped to.
-// With `withProgress`, the section being read gets a longer rail, and the thumb slides down it (see update()).
+// The active section is the last heading scrolled past the reading line (see measurePage()), or the section just jumped
+// to. With `withProgress`, a long section on screen gets a longer rail, and the thumb is the part of the page on screen
+// (see getProgressLayout()).
 function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const { urlPathname } = usePageContext()
@@ -91,37 +92,28 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     if (ids.length === 0) return
     let frame: number | null = null
     let jump: { id: string; scrollY: number } | null = null
-    // With progress: what's painted (the rows' extra lengths, the thumb), gliding towards the layout (see below)
+    // With progress: what's painted, gliding towards the layout (see glide())
     let painted: Layout | null = null
     let paintedAt = 0
     const onJump = () => {
-      const id = decodeURIComponent(window.location.hash.slice(1))
+      let id = ''
+      // A malformed hash (e.g. `#%`) is no section's
+      try {
+        id = decodeURIComponent(window.location.hash.slice(1))
+      } catch {}
       jump = id ? { id, scrollY: window.scrollY } : null
       onScroll()
     }
     const update = () => {
       frame = null
-      // The n-th element with the n-th occurrence of an id (a page can repeat a heading)
-      const occurrences = new Map<string, number>()
-      const headings = ids.map((id) => {
-        const occurrence = (occurrences.get(id) ?? -1) + 1
-        occurrences.set(id, occurrence)
-        return document.querySelectorAll(`[id="${CSS.escape(id)}"]`)[occurrence]
-      })
-      // Measure once, then compute and paint. No position: the heading isn't rendered (e.g. an unselected choice).
-      const tops = headings.map((heading) =>
-        heading?.getClientRects().length ? heading.getBoundingClientRect().top : null,
-      )
-      const contentBottom = document.querySelector('.page-content')?.getBoundingClientRect().bottom ?? 0
-      const stickyOffset = getStickyOffset()
-      // A heading scrolled above the line is read. Within the last viewport of scrolling, the line moves down to the
-      // viewport's bottom: the last sections, too short to ever reach the top, also get their turn.
-      const lineTop = stickyOffset + 80
-      const scrollRemaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY
-      const line = lineTop + (window.innerHeight - lineTop) * Math.max(0, 1 - scrollRemaining / window.innerHeight)
+      const rail = document.querySelector<HTMLElement>('#toc-rail .toc-rail-sticky')
+      const list = rail?.querySelector<HTMLElement>('.toc-list')
+      // Hidden (narrow screens): nothing to show
+      if (!rail || !list || rail.getClientRects().length === 0) return
+      const page = measurePage(ids)
       let activeIndex = 0
-      tops.forEach((top, i) => {
-        if (top !== null && top <= line) activeIndex = i
+      page.sections.forEach((section, i) => {
+        if (section && section.start <= page.line) activeIndex = i
       })
       // Just jumped to a section (e.g. a click on the rail): it's the active one until the reader scrolls away
       if (jump && Math.abs(window.scrollY - jump.scrollY) < 8) {
@@ -131,101 +123,22 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         jump = null
       }
       setActiveIndex(activeIndex)
-      // The thumb (and, with progress, which items are on screen), painted directly: it follows every scroll frame
-      const rail = document.querySelector<HTMLElement>('#toc-rail .toc-rail-sticky')
-      const list = rail?.querySelector<HTMLElement>('.toc-list')
-      if (!rail || !list) return
       const items = Array.from(list.querySelectorAll<HTMLElement>('.toc-item'))
       // A row: the item, and (with progress) the rail below it
       const rows = items.map((item) => item.parentElement!)
       if (withProgress) {
-        const viewTop = stickyOffset
-        const viewBottom = window.innerHeight
-        const viewHeight = Math.max(1, viewBottom - viewTop)
-        const sections = tops.map((start, i) => {
-          if (start === null) return null
-          const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
-          return { start, end }
-        })
-        sections.forEach((section, i) => {
-          const isVisible = !!section && Math.min(section.end, viewBottom) > Math.max(section.start, viewTop)
-          // Attributes (not classes): React re-renders the class names
-          items[i]?.toggleAttribute('data-visible', isVisible)
-        })
-        // A long section gets a longer rail while it's on screen: it opens as the section scrolls into view and closes
-        // as it scrolls out, following the scroll
-        const heights = items.map((item) => item.getBoundingClientRect().height)
-        const maxHeight = Math.min(
-          parseFloat(getComputedStyle(rail).maxHeight) || Infinity,
-          window.innerHeight - stickyOffset,
-        )
-        const available = maxHeight - getRailChromeHeight(rail, list)
-        const lengths = sections.map((section) => (section ? section.end - section.start : 0))
-        const onScreen = sections.map((section) =>
-          section ? Math.max(0, Math.min(section.end, viewBottom) - Math.max(section.start, viewTop)) : 0,
-        )
-        const targetExtras = getRowExtras(heights, lengths, onScreen, available, viewHeight)
-        // The thumb: the part of the page on screen, on the rows (each section spans its row). In a long section, open,
-        // that's the screen at the section's scale, sliding down its rail.
-        const rowTops: number[] = []
-        heights.reduce((y, height, i) => {
-          rowTops.push(y)
-          return y + height + targetExtras[i]!
-        }, 0)
-        let targetThumb: { top: number; height: number } | null = null
-        sections.forEach((section, i) => {
-          if (!section || onScreen[i] === 0) return
-          const length = Math.max(1, section.end - section.start)
-          const rowHeight = heights[i]! + targetExtras[i]!
-          const top = rowTops[i]! + ((Math.max(section.start, viewTop) - section.start) / length) * rowHeight
-          const bottom = rowTops[i]! + ((Math.min(section.end, viewBottom) - section.start) / length) * rowHeight
-          const thumbTop: number = targetThumb?.top ?? top
-          targetThumb = { top: thumbTop, height: bottom - thumbTop }
-        })
-        // Not in the introduction (nothing on screen is on the rail): collapsed at the list's top
-        targetThumb ??= { top: 0, height: 0 }
-        // Never a sliver (e.g. a list too long to leave room for a longer rail)
-        if (targetThumb.height > 0 && targetThumb.height < thumbMin) {
-          const listHeight =
-            rowTops[rowTops.length - 1]! + heights[heights.length - 1]! + targetExtras[targetExtras.length - 1]!
-          const top = Math.min(
-            Math.max(0, targetThumb.top + (targetThumb.height - thumbMin) / 2),
-            listHeight - thumbMin,
-          )
-          targetThumb = { top, height: thumbMin }
-        }
-        // Gliding: every frame, the rows and the thumb go the same share of the way to where they belong (an
-        // exponential ease-out). They respond at once, flow over the wheel's steps, move together (the same share of
-        // the way, so the thumb stays on its rows), and change course without a jolt.
+        // Attributes (not classes): React re-renders the class names
+        items.forEach((item, i) => item.toggleAttribute('data-visible', !!page.sections[i]?.onScreen))
+        const measures = measureRail(rail, list, items, page.viewBottom - page.viewTop)
+        const target = getProgressLayout(page, measures)
         const now = performance.now()
-        const frameTime = now - paintedAt > 50 ? 1000 / 60 : now - paintedAt
+        const { layout, isSettled } = glide(painted ?? readLayout(rows, list), target, now - paintedAt, measures.free)
         paintedAt = now
-        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        const k = isReducedMotion ? 1 : 1 - Math.exp(-frameTime / glideTime)
-        const from = painted ?? readLayout(rows, list)
-        let extras = targetExtras.map((extra, i) => lerp(from.extras[i] ?? 0, extra, k))
-        let thumb = {
-          top: lerp(from.thumb.top, targetThumb.top, k),
-          height: lerp(from.thumb.height, targetThumb.height, k),
-        }
-        const isSettled =
-          Math.abs(thumb.top - targetThumb.top) < 0.1 &&
-          Math.abs(thumb.height - targetThumb.height) < 0.1 &&
-          extras.every((extra, i) => Math.abs(extra - targetExtras[i]!) < 0.1)
-        if (isSettled) {
-          extras = targetExtras
-          thumb = targetThumb
-        }
-        // Never more than the free height (e.g. while the window shrinks): the rail would overflow
-        const free = getFreeHeight(heights, available)
-        const total = extras.reduce((a, b) => a + b, 0)
-        if (total > free) extras = extras.map((extra) => (extra * free) / total)
+        painted = layout
         rows.forEach((row, i) => {
-          row.style.setProperty('--toc-extra', `${extras[i]}px`)
+          row.style.setProperty('--toc-extra', `${layout.extras[i]}px`)
         })
-        list.style.setProperty('--thumb-top', `${thumb.top}px`)
-        list.style.setProperty('--thumb-height', `${thumb.height}px`)
-        painted = { extras, thumb }
+        paintThumb(list, layout.thumb)
         if (!isSettled) onScroll()
         const scrollable = document.documentElement.scrollHeight - window.innerHeight
         const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
@@ -233,8 +146,7 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       } else {
         const listTop = list.getBoundingClientRect().top
         const rect = rows[activeIndex]?.getBoundingClientRect()
-        list.style.setProperty('--thumb-top', `${rect ? rect.top - listTop : 0}px`)
-        list.style.setProperty('--thumb-height', `${rect?.height ?? 0}px`)
+        paintThumb(list, { top: rect ? rect.top - listTop : 0, height: rect?.height ?? 0 })
       }
       rail.toggleAttribute('data-scrolled', window.scrollY > 200)
     }
@@ -261,7 +173,141 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   return activeIndex
 }
 
+type Page = ReturnType<typeof measurePage>
+type Section = { start: number; end: number; onScreen: number }
+type RailMeasures = ReturnType<typeof measureRail>
 type Layout = { extras: number[]; thumb: { top: number; height: number } }
+
+// The sections (null: not rendered, e.g. an unselected choice), the part of the page on screen, and the reading line
+function measurePage(ids: string[]) {
+  const viewTop = getStickyOffset()
+  const viewBottom = window.innerHeight
+  // The n-th element with the n-th occurrence of an id (a page can repeat a heading)
+  const occurrences = new Map<string, number>()
+  const tops = ids.map((id) => {
+    const occurrence = (occurrences.get(id) ?? -1) + 1
+    occurrences.set(id, occurrence)
+    const heading = document.querySelectorAll(`[id="${CSS.escape(id)}"]`)[occurrence]
+    return heading?.getClientRects().length ? heading.getBoundingClientRect().top : null
+  })
+  // A section ends where the next rendered one starts
+  const sections: (Section | null)[] = []
+  let end = document.querySelector('.page-content')?.getBoundingClientRect().bottom ?? 0
+  for (let i = tops.length - 1; i >= 0; i--) {
+    const start = tops[i]
+    if (start === null || start === undefined) {
+      sections[i] = null
+      continue
+    }
+    sections[i] = { start, end, onScreen: Math.max(0, Math.min(end, viewBottom) - Math.max(start, viewTop)) }
+    end = start
+  }
+  // A heading scrolled above the line is read. Within the last viewport of scrolling, the line moves down to the
+  // viewport's bottom: the last sections, too short to ever reach the top, also get their turn.
+  const lineTop = viewTop + 80
+  const scrollRemaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY
+  const line = lineTop + (window.innerHeight - lineTop) * Math.max(0, 1 - scrollRemaining / window.innerHeight)
+  return { sections, viewTop, viewBottom, line }
+}
+
+// The items' heights, and the height the list may take: the rail's, less its padding, title and "Back to top". Those
+// are measured on their own: derived from the list's height (rounded), the result would move with every sub-px move of
+// the rows, moving their target, which moves them... (the rows would jitter forever).
+function measureRail(rail: HTMLElement, list: HTMLElement, items: HTMLElement[], viewHeight: number) {
+  const style = getComputedStyle(rail)
+  const railRect = rail.getBoundingClientRect()
+  const listRect = list.getBoundingClientRect()
+  const above = listRect.top - railRect.top + rail.scrollTop - parseFloat(style.borderTopWidth)
+  const below =
+    rail.lastElementChild!.getBoundingClientRect().bottom - listRect.bottom + parseFloat(style.paddingBottom)
+  const available = Math.min(parseFloat(style.maxHeight) || Infinity, viewHeight) - above - below
+  const heights = items.map((item) => item.getBoundingClientRect().height)
+  // Less some slack: filled to the last (fractional) px, the rail would overflow by rounding, and a classic scrollbar
+  // would pop up, narrowing the items (which re-wrap, changing the height...)
+  const free = Math.max(0, Math.floor(available - heights.reduce((a, b) => a + b, 0)) - 8)
+  return { heights, available, free }
+}
+
+// The rows' extra lengths and the thumb (px). The thumb is the part of the page on screen, on the rows (each section
+// spans its row): in a long section, open, that's the screen at the section's scale, sliding down its rail.
+function getProgressLayout(page: Page, measures: RailMeasures): Layout {
+  const { heights } = measures
+  const extras = getRowExtras(page, measures)
+  let thumbTop: number | null = null
+  let thumbBottom = 0
+  let rowTop = 0
+  page.sections.forEach((section, i) => {
+    const rowHeight = heights[i]! + extras[i]!
+    if (section?.onScreen) {
+      const length = Math.max(1, section.end - section.start)
+      thumbTop ??= rowTop + ((Math.max(section.start, page.viewTop) - section.start) / length) * rowHeight
+      thumbBottom = rowTop + ((Math.min(section.end, page.viewBottom) - section.start) / length) * rowHeight
+    }
+    rowTop += rowHeight
+  })
+  // Not in the introduction (nothing on screen is on the rail): collapsed at the list's top
+  if (thumbTop === null) return { extras, thumb: { top: 0, height: 0 } }
+  const height = thumbBottom - thumbTop
+  // Never a sliver (e.g. a list too long to leave room for a longer rail)
+  if (height >= thumbMin) return { extras, thumb: { top: thumbTop, height } }
+  const top = Math.min(Math.max(0, thumbTop + (height - thumbMin) / 2), rowTop - thumbMin)
+  return { extras, thumb: { top, height: thumbMin } }
+}
+
+// The extra length (px) of each row, below its item. A long section gets a rail as long as the section (scaled: a page
+// of `railContentLength` px of content would fill the rail) while it's on screen, opening over the first
+// `openingShare` of a screen of it scrolled into view (and closing likewise). Only if the thumb (the screen, at the
+// section's scale) travels down the rail: not for a section that fits on the screen (all of it is in view at once,
+// there's no progress to show within it), nor for a few px (the list would twitch for nothing). Within the rail's free
+// height: if two sections are open at once and don't both fit, they share it.
+function getRowExtras(page: Page, { heights, available, free }: RailMeasures) {
+  const viewHeight = Math.max(1, page.viewBottom - page.viewTop)
+  const extras = heights.map((height, i) => {
+    const section = page.sections[i]
+    if (!section?.onScreen) return 0
+    const length = section.end - section.start
+    if (length <= viewHeight) return 0
+    const extra = Math.min((length / railContentLength) * available - height, free)
+    const travel = (height + extra) * (1 - viewHeight / length)
+    if (extra < rowChangeMin || travel < rowChangeMin) return 0
+    return extra * smoothstep(Math.min(1, section.onScreen / (viewHeight * openingShare)))
+  })
+  const total = extras.reduce((a, b) => a + b, 0)
+  // Whole px: a sub-px change of the layout doesn't move the target (the rows would never settle)
+  return extras.map((extra) => Math.floor(total > free ? (extra * free) / total : extra))
+}
+const railContentLength = 11000
+const openingShare = 0.25
+const rowChangeMin = 24
+const thumbMin = 16
+function smoothstep(x: number) {
+  return x * x * (3 - 2 * x)
+}
+
+// Every frame, the rows and the thumb go the same share of the way to the layout (an exponential ease-out): they
+// respond at once, flow over the wheel's steps, move together (the thumb stays on its rows), and change course without
+// a jolt.
+function glide(from: Layout, to: Layout, frameTime: number, free: number): { layout: Layout; isSettled: boolean } {
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  // After a pause: a frame's worth
+  const k = isReducedMotion ? 1 : 1 - Math.exp(-(frameTime > 50 ? 1000 / 60 : frameTime) / glideTime)
+  const lerp = (a: number, b: number) => a + (b - a) * k
+  const layout = {
+    extras: to.extras.map((extra, i) => lerp(from.extras[i] ?? 0, extra)),
+    thumb: { top: lerp(from.thumb.top, to.thumb.top), height: lerp(from.thumb.height, to.thumb.height) },
+  }
+  const isNear = (a: number, b: number) => Math.abs(a - b) < 0.1
+  const isSettled =
+    isNear(layout.thumb.top, to.thumb.top) &&
+    isNear(layout.thumb.height, to.thumb.height) &&
+    layout.extras.every((extra, i) => isNear(extra, to.extras[i]!))
+  // Settled, or taller than the rail allows (e.g. while the window shrinks: the rail would overflow): at once
+  if (isSettled || layout.extras.reduce((a, b) => a + b, 0) > free) return { layout: to, isSettled: true }
+  return { layout, isSettled: false }
+}
+// The glide's time constant (ms): 90% of the way in about 2.3x as long
+const glideTime = 60
+
 // What's painted, e.g. by the previous page (upon client-side navigation, the rows are reused)
 function readLayout(rows: HTMLElement[], list: HTMLElement): Layout {
   return {
@@ -273,55 +319,9 @@ function readLayout(rows: HTMLElement[], list: HTMLElement): Layout {
   }
 }
 
-// The extra length (px) of each row, below its item. A long section gets a rail as long as the section (scaled: a page
-// of `railContentLength` px of content would fill the rail) while it's on screen, opening over the first
-// `openingShare` of a screen of it scrolled into view (and closing likewise). Only if the thumb (the screen, at the
-// section's scale) travels down the rail: not for a section that fits on the screen (all of it is in view at once,
-// there's no progress to show within it), nor for a few px (the list would twitch for nothing). Within the rail's free
-// height: if two sections are open at once and don't both fit, they share it.
-function getRowExtras(heights: number[], lengths: number[], onScreen: number[], available: number, viewHeight: number) {
-  const free = getFreeHeight(heights, available)
-  const extras = heights.map((height, i) => {
-    const length = lengths[i]!
-    if (length <= viewHeight || onScreen[i] === 0) return 0
-    const extra = Math.min((length / railContentLength) * available - height, free)
-    const travel = (height + extra) * (1 - viewHeight / length)
-    if (extra < rowChangeMin || travel < rowChangeMin) return 0
-    return extra * smoothstep(Math.min(1, onScreen[i]! / (viewHeight * openingShare)))
-  })
-  const total = extras.reduce((a, b) => a + b, 0)
-  // Whole px: a sub-px change of the layout doesn't move the target (the rows would never settle)
-  return extras.map((extra) => Math.floor(total > free ? (extra * free) / total : extra))
-}
-const openingShare = 0.25
-function smoothstep(x: number) {
-  return x * x * (3 - 2 * x)
-}
-const rowChangeMin = 24
-const railContentLength = 11000
-const thumbMin = 16
-// The rail's height the items leave free, less some slack: filled to the last (fractional) px, the rail would overflow
-// by rounding, and a classic scrollbar would pop up, narrowing the items (which re-wrap, changing the height...)
-function getFreeHeight(heights: number[], available: number) {
-  return Math.max(0, Math.floor(available - heights.reduce((a, b) => a + b, 0)) - 8)
-}
-// The glide's time constant (ms): 90% of the way in about 2.3x as long
-const glideTime = 60
-function lerp(a: number, b: number, k: number) {
-  return a + (b - a) * k
-}
-
-// The rail's height other than the list's (padding, title, "Back to top"), measured independently of the list's height:
-// derived from it (the rail's rounded height minus the list's), it would change with every sub-px move of the rows,
-// moving their target, which moves them... (the rows would jitter forever)
-function getRailChromeHeight(rail: HTMLElement, list: HTMLElement) {
-  const railRect = rail.getBoundingClientRect()
-  const listRect = list.getBoundingClientRect()
-  const last = rail.lastElementChild!.getBoundingClientRect()
-  const style = getComputedStyle(rail)
-  const above = listRect.top - railRect.top + rail.scrollTop - parseFloat(style.borderTopWidth)
-  const below = last.bottom - listRect.bottom + parseFloat(style.paddingBottom)
-  return above + below
+function paintThumb(list: HTMLElement, thumb: Layout['thumb']) {
+  list.style.setProperty('--thumb-top', `${thumb.top}px`)
+  list.style.setProperty('--thumb-height', `${thumb.height}px`)
 }
 
 // The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky

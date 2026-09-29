@@ -53,6 +53,9 @@ async function open(menuNavigationId?: number) {
   }
 }
 function closeMenuModal() {
+  // A pending switch to another menu (closeMenuModalOnMouseLeaveToggle()) would reopen it
+  clearTimeout(toggleLock?.timeoutAction)
+  toggleLock = undefined
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show')) {
     enableDisplayOnlyOne()

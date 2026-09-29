@@ -62,9 +62,12 @@ const skippedSelector = [
 function isSkipped(element: Element): boolean {
   if (skippedTags.has(element.tagName.toUpperCase())) return true
   if (element.matches(skippedSelector)) return true
-  // Not rendered, e.g. the choices not selected. (Collapsed content, e.g. `visibility: hidden`, is kept.)
+  // Not rendered, e.g. the choices not selected. Kept: collapsed content (e.g. `visibility: hidden`), and
+  // `display: contents` (it has no box of its own, but its children are rendered).
+  const { display } = getComputedStyle(element)
+  if (display === 'contents') return false
   if (typeof element.checkVisibility === 'function') return !element.checkVisibility()
-  return element.getClientRects().length === 0 && getComputedStyle(element).display === 'none'
+  return element.getClientRects().length === 0 && display === 'none'
 }
 
 // Block content: paragraphs, headings, lists, code blocks..., separated by a blank line. Loose inline content (e.g. a
@@ -103,7 +106,7 @@ function toBlock(element: Element): string {
   if (tag === 'UL' || tag === 'OL') return toList(element)
   if (tag === 'PRE') return toCodeBlock(element)
   if (tag === 'BLOCKQUOTE') return toBlockquote(element)
-  if (tag === 'TABLE') return toTable(element)
+  if (tag === 'TABLE') return toTable(element as HTMLTableElement)
   if (tag === 'HR') return '---'
   return toBlocks(element)
 }
@@ -158,8 +161,9 @@ function toBlockquote(blockquote: Element): string {
   return lines.map((line) => (line ? `> ${line}` : '>')).join('\n')
 }
 
-function toTable(table: Element): string {
-  const rows = Array.from(table.querySelectorAll('tr')).filter((row) => !isSkipped(row))
+function toTable(table: HTMLTableElement): string {
+  // Its own rows, not a nested table's
+  const rows = Array.from(table.rows).filter((row) => !isSkipped(row))
   if (rows.length === 0) return ''
   const cells = rows.map((row) =>
     Array.from(row.children)

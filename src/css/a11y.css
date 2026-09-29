@@ -68,8 +68,8 @@
   outline-offset: -2px;
 }
 
-/* Keyboard focus inside a code block reveals its (otherwise hover-only) dropdown and copy button */
-.choice-group-container:has(:focus-visible) :is(.choice-group__selects, .copy-button),
+/* Keyboard focus inside a code block reveals its (otherwise hover-only) copy button (the dropdown: ChoiceGroup.css) */
+.choice-group-container:has(:focus-visible) .copy-button,
 pre:has(:focus-visible) .copy-button {
   opacity: 1;
 }

@@ -35,9 +35,10 @@
       filter: drop-shadow(0 1px 2px rgb(0 0 0 / 40%));
     }
   }
-  /* With a mouse: shown while hovering (touch devices, `alwaysShow`: always shown) */
+  /* With a mouse: shown while the group is hovered or used with the keyboard (touch devices, `alwaysShow`: always
+   * shown) */
   @media (hover: hover) and (pointer: fine) {
-    &:not(.always-show) .choice-group__selects:not(:hover) {
+    &:not(.always-show, :has(.choice:hover, .choice-group__selects:hover, :focus-visible)) .choice-group__selects {
       opacity: 0;
     }
   }
@@ -322,10 +323,6 @@
 }
 
 .choice-group:has(.choice:hover) .copy-button {
-  opacity: 1;
-}
-
-.choice-group:has(.choice:hover) ~ .choice-group__selects {
   opacity: 1;
 }
 

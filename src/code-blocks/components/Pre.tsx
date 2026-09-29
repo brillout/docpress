@@ -3,6 +3,7 @@ export { Pre }
 import React from 'react'
 import { cls } from '../../utils/cls.js'
 import { useCopy, CopyAnnouncement } from '../../utils/useCopy.js'
+import { usePageContext } from '../../renderer/usePageContext.js'
 import './Pre.css'
 
 // Styling defined in src/css/code/diff.css
@@ -27,13 +28,15 @@ function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & Add
   const { className, ...rest } = props
   const language = (props as Record<string, unknown>)['data-language']
   const languageLabel = typeof language === 'string' ? getLanguageLabel(language) : null
+  // The language header is doc pages' chrome: on a landing page, a code block keeps the site's layout
+  const { isLandingPage } = usePageContext().resolved
 
   return (
     <pre
       className={cls([className, props['file-added'] && classAdded, props['file-removed'] && classRemoved])}
       {...rest}
     >
-      {languageLabel && (
+      {languageLabel && !isLandingPage && (
         <div className="code-block-header">
           <span className="code-block-language">{languageLabel}</span>
         </div>

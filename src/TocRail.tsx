@@ -91,9 +91,9 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     if (ids.length === 0) return
     let frame: number | null = null
     let jump: { id: string; scrollY: number } | null = null
-    // With progress: what's painted (the rows' extra lengths, the thumb), and the transition to a new layout
+    // With progress: what's painted (the rows' extra lengths, the thumb), gliding towards the layout (see below)
     let painted: Layout | null = null
-    let transition: { from: Layout; start: number; key: string } | null = null
+    let paintedAt = 0
     const onJump = () => {
       const id = decodeURIComponent(window.location.hash.slice(1))
       jump = id ? { id, scrollY: window.scrollY } : null
@@ -161,51 +161,58 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         const expanded = jump || (tops[activeIndex] ?? Infinity) <= line ? activeIndex : null
         const lengths = sections.map((section) => (section ? section.end - section.start : 0))
         const targetExtras = getRowExtras(heights, lengths, available, expanded)
-        // A new layout (the reader moved on to another section): the rows and the thumb move to it together, on one
-        // timeline, from wherever they are
-        // (Not by sub-px changes, e.g. of the measured free height)
-        const key = `${expanded} ${targetExtras.map((extra) => Math.round(extra / 4)).join()}`
-        if (transition?.key !== key) {
-          const from = painted ?? readLayout(rows, list)
-          transition = { from, start: performance.now(), key }
-        }
-        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        const t = isReducedMotion ? 1 : Math.min(1, (performance.now() - transition.start) / layoutDuration)
-        const k = easeInOutCubic(t)
-        const { from } = transition
-        // Never more than the free height (e.g. while the window shrinks): the rail would overflow and show a scrollbar
-        const free = getFreeHeight(heights, available)
-        const blended = targetExtras.map((extra, i) => lerp(from.extras[i] ?? 0, extra, k))
-        const blendedTotal = blended.reduce((a, b) => a + b, 0)
-        const extras = blended.map((extra) => (blendedTotal > free ? (extra * free) / blendedTotal : extra))
-        rows.forEach((row, i) => {
-          row.style.setProperty('--toc-extra', `${extras[i]}px`)
-        })
-        // The thumb, on the new layout. In a long section: the screen, at the section's scale on its rail, sliding down
-        // the rail as the section is read (it reaches the bottom as the next section takes over). In a short one: the
-        // item. Moving to it in a straight line, like the rows: no detour.
+        // The thumb, on the layout. In a long section: the screen, at the section's scale on its rail, sliding down the
+        // rail as the section is read (it reaches the bottom as the next section takes over). In a short one: the item.
         const rowTops: number[] = []
         heights.reduce((y, height, i) => {
           rowTops.push(y)
           return y + height + targetExtras[i]!
         }, 0)
-        let thumb = { top: 0, height: 0 }
+        let targetThumb = { top: 0, height: 0 }
         const section = expanded === null ? null : sections[expanded]
         if (expanded !== null && section) {
           const rowHeight = heights[expanded]! + targetExtras[expanded]!
-          thumb = { top: rowTops[expanded]!, height: rowHeight }
+          targetThumb = { top: rowTops[expanded]!, height: rowHeight }
           if (targetExtras[expanded]! > 0) {
             const length = Math.max(1, section.end - section.start)
             const height = Math.min(rowHeight, (viewHeight * rowHeight) / length)
             const read = Math.min(1, Math.max(0, (line - section.start) / length))
-            thumb = { top: rowTops[expanded]! + read * (rowHeight - height), height }
+            targetThumb = { top: rowTops[expanded]! + read * (rowHeight - height), height }
           }
         }
-        thumb = { top: lerp(from.thumb.top, thumb.top, k), height: lerp(from.thumb.height, thumb.height, k) }
+        // Gliding: every frame, the rows and the thumb go the same share of the way to where they belong (an
+        // exponential ease-out). They respond at once, flow over the wheel's steps, move together (the same share of
+        // the way, so the thumb stays on its rows), and change course without a jolt.
+        const now = performance.now()
+        const frameTime = now - paintedAt > 50 ? 1000 / 60 : now - paintedAt
+        paintedAt = now
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const k = isReducedMotion ? 1 : 1 - Math.exp(-frameTime / glideTime)
+        const from = painted ?? readLayout(rows, list)
+        let extras = targetExtras.map((extra, i) => lerp(from.extras[i] ?? 0, extra, k))
+        let thumb = {
+          top: lerp(from.thumb.top, targetThumb.top, k),
+          height: lerp(from.thumb.height, targetThumb.height, k),
+        }
+        const isSettled =
+          Math.abs(thumb.top - targetThumb.top) < 0.1 &&
+          Math.abs(thumb.height - targetThumb.height) < 0.1 &&
+          extras.every((extra, i) => Math.abs(extra - targetExtras[i]!) < 0.1)
+        if (isSettled) {
+          extras = targetExtras
+          thumb = targetThumb
+        }
+        // Never more than the free height (e.g. while the window shrinks): the rail would overflow
+        const free = getFreeHeight(heights, available)
+        const total = extras.reduce((a, b) => a + b, 0)
+        if (total > free) extras = extras.map((extra) => (extra * free) / total)
+        rows.forEach((row, i) => {
+          row.style.setProperty('--toc-extra', `${extras[i]}px`)
+        })
         list.style.setProperty('--thumb-top', `${thumb.top}px`)
         list.style.setProperty('--thumb-height', `${thumb.height}px`)
         painted = { extras, thumb }
-        if (t < 1) onScroll()
+        if (!isSettled) onScroll()
         const scrollable = document.documentElement.scrollHeight - window.innerHeight
         const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
         rail.style.setProperty('--page-progress', String(pageProgress))
@@ -269,11 +276,8 @@ const railContentLength = 11000
 function getFreeHeight(heights: number[], available: number) {
   return Math.max(0, Math.floor(available - heights.reduce((a, b) => a + b, 0)) - 8)
 }
-// Moving to a new layout: things on screen moving from one place to another ease in and out
-const layoutDuration = 300
-function easeInOutCubic(t: number) {
-  return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
-}
+// The glide's time constant (ms): 90% of the way in about 2.3x as long
+const glideTime = 60
 function lerp(a: number, b: number, k: number) {
   return a + (b - a) * k
 }

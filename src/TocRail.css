@@ -85,7 +85,7 @@
 .toc-item-level-3 {
   padding-left: 28px;
 }
-/* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx, which also animates it) */
+/* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx, which also glides it) */
 .toc-progress li {
   padding-bottom: var(--toc-extra, 0px);
 }

@@ -7,7 +7,6 @@
   top: var(--nav-head-sticky-offset);
   max-height: calc(100vh - var(--nav-head-sticky-offset));
   overflow-y: auto;
-  overscroll-behavior: contain;
   /* A long list scrolls, marked by the edges' fade (.scroll-fade), without a scrollbar: a classic one would narrow the
    * items as it comes and goes (they re-wrap, the rail's height changes, the scrollbar comes and goes again...) */
   scrollbar-width: none;

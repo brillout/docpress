@@ -4,8 +4,6 @@ export type { HeadingDetachedDefinition }
 export type { HeadingDefinition }
 export type { StringArray }
 
-import type React from 'react'
-
 type HeadingResolved = {
   url?: null | string
   level: number
@@ -18,7 +16,6 @@ type HeadingResolved = {
   category?: string
   color?: string
   titleIcon?: string
-  titleIconStyle?: React.CSSProperties
   titleDocument?: string
   description?: string
 }
@@ -59,7 +56,6 @@ type HeadingDefinition = HeadingDefinitionCommon & {} & (
         level: 1
         color: string
         titleIcon?: string
-        titleIconStyle?: React.CSSProperties
         /** What the category covers, in a sentence: shown on the docs home (`<DocsOverview>`) */
         description?: string
       } & IsCategory)

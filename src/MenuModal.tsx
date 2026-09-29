@@ -142,7 +142,6 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
   }
   .menu-navigation-content {
     padding: 20px ${menuPaddingX}px 24px;
-    box-sizing: border-box;
   }
   html:not(.menu-modal-show) {
     #menu-navigation-container {

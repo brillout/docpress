@@ -1,4 +1,7 @@
 /* A collapsible's head has a chevron (not in the left navigation, nor in the Docs menu's columns on desktop) */
+.collapsible-head > .nav-item {
+  position: relative;
+}
 .collapsible-icon {
   position: absolute;
   right: -16px;
@@ -10,10 +13,6 @@
   .collapsible-collapsed & {
     transform: rotate(-90deg);
   }
-}
-:has(> .collapsible-icon) {
-  position: relative;
-  overflow: visible;
 }
 /* The whole row is the target */
 .collapsible-head {

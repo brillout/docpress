@@ -1,58 +1,23 @@
-.nav-item {
-  display: block;
-  white-space: nowrap;
-  overflow-x: hidden;
-}
 /* Same size in the left navigation and the menus; `line-height: 1`: code doesn't make its row taller */
 .nav-item code {
   font-size: 0.94em;
   line-height: 1;
 }
+/* A category */
 .nav-item-level-1 {
   display: inline-flex;
   align-items: center;
   font-size: 14px;
   font-weight: 600;
   color: var(--dp-color-text);
-  #menu-modal-wrapper & {
-    margin-top: 10px;
-    padding: 6px 0 6px 12px;
-    border-left: 3px solid var(--color-category);
-    img {
-      height: 18px !important;
-      width: 18px !important;
-      margin: 0 8px 0 0 !important;
-    }
-    /* Mobile: collapsible categories */
-    .collapsible-expanded &,
-    .collapsible-collapsed & {
-      text-decoration: underline;
-      text-decoration-color: var(--color-category);
-      text-decoration-thickness: 2px;
-      text-underline-offset: 6px;
-      border: 0;
-      margin: 0;
-      /* Text on the same edge as the items' */
-      padding: 12px 10px 12px 15px;
-      img {
-        display: none;
-      }
-    }
+  img {
+    margin-right: 8px;
   }
-  /* The left navigation shows a single category; on the breadcrumb's line (PageChrome). Marked with its color, like
-   * in the Docs menu. */
-  #nav-left & {
-    text-decoration: underline 2px var(--color-category);
-    text-underline-offset: 7px;
-    /* Not clipped (.nav-item's overflow) */
-    overflow: visible;
-    margin: 11px 0 12px var(--nav-indent);
-    img {
-      height: 16px !important;
-      width: 16px !important;
-      margin: 0 8px 0 0 !important;
-    }
-  }
+}
+.nav-item-level-2,
+.nav-item-level-3,
+.nav-item-level-4 {
+  display: block;
 }
 .nav-item-level-2,
 .nav-item-level-3 {
@@ -68,13 +33,20 @@
  * thick bar on the hairline, and bolder text in the accent color. Not only a color: the bar and the weight tell it
  * apart also in grayscale. */
 #nav-left {
+  /* It shows a single category; on the breadcrumb's line (PageChrome). Marked with its color, like in the Docs menu. */
+  .nav-item-level-1 {
+    margin: 11px 0 12px var(--nav-indent);
+    text-decoration: underline 2px var(--color-category);
+    text-underline-offset: 7px;
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
   .nav-item-level-2 {
     margin: 0 12px 0 var(--nav-indent);
     padding: 6px 12px;
-    /* The current page's bar overlaps the hairline (outside the padding box) */
-    overflow: visible;
     border-left: 1px solid var(--dp-color-border);
-    white-space: normal;
     font-size: 14px;
     line-height: 20px;
     font-weight: 450;
@@ -112,7 +84,6 @@
     margin: 0 12px 0 var(--nav-indent);
     padding: 4px 10px 4px 24px;
     border-left: 1px solid var(--dp-color-border);
-    white-space: normal;
     font-size: 13px;
     line-height: 19px;
     color: var(--dp-color-muted);
@@ -125,29 +96,48 @@
   }
   /* Group labels, on the navigation's text edge */
   .nav-item-level-4 {
-    margin: 22px 12px 7px var(--nav-indent);
-    padding: 0;
+    margin-right: 12px;
+    margin-bottom: 7px;
+    margin-left: var(--nav-indent);
     font-size: 13px;
     font-weight: 600;
     line-height: 16px;
     color: var(--dp-color-text);
-    &:first-child,
-    .nav-item-level-1 + & {
+    &:not(:first-child, .nav-item-level-1 + *) {
+      margin-top: 22px;
+    }
+    &:is(:first-child, .nav-item-level-1 + *) {
       margin-top: 6px;
     }
   }
 }
 
-/* The Docs menu (and the mobile menu): the category's color bar is the only vertical line, so items are plain rows */
+/* The Docs menu (and the mobile menu): the category's color bar is the only vertical line, so items are plain rows. The
+ * items' text edge: 15px. */
 #menu-modal-wrapper {
-  /* The items' text edge */
-  --padding-left-global: 15px;
+  /* A category's head: its color bar (desktop, tablet) */
+  :not(.collapsible-head) > .nav-item-level-1 {
+    margin-top: 10px;
+    padding: 6px 0 6px 12px;
+    border-left: 3px solid var(--color-category);
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  /* Mobile: collapsible categories, underlined in their color; the text on the same edge as the items' */
+  .collapsible-head > .nav-item-level-1 {
+    padding: 12px 10px 12px 15px;
+    text-decoration: underline 2px var(--color-category);
+    text-underline-offset: 6px;
+    img {
+      display: none;
+    }
+  }
   .nav-item-level-2,
   .nav-item-level-3 {
     padding-top: 5px;
     padding-bottom: 5px;
-    font-size: 14px;
-    white-space: normal;
     color: var(--dp-color-muted);
     @media (hover: hover) and (pointer: fine) {
       &:hover {
@@ -156,11 +146,11 @@
     }
   }
   .nav-item-level-2 {
-    padding-left: var(--padding-left-global);
+    padding-left: 15px;
+    font-size: 14px;
   }
   /* Like in the left navigation: bolder text in the accent color, and a bar (next to the category's color bar) */
   .nav-item-level-2.is-active {
-    overflow: visible;
     color: var(--dp-color-primary);
     font-weight: 600;
     &::before {
@@ -176,7 +166,7 @@
   }
   /* The current page's sections: indented under it */
   .nav-item-level-3 {
-    padding-left: calc(var(--padding-left-global) + 12px);
+    padding-left: 27px;
     font-size: 13px;
   }
   /* Touch: rows are comfortable targets */
@@ -192,7 +182,7 @@
   }
   .nav-item-level-4 {
     margin-bottom: -1px;
-    padding: 16px 4px 4px var(--padding-left-global);
+    padding: 16px 4px 4px 15px;
     font-size: 13px;
     font-weight: 600;
     color: var(--dp-color-text);

@@ -20,7 +20,6 @@ type NavItem = {
   url?: string | null
   color?: string
   titleIcon?: string
-  titleIconStyle?: React.CSSProperties
   title: string
   titleInNav: string
   menuModalFullWidth?: true
@@ -51,7 +50,7 @@ function NavItemComponent({ navItem }: { navItem: NavItemComputed }) {
   const titleJsx = parseMarkdownMini(navItem.title)
   const titleInNavJsx = parseMarkdownMini(navItem.titleInNav)
 
-  const icon = navItem.titleIcon && <img src={navItem.titleIcon} alt="" style={navItem.titleIconStyle} />
+  const icon = navItem.titleIcon && <img src={navItem.titleIcon} alt="" />
 
   if (navItem.level === 1 || navItem.level === 4) {
     assert(navItem.url === undefined)

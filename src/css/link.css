@@ -2,10 +2,19 @@ a {
   text-decoration: none;
 }
 .doc-page
-  a[href]:not(.nav-item, .toc-item, .icon-button, .version-badge, .page-pagination-link, .edit-link, .category-tab) {
+  a[href]:not(
+    .nav-item,
+    .toc-item,
+    .icon-button,
+    .version-badge,
+    .page-pagination-link,
+    .edit-link,
+    .category-tab,
+    .docs-overview-link
+  ) {
   color: var(--dp-color-primary);
 }
-.doc-page .page-content a[href]:not(.page-pagination-link, .edit-link, .toc-item) {
+.doc-page .page-content a[href]:not(.page-pagination-link, .edit-link, .toc-item, .docs-overview-link) {
   /* Not only the color tells links apart from text */
   text-decoration: underline;
   text-decoration-thickness: 1px;

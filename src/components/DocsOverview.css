@@ -1,0 +1,81 @@
+/* The docs home's category cards (DocsOverview.tsx): raised, like the other chips */
+.docs-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 16px;
+  margin: 28px 0 8px;
+}
+.docs-overview-card {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 16px;
+  border-radius: var(--dp-radius-lg);
+  background: var(--dp-color-surface-elevated);
+  box-shadow: var(--dp-shadow-raised);
+  ul {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+  }
+  li {
+    margin: 0;
+  }
+}
+/* The category's mark, as in the left navigation: an underline in its color. (`.doc-page`: beats the sections' h2
+ * rules, heading.css) */
+.doc-page .docs-overview-title,
+.docs-overview-title {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: normal;
+  &::after {
+    display: none;
+  }
+  .docs-overview-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--dp-color-heading);
+    text-decoration: underline 2px var(--color-category);
+    text-underline-offset: 7px;
+  }
+}
+.docs-overview-icon {
+  width: 18px;
+  height: 18px;
+}
+.docs-overview-card li .docs-overview-link {
+  display: block;
+  padding: 4px 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dp-color-muted);
+  transition: color var(--dp-duration) ease;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
+  }
+  code {
+    font-size: 0.94em;
+    background: none;
+    padding: 0;
+  }
+}
+.docs-overview-all {
+  /* At the card's bottom, also when it lists fewer pages than its neighbors */
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dp-color-subtle);
+  transition: color var(--dp-duration) ease;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
+  }
+}

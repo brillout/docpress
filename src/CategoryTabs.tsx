@@ -49,15 +49,24 @@ function CategoryTabs() {
   )
 }
 
-// The categories (level-1 headings), each with its first page, and whether it holds the current page
+// The categories (level-1 headings), each with its pages (the first one is the category's link), and whether it holds
+// the current page
 function getCategories(pageContext: ReturnType<typeof usePageContext>) {
   const navItems = getNavItemsWithComputed(pageContext.resolved.navItemsAll, pageContext.urlPathname)
-  const categories: { navItem: NavItemComputed; url: string | null; isCurrent: boolean }[] = []
+  const categories: {
+    navItem: NavItemComputed
+    url: string | null
+    pages: { title: string; url: string }[]
+    isCurrent: boolean
+  }[] = []
   navItems.forEach((navItem) => {
-    if (navItem.level === 1) categories.push({ navItem, url: null, isCurrent: false })
+    if (navItem.level === 1) categories.push({ navItem, url: null, pages: [], isCurrent: false })
     const category = categories[categories.length - 1]
     if (!category) return
-    if (navItem.level === 2 && navItem.url && !category.url) category.url = navItem.url
+    if (navItem.level === 2 && navItem.url) {
+      category.url ??= navItem.url
+      category.pages.push({ title: navItem.titleInNav || navItem.title, url: navItem.url })
+    }
     if (navItem.isActive) category.isCurrent = true
   })
   return categories

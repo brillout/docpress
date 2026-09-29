@@ -419,12 +419,19 @@ const menuLinkStyle: React.CSSProperties = {
 
 function NavHead() {
   const pageContext = usePageContext()
-  const { navMaxWidth, name, algolia, darkMode, categoryTabs } = pageContext.globalContext.config.docpress
+  const {
+    navMaxWidth,
+    name,
+    algolia,
+    darkMode,
+    categoryTabs,
+    docsUrl: docsUrlSetting,
+  } = pageContext.globalContext.config.docpress
   const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
   // With category tabs, the landing page's "Docs" is a link into the docs, where the tabs take over (on desktop)
   const docsUrl =
     categoryTabs && pageContext.resolved.isLandingPage
-      ? getCategories(pageContext).find((category) => category.url)?.url
+      ? (docsUrlSetting ?? getCategories(pageContext).find((category) => category.url)?.url)
       : undefined
 
   const navHeadSecondary = (

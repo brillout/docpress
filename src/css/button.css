@@ -1,16 +1,10 @@
 button,
 .button {
-  background-color: #fafafa;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  cursor: pointer;
-}
-/* The same specificity as above: a site's own button styles still win */
-:where(:root.dark) button,
-:where(:root.dark) .button {
-  background-color: color-mix(in srgb, var(--dp-color-surface-elevated), var(--dp-color-surface));
+  background-color: var(--dp-color-surface-elevated);
   color: var(--dp-color-text);
-  border-color: var(--dp-color-border-strong);
+  border: 1px solid var(--dp-color-border-strong);
+  border-radius: var(--dp-radius-md);
+  cursor: pointer;
 }
 
 /* Copy buttons: the new icon (e.g. the check after copying) blends in */
@@ -20,28 +14,5 @@ button,
     opacity: 0;
     scale: 0.8;
     filter: blur(2px);
-  }
-}
-
-/* Raised button */
-.raised {
-  cursor: pointer;
-  border-radius: var(--dp-radius-md);
-  border-style: solid;
-  border-width: 1px 2px 2px 1px;
-  border-color: var(--dp-bevel-1) var(--dp-bevel-2) var(--dp-bevel-2) var(--dp-bevel-1);
-
-  &:hover {
-    border-color: var(--dp-bevel-2) var(--dp-bevel-3) var(--dp-bevel-3) var(--dp-bevel-2);
-  }
-
-  &:active {
-    border-width: 2px 1px 1px 2px;
-    border-color: var(--dp-bevel-3) var(--dp-bevel-2) var(--dp-bevel-2) var(--dp-bevel-3);
-  }
-
-  &:disabled {
-    border-width: 1px;
-    border-color: var(--dp-bevel-2);
   }
 }

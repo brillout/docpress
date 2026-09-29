@@ -76,8 +76,8 @@
   width: 40px;
   height: 40px;
   border-radius: var(--dp-radius-lg);
-  background: color-mix(in srgb, var(--color-category, var(--dp-color-primary)) 14%, var(--dp-color-surface-elevated));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-category, var(--dp-color-primary)) 24%, transparent);
+  background: color-mix(in srgb, var(--color-category) 14%, var(--dp-color-surface-elevated));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-category) 24%, transparent);
   img {
     width: 22px;
     height: 22px;

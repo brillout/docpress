@@ -52,6 +52,3 @@
     }
   }
 }
-.link-hover-animation a.version-badge:hover {
-  background-color: var(--dp-color-surface-elevated);
-}

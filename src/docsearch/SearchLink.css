@@ -23,10 +23,6 @@
     }
   }
 }
-/* The input-style box is the hover affordance: no hover tint on the whole cell */
-.link-hover-animation a.search-link:hover {
-  background-color: transparent;
-}
 .search-box-kbd {
   margin-left: auto;
   padding: 1px 5px;

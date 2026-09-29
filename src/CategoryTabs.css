@@ -46,7 +46,7 @@
       bottom: 0;
       height: 2px;
       border-radius: 2px 2px 0 0;
-      background: var(--color-category, var(--dp-color-primary));
+      background: var(--color-category);
     }
   }
 }

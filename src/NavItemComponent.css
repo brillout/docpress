@@ -83,7 +83,6 @@
     line-height: 20px;
     font-weight: 450;
     color: var(--dp-color-muted);
-    background: none;
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         color: var(--dp-color-text);
@@ -121,7 +120,6 @@
     font-size: 13px;
     line-height: 19px;
     color: var(--dp-color-muted);
-    background: none;
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         color: var(--dp-color-text);
@@ -155,7 +153,6 @@
     font-size: 14px;
     white-space: normal;
     color: var(--dp-color-muted);
-    background: none;
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         color: var(--dp-color-text);

@@ -89,16 +89,6 @@ body {
   /* Hovering recesses (the opposite of raised): a tint of the recessed surface, which is darker than the page in both
    * appearances */
   --dp-color-surface-hover: color-mix(in srgb, var(--dp-color-surface) 75%, transparent);
-
-  /* Raised (bevelled) borders: lightest, middle, darkest */
-  --dp-bevel-1: color-mix(in srgb, var(--dp-color-border-strong) 75%, var(--dp-color-bg));
-  --dp-bevel-2: color-mix(in srgb, var(--dp-color-border-strong) 84%, var(--dp-color-bg));
-  --dp-bevel-3: var(--dp-color-border-strong);
-
-  /* Long-standing aliases, used by host sites (e.g. telefunc.com's landing page). The page is the gray now: a gray
-   * section is the page. */
-  --color-bg-white: var(--dp-color-bg);
-  --color-bg-gray: var(--dp-color-bg);
 }
 
 :root.dark {

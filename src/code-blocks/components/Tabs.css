@@ -76,11 +76,6 @@
   }
 }
 
-.choice-tabs__tab--disabled {
-  color: GrayText;
-  cursor: default;
-}
-
 .choice-tabs__tab:focus:not(:focus-visible) {
   outline: none;
 }

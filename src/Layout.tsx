@@ -7,7 +7,6 @@ export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { bodyMaxWidth }
 export { unexpandNav }
-export { blockMargin }
 export { scrollFadeMask }
 export { barShadow }
 
@@ -246,9 +245,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const { isLandingPage, pageTitle } = pageContext.resolved
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
-  /*
-  const { globalNote } = pageContext.globalContext.config.docpress
-  */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
   const contentMaxWidth = pageContext.resolved.pageDesign?.contentMaxWidth ?? mainViewWidthMaxInner
   return (
@@ -276,7 +272,6 @@ function PageContent({ children }: { children: React.ReactNode }) {
           }),
         }}
       >
-        {/* globalNote */}
         {pageTitleParsed && !pageContext.resolved.pageDesign?.hideTitle && <PageHeader title={pageTitleParsed} />}
         {children}
         {!isLandingPage && <PageFooter />}
@@ -836,7 +831,7 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
     height: 100%;
     width: 100%;
     top: var(--nav-head-height);
-    background-color: var(--color-active);
+    background-color: var(--dp-color-surface-hover);
     transition-property: top !important;
     transition: top 180ms ease !important;
     z-index: -1;

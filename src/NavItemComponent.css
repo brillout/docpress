@@ -2,10 +2,6 @@
   display: block;
   white-space: nowrap;
   overflow-x: hidden;
-  --padding-left-global: 9px;
-}
-#menu-modal-wrapper .nav-item {
-  --padding-left-global: 15px;
 }
 /* API names are plain monospace text, not pills. Same size in the left navigation and the menus; `line-height: 1`:
  * code doesn't make its row taller. */
@@ -15,19 +11,6 @@
   background: none;
   padding: 0;
   letter-spacing: normal;
-}
-.nav-item-level-4 {
-  padding-top: 14px;
-  margin-bottom: -1px;
-  color: var(--dp-color-muted);
-  font-size: 12px;
-  font-weight: 400;
-  padding-left: var(--padding-left-global);
-  padding-right: 4px;
-  &:first-child,
-  .nav-item-level-1 + & {
-    padding-top: 5px;
-  }
 }
 .nav-item-level-1 {
   display: inline-flex;
@@ -75,62 +58,9 @@
     }
   }
 }
-.nav-item-level-2 {
-  font-size: 14.4px;
-  font-weight: 400;
-  color: var(--dp-color-text);
-  padding-left: var(--padding-left-global);
-  padding-right: 0;
-  --padding: 4px;
-  padding-top: var(--padding);
-  padding-bottom: var(--padding);
-}
-.nav-item-level-3 {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--dp-color-text);
-  --padding: 5px;
-
-  padding: var(--padding) 0;
-  padding-left: calc(var(--padding-left-global) + 5px);
-}
-.nav-item-level-3 {
-  --shadow-size: 9px;
-  --shadow-color: var(--dp-color-shadow);
-  --shadow-size-minus: calc(-1 * var(--shadow-size));
-  --shadow-top: inset 0px var(--shadow-size) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --shadow-bottom: inset 0px var(--shadow-size-minus) var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --box-shadow-top: 0 0;
-  --box-shadow-bottom: 0 0;
-  /*
-  --box-shadow-left: inset var(--shadow-size-minus) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  --box-shadow-right: inset var(--shadow-size) 0px var(--shadow-size) var(--shadow-size-minus) var(--shadow-color);
-  box-shadow: var(--box-shadow-top), var(--box-shadow-bottom), var(--box-shadow-left), var(--box-shadow-right);
-  */
-  box-shadow: var(--box-shadow-top), var(--box-shadow-bottom);
-}
-.nav-item-level-3.nav-item-first-of-its-kind {
-  padding-top: 10px;
-  --box-shadow-top: var(--shadow-top);
-}
-.nav-item-level-3.nav-item-last-of-its-kind {
-  padding-bottom: 10px;
-  --box-shadow-bottom: var(--shadow-bottom);
-}
 .nav-item-level-2,
 .nav-item-level-3 {
   position: relative;
-}
-
-#nav-left {
-  .nav-head-logo {
-    padding-left: min(25px, max(5px, 30 * (1vw - 12.7px) - 5px));
-  }
-  .nav-item-level-2,
-  .nav-item-level-3,
-  .nav-item-level-4 {
-    padding-left: min(30px, max(8px, 30 * (1vw - 12.7px)));
-  }
 }
 
 /* The left navigation's text edge (the top nav's logo aligns to it) */
@@ -184,7 +114,6 @@
   }
   /* The current page's sections (shown when there is no "On this page" rail): on the same hairline, indented */
   .nav-item-level-3 {
-    box-shadow: none;
     margin: 0 12px 0 var(--nav-indent);
     padding: 4px 10px 4px 24px;
     border-left: 1px solid var(--dp-color-border);
@@ -217,9 +146,10 @@
 
 /* The Docs menu (and the mobile menu): the category's color bar is the only vertical line, so items are plain rows */
 #menu-modal-wrapper {
+  /* The items' text edge */
+  --padding-left-global: 15px;
   .nav-item-level-2,
   .nav-item-level-3 {
-    box-shadow: none;
     padding-top: 5px;
     padding-bottom: 5px;
     font-size: 14px;
@@ -231,6 +161,9 @@
         color: var(--dp-color-text);
       }
     }
+  }
+  .nav-item-level-2 {
+    padding-left: var(--padding-left-global);
   }
   /* Like in the left navigation: bolder text in the accent color, and a bar (next to the category's color bar) */
   .nav-item-level-2.is-active {
@@ -265,8 +198,8 @@
     }
   }
   .nav-item-level-4 {
-    padding-top: 16px;
-    padding-bottom: 4px;
+    margin-bottom: -1px;
+    padding: 16px 4px 4px var(--padding-left-global);
     font-size: 13px;
     font-weight: 600;
     color: var(--dp-color-text);

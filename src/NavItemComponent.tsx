@@ -112,8 +112,6 @@ function NavItemComponent({
       'nav-item',
       'nav-item-level-' + navItem.level,
       ((navItem.url && navItem.isActive) || navItem.level === 3) && ' is-active',
-      navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
-      navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
     ]
       .filter(Boolean)
       .join(' '),
@@ -136,9 +134,6 @@ function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
   const navItemsWithComputed = navItems.map((navItem, i) => {
     assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
-    const navItemPrevious = navItems[i - 1]
-    const navItemNext = navItems[i + 1]
-
     let isActive = false
     if (navItem.url === currentUrl) {
       assert(navItem.level === 2, { currentUrl })
@@ -147,15 +142,10 @@ function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
       isActive = true
     }
 
-    const isFirstOfItsKind = navItem.level !== navItemPrevious?.level
-    const isLastOfItsKind = navItem.level !== navItemNext?.level
-
     const navItemComputed = {
       ...navItem,
       isActive,
       isRelevant: false,
-      isFirstOfItsKind,
-      isLastOfItsKind,
     }
 
     return navItemComputed

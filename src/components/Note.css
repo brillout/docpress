@@ -5,10 +5,11 @@
   --note-color: var(--dp-color-info);
   position: relative;
   margin: 20px 0;
-  padding: 12px 16px 12px 44px;
+  padding-block: 12px;
+  padding-right: 16px;
   border: 1px solid color-mix(in srgb, var(--note-color) 25%, var(--dp-color-border));
   border-radius: var(--dp-radius-lg);
-  background-color: color-mix(in srgb, var(--note-color) var(--note-tint, 5%), var(--dp-color-bg));
+  background-color: color-mix(in srgb, var(--note-color) var(--note-tint), var(--dp-color-bg));
   > :first-child,
   > .blockquote-content > :first-child {
     margin-top: 0;
@@ -19,6 +20,9 @@
     pre:last-child {
     margin-bottom: 0;
   }
+}
+:root {
+  --note-tint: 5%;
 }
 :root.dark {
   --note-tint: 8%;
@@ -35,6 +39,10 @@
 }
 .callout-advanced {
   --note-color: var(--dp-color-advanced);
+}
+/* Room for the icon */
+:where(.doc-page blockquote, blockquote.callout):not(.callout-no-icon) {
+  padding-left: 44px;
 }
 .callout-no-icon {
   padding-left: 16px;

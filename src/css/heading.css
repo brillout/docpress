@@ -11,15 +11,9 @@
   }
 }
 
+/* The page's title: see PageChrome.css. The docs home's headings: see DocsOverview.css. */
 .doc-page {
-  /* The page's title (PageChrome) */
-  h1 {
-    margin: 0;
-    font-size: var(--dp-font-size-h1);
-    line-height: 1.2;
-    letter-spacing: -0.022em;
-  }
-  h2 {
+  h2:not(.docs-overview-heading) {
     font-size: var(--dp-font-size-h2);
     line-height: 1.3;
     letter-spacing: -0.018em;
@@ -44,11 +38,11 @@
 .doc-page h3 {
   margin-bottom: 16px;
 }
-.doc-page h2 {
+.doc-page h2:not(.docs-overview-heading) {
   margin-top: 56px;
 }
 /* A hairline above each section, across the content column (the heading itself starts 26px left of it, see below) */
-.doc-page h2::after {
+.doc-page h2:not(.docs-overview-heading)::after {
   content: '';
   display: block;
   position: absolute;

@@ -1,4 +1,4 @@
-/* The docs home (DocsOverview.tsx). `.doc-page` in some selectors: beats the page's heading and list rules. */
+/* The docs home (DocsOverview.tsx) */
 .docs-overview {
   --docs-overview-gap: 16px;
   padding-bottom: 24px;
@@ -8,7 +8,7 @@
 .docs-overview-hero {
   padding-top: 40px;
 }
-.doc-page .docs-overview-hero h1 {
+.docs-overview-hero h1 {
   margin: 0;
   font-size: clamp(34px, 4.2vw, 48px);
   line-height: 1.08;
@@ -51,21 +51,14 @@
 }
 
 /* Sections */
-.docs-overview-section {
+.docs-overview-section:not(:first-child) {
   margin-top: 48px;
 }
-.docs-overview-section:first-child {
+.docs-overview-heading {
   margin-top: 0;
-}
-.doc-page .docs-overview-heading {
-  margin: 0 0 16px;
-  padding: 0;
   font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.01em;
-  &::after {
-    display: none;
-  }
 }
 
 /* The category's icon, on a tile tinted with its color */
@@ -73,14 +66,24 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
   border-radius: var(--dp-radius-lg);
   background: color-mix(in srgb, var(--color-category) 14%, var(--dp-color-surface-elevated));
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-category) 24%, transparent);
-  img {
-    width: 22px;
-    height: 22px;
+  .docs-overview-start-card & {
+    width: 40px;
+    height: 40px;
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .docs-overview-card-head & {
+    width: 36px;
+    height: 36px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
@@ -161,14 +164,6 @@
   align-items: center;
   gap: 12px;
   align-self: flex-start;
-  .docs-overview-icon {
-    width: 36px;
-    height: 36px;
-    img {
-      width: 20px;
-      height: 20px;
-    }
-  }
 }
 .docs-overview-card-title {
   font-size: 16px;
@@ -182,15 +177,11 @@
     }
   }
 }
-.doc-page .docs-overview-card ul {
+.docs-overview-card ul {
   list-style: none;
   margin: 16px 0 0;
   padding: 10px 0 0;
   border-top: 1px solid var(--dp-color-border);
-  li {
-    margin: 0;
-    padding: 0;
-  }
   a {
     display: block;
     padding: 5px 0;

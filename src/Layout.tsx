@@ -9,6 +9,7 @@ export { bodyMaxWidth }
 export { unexpandNav }
 export { blockMargin }
 export { scrollFadeMask }
+export { barShadow }
 
 // - @media VS @container
 //   - Using `@container container-viewport` instead of @media would be interesting because @media doesn't consider the scrollbar width.
@@ -56,6 +57,15 @@ const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1061 /
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1131 // 1131 = 760 + 370 + 1
 // The frame: left navigation + page content + "On this page", and not wider (the eye doesn't travel far)
 const bodyMaxWidth = 1340
+// A bar (the top nav, the category tabs): the bottom hairline, and copies of the bar left and right of it, so that it
+// spans the viewport also beyond `bodyMaxWidth`
+const barShadow = [
+  `0 ${blockMargin}px 0 var(--dp-color-border)`,
+  `-${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
+  `${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
+  `-${bodyMaxWidth}px ${blockMargin}px 0 var(--dp-color-border)`,
+  `${bodyMaxWidth}px ${blockMargin}px 0 var(--dp-color-border)`,
+].join(', ')
 
 // Scroll fade effect at top/bottom edges: `.scroll-fade` (scroll-fade.css), only while the container actually scrolls
 const scrollFadeMask: React.CSSProperties = {
@@ -413,14 +423,7 @@ function NavHead() {
       style={{
         backgroundColor: 'var(--dp-color-bg)',
         position: 'relative',
-        // The bottom hairline, and copies of the bar left and right of it: the bar spans the viewport also beyond `bodyMaxWidth`
-        boxShadow: [
-          `0 ${blockMargin}px 0 var(--dp-color-border)`,
-          `-${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
-          `${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
-          `-${bodyMaxWidth}px ${blockMargin}px 0 var(--dp-color-border)`,
-          `${bodyMaxWidth}px ${blockMargin}px 0 var(--dp-color-border)`,
-        ].join(', '),
+        boxShadow: barShadow,
       }}
     >
       <div

@@ -3,7 +3,7 @@ export { CategoryTabs }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
-import { bodyMaxWidth } from './Layout.js'
+import { bodyMaxWidth, barShadow } from './Layout.js'
 import { cls } from './utils/cls.js'
 import './CategoryTabs.css'
 
@@ -12,20 +12,7 @@ import './CategoryTabs.css'
 function CategoryTabs() {
   const { categories } = usePageContext().resolved
   return (
-    <nav
-      className="category-tabs"
-      aria-label="Categories"
-      style={{
-        // The bottom hairline, and copies of the row left and right of it: it spans the viewport (like the top bar)
-        boxShadow: [
-          '0 1px 0 var(--dp-color-border)',
-          `-${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
-          `${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
-          `-${bodyMaxWidth}px 1px 0 var(--dp-color-border)`,
-          `${bodyMaxWidth}px 1px 0 var(--dp-color-border)`,
-        ].join(', '),
-      }}
-    >
+    <nav className="category-tabs" aria-label="Categories" style={{ boxShadow: barShadow }}>
       <div
         className="category-tabs-content"
         // In the frame, like the top bar's content, also on pages without left navigation (they aren't capped): the

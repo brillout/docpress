@@ -41,7 +41,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
 
   const container = document.getElementById('page-view')!
-  // The current page's chip in the navigation swaps without a fade (see a11y.css)
+  // The current page's mark in the navigation swaps at once (NavItemComponent.css)
   if (!pageContext.isHydration) document.documentElement.classList.add('dp-nav-switching')
   if (pageContext.isHydration) {
     globalObject.root = ReactDOM.hydrateRoot(container, page)

@@ -28,7 +28,12 @@ function CategoryTabs() {
         ].join(', '),
       }}
     >
-      <div className="category-tabs-content">
+      <div
+        className="category-tabs-content"
+        // In the frame, like the top bar's content, also on pages without left navigation (they aren't capped): the
+        // first tab stays under the logo from page to page
+        style={{ maxWidth: bodyMaxWidth, margin: '0 auto', boxSizing: 'border-box' }}
+      >
         {categories.map(
           ({ navItem, url, isCurrent }, i) =>
             url && (

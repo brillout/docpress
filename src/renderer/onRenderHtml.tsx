@@ -7,6 +7,7 @@ import { getPageElement } from './getPageElement.js'
 import type { PageContextServer } from 'vike/types'
 import type { Config } from '../types/Config.js'
 import { applyTheme_SSR } from '../theme/applyTheme.js'
+import { setApplePlatform_SSR } from '../docsearch/SearchLink.js'
 
 async function onRenderHtml(pageContext: PageContextServer): Promise<any> {
   const page = getPageElement(pageContext)
@@ -46,13 +47,9 @@ function getThemeScript(config: Config) {
   return config.darkMode ? dangerouslySkipEscape(`<script>${applyTheme_SSR}</script>`) : ''
 }
 
-// The search's shortcut hint is `⌘K` on Apple devices (SearchLink.tsx): decided before the first paint
+// The search's shortcut hint is `⌘K` on Apple devices: decided before the first paint
 function getPlatformScript(config: Config) {
-  return config.algolia
-    ? dangerouslySkipEscape(
-        `<script>if(/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent))document.documentElement.classList.add('dp-apple')</script>`,
-      )
-    : ''
+  return config.algolia ? dangerouslySkipEscape(`<script>${setApplePlatform_SSR}</script>`) : ''
 }
 
 function getHeadHtml(config: Config) {

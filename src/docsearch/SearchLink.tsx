@@ -1,4 +1,5 @@
 export { SearchLink }
+export { setApplePlatform_SSR }
 
 import React from 'react'
 import { openDocsearchModal } from './toggleDocsearchModal.js'
@@ -42,7 +43,7 @@ function SearchLink({ label = 'Search', ...props }: PropsAnchor & { label?: stri
 }
 
 // The server doesn't know the platform: both are rendered, and CSS shows `⌘K` on Apple devices (the `dp-apple` class is
-// set before the first paint, see onRenderHtml.tsx): the hint doesn't change after hydration
+// set before the first paint, see `setApplePlatform_SSR`): the hint doesn't change after hydration
 function ShortcutHint() {
   return (
     <kbd className="search-box-kbd">
@@ -51,6 +52,9 @@ function ShortcutHint() {
     </kbd>
   )
 }
+// Inlined in <head> (onRenderHtml.tsx)
+const setApplePlatform_SSR =
+  "if(/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent))document.documentElement.classList.add('dp-apple')"
 
 function SearchIcon() {
   return (

@@ -41,8 +41,7 @@ async function onRenderClient(pageContext: PageContextClient) {
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
 
   const container = document.getElementById('page-view')!
-  // The current page's mark in the navigation swaps at once (NavItemComponent.css)
-  if (!pageContext.isHydration) document.documentElement.classList.add('dp-nav-switching')
+  if (!pageContext.isHydration) startNavSwitching()
   if (pageContext.isHydration) {
     globalObject.root = ReactDOM.hydrateRoot(container, page)
   } else {
@@ -51,19 +50,15 @@ async function onRenderClient(pageContext: PageContextClient) {
     }
     globalObject.root.render(page)
   }
-  if (!pageContext.isHydration) {
-    applyHead(pageContext)
-    getAnnouncer().textContent = document.title
-  } else {
-    // Created empty beforehand: a live region announces changes, not its creation
-    getAnnouncer()
-  }
+  if (!pageContext.isHydration) applyHead(pageContext)
+  // Created upon hydration, empty: a live region announces changes, not its creation
+  const announcer = getAnnouncer()
 
   await renderPromise
-  // After a frame painted with the new current page
-  requestAnimationFrame(() =>
-    requestAnimationFrame(() => document.documentElement.classList.remove('dp-nav-switching')),
-  )
+  if (!pageContext.isHydration) {
+    endNavSwitching()
+    announcer.textContent = document.title
+  }
 
   autoScrollNav(!pageContext.isHydration)
   installSectionUrlHashs()
@@ -77,6 +72,17 @@ async function onRenderClient(pageContext: PageContextClient) {
 
 function applyHead(pageContext: PageContextClient) {
   document.title = pageContext.resolved.documentTitle
+}
+
+// The current page's mark in the navigation swaps at once (NavItemComponent.css)
+function startNavSwitching() {
+  document.documentElement.classList.add('dp-nav-switching')
+}
+// After a frame painted with the new current page
+function endNavSwitching() {
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => document.documentElement.classList.remove('dp-nav-switching')),
+  )
 }
 
 // Client-side navigation: screen readers announce the new page (outside React: nothing to hydrate)

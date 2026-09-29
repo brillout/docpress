@@ -5,35 +5,35 @@
 /* Shown after a short delay (hovering past doesn't trigger it). Along the top nav, once one is shown, the neighbors' show
  * at once, without a fade, until the pointer has left the row for a moment (`data-tooltip-instant`, see tooltips.ts). */
 @media (hover: hover) and (pointer: fine) {
-  [aria-label]:not(:where(nav, aside, .search-link)) {
+  [aria-label]:not(:where(nav, aside, section, .search-link)) {
     position: relative;
   }
-  [aria-label]:not(:where(nav, aside, .search-link)):hover::before {
+  [aria-label]:not(:where(nav, aside, section, .search-link)):hover::before {
     opacity: 1;
     translate: 0 0;
     transition-delay: 350ms;
   }
-  .nav-head[data-tooltip-instant] [aria-label]:not(:where(nav, aside, .search-link))::before {
+  .nav-head[data-tooltip-instant] [aria-label]:not(:where(nav, aside, section, .search-link))::before {
     transition-delay: 0s;
     transition-duration: 0s;
   }
   /* While the keyboard is used (initInputModality()), only the focused control's label shows, not also the hovered one's */
-  [data-input='keyboard'] [aria-label]:not(:where(nav, aside, .search-link)):not(:focus-visible):hover::before {
+  [data-input='keyboard'] [aria-label]:not(:where(nav, aside, section, .search-link)):not(:focus-visible):hover::before {
     opacity: 0;
     transition: none;
   }
   /* Once the pointer is used again, only the hovered control's label shows */
-  [data-input='pointer'] [aria-label]:not(:where(nav, aside, .search-link)):focus-visible:not(:hover)::before {
+  [data-input='pointer'] [aria-label]:not(:where(nav, aside, section, .search-link)):focus-visible:not(:hover)::before {
     opacity: 0;
     transition: none;
   }
   /* Keyboard: the label of the focused control, at once */
-  [aria-label]:not(:where(nav, aside, .search-link)):focus-visible::before {
+  [aria-label]:not(:where(nav, aside, section, .search-link)):focus-visible::before {
     opacity: 1;
     translate: 0 0;
     transition: none;
   }
-  [aria-label]:not(:where(nav, aside, .search-link))::before {
+  [aria-label]:not(:where(nav, aside, section, .search-link))::before {
     opacity: 0;
     translate: 0 -3px;
     transition: opacity 125ms var(--dp-ease-out), translate 125ms var(--dp-ease-out);
@@ -64,7 +64,7 @@
     transform: none;
   }
   /* Show below */
-  [aria-label]:not(:where(nav, aside, .search-link)):not([data-label-position])::before {
+  [aria-label]:not(:where(nav, aside, section, .search-link)):not([data-label-position])::before {
     top: 100%;
     margin-top: 5px;
   }
@@ -73,7 +73,7 @@
    * - Copy-to-clipboard button
    * - <UsedBy> component for Vike's landing page
    */
-  [aria-label]:not(:where(nav, aside, .search-link))[data-label-position='top-left']::before {
+  [aria-label]:not(:where(nav, aside, section, .search-link))[data-label-position='top-left']::before {
     bottom: 100%;
     /* Clear of the code block's top edge (the copy button sits 7px below it) */
     margin-bottom: 11px;

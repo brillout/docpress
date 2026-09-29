@@ -54,7 +54,7 @@ function DocsOverview({
         </header>
       )}
       {start.length > 0 && (
-        <section className="docs-overview-section" aria-label="Start here">
+        <section className="docs-overview-section">
           {/* No `id`: not one of the page's sections */}
           <h2 className="docs-overview-heading">Start here</h2>
           <div className="docs-overview-start">
@@ -82,7 +82,7 @@ function DocsOverview({
           </div>
         </section>
       )}
-      <section className="docs-overview-section" aria-label="Browse the docs">
+      <section className="docs-overview-section">
         {title && <h2 className="docs-overview-heading">Browse the docs</h2>}
         <div className="docs-overview-grid">
           {browse.map(({ navItem, url, pages }, i) => (

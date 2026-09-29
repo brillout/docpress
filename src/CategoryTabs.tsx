@@ -1,4 +1,5 @@
 export { CategoryTabs }
+export { getCategories }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
@@ -11,16 +12,7 @@ import './CategoryTabs.css'
 // `categoryTabs`: the categories (level-1 headings) as tabs below the top bar (desktop), each linking to its first page.
 // The current page's category is underlined in its color. The left navigation lists the category's pages.
 function CategoryTabs() {
-  const pageContext = usePageContext()
-  const navItems = getNavItemsWithComputed(pageContext.resolved.navItemsAll, pageContext.urlPathname)
-  const categories: { navItem: NavItemComputed; url: string | null; isCurrent: boolean }[] = []
-  navItems.forEach((navItem) => {
-    if (navItem.level === 1) categories.push({ navItem, url: null, isCurrent: false })
-    const category = categories[categories.length - 1]
-    if (!category) return
-    if (navItem.level === 2 && navItem.url && !category.url) category.url = navItem.url
-    if (navItem.isActive) category.isCurrent = true
-  })
+  const categories = getCategories(usePageContext())
   return (
     <nav
       className="category-tabs"
@@ -55,4 +47,18 @@ function CategoryTabs() {
       </div>
     </nav>
   )
+}
+
+// The categories (level-1 headings), each with its first page, and whether it holds the current page
+function getCategories(pageContext: ReturnType<typeof usePageContext>) {
+  const navItems = getNavItemsWithComputed(pageContext.resolved.navItemsAll, pageContext.urlPathname)
+  const categories: { navItem: NavItemComputed; url: string | null; isCurrent: boolean }[] = []
+  navItems.forEach((navItem) => {
+    if (navItem.level === 1) categories.push({ navItem, url: null, isCurrent: false })
+    const category = categories[categories.length - 1]
+    if (!category) return
+    if (navItem.level === 2 && navItem.url && !category.url) category.url = navItem.url
+    if (navItem.isActive) category.isCurrent = true
+  })
+  return categories
 }

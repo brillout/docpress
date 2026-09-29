@@ -38,7 +38,7 @@ import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { PageHeader, PageFooter } from './PageChrome.js'
 import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
-import { CategoryTabs } from './CategoryTabs.js'
+import { CategoryTabs, getCategories } from './CategoryTabs.js'
 import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
 
@@ -419,8 +419,13 @@ const menuLinkStyle: React.CSSProperties = {
 
 function NavHead() {
   const pageContext = usePageContext()
-  const { navMaxWidth, name, algolia, darkMode } = pageContext.globalContext.config.docpress
+  const { navMaxWidth, name, algolia, darkMode, categoryTabs } = pageContext.globalContext.config.docpress
   const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
+  // With category tabs, the landing page's "Docs" is a link into the docs, where the tabs take over (on desktop)
+  const docsUrl =
+    categoryTabs && pageContext.resolved.isLandingPage
+      ? getCategories(pageContext).find((category) => category.url)?.url
+      : undefined
 
   const navHeadSecondary = (
     <div
@@ -492,6 +497,7 @@ function NavHead() {
           {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
           {/* On desktop, it's in <ExternalLinks> */}
           {darkMode && <ThemeToggle className="icon-button nav-head-theme-toggle" />}
+          {docsUrl && <DocsLink href={docsUrl} />}
           <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
           {navHeadSecondary}
         </div>
@@ -501,6 +507,21 @@ function NavHead() {
 }
 function getStyleLayout() {
   let style = ''
+
+  // The landing page's "Docs" link (`categoryTabs`): desktop only, instead of the "Docs" menu (the menu toggle is
+  // "Menu" below)
+  style += css`
+.nav-head-docs-link {
+  display: none !important;
+}
+@media (width > ${viewTablet}px) {
+  .nav-head-docs-link {
+    display: flex !important;
+  }
+  .nav-head-content:has(> .nav-head-docs-link) > .nav-head-menu-toggle {
+    display: none !important;
+  }
+}`
 
   // Category tabs (`categoryTabs`): desktop only, instead of the "Docs" menu
   style += css`
@@ -745,6 +766,21 @@ function NavHeadLogo() {
 }
 function isProjectNameShort(name: string) {
   return name.length <= 4
+}
+
+// "Docs", linking to the docs' first page (instead of opening the Docs menu), see NavHead()
+function DocsLink({ href }: { href: string }) {
+  return (
+    <a
+      href={href}
+      className="colorize-on-hover nav-head-docs-link"
+      style={{ ...menuLinkStyle, height: '100%', alignItems: 'center', color: 'inherit' }}
+    >
+      <span className="text-docs" style={{ display: 'flex' }}>
+        <DocsIcon /> Docs
+      </span>
+    </a>
+  )
 }
 
 type PropsDiv = React.HTMLProps<HTMLDivElement>

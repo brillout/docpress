@@ -50,7 +50,8 @@ type Config = {
 
   /**
    * Show the categories (the level-1 headings) as tabs below the top bar, on desktop, instead of the "Docs" menu. Each tab
-   * links to its category's first page; the left navigation lists the category's pages.
+   * links to its category's first page; the left navigation lists the category's pages. On the landing page, "Docs" is a
+   * link to the first category's first page.
    *
    * @default false
    */

@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { getPageElement } from './getPageElement.js'
-import { closeMenuModal } from '../MenuModal/toggleMenuModal.js'
+import { closeMenuModal, initMenuModalCloseListeners } from '../MenuModal/toggleMenuModal.js'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav.js'
 import { installSectionUrlHashs } from '../installSectionUrlHashs.js'
@@ -28,6 +28,7 @@ initInputModality()
 initOnNavigation()
 initDocsearchFocusReturn()
 initTooltipGroup()
+initMenuModalCloseListeners()
 
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()

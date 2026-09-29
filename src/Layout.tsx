@@ -22,7 +22,6 @@ import { usePageContext } from './renderer/usePageContext.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import {
   closeMenuModalOnMouseLeaveToggle,
-  focusMenuFirstLink,
   ignoreHoverOnTouchStart,
   openMenuModalOnMouseEnter,
   toggleMenuModal,
@@ -790,7 +789,6 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
         if (ev.key !== 'Enter' && ev.key !== ' ') return
         ev.preventDefault()
         toggleMenuModal(menuId)
-        focusMenuFirstLink(menuId)
       }}
       onMouseEnter={() => {
         openMenuModalOnMouseEnter(menuId)

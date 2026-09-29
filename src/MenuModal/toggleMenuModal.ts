@@ -1,7 +1,7 @@
 export { toggleMenuModal }
 export { closeMenuModal }
 export { closeMenuModalAndFocusToggle }
-export { focusMenuFirstLink }
+export { initMenuModalCloseListeners }
 // Hover handling
 export { ignoreHoverOnTouchStart }
 export { openMenuModalOnMouseEnter }
@@ -11,9 +11,6 @@ export { closeMenuModalOnMouseLeaveToggle }
 
 import { viewTablet } from '../Layout.js'
 import { getHydrationPromise } from '../renderer/getHydrationPromise.js'
-import { isBrowser } from '../utils/isBrowser.js'
-
-initScrollListener()
 
 function openMenuModal(menuNavigationId: number) {
   open(menuNavigationId)
@@ -39,6 +36,8 @@ async function open(menuNavigationId?: number) {
   updateAriaExpanded()
   if (isMobileNav()) openDialog()
   if (menuNavigationId !== undefined) {
+    // Opened with the keyboard: its first link gets the focus (on mobile, openDialog() focuses the close button)
+    if (!isMobileNav() && document.documentElement.dataset.input === 'keyboard') focusFirstLink(menuNavigationId)
     const currentModalId = getCurrentMenuId()
     if (currentModalId === menuNavigationId) return
     if (currentModalId !== null) {
@@ -70,16 +69,15 @@ function closeMenuModalAndFocusToggle() {
   if (hasFocus) toggle?.focus()
 }
 
-// Keyboard: the opened dropdown's first link gets the focus (on mobile, openDialog() focuses the close button).
-// Two frames: the dropdown becomes visible (visibility transition) first.
-function focusMenuFirstLink(menuId: number) {
-  const { classList } = document.documentElement
-  if (isMobileNav() || !classList.contains('menu-modal-show') || getCurrentMenuId() !== menuId) return
-  requestAnimationFrame(() =>
-    requestAnimationFrame(() => {
-      document.querySelector<HTMLElement>(`#menu-navigation-${menuId} a[href]`)?.focus()
-    }),
-  )
+// Once the dropdown is visible (its `visibility` transitions), unless it closed or another one opened
+function focusFirstLink(menuId: number) {
+  requestAnimationFrame(() => {
+    if (!document.documentElement.classList.contains('menu-modal-show') || getCurrentMenuId() !== menuId) return
+    const link = document.querySelector<HTMLElement>(`#menu-navigation-${menuId} a[href]`)
+    if (!link) return
+    if (link.checkVisibility({ visibilityProperty: true })) link.focus()
+    else focusFirstLink(menuId)
+  })
 }
 
 // Mobile: the menu is a full-screen dialog, keyboard focus stays inside it
@@ -171,9 +169,10 @@ function getCurrentMenuId(): null | number {
   return parseInt(cls.slice(prefix.length), 10)
 }
 
-function initScrollListener() {
-  if (!isBrowser()) return
+function initMenuModalCloseListeners() {
   window.addEventListener('scroll', closeMenuModal, { passive: true })
+  // Crossing the tablet breakpoint: it's another menu (a full-screen dialog, a dropdown)
+  window.matchMedia(`(width <= ${viewTablet}px)`).addEventListener('change', closeMenuModal)
   // Keyboard focus leaving the top nav and the menu closes the menu (it would cover the focused element)
   document.addEventListener('focusin', (ev) => {
     if (!(ev.target as Element).closest('.nav-head, #menu-modal-wrapper')) closeMenuModal()

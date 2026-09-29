@@ -174,9 +174,13 @@ ${
   isNavLeftAlwaysHidden()
     ? ''
     : css`
+@container container-viewport (width < ${viewTocRail}px) {
+  #toc-rail {
+    display: none;
+  }
+}
 @container container-viewport (width >= ${viewTocRail}px) {
   #toc-rail {
-    display: block;
     width: ${tocRailWidth}px;
   }
   /* The page content gives up some width to the rail */

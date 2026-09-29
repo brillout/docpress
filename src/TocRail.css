@@ -1,5 +1,4 @@
 #toc-rail {
-  display: none;
   flex-shrink: 0;
   order: 1;
 }
@@ -59,7 +58,8 @@
 .toc-item {
   position: relative;
   display: block;
-  padding: 6px 0 6px 16px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   color: var(--dp-color-muted);
   transition: color var(--dp-duration) ease;
   @media (hover: hover) and (pointer: fine) {
@@ -67,27 +67,25 @@
       color: var(--dp-color-text);
     }
   }
-  /* In ink (with the thumb next to it): it stands out also in grayscale. Not bolder: long items would re-wrap while
-   * scrolling. */
-  &.toc-item-active {
-    color: var(--dp-color-heading);
-  }
+}
+.toc-item-level-2 {
+  padding-left: 16px;
 }
 .toc-item-level-3 {
   padding-left: 28px;
+}
+/* The active item in ink (with the thumb next to it): it stands out also in grayscale. Not bolder: long items would
+ * re-wrap while scrolling. */
+.toc-rail-sticky:not(.toc-progress) .toc-item-active {
+  color: var(--dp-color-heading);
 }
 /* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx, which also glides it) */
 .toc-progress li {
   padding-bottom: var(--toc-extra, 0px);
 }
 /* Reading progress (`tocProgress`): the sections on screen are in ink, the thumb spans them */
-.toc-progress .toc-item {
-  &.toc-item-active {
-    color: var(--dp-color-muted);
-  }
-  &[data-visible] {
-    color: var(--dp-color-heading);
-  }
+.toc-progress .toc-item[data-visible] {
+  color: var(--dp-color-heading);
 }
 
 /* Back to top; with `tocProgress`, a ring shows how much of the page has been read */

@@ -1,5 +1,4 @@
 export { EditLink }
-export { usePageSourcePath }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'

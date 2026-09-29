@@ -122,8 +122,3 @@
 .page-edit-link {
   margin-top: 24px;
 }
-/* Fetching the page's source */
-.copy-page-button[data-status='pending'] svg {
-  opacity: 0.4;
-  transition: opacity var(--dp-duration) ease;
-}

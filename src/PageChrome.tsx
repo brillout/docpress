@@ -4,7 +4,8 @@ export { PageFooter }
 import React, { useState } from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
-import { EditLink, usePageSourcePath } from './EditLink.js'
+import { EditLink } from './EditLink.js'
+import { pageToMarkdown } from './pageToMarkdown.js'
 import './PageChrome.css'
 
 // Breadcrumb, title, and "Copy page"
@@ -27,30 +28,12 @@ function PageHeader({ title }: { title: React.JSX.Element }) {
   )
 }
 
-// Copies the page's Markdown source, e.g. to paste it into an LLM. Fetched from the repository upon click (not
-// shipped with the page).
+// Copies the page as Markdown, e.g. to paste it into an LLM (see pageToMarkdown.ts)
 function CopyPageButton() {
-  const { github } = usePageContext().globalContext.config.docpress
-  const sourcePath = usePageSourcePath()
-  const [status, setStatus] = useState<'idle' | 'pending' | 'copied' | 'failed'>('idle')
-  const repo = /^https:\/\/github\.com\/([^/]+\/[^/]+)/.exec(github)?.[1]
-  if (!repo) return null
-  const sourceUrl = `https://raw.githubusercontent.com/${repo}/main${sourcePath}`
+  const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
   const onClick = async () => {
-    // Fetching: the icon dims (PageChrome.css)
-    setStatus('pending')
-    const text = fetch(sourceUrl).then((res) => {
-      if (!res.ok) throw new Error(`${res.status} ${sourceUrl}`)
-      return res.text()
-    })
     try {
-      // Safari only allows writing to the clipboard synchronously within the click: pass the pending text
-      if (typeof ClipboardItem !== 'undefined') {
-        const blob = text.then((t) => new Blob([t], { type: 'text/plain' }))
-        await navigator.clipboard.write([new ClipboardItem({ 'text/plain': blob })])
-      } else {
-        await navigator.clipboard.writeText(await text)
-      }
+      await navigator.clipboard.writeText(pageToMarkdown())
       setStatus('copied')
     } catch (err) {
       console.error(err)
@@ -63,8 +46,8 @@ function CopyPageButton() {
     <>
       <button type="button" className="copy-page-button" onClick={onClick} data-status={status}>
         <svg
-          // A new icon blends in (a11y.css); fetching keeps the copy icon
-          key={status === 'pending' ? 'idle' : status}
+          // A new icon blends in (a11y.css)
+          key={status}
           viewBox="0 0 24 24"
           width="14"
           height="14"

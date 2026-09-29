@@ -57,7 +57,7 @@ const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1
 // The frame: left navigation + page content + "On this page", and not wider (the eye doesn't travel far)
 const bodyMaxWidth = 1340
 
-// Scroll fade effect at top/bottom edges: `.scroll-fade` (a11y.css), only while the container actually scrolls
+// Scroll fade effect at top/bottom edges: `.scroll-fade` (scroll-fade.css), only while the container actually scrolls
 const scrollFadeMask: React.CSSProperties = {
   // Force hardware acceleration to fix Chrome rendering bug (temporary bold text upon scrolling)
   transform: 'translateZ(0)',
@@ -161,7 +161,7 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
   }
 }
 ${
-  // Not `.doc-page:has(#toc-rail)`: <TocRail> is the page's last element, the first paint would miss it
+  // Only where <TocRail> is rendered (below)
   isNavLeftAlwaysHidden()
     ? ''
     : css`

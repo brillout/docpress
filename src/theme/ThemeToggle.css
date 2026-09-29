@@ -8,3 +8,18 @@
 :root.dark .theme-toggle-light {
   display: none;
 }
+
+/* Switching (applyTheme.ts): a crossfade of the whole page */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+/* No element transitions while the page is captured and crossfaded */
+/* `:root`: also beats other `!important` transitions (e.g. colorize-on-hover.css) */
+:root:root.dp-theme-switching,
+:root:root.dp-theme-switching *,
+:root:root.dp-theme-switching *::before,
+:root:root.dp-theme-switching *::after {
+  transition: none !important;
+}

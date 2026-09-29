@@ -24,7 +24,10 @@ function TocRail() {
   if (tocItems.length === 0) return <div id="toc-rail" />
   return (
     <div id="toc-rail">
-      <nav className={cls(['toc-rail-sticky', tocProgress && 'toc-progress'])} aria-labelledby="toc-rail-title">
+      <nav
+        className={cls(['toc-rail-sticky', 'scroll-fade', tocProgress && 'toc-progress'])}
+        aria-labelledby="toc-rail-title"
+      >
         <div id="toc-rail-title" className="toc-rail-title">
           On this page
         </div>
@@ -150,8 +153,11 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         })
         // The section being read gets a longer rail (not while reading the introduction)
         const heights = items.map((item) => item.getBoundingClientRect().height)
-        const available =
-          parseFloat(getComputedStyle(rail).maxHeight) - (rail.scrollHeight - list.getBoundingClientRect().height)
+        const maxHeight = Math.min(
+          parseFloat(getComputedStyle(rail).maxHeight) || Infinity,
+          window.innerHeight - stickyOffset,
+        )
+        const available = maxHeight - (rail.scrollHeight - list.getBoundingClientRect().height)
         const expanded = jump || (tops[activeIndex] ?? Infinity) <= line ? activeIndex : null
         const lengths = sections.map((section) => (section ? section.end - section.start : 0))
         const targetExtras = getRowExtras(heights, lengths, available, expanded)
@@ -167,7 +173,11 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
         const t = isReducedMotion ? 1 : Math.min(1, (performance.now() - transition.start) / layoutDuration)
         const k = easeInOutCubic(t)
         const { from } = transition
-        const extras = targetExtras.map((extra, i) => lerp(from.extras[i] ?? 0, extra, k))
+        // Never more than the free height (e.g. while the window shrinks): the rail would overflow and show a scrollbar
+        const free = getFreeHeight(heights, available)
+        const blended = targetExtras.map((extra, i) => lerp(from.extras[i] ?? 0, extra, k))
+        const blendedTotal = blended.reduce((a, b) => a + b, 0)
+        const extras = blended.map((extra) => (blendedTotal > free ? (extra * free) / blendedTotal : extra))
         rows.forEach((row, i) => {
           row.style.setProperty('--toc-extra', `${extras[i]}px`)
         })
@@ -246,7 +256,7 @@ function readLayout(rows: HTMLElement[], list: HTMLElement): Layout {
 // (scaled: a page of `railContentLength` px of content would fill the rail), in the rail's free height. Not by a few
 // px: the list would twitch for nothing.
 function getRowExtras(heights: number[], lengths: number[], available: number, expanded: number | null) {
-  const free = Math.max(0, available - heights.reduce((a, b) => a + b, 0))
+  const free = getFreeHeight(heights, available)
   return heights.map((height, i) => {
     if (i !== expanded) return 0
     const extra = Math.min((lengths[i]! / railContentLength) * available - height, free)
@@ -254,6 +264,11 @@ function getRowExtras(heights: number[], lengths: number[], available: number, e
   })
 }
 const railContentLength = 11000
+// The rail's height the items leave free, less some slack: filled to the last (fractional) px, the rail would overflow
+// by rounding, and a classic scrollbar would pop up, narrowing the items (which re-wrap, changing the height...)
+function getFreeHeight(heights: number[], available: number) {
+  return Math.max(0, Math.floor(available - heights.reduce((a, b) => a + b, 0)) - 8)
+}
 // Moving to a new layout: things on screen moving from one place to another ease in and out
 const layoutDuration = 300
 function easeInOutCubic(t: number) {

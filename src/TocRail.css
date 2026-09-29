@@ -9,6 +9,9 @@
   max-height: calc(100vh - var(--nav-head-sticky-offset));
   overflow-y: auto;
   overscroll-behavior: contain;
+  /* A long list scrolls, marked by the edges' fade (.scroll-fade), without a scrollbar: a classic one would narrow the
+   * items as it comes and goes (they re-wrap, the rail's height changes, the scrollbar comes and goes again...) */
+  scrollbar-width: none;
   /* The title shares the breadcrumb's line (PageChrome) */
   padding: 22px 16px 32px 0;
   font-size: 13.5px;

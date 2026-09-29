@@ -24,7 +24,7 @@ function SearchLink({ label = 'Search', ...props }: PropsAnchor & { label?: stri
       }}
       role="button"
       tabIndex={0}
-      aria-label="Search"
+      aria-label={label}
       aria-keyshortcuts="Control+K Meta+K"
       onKeyDown={(ev) => {
         if (ev.key !== 'Enter' && ev.key !== ' ') return

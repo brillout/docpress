@@ -73,11 +73,20 @@ function NoteGeneric({
           {iconResolved}
         </span>
       )}
+      {/* The icon is decoration: the type, for screen readers */}
+      {type && <span className="sr-only">{calloutLabels[type]}: </span>}
       <div className="blockquote-content">{children}</div>
     </blockquote>
   )
 }
 
+const calloutLabels: Record<NoteType, string> = {
+  warning: 'Warning',
+  danger: 'Danger',
+  construction: 'Work in progress',
+  contribution: 'Contributions welcome',
+  advanced: 'Advanced',
+}
 const svgProps = {
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 24 24',

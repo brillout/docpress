@@ -115,10 +115,9 @@ function toList(list: Element): string {
   Array.from(list.children).forEach((item) => {
     if (item.tagName.toUpperCase() !== 'LI' || isSkipped(item)) return
     const marker = isOrdered ? `${n++}. ` : '- '
-    const lines = toBlocks(item).split('\n')
-    // A tight list: no blank lines between an item's paragraph and its sub-list
-    const body = lines
-      .filter((line, i) => line !== '' || !/^\s*([-*]|\d+\.) /.test(lines[i + 1] ?? ''))
+    // The item's other lines (e.g. of a sub-list or a code block) are indented under its marker
+    const body = toBlocks(item)
+      .split('\n')
       .map((line, i) => (i === 0 || line === '' ? line : `${' '.repeat(marker.length)}${line}`))
       .join('\n')
     items.push(`${marker}${body}`)

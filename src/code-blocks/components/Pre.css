@@ -5,11 +5,12 @@ pre {
   border: 1px solid var(--dp-color-code-ring);
   border-radius: var(--dp-radius-lg);
 }
-/* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
+/* Landing pages: the browser's monospace (see code.css), at the size it gives it in text of the default size */
 .landing-page pre {
   font-size: 13px;
   line-height: 1.5;
 }
+/* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
 .doc-page pre {
   font-size: 13.5px;
   line-height: 1.7;

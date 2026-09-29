@@ -4,13 +4,18 @@
 
 /* For code blocks, see Pre.css instead */
 
-code {
+/* Doc pages' code, and on landing pages the menu's. (A landing page's content is the site's own design: its code keeps
+ * the browser's monospace.) */
+.doc-page code,
+.landing-page #menu-modal-wrapper code {
   font-family: var(--dp-font-mono);
   letter-spacing: normal;
 }
-/* In the page's text: a pill that doesn't make its line taller. (Elsewhere, e.g. in headings and code blocks: plain
+/* In a doc page's text: a pill that doesn't make its line taller. (Elsewhere, e.g. in headings and code blocks: plain
  * monospace text.) */
-.page-content code:not(pre > code, :is(h1, h2, h3, h4, h5, h6, .page-pagination-title, .docs-overview-link) code) {
+.doc-page
+  .page-content
+  code:not(pre > code, :is(h1, h2, h3, h4, h5, h6, .page-pagination-title, .docs-overview-link) code) {
   padding: 0.15em 0.4em;
   border-radius: var(--dp-radius-sm);
   background: var(--dp-color-code-inline-bg);
@@ -19,7 +24,7 @@ code {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-:is(h1, h2, h3, h4, h5, h6, .toc-item) code {
+.doc-page :is(h1, h2, h3, h4, h5, h6, .toc-item) code {
   font-size: 0.92em;
   line-height: 1;
 }

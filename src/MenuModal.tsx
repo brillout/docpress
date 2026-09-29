@@ -128,9 +128,6 @@ html:not(.menu-modal-show) #menu-modal-wrapper {
     transition: opacity var(--dp-duration-reveal) var(--dp-ease-out), visibility var(--dp-duration-reveal) var(--dp-ease-out),
       left var(--dp-duration-reveal) var(--dp-ease-out), width var(--dp-duration-reveal) var(--dp-ease-out);
   }
-  .show-only-on-mobile {
-    display: none;
-  }
 }
 @media (width <= ${viewTablet}px) {
   ${/* A full-screen dialog */ ''}

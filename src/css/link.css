@@ -3,6 +3,7 @@ a {
 }
 .doc-page
   a[href]:not(
+    .nav-head-logo,
     .nav-item,
     .toc-item,
     .icon-button,

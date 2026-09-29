@@ -1,6 +1,5 @@
 /* `categoryTabs` (CategoryTabs.tsx): shown on desktop, see Layout.tsx */
 .category-tabs {
-  display: none;
   position: relative;
   height: var(--nav-tabs-height);
   background: var(--dp-color-bg);

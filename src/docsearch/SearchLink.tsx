@@ -11,13 +11,6 @@ function SearchLink({ label = 'Search', ...props }: PropsAnchor & { label?: stri
   return (
     <a
       {...props}
-      style={{
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        ...props.style,
-      }}
       className={['search-link', props.className].filter(Boolean).join(' ')}
       onClick={(ev) => {
         ev.preventDefault()

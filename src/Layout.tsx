@@ -185,7 +185,7 @@ ${
   }
   /* The page content gives up some width to the rail */
   .page-wrapper {
-    min-width: ${mainViewWidthMax - 120}px !important;
+    min-width: ${mainViewWidthMax - 120}px;
   }
   /* The rail lists the page's sections: don't also expand them in the left navigation */
   #nav-left .nav-item-level-3 {
@@ -257,14 +257,7 @@ function PageContent({ children }: { children: React.ReactNode }) {
       // The skip link moves the focus here
       tabIndex={-1}
       className="page-wrapper low-prio-grow"
-      style={{
-        // We must set min-width to avoid layout overflow on mobile/desktop view.
-        // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-        minWidth: 0,
-        ...ifDocPage({
-          paddingBottom: 50,
-        }),
-      }}
+      style={ifDocPage({ paddingBottom: 50 })}
     >
       <div
         className="page-content"
@@ -368,12 +361,6 @@ function isNavLeftAlwaysHidden() {
   return isLandingPage || !!pageDesign?.hideMenuLeft || !!(navItemsDetached && navItemsDetached.length <= 1)
 }
 
-const menuLinkStyle: React.CSSProperties = {
-  height: '100%',
-  padding: '0 var(--padding-side)',
-  justifyContent: 'center',
-}
-
 function NavHead() {
   const pageContext = usePageContext()
   const {
@@ -383,27 +370,23 @@ function NavHead() {
     darkMode,
     categoryTabs,
     docsUrl: docsUrlSetting,
+    topNavigation,
   } = pageContext.globalContext.config.docpress
-  const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
+  const { isLandingPage } = pageContext.resolved
+  const hideNavHeadLogo = isLandingPage && !navMaxWidth
   // With category tabs, the landing page's "Docs" is a link into the docs, where the tabs take over (on desktop)
   const docsUrl =
-    categoryTabs && pageContext.resolved.isLandingPage
+    categoryTabs && isLandingPage
       ? (docsUrlSetting ?? pageContext.resolved.categories.flatMap((category) => category.pages)[0]?.url)
       : undefined
+  const hasCategoryTabs = !!categoryTabs && !isLandingPage
+  // The category tabs without `topNavigation`: the search alone between the logo and the links, centered in the bar
+  const isSearchCentered = !!navMaxWidth && hasCategoryTabs && !topNavigation
 
   const navHeadSecondary = (
-    <div
-      className="nav-head-secondary"
-      style={{
-        padding: 0,
-        display: 'flex',
-        height: '100%',
-        // The site's own top nav links (`topNavigation`) don't wrap
-        whiteSpace: 'nowrap',
-      }}
-    >
-      {pageContext.globalContext.config.docpress.topNavigation}
-      <div className="desktop-grow" style={{ display: 'none' }} />
+    <div className="nav-head-secondary">
+      {topNavigation}
+      {navMaxWidth && <div className="desktop-grow" />}
       <ExternalLinks
         style={{
           display: 'inline-flex',
@@ -436,7 +419,7 @@ function NavHead() {
         }}
       >
         <div
-          className="nav-head-content"
+          className={cls(['nav-head-content', isSearchCentered && 'nav-head-content-search-centered'])}
           style={{
             width: '100%',
             // Top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
@@ -445,17 +428,18 @@ function NavHead() {
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
             color: 'var(--dp-color-muted)',
-            display: 'flex',
-            justifyContent: 'center',
           }}
         >
           {!hideNavHeadLogo && <NavHeadLogo />}
-          <div className="desktop-grow" style={{ display: 'none' }} />
-          {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
+          {navMaxWidth && !isSearchCentered && <div className="desktop-grow" />}
+          {algolia && <SearchLink />}
           {/* On desktop, it's in <ExternalLinks> */}
           {darkMode && <ThemeToggle className="icon-button nav-head-theme-toggle" />}
           {docsUrl && <DocsLink href={docsUrl} />}
-          <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
+          {/* On desktop, the category tabs (doc pages) or the "Docs" link (landing page) replace the "Docs" menu */}
+          <MenuToggleMain
+            className={cls(['nav-head-menu-toggle', (hasCategoryTabs || !!docsUrl) && 'show-only-on-mobile'])}
+          />
           {navHeadSecondary}
         </div>
       </div>
@@ -465,159 +449,172 @@ function NavHead() {
 function getStyleLayout() {
   let style = ''
 
-  // The landing page's "Docs" link (`categoryTabs`): desktop only, instead of the "Docs" menu (the menu toggle is
-  // "Menu" below)
+  // The top bar
   style += css`
+.nav-head-content {
+  display: flex;
+}
+.nav-head-logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: var(--padding-side);
+  color: inherit;
+}
 .nav-head-docs-link {
-  display: none !important;
+  height: 100%;
+  align-items: center;
+  color: inherit;
 }
-@media (width > ${viewTablet}px) {
-  .nav-head-docs-link {
-    display: flex !important;
-  }
-  .nav-head-content:has(> .nav-head-docs-link) > .nav-head-menu-toggle {
-    display: none !important;
-  }
-}`
-
-  // Category tabs (`categoryTabs`): desktop only, instead of the "Docs" menu
-  style += css`
-.has-category-tabs {
-  --nav-tabs-height: 0px;
+.nav-head-content > :is(.search-link, .nav-head-docs-link) {
+  justify-content: center;
 }
-@media (width > ${viewTablet}px) {
-  .has-category-tabs {
-    --nav-tabs-height: 44px;
-    .category-tabs {
-      display: block;
-    }
-    .nav-head-menu-toggle {
-      display: none !important;
-    }
-    /* The search alone between the logo and the links (no \`topNavigation\`): centered in the bar */
-    .nav-head.has-max-width .nav-head-content:has(> .nav-head-secondary > .desktop-grow:first-child) {
-      display: grid !important;
-      grid-template-columns: 1fr auto 1fr;
-      & > .desktop-grow {
-        display: none !important;
-      }
-      & > .nav-head-logo {
-        justify-self: start;
-      }
-      & > .nav-head-secondary {
-        justify-self: end;
-      }
-    }
+.nav-head-secondary {
+  height: 100%;
+  /* The site's own top nav links (\`topNavigation\`) don't wrap */
+  white-space: nowrap;
+}
+/* The logo lines up with the left navigation's text (also on pages without it: the logo doesn't move between pages) */
+@container container-viewport (width < ${viewDesktop}px) {
+  .nav-head-logo {
+    padding-left: var(--main-view-padding);
+  }
+}
+@container container-viewport (width >= ${viewDesktop}px) {
+  .nav-head-logo {
+    padding-left: var(--nav-indent);
   }
 }`
 
   // Mobile
   style += css`
 @media (width <= ${viewMobile}px) {
-  .nav-head {
-    .nav-head-menu-toggle {
-      justify-content: flex-end !important;
-      padding-right: var(--main-view-padding) !important;
-    }
-    .nav-head-content {
-      --icon-text-padding: min(8px, 1.3cqw);
-      & > * {
-        flex-grow: 1;
-      }
-    }
-    /* With the theme toggle (four items): the logo on the left, the actions grouped on the right, evenly spaced */
-    .nav-head-content:has(> .nav-head-theme-toggle) {
-      justify-content: flex-end !important;
-      & > * {
-        flex-grow: 0;
-      }
-      & > .nav-head-logo {
-        flex-grow: 1;
-      }
-      .search-link {
-        padding-inline: 0 !important;
-      }
-      .nav-head-menu-toggle {
-        padding-left: 0 !important;
-      }
-      .nav-head-theme-toggle {
-        margin-inline: 6px;
-      }
-    }
+  .nav-head-content {
+    --icon-text-padding: min(8px, 1.3cqw);
+    justify-content: flex-end;
+  }
+  /* The items share the width. With the theme toggle (four items): the logo on the left, the others grouped on the
+     right, evenly spaced. */
+  .nav-head-content:not(:has(> .nav-head-theme-toggle)) > * {
+    flex-grow: 1;
+  }
+  .nav-head-content:has(> .nav-head-theme-toggle) > .nav-head-logo {
+    flex-grow: 1;
+  }
+  .nav-head .nav-head-menu-toggle {
+    justify-content: flex-end;
+    padding: 0 var(--main-view-padding) 0 0;
+  }
+  .nav-head-theme-toggle {
+    margin-inline: 6px;
+  }
+}
+@media (width > ${viewMobile}px) {
+  .nav-head-content {
+    justify-content: center;
+  }
+  .nav-head-content > :is(.search-link, .nav-head-docs-link) {
+    padding: 0 var(--padding-side);
   }
 }`
 
   // Mobile + tablet
   style += css`
 @media (width <= ${viewTablet}px) {
-  .nav-head {
-    .nav-head-secondary {
-      display: none !important;
-    }
-    /* The ring hugs the icon and the label (the cell is tight here) */
-    .nav-head-menu-toggle:focus-visible {
-      outline: none;
-      .text-menu {
-        outline: 2px solid var(--dp-color-primary);
-        outline-offset: 4px;
-        border-radius: var(--dp-radius-sm);
-      }
-    }
-    .nav-head-theme-toggle {
-      flex-grow: 0 !important;
-      align-self: center;
-      /* Same line as its neighbors (\`menuLinkStyle\`) */
-      margin-top: 2px;
+  .nav-head-secondary,
+  .nav-head-docs-link,
+  .desktop-grow,
+  .text-docs,
+  .caret-icon,
+  .category-tabs {
+    display: none;
+  }
+  /* The ring hugs the icon and the label (the cell is tight here) */
+  .nav-head-menu-toggle:focus-visible {
+    outline: none;
+    .text-menu {
+      outline: 2px solid var(--dp-color-primary);
+      outline-offset: 4px;
+      border-radius: var(--dp-radius-sm);
     }
   }
-}
-@media (width > ${viewTablet}px) {
   .nav-head-theme-toggle {
-    display: none !important;
+    align-self: center;
+    /* Same line as its neighbors */
+    margin-top: 2px;
   }
 }`
 
   // Tablet
   style += css`
 @media (${viewMobile}px < width <= ${viewTablet}px) {
-  .nav-head {
-    .nav-head-content {
-      --icon-text-padding: 8px;
-      --padding-side: 20px;
-    }
+  .nav-head-content {
+    --icon-text-padding: 8px;
+    --padding-side: 20px;
   }
 }`
 
   // Desktop small + desktop
   style += css`
 @media (width > ${viewTablet}px) {
-  .nav-head {
-    .nav-head-content {
-      --icon-text-padding: min(8px, 0.5cqw);
-      --padding-side: min(20px, 1.2cqw);
+  .nav-head-content {
+    --icon-text-padding: min(8px, 0.5cqw);
+    --padding-side: min(20px, 1.2cqw);
+  }
+  .nav-head-secondary,
+  .nav-head-docs-link,
+  .text-docs {
+    display: flex;
+  }
+  .text-menu,
+  .nav-head .nav-head-theme-toggle,
+  .show-only-on-mobile {
+    display: none;
+  }
+  .desktop-grow,
+  .has-max-width .nav-head-secondary {
+    flex-grow: 1;
+  }
+  /* Category tabs (\`categoryTabs\`) */
+  .has-category-tabs {
+    --nav-tabs-height: 44px;
+  }
+  .nav-head-content-search-centered {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    & > .nav-head-logo {
+      justify-self: start;
     }
-    &.has-max-width {
-      .desktop-grow {
-        display: block !important;
-      }
-      .desktop-grow,
-      .nav-head-secondary {
-        flex-grow: 1;
-      }
+    & > .nav-head-secondary {
+      justify-self: end;
     }
   }
+}`
+
+  // The page's width. (Doc pages with the "On this page" rail: see LayoutDocsPage().)
+  style += css`
+@media (width <= ${viewTablet}px) {
+  /* https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926 */
   .page-wrapper {
-    min-width: ${mainViewWidthMax}px !important;
+    min-width: 0;
   }
 }
-`
-
-  // The logo lines up with the left navigation's text (also on pages without it: the logo doesn't move between pages)
-  style += css`
-@container container-viewport (width >= ${viewDesktop}px) {
-  .nav-head-logo {
-    padding-left: var(--nav-indent) !important;
+${
+  isNavLeftAlwaysHidden()
+    ? css`
+@media (width > ${viewTablet}px) {
+  .page-wrapper {
+    min-width: ${mainViewWidthMax}px;
   }
+}`
+    : css`
+@media (width > ${viewTablet}px) {
+  @container container-viewport (width < ${viewTocRail}px) {
+    .page-wrapper {
+      min-width: ${mainViewWidthMax}px;
+    }
+  }
+}`
 }`
 
   // Desktop
@@ -626,9 +623,6 @@ function getStyleLayout() {
 @container container-viewport (width < ${viewDesktop}px) {
   #nav-left, #nav-left-margin {
     display: none;
-  }
-  body {
-    --main-view-padding: 10px !important;
   }
   ${getStyleNavLeftHidden()}
 }
@@ -693,19 +687,7 @@ function NavHeadLogo() {
   }
 
   return (
-    <a
-      className="nav-head-logo"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '100%',
-        color: 'inherit',
-        paddingLeft: 'var(--main-view-padding)',
-        paddingRight: 'var(--padding-side)',
-      }}
-      href="/"
-      onContextMenu={!navLogo ? undefined : onContextMenu}
-    >
+    <a className="nav-head-logo" href="/" onContextMenu={!navLogo ? undefined : onContextMenu}>
       {navLogoResolved}
     </a>
   )
@@ -725,12 +707,8 @@ function isProjectNameShort(name: string) {
 // "Docs", linking to the docs' first page (instead of opening the Docs menu), see NavHead()
 function DocsLink({ href }: { href: string }) {
   return (
-    <a
-      href={href}
-      className="colorize-on-hover nav-head-docs-link"
-      style={{ ...menuLinkStyle, height: '100%', alignItems: 'center', color: 'inherit' }}
-    >
-      <span className="text-docs" style={{ display: 'flex' }}>
+    <a href={href} className="colorize-on-hover nav-head-docs-link">
+      <span className="text-docs">
         <DocsIcon /> Docs
       </span>
     </a>
@@ -741,24 +719,12 @@ type PropsDiv = React.HTMLProps<HTMLDivElement>
 function MenuToggleMain(props: PropsDiv) {
   return (
     <MenuToggle menuId={0} {...props}>
-      <span className="text-docs" style={{ display: 'flex' }}>
+      <span className="text-docs">
         <DocsIcon /> Docs
       </span>
       <span className="text-menu">
         <MenuIcon /> Menu
       </span>
-      <Style>{css`
-@media (width <= ${viewTablet}px) {
-  .text-docs, .caret-icon {
-    display: none !important;
-  }
-}
-@media (width > ${viewTablet}px) {
-  .text-menu {
-    display: none;
-  }
-}
-`}</Style>
     </MenuToggle>
   )
 }
@@ -766,15 +732,6 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
   return (
     <div
       {...props}
-      style={{
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        userSelect: 'none',
-        ...menuLinkStyle,
-        ...props.style,
-      }}
       className={[`colorize-on-hover menu-toggle menu-toggle-${menuId}`, props.className].filter(Boolean).join(' ')}
       role="button"
       tabIndex={0}
@@ -797,7 +754,6 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       }}
       onTouchStart={ignoreHoverOnTouchStart}
     >
-      <Style>{getAnimation()}</Style>
       {props.children}
       <CaretIcon
         style={{
@@ -811,44 +767,6 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       />
     </div>
   )
-
-  function getAnimation() {
-    return css`
-.menu-toggle {
-  position: relative;
-  overflow: hidden;
-  z-index: 0;
-  @media (hover: hover) and (pointer: fine) {
-    .link-hover-animation &:hover::before {
-      top: 0;
-    }
-    html.menu-modal-show & {
-      cursor: default !important;
-    }
-  }
-  &::before {
-    position: absolute;
-    content: '';
-    height: 100%;
-    width: 100%;
-    top: var(--nav-head-height);
-    background-color: var(--dp-color-surface-hover);
-    transition: top 180ms ease;
-    z-index: -1;
-  }
-  & .caret-icon-left,
-  & .caret-icon-right {
-    transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
-  }
-  & .caret-icon-left {
-    transform-origin: 25% 50%;
-  }
-  & .caret-icon-right {
-    transform-origin: 75% 50%;
-  }
-}
-    `
-  }
 }
 function CaretIcon({ style }: { style: React.CSSProperties }) {
   return (

@@ -17,7 +17,9 @@ function initTooltipGroup() {
       const row = document.querySelector('.nav-head')
       if (!row) return
       const labelled = (ev.target as Element).closest?.('[aria-label]')
-      const isOnLabelled = !!labelled && row.contains(labelled) && !labelled.matches('nav, aside, .search-link')
+      // The elements that show a tooltip: the same selector as tooltip.css
+      const isOnLabelled =
+        !!labelled && row.contains(labelled) && !labelled.matches('nav, aside, section, .search-link')
       if (isOnLabelled) {
         clearTimeout(resetTimer)
         if (!row.hasAttribute('data-tooltip-instant')) {

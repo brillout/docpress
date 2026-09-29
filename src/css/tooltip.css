@@ -3,7 +3,8 @@
  * - https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices/64553121#64553121
  */
 /* Shown after a short delay (hovering past doesn't trigger it). Along the top nav, once one is shown, the neighbors' show
- * at once, without a fade, until the pointer has left the row for a moment (`data-tooltip-instant`, see tooltips.ts). */
+ * at once, without a fade, until the pointer has left the row for a moment (`data-tooltip-instant`, see tooltips.ts).
+ * Not on labelled landmarks, nor on the search field (its label is its text): the same selector as tooltips.ts. */
 @media (hover: hover) and (pointer: fine) {
   [aria-label]:not(:where(nav, aside, section, .search-link)) {
     position: relative;

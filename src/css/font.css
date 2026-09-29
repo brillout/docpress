@@ -21,7 +21,7 @@ body {
   line-height: 1.5;
 }
 
-/* Long-form reading: the line height of the reference docs sites (1.7) */
-.page-content {
+/* Long-form reading: the line height of the reference docs sites (1.7). Not landing pages: a site's own design. */
+.doc-page .page-content {
   line-height: 1.7;
 }

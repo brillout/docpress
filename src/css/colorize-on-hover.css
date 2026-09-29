@@ -18,6 +18,9 @@
   filter: invert(var(--dp-icon-invert));
 }
 
+.decolorize-8 {
+  filter: grayscale(1) opacity(0.8);
+}
 .decolorize-6 {
   filter: grayscale(1) opacity(0.6);
 }
@@ -41,8 +44,8 @@
   .colorize-on-hover:hover [class*=' decolorize-'] {
     filter: grayscale(0) opacity(1);
   }
-  /* The top bar's plain links (e.g. the logo, a site's `topNavigation` links); its components have their own hover */
-  .link-hover-animation :is(a.colorize-on-hover, a.nav-head-logo):hover {
+  /* The top bar's plain links: the logo, "Docs", a site's `topNavigation` links (its components have their own hover) */
+  .nav-head :is(.nav-head-logo, .nav-head-docs-link, .nav-head-secondary > a):hover {
     background-color: var(--dp-color-surface-hover);
   }
 }

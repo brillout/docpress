@@ -29,7 +29,7 @@
   }
 }
 /* Large targets (full-width rows, cards): a subtler press, their content barely moves */
-:is(.page-pagination-link, .nav-group-toggle, .collapsible-head) {
+:is(.page-pagination-link, .collapsible-head) {
   transition: color var(--dp-duration) ease, box-shadow var(--dp-duration) ease, transform var(--dp-duration-press)
     var(--dp-ease-out);
   &:active {
@@ -118,7 +118,7 @@
   border-radius: var(--dp-radius-md);
 }
 /* Navigation rows (sidebar, menus, rail): the ring inside the row, rounded like the other rings */
-:is(.nav-item, .toc-item, .nav-group-toggle):focus-visible {
+:is(.nav-item, .toc-item):focus-visible {
   outline-offset: -2px;
   border-radius: var(--dp-radius-sm);
 }
@@ -181,15 +181,7 @@ html {
 
 /* Keyboard-initiated disclosures don't animate (see initInputModality()). 1ms, not 0: `transitionend` still fires. */
 [data-input='keyboard']
-  :is(
-    #menu-navigation-container,
-    .nav-group-items,
-    .nav-group-chevron,
-    .collapsible > div[id],
-    .collapsible-icon,
-    .caret-icon-left,
-    .caret-icon-right
-  ) {
+  :is(#menu-navigation-container, .collapsible > div[id], .collapsible-icon, .caret-icon-left, .caret-icon-right) {
   transition-duration: 1ms !important;
 }
 

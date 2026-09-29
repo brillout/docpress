@@ -15,8 +15,8 @@ export { scrollFadeMask }
 //   - But we still use @media because using @container is complicated(/buggy?) to use inside <MenuModal> because of `position: fixed`.
 // - We use --padding-side because we cannot set a fixed max-width on the <NavHead> container .nav-head-content — DocPress doesn't know how many extra <NavHead> elements the user adds using the +docpress.topNavigation setting.
 
-import React, { useId, useState } from 'react'
-import { getNavItemsWithComputed, NavItem, NavItemComponent, type NavItemComputed } from './NavItemComponent.js'
+import React from 'react'
+import { getNavItemsWithComputed, NavItem, NavItemComponent } from './NavItemComponent.js'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { usePageContext } from './renderer/usePageContext.js'
 import { ExternalLinks } from './ExternalLinks.js'
@@ -346,17 +346,7 @@ function NavigationContent(props: {
 
   let navItemsRelevant = navItemsWithComputed
   if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
-  const navContent = groupByLabel(navItemsRelevant).map(({ label, navItems, key }, i) => {
-    const items = navItems.map((navItem, j) => <NavItemComponent navItem={navItem} key={j} />)
-    return label ? (
-      // Keyed by identity (not index), so that a group's collapsed state doesn't leak to another group upon navigation
-      <NavGroup label={label} key={key}>
-        {items}
-      </NavGroup>
-    ) : (
-      <React.Fragment key={i}>{items}</React.Fragment>
-    )
-  })
+  const navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
 
   return (
     <div className="navigation-content" style={{ marginTop: 10 }}>
@@ -364,47 +354,6 @@ function NavigationContent(props: {
     </div>
   )
 }
-// A group is a level-4 heading (e.g. `Basics`) and the items up to the next level-4 or level-1 heading
-function groupByLabel(navItems: NavItemComputed[]) {
-  const groups: { label: NavItemComputed | null; navItems: NavItemComputed[]; key: string }[] = []
-  let current: (typeof groups)[number] | null = null
-  let category = ''
-  for (const navItem of navItems) {
-    if (navItem.level === 1) category = navItem.title
-    if (navItem.level === 4 || navItem.level === 1 || !current) {
-      current = { label: navItem.level === 4 ? navItem : null, navItems: [], key: `${category}/${navItem.title}` }
-      groups.push(current)
-      if (navItem.level === 4) continue
-    }
-    current.navItems.push(navItem)
-  }
-  return groups
-}
-// Collapsible group of the left navigation. Rendered expanded (the server doesn't know what the user collapsed).
-function NavGroup({ label, children }: { label: NavItemComputed; children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false)
-  const id = useId()
-  return (
-    <div className="nav-group">
-      <button
-        type="button"
-        className="nav-group-toggle"
-        aria-expanded={!collapsed}
-        aria-controls={id}
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <NavItemComponent navItem={label} />
-        <svg className="nav-group-chevron" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
-          <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      </button>
-      <div id={id} className="nav-group-items" data-collapsed={collapsed || undefined}>
-        <div>{children}</div>
-      </div>
-    </div>
-  )
-}
-
 function isNavLeftAlwaysHidden() {
   const pageContext = usePageContext()
   const { isLandingPage, navItemsDetached, pageDesign } = pageContext.resolved

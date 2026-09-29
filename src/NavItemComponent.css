@@ -213,49 +213,18 @@
       }
     }
   }
-  /* Group labels */
+  /* Group labels, on the navigation's text edge */
   .nav-item-level-4 {
+    margin: 22px 12px 7px var(--nav-indent);
     padding: 0;
     font-size: 13px;
     font-weight: 600;
+    line-height: 16px;
     color: var(--dp-color-text);
-  }
-}
-
-/* Collapsible groups (level-4 headings) of the left navigation */
-.nav-group-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-sizing: border-box;
-  /* The label on the navigation's text edge; 6px around it for the focus ring (drawn inside, like the rows') */
-  width: calc(100% - 12px - var(--nav-indent) + 6px);
-  /* 24px hit area, same rhythm as without padding */
-  margin: 18px 12px 4px calc(var(--nav-indent) - 6px);
-  padding: 4px 6px;
-  border: 0;
-  border-radius: var(--dp-radius-sm);
-  background: none;
-  /* The chevron */
-  color: var(--dp-color-subtle);
-  text-align: left;
-  cursor: pointer;
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      color: var(--dp-color-text);
+    &:first-child,
+    .nav-item-level-1 + & {
+      margin-top: 6px;
     }
-  }
-}
-.nav-group:first-child .nav-group-toggle,
-.nav-item-level-1 + .nav-group .nav-group-toggle {
-  margin-top: 2px;
-}
-.nav-group-chevron {
-  margin-left: auto;
-  flex-shrink: 0;
-  transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
-  .nav-group-toggle[aria-expanded='false'] & {
-    transform: rotate(-90deg);
   }
 }
 
@@ -320,24 +289,5 @@
     font-size: 13px;
     font-weight: 600;
     color: var(--dp-color-text);
-  }
-}
-/* Collapsing animates the height (grid rows 1fr <-> 0fr); collapsed items leave the tab order once hidden */
-.nav-group-items {
-  display: grid;
-  grid-template-rows: 1fr;
-  transition: grid-template-rows var(--dp-duration-reveal) var(--dp-ease-out), opacity var(--dp-duration-reveal)
-    var(--dp-ease-out), visibility var(--dp-duration-reveal);
-  > div {
-    min-height: 0;
-    overflow: hidden;
-    /* Room for the current page's shadow when it's the group's last item */
-    padding-bottom: 4px;
-    margin-bottom: -4px;
-  }
-  &[data-collapsed] {
-    grid-template-rows: 0fr;
-    opacity: 0;
-    visibility: hidden;
   }
 }

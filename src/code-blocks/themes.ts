@@ -12,7 +12,7 @@ const codeBackgrounds = {
 }
 
 // GitHub's themes, with every token color adjusted (hue kept) to be readable on all of these surfaces: WCAG AA (4.5:1).
-// Both are emitted as CSS variables (--shiki-light / --shiki-dark), see src/css/code/block.css
+// Both are emitted as CSS variables (--shiki-light / --shiki-dark), see src/css/code.css
 const highlighterTheme = {
   light: withContrast(githubLight, 'docpress-light', codeBackgrounds.light, '#000000'),
   dark: withContrast(githubDark, 'docpress-dark', codeBackgrounds.dark, '#ffffff'),

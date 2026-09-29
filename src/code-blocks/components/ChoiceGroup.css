@@ -12,12 +12,6 @@
   }
   /* Like the copy button */
   --border-radius: var(--dp-radius-sm);
-  --transition-select-list-duration: 180ms;
-  --transition-select-option-duration: 120ms;
-  --transition-select-list: top var(--transition-select-list-duration) var(--dp-ease-out), clip-path
-    var(--transition-select-list-duration) var(--dp-ease-out);
-  --transition-select-option: background var(--transition-select-option-duration) ease;
-  --transition-select-icon: filter var(--dp-duration) ease, opacity var(--dp-duration) ease;
 
   .choice-group__selects {
     position: absolute;
@@ -105,7 +99,7 @@
 
     filter: grayscale(100%);
     opacity: 0.8;
-    transition: var(--transition-select-icon);
+    transition: filter var(--dp-duration) ease, opacity var(--dp-duration) ease;
   }
 
   /* Like the header's language label */
@@ -138,13 +132,13 @@
 
   /* Animated only while hovered (not e.g. when the choice changes elsewhere on the page) */
   .choice-select__list.hovered {
-    transition: var(--transition-select-list);
+    transition: top 180ms var(--dp-ease-out), clip-path 180ms var(--dp-ease-out);
+    /* In sync with the list */
     .choice-select__border {
-      transition: top var(--transition-select-list-duration) var(--dp-ease-out), height
-        var(--transition-select-list-duration) var(--dp-ease-out);
+      transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
     }
     .choice-select__option {
-      transition: var(--transition-select-option);
+      transition: background 120ms ease;
     }
   }
 

@@ -47,31 +47,31 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
           >
             {columnLayout.isFullWidthCategory ? (
               <div style={{ marginTop: 0 }}>
-                <ColumnsWrapper>
+                <div className="columns-wrapper">
                   <Collapsible
                     head={<NavItemComponent navItem={columnLayout.navItemLevel1} />}
                     disabled={maxColumns > 1}
                     collapsedInit={!columnLayout.navItemLevel1.isRelevant}
                     marginBottomOnExpand={marginBottomOnExpand}
                   >
-                    <ColumnsLayout className="collapsible">
+                    <div className="menu-columns collapsible">
                       {columnLayout.columns.map((column, j) => (
-                        <Column key={j}>
+                        <div key={j} className="menu-column">
                           {column.navItems.map((navItem, k) => (
                             <NavItemComponent key={k} navItem={navItem} />
                           ))}
-                        </Column>
+                        </div>
                       ))}
                       <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
-                    </ColumnsLayout>
+                    </div>
                   </Collapsible>
-                </ColumnsWrapper>
+                </div>
               </div>
             ) : (
-              <ColumnsWrapper>
-                <ColumnsLayout>
+              <div className="columns-wrapper">
+                <div className="menu-columns">
                   {columnLayout.columns.map((column, j) => (
-                    <Column key={j}>
+                    <div key={j} className="menu-column">
                       {column.categories.map((category, k) => (
                         <div key={k} style={{ marginBottom: 0 }}>
                           <Collapsible
@@ -87,10 +87,10 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                           </Collapsible>
                         </div>
                       ))}
-                    </Column>
+                    </div>
                   ))}
-                </ColumnsLayout>
-              </ColumnsWrapper>
+                </div>
+              </div>
             )}
           </div>
         ))}
@@ -204,15 +204,6 @@ ${/* Button style */ ''}
 `
     return style
   }
-}
-function Column({ children }: { children: React.ReactNode }) {
-  return <div className="menu-column">{children}</div>
-}
-function ColumnsWrapper({ children }: { children: React.ReactNode }) {
-  return <div className="columns-wrapper">{children}</div>
-}
-function ColumnsLayout({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={['menu-columns', className].filter(Boolean).join(' ')}>{children}</div>
 }
 function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)

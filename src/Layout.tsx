@@ -6,7 +6,6 @@ export { viewMobile }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { bodyMaxWidth }
-export { unexpandNav }
 export { scrollFadeMask }
 export { barShadow }
 
@@ -101,7 +100,6 @@ function Layout({ children }: { children: React.ReactNode }) {
       className={hasCategoryTabs ? 'has-category-tabs' : undefined}
       style={{
         ['--block-margin']: `${blockMargin}px`,
-        // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
         ['--nav-head-height']: `${navHeadHeight}px`,
         // Offset for elements sitting below the sticky top nav
         // (The category tabs' height, see getStyleLayout())
@@ -637,20 +635,11 @@ function getStyleNavLeftHidden() {
   return css`
 .page-wrapper {
   flex-grow: 1;
-  align-items: center;
 }
 .page-content {
   margin: auto;
 }
 `
-}
-
-function unexpandNav() {
-  document.documentElement.classList.add('unexpand-nav')
-  // Using setTimeout() because requestAnimationFrame() doesn't delay enough
-  setTimeout(() => {
-    document.documentElement.classList.remove('unexpand-nav')
-  }, 1000)
 }
 
 function NavHeadLogo() {

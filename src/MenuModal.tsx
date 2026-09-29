@@ -21,7 +21,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
-        className="link-hover-animation show-on-nav-hover"
+        className="link-hover-animation"
         style={{ maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth }}
         onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModalOnMouseLeave}
@@ -35,7 +35,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
             overflowX: 'hidden',
             // Not \`scroll\`: it shows a classic scrollbar (arrows included) also when there's nothing to scroll
             overflowY: 'auto',
-            // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
+            // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
             ...scrollFadeMask,
           }}

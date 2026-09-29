@@ -379,19 +379,29 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.goto(getServerUrl() + featuresURL)
     await page.waitForFunction(() => (window as any).__docpress_hydrationFinished)
     // Its first link gets the focus, also when it's opened again
-    const openWithKeyboard = async () => {
+    await openWithKeyboard()
+    await openWithKeyboard()
+    async function openWithKeyboard() {
       await page.focus('.menu-toggle-0')
       await page.keyboard.press('Enter')
       await autoRetry(
         async () => {
-          expect(await page.evaluate(() => !!document.activeElement?.closest('#menu-navigation-0'))).toBe(true)
+          const isFocused = await page.evaluate(
+            () => document.activeElement === document.querySelector('#menu-navigation-0 a[href]'),
+          )
+          expect(isFocused).toBe(true)
         },
         { timeout: 5 * 1000 },
       )
       await page.keyboard.press('Escape')
+      await autoRetry(
+        async () => {
+          const isOpen = await page.evaluate(() => document.documentElement.classList.contains('menu-modal-show'))
+          expect(isOpen).toBe(false)
+        },
+        { timeout: 5 * 1000 },
+      )
     }
-    await openWithKeyboard()
-    await openWithKeyboard()
   })
 
   test('client-side navigation', async () => {

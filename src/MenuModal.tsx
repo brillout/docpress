@@ -170,12 +170,8 @@ html.menu-modal-show #menu-modal-wrapper {
 }
 @media (width <= ${viewTablet}px) {
   #menu-modal-scroll-container {
-    ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
-    ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
-    height:  calc(100vh) !important;
-    ${/* We use dvh because of mobile */ ''}
-    ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
-    height: calc(100dvh) !important;
+    ${/* The visible viewport (mobile browsers' toolbars come and go) */ ''}
+    height: 100dvh !important;
     ${/* Place <ExternalLinks> and <EditLink> to the bottom */ ''}
     display: flex;
     flex-direction: column;

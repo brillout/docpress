@@ -65,10 +65,8 @@ function isSkipped(element: Element): boolean {
   if (element.matches(skippedSelector)) return true
   // Not rendered, e.g. the choices not selected. Kept: collapsed content (e.g. `visibility: hidden`), and
   // `display: contents` (it has no box of its own, but its children are rendered).
-  const { display } = getComputedStyle(element)
-  if (display === 'contents') return false
-  if (typeof element.checkVisibility === 'function') return !element.checkVisibility()
-  return element.getClientRects().length === 0 && display === 'none'
+  if (getComputedStyle(element).display === 'contents') return false
+  return !element.checkVisibility()
 }
 
 // Block content: paragraphs, headings, lists, code blocks..., separated by a blank line. Loose inline content (e.g. a

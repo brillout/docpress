@@ -4,6 +4,7 @@ import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { cls } from './utils/cls.js'
 import { getRepoHref } from './components/index.js'
+import { assert } from './utils/assert.js'
 import './EditLink.css'
 
 function EditLink({ className, children }: { className?: string; children: React.ReactNode }) {
@@ -33,9 +34,7 @@ function usePageSourcePath() {
   const pageContext = usePageContext()
   const docsDir = pageContext.globalContext.config.docpress.docsDir ?? 'docs'
   // The file defining the page (e.g. `/pages/AuthJS/+Page.mdx`): the URL can differ from the directory (`+route`)
-  const pageFile = pageContext.configEntries?.Page?.[0]?.configDefinedByFile
-  if (pageFile) return `/${docsDir}${pageFile}`
-  const { urlPathname } = pageContext
-  const fsPath = urlPathname === '/' ? '/index/+Page.tsx' : `${urlPathname}/+Page.mdx`
-  return `/${docsDir}/pages${fsPath}`
+  const pageFile = pageContext.configEntries.Page?.[0]?.configDefinedByFile
+  assert(pageFile)
+  return `/${docsDir}${pageFile}`
 }

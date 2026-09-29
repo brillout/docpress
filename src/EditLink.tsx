@@ -4,6 +4,7 @@ import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { cls } from './utils/cls.js'
 import { getRepoHref } from './components/index.js'
+import './EditLink.css'
 
 function EditLink({ className, children }: { className?: string; children: React.ReactNode }) {
   const editUrl = getRepoHref(usePageSourcePath(), true)

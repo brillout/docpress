@@ -96,16 +96,6 @@ html {
   scrollbar-color: var(--dp-color-border-strong) transparent;
 }
 
-/* Copy buttons: the new icon (e.g. the check after copying) blends in */
-:is(.copy-button, .copy-page-button) svg {
-  transition: opacity 200ms var(--dp-ease-out), scale 200ms var(--dp-ease-out), filter 200ms var(--dp-ease-out);
-  @starting-style {
-    opacity: 0;
-    scale: 0.8;
-    filter: blur(2px);
-  }
-}
-
 /* Touch: small controls get a hit area of at least 44px (the visuals don't change) */
 @media not all and (hover: hover) and (pointer: fine) {
   :is(.copy-page-button, .version-badge, .edit-link) {

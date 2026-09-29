@@ -42,7 +42,7 @@ function CopyPageButton() {
         data-status={status}
       >
         <svg
-          // A new icon blends in (a11y.css)
+          // A new icon blends in (button.css)
           key={status}
           viewBox="0 0 24 24"
           width="14"

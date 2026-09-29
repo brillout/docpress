@@ -210,7 +210,7 @@ function toInline(element: Element): string {
   if (tag === 'CODE') {
     const text = element.textContent ?? ''
     const fence = '`'.repeat(longestRun(text, '`') + 1)
-    return fence.length > 1 || text.startsWith('`') ? `${fence} ${text} ${fence}` : `${fence}${text}${fence}`
+    return fence.length > 1 ? `${fence} ${text} ${fence}` : `${fence}${text}${fence}`
   }
   if (tag === 'IMG') {
     const src = element.getAttribute('src')

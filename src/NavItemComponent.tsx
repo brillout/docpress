@@ -31,8 +31,6 @@ type NavItem = {
   titleIconStyle?: React.CSSProperties
   title: string
   titleInNav: string
-  // A category's: what it covers (the docs home shows it)
-  description?: string
   menuModalFullWidth?: true
   /**
    * Maps viewport column counts to column indices.

@@ -58,13 +58,7 @@ function NoteGeneric({
 }) {
   assert(icon === null || icon || type, { icon, type })
 
-  const className = [
-    'callout',
-    type ? `callout-${type} type-${type}` : 'callout-info',
-    icon === null && 'callout-no-icon',
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const className = ['callout', type && `callout-${type}`, icon === null && 'callout-no-icon'].filter(Boolean).join(' ')
   const iconResolved = icon === undefined ? calloutIcons[type!] : icon
   return (
     <blockquote className={className} style={style}>

@@ -35,12 +35,7 @@ function CopyPageButton() {
   // The label doesn't change (the button keeps its width): the icon and a screen reader announcement show the status
   return (
     <>
-      <button
-        type="button"
-        className="copy-page-button scale-on-press"
-        onClick={() => copy(pageToMarkdown())}
-        data-status={status}
-      >
+      <button type="button" className="copy-page-button scale-on-press" onClick={() => copy(pageToMarkdown())}>
         <svg
           // A new icon blends in (button.css)
           key={status}

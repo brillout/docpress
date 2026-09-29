@@ -1,8 +1,5 @@
-.choice-group-container.always-show {
-  .choice-group__selects,
-  .copy-button {
-    opacity: 1;
-  }
+.choice-group-container.always-show .copy-button {
+  opacity: 1;
 }
 
 .choice-group-container {
@@ -30,7 +27,6 @@
     gap: 6px;
     top: var(--top-position);
     right: 39px;
-    opacity: 0;
     /* In sync with the copy button (Pre.css) */
     transition: opacity var(--dp-duration) ease;
     /* Raised, like the copy button (a box-shadow would be clipped, see clip-path) */
@@ -38,9 +34,11 @@
     :root.dark & {
       filter: drop-shadow(0 1px 2px rgb(0 0 0 / 40%));
     }
-
-    &:hover {
-      opacity: 1;
+  }
+  /* With a mouse: shown while hovering (touch devices, `alwaysShow`: always shown) */
+  @media (hover: hover) and (pointer: fine) {
+    &:not(.always-show) .choice-group__selects:not(:hover) {
+      opacity: 0;
     }
   }
 
@@ -58,7 +56,6 @@
 
     border-radius: var(--border-radius);
     min-width: max-content;
-    transition: var(--transition-select-list);
   }
 
   .choice-select__border {
@@ -72,9 +69,6 @@
 
     border-radius: var(--border-radius);
     pointer-events: none;
-
-    transition: top var(--transition-select-list-duration) var(--dp-ease-out), height
-      var(--transition-select-list-duration) var(--dp-ease-out);
   }
 
   .choice-select__option {
@@ -86,8 +80,6 @@
     background: var(--dp-color-surface-elevated);
     padding: 6px;
     cursor: pointer;
-
-    transition: var(--transition-select-option);
   }
 
   .choice-select__option-content {
@@ -136,20 +128,22 @@
   .choice-select__list[aria-expanded='true'] {
     z-index: 1;
     /* Horizontally 1px out: the border stays whole where the chip sits on a half pixel */
-    clip-path: inset(0 -1px round var(--border-radius)) !important;
+    clip-path: inset(0 -1px round var(--border-radius));
     .choice-select__border {
-      top: 0 !important;
+      top: 0;
       height: calc(var(--choice-count) * var(--option-height));
     }
   }
 
-  .choice-select__list:not(.hovered) {
-    transition: none;
+  /* Animated only while hovered (not e.g. when the choice changes elsewhere on the page) */
+  .choice-select__list.hovered {
+    transition: var(--transition-select-list);
     .choice-select__border {
-      transition: none;
+      transition: top var(--transition-select-list-duration) var(--dp-ease-out), height
+        var(--transition-select-list-duration) var(--dp-ease-out);
     }
     .choice-select__option {
-      transition: none;
+      transition: var(--transition-select-option);
     }
   }
 
@@ -185,25 +179,18 @@
   }
 
   .hidden {
-    display: none !important;
+    display: none;
   }
 
-  /* Keep these breakpoints in sync with:
-  * https://github.com/brillout/docpress/blob/08b63e867c4c052479e19a6943ca5535b2762d02/src/css/code/block.css#L40-L56
-  */
+  /* The same breakpoints as the code's (Pre.css) */
   @media not all and (hover: hover) and (pointer: fine) {
-    .choice-group__selects {
-      opacity: 1 !important;
-    }
     .choice-select__option {
       padding: 5px;
     }
+    /* The icons' sizes: `!important` over the choices' own icon styles (`iconStyle`, inline) */
     @container container-viewport (max-width: 620px) {
-      .choice-select__option-label {
-        font-size: 12px !important;
-      }
       .choice-select__option-icon {
-        width: 13px !important;
+        width: 13px;
       }
       .choice-select__option-content img {
         width: 11.5px !important;
@@ -212,10 +199,10 @@
     }
     @container container-viewport (max-width: 550px) {
       .choice-select__option-label {
-        font-size: 11px !important;
+        font-size: 11px;
       }
       .choice-select__option-icon {
-        width: 12px !important;
+        width: 12px;
       }
       .choice-select__option-content img {
         width: 11px !important;
@@ -224,10 +211,10 @@
     }
     @container container-viewport (max-width: 450px) {
       .choice-select__option-label {
-        font-size: 10px !important;
+        font-size: 10px;
       }
       .choice-select__option-icon {
-        width: 11px !important;
+        width: 11px;
       }
       .choice-select__option-content img {
         width: 10px !important;
@@ -238,72 +225,86 @@
 
   .choice-select__list:has(.choice-select__option:nth-of-type(1) .choice-select__radio:checked) {
     top: 0;
-    clip-path: inset(
-      calc(0 * var(--option-height)) -1px calc((var(--choice-count) - 0 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: 0;
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(0 * var(--option-height)) -1px calc((var(--choice-count) - 0 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: 0;
+      }
     }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(2) .choice-select__radio:checked) {
     top: calc(-1 * var(--option-height));
-    clip-path: inset(
-      calc(1 * var(--option-height)) -1px calc((var(--choice-count) - 1 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: var(--option-height);
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(1 * var(--option-height)) -1px calc((var(--choice-count) - 1 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: var(--option-height);
+      }
     }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(3) .choice-select__radio:checked) {
     top: calc(-2 * var(--option-height));
-    clip-path: inset(
-      calc(2 * var(--option-height)) -1px calc((var(--choice-count) - 2 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: calc(2 * var(--option-height));
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(2 * var(--option-height)) -1px calc((var(--choice-count) - 2 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: calc(2 * var(--option-height));
+      }
     }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(4) .choice-select__radio:checked) {
     top: calc(-3 * var(--option-height));
-    clip-path: inset(
-      calc(3 * var(--option-height)) -1px calc((var(--choice-count) - 3 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: calc(3 * var(--option-height));
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(3 * var(--option-height)) -1px calc((var(--choice-count) - 3 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: calc(3 * var(--option-height));
+      }
     }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(5) .choice-select__radio:checked) {
     top: calc(-4 * var(--option-height));
-    clip-path: inset(
-      calc(4 * var(--option-height)) -1px calc((var(--choice-count) - 4 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: calc(4 * var(--option-height));
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(4 * var(--option-height)) -1px calc((var(--choice-count) - 4 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: calc(4 * var(--option-height));
+      }
     }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(6) .choice-select__radio:checked) {
     top: calc(-5 * var(--option-height));
-    clip-path: inset(
-      calc(5 * var(--option-height)) -1px calc((var(--choice-count) - 5 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: calc(5 * var(--option-height));
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(5 * var(--option-height)) -1px calc((var(--choice-count) - 5 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: calc(5 * var(--option-height));
+      }
     }
   }
   .choice-select__list:has(.choice-select__option:nth-of-type(7) .choice-select__radio:checked) {
     top: calc(-6 * var(--option-height));
-    clip-path: inset(
-      calc(6 * var(--option-height)) -1px calc((var(--choice-count) - 6 - 1) * var(--option-height)) -1px round
-        var(--border-radius)
-    );
-    .choice-select__border {
-      top: calc(6 * var(--option-height));
+    &:not([aria-expanded='true']) {
+      clip-path: inset(
+        calc(6 * var(--option-height)) -1px calc((var(--choice-count) - 6 - 1) * var(--option-height)) -1px round
+          var(--border-radius)
+      );
+      .choice-select__border {
+        top: calc(6 * var(--option-height));
+      }
     }
   }
 }

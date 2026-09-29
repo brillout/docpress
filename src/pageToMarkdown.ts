@@ -7,10 +7,12 @@ function pageToMarkdown(): string {
   const content = document.querySelector('.page-content')
   if (!content) return ''
   const title = content.querySelector('.page-header h1')?.textContent?.trim()
-  let markdown = title ? `# ${title}\n\n` : ''
-  markdown += `Source: ${window.location.origin}${window.location.pathname}\n\n`
-  markdown += toBlocks(content)
-  return `${markdown.replace(/\n{3,}/g, '\n\n').trim()}\n`
+  const blocks = [
+    title && `# ${title}`,
+    `Source: ${window.location.origin}${window.location.pathname}`,
+    toBlocks(content),
+  ]
+  return `${blocks.filter(Boolean).join('\n\n')}\n`
 }
 
 const blockTags = new Set([
@@ -65,14 +67,13 @@ function isSkipped(element: Element): boolean {
   return element.getClientRects().length === 0 && getComputedStyle(element).display === 'none'
 }
 
-// Block content: paragraphs, headings, lists, code blocks... Loose inline content (e.g. a list item's text) is a
-// paragraph.
+// Block content: paragraphs, headings, lists, code blocks..., separated by a blank line. Loose inline content (e.g. a
+// list item's text) is a paragraph.
 function toBlocks(parent: Element): string {
-  let markdown = ''
+  const blocks: string[] = []
   let inline = ''
   const flush = () => {
-    const paragraph = inline.replace(/[ \t]+\n/g, '\n').trim()
-    if (paragraph) markdown += `${paragraph}\n\n`
+    blocks.push(inline.replace(/[ \t]+\n/g, '\n').trim())
     inline = ''
   }
   parent.childNodes.forEach((node) => {
@@ -86,43 +87,43 @@ function toBlocks(parent: Element): string {
       return
     }
     flush()
-    markdown += toBlock(node)
+    blocks.push(toBlock(node))
   })
   flush()
-  return markdown
+  return blocks.filter(Boolean).join('\n\n')
 }
 
 function toBlock(element: Element): string {
   const tag = element.tagName.toUpperCase()
-  if (/^H[1-6]$/.test(tag)) return `${'#'.repeat(Number(tag[1]))} ${toInlineContent(element).trim()}\n\n`
+  if (/^H[1-6]$/.test(tag)) return `${'#'.repeat(Number(tag[1]))} ${toInlineContent(element).trim()}`
   if (tag === 'P' || tag === 'SUMMARY') {
     const text = toInlineContent(element).trim()
-    return text ? `${tag === 'SUMMARY' ? `**${text}**` : text}\n\n` : ''
+    return text && tag === 'SUMMARY' ? `**${text}**` : text
   }
-  if (tag === 'UL' || tag === 'OL') return `${toList(element)}\n`
+  if (tag === 'UL' || tag === 'OL') return toList(element)
   if (tag === 'PRE') return toCodeBlock(element)
   if (tag === 'BLOCKQUOTE') return toBlockquote(element)
   if (tag === 'TABLE') return toTable(element)
-  if (tag === 'HR') return '---\n\n'
+  if (tag === 'HR') return '---'
   return toBlocks(element)
 }
 
 function toList(list: Element): string {
   const isOrdered = list.tagName.toUpperCase() === 'OL'
   let n = Number(list.getAttribute('start') ?? 1)
-  let markdown = ''
+  const items: string[] = []
   Array.from(list.children).forEach((item) => {
     if (item.tagName.toUpperCase() !== 'LI' || isSkipped(item)) return
     const marker = isOrdered ? `${n++}. ` : '- '
-    const lines = toBlocks(item).trim().split('\n')
+    const lines = toBlocks(item).split('\n')
     // A tight list: no blank lines between an item's paragraph and its sub-list
     const body = lines
       .filter((line, i) => line !== '' || !/^\s*([-*]|\d+\.) /.test(lines[i + 1] ?? ''))
       .map((line, i) => (i === 0 || line === '' ? line : `${' '.repeat(marker.length)}${line}`))
       .join('\n')
-    markdown += `${marker}${body}\n`
+    items.push(`${marker}${body}`)
   })
-  return markdown
+  return items.join('\n')
 }
 
 function toCodeBlock(pre: Element): string {
@@ -145,17 +146,17 @@ function toCodeBlock(pre: Element): string {
   }
   const text = lines.join('\n')
   const fence = '`'.repeat(Math.max(3, longestRun(text, '`') + 1))
-  return `${fence}${language}\n${text}\n${fence}\n\n`
+  return `${fence}${language}\n${text}\n${fence}`
 }
 
 // Callouts: GitHub's alerts, which LLMs know too
 const alerts: Record<string, string> = { 'callout-warning': 'WARNING', 'callout-danger': 'CAUTION' }
 function toBlockquote(blockquote: Element): string {
   const alert = Object.entries(alerts).find(([className]) => blockquote.classList.contains(className))?.[1]
-  const body = toBlocks(blockquote).trim()
+  const body = toBlocks(blockquote)
   if (!body) return ''
   const lines = (alert ? `[!${alert}]\n${body}` : body).split('\n')
-  return `${lines.map((line) => (line ? `> ${line}` : '>')).join('\n')}\n\n`
+  return lines.map((line) => (line ? `> ${line}` : '>')).join('\n')
 }
 
 function toTable(table: Element): string {
@@ -169,7 +170,7 @@ function toTable(table: Element): string {
   const columns = Math.max(...cells.map((row) => row.length))
   const line = (row: string[]) => `| ${Array.from({ length: columns }, (_, i) => row[i] ?? '').join(' | ')} |`
   const [head, ...body] = cells
-  return `${[line(head!), line(Array(columns).fill('---')), ...body.map(line)].join('\n')}\n\n`
+  return [line(head!), line(Array(columns).fill('---')), ...body.map(line)].join('\n')
 }
 
 // Inline content: text, code, links, emphasis

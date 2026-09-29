@@ -58,8 +58,10 @@
     */
     white-space: nowrap;
   }
-  /* The top nav's right-most items: aligned to the right, so that the tooltip doesn't overflow the viewport */
-  .nav-head :is(.theme-toggle, .version-badge)[aria-label]::before {
+  /* The right-most items (the top nav's, the menu's close button): aligned to the right, so that the tooltip doesn't
+   * overflow the viewport (which would scroll the page sideways, and scrolling closes the menu) */
+  .nav-head :is(.theme-toggle, .version-badge)[aria-label]::before,
+  .menu-modal-close[aria-label]::before {
     left: auto;
     right: 0;
     transform: none;

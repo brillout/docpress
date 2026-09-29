@@ -201,5 +201,5 @@
 
 /* The current page changes at once upon navigation (onRenderClient.tsx): the old and new marks swap in the same frame */
 :root.dp-nav-switching .nav-item {
-  transition: none !important;
+  transition: none;
 }

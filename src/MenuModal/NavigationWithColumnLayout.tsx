@@ -40,8 +40,8 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
       <Style>{getStyle()}</Style>
       <div
         id="menu-navigation-container"
-        className="navigation-content add-transition"
-        style={{ transitionProperty: 'height', height: 0 }}
+        className="navigation-content"
+        style={{ transition: 'height 250ms var(--dp-ease-out)', height: 0 }}
       >
         {navItemsByColumnLayouts.map((columnLayout, i) => (
           <div
@@ -164,10 +164,10 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 ${/* Button style */ ''}
 .menu-toggle-${i} {
   html.menu-modal-show.menu-modal-show-${i} & {
-    color: var(--dp-color-text) !important;
+    color: var(--dp-color-text);
     [class^='decolorize-'],
     [class*=' decolorize-'] {
-      filter: grayscale(0) opacity(1) !important;
+      filter: grayscale(0) opacity(1);
     }
     &::before {
       top: 0;

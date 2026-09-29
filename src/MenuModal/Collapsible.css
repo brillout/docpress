@@ -1,27 +1,19 @@
+/* A collapsible's head has a chevron (not in the left navigation, nor in the Docs menu's columns on desktop) */
 .collapsible-icon {
-  display: none;
   position: absolute;
   right: -16px;
   top: calc(100% / 2 - 5px);
-  margin-left: 9px;
-  vertical-align: middle;
+  transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
+  :not(.collapsible-head) > .nav-item > & {
+    display: none;
+  }
+  .collapsible-collapsed & {
+    transform: rotate(-90deg);
+  }
 }
 :has(> .collapsible-icon) {
   position: relative;
   overflow: visible;
-}
-.collapsible-expanded,
-.collapsible-collapsed {
-  .collapsible-icon {
-    transition: transform var(--dp-duration-reveal) var(--dp-ease-out) !important;
-    display: initial;
-    @media (prefers-reduced-motion: reduce) {
-      transition: none !important;
-    }
-  }
-}
-.collapsible-collapsed .collapsible-icon {
-  transform: rotate(-90deg);
 }
 /* The whole row is the target */
 .collapsible-head {

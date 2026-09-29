@@ -84,8 +84,6 @@ pre {
     box-shadow: var(--dp-shadow-raised);
     color: var(--dp-color-muted);
     cursor: pointer;
-    transition: color var(--dp-duration) ease, box-shadow var(--dp-duration) ease, opacity var(--dp-duration) ease,
-      transform var(--dp-duration-press) var(--dp-ease-out);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {

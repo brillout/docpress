@@ -51,14 +51,9 @@
   height: var(--thumb-height, 0);
   border-radius: 1px;
   background: var(--dp-color-primary);
-  /* Glides from item to item */
-  transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
-  /* Reading progress: follows the scroll, and moves with the rows (TocRail.tsx) */
-  .toc-progress & {
-    transition: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  /* Glides from item to item (with reading progress, it follows the scroll and moves with the rows: TocRail.tsx) */
+  .toc-rail-sticky:not(.toc-progress) & {
+    transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
   }
 }
 .toc-item {

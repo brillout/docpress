@@ -1,11 +1,5 @@
 /* `.scale-on-press`: a control shrinks a bit while pressed; `.scale-on-press-subtle`: a large target (a row, a card),
- * its content barely moves. Their hover states transition too. */
-:is(.scale-on-press, .scale-on-press-subtle) {
-  transition-property: color, background-color, border-color, box-shadow, transform;
-  transition-duration: var(--dp-duration), var(--dp-duration), var(--dp-duration), var(--dp-duration),
-    var(--dp-duration-press);
-  transition-timing-function: ease, ease, ease, ease, var(--dp-ease-out);
-}
+ * its content barely moves (the transition: colorize-on-hover.css) */
 .scale-on-press:active {
   transform: scale(0.97);
 }

@@ -75,10 +75,9 @@ pre:has(:focus-visible) .copy-button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* `:root:root`: also beats other `!important` transitions (e.g. colorize-on-hover.css) */
-  :root:root *,
-  :root:root *::before,
-  :root:root *::after {
+  *,
+  *::before,
+  *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

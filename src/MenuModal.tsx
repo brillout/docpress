@@ -21,7 +21,7 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
-        className="link-hover-animation add-transition show-on-nav-hover"
+        className="link-hover-animation show-on-nav-hover"
         style={{
           // Absolute inside the sticky header so the dropdown tracks the nav on scroll
           position: 'absolute',
@@ -29,9 +29,6 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
           top: 'var(--nav-head-height)',
           zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
           background: 'var(--dp-color-bg)',
-          // `visibility`: hidden once closed (out of the tab order), visible for the whole closing transition
-          transitionProperty: 'opacity, visibility',
-          transitionTimingFunction: 'ease',
           maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
           // Horizontal align
           // https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div/32694476#32694476
@@ -104,14 +101,9 @@ function getStyle() {
   cursor: pointer;
 }
 
+${/* Closed: out of the tab order, once the closing transition is done (it transitions \`visibility\`) */ ''}
 html:not(.menu-modal-show) #menu-modal-wrapper {
   visibility: hidden;
-}
-${/* Opening: visible at once (e.g. to move the focus inside) */ ''}
-html.menu-modal-show #menu-modal-wrapper {
-  transition-property: opacity !important;
-  transition-duration: var(--dp-duration-reveal) !important;
-  transition-timing-function: var(--dp-ease-out) !important;
 }
 
 @media (width > ${viewTablet}px) {
@@ -148,10 +140,6 @@ html.menu-modal-show #menu-modal-wrapper {
     bottom: 100%;
     height: 9px;
   }
-  ${/* Switching from one menu to another: the panel glides to its toggle and its width (opening: in place at once) */ ''}
-  html.menu-modal-show:not(.menu-modal-display-only-one) #menu-modal-wrapper {
-    transition-property: opacity, visibility, left, width !important;
-  }
   .menu-navigation-content {
     padding: 20px ${menuPaddingX}px 24px;
     box-sizing: border-box;
@@ -162,7 +150,17 @@ html.menu-modal-show #menu-modal-wrapper {
     }
     #menu-modal-wrapper {
       pointer-events: none;
+      transition: opacity 250ms ease, visibility 250ms ease;
     }
+  }
+  ${/* Opening: in place, visible at once (e.g. to move the focus inside) */ ''}
+  html.menu-modal-show.menu-modal-display-only-one #menu-modal-wrapper {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out);
+  }
+  ${/* Switching from one menu to another: the panel glides to its toggle and its width */ ''}
+  html.menu-modal-show:not(.menu-modal-display-only-one) #menu-modal-wrapper {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out), visibility var(--dp-duration-reveal) var(--dp-ease-out),
+      left var(--dp-duration-reveal) var(--dp-ease-out), width var(--dp-duration-reveal) var(--dp-ease-out);
   }
   .show-only-on-mobile {
     display: none !important;
@@ -185,11 +183,15 @@ html.menu-modal-show #menu-modal-wrapper {
       padding-top: 5.5px;
     }
   }
+  ${/* Closing is quicker than opening */ ''}
   html:not(.menu-modal-show) #menu-modal-wrapper {
     opacity: 0;
     pointer-events: none;
-    ${/* Closing is quicker than opening */ ''}
-    transition-duration: var(--dp-duration);
+    transition: opacity var(--dp-duration) ease, visibility var(--dp-duration) ease;
+  }
+  ${/* Opening: visible at once (e.g. to move the focus inside) */ ''}
+  html.menu-modal-show #menu-modal-wrapper {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out);
   }
   ${/* Disable scrolling of main view */ ''}
   html.menu-modal-show {

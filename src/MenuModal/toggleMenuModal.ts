@@ -36,6 +36,8 @@ async function open(menuNavigationId?: number) {
   updateAriaExpanded()
   if (isMobileNav()) openDialog()
   if (menuNavigationId !== undefined) {
+    // Also when reopening it: the toggle may have moved since (e.g. the window was resized)
+    setMenuAnchor(menuNavigationId)
     // Opened with the keyboard: its first link gets the focus (on mobile, openDialog() focuses the close button)
     if (!isMobileNav() && document.documentElement.dataset.input === 'keyboard') focusFirstLink(menuNavigationId)
     const currentModalId = getCurrentMenuId()
@@ -43,7 +45,6 @@ async function open(menuNavigationId?: number) {
     if (currentModalId !== null) {
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
-    setMenuAnchor(menuNavigationId)
     classList.add(`menu-modal-show-${menuNavigationId}`)
     updateAriaExpanded()
     await getHydrationPromise()

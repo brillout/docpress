@@ -151,34 +151,47 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
           // Attributes (not classes): React re-renders the class names
           items[i]?.toggleAttribute('data-visible', isVisible)
         })
-        // The section being read gets a longer rail (not while reading the introduction)
+        // A long section gets a longer rail while it's on screen: it opens as the section scrolls into view and closes
+        // as it scrolls out, following the scroll
         const heights = items.map((item) => item.getBoundingClientRect().height)
         const maxHeight = Math.min(
           parseFloat(getComputedStyle(rail).maxHeight) || Infinity,
           window.innerHeight - stickyOffset,
         )
-        const available = maxHeight - (rail.scrollHeight - list.getBoundingClientRect().height)
-        const expanded = jump || (tops[activeIndex] ?? Infinity) <= line ? activeIndex : null
+        const available = maxHeight - getRailChromeHeight(rail, list)
         const lengths = sections.map((section) => (section ? section.end - section.start : 0))
-        const targetExtras = getRowExtras(heights, lengths, available, expanded)
-        // The thumb, on the layout. In a long section: the screen, at the section's scale on its rail, sliding down the
-        // rail as the section is read (it reaches the bottom as the next section takes over). In a short one: the item.
+        const onScreen = sections.map((section) =>
+          section ? Math.max(0, Math.min(section.end, viewBottom) - Math.max(section.start, viewTop)) : 0,
+        )
+        const targetExtras = getRowExtras(heights, lengths, onScreen, available, viewHeight)
+        // The thumb: the part of the page on screen, on the rows (each section spans its row). In a long section, open,
+        // that's the screen at the section's scale, sliding down its rail.
         const rowTops: number[] = []
         heights.reduce((y, height, i) => {
           rowTops.push(y)
           return y + height + targetExtras[i]!
         }, 0)
-        let targetThumb = { top: 0, height: 0 }
-        const section = expanded === null ? null : sections[expanded]
-        if (expanded !== null && section) {
-          const rowHeight = heights[expanded]! + targetExtras[expanded]!
-          targetThumb = { top: rowTops[expanded]!, height: rowHeight }
-          if (targetExtras[expanded]! > 0) {
-            const length = Math.max(1, section.end - section.start)
-            const height = Math.min(rowHeight, (viewHeight * rowHeight) / length)
-            const read = Math.min(1, Math.max(0, (line - section.start) / length))
-            targetThumb = { top: rowTops[expanded]! + read * (rowHeight - height), height }
-          }
+        let targetThumb: { top: number; height: number } | null = null
+        sections.forEach((section, i) => {
+          if (!section || onScreen[i] === 0) return
+          const length = Math.max(1, section.end - section.start)
+          const rowHeight = heights[i]! + targetExtras[i]!
+          const top = rowTops[i]! + ((Math.max(section.start, viewTop) - section.start) / length) * rowHeight
+          const bottom = rowTops[i]! + ((Math.min(section.end, viewBottom) - section.start) / length) * rowHeight
+          const thumbTop: number = targetThumb?.top ?? top
+          targetThumb = { top: thumbTop, height: bottom - thumbTop }
+        })
+        // Not in the introduction (nothing on screen is on the rail): collapsed at the list's top
+        targetThumb ??= { top: 0, height: 0 }
+        // Never a sliver (e.g. a list too long to leave room for a longer rail)
+        if (targetThumb.height > 0 && targetThumb.height < thumbMin) {
+          const listHeight =
+            rowTops[rowTops.length - 1]! + heights[heights.length - 1]! + targetExtras[targetExtras.length - 1]!
+          const top = Math.min(
+            Math.max(0, targetThumb.top + (targetThumb.height - thumbMin) / 2),
+            listHeight - thumbMin,
+          )
+          targetThumb = { top, height: thumbMin }
         }
         // Gliding: every frame, the rows and the thumb go the same share of the way to where they belong (an
         // exponential ease-out). They respond at once, flow over the wheel's steps, move together (the same share of
@@ -259,18 +272,33 @@ function readLayout(rows: HTMLElement[], list: HTMLElement): Layout {
   }
 }
 
-// The extra length (px) of each row, below its item: the section being read gets a rail as long as the section
-// (scaled: a page of `railContentLength` px of content would fill the rail), in the rail's free height. Not by a few
-// px: the list would twitch for nothing.
-function getRowExtras(heights: number[], lengths: number[], available: number, expanded: number | null) {
+// The extra length (px) of each row, below its item. A long section gets a rail as long as the section (scaled: a page
+// of `railContentLength` px of content would fill the rail) while it's on screen, opening over the first
+// `openingShare` of a screen of it scrolled into view (and closing likewise). Only if the thumb (the screen, at the
+// section's scale) travels down the rail: not for a section that fits on the screen (all of it is in view at once,
+// there's no progress to show within it), nor for a few px (the list would twitch for nothing). Within the rail's free
+// height: if two sections are open at once and don't both fit, they share it.
+function getRowExtras(heights: number[], lengths: number[], onScreen: number[], available: number, viewHeight: number) {
   const free = getFreeHeight(heights, available)
-  return heights.map((height, i) => {
-    if (i !== expanded) return 0
-    const extra = Math.min((lengths[i]! / railContentLength) * available - height, free)
-    return extra < 24 ? 0 : extra
+  const extras = heights.map((height, i) => {
+    const length = lengths[i]!
+    if (length <= viewHeight || onScreen[i] === 0) return 0
+    const extra = Math.min((length / railContentLength) * available - height, free)
+    const travel = (height + extra) * (1 - viewHeight / length)
+    if (extra < rowChangeMin || travel < rowChangeMin) return 0
+    return extra * smoothstep(Math.min(1, onScreen[i]! / (viewHeight * openingShare)))
   })
+  const total = extras.reduce((a, b) => a + b, 0)
+  // Whole px: a sub-px change of the layout doesn't move the target (the rows would never settle)
+  return extras.map((extra) => Math.floor(total > free ? (extra * free) / total : extra))
 }
+const openingShare = 0.25
+function smoothstep(x: number) {
+  return x * x * (3 - 2 * x)
+}
+const rowChangeMin = 24
 const railContentLength = 11000
+const thumbMin = 16
 // The rail's height the items leave free, less some slack: filled to the last (fractional) px, the rail would overflow
 // by rounding, and a classic scrollbar would pop up, narrowing the items (which re-wrap, changing the height...)
 function getFreeHeight(heights: number[], available: number) {
@@ -280,6 +308,19 @@ function getFreeHeight(heights: number[], available: number) {
 const glideTime = 60
 function lerp(a: number, b: number, k: number) {
   return a + (b - a) * k
+}
+
+// The rail's height other than the list's (padding, title, "Back to top"), measured independently of the list's height:
+// derived from it (the rail's rounded height minus the list's), it would change with every sub-px move of the rows,
+// moving their target, which moves them... (the rows would jitter forever)
+function getRailChromeHeight(rail: HTMLElement, list: HTMLElement) {
+  const railRect = rail.getBoundingClientRect()
+  const listRect = list.getBoundingClientRect()
+  const last = rail.lastElementChild!.getBoundingClientRect()
+  const style = getComputedStyle(rail)
+  const above = listRect.top - railRect.top + rail.scrollTop - parseFloat(style.borderTopWidth)
+  const below = last.bottom - listRect.bottom + parseFloat(style.paddingBottom)
+  return above + below
 }
 
 // The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky

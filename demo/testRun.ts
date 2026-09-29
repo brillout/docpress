@@ -375,6 +375,25 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(html).toContain('<meta name="algolia:category" content="Guides 2"><meta name="algolia:category:hide">')
   })
 
+  test(`${featuresURL} - menu opened with the keyboard`, async () => {
+    await page.goto(getServerUrl() + featuresURL)
+    await page.waitForFunction(() => (window as any).__docpress_hydrationFinished)
+    // Its first link gets the focus, also when it's opened again
+    const openWithKeyboard = async () => {
+      await page.focus('.menu-toggle-0')
+      await page.keyboard.press('Enter')
+      await autoRetry(
+        async () => {
+          expect(await page.evaluate(() => !!document.activeElement?.closest('#menu-navigation-0'))).toBe(true)
+        },
+        { timeout: 5 * 1000 },
+      )
+      await page.keyboard.press('Escape')
+    }
+    await openWithKeyboard()
+    await openWithKeyboard()
+  })
+
   test('client-side navigation', async () => {
     await page.click('.nav-head a[href="/"]')
     await autoRetry(

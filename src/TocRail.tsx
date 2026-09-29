@@ -127,22 +127,23 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       // A row: the item, and (with progress) the rail below it
       const rows = items.map((item) => item.parentElement!)
       if (withProgress) {
-        // Attributes (not classes): React re-renders the class names
-        items.forEach((item, i) => item.toggleAttribute('data-visible', !!page.sections[i]?.onScreen))
+        // All measurements before the first write (a write followed by a read forces a layout)
         const measures = measureRail(rail, list, items, page.viewBottom - page.viewTop)
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight
+        const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
         const target = getProgressLayout(page, measures)
         const now = performance.now()
         const { layout, isSettled } = glide(painted ?? readLayout(rows, list), target, now - paintedAt, measures.free)
         paintedAt = now
         painted = layout
+        // Attributes (not classes): React re-renders the class names
+        items.forEach((item, i) => item.toggleAttribute('data-visible', !!page.sections[i]?.onScreen))
         rows.forEach((row, i) => {
           row.style.setProperty('--toc-extra', `${layout.extras[i]}px`)
         })
         paintThumb(list, layout.thumb)
-        if (!isSettled) onScroll()
-        const scrollable = document.documentElement.scrollHeight - window.innerHeight
-        const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
         rail.style.setProperty('--page-progress', String(pageProgress))
+        if (!isSettled) onScroll()
       } else {
         const listTop = list.getBoundingClientRect().top
         const rect = rows[activeIndex]?.getBoundingClientRect()

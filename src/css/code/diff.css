@@ -4,14 +4,14 @@ pre.has-diff .diff.remove,
 /* For <FileRemoved> */
   /* biome-ignore format: */
   .diff-entire-file-removed code {
-  background-color: var(--dp-color-diff-remove-bg) !important;
+  background-color: var(--dp-color-diff-remove-bg);
 }
 
 pre.has-diff .diff.add,
 /* For <FileAdded> */
   /* biome-ignore format: */
   .diff-entire-file-added code {
-  background-color: var(--dp-color-diff-add-bg) !important;
+  background-color: var(--dp-color-diff-add-bg);
 }
 
 pre.has-diff [data-line].diff,

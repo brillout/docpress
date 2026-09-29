@@ -1,32 +1,38 @@
 /* A recessed well: a few percent darker than the page, a faint ring as its edge, no shadow */
 pre {
   display: grid;
-  /* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
-  font-size: 13px;
-  line-height: 1.5;
   background: var(--dp-color-code-bg);
   border: 1px solid var(--dp-color-code-ring);
   border-radius: var(--dp-radius-lg);
+}
+/* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
+.landing-page pre {
+  font-size: 13px;
+  line-height: 1.5;
 }
 .doc-page pre {
   font-size: 13.5px;
   line-height: 1.7;
 }
 pre > code {
-  padding: 16px 0;
   overflow-x: auto;
-  /* Inside the pre's border (e.g. the fill of a diff) */
-  border-radius: 0 0 calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px);
-  &:first-child {
-    border-radius: calc(var(--dp-radius-lg) - 1px);
-  }
-  /* Shiki renders code without a language without lines */
-  &:not([data-language]) {
-    padding: 16px;
-  }
+}
+/* Shiki renders code with a language as lines (padded, so that a line's fill spans the block), without one as text */
+pre > code[data-language] {
+  padding: 16px 0;
 }
 pre [data-line] {
   padding: 0 16px;
+}
+pre > code:not([data-language]) {
+  padding: 16px;
+}
+/* Inside the pre's border (e.g. the fill of a diff) */
+pre > code:first-child {
+  border-radius: calc(var(--dp-radius-lg) - 1px);
+}
+.code-block-header + code {
+  border-radius: 0 0 calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px);
 }
 figure[data-rehype-pretty-code-figure] {
   margin: 0;
@@ -69,8 +75,6 @@ pre {
 
   .copy-button {
     position: absolute;
-    /* Vertically centered on the first line of code; the same right edge as in the header */
-    top: 15px;
     right: 6px;
     margin: 0;
     padding: 0;
@@ -85,17 +89,15 @@ pre {
     color: var(--dp-color-muted);
     cursor: pointer;
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        color: var(--dp-color-text);
-        box-shadow: var(--dp-shadow-raised-hover);
-      }
-    }
     /* With a mouse: shown while hovering the code block (touch devices: always shown) */
     @media (hover: hover) and (pointer: fine) {
       opacity: 0;
       pre:hover & {
         opacity: 1;
+      }
+      &:hover {
+        color: var(--dp-color-text);
+        box-shadow: var(--dp-shadow-raised-hover);
       }
     }
 
@@ -114,8 +116,8 @@ pre {
   display: flex;
   align-items: center;
   height: 38px;
-  /* Same left edge as the code (pre [data-line]) */
-  padding: 0 16px;
+  /* The same left edge as the code (pre [data-line]); room for the copy button */
+  padding: 0 48px 0 16px;
   /* A tray: one step deeper than the well (no divider) */
   border-radius: calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px) 0 0;
   background: var(--dp-color-code-tray);
@@ -123,18 +125,18 @@ pre {
   font-size: 12px;
   font-weight: 500;
   color: var(--dp-color-muted);
-  /* Room for the copy button */
-  padding-right: 48px;
   .code-block-language {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 }
-/* Vertically centered in the header */
+/* The copy button: vertically centered on the header, or else on the first line of code */
 pre:has(> .code-block-header) .copy-button {
   top: 6px;
-  right: 6px;
+}
+pre:not(:has(> .code-block-header)) .copy-button {
+  top: 15px;
 }
 /* Phones: the header doesn't dominate the (smaller) code */
 @container container-viewport (max-width: 550px) {

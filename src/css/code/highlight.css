@@ -1,6 +1,6 @@
 .highlighted,
 .highlighted-word {
-  background: var(--dp-color-code-highlight);
+  background-color: var(--dp-color-code-highlight);
 }
 
 /* Colored highlights (`[!code highlight:#abc]`) are light pastels: darken them in the dark appearance, keeping the hue */

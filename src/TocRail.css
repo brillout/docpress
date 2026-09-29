@@ -50,7 +50,7 @@
   background: var(--dp-color-primary);
   /* Glides from item to item */
   transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
-  /* Reading progress: follows the scroll 1:1, like a scrollbar's thumb */
+  /* Reading progress: follows the scroll, and moves with the rows (TocRail.tsx) */
   .toc-progress & {
     transition: none;
   }
@@ -82,8 +82,7 @@
 .toc-item-level-3 {
   padding-left: 28px;
 }
-/* Reading progress: the sections on screen get their share of the lens below their item (TocRail.tsx). Follows the
- * scroll: no transition. */
+/* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx, which also animates it) */
 .toc-progress li {
   padding-bottom: var(--toc-extra, 0px);
 }

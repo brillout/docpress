@@ -14,8 +14,7 @@ const viewTocRail = 1280
 
 // The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item (and the
 // reading progress) is set after hydration: no active item in the HTML => no hydration mismatch.
-// A thumb on the rail's track marks where the reader is: the active section, or (`tocProgress`) the part of the page
-// that's on screen, magnified.
+// A thumb on the rail's track marks where the reader is: the active section, or (`tocProgress`) where in it.
 function TocRail() {
   const pageContext = usePageContext()
   const { tocItems } = pageContext.resolved
@@ -79,7 +78,7 @@ function BackToTop({ withProgress }: { withProgress: boolean }) {
 }
 
 // The active section is the last heading scrolled past the activation line (see below), or the section just jumped to.
-// With `withProgress`, the thumb is a lens: the part of the page on screen, magnified (see update()).
+// With `withProgress`, the section being read gets a longer rail, and the thumb slides down it (see update()).
 function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const { urlPathname } = usePageContext()
@@ -89,6 +88,9 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
     if (ids.length === 0) return
     let frame: number | null = null
     let jump: { id: string; scrollY: number } | null = null
+    // With progress: what's painted (the rows' extra lengths, the thumb), and the transition to a new layout
+    let painted: Layout | null = null
+    let transition: { from: Layout; start: number; key: string } | null = null
     const onJump = () => {
       const id = decodeURIComponent(window.location.hash.slice(1))
       jump = id ? { id, scrollY: window.scrollY } : null
@@ -132,70 +134,77 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
       const items = Array.from(list.querySelectorAll<HTMLElement>('.toc-item'))
       // A row: the item, and (with progress) the rail below it
       const rows = items.map((item) => item.parentElement!)
-      let thumb: { top: number; bottom: number } | null = null
       if (withProgress) {
-        // The thumb is a lens: the part of the page on screen, magnified (`lens` px), in a list otherwise compact.
-        // Each section on screen gets its share of the lens below its item, so the items of the headings on screen
-        // move along the thumb like the headings move along the screen, and the list's length doesn't change.
         const viewTop = stickyOffset
         const viewBottom = window.innerHeight
         const viewHeight = Math.max(1, viewBottom - viewTop)
         const sections = tops.map((start, i) => {
           if (start === null) return null
           const end = tops.slice(i + 1).find((top) => top !== null) ?? contentBottom
-          return { start, end, visible: Math.max(0, Math.min(end, viewBottom) - Math.max(start, viewTop)) }
+          return { start, end }
         })
+        sections.forEach((section, i) => {
+          const isVisible = !!section && Math.min(section.end, viewBottom) > Math.max(section.start, viewTop)
+          // Attributes (not classes): React re-renders the class names
+          items[i]?.toggleAttribute('data-visible', isVisible)
+        })
+        // The section being read gets a longer rail (not while reading the introduction)
         const heights = items.map((item) => item.getBoundingClientRect().height)
         const available =
           parseFloat(getComputedStyle(rail).maxHeight) - (rail.scrollHeight - list.getBoundingClientRect().height)
-        const free = available - heights.reduce((a, b) => a + b, 0)
-        const lens = Math.max(0, Math.min(free, available * lensShare))
-        rows.forEach((row, i) => {
-          const extra = `${(lens * (sections[i]?.visible ?? 0)) / viewHeight}px`
-          if (row.style.getPropertyValue('--toc-extra') !== extra) row.style.setProperty('--toc-extra', extra)
-          // Attributes (not classes): React re-renders the class names
-          items[i]?.toggleAttribute('data-visible', (sections[i]?.visible ?? 0) > 0)
-        })
-        // A point of the page on the rail: its section's item spans the whole section, compressed; the part on screen
-        // also spans its share of the lens
-        const listTop = list.getBoundingClientRect().top
-        const rowTops = rows.map((row) => row.getBoundingClientRect().top - listTop)
-        const toRail = (y: number) => {
-          let i = -1
-          sections.forEach((section, j) => {
-            if (section && section.start <= y) i = j
-          })
-          const section = sections[i]
-          if (!section) return 0
-          const onScreen = Math.max(0, Math.min(y, viewBottom) - Math.max(section.start, viewTop))
-          const length = Math.max(1, section.end - section.start)
-          return (
-            rowTops[i]! +
-            (heights[i]! * (Math.min(y, section.end) - section.start)) / length +
-            (lens * onScreen) / viewHeight
-          )
+        const expanded = jump || (tops[activeIndex] ?? Infinity) <= line ? activeIndex : null
+        const lengths = sections.map((section) => (section ? section.end - section.start : 0))
+        const targetExtras = getRowExtras(heights, lengths, available, expanded)
+        // A new layout (the reader moved on to another section): the rows and the thumb move to it together, on one
+        // timeline, from wherever they are
+        // (Not by sub-px changes, e.g. of the measured free height)
+        const key = `${expanded} ${targetExtras.map((extra) => Math.round(extra / 4)).join()}`
+        if (transition?.key !== key) {
+          const from = painted ?? readLayout(rows, list)
+          transition = { from, start: performance.now(), key }
         }
-        const first = sections.find((section) => section !== null)
-        const from = Math.max(viewTop, first?.start ?? Infinity)
-        const to = Math.min(viewBottom, contentBottom)
-        if (to > from) thumb = { top: toRail(from), bottom: toRail(to) }
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const t = isReducedMotion ? 1 : Math.min(1, (performance.now() - transition.start) / layoutDuration)
+        const k = easeInOutCubic(t)
+        const { from } = transition
+        const extras = targetExtras.map((extra, i) => lerp(from.extras[i] ?? 0, extra, k))
+        rows.forEach((row, i) => {
+          row.style.setProperty('--toc-extra', `${extras[i]}px`)
+        })
+        // The thumb, on the new layout. In a long section: the screen, at the section's scale on its rail, sliding down
+        // the rail as the section is read (it reaches the bottom as the next section takes over). In a short one: the
+        // item. Moving to it in a straight line, like the rows: no detour.
+        const rowTops: number[] = []
+        heights.reduce((y, height, i) => {
+          rowTops.push(y)
+          return y + height + targetExtras[i]!
+        }, 0)
+        let thumb = { top: 0, height: 0 }
+        const section = expanded === null ? null : sections[expanded]
+        if (expanded !== null && section) {
+          const rowHeight = heights[expanded]! + targetExtras[expanded]!
+          thumb = { top: rowTops[expanded]!, height: rowHeight }
+          if (targetExtras[expanded]! > 0) {
+            const length = Math.max(1, section.end - section.start)
+            const height = Math.min(rowHeight, (viewHeight * rowHeight) / length)
+            const read = Math.min(1, Math.max(0, (line - section.start) / length))
+            thumb = { top: rowTops[expanded]! + read * (rowHeight - height), height }
+          }
+        }
+        thumb = { top: lerp(from.thumb.top, thumb.top, k), height: lerp(from.thumb.height, thumb.height, k) }
+        list.style.setProperty('--thumb-top', `${thumb.top}px`)
+        list.style.setProperty('--thumb-height', `${thumb.height}px`)
+        painted = { extras, thumb }
+        if (t < 1) onScroll()
         const scrollable = document.documentElement.scrollHeight - window.innerHeight
         const pageProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 1
         rail.style.setProperty('--page-progress', String(pageProgress))
       } else {
         const listTop = list.getBoundingClientRect().top
         const rect = rows[activeIndex]?.getBoundingClientRect()
-        if (rect) thumb = { top: rect.top - listTop, bottom: rect.bottom - listTop }
+        list.style.setProperty('--thumb-top', `${rect ? rect.top - listTop : 0}px`)
+        list.style.setProperty('--thumb-height', `${rect?.height ?? 0}px`)
       }
-      let { top, bottom } = thumb ?? { top: 0, bottom: 0 }
-      // Never a sliver (e.g. a list too long to leave room for the lens)
-      if (thumb && bottom - top < thumbMin) {
-        const listHeight = list.getBoundingClientRect().height
-        top = Math.min(Math.max(0, (top + bottom - thumbMin) / 2), listHeight - thumbMin)
-        bottom = top + thumbMin
-      }
-      list.style.setProperty('--thumb-top', `${top}px`)
-      list.style.setProperty('--thumb-height', `${bottom - top}px`)
       rail.toggleAttribute('data-scrolled', window.scrollY > 200)
     }
     const onScroll = () => {
@@ -221,9 +230,38 @@ function useActiveSection(tocItems: { id: string }[], withProgress: boolean) {
   return activeIndex
 }
 
-const thumbMin = 16
-// The lens (the thumb, with reading progress) takes this share of the rail's height, if the list leaves room for it
-const lensShare = 0.22
+type Layout = { extras: number[]; thumb: { top: number; height: number } }
+// What's painted, e.g. by the previous page (upon client-side navigation, the rows are reused)
+function readLayout(rows: HTMLElement[], list: HTMLElement): Layout {
+  return {
+    extras: rows.map((row) => parseFloat(row.style.getPropertyValue('--toc-extra')) || 0),
+    thumb: {
+      top: parseFloat(list.style.getPropertyValue('--thumb-top')) || 0,
+      height: parseFloat(list.style.getPropertyValue('--thumb-height')) || 0,
+    },
+  }
+}
+
+// The extra length (px) of each row, below its item: the section being read gets a rail as long as the section
+// (scaled: a page of `railContentLength` px of content would fill the rail), in the rail's free height. Not by a few
+// px: the list would twitch for nothing.
+function getRowExtras(heights: number[], lengths: number[], available: number, expanded: number | null) {
+  const free = Math.max(0, available - heights.reduce((a, b) => a + b, 0))
+  return heights.map((height, i) => {
+    if (i !== expanded) return 0
+    const extra = Math.min((lengths[i]! / railContentLength) * available - height, free)
+    return extra < 24 ? 0 : extra
+  })
+}
+const railContentLength = 11000
+// Moving to a new layout: things on screen moving from one place to another ease in and out
+const layoutDuration = 300
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
+}
+function lerp(a: number, b: number, k: number) {
+  return a + (b - a) * k
+}
 
 // The height of the sticky header (the top bar, and the category tabs if any), 0 if it isn't sticky
 function getStickyOffset() {

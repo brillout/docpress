@@ -378,8 +378,9 @@ function NavHead() {
       ? (docsUrlSetting ?? pageContext.resolved.categories.flatMap((category) => category.pages)[0]?.url)
       : undefined
   const hasCategoryTabs = !!categoryTabs && !isLandingPage
-  // The category tabs without `topNavigation`: the search alone between the logo and the links, centered in the bar
-  const isSearchCentered = !!navMaxWidth && hasCategoryTabs && !topNavigation
+  // The category tabs without `topNavigation`: the search centered in the bar, "Docs" next to it on the landing page
+  // (the search doesn't move between the landing page and the docs)
+  const isSearchCentered = !!navMaxWidth && !!categoryTabs && !topNavigation
 
   const navHeadSecondary = (
     <div className="nav-head-secondary">
@@ -583,7 +584,13 @@ function getStyleLayout() {
     & > .nav-head-logo {
       justify-self: start;
     }
+    /* "Docs" and the links share the last cell */
+    & > .nav-head-docs-link {
+      grid-area: 1 / 3;
+      justify-self: start;
+    }
     & > .nav-head-secondary {
+      grid-area: 1 / 3;
       justify-self: end;
     }
   }

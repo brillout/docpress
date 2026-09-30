@@ -181,7 +181,9 @@ type Layout = { extras: number[]; thumb: { top: number; height: number } }
 
 // The sections (null: not rendered, e.g. an unselected choice), the part of the page on screen, and the reading line
 function measurePage(ids: string[]) {
-  const viewTop = getStickyOffset()
+  // Below the header and the gap a heading jumped to keeps above it (heading.css), plus a px (the jump lands on a whole
+  // px, the heading up to 1px lower): the section above a heading jumped to isn't on screen
+  const viewTop = getStickyOffset() + 17
   const viewBottom = window.innerHeight
   // The n-th element with the n-th occurrence of an id (a page can repeat a heading)
   const occurrences = new Map<string, number>()

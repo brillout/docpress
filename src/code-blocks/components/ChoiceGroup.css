@@ -30,9 +30,9 @@
     }
   }
   /* With a mouse: shown while the group is hovered or used with the keyboard (touch devices, `alwaysShow`: always
-   * shown) */
+   * shown). Only the group's own dropdown: a nested group has its own state. */
   @media (hover: hover) and (pointer: fine) {
-    &:not(.always-show, :has(.choice:hover, .choice-group__selects:hover, :focus-visible)) .choice-group__selects {
+    &:not(.always-show, :has(.choice:hover, .choice-group__selects:hover, :focus-visible)) > .choice-group__selects {
       opacity: 0;
     }
   }

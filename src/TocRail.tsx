@@ -208,32 +208,27 @@ function measurePage(ids: string[]) {
   return { sections, viewTop, viewBottom, line }
 }
 
-// The thumb (px, from the list's top): the part of the page on screen, on the rows (each section spans its item's row).
-// In a long section, that's the screen at the section's scale, sliding down the item.
+// The thumb (px, from the list's top): the part of the page on screen, on the rows (each section spans its item's row)
 function getProgressThumb(page: Page, rows: { top: number; height: number }[]): Thumb {
   let thumbTop: number | null = null
   let thumbBottom = 0
-  // The rows of the sections on screen
-  let spanTop = 0
-  let spanBottom = 0
   page.sections.forEach((section, i) => {
     const row = rows[i]!
     if (section?.onScreen) {
       const length = Math.max(1, section.end - section.start)
-      if (thumbTop === null) {
-        thumbTop = row.top + ((Math.max(section.start, page.viewTop) - section.start) / length) * row.height
-        spanTop = row.top
-      }
+      thumbTop ??= row.top + ((Math.max(section.start, page.viewTop) - section.start) / length) * row.height
       thumbBottom = row.top + ((Math.min(section.end, page.viewBottom) - section.start) / length) * row.height
-      spanBottom = row.top + row.height
     }
   })
   // Not in the introduction (nothing on screen is on the rail): collapsed at the list's top
   if (thumbTop === null) return { top: 0, height: 0 }
   const height = thumbBottom - thumbTop
   if (height >= thumbMin) return { top: thumbTop, height }
-  // Never a sliver (e.g. in a long section): centered on it, within the rows
-  const top = Math.min(Math.max(spanTop, thumbTop + (height - thumbMin) / 2), spanBottom - thumbMin)
+  // Never a sliver (e.g. in a long section): over the part on screen, sliding down the list like a scrollbar's thumb.
+  // Both edges only move down as the page does: the thumb moves with every scroll, never back, and stays in the list.
+  const lastRow = rows[rows.length - 1]!
+  const listHeight = lastRow.top + lastRow.height
+  const top = Math.max(thumbBottom - thumbMin, (thumbTop * (listHeight - thumbMin)) / listHeight)
   return { top, height: thumbMin }
 }
 const thumbMin = 16

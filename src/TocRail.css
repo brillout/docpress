@@ -49,7 +49,7 @@
   height: var(--thumb-height, 0);
   border-radius: 1px;
   background: var(--dp-color-primary);
-  /* Glides from item to item (with reading progress, it follows the scroll and moves with the rows: TocRail.tsx) */
+  /* Glides from item to item (with reading progress, it follows the scroll: TocRail.tsx glides it) */
   .toc-rail-sticky:not(.toc-progress) & {
     transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
   }
@@ -77,10 +77,6 @@
  * re-wrap while scrolling. */
 .toc-rail-sticky:not(.toc-progress) .toc-item-active {
   color: var(--dp-color-heading);
-}
-/* Reading progress: the section being read gets a longer rail, below its item (TocRail.tsx, which also glides it) */
-.toc-progress li {
-  padding-bottom: var(--toc-extra, 0px);
 }
 /* Reading progress (`tocProgress`): the sections on screen are in ink, the thumb spans them */
 .toc-progress .toc-item[data-visible] {

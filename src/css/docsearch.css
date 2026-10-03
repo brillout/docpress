@@ -26,8 +26,8 @@ html:root {
 html:root.dark {
   --docsearch-container-background: rgb(0 0 0 / 60%);
 }
-/* Below 769px, DocSearch's modal is full screen (square corners) */
-@media (min-width: 769px) {
+/* Up to 768px, DocSearch's modal is full screen (square corners) */
+@media (width > 768px) {
   .DocSearch-Modal {
     border-radius: var(--dp-radius-lg);
   }

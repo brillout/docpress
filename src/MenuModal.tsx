@@ -51,9 +51,15 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
             >
               <ExternalLinks style={{ height: 50 }} withThemeToggle={false} />
             </div>
-            <Center>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <EditLink className="menu-edit-link">Edit this page</EditLink>
-            </Center>
+            </div>
           </div>
         </div>
       </div>
@@ -223,19 +229,5 @@ function CloseButton({ className }: { className: string }) {
         <path d="M18 6 6 18M6 6l12 12" />
       </svg>
     </button>
-  )
-}
-
-function Center({ style, ...props }: any) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        ...style,
-      }}
-      {...props}
-    ></div>
   )
 }

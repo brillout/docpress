@@ -15,7 +15,7 @@ a {
   ) {
   color: var(--dp-color-primary);
 }
-.doc-page .page-content a[href]:not(.page-pagination-link, .edit-link, .toc-item, .docs-overview-link) {
+.doc-page .page-content a[href]:not(.page-pagination-link, .edit-link, .docs-overview-link) {
   /* Not only the color tells links apart from text */
   text-decoration: underline;
   text-decoration-thickness: 1px;

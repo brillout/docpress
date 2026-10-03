@@ -37,10 +37,6 @@
       --dp-fade-bottom: 20px;
       --dp-fade-bottom-alpha: 30%;
     }
-    to {
-      --dp-fade-bottom: 0px;
-      --dp-fade-bottom-alpha: 100%;
-    }
   }
   .scroll-fade {
     animation: dp-fade-top linear both, dp-fade-bottom linear both;

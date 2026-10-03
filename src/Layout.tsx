@@ -380,7 +380,7 @@ function NavHead() {
   const hasCategoryTabs = !!categoryTabs && !isLandingPage
   // The category tabs without `topNavigation`: the search centered in the bar, "Docs" next to it on the landing page
   // (the search doesn't move between the landing page and the docs)
-  const isSearchCentered = !!navMaxWidth && !!categoryTabs && !topNavigation
+  const isSearchCentered = !!navMaxWidth && !!categoryTabs && !topNavigation && !!algolia
 
   const navHeadSecondary = (
     <div className="nav-head-secondary">

@@ -6,40 +6,48 @@ import iconTwitter from './icons/twitter.svg'
 import iconDiscord from './icons/discord.svg'
 import iconBluesky from './icons/bluesky.svg'
 import iconLinkedin from './icons/linkedin.svg'
-import iconChangelog from './icons/changelog.svg'
 import iconLanguages from './icons/languages.svg'
 import { usePageContext } from './renderer/usePageContext.js'
 import '@docsearch/css'
+import { ThemeToggle } from './theme/ThemeToggle.js'
+import './ExternalLinks.css'
 
-function ExternalLinks(props: { style?: React.CSSProperties }) {
+function ExternalLinks(props: { style?: React.CSSProperties; withThemeToggle?: boolean }) {
   const pageContext = usePageContext()
-  const { github, discord, bluesky, linkedin, i18n, twitter, changelog } = pageContext.globalContext.config.docpress
-  const iconI18n = !i18n ? null : (
-    <LinkIcon
-      className="decolorize-4"
-      icon={iconLanguages}
-      href={'/languages'}
-      style={{ height: 21, position: 'relative', top: 0, left: 0 }}
-    />
-  )
+  const { github, discord, bluesky, linkedin, i18n, twitter, changelog, darkMode } =
+    pageContext.globalContext.config.docpress
+  const { withThemeToggle = true, ...propsRest } = props
   return (
     <div
-      {...props}
+      {...propsRest}
       style={{
         display: 'flex',
         alignItems: 'center',
         ...props.style,
       }}
     >
-      <LinkIcon className="decolorize-4" icon={iconGithub} href={github} iconSizeBoost={1} />
-      {iconI18n}
-      {discord && <LinkIcon className="decolorize-6" icon={iconDiscord} href={discord} />}
-      {twitter && <LinkIcon className="decolorize-4" icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} />}
-      {bluesky && <LinkIcon className="decolorize-6" icon={iconBluesky} href={`https://bsky.app/profile/${bluesky}`} />}
+      <LinkIcon icon={iconGithub} href={github} label="GitHub" />
+      {i18n && <LinkIcon icon={iconLanguages} href="/languages" label="Languages" />}
+      {discord && <LinkIcon icon={iconDiscord} href={discord} label="Discord" brandColor="#5865f2" />}
+      {twitter && <LinkIcon icon={iconTwitter} href={`https://x.com/${twitter.slice(1)}`} label="X" />}
+      {bluesky && (
+        <LinkIcon
+          icon={iconBluesky}
+          href={`https://bsky.app/profile/${bluesky}`}
+          label="Bluesky"
+          brandColor="#0085ff"
+        />
+      )}
       {linkedin && (
-        <LinkIcon className="decolorize-6" icon={iconLinkedin} href={`https://www.linkedin.com/company/${linkedin}`} />
+        <LinkIcon
+          icon={iconLinkedin}
+          href={`https://www.linkedin.com/company/${linkedin}`}
+          label="LinkedIn"
+          brandColor="#0a66c2"
+        />
       )}
       {changelog !== false && <ChangelogButton />}
+      {darkMode && withThemeToggle && <ThemeToggle className="icon-button" />}
     </div>
   )
 }
@@ -49,69 +57,27 @@ function ChangelogButton() {
   const { version, github, changelog } = pageContext.globalContext.config.docpress
   const changeLogUrl = typeof changelog === 'string' ? changelog : `${github}/blob/main/CHANGELOG.md`
   return (
-    <a
-      href={changeLogUrl}
-      className="colorize-on-hover"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 3px',
-        height: '100%',
-      }}
-    >
-      <div
-        className="button"
-        style={{
-          background: '#ffffff4f',
-          fontFamily: 'var(--dp-font-mono, monospace)',
-          letterSpacing: -1,
-          display: 'flex',
-          alignItems: 'center',
-          paddingLeft: 5,
-          paddingRight: 5,
-          paddingTop: 2,
-          paddingBottom: 2,
-          fontSize: '0.92em',
-          lineHeight: '1em',
-          marginLeft: 1,
-          borderRadius: 3,
-        }}
-      >
-        <span
-          id="version-number"
-          className="decolorize-7"
-          style={{
-            position: 'relative',
-            top: 1,
-            color: 'var(--dp-color-text)',
-          }}
-        >
-          {version}
-        </span>
-        <img className="decolorize-6" src={iconChangelog} height={14} style={{ marginLeft: 5 }} />
-      </div>
+    <a href={changeLogUrl} className="version-badge scale-on-press" aria-label={`Changelog (v${version})`}>
+      v{version}
     </a>
   )
 }
 
+// The icon is a mask filled with the text color (it follows the theme); `brandColor` on hover
 function LinkIcon({
-  className,
   icon,
   href,
-  style,
-  iconSizeBoost = 0,
-}: { className: string; icon: string; href: string; style?: any; iconSizeBoost?: number }) {
-  const height = 18 + iconSizeBoost
-
+  label,
+  brandColor,
+}: { icon: string; href: string; label: string; brandColor?: string }) {
   return (
-    <>
-      <a
-        className="colorize-on-hover"
-        href={href}
-        style={{ padding: 3, display: 'inline-flex', lineHeight: 0, height: '100%', alignItems: 'center' }}
-      >
-        <img className={className} src={icon} height={height} style={{ ...style, height }} />
-      </a>
-    </>
+    <a
+      className="icon-button scale-on-press"
+      href={href}
+      aria-label={label}
+      style={{ '--icon': `url("${icon}")`, '--icon-brand-color': brandColor }}
+    >
+      <span className="icon-button-glyph" />
+    </a>
   )
 }

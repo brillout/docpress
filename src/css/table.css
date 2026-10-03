@@ -1,14 +1,43 @@
-table th {
-  background-color: var(--dp-color-surface, #f7f7f7);
-}
+/* Horizontal hairlines only, no cell backgrounds */
 table {
   border-collapse: collapse;
+  font-size: 0.9375em;
+}
+/* Too wide: the table scrolls, not the page */
+.page-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.page-content :is(img, video, iframe) {
+  max-width: 100%;
+  object-fit: contain;
 }
 table td,
 table th {
-  padding: 8px;
-  border: 1px solid var(--dp-color-border, #ccc);
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid var(--dp-color-border);
+  text-align: left;
+  /* First lines aligned, also with glyphs of different sizes */
+  vertical-align: baseline;
 }
 table th {
-  text-align: left;
+  font-weight: 600;
+  border-bottom-color: var(--dp-color-border-strong);
+}
+table tr > :last-child {
+  padding-right: 0;
+}
+
+/* Other content elements, in the page's palette */
+.page-content hr {
+  margin: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--dp-color-border);
+}
+.page-content summary {
+  cursor: pointer;
+  &::marker {
+    color: var(--dp-color-subtle);
+  }
 }

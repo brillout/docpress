@@ -8,6 +8,7 @@ function TopNavigation() {
     <>
       <MenuToggle menuId={1}>
         <img
+          alt=""
           src={iconGear}
           width={18}
           style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative', top: 0 }}
@@ -28,6 +29,7 @@ function TopNavigation() {
         }}
       >
         <img
+          alt=""
           src={iconSeedling}
           width={18}
           style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}
@@ -37,6 +39,7 @@ function TopNavigation() {
       </a>
       <MenuToggle menuId={2}>
         <img
+          alt=""
           src={iconLoudspeaker}
           width={18}
           style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative', top: 0 }}
@@ -57,6 +60,7 @@ function TopNavigation() {
         }}
       >
         <img
+          alt=""
           src={iconCoin}
           width={19}
           style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}

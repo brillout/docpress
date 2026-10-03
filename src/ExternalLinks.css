@@ -1,0 +1,54 @@
+/* Top bar icon buttons: same box, same color, same hover */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  line-height: 0;
+  border-radius: var(--dp-radius-md);
+  color: var(--dp-color-muted);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+      background-color: var(--dp-color-surface-hover);
+    }
+  }
+}
+@media not all and (hover: hover) and (pointer: fine) {
+  .icon-button {
+    width: 40px;
+    height: 40px;
+  }
+}
+.icon-button-glyph {
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  mask: var(--icon) center / contain no-repeat;
+  transition: background-color var(--dp-duration) ease;
+  @media (hover: hover) and (pointer: fine) {
+    .icon-button:hover & {
+      background-color: var(--icon-brand-color, currentColor);
+    }
+  }
+}
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  margin: 0 4px;
+  padding: 0 7px;
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-surface-elevated);
+  box-shadow: var(--dp-shadow-raised);
+  color: var(--dp-color-muted);
+  font-family: var(--dp-font-mono);
+  font-size: 11.5px;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+      box-shadow: var(--dp-shadow-raised-hover);
+    }
+  }
+}

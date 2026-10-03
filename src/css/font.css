@@ -1,12 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+/* Until Inter is loaded: a local font resized to Inter's metrics, so that the text doesn't reflow when it swaps in */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('Liberation Sans');
+  size-adjust: 107.06%;
+  ascent-override: 90.49%;
+  descent-override: 22.56%;
+  line-gap-override: 0%;
+}
+
 body {
-  font-family: var(--dp-font-sans, 'Inter', sans-serif);
+  font-family: var(--dp-font-sans);
 }
 button {
   font-family: inherit;
 }
 body {
-  color: var(--dp-color-text, #323d48);
+  color: var(--dp-color-text);
   line-height: 1.5;
+}
+
+/* Long-form reading: the line height of the reference docs sites (1.7). Not landing pages: a site's own design. */
+.doc-page .page-content {
+  line-height: 1.7;
 }

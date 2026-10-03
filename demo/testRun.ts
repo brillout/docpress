@@ -71,7 +71,8 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     //*/
     const text = await page.textContent('body')
     expect(text).toContain('Custom URL hash for section heading (custom hash)')
-    await page.click('a[href="#custom-hash"]', { timeout: 1000 })
+    // The page's own link (the "On this page" rail, earlier in the DOM, also links to the section)
+    await page.click('.page-content a[href="#custom-hash"]', { timeout: 1000 })
     await testUrlHash()
   })
   test(`${featuresURL} - JavaScript toggle`, async () => {
@@ -372,6 +373,35 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(getTitleHtml(html)).toBe('Orphan Page Without Headings | Demo')
     expect(html).toContain('Orphan Page Without Heading')
     expect(html).toContain('<meta name="algolia:category" content="Guides 2"><meta name="algolia:category:hide">')
+  })
+
+  test(`${featuresURL} - menu opened with the keyboard`, async () => {
+    await page.goto(getServerUrl() + featuresURL)
+    await page.waitForFunction(() => (window as any).__docpress_hydrationFinished)
+    // Its first link gets the focus, also when it's opened again
+    await openWithKeyboard()
+    await openWithKeyboard()
+    async function openWithKeyboard() {
+      await page.focus('.menu-toggle-0')
+      await page.keyboard.press('Enter')
+      await autoRetry(
+        async () => {
+          const isFocused = await page.evaluate(
+            () => document.activeElement === document.querySelector('#menu-navigation-0 a[href]'),
+          )
+          expect(isFocused).toBe(true)
+        },
+        { timeout: 5 * 1000 },
+      )
+      await page.keyboard.press('Escape')
+      await autoRetry(
+        async () => {
+          const isOpen = await page.evaluate(() => document.documentElement.classList.contains('menu-modal-show'))
+          expect(isOpen).toBe(false)
+        },
+        { timeout: 5 * 1000 },
+      )
+    }
   })
 
   test('client-side navigation', async () => {

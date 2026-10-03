@@ -1,5 +1,6 @@
 export { closeDocsearchModal }
 export { openDocsearchModal }
+export { initDocsearchFocusReturn }
 
 import { assert } from '../utils/client.js'
 
@@ -26,4 +27,26 @@ function isClosed() {
   const test2 = document.getElementsByClassName('DocSearch-Modal').length === 0
   assert(test1 === test2)
   return test1 || test2
+}
+
+// Closing the search modal returns the focus where it was (DocSearch's own button, which it would focus, is hidden)
+let isFocusReturnInstalled = false
+function initDocsearchFocusReturn() {
+  if (isFocusReturnInstalled) return
+  isFocusReturnInstalled = true
+  let focusedBefore: HTMLElement | null = null
+  document.addEventListener('focusin', (ev) => {
+    const target = ev.target as HTMLElement
+    if (!target.closest('.DocSearch-Container')) focusedBefore = target
+  })
+  let isOpen = false
+  new MutationObserver(() => {
+    const isOpenNow = document.body.classList.contains('DocSearch--active')
+    if (isOpen && !isOpenNow) {
+      const { activeElement } = document
+      const isFocusLost = !activeElement || activeElement === document.body
+      if (isFocusLost && focusedBefore?.isConnected) focusedBefore.focus({ preventScroll: true })
+    }
+    isOpen = isOpenNow
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] })
 }

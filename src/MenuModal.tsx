@@ -3,12 +3,13 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { css } from './utils/css.js'
-import { bodyMaxWidth, viewDesktop, viewTablet, scrollFadeMask } from './Layout.js'
+import { bodyMaxWidth, viewDesktop, viewTablet, viewMobile, scrollFadeMask } from './Layout.js'
+import { menuPaddingX } from './MenuModal/NavigationWithColumnLayout.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import { Style } from './utils/Style.js'
 import { NavigationWithColumnLayout } from './MenuModal/NavigationWithColumnLayout.js'
 import {
-  closeMenuModal,
+  closeMenuModalAndFocusToggle,
   closeMenuModalOnMouseLeave,
   keepMenuModalOpenOnMouseOver,
 } from './MenuModal/toggleMenuModal.js'
@@ -20,31 +21,21 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
-        className="link-hover-animation add-transition show-on-nav-hover"
-        style={{
-          // Absolute inside the sticky header so the dropdown tracks the nav on scroll
-          position: 'absolute',
-          width: '100%',
-          top: 'var(--nav-head-height)',
-          zIndex: 199, // maximum value, because docsearch's modal has `z-index: 200`
-          background: 'var(--dp-color-surface, #ededef)',
-          transitionProperty: 'opacity',
-          transitionTimingFunction: 'ease',
-          maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth,
-          // Horizontal align
-          // https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div/32694476#32694476
-          left: '50%',
-          transform: 'translateX(-50%)',
-        }}
+        className="link-hover-animation"
+        style={{ maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth }}
         onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModalOnMouseLeave}
       >
+        {/* First: the first focus stop of the (mobile) dialog */}
+        <CloseButton className="show-only-on-mobile" />
         <div
           id="menu-modal-scroll-container"
+          className="scroll-fade"
           style={{
             overflowX: 'hidden',
-            overflowY: 'scroll',
-            // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>). Edit: IIRC because #menu-modal-wrapper has `position: fixed`.
+            // Not \`scroll\`: it shows a classic scrollbar (arrows included) also when there's nothing to scroll
+            overflowY: 'auto',
+            // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
             ...scrollFadeMask,
           }}
@@ -58,29 +49,21 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
                 marginTop: 10,
               }}
             >
-              <ExternalLinks style={{ height: 50 }} />
+              <ExternalLinks style={{ height: 50 }} withThemeToggle={false} />
             </div>
-            <Center>
-              <EditLink style={{ justifyContent: 'center', marginTop: 8, marginBottom: 20 }} verbose />
-            </Center>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <EditLink className="menu-edit-link">Edit this page</EditLink>
+            </div>
           </div>
         </div>
-        <CloseButton className="show-only-on-mobile" />
-        <BorderBottom />
       </div>
     </>
-  )
-}
-function BorderBottom() {
-  return (
-    <div
-      id="border-bottom"
-      style={{
-        background: 'var(--color-bg-white)',
-        height: 'var(--block-margin)',
-        width: '100%',
-      }}
-    />
   )
 }
 function Nav() {
@@ -91,66 +74,133 @@ function Nav() {
 
 function getStyle() {
   return css`
-@media(min-width: ${viewTablet + 1}px) {
+.menu-edit-link {
+  margin: 8px 0 20px;
+}
+${/* Absolute inside the sticky header, so that the dropdown tracks the nav on scroll. The maximum z-index: DocSearch's modal has 200. */ ''}
+#menu-modal-wrapper {
+  position: absolute;
+  z-index: 199;
+}
+${/* Closed: out of the tab order, once the closing transition is done (it transitions \`visibility\`) */ ''}
+html:not(.menu-modal-show) #menu-modal-wrapper {
+  visibility: hidden;
+}
+
+@media (width > ${viewTablet}px) {
+  ${/* A raised panel floating just below the top bar: centered on its menu's toggle (--menu-anchor, toggleMenuModal.ts), */ ''}
+  ${/* sized to its columns (--menu-width, NavigationWithColumnLayout.tsx), kept within the frame */ ''}
+  #menu-modal-wrapper {
+    top: calc(var(--nav-head-height) + 8px);
+    width: var(--menu-width, calc(100% - 32px));
+    left: clamp(
+      16px,
+      var(--menu-anchor, 50%) - var(--menu-width, calc(100% - 32px)) / 2,
+      100% - var(--menu-width, calc(100% - 32px)) - 16px
+    );
+    border-radius: var(--dp-radius-lg);
+    background: var(--dp-color-surface-elevated);
+    box-shadow: var(--dp-shadow-popover);
+  }
   #menu-modal-scroll-container {
-    max-height: calc(100vh - var(--nav-head-height) - var(--block-margin));
+    ${/* 8px above, 16px below: the panel's edges (and shadow) stay on screen when the viewport is short */ ''}
+    max-height: calc(100vh - var(--nav-head-height) - 24px);
     ${/* https://github.com/brillout/docpress/issues/23 */ ''}
-    ${/* https://stackoverflow.com/questions/64514118/css-overscroll-behavior-contain-when-target-element-doesnt-overflow */ ''}
-    ${/* https://stackoverflow.com/questions/9538868/prevent-body-from-scrolling-when-a-modal-is-opened */ ''}
-    overscroll-behavior: none;
+    overscroll-behavior: contain;
+    border-radius: inherit;
   }
-  html:not(.menu-modal-show) {
-    #menu-navigation-container {
-      height: 0 !important;
-    }
-    #menu-modal-wrapper {
-      pointer-events: none;
-    }
+  ${/* The gap above the panel is part of it: crossing it from the toggle doesn't close the menu */ ''}
+  #menu-modal-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 9px;
   }
-  .show-only-on-mobile {
-    display: none !important;
+  .menu-navigation-content {
+    padding: 20px ${menuPaddingX}px 24px;
+  }
+  html:not(.menu-modal-show) #menu-modal-wrapper {
+    pointer-events: none;
+    transition: opacity 250ms ease, visibility 250ms ease;
+  }
+  ${/* Opening: in place, visible at once (e.g. to move the focus inside) */ ''}
+  html.menu-modal-show.menu-modal-display-only-one #menu-modal-wrapper {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out);
+  }
+  ${/* Switching from one menu to another: the panel glides to its toggle and its width */ ''}
+  html.menu-modal-show:not(.menu-modal-display-only-one) #menu-modal-wrapper {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out), visibility var(--dp-duration-reveal) var(--dp-ease-out),
+      left var(--dp-duration-reveal) var(--dp-ease-out), width var(--dp-duration-reveal) var(--dp-ease-out);
   }
 }
-@media(max-width: ${viewTablet}px) {
+@media (width <= ${viewTablet}px) {
+  ${/* A full-screen dialog */ ''}
+  #menu-modal-wrapper {
+    top: 0;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    background: var(--dp-color-bg);
+  }
+  .menu-modal-close {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--dp-radius-md);
+    background: var(--dp-color-bg);
+    color: var(--dp-color-muted);
+    cursor: pointer;
+  }
   #menu-modal-scroll-container {
-    ${/* Fallback for Firefox: it doesn't support `dvh` yet: https://caniuse.com/?search=dvh */ ''}
-    ${/* Let's always and systematically use `dvh` instead of `vh` once Firefox supports it */ ''}
-    height:  calc(100vh) !important;
-    ${/* We use dvh because of mobile */ ''}
-    ${/* https://stackoverflow.com/questions/37112218/css3-100vh-not-constant-in-mobile-browser/72245072#72245072 */ ''}
-    height: calc(100dvh) !important;
+    ${/* The visible viewport (mobile browsers' toolbars come and go) */ ''}
+    height: 100dvh;
     ${/* Place <ExternalLinks> and <EditLink> to the bottom */ ''}
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-  #border-bottom {
-    display: none;
+  ${/* The first row lines up with the close button */ ''}
+  @media (width <= ${viewMobile}px) {
+    #menu-modal-scroll-container {
+      padding-top: 10px;
+    }
   }
+  ${/* Tablet: the categories aren't collapsible, their heads have a top margin */ ''}
+  @media (width > ${viewMobile}px) {
+    #menu-modal-scroll-container {
+      padding-top: 5.5px;
+    }
+  }
+  ${/* Closing is quicker than opening */ ''}
   html:not(.menu-modal-show) #menu-modal-wrapper {
     opacity: 0;
     pointer-events: none;
+    transition: opacity var(--dp-duration) ease, visibility var(--dp-duration) ease;
+  }
+  ${/* Opening: visible at once (e.g. to move the focus inside) */ ''}
+  html.menu-modal-show #menu-modal-wrapper {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out);
   }
   ${/* Disable scrolling of main view */ ''}
   html.menu-modal-show {
-    overflow: hidden !important;
-  }
-  #menu-modal-wrapper {
-    --nav-head-height: 0px !important;
-  }
-  #menu-navigation-container {
-    height: auto !important;
-  }
-  .show-only-on-desktop {
-    display: none !important;
-  }
-  .columns-wrapper {
-    width: 100% !important;
+    overflow: hidden;
+    ${/* The page doesn't shift sideways when its (classic) scrollbar goes away */ ''}
+    scrollbar-gutter: stable;
   }
 }
 
 ${/* Hide same-page headings navigation */ ''}
-@container container-viewport (min-width: ${viewDesktop}px) {
+@container container-viewport (width >= ${viewDesktop}px) {
   #menu-modal-wrapper .nav-item-level-3 {
     display: none;
   }
@@ -160,45 +210,24 @@ ${/* Hide same-page headings navigation */ ''}
 
 function CloseButton({ className }: { className: string }) {
   return (
-    <div
-      className={className}
-      onClick={closeMenuModal}
-      style={{ position: 'fixed', top: 0, right: 0, zIndex: 10, padding: 11, cursor: 'pointer' }}
+    <button
+      type="button"
+      className={`menu-modal-close scale-on-press ${className}`}
+      onClick={closeMenuModalAndFocusToggle}
+      aria-label="Close menu"
     >
-      <svg width="48.855" height="48.855" version="1.1" viewBox="0 0 22.901 22.901" xmlns="http://www.w3.org/2000/svg">
-        <circle
-          cx="11.45"
-          cy="11.45"
-          r="10.607"
-          fill="var(--dp-color-surface, #ececec)"
-          stroke="var(--dp-color-muted, #666)"
-          strokeDashoffset="251.44"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.6875"
-          style={{ paintOrder: 'normal' }}
-        />
-        <path
-          d="m7.5904 6.2204 3.86 3.86 3.84-3.84a0.92 0.92 0 0 1 0.66-0.29 1 1 0 0 1 1 1 0.9 0.9 0 0 1-0.27 0.66l-3.89 3.84 3.89 3.89a0.9 0.9 0 0 1 0.27 0.61 1 1 0 0 1-1 1 0.92 0.92 0 0 1-0.69-0.27l-3.81-3.86-3.85 3.85a0.92 0.92 0 0 1-0.65 0.28 1 1 0 0 1-1-1 0.9 0.9 0 0 1 0.27-0.66l3.89-3.84-3.89-3.89a0.9 0.9 0 0 1-0.27-0.61 1 1 0 0 1 1-1c0.24 3e-3 0.47 0.1 0.64 0.27z"
-          fill="var(--dp-color-muted, #666)"
-          stroke="var(--dp-color-muted, #666)"
-          strokeWidth=".11719"
-        />
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        aria-hidden="true"
+      >
+        <path d="M18 6 6 18M6 6l12 12" />
       </svg>
-    </div>
-  )
-}
-
-function Center({ style, ...props }: any) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        ...style,
-      }}
-      {...props}
-    ></div>
+    </button>
   )
 }

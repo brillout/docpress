@@ -57,7 +57,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
   )
 }
 
-const OPTION_HEIGHT = 25
+const OPTION_HEIGHT = 26
 function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
   const radioId = useId()
   const choicesAll = usePageContext().resolved.choices
@@ -109,6 +109,9 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
         setIsHovered(true)
       }}
       onMouseLeave={() => setExpanded(false)}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') setExpanded(false)
+      }}
       onTransitionEnd={() => {
         if (!expanded) setIsHovered(false)
       }}
@@ -117,7 +120,7 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
       }}
       data-choice-group={groupName}
     >
-      {filteredChoices.map(({ name: choice, icon, iconStyle, iconStyleDropdown }) => (
+      {filteredChoices.map(({ name: choice, icon, iconMono, iconStyle, iconStyleDropdown }) => (
         <label
           id={`choice-${choice}`}
           key={choice}
@@ -130,17 +133,27 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
             name={`radio-${radioId}`}
             value={choice}
             checked={selectedChoice === choice}
-            readOnly
+            // Keyboard: arrow keys move the checked radio. The native activation must not reach the label's click
+            // handler, which cancels it (mouse cycling).
+            onChange={(e) => {
+              // Like the mouse path: keep the code block in place while the page's other blocks switch too
+              setPrevPosition(e.currentTarget.closest('label')!)
+              setSelectedChoice(choice)
+            }}
+            onClick={(e) => e.stopPropagation()}
           />
           <span className="choice-select__option-content">
-            <span className="choice-select__option-icon">
+            <span className={cls(['choice-select__option-icon', iconMono && 'dp-icon-mono'])}>
               {icon && <img src={icon} alt="" aria-hidden="true" style={{ ...iconStyle, ...iconStyleDropdown }} />}
             </span>
-            <span className="choice-select__option-label">{choice}</span>
+            <span className="choice-select__option-label" data-label={choice}>
+              {choice}
+            </span>
           </span>
-          <div className="choice-select__border" />
         </label>
       ))}
+      {/* One outline (8% alpha: stacked copies would darken it), positioned on the selected option (ChoiceGroup.css) */}
+      <div className="choice-select__border" />
     </div>
   )
 

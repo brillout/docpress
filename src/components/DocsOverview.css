@@ -1,0 +1,229 @@
+/* The docs home (DocsOverview.tsx) */
+.docs-overview {
+  --docs-overview-gap: 16px;
+  padding-bottom: 24px;
+}
+
+/* Hero */
+.docs-overview-hero {
+  padding-top: 40px;
+}
+.docs-overview-hero h1 {
+  margin: 0;
+  font-size: clamp(34px, 4.2vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.docs-overview-lead {
+  max-width: 640px;
+  margin-top: 16px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--dp-color-muted);
+  p {
+    margin: 0;
+  }
+}
+/* The top bar's search field, larger */
+.docs-overview-search {
+  width: min(560px, 100%);
+  margin-top: 28px;
+  .search-box {
+    width: 100%;
+    height: 48px;
+    gap: 10px;
+    padding: 0 10px 0 16px;
+    border-radius: var(--dp-radius-lg);
+    font-size: 16px;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  .search-box-kbd {
+    padding: 2px 7px;
+    font-size: 12px;
+  }
+  /* Also on narrow screens (the top bar's field hides it there) */
+  .search-box-text {
+    display: inline;
+  }
+}
+
+/* Sections */
+.docs-overview-section:not(:first-child) {
+  margin-top: 48px;
+}
+.docs-overview-heading {
+  margin-top: 0;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+}
+
+/* The category's icon, on a tile tinted with its color */
+.docs-overview-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: var(--dp-radius-lg);
+  background: color-mix(in srgb, var(--color-category) 14%, var(--dp-color-surface-elevated));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-category) 24%, transparent);
+  .docs-overview-start-card & {
+    width: 40px;
+    height: 40px;
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .docs-overview-card-head & {
+    width: 36px;
+    height: 36px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.docs-overview-arrow {
+  flex-shrink: 0;
+  color: var(--dp-color-subtle);
+  transition: transform var(--dp-duration-press) var(--dp-ease-out), color var(--dp-duration) ease;
+}
+
+.docs-overview-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dp-color-muted);
+}
+
+/* "Start here": large cards, each a link */
+.docs-overview-start {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--docs-overview-gap);
+}
+.docs-overview-start-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: var(--dp-radius-lg);
+  background: var(--dp-color-surface-elevated);
+  box-shadow: var(--dp-shadow-raised);
+  transition: box-shadow var(--dp-duration) ease, transform var(--dp-duration-press) var(--dp-ease-out);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      box-shadow: var(--dp-shadow-raised-hover);
+      .docs-overview-arrow {
+        transform: translateX(3px);
+        color: var(--dp-color-heading);
+      }
+    }
+  }
+  &:active {
+    transform: scale(0.99);
+  }
+}
+.docs-overview-start-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.docs-overview-start-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--dp-color-heading);
+}
+
+/* "Browse the docs": a card per category */
+.docs-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--docs-overview-gap);
+}
+.docs-overview-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 16px;
+  border-radius: var(--dp-radius-lg);
+  background: var(--dp-color-surface-elevated);
+  box-shadow: var(--dp-shadow-raised);
+  > .docs-overview-description {
+    margin-top: 12px;
+  }
+}
+.docs-overview-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  align-self: flex-start;
+}
+.docs-overview-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--dp-color-heading);
+  transition: color var(--dp-duration) ease;
+  @media (hover: hover) and (pointer: fine) {
+    .docs-overview-card-head:hover & {
+      color: var(--dp-color-primary);
+    }
+  }
+}
+.docs-overview-card ul {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--dp-color-border);
+  a {
+    display: block;
+    padding: 5px 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--dp-color-text);
+    transition: color var(--dp-duration) ease;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--dp-color-primary);
+      }
+    }
+  }
+  code {
+    font-size: 0.94em;
+    line-height: 1.2;
+  }
+}
+.docs-overview-all {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  /* At the card's bottom, also when the card lists fewer pages than its neighbors */
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--dp-color-muted);
+  transition: color var(--dp-duration) ease;
+  .docs-overview-arrow {
+    width: 14px;
+    height: 14px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-heading);
+      .docs-overview-arrow {
+        transform: translateX(3px);
+        color: currentColor;
+      }
+    }
+  }
+}

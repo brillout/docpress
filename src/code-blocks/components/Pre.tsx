@@ -1,7 +1,9 @@
 export { Pre }
 
-import React, { useState } from 'react'
+import React from 'react'
 import { cls } from '../../utils/cls.js'
+import { useCopy, CopyAnnouncement } from '../../utils/useCopy.js'
+import { usePageContext } from '../../renderer/usePageContext.js'
 import './Pre.css'
 
 // Styling defined in src/css/code/diff.css
@@ -17,6 +19,7 @@ const classAdded = [
 ].join(' ')
 
 type AdditionalProps = {
+  'data-language'?: string
   'hide-menu'?: string
   'file-added'?: string
   'file-removed'?: string
@@ -24,12 +27,21 @@ type AdditionalProps = {
 
 function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & AdditionalProps) {
   const { className, ...rest } = props
+  const language = props['data-language']
+  const languageLabel = language ? getLanguageLabel(language) : null
+  // The language header is doc pages' chrome: on a landing page, a code block keeps the site's layout
+  const { isLandingPage } = usePageContext().resolved
 
   return (
     <pre
       className={cls([className, props['file-added'] && classAdded, props['file-removed'] && classRemoved])}
       {...rest}
     >
+      {languageLabel && !isLandingPage && (
+        <div className="code-block-header">
+          <span className="code-block-language">{languageLabel}</span>
+        </div>
+      )}
       {children}
       {!props['hide-menu'] && <CopyButton />}
     </pre>
@@ -37,55 +49,89 @@ function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & Add
 }
 
 function CopyButton() {
-  const [isSuccess, setIsSuccess] = useState(null as null | boolean)
-  const onCopy = (success: boolean) => {
-    setIsSuccess(success)
-    setTimeout(() => {
-      setIsSuccess(null)
-    }, 900)
-  }
-  const tooltip = isSuccess === null ? 'Copy to clipboard' : isSuccess ? 'Copied' : 'Failed'
+  const { status, copy } = useCopy()
+  const tooltip = status === 'idle' ? 'Copy to clipboard' : status === 'copied' ? 'Copied' : 'Failed'
   const icon =
-    isSuccess === null ? (
+    status === 'idle' ? (
       // Copy icon
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="black" strokeWidth="2">
+      <svg key="copy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
       </svg>
-    ) : isSuccess ? (
+    ) : status === 'copied' ? (
       // Green checkmark
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="#28a745" strokeWidth="3">
+      <svg
+        key="copied"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        stroke="var(--dp-color-success)"
+        strokeWidth="3"
+      >
         <polyline points="20 6 9 17 4 12" />
       </svg>
     ) : (
-      '❌'
+      // Cross, like "Copy page"
+      <svg
+        key="failed"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        stroke="var(--dp-color-danger)"
+        strokeWidth="2"
+      >
+        <path d="M18 6 6 18M6 6l12 12" />
+      </svg>
     )
   return (
-    <button
-      className="copy-button raised"
-      aria-label={tooltip}
-      data-label-position="top-left"
-      type="button"
-      onClick={onClick}
-    >
-      {icon}
-    </button>
+    <>
+      <button
+        className="copy-button scale-on-press"
+        aria-label={tooltip}
+        data-label-position="top-left"
+        type="button"
+        onClick={(ev) => {
+          // Only the code, not the header
+          const code = ev.currentTarget.parentElement!.querySelector('code')?.textContent || ''
+          copy(removeTrailingWhitespaces(code))
+        }}
+      >
+        {icon}
+      </button>
+      <CopyAnnouncement status={status} />
+    </>
   )
-  async function onClick(e: React.MouseEvent<HTMLButtonElement>) {
-    let success: boolean
-    const preEl = e.currentTarget.parentElement!
-    let text = preEl.textContent || ''
-    text = removeTrailingWhitespaces(text)
-    try {
-      await navigator.clipboard.writeText(text)
-      success = true
-    } catch (error) {
-      console.error(error)
-      success = false
-    }
-    onCopy(success)
-  }
 }
+const languageLabels: Record<string, string> = {
+  js: 'JavaScript',
+  javascript: 'JavaScript',
+  jsx: 'JSX',
+  ts: 'TypeScript',
+  typescript: 'TypeScript',
+  tsx: 'TSX',
+  vue: 'Vue',
+  svelte: 'Svelte',
+  json: 'JSON',
+  jsonc: 'JSON',
+  html: 'HTML',
+  css: 'CSS',
+  md: 'Markdown',
+  mdx: 'MDX',
+  toml: 'TOML',
+  sh: 'Shell',
+  shell: 'Shell',
+  bash: 'Shell',
+  zsh: 'Shell',
+  diff: 'Diff',
+  sql: 'SQL',
+  graphql: 'GraphQL',
+  dockerfile: 'Dockerfile',
+}
+function getLanguageLabel(language: string): string | null {
+  if (language === 'plaintext' || language === 'text' || language === 'txt') return null
+  // Mostly used to list files (a common convention in docs), which aren't YAML
+  if (language === 'yaml' || language === 'yml') return null
+  return languageLabels[language] ?? language
+}
+
 function removeTrailingWhitespaces(text: string) {
   return text
     .split('\n')

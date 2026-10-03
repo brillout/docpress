@@ -1,3 +1,46 @@
 body {
-  background: var(--color-bg-white);
+  background: var(--dp-color-bg);
+}
+
+/* A top bar menu's toggle (<MenuToggle>): the bar's full height; hovered, its fill slides in from below */
+.menu-toggle {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 var(--padding-side);
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  @media (hover: hover) and (pointer: fine) {
+    .link-hover-animation &:hover::before {
+      top: 0;
+    }
+    html.menu-modal-show & {
+      cursor: default;
+    }
+  }
+  &::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: var(--nav-head-height);
+    background-color: var(--dp-color-surface-hover);
+    transition: top 180ms ease;
+    z-index: -1;
+  }
+  & .caret-icon-left,
+  & .caret-icon-right {
+    transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
+  }
+  & .caret-icon-left {
+    transform-origin: 25% 50%;
+  }
+  & .caret-icon-right {
+    transform-origin: 75% 50%;
+  }
 }

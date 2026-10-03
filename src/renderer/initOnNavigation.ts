@@ -2,11 +2,9 @@ export { initOnNavigation }
 
 import { isBrowser } from '../utils/isBrowser.js'
 import { closeMenuModal } from '../MenuModal/toggleMenuModal.js'
-import { unexpandNav } from '../Layout.js'
 
 function onNavigation() {
   closeMenuModal()
-  unexpandNav()
 }
 
 function initOnNavigation() {

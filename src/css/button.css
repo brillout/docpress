@@ -1,30 +1,9 @@
-button,
-.button {
-  background-color: #fafafa;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Raised button */
-.raised {
-  cursor: pointer;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 1px 2px 2px 1px;
-  border-color: hsl(0, 0%, 75%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 75%);
-
-  &:hover {
-    border-color: hsl(0, 0%, 72%) hsl(0, 0%, 66%) hsl(0, 0%, 66%) hsl(0, 0%, 72%);
-  }
-
-  &:active {
-    border-width: 2px 1px 1px 2px;
-    border-color: hsl(0, 0%, 66%) hsl(0, 0%, 72%) hsl(0, 0%, 72%) hsl(0, 0%, 66%);
-  }
-
-  &:disabled {
-    border-width: 1px;
-    border-color: hsl(0, 0%, 72%);
+/* Copy buttons: the new icon (e.g. the check after copying) blends in */
+:is(.copy-button, .copy-page-button) svg {
+  transition: opacity 200ms var(--dp-ease-out), scale 200ms var(--dp-ease-out), filter 200ms var(--dp-ease-out);
+  @starting-style {
+    opacity: 0;
+    scale: 0.8;
+    filter: blur(2px);
   }
 }

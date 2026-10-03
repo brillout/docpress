@@ -2,12 +2,12 @@ export { Layout }
 export { MenuToggle }
 export { viewDesktop }
 export { viewTablet }
+export { viewMobile }
 export { navLeftWidthMin }
 export { navLeftWidthMax }
 export { bodyMaxWidth }
-export { unexpandNav }
-export { blockMargin }
 export { scrollFadeMask }
+export { barShadow }
 
 // - @media VS @container
 //   - Using `@container container-viewport` instead of @media would be interesting because @media doesn't consider the scrollbar width.
@@ -34,25 +34,39 @@ import { css } from './utils/css.js'
 import { Style } from './utils/Style.js'
 import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
-import { EditLink } from './EditLink.js'
+import { PageHeader, PageFooter } from './PageChrome.js'
+import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
+import { CategoryTabs } from './CategoryTabs.js'
+import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
 
-const blockMargin = 4
+// Hairline between the top nav, the left nav and the page
+const blockMargin = 1
+const navHeadHeight = 63
 const mainViewPadding = 20
-const mainViewWidthMaxInner = 800
-const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 840 // 840 = 800 + 20 * 2
+// About 75 characters per line
+const mainViewWidthMaxInner = 720
+const mainViewWidthMax = (mainViewWidthMaxInner + mainViewPadding * 2) as 760 // 760 = 720 + 20 * 2
 const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1144 // 1140 = 840 + 300 + 4
-const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1214 // 1214 = 840 + 370 + 4
-const bodyMaxWidth = 1300
+const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1061 // 1061 = 760 + 300 + 1
+const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1131 // 1131 = 760 + 370 + 1
+// The frame: left navigation + page content + "On this page", and not wider (the eye doesn't travel far)
+const bodyMaxWidth = 1340
+// A bar (the top nav, the category tabs): the bottom hairline, and copies of the bar left and right of it, so that it
+// spans the viewport also beyond `bodyMaxWidth`
+const barShadow = [
+  `0 ${blockMargin}px 0 var(--dp-color-border)`,
+  `-${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
+  `${bodyMaxWidth}px 0 0 var(--dp-color-bg)`,
+  `-${bodyMaxWidth}px ${blockMargin}px 0 var(--dp-color-border)`,
+  `${bodyMaxWidth}px ${blockMargin}px 0 var(--dp-color-border)`,
+].join(', ')
 
-// Scroll fade effect at top/bottom edges
+// Scroll fade effect at top/bottom edges: `.scroll-fade` (scroll-fade.css), only while the container actually scrolls
 const scrollFadeMask: React.CSSProperties = {
-  maskImage:
-    'linear-gradient(to bottom, rgba(0,0,0,0.3) 0px, black 20px, black calc(100% - 20px), rgba(0,0,0,0.3) 100%)',
   // Force hardware acceleration to fix Chrome rendering bug (temporary bold text upon scrolling)
   transform: 'translateZ(0)',
 }
@@ -80,15 +94,18 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   const isNavLeftAlwaysHidden_ = isNavLeftAlwaysHidden()
+  const hasCategoryTabs = !!pageContext.globalContext.config.docpress.categoryTabs && !isLandingPage
   return (
     <div
+      className={hasCategoryTabs ? 'has-category-tabs' : undefined}
       style={{
-        ['--color-bg-gray']: 'var(--dp-color-surface, #f5f5f5)',
         ['--block-margin']: `${blockMargin}px`,
-        // ['--nav-head-height']: `${isLandingPage ? 70 : 63}px`,
-        ['--nav-head-height']: `63px`,
+        ['--nav-head-height']: `${navHeadHeight}px`,
         // Offset for elements sitting below the sticky top nav
-        ['--nav-head-sticky-offset']: isTopNavSticky ? 'var(--nav-head-height)' : '0px',
+        // (The category tabs' height, see getStyleLayout())
+        ['--nav-head-sticky-offset']: isTopNavSticky
+          ? 'calc(var(--nav-head-height) + var(--nav-tabs-height, 0px))'
+          : '0px',
         ['--main-view-padding']: `${mainViewPadding}px`,
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
@@ -97,45 +114,44 @@ function Layout({ children }: { children: React.ReactNode }) {
         margin: 'auto',
       }}
     >
+      {/* Before the markup it styles: the first paint has the right layout */}
+      <Style>{getStyleLayout()}</Style>
+      {/* Focused elements aren't hidden under the sticky top nav (for headings, see heading.css) */}
+      {isTopNavSticky && (
+        <Style>{`:where(a, button, input, select, textarea, summary, [tabindex]):focus { scroll-margin-top: calc(var(--nav-head-sticky-offset) + 16px); }`}</Style>
+      )}
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
-        <div style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
-          <NavHead />
+        <header style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
+          <NavHead hasCategoryTabs={hasCategoryTabs} />
+          {hasCategoryTabs && <CategoryTabs />}
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
-        </div>
+        </header>
         {content}
       </div>
       {/* Early toggling, to avoid layout jumps */}
       <script dangerouslySetInnerHTML={{ __html: `${initializeChoiceGroup_SSR}` }}></script>
-      <Style>{getStyleLayout()}</Style>
     </div>
   )
 }
 
 function LayoutDocsPage({ children }: { children: React.ReactNode }) {
+  const { navItemsDetached, tocItems } = usePageContext().resolved
+  // The rail lists the page's sections: a detached page's left navigation would only list the page itself
+  const isNavLeftHiddenByTocRail = !!navItemsDetached && tocItems.length > 0
   return (
     <>
-      <div style={{ display: 'flex', ...whitespaceBuster2 }}>
-        {!isNavLeftAlwaysHidden() && (
-          <>
-            <NavLeft />
-            <div
-              id="nav-left-margin"
-              className="low-prio-grow"
-              style={{ width: 0, maxWidth: 50, background: 'var(--color-bg-gray)' }}
-            />
-          </>
-        )}
-        <PageContent>{children}</PageContent>
-      </div>
       <Style>{css`
-@container container-viewport (max-width: ${viewDesktopLarge - 1}px) {
+@container container-viewport (width < ${viewDesktopLarge}px) {
   #nav-left {
     flex-grow: 1;
     min-width: ${navLeftWidthMin + blockMargin}px;
   }
 }
-@container container-viewport (min-width: ${viewDesktopLarge}px) {
+@container container-viewport (width >= ${viewDesktopLarge}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -146,12 +162,76 @@ function LayoutDocsPage({ children }: { children: React.ReactNode }) {
 .page-content {
   --hash-offset: 24px;
 }
-@container container-viewport (max-width: ${viewDesktopLarge - 1}px) and (min-width: ${viewDesktop}px) {
+@container container-viewport (${viewDesktop}px <= width < ${viewDesktopLarge}px) {
   .page-content {
     --hash-offset: 27px;
   }
 }
+${
+  // Only where <TocRail> is rendered (below)
+  isNavLeftAlwaysHidden()
+    ? ''
+    : css`
+@container container-viewport (width < ${viewTocRail}px) {
+  #toc-rail {
+    display: none;
+  }
+}
+@container container-viewport (width >= ${viewTocRail}px) {
+  #toc-rail {
+    width: ${tocRailWidth}px;
+  }
+  /* The page content gives up some width to the rail */
+  .page-wrapper {
+    min-width: ${mainViewWidthMax - 120}px;
+  }
+  /* The rail lists the page's sections: don't also expand them in the left navigation */
+  #nav-left .nav-item-level-3 {
+    display: none;
+  }
+  /* The content is centered between the left navigation and the rail */
+  #nav-left-margin {
+    display: none;
+  }
+  .page-content {
+    margin-inline: auto;
+  }
+}
+@container container-viewport (${viewTocRail}px <= width < ${viewTocRail + 120}px) {
+  #nav-left {
+    /* Make room for the rail */
+    min-width: ${navLeftWidthMin + blockMargin}px;
+  }
+  /* Some air between the three columns (the measure is still ~70 characters) */
+  .page-content {
+    --main-view-padding: 32px;
+  }
+}`
+}
+${
+  !isNavLeftHiddenByTocRail
+    ? ''
+    : css`
+@container container-viewport (width >= ${viewTocRail}px) {
+  #nav-left, #nav-left-margin {
+    display: none;
+  }
+  ${getStyleNavLeftHidden()}
+}`
+}
 `}</Style>
+      <div style={{ display: 'flex', ...whitespaceBuster2 }}>
+        {!isNavLeftAlwaysHidden() && (
+          <>
+            <NavLeft />
+            <div id="nav-left-margin" className="low-prio-grow" style={{ width: 0, maxWidth: 50 }} />
+          </>
+        )}
+        {/* Before the page content in the HTML (it's parsed and painted with the first chunk: the content doesn't
+            shift when it arrives), after it on the screen (flex order, TocRail.css) */}
+        {!isNavLeftAlwaysHidden() && <TocRail />}
+        <PageContent>{children}</PageContent>
+      </div>
     </>
   )
 }
@@ -167,23 +247,15 @@ function PageContent({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const { isLandingPage, pageTitle } = pageContext.resolved
   const pageTitleParsed = pageTitle && parseMarkdownMini(pageTitle)
-  /*
-  const { globalNote } = pageContext.globalContext.config.docpress
-  */
   const ifDocPage = (style: React.CSSProperties) => (isLandingPage ? {} : style)
   const contentMaxWidth = pageContext.resolved.pageDesign?.contentMaxWidth ?? mainViewWidthMaxInner
   return (
-    <div
+    <main
+      id="main-content"
+      // The skip link moves the focus here
+      tabIndex={-1}
       className="page-wrapper low-prio-grow"
-      style={{
-        // We must set min-width to avoid layout overflow on mobile/desktop view.
-        // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
-        minWidth: 0,
-        ...ifDocPage({
-          backgroundColor: 'var(--color-bg-gray)',
-          paddingBottom: 50,
-        }),
-      }}
+      style={ifDocPage({ paddingBottom: 50 })}
     >
       <div
         className="page-content"
@@ -195,16 +267,11 @@ function PageContent({ children }: { children: React.ReactNode }) {
           }),
         }}
       >
-        {/* globalNote */}
-        {pageTitleParsed && !pageContext.resolved.pageDesign?.hideTitle && (
-          <div>
-            <EditLink className="show-only-on-desktop" style={{ float: 'right', marginTop: 15 }} />
-            <h1>{pageTitleParsed}</h1>
-          </div>
-        )}
+        {pageTitleParsed && !pageContext.resolved.pageDesign?.hideTitle && <PageHeader title={pageTitleParsed} />}
         {children}
+        {!isLandingPage && <PageFooter />}
       </div>
-    </div>
+    </main>
   )
 }
 
@@ -213,11 +280,13 @@ function NavLeft() {
   const { navItemsAll, navItemsDetached } = pageContext.resolved
   return (
     <>
-      <div
+      <Style>{getStyleNavLeft()}</Style>
+      <nav
         id="nav-left"
+        aria-label="Docs"
         className="link-hover-animation"
         style={{
-          borderRight: 'var(--block-margin) solid var(--color-bg-white)',
+          borderRight: 'var(--block-margin) solid var(--dp-color-border)',
           zIndex: 1,
           // We must set min-width to avoid layout overflow when the text of a navigation item exceeds the available width.
           // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926
@@ -230,13 +299,10 @@ function NavLeft() {
             top: 'var(--nav-head-sticky-offset)',
           }}
         >
-          <div
-            style={{
-              backgroundColor: 'var(--color-bg-gray)',
-            }}
-          >
+          <div>
             <div
               id="navigation-container"
+              className="scroll-fade"
               style={{
                 top: 0,
                 height: `calc(100vh - var(--nav-head-sticky-offset) - var(--block-margin))`,
@@ -256,10 +322,9 @@ function NavLeft() {
             </div>
           </div>
         </div>
-      </div>
+      </nav>
       {/* Early scrolling, to avoid flashing */}
       <script dangerouslySetInnerHTML={{ __html: autoScrollNav_SSR }}></script>
-      <Style>{getStyleNavLeft()}</Style>
     </>
   )
 }
@@ -288,36 +353,38 @@ function NavigationContent(props: {
     </div>
   )
 }
-
 function isNavLeftAlwaysHidden() {
   const pageContext = usePageContext()
   const { isLandingPage, navItemsDetached, pageDesign } = pageContext.resolved
   return isLandingPage || !!pageDesign?.hideMenuLeft || !!(navItemsDetached && navItemsDetached.length <= 1)
 }
 
-const menuLinkStyle: React.CSSProperties = {
-  height: '100%',
-  padding: '0 var(--padding-side)',
-  paddingTop: 2,
-  justifyContent: 'center',
-}
-
-function NavHead() {
+function NavHead({ hasCategoryTabs }: { hasCategoryTabs: boolean }) {
   const pageContext = usePageContext()
-  const { navMaxWidth, name, algolia } = pageContext.globalContext.config.docpress
-  const hideNavHeadLogo = pageContext.resolved.isLandingPage && !navMaxWidth
+  const {
+    navMaxWidth,
+    name,
+    algolia,
+    darkMode,
+    categoryTabs,
+    docsUrl: docsUrlSetting,
+    topNavigation,
+  } = pageContext.globalContext.config.docpress
+  const { isLandingPage } = pageContext.resolved
+  const hideNavHeadLogo = isLandingPage && !navMaxWidth
+  // With category tabs, the landing page's "Docs" is a link into the docs, where the tabs take over (on desktop)
+  const docsUrl =
+    categoryTabs && isLandingPage
+      ? (docsUrlSetting ?? pageContext.resolved.categories.flatMap((category) => category.pages)[0]?.url)
+      : undefined
+  // The category tabs without `topNavigation`: the search centered in the bar, "Docs" next to it on the landing page
+  // (the search doesn't move between the landing page and the docs)
+  const isSearchCentered = !!navMaxWidth && !!categoryTabs && !topNavigation && !!algolia
 
   const navHeadSecondary = (
-    <div
-      className="nav-head-secondary"
-      style={{
-        padding: 0,
-        display: 'flex',
-        height: '100%',
-      }}
-    >
-      {pageContext.globalContext.config.docpress.topNavigation}
-      <div className="desktop-grow" style={{ display: 'none' }} />
+    <div className="nav-head-secondary">
+      {topNavigation}
+      {navMaxWidth && <div className="desktop-grow" />}
       <ExternalLinks
         style={{
           display: 'inline-flex',
@@ -330,12 +397,13 @@ function NavHead() {
   )
 
   return (
-    <div
+    <nav
+      aria-label="Main"
       className={cls(['nav-head link-hover-animation', !!navMaxWidth && 'has-max-width'])}
       style={{
-        backgroundColor: 'var(--color-bg-gray)',
+        backgroundColor: 'var(--dp-color-bg)',
         position: 'relative',
-        boxShadow: `0 ${blockMargin}px 0 var(--color-bg-white)`,
+        boxShadow: barShadow,
       }}
     >
       <div
@@ -349,7 +417,7 @@ function NavHead() {
         }}
       >
         <div
-          className="nav-head-content"
+          className={cls(['nav-head-content', isSearchCentered && 'nav-head-content-search-centered'])}
           style={{
             width: '100%',
             // Top nav spans the doc-page width so its logo lines up with the sidebar (same width on landing).
@@ -357,95 +425,208 @@ function NavHead() {
             margin: 'auto',
             height: 'var(--nav-head-height)',
             fontSize: `min(14.2px, ${isProjectNameShort(name) ? '4.8cqw' : '4.5cqw'})`,
-            color: 'var(--dp-color-muted, #666)',
-            display: 'flex',
-            justifyContent: 'center',
+            color: 'var(--dp-color-muted)',
           }}
         >
           {!hideNavHeadLogo && <NavHeadLogo />}
-          <div className="desktop-grow" style={{ display: 'none' }} />
-          {algolia && <SearchLink className="always-shown" style={menuLinkStyle} />}
-          <MenuToggleMain className="always-shown nav-head-menu-toggle" style={menuLinkStyle} />
+          {navMaxWidth && !isSearchCentered && <div className="desktop-grow" />}
+          {algolia && <SearchLink />}
+          {/* On desktop, it's in <ExternalLinks> */}
+          {darkMode && <ThemeToggle className="icon-button nav-head-theme-toggle" />}
+          {docsUrl && <DocsLink href={docsUrl} />}
+          {/* On desktop, the category tabs (doc pages) or the "Docs" link (landing page) replace the "Docs" menu */}
+          <MenuToggleMain
+            className={cls(['nav-head-menu-toggle', (hasCategoryTabs || !!docsUrl) && 'show-only-on-mobile'])}
+          />
           {navHeadSecondary}
         </div>
       </div>
-    </div>
+    </nav>
   )
 }
 function getStyleLayout() {
   let style = ''
 
+  // The top bar
+  style += css`
+.nav-head-content {
+  display: flex;
+}
+.nav-head-logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: var(--padding-side);
+  color: inherit;
+}
+.nav-head-docs-link {
+  height: 100%;
+  align-items: center;
+  color: inherit;
+}
+.nav-head-content > :is(.search-link, .nav-head-docs-link) {
+  justify-content: center;
+}
+.nav-head-secondary {
+  height: 100%;
+  /* The site's own top nav links (\`topNavigation\`) don't wrap */
+  white-space: nowrap;
+}
+/* The logo lines up with the left navigation's text (also on pages without it: the logo doesn't move between pages) */
+@container container-viewport (width < ${viewDesktop}px) {
+  .nav-head-logo {
+    padding-left: var(--main-view-padding);
+  }
+}
+@container container-viewport (width >= ${viewDesktop}px) {
+  .nav-head-logo {
+    padding-left: var(--nav-indent);
+  }
+}`
+
   // Mobile
   style += css`
-@media(max-width: ${viewMobile}px) {
-  .nav-head {
-    .nav-head-menu-toggle {
-      justify-content: flex-end !important;
-      padding-right: var(--main-view-padding) !important;
-    }
-    .nav-head-content {
-      --icon-text-padding: min(8px, 1.3cqw);
-      & > * {
-        flex-grow: 1;
-      }
-    }
+@media (width <= ${viewMobile}px) {
+  .nav-head-content {
+    --icon-text-padding: min(8px, 1.3cqw);
+    justify-content: flex-end;
+  }
+  /* The items share the width. With the theme toggle (four items): the logo on the left, the others grouped on the
+     right, evenly spaced. */
+  .nav-head-content:not(:has(> .nav-head-theme-toggle)) > * {
+    flex-grow: 1;
+  }
+  .nav-head-content:has(> .nav-head-theme-toggle) > .nav-head-logo {
+    flex-grow: 1;
+  }
+  .nav-head .nav-head-menu-toggle {
+    justify-content: flex-end;
+    padding: 0 var(--main-view-padding) 0 0;
+  }
+  .nav-head-theme-toggle {
+    margin-inline: 6px;
+  }
+}
+@media (width > ${viewMobile}px) {
+  .nav-head-content {
+    justify-content: center;
+  }
+  .nav-head-content > :is(.search-link, .nav-head-docs-link) {
+    padding: 0 var(--padding-side);
   }
 }`
 
   // Mobile + tablet
   style += css`
-@media(max-width: ${viewTablet}px) {
-  .nav-head {
-    .nav-head-secondary {
-      display: none !important;
+@media (width <= ${viewTablet}px) {
+  .nav-head-secondary,
+  .nav-head-docs-link,
+  .desktop-grow,
+  .text-docs,
+  .caret-icon,
+  .category-tabs {
+    display: none;
+  }
+  /* The ring hugs the icon and the label (the cell is tight here) */
+  .nav-head-menu-toggle:focus-visible {
+    outline: none;
+    .text-menu {
+      outline: 2px solid var(--dp-color-primary);
+      outline-offset: 4px;
+      border-radius: var(--dp-radius-sm);
     }
+  }
+  .nav-head-theme-toggle {
+    align-self: center;
+    /* Same line as its neighbors */
+    margin-top: 2px;
   }
 }`
 
   // Tablet
   style += css`
-@media(max-width: ${viewTablet}px) and (min-width: ${viewMobile + 1}px) {
-  .nav-head {
-    .nav-head-content {
-      --icon-text-padding: 8px;
-      --padding-side: 20px;
-    }
+@media (${viewMobile}px < width <= ${viewTablet}px) {
+  .nav-head-content {
+    --icon-text-padding: 8px;
+    --padding-side: 20px;
   }
 }`
 
   // Desktop small + desktop
   style += css`
-@media(min-width: ${viewTablet + 1}px) {
-  .nav-head {
-    .nav-head-content {
-      --icon-text-padding: min(8px, 0.5cqw);
-      --padding-side: min(20px, 1.2cqw);
+@media (width > ${viewTablet}px) {
+  .nav-head-content {
+    --icon-text-padding: min(8px, 0.5cqw);
+    --padding-side: min(20px, 1.2cqw);
+  }
+  .nav-head-secondary,
+  .nav-head-docs-link,
+  .text-docs {
+    display: flex;
+  }
+  .text-menu,
+  .nav-head .nav-head-theme-toggle,
+  .show-only-on-mobile {
+    display: none;
+  }
+  .desktop-grow,
+  .has-max-width .nav-head-secondary {
+    flex-grow: 1;
+  }
+  /* Category tabs (\`categoryTabs\`) */
+  .has-category-tabs {
+    --nav-tabs-height: 44px;
+  }
+  .nav-head-content-search-centered {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    & > .nav-head-logo {
+      justify-self: start;
     }
-    &.has-max-width {
-      .desktop-grow {
-        display: block !important;
-      }
-      .desktop-grow,
-      .nav-head-secondary {
-        flex-grow: 1;
-      }
+    /* "Docs" and the links share the last cell */
+    & > .nav-head-docs-link {
+      grid-area: 1 / 3;
+      justify-self: start;
+    }
+    & > .nav-head-secondary {
+      grid-area: 1 / 3;
+      justify-self: end;
     }
   }
+}`
+
+  // The page's width. (Doc pages with the "On this page" rail: see LayoutDocsPage().)
+  style += css`
+@media (width <= ${viewTablet}px) {
+  /* https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container/66689926#66689926 */
   .page-wrapper {
-    min-width: ${mainViewWidthMax}px !important;
+    min-width: 0;
   }
 }
-`
+${
+  isNavLeftAlwaysHidden()
+    ? css`
+@media (width > ${viewTablet}px) {
+  .page-wrapper {
+    min-width: ${mainViewWidthMax}px;
+  }
+}`
+    : css`
+@media (width > ${viewTablet}px) {
+  @container container-viewport (width < ${viewTocRail}px) {
+    .page-wrapper {
+      min-width: ${mainViewWidthMax}px;
+    }
+  }
+}`
+}`
 
   // Desktop
   if (!isNavLeftAlwaysHidden()) {
     style += css`
-@container container-viewport (max-width: ${viewDesktop - 1}px) {
+@container container-viewport (width < ${viewDesktop}px) {
   #nav-left, #nav-left-margin {
     display: none;
-  }
-  body {
-    --main-view-padding: 10px !important;
   }
   ${getStyleNavLeftHidden()}
 }
@@ -460,23 +641,11 @@ function getStyleNavLeftHidden() {
   return css`
 .page-wrapper {
   flex-grow: 1;
-  align-items: center;
 }
 .page-content {
   margin: auto;
 }
-#menu-modal-wrapper {
-  position: absolute !important;
-}
 `
-}
-
-function unexpandNav() {
-  document.documentElement.classList.add('unexpand-nav')
-  // Using setTimeout() because requestAnimationFrame() doesn't delay enough
-  setTimeout(() => {
-    document.documentElement.classList.remove('unexpand-nav')
-  }, 1000)
 }
 
 function NavHeadLogo() {
@@ -491,6 +660,7 @@ function NavHeadLogo() {
       <>
         <img
           src={logo}
+          alt=""
           style={{
             height: iconSize,
             width: iconSize,
@@ -512,19 +682,7 @@ function NavHeadLogo() {
   }
 
   return (
-    <a
-      className="nav-head-logo"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '100%',
-        color: 'inherit',
-        paddingLeft: 'var(--main-view-padding)',
-        paddingRight: 'var(--padding-side)',
-      }}
-      href="/"
-      onContextMenu={!navLogo ? undefined : onContextMenu}
-    >
+    <a className="nav-head-logo" href="/" onContextMenu={!navLogo ? undefined : onContextMenu}>
       {navLogoResolved}
     </a>
   )
@@ -541,28 +699,27 @@ function isProjectNameShort(name: string) {
   return name.length <= 4
 }
 
+// "Docs", linking to the docs' first page (instead of opening the Docs menu), see NavHead()
+function DocsLink({ href }: { href: string }) {
+  return (
+    <a href={href} className="colorize-on-hover nav-head-docs-link">
+      <span className="text-docs">
+        <DocsIcon /> Docs
+      </span>
+    </a>
+  )
+}
+
 type PropsDiv = React.HTMLProps<HTMLDivElement>
 function MenuToggleMain(props: PropsDiv) {
   return (
     <MenuToggle menuId={0} {...props}>
-      <span className="text-docs" style={{ display: 'flex' }}>
+      <span className="text-docs">
         <DocsIcon /> Docs
       </span>
       <span className="text-menu">
         <MenuIcon /> Menu
       </span>
-      <Style>{css`
-@media(max-width: ${viewTablet}px) {
-  .text-docs, .caret-icon {
-    display: none !important;
-  }
-}
-@media(min-width: ${viewTablet + 1}px) {
-  .text-menu {
-    display: none;
-  }
-}
-`}</Style>
     </MenuToggle>
   )
 }
@@ -570,17 +727,17 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
   return (
     <div
       {...props}
-      style={{
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        userSelect: 'none',
-        ...menuLinkStyle,
-        ...props.style,
-      }}
       className={[`colorize-on-hover menu-toggle menu-toggle-${menuId}`, props.className].filter(Boolean).join(' ')}
+      role="button"
+      tabIndex={0}
+      aria-expanded={false}
+      aria-controls="menu-modal-wrapper"
       onClick={(ev) => {
+        ev.preventDefault()
+        toggleMenuModal(menuId)
+      }}
+      onKeyDown={(ev) => {
+        if (ev.key !== 'Enter' && ev.key !== ' ') return
         ev.preventDefault()
         toggleMenuModal(menuId)
       }}
@@ -592,59 +749,19 @@ function MenuToggle({ menuId, ...props }: PropsDiv & { menuId: number }) {
       }}
       onTouchStart={ignoreHoverOnTouchStart}
     >
-      <Style>{getAnimation()}</Style>
       {props.children}
       <CaretIcon
         style={{
           width: 11,
           marginLeft: 'calc(var(--icon-text-padding) - 1px)',
           flexShrink: 0,
-          color: 'var(--dp-color-muted, #888)',
+          color: 'var(--dp-color-subtle)',
           position: 'relative',
           top: 1,
         }}
       />
     </div>
   )
-
-  function getAnimation() {
-    return css`
-.menu-toggle {
-  position: relative;
-  overflow: hidden;
-  z-index: 0;
-  @media (hover: hover) and (pointer: fine) {
-    .link-hover-animation &:hover::before {
-      top: 0;
-    }
-    html.menu-modal-show & {
-      cursor: default !important;
-    }
-  }
-  &::before {
-    position: absolute;
-    content: '';
-    height: 100%;
-    width: 100%;
-    top: var(--nav-head-height);
-    background-color: var(--color-active);
-    transition-property: top !important;
-    transition: top 0.4s ease !important;
-    z-index: -1;
-  }
-  & .caret-icon-left,
-  & .caret-icon-right {
-    transition: transform .4s cubic-bezier(.4,0, .2, 1);
-  }
-  & .caret-icon-left {
-    transform-origin: 25% 50%;
-  }
-  & .caret-icon-right {
-    transform-origin: 75% 50%;
-  }
-}
-    `
-  }
 }
 function CaretIcon({ style }: { style: React.CSSProperties }) {
   return (
@@ -678,6 +795,7 @@ function DocsIcon() {
   return (
     <img
       src={iconBooks}
+      alt=""
       width={18}
       style={{ marginRight: 'calc(var(--icon-text-padding) + 2px)', position: 'relative', top: 2 }}
       className="decolorize-5"

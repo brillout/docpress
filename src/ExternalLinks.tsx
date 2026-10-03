@@ -75,7 +75,7 @@ function LinkIcon({
       className="icon-button scale-on-press"
       href={href}
       aria-label={label}
-      style={{ ['--icon' as string]: `url("${icon}")`, ['--icon-brand-color' as string]: brandColor }}
+      style={{ '--icon': `url("${icon}")`, '--icon-brand-color': brandColor }}
     >
       <span className="icon-button-glyph" />
     </a>

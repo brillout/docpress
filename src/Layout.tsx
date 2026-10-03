@@ -125,7 +125,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </a>
       <div className={isLandingPage ? 'landing-page' : 'doc-page'} style={whitespaceBuster1}>
         <header style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}>
-          <NavHead />
+          <NavHead hasCategoryTabs={hasCategoryTabs} />
           {hasCategoryTabs && <CategoryTabs />}
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
@@ -359,7 +359,7 @@ function isNavLeftAlwaysHidden() {
   return isLandingPage || !!pageDesign?.hideMenuLeft || !!(navItemsDetached && navItemsDetached.length <= 1)
 }
 
-function NavHead() {
+function NavHead({ hasCategoryTabs }: { hasCategoryTabs: boolean }) {
   const pageContext = usePageContext()
   const {
     navMaxWidth,
@@ -377,7 +377,6 @@ function NavHead() {
     categoryTabs && isLandingPage
       ? (docsUrlSetting ?? pageContext.resolved.categories.flatMap((category) => category.pages)[0]?.url)
       : undefined
-  const hasCategoryTabs = !!categoryTabs && !isLandingPage
   // The category tabs without `topNavigation`: the search centered in the bar, "Docs" next to it on the landing page
   // (the search doesn't move between the landing page and the docs)
   const isSearchCentered = !!navMaxWidth && !!categoryTabs && !topNavigation && !!algolia

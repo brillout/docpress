@@ -27,7 +27,7 @@ function CategoryTabs() {
                 href={pages[0].url}
                 className={cls(['category-tab', isCurrent && 'is-current'])}
                 aria-current={isCurrent ? 'true' : undefined}
-                style={{ ['--color-category' as string]: color }}
+                style={{ '--color-category': color }}
               >
                 {titleIcon && <img src={titleIcon} alt="" className="category-tab-icon" />}
                 {parseMarkdownMini(title)}

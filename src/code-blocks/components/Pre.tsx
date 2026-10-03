@@ -19,6 +19,7 @@ const classAdded = [
 ].join(' ')
 
 type AdditionalProps = {
+  'data-language'?: string
   'hide-menu'?: string
   'file-added'?: string
   'file-removed'?: string
@@ -26,8 +27,8 @@ type AdditionalProps = {
 
 function Pre({ children, ...props }: React.ComponentPropsWithoutRef<'pre'> & AdditionalProps) {
   const { className, ...rest } = props
-  const language = (props as Record<string, unknown>)['data-language']
-  const languageLabel = typeof language === 'string' ? getLanguageLabel(language) : null
+  const language = props['data-language']
+  const languageLabel = language ? getLanguageLabel(language) : null
   // The language header is doc pages' chrome: on a landing page, a code block keeps the site's layout
   const { isLandingPage } = usePageContext().resolved
 

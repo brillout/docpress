@@ -64,7 +64,7 @@ function DocsOverview({
                   key={link.href}
                   href={link.href}
                   className="docs-overview-link docs-overview-start-card"
-                  style={{ ['--color-category' as string]: found?.category.color }}
+                  style={{ '--color-category': found?.category.color }}
                 >
                   {found?.category.titleIcon && <CategoryIcon src={found.category.titleIcon} />}
                   <span className="docs-overview-start-text">
@@ -84,7 +84,7 @@ function DocsOverview({
         {title && <h2 className="docs-overview-heading">Browse the docs</h2>}
         <div className="docs-overview-grid">
           {browse.map(({ title, titleIcon, color, description, pages }, i) => (
-            <div key={i} className="docs-overview-card" style={{ ['--color-category' as string]: color }}>
+            <div key={i} className="docs-overview-card" style={{ '--color-category': color }}>
               <a href={pages[0]!.url} className="docs-overview-link docs-overview-card-head">
                 {titleIcon && <CategoryIcon src={titleIcon} />}
                 <span className="docs-overview-card-title">{parseMarkdownMini(title)}</span>

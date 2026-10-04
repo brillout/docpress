@@ -54,9 +54,6 @@
     border-radius: var(--dp-radius-md);
     color: var(--dp-color-text);
     z-index: 1;
-    /* Atlernative: https://stackoverflow.com/questions/30086913/css-positioned-absolute-element-automatic-width-outside-of-parents-bounds/57379329#57379329
-    width: max-content;
-    */
     white-space: nowrap;
   }
   /* The right-most items (the top nav's, the menu's close button): aligned to the right, so that the tooltip doesn't

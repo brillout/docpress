@@ -12,9 +12,6 @@ export { closeMenuModalOnMouseLeaveToggle }
 import { viewTablet } from '../Layout.js'
 import { getHydrationPromise } from '../renderer/getHydrationPromise.js'
 
-function openMenuModal(menuNavigationId: number) {
-  open(menuNavigationId)
-}
 async function open(menuNavigationId?: number) {
   if (toggleLock) {
     if (menuNavigationId === undefined) {
@@ -173,7 +170,7 @@ function closeMenuModalOnMouseLeaveToggle(menuId: number) {
     if (idNext === undefined) {
       closeMenuModal()
     } else {
-      openMenuModal(idNext)
+      open(idNext)
     }
   }
 }
@@ -200,7 +197,7 @@ function toggleMenuModal(menuId: number) {
   if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuId}`)) {
     closeMenuModal()
   } else {
-    openMenuModal(menuId)
+    open(menuId)
     if (isMobileNav()) autoScroll()
   }
 }
@@ -248,7 +245,7 @@ function ignoreHoverOnTouchStart() {
 }
 function openMenuModalOnMouseEnter(menuId: number) {
   if (ignoreHover()) return
-  openMenuModal(menuId)
+  open(menuId)
 }
 function ignoreHover() {
   return isTouchStart || isMobileNav()

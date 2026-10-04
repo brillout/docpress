@@ -3,7 +3,7 @@ export { MenuModal }
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
 import { css } from './utils/css.js'
-import { bodyMaxWidth, viewDesktop, viewTablet, viewMobile, scrollFadeMask } from './Layout.js'
+import { viewDesktop, viewTablet, viewMobile, scrollFadeMask } from './Layout.js'
 import { menuPaddingX } from './MenuModal/NavigationWithColumnLayout.js'
 import { ExternalLinks } from './ExternalLinks.js'
 import { Style } from './utils/Style.js'
@@ -15,14 +15,14 @@ import {
 } from './MenuModal/toggleMenuModal.js'
 import { EditLink } from './EditLink.js'
 
-function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean }) {
+function MenuModal() {
+  const pageContext = usePageContext()
   return (
     <>
       <Style>{getStyle()}</Style>
       <div
         id="menu-modal-wrapper"
         className="link-hover-animation"
-        style={{ maxWidth: isNavLeftAlwaysHidden_ ? undefined : bodyMaxWidth }}
         onMouseOver={keepMenuModalOpenOnMouseOver}
         onMouseLeave={closeMenuModalOnMouseLeave}
       >
@@ -35,12 +35,12 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
             overflowX: 'hidden',
             // Not \`scroll\`: it shows a classic scrollbar (arrows included) also when there's nothing to scroll
             overflowY: 'auto',
-            // We don't set `container` to the parent #menu-modal-wrapper beacuse of a Chrome bug (showing a blank <MenuModal>)
+            // We don't set `container` to the parent #menu-modal-wrapper because of a Chrome bug (showing a blank <MenuModal>)
             container: 'container-viewport / inline-size',
             ...scrollFadeMask,
           }}
         >
-          <Nav />
+          <NavigationWithColumnLayout navItems={pageContext.resolved.navItemsAll} />
           <div className="show-only-on-mobile">
             <div
               style={{
@@ -55,7 +55,6 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
               }}
             >
               <EditLink className="menu-edit-link">Edit this page</EditLink>
@@ -66,12 +65,6 @@ function MenuModal({ isNavLeftAlwaysHidden_ }: { isNavLeftAlwaysHidden_: boolean
     </>
   )
 }
-function Nav() {
-  const pageContext = usePageContext()
-  const navItems = pageContext.resolved.navItemsAll
-  return <NavigationWithColumnLayout navItems={navItems} />
-}
-
 function getStyle() {
   return css`
 .menu-edit-link {

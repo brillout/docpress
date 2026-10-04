@@ -3,12 +3,13 @@
   position: relative;
 }
 .collapsible-icon {
+  display: none;
   position: absolute;
   right: -16px;
-  top: calc(100% / 2 - 5px);
+  top: calc(50% - 5px);
   transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
-  :not(.collapsible-head) > .nav-item > & {
-    display: none;
+  .collapsible-head > .nav-item > & {
+    display: block;
   }
   .collapsible-collapsed & {
     transform: rotate(-90deg);

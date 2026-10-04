@@ -123,7 +123,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           <NavHead hasCategoryTabs={hasCategoryTabs} />
           {hasCategoryTabs && <CategoryTabs />}
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
-          <MenuModal isNavLeftAlwaysHidden_={isNavLeftAlwaysHidden_} />
+          <MenuModal />
         </header>
         {content}
       </div>
@@ -334,7 +334,9 @@ function NavigationContent(props: {
 
   return (
     <div className="navigation-content" style={{ marginTop: 10 }}>
-      {navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)}
+      {navItemsRelevant.map((navItem, i) => (
+        <NavItemComponent navItem={navItem} key={i} />
+      ))}
     </div>
   )
 }

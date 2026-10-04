@@ -25,7 +25,7 @@ function Collapsible({
   const onClick = () => {
     setIsAnimating(true)
     if (!collapsed) {
-      // If expanding, set height to current scroll height before animation
+      // If collapsing, set height to current scroll height before animation
       contentRef.current!.style.height = `${contentRef.current!.scrollHeight}px`
       // Force a reflow
       contentRef.current!.offsetHeight

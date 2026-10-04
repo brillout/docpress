@@ -24,11 +24,13 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
   let [viewportWidth, setViewportWidth] = useState<number | undefined>()
-  const updateviewportwidth = () => setViewportWidth(getViewportWidth())
+  const updateViewportWidth = () => setViewportWidth(getViewportWidth())
   useEffect(() => {
-    updateviewportwidth()
-    window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
-  })
+    updateViewportWidth()
+    const onResize = throttle(updateViewportWidth, 300)
+    window.addEventListener('resize', onResize, { passive: true })
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
   const availableWidth = viewportWidth && Math.min(viewportWidth, bodyMaxWidth)
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, availableWidth)
   const columnWidthBase = navLeftWidthMax + 20
@@ -46,26 +48,24 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
             key={i}
           >
             {columnLayout.isFullWidthCategory ? (
-              <div style={{ marginTop: 0 }}>
-                <div className="columns-wrapper">
-                  <Collapsible
-                    head={<NavItemComponent navItem={columnLayout.navItemLevel1} />}
-                    disabled={maxColumns > 1}
-                    collapsedInit={!columnLayout.navItemLevel1.isRelevant}
-                    marginBottomOnExpand={marginBottomOnExpand}
-                  >
-                    <div className="menu-columns collapsible">
-                      {columnLayout.columns.map((column, j) => (
-                        <div key={j} className="menu-column">
-                          {column.navItems.map((navItem, k) => (
-                            <NavItemComponent key={k} navItem={navItem} />
-                          ))}
-                        </div>
-                      ))}
-                      <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
-                    </div>
-                  </Collapsible>
-                </div>
+              <div className="columns-wrapper">
+                <Collapsible
+                  head={<NavItemComponent navItem={columnLayout.navItemLevel1} />}
+                  disabled={maxColumns > 1}
+                  collapsedInit={!columnLayout.navItemLevel1.isRelevant}
+                  marginBottomOnExpand={marginBottomOnExpand}
+                >
+                  <div className="menu-columns collapsible">
+                    {columnLayout.columns.map((column, j) => (
+                      <div key={j} className="menu-column">
+                        {column.navItems.map((navItem, k) => (
+                          <NavItemComponent key={k} navItem={navItem} />
+                        ))}
+                      </div>
+                    ))}
+                    <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
+                  </div>
+                </Collapsible>
               </div>
             ) : (
               <div className="columns-wrapper">
@@ -73,19 +73,18 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
                   {columnLayout.columns.map((column, j) => (
                     <div key={j} className="menu-column">
                       {column.categories.map((category, k) => (
-                        <div key={k} style={{ marginBottom: 0 }}>
-                          <Collapsible
-                            head={<NavItemComponent navItem={category.navItemLevel1} />}
-                            disabled={maxColumns > 1}
-                            collapsedInit={!category.navItemLevel1.isRelevant}
-                            marginBottomOnExpand={marginBottomOnExpand}
-                          >
-                            {category.navItems.map((navItem, l) => (
-                              <NavItemComponent key={l} navItem={navItem} />
-                            ))}
-                            <CategoryBorder navItemLevel1={category.navItemLevel1} />
-                          </Collapsible>
-                        </div>
+                        <Collapsible
+                          key={k}
+                          head={<NavItemComponent navItem={category.navItemLevel1} />}
+                          disabled={maxColumns > 1}
+                          collapsedInit={!category.navItemLevel1.isRelevant}
+                          marginBottomOnExpand={marginBottomOnExpand}
+                        >
+                          {category.navItems.map((navItem, l) => (
+                            <NavItemComponent key={l} navItem={navItem} />
+                          ))}
+                          <CategoryBorder navItemLevel1={category.navItemLevel1} />
+                        </Collapsible>
                       ))}
                     </div>
                   ))}

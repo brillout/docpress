@@ -33,14 +33,11 @@ function resolvePageContext(pageContext: PageContextServer) {
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []
 
-  {
-    const { headings, headingsDetached } = config
-    assertHeadingsDefinition([...headings, ...headingsDetached])
-  }
+  assertHeadingsDefinition([...config.headings, ...config.headingsDetached])
 
   const ret = getHeadingsResolved(config)
   const { headingsDetachedResolved } = ret
-  let { headingsResolved } = ret
+  const { headingsResolved } = ret
 
   const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,

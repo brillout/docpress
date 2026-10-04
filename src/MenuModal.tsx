@@ -42,15 +42,7 @@ function MenuModal() {
         >
           <NavigationWithColumnLayout navItems={pageContext.resolved.navItemsAll} />
           <div className="show-only-on-mobile">
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: 10,
-              }}
-            >
-              <ExternalLinks style={{ height: 50 }} withThemeToggle={false} />
-            </div>
+            <ExternalLinks style={{ height: 50, marginTop: 10, justifyContent: 'center' }} withThemeToggle={false} />
             <div
               style={{
                 display: 'flex',

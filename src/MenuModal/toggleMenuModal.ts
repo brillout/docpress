@@ -208,7 +208,7 @@ function autoScroll() {
   const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
   const navLink = navLinks[0] as HTMLElement | undefined
   if (!navLink) return
-  // None of the following seemes to be working: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
+  // None of the following seems to be working: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
   if (findCollapsibleEl(navLink)!.classList.contains('collapsible-collapsed')) return
   navLink.scrollIntoView({
     behavior: 'instant',

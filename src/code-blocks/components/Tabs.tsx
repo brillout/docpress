@@ -8,7 +8,7 @@ import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
 
-function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
+function Tabs({ choice, hide = [] }: { choice: string; hide?: string[] }) {
   const radioId = useId()
   const groupName = choice
   const pageContext = usePageContext()

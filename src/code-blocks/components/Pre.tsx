@@ -4,19 +4,8 @@ import React from 'react'
 import { cls } from '../../utils/cls.js'
 import { useCopy, CopyAnnouncement } from '../../utils/useCopy.js'
 import { usePageContext } from '../../renderer/usePageContext.js'
+import { classAdded, classRemoved } from '../../components/FileRemoved.js'
 import './Pre.css'
-
-// Styling defined in src/css/code/diff.css
-const classRemoved = [
-  //
-  'diff-entire-file',
-  'diff-entire-file-removed',
-].join(' ')
-const classAdded = [
-  //
-  'diff-entire-file',
-  'diff-entire-file-added',
-].join(' ')
 
 type AdditionalProps = {
   'data-language'?: string

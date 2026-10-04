@@ -10,12 +10,12 @@ type ThemePreference = 'light' | 'dark' | 'system'
 // - The toggle's icon is picked by CSS from the `dark` class, so the server-rendered HTML doesn't depend on the theme (no hydration mismatch).
 const applyTheme_SSR = `applyTheme();${applyTheme.toString()}`
 // `preferenceInMemory`: the user's pick when it couldn't be persisted (e.g. storage disabled or full)
-function applyTheme(preferenceInMemory?: string) {
-  let preference = preferenceInMemory || 'system'
-  if (!preferenceInMemory) {
-    try {
-      preference = localStorage.getItem('docpress:theme') || 'system'
-    } catch {}
+function applyTheme(preferenceInMemory?: ThemePreference) {
+  let preference: string
+  try {
+    preference = preferenceInMemory || localStorage.getItem('docpress:theme') || 'system'
+  } catch {
+    preference = preferenceInMemory || 'system'
   }
   const isDark =
     preference === 'dark' || (preference !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)

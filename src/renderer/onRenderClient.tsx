@@ -9,6 +9,7 @@ import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav.js'
 import { installSectionUrlHashs } from '../installSectionUrlHashs.js'
 import { getGlobalObject } from '../utils/client.js'
+import { genPromise } from '../utils/genPromise.js'
 import { initKeyBindings, initInputModality } from '../initKeyBindings.js'
 import { initOnNavigation } from './initOnNavigation.js'
 import { setHydrationIsFinished } from './getHydrationPromise.js'
@@ -33,10 +34,7 @@ initMenuModalCloseListeners()
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()
 
-  let renderPromiseResolve!: () => void
-  const renderPromise = new Promise<void>((r) => {
-    renderPromiseResolve = r
-  })
+  const { promise: renderPromise, resolve: renderPromiseResolve } = genPromise()
   let page = getPageElement(pageContext)
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
 

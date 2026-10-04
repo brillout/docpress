@@ -23,12 +23,7 @@ function Tabs({ choice, hide = [] }: { choice: string; hide?: string[] }) {
 
   return (
     <div className="choice-tabs">
-      <div
-        id={`choicesFor-${groupName}`}
-        className="choice-tabs__tab-list"
-        role="radiogroup"
-        data-choice-group={groupName}
-      >
+      <div className="choice-tabs__tab-list" role="radiogroup" data-choice-group={groupName}>
         {choices.map(({ name: choice, icon, iconMono, iconStyle, iconStyleTab }) => (
           <label
             key={choice}

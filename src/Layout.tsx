@@ -525,8 +525,6 @@ function getStyleLayout() {
   }
   .nav-head-theme-toggle {
     align-self: center;
-    /* Same line as its neighbors */
-    margin-top: 2px;
   }
 }`
 

@@ -114,9 +114,9 @@ body {
   --dp-color-code-ring: rgb(255 255 255 / 6%);
   --dp-color-code-tray: #0c0d10;
   --dp-color-code-inline-bg: rgb(255 255 255 / 7%);
-  --dp-color-code-highlight: rgba(255, 255, 255, 0.08);
-  --dp-color-diff-add-bg: rgba(46, 160, 67, 0.15);
-  --dp-color-diff-remove-bg: rgba(248, 81, 73, 0.2);
+  --dp-color-code-highlight: rgb(255 255 255 / 8%);
+  --dp-color-diff-add-bg: rgb(46 160 67 / 15%);
+  --dp-color-diff-remove-bg: rgb(248 81 73 / 20%);
   --dp-color-diff-add: #3fb950;
   --dp-color-diff-remove: #f85149;
 

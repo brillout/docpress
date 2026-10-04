@@ -7,20 +7,12 @@ function Page() {
   return (
     <>
       <Block>
-        <Header />
+        <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>Next Generation Docs</h1>
         <p>This demo is used for testing and developing DocPress.</p>
         <LoremIpsum />
         <LoremIpsum />
         <div style={{ height: 30 }} />
       </Block>
-    </>
-  )
-}
-
-function Header() {
-  return (
-    <>
-      <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>Next Generation Docs</h1>
     </>
   )
 }

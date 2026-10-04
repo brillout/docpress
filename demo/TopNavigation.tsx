@@ -3,6 +3,14 @@ export { TopNavigation }
 import { iconGear, iconSeedling, iconLoudspeaker, iconCoin, MenuToggle } from '@brillout/docpress'
 import React from 'react'
 
+const linkStyle: React.CSSProperties = {
+  color: 'inherit',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 var(--padding-side)',
+}
+
 function TopNavigation() {
   return (
     <>
@@ -16,18 +24,7 @@ function TopNavigation() {
         />{' '}
         API
       </MenuToggle>
-      <a
-        className="colorize-on-hover"
-        href="/features"
-        style={{
-          color: 'inherit',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          padding: '0 var(--padding-side)',
-        }}
-      >
+      <a className="colorize-on-hover" href="/features" style={linkStyle}>
         <img
           alt=""
           src={iconSeedling}
@@ -47,18 +44,7 @@ function TopNavigation() {
         />
         Blog
       </MenuToggle>
-      <a
-        className="colorize-on-hover"
-        href="/pricing"
-        style={{
-          color: 'inherit',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          padding: '0 var(--padding-side)',
-        }}
-      >
+      <a className="colorize-on-hover" href="/pricing" style={linkStyle}>
         <img
           alt=""
           src={iconCoin}

@@ -19,7 +19,7 @@ function TopNavigation() {
           alt=""
           src={iconGear}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative' }}
           className="decolorize-8"
         />{' '}
         API
@@ -29,7 +29,7 @@ function TopNavigation() {
           alt=""
           src={iconSeedling}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative' }}
           className="decolorize-8"
         />
         Get Started
@@ -39,7 +39,7 @@ function TopNavigation() {
           alt=""
           src={iconLoudspeaker}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative' }}
           className="decolorize-5"
         />
         Blog
@@ -49,7 +49,7 @@ function TopNavigation() {
           alt=""
           src={iconCoin}
           width={19}
-          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative' }}
           className="decolorize-8"
         />
         Pricing

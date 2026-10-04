@@ -8,7 +8,7 @@ function initKeyBindings() {
   window.addEventListener(
     'keydown',
     (ev) => {
-      const key = (ev.key || '').toLowerCase()
+      const key = ev.key.toLowerCase()
 
       if (key === 'escape') {
         closeDocsearchModal()

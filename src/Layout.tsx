@@ -86,12 +86,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const { isLandingPage, pageDesign } = pageContext.resolved
   const isTopNavSticky = !isLandingPage && (pageDesign?.topNavSticky ?? true)
 
-  let content: React.JSX.Element
-  if (isLandingPage) {
-    content = <LayoutLandingPage>{children}</LayoutLandingPage>
-  } else {
-    content = <LayoutDocsPage>{children}</LayoutDocsPage>
-  }
+  const content = isLandingPage ? <PageContent>{children}</PageContent> : <LayoutDocsPage>{children}</LayoutDocsPage>
 
   const isNavLeftAlwaysHidden_ = isNavLeftAlwaysHidden()
   const hasCategoryTabs = !!pageContext.globalContext.config.docpress.categoryTabs && !isLandingPage
@@ -235,14 +230,6 @@ ${
     </>
   )
 }
-function LayoutLandingPage({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <PageContent>{children}</PageContent>
-    </>
-  )
-}
-
 function PageContent({ children }: { children: React.ReactNode }) {
   const pageContext = usePageContext()
   const { isLandingPage, pageTitle } = pageContext.resolved
@@ -299,27 +286,25 @@ function NavLeft() {
             top: 'var(--nav-head-sticky-offset)',
           }}
         >
-          <div>
-            <div
-              id="navigation-container"
-              className="scroll-fade"
-              style={{
-                top: 0,
-                height: `calc(100vh - var(--nav-head-sticky-offset) - var(--block-margin))`,
-                overflowY: 'auto',
-                overscrollBehavior: 'contain',
-                paddingBottom: 40,
-                minWidth: navLeftWidthMin,
-                width: '100%',
-                ...scrollFadeMask,
-              }}
-            >
-              {navItemsDetached ? (
-                <NavigationContent navItems={navItemsDetached} />
-              ) : (
-                <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
-              )}
-            </div>
+          <div
+            id="navigation-container"
+            className="scroll-fade"
+            style={{
+              top: 0,
+              height: `calc(100vh - var(--nav-head-sticky-offset) - var(--block-margin))`,
+              overflowY: 'auto',
+              overscrollBehavior: 'contain',
+              paddingBottom: 40,
+              minWidth: navLeftWidthMin,
+              width: '100%',
+              ...scrollFadeMask,
+            }}
+          >
+            {navItemsDetached ? (
+              <NavigationContent navItems={navItemsDetached} />
+            ) : (
+              <NavigationContent navItems={navItemsAll} showOnlyRelevant={true} />
+            )}
           </div>
         </div>
       </nav>
@@ -343,13 +328,13 @@ function NavigationContent(props: {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
 
-  let navItemsRelevant = navItemsWithComputed
-  if (props.showOnlyRelevant) navItemsRelevant = navItemsRelevant.filter((navItemGroup) => navItemGroup.isRelevant)
-  const navContent = navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)
+  const navItemsRelevant = props.showOnlyRelevant
+    ? navItemsWithComputed.filter((navItemGroup) => navItemGroup.isRelevant)
+    : navItemsWithComputed
 
   return (
     <div className="navigation-content" style={{ marginTop: 10 }}>
-      {navContent}
+      {navItemsRelevant.map((navItem, i) => <NavItemComponent navItem={navItem} key={i} />)}
     </div>
   )
 }
@@ -803,6 +788,7 @@ function DocsIcon() {
   )
 }
 function MenuIcon() {
+  const widths = [18, 11, 14]
   return (
     <div style={{ display: 'inline-block', position: 'relative', top: 2, marginRight: 3, direction: 'rtl' }}>
       {Array(3)
@@ -812,11 +798,7 @@ function MenuIcon() {
             key={i}
             style={{
               background: 'currentColor',
-              width: (() => {
-                if (i === 0) return 18
-                if (i === 1) return 11
-                return 14
-              })(),
+              width: widths[i],
               height: 2,
               opacity: '0.8',
               marginTop: i === 0 ? 0 : 4,

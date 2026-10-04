@@ -192,15 +192,11 @@ function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, url
   const isLandingPage = urlPathname === '/'
 
   const { title } = activeHeading
-  let pageTitle = isLandingPage ? null : title
+  const pageTitle = isLandingPage ? null : title
   let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseMarkdownMini(title))
 
   if (!isLandingPage) {
     documentTitle += ' | ' + config.name
-  }
-
-  if (isLandingPage) {
-    pageTitle = null
   }
 
   return { documentTitle, isLandingPage, pageTitle }
@@ -243,7 +239,6 @@ function getActiveHeading(
     const found = headingsDetachedResolved.filter(({ url }) => urlPathname === url)
     if (found.length > 0) {
       assertUsage(found.length === 1, errFoundTwice)
-      assertUsage(!activeHeading, errFoundTwice)
       activeHeading = found[0]!
     }
   }
@@ -286,25 +281,18 @@ function getHeadingsResolved(config: {
   headingsResolved: HeadingResolved[]
   headingsDetachedResolved: HeadingDetachedResolved[]
 } {
-  const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
-    (heading: HeadingDefinition) => {
-      const titleInNav = heading.titleInNav || heading.title
-      const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
-        ...heading,
-        titleInNav,
-      }
-      return headingResolved
-    },
-  )
-
   const headingsResolved: HeadingResolved[] = []
-  headingsWithoutBreadcrumb.forEach((heading) => {
-    const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsResolved)
-    headingsResolved.push({
+  for (const heading of config.headings) {
+    const titleInNav = heading.titleInNav || heading.title
+    const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
       ...heading,
-      linkBreadcrumb,
+      titleInNav,
+    }
+    headingsResolved.push({
+      ...headingResolved,
+      linkBreadcrumb: getHeadingsBreadcrumb(headingResolved, headingsResolved),
     })
-  })
+  }
 
   const headingsDetachedResolved = config.headingsDetached.map((headingsDetached) => {
     const { url } = headingsDetached

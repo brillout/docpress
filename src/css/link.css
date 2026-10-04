@@ -1,6 +1,3 @@
-a {
-  text-decoration: none;
-}
 .doc-page
   a[href]:not(
     .nav-head-logo,

@@ -44,3 +44,20 @@ body {
     transform-origin: 75% 50%;
   }
 }
+
+/* Page-content elements, in the page's palette (.page-content is the layout's content column) */
+.page-content :is(img, video, iframe) {
+  max-width: 100%;
+  object-fit: contain;
+}
+.page-content hr {
+  margin: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--dp-color-border);
+}
+.page-content summary {
+  cursor: pointer;
+  &::marker {
+    color: var(--dp-color-subtle);
+  }
+}

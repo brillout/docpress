@@ -13,15 +13,15 @@ function ChoiceGroupContainer({
   children,
   choiceGroupAll,
 }: { children: React.ReactNode; choiceGroupAll: ChoiceGroupWithParent[] }) {
-  const renderCustomSelect = (choiceGroupAll ?? []).some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
-  const alwaysShow = (choiceGroupAll ?? []).some((choiceGroup) => renderCustomSelect && !!choiceGroup.alwaysShow)
+  const renderCustomSelect = choiceGroupAll.some((choiceGroup) => choiceGroup.lvl === 0 && !choiceGroup.hidden)
+  const alwaysShow = choiceGroupAll.some((choiceGroup) => renderCustomSelect && !!choiceGroup.alwaysShow)
 
   return (
     <div className={cls(['choice-group-container', alwaysShow && 'always-show'])}>
       {children}
       {renderCustomSelect && (
         <div className={`choice-group__selects`}>
-          {(choiceGroupAll ?? []).map((choiceGroup) => (
+          {choiceGroupAll.map((choiceGroup) => (
             <CustomSelect key={choiceGroup.name} choiceGroup={choiceGroup} />
           ))}
         </div>
@@ -38,7 +38,7 @@ function ChoiceGroup({ children, choiceGroup }: { children: React.ReactNode; cho
   return (
     <div className="choice-group">
       {/* Hidden select used to control choice visibility via CSS */}
-      <select data-choice-group={groupName} name={`choicesFor-${groupName}`} value={selectedChoice} hidden disabled>
+      <select data-choice-group={groupName} value={selectedChoice} hidden disabled>
         {choices.map(({ name: choice }) => (
           // data-absent is read by the initializeChoiceGroup SSR script (useCurrentSelection.ts)
           // data-empty is read by ChoiceGroup.css
@@ -92,7 +92,6 @@ function CustomSelect({ choiceGroup }: { choiceGroup: ChoiceGroupWithParent }) {
 
   return (
     <div
-      id={`choicesFor-${groupName}`}
       aria-expanded={expanded}
       role="radiogroup"
       className={cls([

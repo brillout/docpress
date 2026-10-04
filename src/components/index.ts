@@ -1,6 +1,5 @@
 export * from './Link.js'
 export * from './RepoLink.js'
-export * from './Note.js'
 export * from './ImportMeta.js'
 export * from './CodeBlockTransformer.js'
 export * from './FileRemoved.js'

@@ -42,7 +42,7 @@
     pointer-events: none;
     font-family: var(--dp-font-sans);
     font-size: 12px;
-    /* Not inherited: icon buttons have line-height 0 */
+    /* Pinned to the body's: the hosts' own line-heights differ (1 on nav items, 1.2 on category tabs) */
     line-height: 1.5;
     content: attr(aria-label);
     position: absolute;

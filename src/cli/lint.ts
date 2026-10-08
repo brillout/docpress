@@ -205,16 +205,15 @@ function lintLink({ target, syntax, line }: SourceLink, source: Source, docs: Do
 
 /** All files of the docs, except of `node_modules/`, `dist/`, and hidden files/directories */
 function crawl(dir: string): string[] {
-  const files: string[] = []
-  fs.readdirSync(dir, { withFileTypes: true })
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => !entry.name.startsWith('.') && entry.name !== 'node_modules' && entry.name !== 'dist')
     .sort((e1, e2) => (e1.name < e2.name ? -1 : 1))
-    .forEach((entry) => {
-      if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === 'dist') return
+    .flatMap((entry) => {
       const filePath = path.join(dir, entry.name)
-      if (entry.isDirectory()) files.push(...crawl(filePath))
-      else if (entry.isFile()) files.push(filePath)
+      if (entry.isDirectory()) return crawl(filePath)
+      return entry.isFile() ? [filePath] : []
     })
-  return files
 }
 
 function getDocsUrl(files: string[], root: string): string {
@@ -241,20 +240,19 @@ function getSelfOriginRegExp(docsUrl: string): RegExp {
   return new RegExp(`^https?://(www\\.)?${hostnameEscaped}(?=[/?#]|$)`, 'i')
 }
 
+/** The docs, repository, and package READMEs — listed explicitly to stay out of node_modules/ */
 function getReadmes(root: string): string[] {
-  const repoRoot = findRepositoryRoot(root)
   const readmes = [path.join(root, 'README.md')]
+  const repoRoot = findRepositoryRoot(root)
   if (repoRoot) {
-    readmes.unshift(path.join(repoRoot, 'README.md'))
     const packagesDir = path.join(repoRoot, 'packages')
-    if (fs.existsSync(packagesDir)) {
-      fs.readdirSync(packagesDir, { withFileTypes: true })
-        .filter((entry) => entry.isDirectory())
-        .sort((e1, e2) => (e1.name < e2.name ? -1 : 1))
-        .forEach((entry) => readmes.push(path.join(packagesDir, entry.name, 'README.md')))
-    }
+    const packageNames = fs.existsSync(packagesDir) ? fs.readdirSync(packagesDir).sort() : []
+    readmes.push(
+      path.join(repoRoot, 'README.md'),
+      ...packageNames.map((name) => path.join(packagesDir, name, 'README.md')),
+    )
   }
-  return Array.from(new Set(readmes)).filter((filePath) => fs.existsSync(filePath))
+  return [...new Set(readmes)].filter((filePath) => fs.existsSync(filePath))
 }
 
 function findRepositoryRoot(dir: string): string | null {
@@ -267,12 +265,7 @@ function findRepositoryRoot(dir: string): string | null {
 }
 
 function isPublicFile(root: string, url: string): boolean {
-  let filePath: string
-  try {
-    filePath = path.join(root, 'public', decodeURI(url))
-  } catch {
-    return false
-  }
+  const filePath = path.join(root, 'public', url)
   return fs.existsSync(filePath) && fs.statSync(filePath).isFile()
 }
 
@@ -300,33 +293,21 @@ function parseInternalLink(target: string, selfOrigin: RegExp) {
  */
 function stripCode(code: string): string {
   let fence: string | null = null
-  code = code
-    .split('\n')
-    .map((line) => {
-      // Fences can be indented (e.g. inside a list item) or inside a blockquote
-      const lineContent = line.replace(/^[\s>]*/, '').trimEnd()
-      const fenceMatch = /^(`{3,}|~{3,})/.exec(lineContent)?.[1]
-      if (fence) {
-        // Closing fence: same character, at least as long as the opening fence, and nothing else
-        if (
-          fenceMatch &&
-          fenceMatch[0] === fence[0] &&
-          fenceMatch.length >= fence.length &&
-          lineContent === fenceMatch
-        ) {
-          fence = null
-        }
-        return blank(line)
-      }
-      if (fenceMatch) {
-        fence = fenceMatch
-        return blank(line)
-      }
-      return line
-    })
-    .join('\n')
+  const lines = code.split('\n').map((line) => {
+    // Fences can be indented (e.g. inside a list item) or inside a blockquote
+    const lineContent = line.replace(/^[\s>]*/, '').trimEnd()
+    if (fence) {
+      // Closing fence: only fence characters, at least as many as the opening fence
+      if (lineContent.startsWith(fence) && /^(`+|~+)$/.test(lineContent)) fence = null
+      return blank(line)
+    }
+    // Opening fence (the info string of a backtick fence can't contain backticks)
+    fence = /^(`{3,}(?!.*`)|~{3,})/.exec(lineContent)?.[1] ?? null
+    return fence ? blank(line) : line
+  })
   return (
-    code
+    lines
+      .join('\n')
       // Code spans, e.g. `<Link href="#some-anchor" />` and ``some `code` span``
       .replace(/(?<!`)(`+)(?!`).+?(?<!`)\1(?!`)/g, blank)
       // MDX comments {/* ... */} and HTML comments <!-- ... -->

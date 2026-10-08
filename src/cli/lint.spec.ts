@@ -130,11 +130,13 @@ describe('docpress lint', () => {
         '> ```',
         'Inline `[example](/some-page)` and ``<Link href="#example" />``',
         '{/* [Example](/some-page) */}',
+        // Not a fence but a code span: the info string of a backtick fence can't contain backticks
+        '```[Example](/some-page)```',
         '[Not ignored](/some-page)',
       ].join('\n'),
     })
     expect(errors).toEqual([
-      'pages/some-page/+Page.mdx:15: bare markdown internal link "](/some-page)" — use <Link href="/some-page" /> instead',
+      'pages/some-page/+Page.mdx:16: bare markdown internal link "](/some-page)" — use <Link href="/some-page" /> instead',
     ])
   })
 
@@ -198,9 +200,9 @@ describe('docpress lint', () => {
       'node_modules/some-dependency/README.md': '[Unknown page](https://example.org/unknown-page)',
     })
     expect(errors).toEqual([
+      'README.md:1: link to unknown page "https://example.org/unknown-page" (there isn\'t any page with URL /unknown-page)',
       '../README.md:4: broken anchor "https://example.org/some-page#wrong-section" — no heading "#wrong-section" on /some-page',
       '../README.md:5: link to unknown page "https://example.org/unknown-page" (there isn\'t any page with URL /unknown-page)',
-      'README.md:1: link to unknown page "https://example.org/unknown-page" (there isn\'t any page with URL /unknown-page)',
       '../packages/some-package/README.md:1: broken anchor "http://example.org/some-page#wrong-section" — no heading "#wrong-section" on /some-page',
     ])
     expect(stats.readmes).toBe(3)

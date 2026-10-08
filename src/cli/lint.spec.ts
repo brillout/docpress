@@ -145,6 +145,7 @@ describe('docpress lint', () => {
       'docs/pages/pageContext-json/+Page.mdx': '## Avoid requests',
       'docs/pages/pageContext-json/+route.ts': "export default '/pageContext.json'",
       'docs/pages/landing/+Page.tsx': 'export default () => <h2 id="hero">Hero</h2>',
+      'README.md': '[Intro](https://example.org#intro) [Wrong anchor](https://example.org#wrong)',
       'docs/pages/guide/+Page.mdx': [
         '<Link href="/#intro" />',
         '<Link href="/pricing#plans" />',
@@ -160,6 +161,7 @@ describe('docpress lint', () => {
       'pages/guide/+Page.mdx:5: link to unknown page "/index#intro" (there isn\'t any page with URL /index)',
       'pages/guide/+Page.mdx:6: link to unknown page "/marketing/pricing#plans" (there isn\'t any page with URL /marketing/pricing)',
       'pages/guide/+Page.mdx:7: link to unknown page "/pageContext-json#avoid-requests" (there isn\'t any page with URL /pageContext-json)',
+      '../README.md:1: broken anchor "https://example.org#wrong" — no heading "#wrong" on /',
     ])
   })
 

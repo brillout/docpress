@@ -62,14 +62,7 @@ function lintDocs(root: string) {
   const files = crawl(root)
 
   const docsUrl = getDocsUrl(root, files)
-  // The docs website itself: an absolute link to it is an internal link in disguise. Recognize the
-  // common spellings of the origin (with/without www, http/https).
   const selfOrigin = getSelfOriginRegExp(docsUrl)
-  const toInternal = (target: string): string | null => {
-    if (selfOrigin.test(target)) return target.replace(selfOrigin, '') || '/'
-    if ((target.startsWith('/') && !target.startsWith('//')) || target.startsWith('#')) return target
-    return null
-  }
 
   const errors: string[] = []
 
@@ -135,11 +128,10 @@ function lintDocs(root: string) {
     links.sort((l1, l2) => l1.index - l2.index)
 
     for (const { target, index, syntax } of links) {
-      const internal = toInternal(target)
-      if (internal === null) continue // External link — not ours to check
+      const link = parseInternalLink(target, selfOrigin)
+      if (!link) continue // External link — not ours to check
+      const { href: internal, isAbsolute, pathname, anchor } = link
       const location = getLocation(root, filePath, source.code, index)
-      const isAbsolute = selfOrigin.test(target)
-      const { pathname, anchor } = parseLink(internal)
       // `null` if it's a page-relative anchor ("#some-anchor") in a URL-less source (component / README)
       const targetUrl = pathname === '' ? url : pathname
       // A static asset, e.g. /llms.txt => public/llms.txt
@@ -211,6 +203,10 @@ function getDocsUrl(root: string, files: string[]): string {
   return docsUrl.includes('://') ? docsUrl : `https://${docsUrl}`
 }
 
+/**
+ * The docs website itself: an absolute link to it is an internal link in disguise. Recognize the common spellings
+ * of the origin (with/without www, http/https).
+ */
 function getSelfOriginRegExp(docsUrl: string): RegExp {
   const hostname = new URL(docsUrl).hostname.replace(/^www\./, '')
   const hostnameEscaped = hostname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -280,14 +276,22 @@ function isPublicFile(root: string, url: string): boolean {
   return fs.existsSync(filePath) && fs.statSync(filePath).isFile()
 }
 
-/** `/some-page/?query#some-anchor` => `{ pathname: '/some-page', anchor: 'some-anchor' }` */
-function parseLink(link: string) {
-  const [pathAndQuery, ...hashParts] = link.split('#')
+/**
+ * `https://vike.dev/some-page/?query#some-anchor` => `{ href: '/some-page/?query#some-anchor', isAbsolute: true, pathname: '/some-page', anchor: 'some-anchor' }`
+ *
+ * Returns `null` for external links.
+ */
+function parseInternalLink(target: string, selfOrigin: RegExp) {
+  const isAbsolute = selfOrigin.test(target)
+  // Relative link: "/some-page" or "#some-anchor" (but not "//cdn.example.com/some-file.js")
+  if (!isAbsolute && !/^(#|\/(?!\/))/.test(target)) return null
+  const href = isAbsolute ? target.replace(selfOrigin, '').replace(/^(?!\/)/, '/') : target
+  const [pathAndQuery, ...hashParts] = href.split('#')
   // Text fragments, e.g. #some-anchor:~:text=some%20text
   const anchor = hashParts.join('#').split(':~:')[0]!
   let pathname = pathAndQuery!.split('?')[0]!
   if (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1)
-  return { pathname, anchor }
+  return { href, isAbsolute, pathname, anchor }
 }
 
 /**

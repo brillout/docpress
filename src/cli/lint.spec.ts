@@ -130,13 +130,14 @@ describe('docpress lint', () => {
         '> ```',
         'Inline `[example](/some-page)` and ``<Link href="#example" />``',
         '{/* [Example](/some-page) */}',
+        '<code>{\'<a href="https://example.org/some-page">\'}</code>',
         // Not a fence but a code span: the info string of a backtick fence can't contain backticks
         '```[Example](/some-page)```',
         '[Not ignored](/some-page)',
       ].join('\n'),
     })
     expect(errors).toEqual([
-      'pages/some-page/+Page.mdx:16: bare markdown internal link "](/some-page)" — use <Link href="/some-page" /> instead',
+      'pages/some-page/+Page.mdx:17: bare markdown internal link "](/some-page)" — use <Link href="/some-page" /> instead',
     ])
   })
 

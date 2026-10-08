@@ -226,6 +226,8 @@ function stripCode(code: string): string {
       .join('\n')
       // Code spans, e.g. `<Link href="#some-anchor" />` and ``some `code` span``
       .replace(/(?<!`)(`+)(?!`).+?(?<!`)\1(?!`)/g, blank)
+      // JSX code elements, e.g. <code>{'<a href="https://example.org/some-page">'}</code>
+      .replace(/<code\b[\s\S]*?<\/code>/g, blank)
       // MDX comments {/* ... */} and HTML comments <!-- ... -->
       .replace(/\{\/\*[\s\S]*?\*\/\}|<!--[\s\S]*?-->/g, blank)
   )

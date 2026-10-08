@@ -4,15 +4,19 @@ import React, { useEffect } from 'react'
 import type { PageContextClient } from 'vike/types'
 import ReactDOM from 'react-dom/client'
 import { getPageElement } from './getPageElement.js'
-import { closeMenuModal } from '../MenuModal/toggleMenuModal.js'
+import { closeMenuModal, initMenuModalCloseListeners } from '../MenuModal/toggleMenuModal.js'
 import '../css/index.css'
 import { autoScrollNav } from '../autoScrollNav.js'
 import { installSectionUrlHashs } from '../installSectionUrlHashs.js'
 import { getGlobalObject } from '../utils/client.js'
-import { initKeyBindings } from '../initKeyBindings.js'
+import { genPromise } from '../utils/genPromise.js'
+import { initKeyBindings, initInputModality } from '../initKeyBindings.js'
 import { initOnNavigation } from './initOnNavigation.js'
 import { setHydrationIsFinished } from './getHydrationPromise.js'
 import { addScript } from '../utils/addScript.js'
+import { initThemeListener } from '../theme/applyTheme.js'
+import { initDocsearchFocusReturn } from '../docsearch/toggleDocsearchModal.js'
+import { initTooltipGroup } from '../tooltips.js'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -21,19 +25,21 @@ const globalObject = getGlobalObject<{
 
 addEcosystemStamp()
 initKeyBindings()
+initInputModality()
 initOnNavigation()
+initDocsearchFocusReturn()
+initTooltipGroup()
+initMenuModalCloseListeners()
 
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()
 
-  let renderPromiseResolve!: () => void
-  const renderPromise = new Promise<void>((r) => {
-    renderPromiseResolve = r
-  })
+  const { promise: renderPromise, resolve: renderPromiseResolve } = genPromise()
   let page = getPageElement(pageContext)
   page = <OnRenderDoneHook renderPromiseResolve={renderPromiseResolve}>{page}</OnRenderDoneHook>
 
   const container = document.getElementById('page-view')!
+  if (!pageContext.isHydration) startNavSwitching()
   if (pageContext.isHydration) {
     globalObject.root = ReactDOM.hydrateRoot(container, page)
   } else {
@@ -42,23 +48,52 @@ async function onRenderClient(pageContext: PageContextClient) {
     }
     globalObject.root.render(page)
   }
-  if (!pageContext.isHydration) {
-    applyHead(pageContext)
-  }
+  if (!pageContext.isHydration) applyHead(pageContext)
+  // Created upon hydration, empty: a live region announces changes, not its creation
+  const announcer = getAnnouncer()
 
   await renderPromise
+  if (!pageContext.isHydration) {
+    endNavSwitching()
+    announcer.textContent = document.title
+  }
 
-  autoScrollNav()
+  autoScrollNav(!pageContext.isHydration)
   installSectionUrlHashs()
   setHydrationIsFinished()
   initGoogleAnalytics(pageContext)
   initUmami(pageContext)
+  if (pageContext.config.docpress.darkMode) initThemeListener()
 
   globalObject.isNotFirstRender = true
 }
 
 function applyHead(pageContext: PageContextClient) {
   document.title = pageContext.resolved.documentTitle
+}
+
+// The current page's mark in the navigation swaps at once (NavItemComponent.css)
+function startNavSwitching() {
+  document.documentElement.classList.add('dp-nav-switching')
+}
+// After a frame painted with the new current page
+function endNavSwitching() {
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => document.documentElement.classList.remove('dp-nav-switching')),
+  )
+}
+
+// Client-side navigation: screen readers announce the new page (outside React: nothing to hydrate)
+function getAnnouncer() {
+  let announcer = document.getElementById('dp-route-announcer')
+  if (!announcer) {
+    announcer = document.createElement('div')
+    announcer.id = 'dp-route-announcer'
+    announcer.className = 'sr-only'
+    announcer.setAttribute('aria-live', 'polite')
+    document.body.appendChild(announcer)
+  }
+  return announcer
 }
 
 function onRenderStart() {

@@ -1,5 +1,7 @@
 export { toggleMenuModal }
 export { closeMenuModal }
+export { closeMenuModalAndFocusToggle }
+export { initMenuModalCloseListeners }
 // Hover handling
 export { ignoreHoverOnTouchStart }
 export { openMenuModalOnMouseEnter }
@@ -9,14 +11,7 @@ export { closeMenuModalOnMouseLeaveToggle }
 
 import { viewTablet } from '../Layout.js'
 import { getHydrationPromise } from '../renderer/getHydrationPromise.js'
-import { getViewportWidth } from '../utils/getViewportWidth.js'
-import { isBrowser } from '../utils/isBrowser.js'
 
-initScrollListener()
-
-function openMenuModal(menuNavigationId: number) {
-  open(menuNavigationId)
-}
 async function open(menuNavigationId?: number) {
   if (toggleLock) {
     if (menuNavigationId === undefined) {
@@ -35,25 +30,110 @@ async function open(menuNavigationId?: number) {
     enableDisplayOnlyOne()
   }
   classList.add('menu-modal-show')
+  updateAriaExpanded()
+  if (isMobileNav()) openDialog()
   if (menuNavigationId !== undefined) {
+    // Also when reopening it: the toggle may have moved since (e.g. the window was resized)
+    setMenuAnchor(menuNavigationId)
+    // Opened with the keyboard: its first link gets the focus (on mobile, openDialog() focuses the close button)
+    if (!isMobileNav() && document.documentElement.dataset.input === 'keyboard') focusFirstLink(menuNavigationId)
     const currentModalId = getCurrentMenuId()
     if (currentModalId === menuNavigationId) return
     if (currentModalId !== null) {
       classList.remove(`menu-modal-show-${currentModalId}`)
     }
     classList.add(`menu-modal-show-${menuNavigationId}`)
+    updateAriaExpanded()
     await getHydrationPromise()
-    // Because all `.menu-navigation-content` are `position: absolute` we have to propagate the content height ourselves.
-    const height = window.getComputedStyle(document.getElementById(`menu-navigation-${menuNavigationId}`)!).height
-    document.getElementById('menu-navigation-container')!.style.height = height
+    followHeight(menuNavigationId)
   }
 }
+// Because all `.menu-navigation-content` are `position: absolute` we have to propagate the content height ourselves
+// (`--menu-height`): the current menu's, also when it changes (e.g. while the panel's width glides from the previous
+// menu's)
+let heightObserver: ResizeObserver | undefined
+function followHeight(menuId: number) {
+  heightObserver ??= new ResizeObserver(([entry]) => {
+    document
+      .getElementById('menu-navigation-container')!
+      .style.setProperty('--menu-height', window.getComputedStyle(entry!.target).height)
+  })
+  heightObserver.disconnect()
+  heightObserver.observe(document.getElementById(`menu-navigation-${menuId}`)!)
+}
 function closeMenuModal() {
+  // A pending switch to another menu (closeMenuModalOnMouseLeaveToggle()) would reopen it
+  clearTimeout(toggleLock?.timeoutAction)
+  toggleLock = undefined
   const { classList } = document.documentElement
   if (classList.contains('menu-modal-show')) {
     enableDisplayOnlyOne()
     classList.remove('menu-modal-show')
+    updateAriaExpanded()
+    closeDialog()
   }
+}
+// Keyboard (Escape, close button): the focused element is being hidden, focus the menu's toggle instead
+function closeMenuModalAndFocusToggle() {
+  const toggle = document.querySelector<HTMLElement>(`.menu-toggle-${getCurrentMenuId()}`)
+  const hasFocus = document.getElementById('menu-modal-wrapper')!.contains(document.activeElement)
+  closeMenuModal()
+  if (hasFocus) toggle?.focus()
+}
+
+// Once the dropdown is visible (its `visibility` transitions), unless it closed or another one opened
+function focusFirstLink(menuId: number) {
+  requestAnimationFrame(() => {
+    if (!document.documentElement.classList.contains('menu-modal-show') || getCurrentMenuId() !== menuId) return
+    const link = document.querySelector<HTMLElement>(`#menu-navigation-${menuId} a[href]`)
+    if (!link) return
+    if (link.checkVisibility({ visibilityProperty: true })) link.focus()
+    else focusFirstLink(menuId)
+  })
+}
+
+// Mobile: the menu is a full-screen dialog, keyboard focus stays inside it
+function openDialog() {
+  const wrapper = document.getElementById('menu-modal-wrapper')!
+  wrapper.setAttribute('role', 'dialog')
+  wrapper.setAttribute('aria-modal', 'true')
+  wrapper.setAttribute('aria-label', 'Menu')
+  wrapper.addEventListener('keydown', trapFocus)
+  const closeButton = wrapper.querySelector<HTMLElement>('.menu-modal-close')!
+  // Apply the styles (the menu is now visible) before focusing
+  getComputedStyle(closeButton).visibility
+  closeButton.focus()
+}
+function closeDialog() {
+  const wrapper = document.getElementById('menu-modal-wrapper')!
+  wrapper.removeAttribute('role')
+  wrapper.removeAttribute('aria-modal')
+  wrapper.removeAttribute('aria-label')
+  wrapper.removeEventListener('keydown', trapFocus)
+}
+function trapFocus(ev: KeyboardEvent) {
+  if (ev.key !== 'Tab') return
+  const wrapper = ev.currentTarget as HTMLElement
+  const focusables = Array.from(wrapper.querySelectorAll<HTMLElement>('a[href], button')).filter((el) =>
+    el.checkVisibility({ visibilityProperty: true }),
+  )
+  const first = focusables[0]!
+  const last = focusables[focusables.length - 1]!
+  if (ev.shiftKey && document.activeElement === first) {
+    ev.preventDefault()
+    last.focus()
+  } else if (!ev.shiftKey && document.activeElement === last) {
+    ev.preventDefault()
+    first.focus()
+  }
+}
+function updateAriaExpanded() {
+  const isOpen = document.documentElement.classList.contains('menu-modal-show')
+  const currentMenuId = getCurrentMenuId()
+  document.querySelectorAll('.menu-toggle').forEach((toggle) => {
+    const isCurrent = toggle.classList.contains(`menu-toggle-${currentMenuId}`)
+    toggle.setAttribute('aria-expanded', String(isOpen && isCurrent))
+  })
 }
 let timeoutModalAnimation: NodeJS.Timeout | undefined
 function enableDisplayOnlyOne() {
@@ -73,7 +153,8 @@ let toggleLock:
     }
   | undefined
 function closeMenuModalOnMouseLeaveToggle(menuId: number) {
-  if (ignoreHover()) return
+  // Already closed (e.g. with Escape, the pointer resting on the panel): no lock, it would swallow the next opening
+  if (ignoreHover() || !document.documentElement.classList.contains('menu-modal-show')) return
   clearTimeout(toggleLock?.timeoutAction)
   const timeoutAction = setTimeout(action, 100)
   toggleLock = {
@@ -89,7 +170,7 @@ function closeMenuModalOnMouseLeaveToggle(menuId: number) {
     if (idNext === undefined) {
       closeMenuModal()
     } else {
-      openMenuModal(idNext)
+      open(idNext)
     }
   }
 }
@@ -101,9 +182,14 @@ function getCurrentMenuId(): null | number {
   return parseInt(cls.slice(prefix.length), 10)
 }
 
-function initScrollListener() {
-  if (!isBrowser()) return
+function initMenuModalCloseListeners() {
   window.addEventListener('scroll', closeMenuModal, { passive: true })
+  // Crossing the tablet breakpoint: it's another menu (a full-screen dialog, a dropdown)
+  window.matchMedia(`(width <= ${viewTablet}px)`).addEventListener('change', closeMenuModal)
+  // Keyboard focus leaving the top nav and the menu closes the menu (it would cover the focused element)
+  document.addEventListener('focusin', (ev) => {
+    if (!(ev.target as Element).closest('.nav-head, #menu-modal-wrapper')) closeMenuModal()
+  })
 }
 
 function toggleMenuModal(menuId: number) {
@@ -111,7 +197,7 @@ function toggleMenuModal(menuId: number) {
   if (classList.contains('menu-modal-show') && classList.contains(`menu-modal-show-${menuId}`)) {
     closeMenuModal()
   } else {
-    openMenuModal(menuId)
+    open(menuId)
     if (isMobileNav()) autoScroll()
   }
 }
@@ -122,7 +208,7 @@ function autoScroll() {
   const navLinks = Array.from(nav.querySelectorAll(`a[href="${href}"]`))
   const navLink = navLinks[0] as HTMLElement | undefined
   if (!navLink) return
-  // None of the following seemes to be working: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
+  // None of the following seems to be working: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
   if (findCollapsibleEl(navLink)!.classList.contains('collapsible-collapsed')) return
   navLink.scrollIntoView({
     behavior: 'instant',
@@ -141,7 +227,10 @@ function findCollapsibleEl(navLink: HTMLElement | undefined) {
 
 function closeMenuModalOnMouseLeave() {
   if (ignoreHover()) return
-  closeMenuModal()
+  const menuId = getCurrentMenuId()
+  if (menuId === null) return closeMenuModal()
+  // Like leaving a toggle, not at once: the pointer may be on its way to a toggle (across the top nav's hairline)
+  closeMenuModalOnMouseLeaveToggle(menuId)
 }
 function keepMenuModalOpenOnMouseOver() {
   if (ignoreHover()) return
@@ -156,11 +245,23 @@ function ignoreHoverOnTouchStart() {
 }
 function openMenuModalOnMouseEnter(menuId: number) {
   if (ignoreHover()) return
-  openMenuModal(menuId)
+  open(menuId)
 }
 function ignoreHover() {
   return isTouchStart || isMobileNav()
 }
 function isMobileNav() {
-  return getViewportWidth() <= viewTablet
+  // The same query as the CSS (@media, which counts the scrollbar and fractional widths): they never disagree
+  return window.matchMedia(`(width <= ${viewTablet}px)`).matches
+}
+
+// Desktop: the menu's panel is centered on its toggle (MenuModal.tsx)
+function setMenuAnchor(menuId: number) {
+  const toggle = document.querySelector(`.menu-toggle-${menuId}`)
+  const wrapper = document.getElementById('menu-modal-wrapper')
+  const container = wrapper?.offsetParent
+  if (!toggle || !wrapper || !container) return
+  const toggleRect = toggle.getBoundingClientRect()
+  const anchor = toggleRect.left + toggleRect.width / 2 - container.getBoundingClientRect().left
+  wrapper.style.setProperty('--menu-anchor', `${anchor}px`)
 }

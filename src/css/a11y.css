@@ -1,0 +1,114 @@
+/* Interaction & accessibility */
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--dp-color-primary);
+  outline-offset: 2px;
+}
+/* Full-height top bar cells: ring inside, like the menu toggles' */
+.nav-head a:focus-visible:not(.icon-button, .version-badge) {
+  outline-offset: -3px;
+  border-radius: var(--dp-radius-md);
+}
+.page-content a:focus-visible {
+  border-radius: var(--dp-radius-sm);
+}
+/* The ring hugs the visible search box, not its cell */
+.search-link:focus-visible {
+  outline: none;
+  .search-box {
+    outline: 2px solid var(--dp-color-primary);
+    outline-offset: 2px;
+  }
+}
+/* The skip link's target: below the sticky top nav, without a focus ring around the whole page */
+#main-content {
+  scroll-margin-top: var(--nav-head-sticky-offset);
+  &:focus {
+    outline: none;
+  }
+}
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 8px 12px;
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-surface-elevated);
+  color: var(--dp-color-text);
+  box-shadow: var(--dp-shadow-popover);
+  &:not(:focus) {
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0;
+  }
+}
+/* DocSearch draws its own focus state */
+.DocSearch-Input:focus-visible {
+  outline: none;
+}
+/* Clipped by `overflow: hidden` (the hover slide-in): draw the ring inside */
+.menu-toggle:focus-visible {
+  outline-offset: -3px;
+  border-radius: var(--dp-radius-md);
+}
+/* Navigation rows (sidebar, menus, rail): the ring inside the row, rounded like the other rings */
+:is(.nav-item, .toc-item):focus-visible {
+  outline-offset: -2px;
+  border-radius: var(--dp-radius-sm);
+}
+/* Visually hidden radios: ring on the visible label */
+.choice-select__option:has(.choice-select__radio:focus-visible),
+.choice-tabs__tab:has(.choice-tabs__radio:focus-visible) {
+  outline: 2px solid var(--dp-color-primary);
+  outline-offset: -2px;
+}
+
+/* Keyboard focus inside a code block reveals its (otherwise hover-only) copy button (the dropdown: ChoiceGroup.css) */
+.choice-group-container:has(:focus-visible) .copy-button,
+pre:has(:focus-visible) .copy-button {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* The browser's own surfaces follow the palette */
+::selection {
+  background-color: color-mix(in srgb, var(--dp-color-primary) 22%, transparent);
+}
+html {
+  accent-color: var(--dp-color-primary);
+  caret-color: var(--dp-color-primary);
+  scrollbar-color: var(--dp-color-border-strong) transparent;
+}
+
+/* Touch: small controls get a hit area of at least 44px (the visuals don't change) */
+@media not all and (hover: hover) and (pointer: fine) {
+  :is(.copy-page-button, .version-badge, .edit-link) {
+    position: relative;
+  }
+  :is(.copy-button, .copy-page-button, .version-badge, .edit-link)::after {
+    content: '';
+    position: absolute;
+    inset: min(0px, calc((100% - 44px) / 2));
+  }
+}
+
+/* Keyboard-initiated disclosures don't animate (see initInputModality()). 1ms, not 0: `transitionend` still fires. */
+[data-input='keyboard']
+  :is(#menu-navigation-container, .collapsible > div[id], .collapsible-icon, .caret-icon-left, .caret-icon-right) {
+  transition-duration: 1ms !important;
+}

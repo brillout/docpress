@@ -19,6 +19,8 @@ function installSectionUrlHashs() {
       window.location.hash = urlHash
       // The browser doesn't jump if hash doesn't change
       jumpToSection()
+      // Where the copy-link icon is shown (heading.css)
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) copyLink(heading)
     }
   })
 
@@ -56,4 +58,20 @@ function jumpToSection() {
     return
   }
   target.scrollIntoView()
+}
+
+// Shown for 2s after the last copy
+const copiedTimeouts = new WeakMap<HTMLElement, ReturnType<typeof setTimeout>>()
+function copyLink(heading: HTMLElement) {
+  navigator.clipboard?.writeText(window.location.href).then(
+    () => {
+      heading.classList.add('heading-link-copied')
+      clearTimeout(copiedTimeouts.get(heading))
+      copiedTimeouts.set(
+        heading,
+        setTimeout(() => heading.classList.remove('heading-link-copied'), 2000),
+      )
+    },
+    () => {},
+  )
 }

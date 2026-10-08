@@ -46,61 +46,79 @@ function NoteWithCustomIcon(props: Props & { icon: CustomIcon }) {
   return <NoteGeneric {...props} />
 }
 
+type NoteType = 'danger' | 'warning' | 'construction' | 'contribution' | 'advanced'
 function NoteGeneric({
   type,
   icon,
-  iconMargin,
   children,
   style,
 }: Props & {
   icon?: null | CustomIcon
-  iconMargin?: null | number
-  type?: 'danger' | 'warning' | 'construction' | 'contribution' | 'advanced'
+  type?: NoteType
 }) {
   assert(icon === null || icon || type, { icon, type })
-  iconMargin ??= 2
 
-  let className = 'custom-icon'
-  if (type) {
-    className = `${className} type-${type}`
-  }
-  if (!icon && type) {
-    let classColor = ''
-    if (type === 'danger') {
-      icon = '⛔'
-      classColor = 'note-color-red'
-    }
-    if (type === 'warning') {
-      icon = '⚠️'
-      classColor = 'note-color-yellow'
-    }
-    if (type === 'construction') {
-      icon = '🚧'
-      classColor = 'note-color-yellow'
-    }
-    if (type === 'contribution') {
-      icon = '💚'
-      classColor = 'note-color-green'
-    }
-    if (type === 'advanced') {
-      icon = '🧠'
-      classColor = 'note-color-pink'
-    }
-    assert(icon)
-    assert(classColor)
-    className = `${className} ${classColor}`
-  }
+  const className = ['callout', type && `callout-${type}`, icon === null && 'callout-no-icon'].filter(Boolean).join(' ')
+  const iconResolved = icon === undefined ? calloutIcons[type!] : icon
   return (
     <blockquote className={className} style={style}>
-      <div style={{ marginBottom: 20 }} />
-      {icon && (
-        <>
-          <span style={{ fontFamily: 'emoji' }}>{icon}</span>
-          <span style={{ width: iconMargin ?? undefined, display: 'inline-block' }}></span>{' '}
-        </>
+      {iconResolved && (
+        <span className="callout-icon" aria-hidden="true">
+          {iconResolved}
+        </span>
       )}
+      {/* The icon is decoration: the type, for screen readers */}
+      {type && <span className="sr-only">{calloutLabels[type]}: </span>}
       <div className="blockquote-content">{children}</div>
-      <div style={{ marginTop: 20 }} />
     </blockquote>
   )
+}
+
+const calloutLabels: Record<NoteType, string> = {
+  warning: 'Warning',
+  danger: 'Danger',
+  construction: 'Work in progress',
+  contribution: 'Contributions welcome',
+  advanced: 'Advanced',
+}
+const svgProps = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  viewBox: '0 0 24 24',
+  width: 18,
+  height: 18,
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 2,
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+} as const
+const calloutIcons: Record<NoteType, React.JSX.Element> = {
+  warning: (
+    <svg {...svgProps}>
+      <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+      <path d="M12 9v4M12 17h.01" />
+    </svg>
+  ),
+  danger: (
+    <svg {...svgProps}>
+      <path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9Z" />
+      <path d="m15 9-6 6M9 9l6 6" />
+    </svg>
+  ),
+  construction: (
+    <svg {...svgProps}>
+      <rect x="2" y="6" width="20" height="8" rx="1" />
+      <path d="m7 6-4 8M13 6l-4 8M19 6l-4 8M5 14v5M19 14v5" />
+    </svg>
+  ),
+  contribution: (
+    <svg {...svgProps}>
+      <path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z" />
+    </svg>
+  ),
+  advanced: (
+    <svg {...svgProps}>
+      <path d="M9 18h6M10 22h4M15.1 14c.2-1 .7-1.7 1.4-2.5A4.6 4.6 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+    </svg>
+  ),
 }

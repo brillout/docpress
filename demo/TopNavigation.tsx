@@ -3,63 +3,53 @@ export { TopNavigation }
 import { iconGear, iconSeedling, iconLoudspeaker, iconCoin, MenuToggle } from '@brillout/docpress'
 import React from 'react'
 
+const linkStyle: React.CSSProperties = {
+  color: 'inherit',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 var(--padding-side)',
+}
+
 function TopNavigation() {
   return (
     <>
       <MenuToggle menuId={1}>
         <img
+          alt=""
           src={iconGear}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding))', position: 'relative' }}
           className="decolorize-8"
         />{' '}
         API
       </MenuToggle>
-      <a
-        className="colorize-on-hover"
-        href="/features"
-        style={{
-          color: 'inherit',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          padding: '0 var(--padding-side)',
-        }}
-      >
+      <a className="colorize-on-hover" href="/features" style={linkStyle}>
         <img
+          alt=""
           src={iconSeedling}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative' }}
           className="decolorize-8"
         />
         Get Started
       </a>
       <MenuToggle menuId={2}>
         <img
+          alt=""
           src={iconLoudspeaker}
           width={18}
-          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) + 1px)', position: 'relative' }}
           className="decolorize-5"
         />
         Blog
       </MenuToggle>
-      <a
-        className="colorize-on-hover"
-        href="/pricing"
-        style={{
-          color: 'inherit',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          padding: '0 var(--padding-side)',
-        }}
-      >
+      <a className="colorize-on-hover" href="/pricing" style={linkStyle}>
         <img
+          alt=""
           src={iconCoin}
           width={19}
-          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative', top: 0 }}
+          style={{ marginRight: 'calc(var(--icon-text-padding) - 1px)', position: 'relative' }}
           className="decolorize-8"
         />
         Pricing

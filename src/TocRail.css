@@ -1,0 +1,141 @@
+#toc-rail {
+  flex-shrink: 0;
+  order: 1;
+}
+.toc-rail-sticky {
+  position: sticky;
+  top: var(--nav-head-sticky-offset);
+  max-height: calc(100vh - var(--nav-head-sticky-offset));
+  overflow-y: auto;
+  /* A long list scrolls, marked by the edges' fade (.scroll-fade), without a scrollbar: a classic one would narrow the
+   * items as it comes and goes (they re-wrap, the rail's height changes, the scrollbar comes and goes again...) */
+  scrollbar-width: none;
+  /* The title shares the breadcrumb's line (PageChrome) */
+  padding: 22px 16px 32px 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+.toc-rail-title {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dp-color-text);
+}
+
+/* The list, on a track; the thumb on the track marks where the reader is (TocRail.tsx) */
+.toc-list {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    border-radius: 1px;
+    background: var(--dp-color-border);
+  }
+}
+.toc-thumb {
+  position: absolute;
+  left: 0;
+  top: var(--thumb-top, 0);
+  width: 2px;
+  height: var(--thumb-height, 0);
+  border-radius: 1px;
+  background: var(--dp-color-primary);
+  /* Glides from item to item (with reading progress, it follows the scroll: TocRail.tsx glides it) */
+  .toc-rail-sticky:not(.toc-progress) & {
+    transition: top 180ms var(--dp-ease-out), height 180ms var(--dp-ease-out);
+  }
+}
+.toc-item {
+  position: relative;
+  display: block;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  color: var(--dp-color-muted);
+  transition: color var(--dp-duration) ease;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
+  }
+}
+.toc-item-level-2 {
+  padding-left: 16px;
+}
+.toc-item-level-3 {
+  padding-left: 28px;
+}
+/* The active item in ink (with the thumb next to it): it stands out also in grayscale. Not bolder: long items would
+ * re-wrap while scrolling. */
+.toc-rail-sticky:not(.toc-progress) .toc-item-active {
+  color: var(--dp-color-heading);
+}
+/* Reading progress (`tocProgress`): the sections on screen are in ink, the thumb spans them */
+.toc-progress .toc-item[data-visible] {
+  color: var(--dp-color-heading);
+}
+
+/* Back to top; with `tocProgress`, a ring shows how much of the page has been read */
+.toc-back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0 -4px;
+  padding: 4px;
+  border: 0;
+  border-radius: var(--dp-radius-sm);
+  background: none;
+  color: var(--dp-color-muted);
+  font-size: 13px;
+  cursor: pointer;
+  /* Shown once scrolled a bit (TocRail.tsx) */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dp-duration-reveal) var(--dp-ease-out), visibility var(--dp-duration-reveal), color
+    var(--dp-duration) ease;
+  [data-scrolled] & {
+    opacity: 1;
+    visibility: visible;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--dp-color-text);
+    }
+  }
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+}
+.toc-back-to-top-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.toc-progress-ring {
+  transform: rotate(-90deg);
+  circle {
+    fill: none;
+    stroke-width: 1.5;
+  }
+}
+.toc-progress-ring-track {
+  stroke: var(--dp-color-border);
+}
+.toc-progress-ring-fill {
+  stroke: var(--dp-color-primary);
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--page-progress, 0));
+}

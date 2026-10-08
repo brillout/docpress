@@ -1,11 +1,71 @@
+/* A recessed well: a few percent darker than the page, a faint ring as its edge, no shadow */
+pre {
+  display: grid;
+  background: var(--dp-color-code-bg);
+  border: 1px solid var(--dp-color-code-ring);
+  border-radius: var(--dp-radius-lg);
+}
+/* Landing pages: the browser's monospace (see code.css), at the size it gives it in text of the default size */
+.landing-page pre {
+  font-size: 13px;
+  line-height: 1.5;
+}
+/* Explicit: browsers only shrink bare `monospace` to 13px, see --dp-font-mono */
+.doc-page pre {
+  font-size: 13.5px;
+  line-height: 1.7;
+}
 pre > code {
-  /*
-  background-color: #f4f4f4;
-  0.043137255 = 1 - (#f4 / #ff)
-  */
-  background: rgba(0, 0, 0, 0.043137255);
-  font-size: 1em;
-  font-family: var(--dp-font-mono, monospace);
+  overflow-x: auto;
+}
+/* Shiki renders code with a language as lines (padded, so that a line's fill spans the block), without one as text */
+pre > code[data-language] {
+  padding: 16px 0;
+}
+pre [data-line] {
+  padding: 0 16px;
+}
+pre > code:not([data-language]) {
+  padding: 16px;
+}
+/* Inside the pre's border (e.g. the fill of a diff) */
+pre > code:first-child {
+  border-radius: calc(var(--dp-radius-lg) - 1px);
+}
+.code-block-header + code {
+  border-radius: 0 0 calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px);
+}
+figure[data-rehype-pretty-code-figure] {
+  margin: 0;
+}
+/* 820px or narrower, code blocks shrink: so does their code */
+@container container-viewport (max-width: 820px) {
+  pre > code {
+    font-size: 0.9em;
+  }
+}
+@container container-viewport (max-width: 720px) {
+  pre > code {
+    font-size: 0.8em;
+  }
+}
+/* Touch devices (phones): smaller still, https://github.com/vikejs/vike/issues/2369#issuecomment-2803046966 */
+@media not all and (hover: hover) and (pointer: fine) {
+  @container container-viewport (max-width: 620px) {
+    pre > code {
+      font-size: 0.7em;
+    }
+  }
+  @container container-viewport (max-width: 550px) {
+    pre > code {
+      font-size: 0.6em;
+    }
+  }
+  @container container-viewport (max-width: 450px) {
+    pre > code {
+      font-size: 0.5em;
+    }
+  }
 }
 
 /* Copy button */
@@ -14,25 +74,32 @@ pre {
     position: relative;
   }
 
-  &:hover {
-    .copy-button {
-      opacity: 1;
-    }
-  }
-
   .copy-button {
-    position: absolute !important;
-    top: 10px;
-    right: 10px;
+    position: absolute;
+    right: 6px;
     margin: 0;
-    height: 25px;
-    width: 30px;
-    background-color: #f7f7f7;
-    opacity: 0;
-    transition: background-color 0.4s ease-in-out, opacity 200ms ease-in-out;
+    padding: 0;
+    height: 26px;
+    width: 26px;
+    border: 0;
+    /* Concentric with the well's corner */
+    border-radius: var(--dp-radius-sm);
+    /* A raised chip on the well */
+    background: var(--dp-color-surface-elevated);
+    box-shadow: var(--dp-shadow-raised);
+    color: var(--dp-color-muted);
+    cursor: pointer;
 
-    &:not(:hover) {
-      background-color: #eee;
+    /* With a mouse: shown while hovering the code block (touch devices: always shown) */
+    @media (hover: hover) and (pointer: fine) {
+      opacity: 0;
+      pre:hover & {
+        opacity: 1;
+      }
+      &:hover {
+        color: var(--dp-color-text);
+        box-shadow: var(--dp-shadow-raised-hover);
+      }
     }
 
     & svg {
@@ -45,7 +112,43 @@ pre {
   }
 }
 
-/* Workaround for shiki regression */
-pre > code:not([data-language]) {
-  padding: 16px !important;
+/* Header row: language, and the choice dropdown + copy button (positioned over it) */
+.code-block-header {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  /* The same left edge as the code (pre [data-line]); room for the copy button */
+  padding: 0 48px 0 16px;
+  /* A tray: one step deeper than the well (no divider) */
+  border-radius: calc(var(--dp-radius-lg) - 1px) calc(var(--dp-radius-lg) - 1px) 0 0;
+  background: var(--dp-color-code-tray);
+  font-family: var(--dp-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dp-color-muted);
+  .code-block-language {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+/* The copy button: vertically centered on the header, or else on the first line of code */
+pre:has(.code-block-header) .copy-button {
+  top: 6px;
+}
+pre:not(:has(.code-block-header)) .copy-button {
+  top: 15px;
+}
+/* Phones: the header doesn't dominate the (smaller) code */
+@container container-viewport (max-width: 550px) {
+  .code-block-header {
+    height: 32px;
+    font-size: 11px;
+  }
+  pre:has(.code-block-header) .copy-button {
+    top: 3px;
+  }
+  pre:not(:has(.code-block-header)) .copy-button {
+    top: 8px;
+  }
 }

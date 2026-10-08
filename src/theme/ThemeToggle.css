@@ -1,0 +1,24 @@
+.theme-toggle {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+:root:not(.dark) .theme-toggle-dark,
+:root.dark .theme-toggle-light {
+  display: none;
+}
+
+/* Switching (applyTheme.ts): a crossfade of the whole page */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+/* No element transitions while the page is captured and crossfaded */
+:root.dp-theme-switching,
+:root.dp-theme-switching *,
+:root.dp-theme-switching *::before,
+:root.dp-theme-switching *::after {
+  transition: none !important;
+}

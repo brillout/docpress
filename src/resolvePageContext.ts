@@ -33,14 +33,11 @@ function resolvePageContext(pageContext: PageContextServer) {
   const { urlPathname } = pageContext
   const pageSections = pageContext.config.pageSectionsExport ?? []
 
-  {
-    const { headings, headingsDetached } = config
-    assertHeadingsDefinition([...headings, ...headingsDetached])
-  }
+  assertHeadingsDefinition([...config.headings, ...config.headingsDetached])
 
   const ret = getHeadingsResolved(config)
   const { headingsDetachedResolved } = ret
-  let { headingsResolved } = ret
+  const { headingsResolved } = ret
 
   const { activeHeading, isDetachedPage, activeCategoryName } = getActiveHeading(
     headingsResolved,
@@ -83,6 +80,17 @@ function resolvePageContext(pageContext: PageContextServer) {
 
   const choices = config.choices && resolveChoices(config.choices)
 
+  // "On this page": the page's `##` and `###` headings
+  const tocItems = pageSections
+    .filter((pageSection) => pageSection.pageSectionId !== null && [2, 3].includes(pageSection.pageSectionLevel))
+    .map((pageSection) => ({
+      id: pageSection.pageSectionId!,
+      title: pageSection.pageSectionTitle,
+      level: pageSection.pageSectionLevel,
+    }))
+
+  const { categories, breadcrumb, pagePrev, pageNext } = getPageNavigation(headingsResolved, urlPathname)
+
   const resolved = {
     navItemsAll,
     navItemsDetached,
@@ -93,8 +101,53 @@ function resolvePageContext(pageContext: PageContextServer) {
     documentTitle,
     activeCategoryName,
     choices,
+    tocItems,
+    categories,
+    breadcrumb,
+    pagePrev,
+    pageNext,
   }
   return resolved
+}
+
+// The navigation's categories (level-1 headings) with their pages, and the page's place in it: its category and group
+// (breadcrumb), and the pages before and after it
+function getPageNavigation(headings: HeadingResolved[], urlPathname: string) {
+  type PageLink = { url: string; title: string }
+  const categories: {
+    title: string
+    titleIcon?: string
+    color?: string
+    description?: string
+    pages: PageLink[]
+    isCurrent: boolean
+  }[] = []
+  const pages: PageLink[] = []
+  let breadcrumb: string[] = []
+  let group: string | null = null
+  for (const heading of headings) {
+    if (heading.level === 1) {
+      const { titleInNav: title, titleIcon, color, description } = heading
+      categories.push({ title, titleIcon, color, description, pages: [], isCurrent: false })
+      group = null
+    }
+    if (heading.level === 4) group = heading.titleInNav
+    if (heading.level === 2 && heading.url && heading.url !== '/') {
+      const page = { url: heading.url, title: heading.titleInNav }
+      const category = categories[categories.length - 1]
+      category?.pages.push(page)
+      if (heading.url === urlPathname) {
+        breadcrumb = [category?.title ?? null, group].filter((title) => title !== null)
+        if (category) category.isCurrent = true
+      }
+      pages.push(page)
+    }
+  }
+  const index = pages.findIndex((page) => page.url === urlPathname)
+  // Detached pages (not in the navigation) have neither
+  const pagePrev: PageLink | null = index > 0 ? pages[index - 1]! : null
+  const pageNext: PageLink | null = index !== -1 && index < pages.length - 1 ? pages[index + 1]! : null
+  return { categories, breadcrumb, pagePrev, pageNext }
 }
 
 function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): NavItem {
@@ -106,7 +159,6 @@ function headingToNavItem(heading: HeadingResolved | HeadingDetachedResolved): N
     menuModalFullWidth: heading.menuModalFullWidth,
     color: heading.color,
     titleIcon: heading.titleIcon,
-    titleIconStyle: heading.titleIconStyle,
   }
 }
 function headingToLinkData(heading: HeadingResolved | HeadingDetachedResolved): LinkData {
@@ -137,15 +189,11 @@ function getTitles(activeHeading: HeadingResolved | HeadingDetachedResolved, url
   const isLandingPage = urlPathname === '/'
 
   const { title } = activeHeading
-  let pageTitle = isLandingPage ? null : title
+  const pageTitle = isLandingPage ? null : title
   let documentTitle = activeHeading.titleDocument || jsxToTextContent(parseMarkdownMini(title))
 
   if (!isLandingPage) {
     documentTitle += ' | ' + config.name
-  }
-
-  if (isLandingPage) {
-    pageTitle = null
   }
 
   return { documentTitle, isLandingPage, pageTitle }
@@ -188,7 +236,6 @@ function getActiveHeading(
     const found = headingsDetachedResolved.filter(({ url }) => urlPathname === url)
     if (found.length > 0) {
       assertUsage(found.length === 1, errFoundTwice)
-      assertUsage(!activeHeading, errFoundTwice)
       activeHeading = found[0]!
     }
   }
@@ -231,25 +278,18 @@ function getHeadingsResolved(config: {
   headingsResolved: HeadingResolved[]
   headingsDetachedResolved: HeadingDetachedResolved[]
 } {
-  const headingsWithoutBreadcrumb: Omit<HeadingResolved, 'linkBreadcrumb'>[] = config.headings.map(
-    (heading: HeadingDefinition) => {
-      const titleInNav = heading.titleInNav || heading.title
-      const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
-        ...heading,
-        titleInNav,
-      }
-      return headingResolved
-    },
-  )
-
   const headingsResolved: HeadingResolved[] = []
-  headingsWithoutBreadcrumb.forEach((heading) => {
-    const linkBreadcrumb = getHeadingsBreadcrumb(heading, headingsResolved)
-    headingsResolved.push({
+  for (const heading of config.headings) {
+    const titleInNav = heading.titleInNav || heading.title
+    const headingResolved: Omit<HeadingResolved, 'linkBreadcrumb'> = {
       ...heading,
-      linkBreadcrumb,
+      titleInNav,
+    }
+    headingsResolved.push({
+      ...headingResolved,
+      linkBreadcrumb: getHeadingsBreadcrumb(headingResolved, headingsResolved),
     })
-  })
+  }
 
   const headingsDetachedResolved = config.headingsDetached.map((headingsDetached) => {
     const { url } = headingsDetached

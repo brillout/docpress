@@ -1,5 +1,7 @@
 export { FileRemoved }
 export { FileAdded }
+export { classRemoved }
+export { classAdded }
 
 import React from 'react'
 

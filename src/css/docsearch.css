@@ -1,0 +1,44 @@
+/* DocSearch in the DocPress palette. `html:root`: wins over DocSearch's own `:root` (regardless of the load order). */
+html:root {
+  --docsearch-highlight-color: var(--dp-color-primary);
+  --docsearch-text-color: var(--dp-color-text);
+  --docsearch-muted-color: var(--dp-color-muted);
+  --docsearch-container-background: rgb(0 0 0 / 35%);
+  --docsearch-modal-background: var(--dp-color-surface);
+  --docsearch-modal-shadow: var(--dp-shadow-popover);
+  --docsearch-searchbox-focus-background: var(--dp-color-bg);
+  --docsearch-searchbox-shadow: inset 0 0 0 1.5px var(--dp-color-primary);
+  --docsearch-hit-color: var(--dp-color-text);
+  /* Text on the selected hit (its background is the primary color) */
+  --docsearch-hit-active-color: var(--dp-color-bg);
+  --docsearch-hit-background: var(--dp-color-surface-elevated);
+  --docsearch-hit-shadow: var(--dp-shadow-raised);
+  /* Keys are recessed, like the search field's `Ctrl K` */
+  --docsearch-key-gradient: color-mix(in srgb, var(--dp-color-text) 6%, var(--dp-color-surface));
+  --docsearch-key-shadow: none;
+  /* The modal's own color, below a hairline */
+  --docsearch-footer-background: var(--dp-color-surface);
+  --docsearch-footer-shadow: inset 0 1px 0 0 var(--dp-color-border);
+  --docsearch-logo-color: var(--dp-color-muted);
+  /* Fits short viewports (e.g. landscape phones) */
+  --docsearch-modal-height: min(600px, calc(100dvh - 120px));
+}
+html:root.dark {
+  --docsearch-container-background: rgb(0 0 0 / 60%);
+}
+/* Up to 768px, DocSearch's modal is full screen (square corners) */
+@media (width > 768px) {
+  .DocSearch-Modal {
+    border-radius: var(--dp-radius-lg);
+  }
+  .DocSearch-Footer {
+    border-radius: 0 0 var(--dp-radius-lg) var(--dp-radius-lg);
+  }
+}
+.DocSearch-Form,
+.DocSearch-Hit a {
+  border-radius: var(--dp-radius-md);
+}
+.DocSearch-Commands-Key {
+  border-radius: var(--dp-radius-sm);
+}

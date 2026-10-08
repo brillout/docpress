@@ -8,8 +8,8 @@ export {
   FileAdded,
   FileRemoved,
   ImportMeta,
-  Emoji,
   Tabs,
+  DocsOverview,
 } from './components/index.js'
 export { MenuToggle } from './Layout.js'
 export * from './components/Note.js'

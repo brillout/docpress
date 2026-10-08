@@ -28,15 +28,11 @@ function parsePageSections(): PluginOption {
 }
 
 function transform(code: string) {
-  let { codeNew, pageSections } = extractPageSections(code)
-  const exportCode = `export const pageSectionsExport = [${pageSections
-    .map((pageSection) => JSON.stringify(pageSection))
-    .join(', ')}];`
-  codeNew += `\n\n${exportCode}\n`
-  return codeNew
+  const { codeNew, pageSections } = extractPageSections(code)
+  return `${codeNew}\n\nexport const pageSectionsExport = ${JSON.stringify(pageSections)};\n`
 }
 
-// Also used by `$ docpress lint`
+/** Replaces the Markdown headings with HTML headings (with their `id`) and returns them as page sections — also used by `$ docpress lint` */
 function extractPageSections(code: string) {
   const pageSections: PageSection[] = []
   let isCodeBlock = false

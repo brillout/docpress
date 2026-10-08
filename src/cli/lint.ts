@@ -77,22 +77,41 @@ function lintDocs(root: string) {
   return { errors, stats }
 }
 
-/** The files to lint: MDX pages, reusable MDX components, and READMEs */
-function getSources(files: string[], root: string): Source[] {
-  const source = (filePath: string, kind: Source['kind'], url: string | null = null): Source => ({
-    name: path.relative(root, filePath).split(path.sep).join('/'),
-    code: fs.readFileSync(filePath, 'utf8'),
-    kind,
-    url,
-  })
-  const mdxSources = files
-    .filter((filePath) => filePath.endsWith('.mdx'))
-    .map((filePath) =>
-      path.basename(filePath) === '+Page.mdx'
-        ? source(filePath, 'page', getPageUrl(filePath, root))
-        : source(filePath, 'component'),
+/** All files of the docs, except of `node_modules/`, `dist/`, and hidden files/directories */
+function crawl(dir: string): string[] {
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => !entry.name.startsWith('.') && entry.name !== 'node_modules' && entry.name !== 'dist')
+    .sort((e1, e2) => (e1.name < e2.name ? -1 : 1))
+    .flatMap((entry) => {
+      const filePath = path.join(dir, entry.name)
+      if (entry.isDirectory()) return crawl(filePath)
+      return entry.isFile() ? [filePath] : []
+    })
+}
+
+function getDocsUrl(files: string[], root: string): string {
+  const configFile = files.find((filePath) => /^\+docpress\.[cm]?[jt]sx?$/.test(path.basename(filePath)))
+  if (!configFile) throw new Error(`[docpress lint] No +docpress.tsx file found at ${root}`)
+  const code = fs.readFileSync(configFile, 'utf8')
+  // The protocol is optional, but the hostname has at least one dot (to skip `url: '/some-page'`)
+  const docsUrl = /\burl:\s*(['"`])((?:https?:\/\/)?[\w-]+(?:\.[\w-]+)+(?:[/?#][^'"`\s]*)?)\1/.exec(code)?.[2]
+  if (!docsUrl) {
+    throw new Error(
+      `[docpress lint] Couldn't find the docs URL: ${configFile} should define it as a string literal, e.g. url: 'https://example.org'`,
     )
-  return [...mdxSources, ...getReadmes(root).map((filePath) => source(filePath, 'readme'))]
+  }
+  return docsUrl.includes('://') ? docsUrl : `https://${docsUrl}`
+}
+
+/**
+ * The docs website itself: an absolute link to it is an internal link in disguise. Recognize the common spellings
+ * of the origin (with/without www, http/https).
+ */
+function getSelfOriginRegExp(docsUrl: string): RegExp {
+  const hostname = new URL(docsUrl).hostname.replace(/^www\./, '')
+  const hostnameEscaped = hostname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return new RegExp(`^https?://(www\\.)?${hostnameEscaped}(?=[/?#]|$)`, 'i')
 }
 
 /** All pages, by URL */
@@ -141,6 +160,48 @@ function getAnchors(code: string): Set<string> {
   return new Set([...headingIds, ...elementIds])
 }
 
+/** The files to lint: MDX pages, reusable MDX components, and READMEs */
+function getSources(files: string[], root: string): Source[] {
+  const source = (filePath: string, kind: Source['kind'], url: string | null = null): Source => ({
+    name: path.relative(root, filePath).split(path.sep).join('/'),
+    code: fs.readFileSync(filePath, 'utf8'),
+    kind,
+    url,
+  })
+  const mdxSources = files
+    .filter((filePath) => filePath.endsWith('.mdx'))
+    .map((filePath) =>
+      path.basename(filePath) === '+Page.mdx'
+        ? source(filePath, 'page', getPageUrl(filePath, root))
+        : source(filePath, 'component'),
+    )
+  return [...mdxSources, ...getReadmes(root).map((filePath) => source(filePath, 'readme'))]
+}
+
+/** The docs, repository, and package READMEs — listed explicitly to stay out of node_modules/ */
+function getReadmes(root: string): string[] {
+  const readmes = [path.join(root, 'README.md')]
+  const repoRoot = findRepositoryRoot(root)
+  if (repoRoot) {
+    const packagesDir = path.join(repoRoot, 'packages')
+    const packageNames = fs.existsSync(packagesDir) ? fs.readdirSync(packagesDir).sort() : []
+    readmes.push(
+      path.join(repoRoot, 'README.md'),
+      ...packageNames.map((name) => path.join(packagesDir, name, 'README.md')),
+    )
+  }
+  return [...new Set(readmes)].filter((filePath) => fs.existsSync(filePath))
+}
+
+function findRepositoryRoot(dir: string): string | null {
+  while (true) {
+    if (fs.existsSync(path.join(dir, '.git'))) return dir
+    const parentDir = path.dirname(dir)
+    if (parentDir === dir) return null
+    dir = parentDir
+  }
+}
+
 /** The links of a source — except of the links inside code blocks, code spans, and comments */
 function getLinks(source: Source): SourceLink[] {
   const prose = stripCode(source.code)
@@ -161,6 +222,37 @@ function getLinks(source: Source): SourceLink[] {
   return links
     .sort((l1, l2) => l1.index - l2.index)
     .map(({ index, ...link }) => ({ ...link, line: prose.slice(0, index).split('\n').length }))
+}
+
+/**
+ * Blank out code blocks, code spans, and comments, so that the examples they contain aren't linted.
+ * Offsets are preserved (only non-newline characters are replaced with spaces).
+ */
+function stripCode(code: string): string {
+  let fence: string | null = null
+  const lines = code.split('\n').map((line) => {
+    // Fences can be indented (e.g. inside a list item) or inside a blockquote
+    const lineContent = line.replace(/^[\s>]*/, '').trimEnd()
+    if (fence) {
+      // Closing fence: only fence characters, at least as many as the opening fence
+      if (lineContent.startsWith(fence) && /^(`+|~+)$/.test(lineContent)) fence = null
+      return blank(line)
+    }
+    // Opening fence (the info string of a backtick fence can't contain backticks)
+    fence = /^(`{3,}(?!.*`)|~{3,})/.exec(lineContent)?.[1] ?? null
+    return fence ? blank(line) : line
+  })
+  return (
+    lines
+      .join('\n')
+      // Code spans, e.g. `<Link href="#some-anchor" />` and ``some `code` span``
+      .replace(/(?<!`)(`+)(?!`).+?(?<!`)\1(?!`)/g, blank)
+      // MDX comments {/* ... */} and HTML comments <!-- ... -->
+      .replace(/\{\/\*[\s\S]*?\*\/\}|<!--[\s\S]*?-->/g, blank)
+  )
+}
+function blank(str: string): string {
+  return str.replace(/[^\n]/g, ' ')
 }
 
 /** Checks the link convention (MDX only), and whether the link's target page and anchor exist */
@@ -203,72 +295,6 @@ function lintLink({ target, syntax, line }: SourceLink, source: Source, docs: Do
   return errors.map((error) => `${source.name}:${line}: ${error}`)
 }
 
-/** All files of the docs, except of `node_modules/`, `dist/`, and hidden files/directories */
-function crawl(dir: string): string[] {
-  return fs
-    .readdirSync(dir, { withFileTypes: true })
-    .filter((entry) => !entry.name.startsWith('.') && entry.name !== 'node_modules' && entry.name !== 'dist')
-    .sort((e1, e2) => (e1.name < e2.name ? -1 : 1))
-    .flatMap((entry) => {
-      const filePath = path.join(dir, entry.name)
-      if (entry.isDirectory()) return crawl(filePath)
-      return entry.isFile() ? [filePath] : []
-    })
-}
-
-function getDocsUrl(files: string[], root: string): string {
-  const configFile = files.find((filePath) => /^\+docpress\.[cm]?[jt]sx?$/.test(path.basename(filePath)))
-  if (!configFile) throw new Error(`[docpress lint] No +docpress.tsx file found at ${root}`)
-  const code = fs.readFileSync(configFile, 'utf8')
-  // The protocol is optional, but the hostname has at least one dot (to skip `url: '/some-page'`)
-  const docsUrl = /\burl:\s*(['"`])((?:https?:\/\/)?[\w-]+(?:\.[\w-]+)+(?:[/?#][^'"`\s]*)?)\1/.exec(code)?.[2]
-  if (!docsUrl) {
-    throw new Error(
-      `[docpress lint] Couldn't find the docs URL: ${configFile} should define it as a string literal, e.g. url: 'https://example.org'`,
-    )
-  }
-  return docsUrl.includes('://') ? docsUrl : `https://${docsUrl}`
-}
-
-/**
- * The docs website itself: an absolute link to it is an internal link in disguise. Recognize the common spellings
- * of the origin (with/without www, http/https).
- */
-function getSelfOriginRegExp(docsUrl: string): RegExp {
-  const hostname = new URL(docsUrl).hostname.replace(/^www\./, '')
-  const hostnameEscaped = hostname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  return new RegExp(`^https?://(www\\.)?${hostnameEscaped}(?=[/?#]|$)`, 'i')
-}
-
-/** The docs, repository, and package READMEs — listed explicitly to stay out of node_modules/ */
-function getReadmes(root: string): string[] {
-  const readmes = [path.join(root, 'README.md')]
-  const repoRoot = findRepositoryRoot(root)
-  if (repoRoot) {
-    const packagesDir = path.join(repoRoot, 'packages')
-    const packageNames = fs.existsSync(packagesDir) ? fs.readdirSync(packagesDir).sort() : []
-    readmes.push(
-      path.join(repoRoot, 'README.md'),
-      ...packageNames.map((name) => path.join(packagesDir, name, 'README.md')),
-    )
-  }
-  return [...new Set(readmes)].filter((filePath) => fs.existsSync(filePath))
-}
-
-function findRepositoryRoot(dir: string): string | null {
-  while (true) {
-    if (fs.existsSync(path.join(dir, '.git'))) return dir
-    const parentDir = path.dirname(dir)
-    if (parentDir === dir) return null
-    dir = parentDir
-  }
-}
-
-function isPublicFile(root: string, url: string): boolean {
-  const filePath = path.join(root, 'public', url)
-  return fs.existsSync(filePath) && fs.statSync(filePath).isFile()
-}
-
 /**
  * `https://vike.dev/some-page/?query#some-anchor` => `{ href: '/some-page/?query#some-anchor', isAbsolute: true, pathname: '/some-page', anchor: 'some-anchor' }`
  *
@@ -287,33 +313,7 @@ function parseInternalLink(target: string, selfOrigin: RegExp) {
   return { href, isAbsolute, pathname, anchor }
 }
 
-/**
- * Blank out code blocks, code spans, and comments, so that the examples they contain aren't linted.
- * Offsets are preserved (only non-newline characters are replaced with spaces).
- */
-function stripCode(code: string): string {
-  let fence: string | null = null
-  const lines = code.split('\n').map((line) => {
-    // Fences can be indented (e.g. inside a list item) or inside a blockquote
-    const lineContent = line.replace(/^[\s>]*/, '').trimEnd()
-    if (fence) {
-      // Closing fence: only fence characters, at least as many as the opening fence
-      if (lineContent.startsWith(fence) && /^(`+|~+)$/.test(lineContent)) fence = null
-      return blank(line)
-    }
-    // Opening fence (the info string of a backtick fence can't contain backticks)
-    fence = /^(`{3,}(?!.*`)|~{3,})/.exec(lineContent)?.[1] ?? null
-    return fence ? blank(line) : line
-  })
-  return (
-    lines
-      .join('\n')
-      // Code spans, e.g. `<Link href="#some-anchor" />` and ``some `code` span``
-      .replace(/(?<!`)(`+)(?!`).+?(?<!`)\1(?!`)/g, blank)
-      // MDX comments {/* ... */} and HTML comments <!-- ... -->
-      .replace(/\{\/\*[\s\S]*?\*\/\}|<!--[\s\S]*?-->/g, blank)
-  )
-}
-function blank(str: string): string {
-  return str.replace(/[^\n]/g, ' ')
+function isPublicFile(root: string, url: string): boolean {
+  const filePath = path.join(root, 'public', url)
+  return fs.existsSync(filePath) && fs.statSync(filePath).isFile()
 }

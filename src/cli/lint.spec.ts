@@ -81,10 +81,10 @@ describe('docpress lint', () => {
       ].join('\n'),
     })
     expect(errors).toEqual([
+      'components/Note.mdx:1: broken anchor "/some-page#wrong-section" — no heading "#wrong-section" on /some-page',
       'pages/other-page/+Page.mdx:2: broken anchor "/some-page#wrong-section" — no heading "#wrong-section" on /some-page',
       'pages/other-page/+Page.mdx:3: broken anchor "/some-page/#wrong-section" — no heading "#wrong-section" on /some-page',
       'pages/other-page/+Page.mdx:4: link to unknown page "/unknown-page#some-section" (there isn\'t any page with URL /unknown-page)',
-      'components/Note.mdx:1: broken anchor "/some-page#wrong-section" — no heading "#wrong-section" on /some-page',
     ])
   })
 

@@ -23,21 +23,29 @@ import path from 'node:path'
 import pc from '@brillout/picocolors'
 import { extractPageSections } from '../parsePageSections.js'
 
-type Page = {
-  /** `null` if the page isn't written in MDX (we then don't know its anchors) */
-  anchors: Set<string> | null
-}
 type Source = {
-  filePath: string
-  /** `null` for reusable MDX components and READMEs */
-  url: string | null
-  kind: 'mdx' | 'markdown'
+  /** File path relative to the docs root, e.g. `pages/some-page/+Page.mdx` */
+  name: string
   code: string
+  /**
+   * - `page`: `+Page.mdx`
+   * - `component`: reusable `*.mdx` component, embedded into pages
+   * - `readme`: plain Markdown rendered on npm/GitHub
+   */
+  kind: 'page' | 'component' | 'readme'
+  /** The page's URL — `null` for components and READMEs */
+  url: string | null
 }
 type SourceLink = {
   target: string
-  index: number
   syntax: 'href' | 'markdown'
+  line: number
+}
+type Docs = {
+  root: string
+  selfOrigin: RegExp
+  /** The anchors of each page, by URL — `null` if the page isn't written in MDX (we then don't know its anchors) */
+  pages: Map<string, Set<string> | null>
 }
 
 function lint() {
@@ -60,119 +68,139 @@ function lint() {
 
 function lintDocs(root: string) {
   const files = crawl(root)
+  const docsUrl = getDocsUrl(files, root)
+  const docs: Docs = { root, selfOrigin: getSelfOriginRegExp(docsUrl), pages: getPages(files, root) }
+  const sources = getSources(files, root)
+  const errors = sources.flatMap((source) => getLinks(source).flatMap((link) => lintLink(link, source, docs)))
+  const count = (kind: Source['kind']) => sources.filter((source) => source.kind === kind).length
+  const stats = { docsUrl, pages: count('page'), components: count('component'), readmes: count('readme') }
+  return { errors, stats }
+}
 
-  const docsUrl = getDocsUrl(root, files)
-  const selfOrigin = getSelfOriginRegExp(docsUrl)
+/** The files to lint: MDX pages, reusable MDX components, and READMEs */
+function getSources(files: string[], root: string): Source[] {
+  const source = (filePath: string, kind: Source['kind'], url: string | null = null): Source => ({
+    name: path.relative(root, filePath).split(path.sep).join('/'),
+    code: fs.readFileSync(filePath, 'utf8'),
+    kind,
+    url,
+  })
+  const mdxSources = files
+    .filter((filePath) => filePath.endsWith('.mdx'))
+    .map((filePath) =>
+      path.basename(filePath) === '+Page.mdx'
+        ? source(filePath, 'page', getPageUrl(filePath, root))
+        : source(filePath, 'component'),
+    )
+  return [...mdxSources, ...getReadmes(root).map((filePath) => source(filePath, 'readme'))]
+}
 
+/** All pages, by URL */
+function getPages(files: string[], root: string): Docs['pages'] {
+  const pages: Docs['pages'] = new Map()
+  for (const filePath of files) {
+    if (!path.basename(filePath).startsWith('+Page.')) continue
+    const url = getPageUrl(filePath, root)
+    if (url === null) continue
+    pages.set(url, filePath.endsWith('.mdx') ? getAnchors(fs.readFileSync(filePath, 'utf8')) : null)
+  }
+  return pages
+}
+
+/** The URL of a page — `null` if it can't be determined statically (Route Function or parameterized Route String) */
+function getPageUrl(pageFile: string, root: string): string | null {
+  const dir = path.dirname(pageFile)
+  // Route String defined by a `+route.js` file, e.g. `export default '/pageContext.json'`
+  const routeFile = fs.readdirSync(dir).find((fileName) => /^\+route\.[cm]?[jt]s$/.test(fileName))
+  if (!routeFile) return getFilesystemRoute(path.relative(root, dir))
+  const routeFileCode = fs.readFileSync(path.join(dir, routeFile), 'utf8')
+  const routeString = /export\s+default\s+(['"`])(\/[^'"`]*)\1/.exec(routeFileCode)?.[2]
+  return routeString && !/[@*]/.test(routeString) ? routeString : null
+}
+
+/** Same as Vike's Filesystem Routing, e.g. `pages/some-page/` => `/some-page` and `pages/index/` => `/` */
+function getFilesystemRoute(dirRelative: string): string {
+  const segments = dirRelative
+    .split(path.sep)
+    .filter(
+      (dir) =>
+        dir !== '' &&
+        !['renderer', 'pages', 'src', 'index'].includes(dir) &&
+        !(dir.startsWith('(') && dir.endsWith(')')),
+    )
+  return '/' + segments.join('/')
+}
+
+/**
+ * The anchors of an MDX page: its headings (with the exact same `id` DocPress gives them) and its elements with an
+ * explicit `id` (e.g. `<h3 id="some-id">`).
+ */
+function getAnchors(code: string): Set<string> {
+  const headingIds = extractPageSections(code).pageSections.flatMap(({ pageSectionId }) => pageSectionId ?? [])
+  const elementIds = Array.from(stripCode(code).matchAll(/<[a-zA-Z][^<>]*?\sid=(["'])(.+?)\1/g), (match) => match[2]!)
+  return new Set([...headingIds, ...elementIds])
+}
+
+/** The links of a source — except of the links inside code blocks, code spans, and comments */
+function getLinks(source: Source): SourceLink[] {
+  const prose = stripCode(source.code)
+  const links = [
+    // JSX/HTML href="..."
+    ...Array.from(prose.matchAll(/\bhref=(["'])(.*?)\1/g), (match) => ({
+      target: match[2]!,
+      syntax: 'href' as const,
+      index: match.index,
+    })),
+    // Markdown [text](target) — but not images ![alt](src)
+    ...Array.from(prose.matchAll(/(?<!!)\[(?:[^[\]]|\[[^[\]]*\])*\]\(([^)\s]+)\)/g), (match) => ({
+      target: match[1]!,
+      syntax: 'markdown' as const,
+      index: match.index,
+    })),
+  ]
+  return links
+    .sort((l1, l2) => l1.index - l2.index)
+    .map(({ index, ...link }) => ({ ...link, line: prose.slice(0, index).split('\n').length }))
+}
+
+/** Checks the link convention (MDX only), and whether the link's target page and anchor exist */
+function lintLink({ target, syntax, line }: SourceLink, source: Source, docs: Docs): string[] {
+  const internalLink = parseInternalLink(target, docs.selfOrigin)
+  if (!internalLink) return [] // External link — not ours to check
+  const { href, isAbsolute, pathname, anchor } = internalLink
+  const isMdx = source.kind !== 'readme'
+  // `null` if it's a page-relative anchor ("#some-anchor") of a URL-less source (component / README)
+  const targetUrl = pathname || source.url
+  // A static asset, e.g. /llms.txt => public/llms.txt
+  const isAsset = !anchor && targetUrl !== null && !docs.pages.has(targetUrl) && isPublicFile(docs.root, targetUrl)
+  const quote = (link: string) => (syntax === 'markdown' ? `"](${link})"` : `href="${link}"`)
   const errors: string[] = []
 
-  const pages = new Map<string, Page>()
-  const sources: Source[] = []
-  const routes = getRouteStrings(files)
-  for (const filePath of files) {
-    const fileName = path.basename(filePath)
-    if (!fileName.startsWith('+Page.')) continue
-    const dir = path.dirname(filePath)
-    const url = routes.has(dir) ? (routes.get(dir) as string | null) : getFilesystemRoute(path.relative(root, dir))
-    if (url === null) continue
-    if (fileName !== '+Page.mdx') {
-      pages.set(url, { anchors: null })
-      continue
-    }
-    const code = fs.readFileSync(filePath, 'utf8')
-    sources.push({ filePath, url, kind: 'mdx', code })
-    const anchors = new Set<string>()
-    try {
-      // The exact same logic DocPress uses to determine the `id` of headings
-      extractPageSections(code).pageSections.forEach(({ pageSectionId }) => {
-        if (pageSectionId) anchors.add(pageSectionId)
-      })
-    } catch (err) {
-      errors.push(`${getLocation(root, filePath)}: couldn't parse headings — ${(err as Error).message}`)
-    }
-    // Elements with an explicit `id`, e.g. <h3 id="some-id">
-    for (const match of stripCode(code).matchAll(/<[a-zA-Z][^<>]*?\sid=(["'])(.+?)\1/g)) anchors.add(match[2]!)
-    pages.set(url, { anchors })
+  // Link convention (MDX only — READMEs are plain Markdown and can't use <Link>): internal links use <Link>, never a
+  // bare markdown link nor an absolute URL. (Static assets aren't pages, thus can't use <Link>, but they should still
+  // use relative URLs.)
+  if (isMdx && syntax === 'markdown' && !isAsset) {
+    errors.push(`bare markdown internal link ${quote(target)} — use <Link href="${href}" /> instead`)
+  } else if (isMdx && isAbsolute) {
+    errors.push(`absolute internal link ${quote(target)} — use a relative ${quote(href)} instead`)
   }
-  const pagesCount = sources.length
 
-  // Reusable components (`*.mdx` files other than `+Page.mdx`) get embedded into pages, so the same
-  // link convention applies. They don't have a URL of their own, so page-relative `#anchor` links
-  // can't be resolved and are skipped — only explicit cross-page anchors are checked.
-  files
-    .filter((filePath) => filePath.endsWith('.mdx') && path.basename(filePath) !== '+Page.mdx')
-    .forEach((filePath) => sources.push({ filePath, url: null, kind: 'mdx', code: fs.readFileSync(filePath, 'utf8') }))
-  const componentsCount = sources.length - pagesCount
-
-  // Package & repo READMEs are plain Markdown (npm/GitHub), so the <Link> convention can't apply —
-  // but their absolute links to the docs are still resolved (page + anchor) so a deep link can't
-  // silently break. Listed explicitly to stay out of node_modules/
-  const readmes = getReadmes(root)
-  readmes.forEach((filePath) =>
-    sources.push({ filePath, url: null, kind: 'markdown', code: fs.readFileSync(filePath, 'utf8') }),
-  )
-
-  for (const source of sources) {
-    const { url, kind, filePath } = source
-    const prose = stripCode(source.code)
-    const links: SourceLink[] = []
-    // JSX/HTML href="..."
-    for (const match of prose.matchAll(/\bhref=(["'])(.*?)\1/g)) {
-      links.push({ target: match[2]!, index: match.index, syntax: 'href' })
-    }
-    // Markdown [text](target) — images ![alt](src) are skipped
-    for (const match of prose.matchAll(/(!?)\[(?:[^[\]]|\[[^[\]]*\])*\]\(([^)\s]+)\)/g)) {
-      if (match[1]) continue
-      links.push({ target: match[2]!, index: match.index, syntax: 'markdown' })
-    }
-    links.sort((l1, l2) => l1.index - l2.index)
-
-    for (const { target, index, syntax } of links) {
-      const link = parseInternalLink(target, selfOrigin)
-      if (!link) continue // External link — not ours to check
-      const { href: internal, isAbsolute, pathname, anchor } = link
-      const location = getLocation(root, filePath, source.code, index)
-      // `null` if it's a page-relative anchor ("#some-anchor") in a URL-less source (component / README)
-      const targetUrl = pathname === '' ? url : pathname
-      // A static asset, e.g. /llms.txt => public/llms.txt
-      const isAsset = !anchor && targetUrl !== null && !pages.has(targetUrl) && isPublicFile(root, targetUrl)
-
-      // Link convention (MDX only — READMEs are plain Markdown and can't use <Link>): internal links
-      // must use <Link>, never a bare markdown link nor an absolute URL. (Static assets aren't pages,
-      // thus can't use <Link>, but they should still use relative URLs.)
-      if (kind === 'mdx') {
-        if (syntax === 'markdown' && !isAsset) {
-          errors.push(
-            `${location}: bare markdown internal link "](${target})" — use <Link href="${internal}" /> instead`,
-          )
-        } else if (isAbsolute) {
-          const [linkActual, linkFixed] =
-            syntax === 'markdown' ? [`"](${target})"`, `"](${internal})"`] : [`href="${target}"`, `href="${internal}"`]
-          errors.push(`${location}: absolute internal link ${linkActual} — use a relative ${linkFixed} instead`)
-        }
-      }
-
-      // Page + anchor integrity. Relative links are resolved only if they carry an `#anchor` (a link
-      // to a page without anchor is validated by <Link> at build-time, and may point to a redirect).
-      // Absolute links are always resolved, page existence included.
-      //
-      // Relative links ("/page", "#anchor") are docs-relative only in MDX — in plain-Markdown READMEs
-      // they're relative to the repository (GitHub), so there only absolute links are ours.
-      if (!isAbsolute && kind !== 'mdx') continue
-      if (!isAbsolute && !anchor) continue
-      if (targetUrl === null || isAsset) continue
-      const page = pages.get(targetUrl)
-      if (!page) {
-        if (targetUrl === '/') continue // Docs home — nothing to resolve
-        errors.push(`${location}: link to unknown page "${target}" (there isn't any page with URL ${targetUrl})`)
-      } else if (anchor && page.anchors && !page.anchors.has(anchor)) {
-        errors.push(`${location}: broken anchor "${target}" — no heading "#${anchor}" on ${targetUrl}`)
-      }
+  // Page + anchor integrity. Absolute links are always resolved, page existence included. Relative links are resolved
+  // only if they carry an `#anchor` (a link to a page without anchor is validated by <Link> at build-time, and may
+  // point to a redirect), and only in MDX (in READMEs they're relative to the repository on GitHub).
+  const isResolved = isAbsolute || (isMdx && !!anchor)
+  if (isResolved && targetUrl !== null && !isAsset) {
+    const anchors = docs.pages.get(targetUrl)
+    if (anchors === undefined) {
+      // The docs home doesn't have to be a page (e.g. it can be a redirect)
+      if (targetUrl !== '/')
+        errors.push(`link to unknown page "${target}" (there isn't any page with URL ${targetUrl})`)
+    } else if (anchor && anchors && !anchors.has(anchor)) {
+      errors.push(`broken anchor "${target}" — no heading "#${anchor}" on ${targetUrl}`)
     }
   }
 
-  const stats = { docsUrl, pages: pagesCount, components: componentsCount, readmes: readmes.length }
-  return { errors, stats }
+  return errors.map((error) => `${source.name}:${line}: ${error}`)
 }
 
 /** All files of the docs, except of `node_modules/`, `dist/`, and hidden files/directories */
@@ -189,7 +217,7 @@ function crawl(dir: string): string[] {
   return files
 }
 
-function getDocsUrl(root: string, files: string[]): string {
+function getDocsUrl(files: string[], root: string): string {
   const configFile = files.find((filePath) => /^\+docpress\.[cm]?[jt]sx?$/.test(path.basename(filePath)))
   if (!configFile) throw new Error(`[docpress lint] No +docpress.tsx file found at ${root}`)
   const code = fs.readFileSync(configFile, 'utf8')
@@ -211,34 +239,6 @@ function getSelfOriginRegExp(docsUrl: string): RegExp {
   const hostname = new URL(docsUrl).hostname.replace(/^www\./, '')
   const hostnameEscaped = hostname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   return new RegExp(`^https?://(www\\.)?${hostnameEscaped}(?=[/?#]|$)`, 'i')
-}
-
-/** Pages with a Route String defined by a `+route.js` file, e.g. `export default '/pageContext.json'` */
-function getRouteStrings(files: string[]) {
-  const routes = new Map<string, string | null>()
-  files
-    .filter((filePath) => /^\+route\.[cm]?[jt]s$/.test(path.basename(filePath)))
-    .forEach((filePath) => {
-      const code = fs.readFileSync(filePath, 'utf8')
-      const routeString = /export\s+default\s+(['"`])(\/[^'"`]*)\1/.exec(code)?.[2]
-      // Route Functions and parameterized Route Strings can't be resolved statically
-      const isStatic = routeString && !routeString.includes('@') && !routeString.includes('*')
-      routes.set(path.dirname(filePath), isStatic ? routeString : null)
-    })
-  return routes
-}
-
-/** Same as Vike's Filesystem Routing, e.g. `pages/some-page/` => `/some-page` and `pages/index/` => `/` */
-function getFilesystemRoute(dirRelative: string): string {
-  const segments = dirRelative
-    .split(path.sep)
-    .filter(
-      (dir) =>
-        dir !== '' &&
-        !['renderer', 'pages', 'src', 'index'].includes(dir) &&
-        !(dir.startsWith('(') && dir.endsWith(')')),
-    )
-  return '/' + segments.join('/')
 }
 
 function getReadmes(root: string): string[] {
@@ -335,10 +335,4 @@ function stripCode(code: string): string {
 }
 function blank(str: string): string {
   return str.replace(/[^\n]/g, ' ')
-}
-
-function getLocation(root: string, filePath: string, code?: string, index?: number): string {
-  let location = path.relative(root, filePath).split(path.sep).join('/')
-  if (code !== undefined && index !== undefined) location += ':' + code.slice(0, index).split('\n').length
-  return location
 }

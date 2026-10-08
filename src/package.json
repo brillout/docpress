@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "======== Build": "",
-    "// Build vite.config.ts and +config.ts (other files don't need to be built as @brillout/docpress is noExternal)": "",
+    "// Build vite.config.ts, +config.ts, and the CLI (other files don't need to be built as @brillout/docpress is noExternal)": "",
     "build": "rm -rf dist/ && tsc --project tsconfig.build.json",
     "======== Develop": "",
     "// Typecheck": "",
@@ -53,6 +53,9 @@
     "./types": {
       "types": "./types.d.ts"
     }
+  },
+  "bin": {
+    "docpress": "./bin.js"
   },
   "typesVersions": {
     "*": {

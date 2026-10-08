@@ -1,4 +1,5 @@
 export { parsePageSections }
+export { extractPageSections }
 export type { PageSection }
 
 import type { PluginOption } from 'vite'
@@ -27,9 +28,15 @@ function parsePageSections(): PluginOption {
 }
 
 function transform(code: string) {
+  const { codeNew, pageSections } = extractPageSections(code)
+  return `${codeNew}\n\nexport const pageSectionsExport = ${JSON.stringify(pageSections)};\n`
+}
+
+/** Replaces the Markdown headings with HTML headings (with their `id`) and returns them as page sections — also used by `$ docpress lint` */
+function extractPageSections(code: string) {
   const pageSections: PageSection[] = []
   let isCodeBlock = false
-  let codeNew = code
+  const codeNew = code
     .split('\n')
     .map((line) => {
       // Skip code blocks, e.g.
@@ -59,11 +66,7 @@ function transform(code: string) {
       return line
     })
     .join('\n')
-  const exportCode = `export const pageSectionsExport = [${pageSections
-    .map((pageSection) => JSON.stringify(pageSection))
-    .join(', ')}];`
-  codeNew += `\n\n${exportCode}\n`
-  return codeNew
+  return { codeNew, pageSections }
 }
 
 function parsePageSection(line: string): PageSection & { headingHtml: string } {

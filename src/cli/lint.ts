@@ -259,8 +259,9 @@ function lintLink({ target, syntax, line }: SourceLink, source: Source, docs: Do
   }
 
   // Page + anchor integrity. Absolute links are always resolved, page existence included. Relative links are resolved
-  // only if they carry an `#anchor` (a link to a page without anchor is validated by <Link> at build-time, and may
-  // point to a redirect), and only in MDX (in READMEs they're relative to the repository on GitHub).
+  // only in MDX (in READMEs they're relative to the repository on GitHub) and only if they carry an `#anchor`: the
+  // target page of a <Link> is already validated at build-time, while an href can legitimately point to something
+  // else than a page (e.g. a redirect or an asset generated at build-time).
   const isResolved = isAbsolute || (isMdx && !!anchor)
   if (isResolved && targetUrl !== null && !isAsset) {
     const anchors = docs.pages.get(targetUrl)
@@ -284,8 +285,14 @@ function lintLink({ target, syntax, line }: SourceLink, source: Source, docs: Do
 function parseInternalLink(target: string, selfOrigin: RegExp) {
   const isAbsolute = selfOrigin.test(target)
   // Relative link: "/some-page" or "#some-anchor" (but not "//cdn.example.com/some-file.js")
-  if (!isAbsolute && !/^(#|\/(?!\/))/.test(target)) return null
-  const href = isAbsolute ? target.replace(selfOrigin, '').replace(/^(?!\/)/, '/') : target
+  const isRelative = /^(#|\/(?!\/))/.test(target)
+  if (!isAbsolute && !isRelative) return null
+  let href = target
+  if (isAbsolute) {
+    // E.g. `https://vike.dev` => `/` and `https://vike.dev#some-anchor` => `/#some-anchor`
+    href = target.replace(selfOrigin, '')
+    if (!href.startsWith('/')) href = `/${href}`
+  }
   const [pathAndQuery, ...hashParts] = href.split('#')
   // Text fragments, e.g. #some-anchor:~:text=some%20text
   const anchor = hashParts.join('#').split(':~:')[0]!

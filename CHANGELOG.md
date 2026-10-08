@@ -1,3 +1,12 @@
+## [0.17.8](https://github.com/brillout/docpress/compare/v0.17.7...v0.17.8) (2026-10-08)
+
+
+### Features
+
+* `$ docpress lint` (static docs quality gate) ([#205](https://github.com/brillout/docpress/issues/205)) ([df995f8](https://github.com/brillout/docpress/commit/df995f8d0562aca8d66dd1cd4d3e0fcb35604519))
+
+
+
 ## [0.17.7](https://github.com/brillout/docpress/compare/v0.17.6...v0.17.7) (2026-09-23)
 
 
@@ -2661,6 +2670,3 @@ add a new `<MenuToggle>` to `+TopNavigation.js`
 
 
 ## [0.2.4](https://github.com/brillout/docpress/compare/v0.2.3...v0.2.4) (2022-12-23)
-
-
-

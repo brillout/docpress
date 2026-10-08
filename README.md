@@ -8,20 +8,6 @@ Used for:
 
 Don't use this: this package isn't meant for others to use. It's only meant to be used by Vike and Telefunc. That said, feel free to fork this project.
 
-## Lint
-
-```shell
-# At the docs root (the directory containing +docpress.tsx)
-docpress lint
-```
-
-Static docs quality gate (it doesn't build nor start a server) that checks all MDX files (`+Page.mdx` pages and reusable `*.mdx` components):
-1. Anchor integrity — every internal `#anchor` link resolves to a heading (or to an element with an `id`, e.g. `<h3 id="some-id">`).
-2. Page integrity — every internal link with an `#anchor` points to a page.
-3. Link convention — internal links use `<Link>`, not bare markdown links and not absolute URLs (an absolute link to the docs website itself is an internal link in disguise).
-
-The absolute links (e.g. `https://vike.dev/some-page#some-anchor`) of READMEs (`README.md`, `docs/README.md`, and `packages/*/README.md`) are also resolved, so that deep links can't silently rot.
-
 ## GitHub Pages Integration
 
 1. Change DNS settings of domain name to add following `A` records:

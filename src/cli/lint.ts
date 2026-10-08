@@ -1,6 +1,4 @@
 export { lint }
-// For ./lint.spec.ts
-export { lintDocs }
 
 // `$ docpress lint` — static docs quality gate: runs without building nor starting a server.
 //
@@ -20,7 +18,6 @@ export { lintDocs }
 
 import fs from 'node:fs'
 import path from 'node:path'
-import pc from '@brillout/picocolors'
 import { extractPageSections } from '../parsePageSections.js'
 
 type Source = {
@@ -48,25 +45,7 @@ type Docs = {
   pages: Map<string, Set<string> | null>
 }
 
-function lint() {
-  const root = process.cwd()
-  const { errors, stats } = lintDocs(root)
-  if (errors.length > 0) {
-    console.error(pc.red(pc.bold(`\n✗ docpress lint: ${errors.length} issue(s)\n`)))
-    errors.forEach((err) => console.error('  ' + err))
-    console.error('')
-    process.exit(1)
-  }
-  const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`
-  console.log(
-    pc.green(
-      `✓ docpress lint: ${count(stats.pages, 'page')}, ${count(stats.components, 'MDX component')}, ${count(stats.readmes, 'README')} — ` +
-        `internal links (anchors, pages, and absolute ${stats.docsUrl} URLs) all resolve.`,
-    ),
-  )
-}
-
-function lintDocs(root: string) {
+function lint(root: string) {
   const files = crawl(root)
   const docsUrl = getDocsUrl(files, root)
   const docs: Docs = { root, selfOrigin: getSelfOriginRegExp(docsUrl), pages: getPages(files, root) }

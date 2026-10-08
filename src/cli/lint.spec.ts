@@ -2,13 +2,13 @@ import { describe, it, expect, afterAll } from 'vitest'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { lintDocs } from './lint.js'
+import { lint } from './lint.js'
 
 const tmpDirs: string[] = []
 afterAll(() => tmpDirs.forEach((dir) => fs.rmSync(dir, { recursive: true, force: true })))
 
 /** Creates a repository with the given files (paths relative to the repository root) and lints its `docs/` directory */
-function lint(files: Record<string, string>) {
+function lintRepo(files: Record<string, string>) {
   const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'docpress-lint-'))
   tmpDirs.push(repoRoot)
   fs.mkdirSync(path.join(repoRoot, '.git'))
@@ -17,12 +17,12 @@ function lint(files: Record<string, string>) {
     fs.mkdirSync(path.dirname(path.join(repoRoot, filePath)), { recursive: true })
     fs.writeFileSync(path.join(repoRoot, filePath), content)
   }
-  return lintDocs(path.join(repoRoot, 'docs'))
+  return lint(path.join(repoRoot, 'docs'))
 }
 
 describe('docpress lint', () => {
   it('accepts valid docs', () => {
-    const { errors, stats } = lint({
+    const { errors, stats } = lintRepo({
       'docs/pages/index/+Page.mdx': 'Welcome, see <Link href="/some-page#some-section" />.',
       'docs/pages/some-page/+Page.mdx': [
         '## Some section',
@@ -36,7 +36,7 @@ describe('docpress lint', () => {
   })
 
   it('resolves anchors the same way DocPress determines heading IDs', () => {
-    const { errors } = lint({
+    const { errors } = lintRepo({
       'docs/pages/api/+Page.mdx': [
         '## `<Config>` & `<Head>`',
         '## Some Title{#custom-anchor}',
@@ -64,7 +64,7 @@ describe('docpress lint', () => {
   })
 
   it('detects broken anchors and unknown pages', () => {
-    const { errors } = lint({
+    const { errors } = lintRepo({
       'docs/pages/some-page/+Page.mdx': '## Some section',
       'docs/pages/other-page/+Page.mdx': [
         '<Link href="/some-page#some-section" />',
@@ -89,7 +89,7 @@ describe('docpress lint', () => {
   })
 
   it('enforces the link convention', () => {
-    const { errors } = lint({
+    const { errors } = lintRepo({
       'docs/pages/some-page/+Page.mdx': [
         '## Some section',
         '[Bare markdown link](/some-page)',
@@ -114,7 +114,7 @@ describe('docpress lint', () => {
   })
 
   it('ignores code blocks, code spans, and comments', () => {
-    const { errors } = lint({
+    const { errors } = lintRepo({
       'docs/pages/some-page/+Page.mdx': [
         '```mdx',
         '[Example](/some-page) <Link href="#example" />',
@@ -141,7 +141,7 @@ describe('docpress lint', () => {
   })
 
   it("follows Vike's routing", () => {
-    const { errors } = lint({
+    const { errors } = lintRepo({
       'docs/pages/index/+Page.mdx': '## Intro',
       'docs/pages/(marketing)/pricing/+Page.mdx': '## Plans',
       'docs/pages/pageContext-json/+Page.mdx': '## Avoid requests',
@@ -168,7 +168,7 @@ describe('docpress lint', () => {
   })
 
   it('supports static assets', () => {
-    const { errors } = lint({
+    const { errors } = lintRepo({
       'docs/public/llms.txt': '# Docs',
       'docs/pages/ai/+Page.mdx': [
         '[llms.txt](/llms.txt)',
@@ -185,7 +185,7 @@ describe('docpress lint', () => {
   })
 
   it('resolves absolute links of READMEs', () => {
-    const { errors, stats } = lint({
+    const { errors, stats } = lintRepo({
       'docs/pages/some-page/+Page.mdx': '## Some section',
       'README.md': [
         // Relative links are relative to the repository (GitHub) — not ours to check

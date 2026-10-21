@@ -30,6 +30,41 @@ type Config = {
    */
   headHtml?: string
 
+  /**
+   * Adds a light/dark toggle to the top bar.
+   *
+   * The appearance follows the OS (`prefers-color-scheme`) until the user picks one, which is persisted in `localStorage`.
+   *
+   * @default false
+   */
+  darkMode?: boolean
+
+  /**
+   * "On this page" rail: show reading progress. The rail's thumb spans the part of the page on screen (in a long
+   * section, it slides down the section's item as the section is read); a ring next to "Back to top" fills as the page
+   * is read.
+   *
+   * @default false
+   */
+  tocProgress?: boolean
+
+  /**
+   * Show the categories (the level-1 headings) as tabs below the top bar, on desktop, instead of the "Docs" menu. Each tab
+   * links to its category's first page; the left navigation lists the category's pages. On the landing page, "Docs" is a
+   * link to the docs' entry page (see `docsUrl`).
+   *
+   * @default false
+   */
+  categoryTabs?: boolean
+
+  /**
+   * The docs' entry page: where the landing page's "Docs" link goes (with `categoryTabs`). For example a docs home, a
+   * page listing the categories with `<DocsOverview />`.
+   *
+   * @default The first category's first page
+   */
+  docsUrl?: string
+
   github: string
   discord?: string
   twitter?: string
@@ -61,7 +96,6 @@ type Config = {
   navLogoStyle?: React.CSSProperties
   navLogoTextStyle?: React.CSSProperties
 
-  globalNote?: React.ReactNode
   choices?: Record<string, Choice>
 }
 
@@ -78,6 +112,8 @@ type Category =
 type ChoiceItem = {
   name: string
   icon?: string
+  /** The icon is black (e.g. a monochrome logo): it's shown white in dark mode */
+  iconMono?: boolean
   iconStyle?: React.CSSProperties
   iconStyleDropdown?: React.CSSProperties
   iconStyleTab?: React.CSSProperties

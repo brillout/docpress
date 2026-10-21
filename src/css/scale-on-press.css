@@ -1,0 +1,8 @@
+/* `.scale-on-press`: a control shrinks a bit while pressed; `.scale-on-press-subtle`: a large target (a row, a card),
+ * its content barely moves (the transition: colorize-on-hover.css) */
+.scale-on-press:active {
+  transform: scale(0.97);
+}
+.scale-on-press-subtle:active {
+  transform: scale(0.99);
+}

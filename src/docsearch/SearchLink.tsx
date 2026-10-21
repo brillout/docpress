@@ -1,42 +1,69 @@
 export { SearchLink }
+export { setApplePlatform_SSR }
 
 import React from 'react'
 import { openDocsearchModal } from './toggleDocsearchModal.js'
-import { iconMagnifyingGlass } from '../icons/index.js'
+import './SearchLink.css'
 
 type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
-function SearchLink(props: PropsAnchor) {
+// Styled as a search input, opening Algolia DocSearch
+function SearchLink({ label = 'Search', ...props }: PropsAnchor & { label?: string }) {
   return (
     <a
       {...props}
-      style={{
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        ...props.style,
-      }}
-      className={['colorize-on-hover', props.className].filter(Boolean).join(' ')}
+      className={['search-link', props.className].filter(Boolean).join(' ')}
       onClick={(ev) => {
         ev.preventDefault()
         openDocsearchModal()
       }}
-      aria-label={'Ctrl\xa0+\xa0K'}
+      role="button"
+      tabIndex={0}
+      aria-label={label}
+      aria-keyshortcuts="Control+K Meta+K"
+      onKeyDown={(ev) => {
+        if (ev.key !== 'Enter' && ev.key !== ' ') return
+        ev.preventDefault()
+        openDocsearchModal()
+      }}
     >
-      <SearchIcon />
-      Search
+      <span className="search-box">
+        <SearchIcon />
+        <span className="search-box-text">{label}</span>
+        <ShortcutHint />
+      </span>
     </a>
   )
 }
+
+// The server doesn't know the platform: both are rendered, and CSS shows `⌘K` on Apple devices (the `dp-apple` class is
+// set before the first paint, see `setApplePlatform_SSR`): the hint doesn't change after hydration
+function ShortcutHint() {
+  return (
+    <kbd className="search-box-kbd">
+      <span className="search-box-kbd-other">Ctrl K</span>
+      <span className="search-box-kbd-apple">⌘K</span>
+    </kbd>
+  )
+}
+// Inlined in <head> (onRenderHtml.tsx)
+const setApplePlatform_SSR =
+  "if(/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent))document.documentElement.classList.add('dp-apple')"
+
 function SearchIcon() {
   return (
-    <img
-      src={iconMagnifyingGlass}
-      width={18}
-      style={{
-        marginRight: 'var(--icon-text-padding)',
-      }}
-      className="decolorize-7"
-    />
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
   )
 }

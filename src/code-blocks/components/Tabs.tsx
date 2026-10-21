@@ -8,7 +8,7 @@ import { usePageContext } from '../../renderer/usePageContext.js'
 import { assertUsage } from '../../utils/assert.js'
 import './Tabs.css'
 
-function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
+function Tabs({ choice, hide = [] }: { choice: string; hide?: string[] }) {
   const radioId = useId()
   const groupName = choice
   const pageContext = usePageContext()
@@ -23,14 +23,13 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
 
   return (
     <div className="choice-tabs">
-      <div
-        id={`choicesFor-${groupName}`}
-        className="choice-tabs__tab-list"
-        role="radiogroup"
-        data-choice-group={groupName}
-      >
-        {choices.map(({ name: choice, icon, iconStyle, iconStyleTab }) => (
-          <label key={choice} className="choice-tabs__tab" style={{ display: isHidden(choice) ? 'none' : undefined }}>
+      <div className="choice-tabs__tab-list" role="radiogroup" data-choice-group={groupName}>
+        {choices.map(({ name: choice, icon, iconMono, iconStyle, iconStyleTab }) => (
+          <label
+            key={choice}
+            className="choice-tabs__tab scale-on-press"
+            style={{ display: isHidden(choice) ? 'none' : undefined }}
+          >
             <input
               className="choice-tabs__radio sr-only"
               type="radio"
@@ -43,7 +42,15 @@ function Tabs({ choice, hide = [] }: { choice: string; hide: string[] }) {
               }}
             />
             <span className="choice-tabs__tab-content">
-              {icon && <img src={icon} alt="" aria-hidden="true" style={{ ...iconStyle, ...iconStyleTab }} />}
+              {icon && (
+                <img
+                  src={icon}
+                  alt=""
+                  aria-hidden="true"
+                  className={iconMono ? 'dp-icon-mono' : undefined}
+                  style={{ ...iconStyle, ...iconStyleTab }}
+                />
+              )}
               <span className="choice-tabs__tab-label">{choice}</span>
             </span>
           </label>

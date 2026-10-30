@@ -3,10 +3,8 @@ export { config as viteConfig }
 import mdx from '@mdx-js/rollup'
 import react from '@vitejs/plugin-react'
 import type { PluginOption, UserConfig } from 'vite'
-import { parsePageSections } from './parsePageSections.js'
+import { parsePageSections, remarkPluginsSyntax } from './parsePageSections.js'
 import rehypePrettyCode from 'rehype-pretty-code'
-import remarkGfm from 'remark-gfm'
-import remarkDirective from 'remark-directive'
 import { transformerNotationDiff, transformerNotationWordHighlight } from '@shikijs/transformers'
 // @brillout/shiki-transformers adds color parameter `[!code highlight:#abc]` where #abc is a color
 // https://github.com/shikijs/shiki/issues/1264
@@ -35,7 +33,7 @@ const prettyCode = [
   },
 ]
 const rehypePlugins: any = [prettyCode, [rehypeMetaToProps]]
-const remarkPlugins = [remarkGfm, remarkDirective, remarkChoiceGroup]
+const remarkPlugins = [...remarkPluginsSyntax, remarkChoiceGroup]
 
 const config: UserConfig = {
   root,

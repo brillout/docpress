@@ -63,6 +63,26 @@ describe('docpress lint', () => {
     ])
   })
 
+  it('reports two headings with the same custom anchor', () => {
+    const { errors } = lintRepo({
+      'docs/pages/some-page/+Page.mdx': ['## Setup{#stable}', '### Install{#stable}'].join('\n'),
+      'docs/pages/other-page/+Page.mdx': '<Link href="/some-page#stable" />',
+    })
+    expect(errors).toEqual([
+      'pages/some-page/+Page.mdx: The headings ## Setup and ### Install have the same URL hash #stable, give them different {#custom-anchor}',
+    ])
+  })
+
+  it("reports a page that isn't valid MDX", () => {
+    const { errors } = lintRepo({
+      'docs/pages/some-page/+Page.mdx': ['## Setup', '', '{/* unclosed comment', '', '## Install'].join('\n'),
+      'docs/pages/other-page/+Page.mdx': '<Link href="/some-page#install" />',
+    })
+    expect(errors).toEqual([
+      'pages/some-page/+Page.mdx:5: Unexpected end of file in expression, expected a corresponding closing brace for `{`',
+    ])
+  })
+
   it('detects broken anchors and unknown pages', () => {
     const { errors } = lintRepo({
       'docs/pages/some-page/+Page.mdx': '## Some section',

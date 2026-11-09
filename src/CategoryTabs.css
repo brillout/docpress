@@ -1,38 +1,7 @@
 /* CategoryTabs.tsx: shown on desktop, see Layout.tsx */
-.has-category-tabs {
-  --nav-tabs-shown-height: var(--nav-tabs-height, 0px);
-}
 .category-tabs {
-  position: relative;
-  /* Painted below the top bar: scrolling down slides the tabs up under it */
-  z-index: -1;
   height: var(--nav-tabs-height);
   background: var(--dp-color-bg);
-  transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
-}
-/* Scrolling down slides the tabs under the sticky top bar (CategoryTabs.tsx), unless they have the keyboard focus. The
-   bar's category keeps them there while it has it. */
-html:is(.category-tabs-hidden, :has(.nav-head-category:focus-visible)):not(:has(.category-tabs a:focus-visible)) {
-  .has-category-tabs {
-    --nav-tabs-shown-height: 0px;
-  }
-  .top-nav-sticky {
-    /* The strip the tabs leave lets the pointer through to the page */
-    pointer-events: none;
-    & > * {
-      pointer-events: auto;
-    }
-    .category-tabs {
-      transform: translateY(-100%);
-    }
-    .category-tabs-content {
-      opacity: 0;
-    }
-    .nav-head-category {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
 }
 .category-tabs-content {
   display: flex;
@@ -42,7 +11,6 @@ html:is(.category-tabs-hidden, :has(.nav-head-category:focus-visible)):not(:has(
   padding: 0 var(--main-view-padding) 0 calc(var(--nav-head-indent) - 10px);
   overflow-x: auto;
   scrollbar-width: none;
-  transition: opacity var(--dp-duration-reveal) var(--dp-ease-out);
 }
 .category-tab {
   position: relative;
@@ -93,27 +61,5 @@ html:is(.category-tabs-hidden, :has(.nav-head-category:focus-visible)):not(:has(
   .category-tab.is-current &,
   .category-tab:hover & {
     filter: none;
-  }
-}
-/* The current category in the top bar (CategoryTabs.tsx). Laid out also while hidden: the bar's items don't move. */
-.nav-head-category {
-  height: 100%;
-  padding-left: var(--padding-side);
-  /* The divider after the logo */
-  background: linear-gradient(var(--dp-color-border), var(--dp-color-border)) left center / 1px 20px no-repeat;
-  opacity: 0;
-  /* Also unfocusable */
-  visibility: hidden;
-  /* Over the bar's links' own transition (colorize-on-hover.css) */
-  .nav-head & {
-    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out), visibility var(--dp-duration-reveal);
-  }
-  &.is-current::after {
-    left: var(--padding-side);
-  }
-  img {
-    width: 16px;
-    height: 16px;
-    object-fit: contain;
   }
 }

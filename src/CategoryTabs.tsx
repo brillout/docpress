@@ -1,6 +1,4 @@
 export { CategoryTabs }
-export { NavHeadCategory }
-export { initCategoryTabsHiding }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
@@ -38,36 +36,5 @@ function CategoryTabs() {
         )}
       </div>
     </nav>
-  )
-}
-
-// The current category in the top bar, after the logo: shown while the tabs are hidden (CategoryTabs.css)
-function NavHeadCategory() {
-  const category = usePageContext().resolved.categories.find((category) => category.isCurrent)
-  if (!category?.pages[0]) return null
-  const { title, titleIcon, color, pages } = category
-  return (
-    <a href={pages[0].url} className="category-tab is-current nav-head-category" style={{ '--color-category': color }}>
-      {titleIcon && <img src={titleIcon} alt="" />}
-      {parseMarkdownMini(title)}
-    </a>
-  )
-}
-
-// Any scroll down hides the tabs, any scroll up shows them (only where the top nav is sticky, see CategoryTabs.css)
-function initCategoryTabsHiding() {
-  let scrollYLast = window.scrollY
-  window.addEventListener(
-    'scroll',
-    () => {
-      const { scrollY } = window
-      if (scrollY === scrollYLast) return
-      // Past the page's top or bottom: the elastic overscroll (Safari), not the reader scrolling back
-      const { scrollHeight, clientHeight } = document.documentElement
-      if (scrollY < 0 || scrollY > scrollHeight - clientHeight) return
-      document.documentElement.classList.toggle('category-tabs-hidden', scrollY > 0 && scrollY > scrollYLast)
-      scrollYLast = scrollY
-    },
-    { passive: true },
   )
 }

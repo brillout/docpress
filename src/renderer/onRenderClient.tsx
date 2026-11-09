@@ -17,7 +17,7 @@ import { addScript } from '../utils/addScript.js'
 import { initThemeListener } from '../theme/applyTheme.js'
 import { initDocsearchFocusReturn } from '../docsearch/toggleDocsearchModal.js'
 import { initTooltipGroup } from '../tooltips.js'
-import { initCategoryTabsHiding } from '../CategoryTabs.js'
+import { initScrollDirection } from '../initScrollDirection.js'
 
 const globalObject = getGlobalObject<{
   root?: ReactDOM.Root
@@ -31,7 +31,7 @@ initOnNavigation()
 initDocsearchFocusReturn()
 initTooltipGroup()
 initMenuModalCloseListeners()
-initCategoryTabsHiding()
+initScrollDirection()
 
 async function onRenderClient(pageContext: PageContextClient) {
   onRenderStart()

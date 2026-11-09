@@ -43,8 +43,8 @@
       height: 16px;
     }
   }
-  /* The current category tab, or the top bar while the tabs are hidden, already names it: the first page or group label
-   * takes the breadcrumb's line. Only where the top nav is sticky: elsewhere the tabs scroll away. */
+  /* The current category tab already names it: the first page or group label takes the breadcrumb's line. Only where
+   * the top nav is sticky: elsewhere the tabs scroll away. */
   .has-category-tabs:has(.top-nav-sticky) & {
     .nav-item-level-1 {
       display: none;

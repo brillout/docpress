@@ -454,83 +454,23 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(await getVisibleText(page, '#nav-left')).not.toContain('Overview')
   })
 
-  test(`${featuresURL} - the top bar names the category while the category tabs are hidden, and nothing else in it or the sides moves`, async () => {
-    await open(featuresURL, 'desktop')
+  test(`${featuresURL} - the left navigation and "On this page" don't move as the header hides and comes back`, async () => {
+    await open(featuresURL, 'laptop')
     const getRects = () =>
       page.evaluate(() =>
-        ['.nav-head-logo', '.search-link', '.nav-head-secondary', '#navigation-container', '.toc-rail-sticky']
+        ['#navigation-container', '.toc-rail-sticky']
           .map((selector) => {
             const { left, top, width, height } = document.querySelector(selector)!.getBoundingClientRect()
             return `${selector}: ${left}px, ${top}px, ${width}x${height}`
           })
           .join('; '),
       )
-    const getCategory = () =>
-      page.evaluate(() => {
-        const { visibility, opacity } = getComputedStyle(document.querySelector('.nav-head-category')!)
-        return `${visibility}, opacity ${opacity}`
-      })
-    expect(await page.textContent('.nav-head-category')).toBe('Overview')
     await scrollTo(1200)
-    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
-    await scrollTo(1199)
-    await autoRetry(async () => expect(await getCategory()).toBe('hidden, opacity 0'), { timeout: 5 * 1000 })
+    await expectHeaderRows(headerHidden)
     const rects = await getRects()
-    await scrollTo(1200)
-    expect(await getRects()).toBe(rects)
-    await autoRetry(
-      async () => {
-        expect(await isScrolledDown()).toBe(true)
-        expect(await getRects()).toBe(rects)
-        expect(await getCategory()).toBe('visible, opacity 1')
-      },
-      { timeout: 5 * 1000 },
-    )
     await scrollTo(1199)
-    await autoRetry(async () => expect(await getCategory()).toBe('hidden, opacity 0'), { timeout: 5 * 1000 })
+    await expectHeaderRows(headerShown)
     expect(await getRects()).toBe(rects)
-  })
-
-  test(`${featuresURL} - the top bar's category fades out as the category tabs come back`, async () => {
-    await open(featuresURL, 'desktop')
-    await scrollTo(1200)
-    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
-    // A fade that outlasts the test
-    await page.addStyleTag({ content: ':root { --dp-duration-reveal: 60s; }' })
-    await scrollTo(1199)
-    await autoRetry(
-      async () => {
-        expect(await isScrolledDown()).toBe(false)
-        const { visibility, opacity } = await page.evaluate(() => {
-          const { visibility, opacity } = getComputedStyle(document.querySelector('.nav-head-category')!)
-          return { visibility, opacity }
-        })
-        expect(visibility).toBe('visible')
-        expect(opacity).toMatch(/^0\.\d*[1-9]/)
-      },
-      { timeout: 5 * 1000 },
-    )
-  })
-
-  test(`${featuresURL} - the top bar's category keeps the keyboard focus on scroll up`, async () => {
-    await open(featuresURL, 'desktop')
-    // Shown and hidden at once
-    await page.addStyleTag({ content: ':root { --dp-duration-reveal: 0s; }' })
-    await scrollTo(1200)
-    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
-    await page.focus('.nav-head-logo')
-    await page.keyboard.press('Tab')
-    expect(await page.evaluate(() => document.activeElement!.className)).toContain('nav-head-category')
-    await page.keyboard.press('ArrowUp')
-    await autoRetry(async () => expect(await isScrolledDown()).toBe(false), { timeout: 5 * 1000 })
-    // A hidden element loses the focus on the next frame
-    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))))
-    const category = await page.evaluate(() => ({
-      isFocused: document.activeElement!.matches('.nav-head-category'),
-      visibility: getComputedStyle(document.querySelector('.nav-head-category')!).visibility,
-    }))
-    expect(category.isFocused).toBe(true)
-    expect(category.visibility).toBe('visible')
   })
 
   test(`${featuresURL} - the logo's link spans the top bar up to the search (phone)`, async () => {
@@ -542,13 +482,13 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(bar.logoRight).toBe(bar.searchLeft)
   })
 
-  test(`${featuresURL} - "On this page" below the top bar while the category tabs are hidden`, async () => {
-    await open(featuresURL, 'desktop')
+  test(`${featuresURL} - "On this page" counts from the top of the screen while the header is hidden`, async () => {
+    await open(featuresURL, 'laptop')
     // A slide that outlasts the scroll: the rail is measured from where it ends up
     await page.addStyleTag({ content: ':root { --dp-duration-reveal: 60s; }' })
-    // Scrolled down (the tabs slide away) until the "Code blocks" section ends half a tab row below where the rail
-    // counts from (17px below the top bar, TocRail.tsx): still on screen, but not if the tabs were counted as shown
-    const sectionEnd = (await getCssPx('--nav-head-height')) + 17 + (await getCssPx('--nav-tabs-height')) / 2
+    // Scrolled down (the header slides away) until the "Code blocks" section ends half a top bar below where the rail
+    // counts from (17px, TocRail.tsx): still on screen, but not if the header were counted as shown
+    const sectionEnd = 17 + (await getCssPx('--nav-head-height')) / 2
     await page.evaluate(
       (sectionEnd) =>
         window.scrollTo(0, document.getElementById('basic')!.getBoundingClientRect().top + window.scrollY - sectionEnd),
@@ -567,7 +507,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
 
   test(`${featuresURL} - "On this page" after a jump down: the clicked section is the first marked`, async () => {
     await open(featuresURL, 'desktop')
-    // The jump hides the category tabs: above the "Diff" heading, only its top margin is on screen
+    // Above the "Diff" heading, only its top margin is on screen
     await page.click('.toc-item[href="#diff"]')
     await autoRetry(
       async () => {
@@ -580,58 +520,54 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     )
   })
 
-  test(`${featuresURL} - category tabs hide on scroll down and come back on scroll up`, async () => {
-    await open(featuresURL, 'desktop')
-    const getTabsTransform = () =>
-      page.evaluate(() => getComputedStyle(document.querySelector('.category-tabs')!).transform)
+  test(`${featuresURL} - the header hides on scroll down and comes back on scroll up`, async () => {
+    await open(featuresURL, 'laptop')
     await scrollTo(1200)
-    await autoRetry(
-      async () => {
-        expect(await isScrolledDown()).toBe(true)
-        expect(await getTabsTransform()).not.toBe('none')
-      },
-      { timeout: 5 * 1000 },
-    )
+    await expectHeaderRows(headerHidden)
     await scrollTo(1199)
-    await autoRetry(
-      async () => {
-        expect(await isScrolledDown()).toBe(false)
-        expect(await getTabsTransform()).toBe('none')
-      },
-      { timeout: 5 * 1000 },
-    )
+    await expectHeaderRows(headerShown)
     await scrollTo(1500)
-    await autoRetry(
-      async () => {
-        expect(await isScrolledDown()).toBe(true)
-        expect(await getTabsTransform()).not.toBe('none')
-      },
-      { timeout: 5 * 1000 },
-    )
+    await expectHeaderRows(headerHidden)
   })
 
-  test(`${featuresURL} - the strip the hidden category tabs leave takes clicks`, async () => {
+  test(`${featuresURL} - the header stays on a viewport tall enough for it`, async () => {
     await open(featuresURL, 'desktop')
-    const stripMiddle = (await getCssPx('--nav-head-height')) + (await getCssPx('--nav-tabs-height')) / 2
+    // Hidden at once
+    await page.addStyleTag({ content: ':root { --dp-duration-reveal: 0s; }' })
+    await scrollTo(1200)
+    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
+    await expectHeaderRows(headerShown)
+  })
+
+  test(`${featuresURL} - the strip the hidden header leaves takes clicks`, async () => {
+    await open(featuresURL, 'laptop')
+    const navHeadHeight = await getCssPx('--nav-head-height')
+    const stripYs = [navHeadHeight / 2, navHeadHeight + (await getCssPx('--nav-tabs-height')) / 2]
     await scrollTo(1200)
     await autoRetry(
       async () => {
         expect(await isScrolledDown()).toBe(true)
         // The page, not the header
-        const isStripClickable = await page.evaluate(
-          (y) => !document.elementFromPoint(700, y)!.closest('header'),
-          stripMiddle,
+        const inHeader = await page.evaluate(
+          (ys) => ys.filter((y) => document.elementFromPoint(700, y)!.closest('header')),
+          stripYs,
         )
-        expect(isStripClickable).toBe(true)
+        expect(inHeader.join()).toBe('')
       },
       { timeout: 5 * 1000 },
     )
   })
 
-  test(`${featuresURL} - Tab into the hidden category tabs shows them, with a whole focus ring`, async () => {
-    await open(featuresURL, 'desktop')
+  test(`${featuresURL} - Tab into the hidden header shows it without scrolling the page, with a whole focus ring`, async () => {
+    await open(featuresURL, 'laptop')
     await scrollTo(1500)
-    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
+    await expectHeaderRows(headerHidden)
+    // "Skip to content", then the header's first control
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Tab')
+    expect(await page.evaluate(() => !!document.activeElement!.closest('.nav-head'))).toBe(true)
+    await expectHeaderRows(headerShown)
+    expect(await page.evaluate(() => window.scrollY)).toBe(1500)
     const isLastControlFocused = await page.evaluate(() => {
       const controls = document.querySelectorAll<HTMLElement>('.nav-head :is(a[href], button)')
       const lastControl = controls[controls.length - 1]
@@ -640,17 +576,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     })
     expect(isLastControlFocused).toBe(true)
     await page.keyboard.press('Tab')
-    await autoRetry(
-      async () => {
-        const tab = await page.evaluate(() => ({
-          isFocused: document.activeElement!.matches('.category-tabs .category-tab'),
-          transform: getComputedStyle(document.querySelector('.category-tabs')!).transform,
-        }))
-        expect(tab.isFocused).toBe(true)
-        expect(tab.transform).toBe('none')
-      },
-      { timeout: 5 * 1000 },
-    )
+    expect(await page.evaluate(() => document.activeElement!.matches('.category-tabs .category-tab'))).toBe(true)
     // The tabs' row scrolls sideways: it clips
     await expectWholeFocusRing('.category-tab:focus')
   })
@@ -690,6 +616,8 @@ const viewports = {
   tablet: { width: 800, height: 720 },
   // Between `viewTablet` (1016) and `viewDesktop` (1061): a desktop too narrow for the left navigation
   desktopNarrow: { width: 1040, height: 720 },
+  // Below `viewHeightHeaderStays` (900): the header hides on scroll down
+  laptop: { width: 1440, height: 800 },
   desktop: { width: 1440, height: 900 },
 }
 type Viewport = keyof typeof viewports
@@ -732,7 +660,23 @@ async function scrollTo(y: number) {
   await page.evaluate((y) => window.scrollTo(0, y), y)
 }
 async function isScrolledDown() {
-  return await page.evaluate(() => document.documentElement.classList.contains('category-tabs-hidden'))
+  return await page.evaluate(() => document.documentElement.classList.contains('scrolled-down'))
+}
+// Both rows, by the top bar + the tabs + the hairline (63 + 44 + 1)
+const headerHidden = 'matrix(1, 0, 0, 1, 0, -108)'
+const headerShown = 'none'
+async function expectHeaderRows(transform: string) {
+  await autoRetry(
+    async () => {
+      const transforms = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('.top-nav-sticky > :is(.nav-head, .category-tabs)')).map(
+          (row) => getComputedStyle(row).transform,
+        ),
+      )
+      expect(transforms.join('; ')).toBe(`${transform}; ${transform}`)
+    },
+    { timeout: 5 * 1000 },
+  )
 }
 // A length custom property, as the top bar reads it (e.g. `--nav-head-height`)
 async function getCssPx(name: string): Promise<number> {

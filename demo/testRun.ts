@@ -491,9 +491,10 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       })
     expect(await page.textContent('.nav-head-category')).toBe('Overview')
     await scrollTo(1200)
-    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
+    await expectHeaderRows(headerShown, tabsHidden)
     await scrollTo(1199)
     await autoRetry(async () => expect(await getCategory()).toBe('hidden, opacity 0'), { timeout: 5 * 1000 })
+    await expectHeaderRows(headerShown)
     const rects = await getRects()
     await scrollTo(1200)
     expect(await getRects()).toBe(rects)
@@ -746,8 +747,10 @@ async function isScrolledDown() {
 }
 // Both rows, by the top bar + the tabs + the hairline (63 + 44 + 1)
 const headerHidden = 'matrix(1, 0, 0, 1, 0, -108)'
+// The tabs alone, by their own height (44)
+const tabsHidden = 'matrix(1, 0, 0, 1, 0, -44)'
 const headerShown = 'none'
-async function expectHeaderRows(transform: string) {
+async function expectHeaderRows(topBarTransform: string, tabsTransform: string = topBarTransform) {
   await autoRetry(
     async () => {
       const transforms = await page.evaluate(() =>
@@ -755,7 +758,7 @@ async function expectHeaderRows(transform: string) {
           (row) => getComputedStyle(row).transform,
         ),
       )
-      expect(transforms.join('; ')).toBe(`${transform}; ${transform}`)
+      expect(transforms.join('; ')).toBe(`${topBarTransform}; ${tabsTransform}`)
     },
     { timeout: 5 * 1000 },
   )

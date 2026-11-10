@@ -1,5 +1,5 @@
 export { TocRail }
-export { tocRailWidth }
+export { tocRailWidthMin }
 export { viewTocRail }
 
 import React, { useEffect, useState } from 'react'
@@ -8,9 +8,11 @@ import { parseMarkdownMini } from './parseMarkdownMini.js'
 import { cls } from './utils/cls.js'
 import './TocRail.css'
 
-const tocRailWidth = 220
-// Three columns: left navigation + page content + "On this page"
-const viewTocRail = 1280
+// The rail is as wide as the left navigation (the content is in the middle), and at least this wide
+const tocRailWidthMin = 260
+// Three columns: left navigation + page content + "On this page" (1161 = 260 + 1 + 640 + 260: the left navigation and
+// the rail at their minimum width, and the page content at the width it gives up to the rail, see Layout.tsx)
+const viewTocRail = 1161
 
 // The right-hand "On this page" rail. Server-rendered from the page's `##`/`###` headings; the active item (and the
 // reading progress) is set after hydration: no active item in the HTML => no hydration mismatch.

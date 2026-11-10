@@ -33,7 +33,7 @@ import { Style } from './utils/Style.js'
 import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { PageHeader, PageFooter } from './PageChrome.js'
-import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
+import { TocRail, tocRailWidthMin, viewTocRail } from './TocRail.js'
 import { CategoryTabs, NavHeadCategory } from './CategoryTabs.js'
 import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
@@ -197,30 +197,29 @@ ${
   }
 }
 @container container-viewport (width >= ${viewTocRail}px) {
+  /* The left navigation and the rail share the width the content leaves equally: the content is in the middle */
+  #nav-left, #toc-rail {
+    flex: 1 1 0;
+    min-width: ${tocRailWidthMin}px;
+  }
+  /* As wide as the left navigation's hairline (a flex item never shrinks below its border) */
   #toc-rail {
-    width: ${tocRailWidth}px;
+    border-left: var(--block-margin) solid transparent;
   }
   /* The page content gives up some width to the rail */
   .page-wrapper {
+    flex: 0 1 auto;
     min-width: ${mainViewWidthMax - 120}px;
   }
   /* The rail lists the page's sections: don't also expand them in the left navigation */
   #nav-left .nav-item-level-3 {
     display: none;
   }
-  /* The content is centered between the left navigation and the rail */
   #nav-left-margin {
     display: none;
   }
-  .page-content {
-    margin-inline: auto;
-  }
 }
 @container container-viewport (${viewTocRail}px <= width < ${viewTocRail + 120}px) {
-  #nav-left {
-    /* Make room for the rail */
-    min-width: ${navLeftWidthMin + blockMargin}px;
-  }
   /* Some air between the three columns (the measure is still ~70 characters) */
   .page-content {
     --main-view-padding: 32px;
@@ -232,10 +231,14 @@ ${
     ? ''
     : css`
 @container container-viewport (width >= ${viewTocRail}px) {
-  #nav-left, #nav-left-margin {
-    display: none;
+  /* Its column stays, empty: the content stays in the middle */
+  #nav-left {
+    visibility: hidden;
   }
   ${getStyleNavLeftHidden()}
+  .page-wrapper {
+    flex-grow: 0;
+  }
 }`
 }
 `}</Style>

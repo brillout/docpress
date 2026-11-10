@@ -447,6 +447,25 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(left.icon).toBe(left.logo)
   })
 
+  for (const viewport of ['desktopSmall', 'desktop'] as const) {
+    test(`${featuresURL} - "On this page" is as wide as the left navigation, the content in the middle (${viewport})`, async () => {
+      await open(featuresURL, viewport)
+      const widths = await page.evaluate(() => {
+        const getRect = (selector: string) => document.querySelector(selector)!.getBoundingClientRect()
+        const nav = getRect('#nav-left')
+        const rail = getRect('#toc-rail')
+        return {
+          nav: nav.width,
+          rail: rail.width,
+          contentCenter: (nav.right + rail.left) / 2,
+          viewportCenter: innerWidth / 2,
+        }
+      })
+      expect(widths.rail).toBe(widths.nav)
+      expect(widths.contentCenter).toBe(widths.viewportCenter)
+    })
+  }
+
   test(`${featuresURL} - the left navigation doesn't repeat the category the current tab names`, async () => {
     await open(featuresURL, 'desktop')
     expect(await page.textContent('.category-tabs .category-tab.is-current')).toBe('Overview')
@@ -696,6 +715,8 @@ const viewports = {
   tablet: { width: 800, height: 720 },
   // Between `viewTablet` (1016) and `viewDesktop` (1061): a desktop too narrow for the left navigation
   desktopNarrow: { width: 1040, height: 720 },
+  // A 1280px window without its scrollbar: from `viewTocRail` (1161), the "On this page" rail
+  desktopSmall: { width: 1265, height: 720 },
   // Below `viewHeightTopBarStays` (700): a scroll down hides the whole header
   short: { width: 1440, height: 500 },
   // Below `viewHeightHeaderStays` (900): a scroll down hides the category tabs

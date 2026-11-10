@@ -33,7 +33,7 @@ import { Style } from './utils/Style.js'
 import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { PageHeader, PageFooter } from './PageChrome.js'
-import { TocRail, tocRailWidthMin, viewTocRail } from './TocRail.js'
+import { TocRail } from './TocRail.js'
 import { CategoryTabs, NavHeadCategory } from './CategoryTabs.js'
 import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
@@ -59,6 +59,12 @@ const viewSearchField = 1150
 const viewSearchHint = 463
 const viewDesktop = (mainViewWidthMax + navLeftWidthMin + blockMargin) as 1061 // 1061 = 760 + 300 + 1
 const viewDesktopLarge = (mainViewWidthMax + navLeftWidthMax + blockMargin) as 1131 // 1131 = 760 + 370 + 1
+// The left navigation and the "On this page" rail beside it: as wide as each other (the content is in the middle), and at least this wide
+const sideWidthMin = 260
+// The page content's minimum width beside the rail
+const mainViewWidthMinBesideRail = 640
+// Three columns: left navigation + page content + "On this page", at their minimum width (the hairlines are inside the side columns)
+const viewTocRail = (2 * sideWidthMin + mainViewWidthMinBesideRail) as 1160 // 1160 = 2 * 260 + 640
 // The frame: left navigation + page content + "On this page", and not wider (the eye doesn't travel far)
 const bodyMaxWidth = 1340
 // A bar (the top nav, the category tabs): copies of the bar left and right of it, so that it spans the viewport also
@@ -200,7 +206,7 @@ ${
   /* The left navigation and the rail share the width the content leaves equally: the content is in the middle */
   #nav-left, #toc-rail {
     flex: 1 1 0;
-    min-width: ${tocRailWidthMin}px;
+    min-width: ${sideWidthMin}px;
   }
   /* The navigation fits the narrower column (beats getStyleNavLeft(), which comes later in the page) */
   #nav-left #navigation-container {
@@ -212,7 +218,7 @@ ${
   }
   /* The page content gives up some width to the rail */
   .page-wrapper {
-    min-width: ${mainViewWidthMax - 120}px;
+    min-width: ${mainViewWidthMinBesideRail}px;
   }
   /* The rail lists the page's sections: don't also expand them in the left navigation */
   #nav-left .nav-item-level-3 {
@@ -225,7 +231,7 @@ ${
     margin-inline: auto;
   }
 }
-@container container-viewport (${viewTocRail}px <= width < ${viewTocRail + 120}px) {
+@container container-viewport (${viewTocRail}px <= width < ${2 * sideWidthMin + mainViewWidthMax}px) {
   /* Some air between the three columns (the measure is still ~70 characters) */
   .page-content {
     --main-view-padding: 32px;

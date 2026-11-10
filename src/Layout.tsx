@@ -170,7 +170,7 @@ function LayoutDocsPage({
     min-width: ${navLeftWidthMin + blockMargin}px;
   }
 }
-@container container-viewport (width >= ${viewDesktopLarge}px) {
+@container container-viewport (${viewDesktopLarge}px <= width < ${viewTocRail}px) {
   .low-prio-grow {
     flex-grow: 1;
   }
@@ -212,7 +212,6 @@ ${
   }
   /* The page content gives up some width to the rail */
   .page-wrapper {
-    flex: 0 1 auto;
     min-width: ${mainViewWidthMax - 120}px;
   }
   /* The rail lists the page's sections: don't also expand them in the left navigation */

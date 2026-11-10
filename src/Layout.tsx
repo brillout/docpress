@@ -202,6 +202,10 @@ ${
     flex: 1 1 0;
     min-width: ${tocRailWidthMin}px;
   }
+  /* The navigation fits the narrower column (beats getStyleNavLeft(), which comes later in the page) */
+  #nav-left #navigation-container {
+    min-width: 0;
+  }
   /* As wide as the left navigation's hairline (a flex item never shrinks below its border) */
   #toc-rail {
     border-left: var(--block-margin) solid transparent;
@@ -217,6 +221,9 @@ ${
   }
   #nav-left-margin {
     display: none;
+  }
+  .page-content {
+    margin-inline: auto;
   }
 }
 @container container-viewport (${viewTocRail}px <= width < ${viewTocRail + 120}px) {
@@ -323,7 +330,6 @@ function NavLeft() {
               overflowY: 'auto',
               overscrollBehavior: 'contain',
               paddingBottom: 40,
-              minWidth: navLeftWidthMin,
               width: '100%',
             }}
           >
@@ -342,6 +348,9 @@ function NavLeft() {
 }
 function getStyleNavLeft() {
   return css`
+#navigation-container {
+  min-width: ${navLeftWidthMin}px;
+}
 .nav-item {
   box-sizing: content-box;
   max-width: ${navLeftWidthMax}px;

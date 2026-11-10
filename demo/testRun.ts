@@ -452,16 +452,18 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
       await open(featuresURL, viewport)
       const widths = await page.evaluate(() => {
         const getRect = (selector: string) => document.querySelector(selector)!.getBoundingClientRect()
-        const nav = getRect('#nav-left')
-        const rail = getRect('#toc-rail')
+        const content = getRect('.page-content')
         return {
-          nav: nav.width,
-          rail: rail.width,
-          contentCenter: (nav.right + rail.left) / 2,
+          nav: getRect('#nav-left').width,
+          navigation: getRect('#navigation-container').width,
+          rail: getRect('#toc-rail').width,
+          contentCenter: (content.left + content.right) / 2,
           viewportCenter: innerWidth / 2,
         }
       })
       expect(widths.rail).toBe(widths.nav)
+      // The navigation stays in its column
+      expect(widths.navigation <= widths.nav).toBe(true)
       expect(widths.contentCenter).toBe(widths.viewportCenter)
     })
   }

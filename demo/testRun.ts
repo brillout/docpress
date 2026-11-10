@@ -455,7 +455,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - the left navigation and "On this page" don't move as the header hides and comes back`, async () => {
-    await open(featuresURL, 'laptop')
+    await open(featuresURL, 'short')
     const getRects = () =>
       page.evaluate(() =>
         ['#navigation-container', '.toc-rail-sticky']
@@ -483,7 +483,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - "On this page" counts from the top of the screen while the header is hidden`, async () => {
-    await open(featuresURL, 'laptop')
+    await open(featuresURL, 'short')
     // A slide that outlasts the scroll: the rail is measured from where it ends up
     await page.addStyleTag({ content: ':root { --dp-duration-reveal: 60s; }' })
     // Scrolled down (the header slides away) until the "Code blocks" section ends half a top bar below where the rail
@@ -521,7 +521,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - the header hides on scroll down and comes back on scroll up`, async () => {
-    await open(featuresURL, 'laptop')
+    await open(featuresURL, 'short')
     await scrollTo(1200)
     await expectHeaderRows(headerHidden)
     await scrollTo(1199)
@@ -540,7 +540,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - the strip the hidden header leaves takes clicks`, async () => {
-    await open(featuresURL, 'laptop')
+    await open(featuresURL, 'short')
     const navHeadHeight = await getCssPx('--nav-head-height')
     const stripYs = [navHeadHeight / 2, navHeadHeight + (await getCssPx('--nav-tabs-height')) / 2]
     await scrollTo(1200)
@@ -559,7 +559,7 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
   })
 
   test(`${featuresURL} - Tab into the hidden header shows it without scrolling the page, with a whole focus ring`, async () => {
-    await open(featuresURL, 'laptop')
+    await open(featuresURL, 'short')
     await scrollTo(1500)
     await expectHeaderRows(headerHidden)
     // "Skip to content", then the header's first control
@@ -616,8 +616,8 @@ const viewports = {
   tablet: { width: 800, height: 720 },
   // Between `viewTablet` (1016) and `viewDesktop` (1061): a desktop too narrow for the left navigation
   desktopNarrow: { width: 1040, height: 720 },
-  // Below `viewHeightHeaderStays` (900): the header hides on scroll down
-  laptop: { width: 1440, height: 800 },
+  // Below `viewHeightHeaderStays` (540): the header hides on scroll down
+  short: { width: 1440, height: 500 },
   desktop: { width: 1440, height: 900 },
 }
 type Viewport = keyof typeof viewports

@@ -62,8 +62,9 @@
   object-fit: contain;
   filter: grayscale(1) opacity(0.55);
   transition: filter var(--dp-duration) ease;
+  /* The dark filter of the other grey icons (colorize-on-hover.css) */
   :root.dark & {
-    filter: grayscale(1) brightness(1.6) opacity(0.55);
+    filter: grayscale(1) brightness(1.25) opacity(0.6);
   }
   .category-tab.is-current &,
   .category-tab:hover & {

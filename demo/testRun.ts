@@ -696,7 +696,7 @@ const viewports = {
   tablet: { width: 800, height: 720 },
   // Between `viewTablet` (1016) and `viewDesktop` (1061): a desktop too narrow for the left navigation
   desktopNarrow: { width: 1040, height: 720 },
-  // Below `viewHeightTopBarStays` (540): a scroll down hides the whole header
+  // Below `viewHeightTopBarStays` (700): a scroll down hides the whole header
   short: { width: 1440, height: 500 },
   // Below `viewHeightHeaderStays` (900): a scroll down hides the category tabs
   laptop: { width: 1440, height: 800 },

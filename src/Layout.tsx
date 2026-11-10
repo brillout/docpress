@@ -51,8 +51,8 @@ const viewMobile = 450
 const viewTablet = 1016
 // From this viewport height there's room to keep the sticky top nav whole: below it, a scroll down hides the category tabs
 const viewHeightHeaderStays = 900
-// From this viewport height there's room to keep the top bar: below it, a scroll down hides the whole top nav (a phone held sideways, a small window)
-const viewHeightTopBarStays = 540
+// From this viewport height there's room to keep the top bar: below it, a scroll down hides the whole top nav (a 1366x768 laptop, a phone held sideways)
+const viewHeightTopBarStays = 700
 // A desktop bar narrower than this has the search as an icon, unless the search is centered (the bar has no `topNavigation` links, the full field fits): a bar with four `topNavigation` items ("API", "Get Started", "Blog", "Pricing"), the "Docs" toggle and the full search field needs 1150px (measured with Inter)
 const viewSearchField = 1150
 // Up to this, the search field squeezes "Menu": with a fine pointer's keyboard hint (in the phone bar up to 386px, and in the tablet bar up to 457px), and in the tablet bar beside a touch device's larger theme toggle (up to 459px, and 463px with the fallback font before Inter loads): the search is compact

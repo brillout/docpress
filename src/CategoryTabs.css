@@ -1,5 +1,11 @@
 /* CategoryTabs.tsx: shown on desktop, see Layout.tsx */
+.has-category-tabs {
+  --nav-tabs-shown-height: var(--nav-tabs-height, 0px);
+}
 .category-tabs {
+  position: relative;
+  /* Painted below the top bar: scrolling down slides the tabs up under it (Layout.tsx) */
+  z-index: -1;
   height: var(--nav-tabs-height);
   background: var(--dp-color-bg);
 }
@@ -11,6 +17,7 @@
   padding: 0 var(--main-view-padding) 0 calc(var(--nav-head-indent) - 10px);
   overflow-x: auto;
   scrollbar-width: none;
+  transition: opacity var(--dp-duration-reveal) var(--dp-ease-out);
 }
 .category-tab {
   position: relative;
@@ -61,5 +68,27 @@
   .category-tab.is-current &,
   .category-tab:hover & {
     filter: none;
+  }
+}
+/* The current category in the top bar (CategoryTabs.tsx). Laid out also while hidden: the bar's items don't move. */
+.nav-head-category {
+  height: 100%;
+  padding-left: var(--padding-side);
+  /* The divider after the logo */
+  background: linear-gradient(var(--dp-color-border), var(--dp-color-border)) left center / 1px 20px no-repeat;
+  opacity: 0;
+  /* Also unfocusable */
+  visibility: hidden;
+  /* Over the bar's links' own transition (colorize-on-hover.css) */
+  .nav-head & {
+    transition: opacity var(--dp-duration-reveal) var(--dp-ease-out), visibility var(--dp-duration-reveal);
+  }
+  &.is-current::after {
+    left: var(--padding-side);
+  }
+  img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
   }
 }

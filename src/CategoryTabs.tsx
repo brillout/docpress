@@ -1,4 +1,5 @@
 export { CategoryTabs }
+export { NavHeadCategory }
 
 import React from 'react'
 import { usePageContext } from './renderer/usePageContext.js'
@@ -36,5 +37,18 @@ function CategoryTabs() {
         )}
       </div>
     </nav>
+  )
+}
+
+// The current category in the top bar, after the logo: shown while only the tabs are hidden (Layout.tsx)
+function NavHeadCategory() {
+  const category = usePageContext().resolved.categories.find((category) => category.isCurrent)
+  if (!category?.pages[0]) return null
+  const { title, titleIcon, color, pages } = category
+  return (
+    <a href={pages[0].url} className="category-tab is-current nav-head-category" style={{ '--color-category': color }}>
+      {titleIcon && <img src={titleIcon} alt="" />}
+      {parseMarkdownMini(title)}
+    </a>
   )
 }

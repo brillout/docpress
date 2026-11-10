@@ -34,7 +34,7 @@ import { cls } from './utils/cls.js'
 import { iconBooks } from './icons/index.js'
 import { PageHeader, PageFooter } from './PageChrome.js'
 import { TocRail, tocRailWidth, viewTocRail } from './TocRail.js'
-import { CategoryTabs } from './CategoryTabs.js'
+import { CategoryTabs, NavHeadCategory } from './CategoryTabs.js'
 import { ThemeToggle } from './theme/ThemeToggle.js'
 import './Layout.css'
 
@@ -49,8 +49,10 @@ const navLeftWidthMin = 300
 const navLeftWidthMax = 370
 const viewMobile = 450
 const viewTablet = 1016
-// From this viewport height there's room to keep the top nav: a scroll down hides it only below (a phone held sideways, a small window)
-const viewHeightHeaderStays = 540
+// From this viewport height there's room to keep the sticky top nav whole: below it, a scroll down hides the category tabs
+const viewHeightHeaderStays = 900
+// From this viewport height there's room to keep the top bar: below it, a scroll down hides the whole top nav (a phone held sideways, a small window)
+const viewHeightTopBarStays = 540
 // A desktop bar narrower than this has the search as an icon, unless the search is centered (the bar has no `topNavigation` links, the full field fits): a bar with four `topNavigation` items ("API", "Get Started", "Blog", "Pricing"), the "Docs" toggle and the full search field needs 1150px (measured with Inter)
 const viewSearchField = 1150
 // Up to this, the search field squeezes "Menu": with a fine pointer's keyboard hint (in the phone bar up to 386px, and in the tablet bar up to 457px), and in the tablet bar beside a touch device's larger theme toggle (up to 459px, and 463px with the fallback font before Inter loads): the search is compact
@@ -107,8 +109,10 @@ function Layout({ children }: { children: React.ReactNode }) {
         ['--nav-head-sticky-offset']: isTopNavSticky
           ? 'calc(var(--nav-head-height) + var(--nav-tabs-height, 0px))'
           : '0px',
-        // The sticky top nav's shown height, 0 while it's hidden (TocRail.tsx measures from it)
-        ['--nav-head-shown-height']: 'var(--nav-head-sticky-offset)',
+        // The sticky top nav's shown height, without what's hidden (TocRail.tsx measures from it)
+        ['--nav-head-shown-height']: isTopNavSticky
+          ? 'calc(var(--nav-head-height) + var(--nav-tabs-shown-height, 0px))'
+          : '0px',
         ['--main-view-padding']: `${mainViewPadding}px`,
         // We don't add `container` to `body` nor `html` beacuse in Firefox it breaks the `position: fixed` of <MenuModal>
         // https://stackoverflow.com/questions/74601420/css-container-inline-size-and-fixed-child
@@ -134,7 +138,10 @@ function Layout({ children }: { children: React.ReactNode }) {
           className={isTopNavSticky ? 'top-nav-sticky' : undefined}
           style={{ position: isTopNavSticky ? 'sticky' : 'relative', top: 0, zIndex: 100 }}
         >
-          <NavHead hasSeveralCategories={hasSeveralCategories} />
+          <NavHead
+            hasSeveralCategories={hasSeveralCategories}
+            hasCategoryInBar={isCategoryTabsShown && isTopNavSticky}
+          />
           {isCategoryTabsShown && <CategoryTabs />}
           {/* <MenuModal> is inside here because `container-type` on the page wrapper traps `position: fixed` — https://github.com/brillout/docpress/pull/177 */}
           <MenuModal />
@@ -358,7 +365,10 @@ function NavigationContent(props: {
   )
 }
 
-function NavHead({ hasSeveralCategories }: { hasSeveralCategories: boolean }) {
+function NavHead({
+  hasSeveralCategories,
+  hasCategoryInBar,
+}: { hasSeveralCategories: boolean; hasCategoryInBar: boolean }) {
   const pageContext = usePageContext()
   const {
     navMaxWidth,
@@ -426,7 +436,15 @@ function NavHead({ hasSeveralCategories }: { hasSeveralCategories: boolean }) {
             color: 'var(--dp-color-muted)',
           }}
         >
-          {!hideNavHeadLogo && <NavHeadLogo />}
+          {hasCategoryInBar ? (
+            // One cell (also of the search-centered bar's grid): the category comes after the logo
+            <div className="nav-head-start">
+              <NavHeadLogo />
+              <NavHeadCategory />
+            </div>
+          ) : (
+            !hideNavHeadLogo && <NavHeadLogo />
+          )}
           {navMaxWidth && !isSearchCentered && <div className="desktop-grow" />}
           {algolia && <SearchLink />}
           {/* On desktop, it's in <ExternalLinks> */}
@@ -451,6 +469,10 @@ function getStyleLayout(isNavLeftAlwaysHidden: boolean) {
 }
 .nav-head-content {
   display: flex;
+}
+.nav-head-start {
+  display: flex;
+  height: 100%;
 }
 .nav-head-logo {
   display: flex;
@@ -486,16 +508,43 @@ function getStyleLayout(isNavLeftAlwaysHidden: boolean) {
   }
 }`
 
-  // A short viewport has no room for the sticky top nav: a scroll down hides it (initScrollDirection.ts)
+  // A viewport without room for the sticky top nav: a scroll down hides the category tabs, or on a short one the whole
+  // top nav (initScrollDirection.ts)
   style += css`
 .top-nav-sticky > :is(.nav-head, .category-tabs) {
   transition: transform var(--dp-duration-reveal) var(--dp-ease-out);
 }
-/* Shown at once when focus enters: mid-transition, the browser would scroll the page to the off-screen element */
-.top-nav-sticky:has(:focus-visible) > :is(.nav-head, .category-tabs) {
-  transition: none;
+@media (${viewHeightTopBarStays}px <= height < ${viewHeightHeaderStays}px) {
+  /* The tabs slide under the top bar, which names the category (<NavHeadCategory>), unless they have the keyboard
+     focus. The bar's category keeps them there while it has it. */
+  html:is(.scrolled-down, :has(.nav-head-category:focus-visible)):not(:has(.category-tabs a:focus-visible)) {
+    .has-category-tabs {
+      --nav-tabs-shown-height: 0px;
+    }
+    .top-nav-sticky {
+      /* The strip the tabs leave lets the pointer through to the page */
+      pointer-events: none;
+      & > * {
+        pointer-events: auto;
+      }
+      .category-tabs {
+        transform: translateY(-100%);
+      }
+      .category-tabs-content {
+        opacity: 0;
+      }
+      .nav-head-category {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
 }
-@media (height < ${viewHeightHeaderStays}px) {
+@media (height < ${viewHeightTopBarStays}px) {
+  /* Shown at once when focus enters: mid-transition, the browser would scroll the page to the off-screen element */
+  .top-nav-sticky:has(:focus-visible) > :is(.nav-head, .category-tabs) {
+    transition: none;
+  }
   html.scrolled-down:not(.menu-modal-show) .top-nav-sticky:not(:has(:focus-visible)) {
     /* The header's box stays in the flow: the strip it leaves lets the pointer through */
     pointer-events: none;
@@ -521,7 +570,11 @@ function getStyleLayout(isNavLeftAlwaysHidden: boolean) {
   .nav-head-content:not(:has(> .nav-head-theme-toggle)) > * {
     flex-grow: 1;
   }
-  .nav-head-content:has(> .nav-head-theme-toggle) > .nav-head-logo {
+  .nav-head-content:has(> .nav-head-theme-toggle) > :is(.nav-head-logo, .nav-head-start) {
+    flex-grow: 1;
+  }
+  /* The logo's link takes its cell (the category after it shows only on desktop) */
+  .nav-head-start > .nav-head-logo {
     flex-grow: 1;
   }
   .nav-head .nav-head-menu-toggle {
@@ -549,7 +602,8 @@ function getStyleLayout(isNavLeftAlwaysHidden: boolean) {
   .desktop-grow,
   .text-docs,
   .caret-icon,
-  .category-tabs {
+  .category-tabs,
+  .nav-head-category {
     display: none;
   }
   /* The ring hugs the icon and the label (the cell is tight here) */
@@ -668,7 +722,7 @@ function getStyleLayout(isNavLeftAlwaysHidden: boolean) {
   /* Category tabs (CategoryTabs.tsx) */
   .has-category-tabs {
     --nav-tabs-height: 44px;
-    /* The tabs have the hairline */
+    /* The tabs have the hairline, also when they slide up under the bar */
     .nav-head {
       box-shadow: ${barShadowSides};
     }

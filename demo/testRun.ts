@@ -473,6 +473,85 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     expect(await getRects()).toBe(rects)
   })
 
+  test(`${featuresURL} - the top bar names the category while the category tabs are hidden, and nothing else in it or the sides moves`, async () => {
+    await open(featuresURL, 'laptop')
+    const getRects = () =>
+      page.evaluate(() =>
+        ['.nav-head-logo', '.search-link', '.nav-head-secondary', '#navigation-container', '.toc-rail-sticky']
+          .map((selector) => {
+            const { left, top, width, height } = document.querySelector(selector)!.getBoundingClientRect()
+            return `${selector}: ${left}px, ${top}px, ${width}x${height}`
+          })
+          .join('; '),
+      )
+    const getCategory = () =>
+      page.evaluate(() => {
+        const { visibility, opacity } = getComputedStyle(document.querySelector('.nav-head-category')!)
+        return `${visibility}, opacity ${opacity}`
+      })
+    expect(await page.textContent('.nav-head-category')).toBe('Overview')
+    await scrollTo(1200)
+    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
+    await scrollTo(1199)
+    await autoRetry(async () => expect(await getCategory()).toBe('hidden, opacity 0'), { timeout: 5 * 1000 })
+    const rects = await getRects()
+    await scrollTo(1200)
+    expect(await getRects()).toBe(rects)
+    await autoRetry(
+      async () => {
+        expect(await isScrolledDown()).toBe(true)
+        expect(await getRects()).toBe(rects)
+        expect(await getCategory()).toBe('visible, opacity 1')
+      },
+      { timeout: 5 * 1000 },
+    )
+    await scrollTo(1199)
+    await autoRetry(async () => expect(await getCategory()).toBe('hidden, opacity 0'), { timeout: 5 * 1000 })
+    expect(await getRects()).toBe(rects)
+  })
+
+  test(`${featuresURL} - the top bar's category fades out as the category tabs come back`, async () => {
+    await open(featuresURL, 'laptop')
+    await scrollTo(1200)
+    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
+    // A fade that outlasts the test
+    await page.addStyleTag({ content: ':root { --dp-duration-reveal: 60s; }' })
+    await scrollTo(1199)
+    await autoRetry(
+      async () => {
+        expect(await isScrolledDown()).toBe(false)
+        const { visibility, opacity } = await page.evaluate(() => {
+          const { visibility, opacity } = getComputedStyle(document.querySelector('.nav-head-category')!)
+          return { visibility, opacity }
+        })
+        expect(visibility).toBe('visible')
+        expect(opacity).toMatch(/^0\.\d*[1-9]/)
+      },
+      { timeout: 5 * 1000 },
+    )
+  })
+
+  test(`${featuresURL} - the top bar's category keeps the keyboard focus on scroll up`, async () => {
+    await open(featuresURL, 'laptop')
+    // Shown and hidden at once
+    await page.addStyleTag({ content: ':root { --dp-duration-reveal: 0s; }' })
+    await scrollTo(1200)
+    await autoRetry(async () => expect(await isScrolledDown()).toBe(true), { timeout: 5 * 1000 })
+    await page.focus('.nav-head-logo')
+    await page.keyboard.press('Tab')
+    expect(await page.evaluate(() => document.activeElement!.className)).toContain('nav-head-category')
+    await page.keyboard.press('ArrowUp')
+    await autoRetry(async () => expect(await isScrolledDown()).toBe(false), { timeout: 5 * 1000 })
+    // A hidden element loses the focus on the next frame
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+    const category = await page.evaluate(() => ({
+      isFocused: document.activeElement!.matches('.nav-head-category'),
+      visibility: getComputedStyle(document.querySelector('.nav-head-category')!).visibility,
+    }))
+    expect(category.isFocused).toBe(true)
+    expect(category.visibility).toBe('visible')
+  })
+
   test(`${featuresURL} - the logo's link spans the top bar up to the search (phone)`, async () => {
     await open(featuresURL, 'phone')
     const bar = await page.evaluate(() => ({
@@ -616,8 +695,11 @@ const viewports = {
   tablet: { width: 800, height: 720 },
   // Between `viewTablet` (1016) and `viewDesktop` (1061): a desktop too narrow for the left navigation
   desktopNarrow: { width: 1040, height: 720 },
-  // Below `viewHeightHeaderStays` (540): the header hides on scroll down
+  // Below `viewHeightTopBarStays` (540): a scroll down hides the whole header
   short: { width: 1440, height: 500 },
+  // Below `viewHeightHeaderStays` (900): a scroll down hides the category tabs
+  laptop: { width: 1440, height: 800 },
+  // Nothing hides
   desktop: { width: 1440, height: 900 },
 }
 type Viewport = keyof typeof viewports

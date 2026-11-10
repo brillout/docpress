@@ -242,10 +242,7 @@ ${
   #nav-left {
     visibility: hidden;
   }
-  ${getStyleNavLeftHidden()}
-  .page-wrapper {
-    flex-grow: 0;
-  }
+  ${getStyleMenuToggleShown()}
 }`
 }
 `}</Style>
@@ -738,7 +735,7 @@ function getStyleLayout(isNavLeftAlwaysHidden: boolean) {
     .nav-head {
       box-shadow: ${barShadowSides};
     }
-    /* The left navigation lists the category's pages (where it's hidden, see getStyleNavLeftHidden()) */
+    /* The left navigation lists the category's pages (where it's hidden, see getStyleMenuToggleShown()) */
     .nav-head-menu-toggle {
       display: none;
     }
@@ -805,10 +802,7 @@ ${
 }
 function getStyleNavLeftHidden() {
   return css`
-/* The "Docs" menu, also beside the category tabs */
-.has-category-tabs .nav-head-menu-toggle {
-  display: flex;
-}
+${getStyleMenuToggleShown()}
 .page-wrapper {
   flex-grow: 1;
 }
@@ -816,6 +810,13 @@ function getStyleNavLeftHidden() {
   margin: auto;
 }
 `
+}
+function getStyleMenuToggleShown() {
+  return css`
+/* The "Docs" menu, also beside the category tabs */
+.has-category-tabs .nav-head-menu-toggle {
+  display: flex;
+}`
 }
 
 function NavHeadLogo() {

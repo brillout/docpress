@@ -1,7 +1,8 @@
 export { initKeyBindings }
+export { initInputModality }
 
 import { closeDocsearchModal } from './docsearch/toggleDocsearchModal.js'
-import { closeMenuModal } from './MenuModal/toggleMenuModal.js'
+import { closeMenuModal, closeMenuModalAndFocusToggle } from './MenuModal/toggleMenuModal.js'
 
 function initKeyBindings() {
   window.addEventListener(
@@ -11,7 +12,7 @@ function initKeyBindings() {
 
       if (key === 'escape') {
         closeDocsearchModal()
-        closeMenuModal()
+        closeMenuModalAndFocusToggle()
       }
 
       // Replicates docsearch keybinding
@@ -28,4 +29,16 @@ function isEditingContent(event: KeyboardEvent): boolean {
   const tagName = element.tagName
 
   return element.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA'
+}
+
+// `<html data-input="keyboard">` while the keyboard is used: disclosures then open and close without animating (a11y.css)
+function initInputModality() {
+  const { dataset } = document.documentElement
+  window.addEventListener('keydown', () => (dataset.input = 'keyboard'), { capture: true, passive: true })
+  const onPointer = () => {
+    if (dataset.input !== 'pointer') dataset.input = 'pointer'
+  }
+  window.addEventListener('pointerdown', onPointer, { capture: true, passive: true })
+  // Before `mouseenter` (which opens the top nav's menus)
+  window.addEventListener('pointerover', onPointer, { capture: true, passive: true })
 }

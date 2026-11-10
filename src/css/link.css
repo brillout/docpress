@@ -1,6 +1,26 @@
-a {
-  text-decoration: none;
+.doc-page
+  a[href]:not(
+    .nav-head-logo,
+    .nav-item,
+    .toc-item,
+    .icon-button,
+    .version-badge,
+    .page-pagination-link,
+    .edit-link,
+    .category-tab,
+    .docs-overview-link
+  ) {
+  color: var(--dp-color-primary);
 }
-.doc-page a[href]:not(.nav-item) {
-  color: var(--dp-color-primary, #4747ff);
+.doc-page .page-content a[href]:not(.page-pagination-link, .edit-link, .docs-overview-link) {
+  /* Not only the color tells links apart from text */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
 }

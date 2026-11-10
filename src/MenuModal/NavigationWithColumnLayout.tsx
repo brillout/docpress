@@ -1,10 +1,10 @@
 export { NavigationWithColumnLayout }
+export { menuPaddingX }
 
 import React, { useEffect, useState } from 'react'
 import { assert } from '../utils/server.js'
 import { getViewportWidth } from '../utils/getViewportWidth.js'
 import { viewTablet, navLeftWidthMax, navLeftWidthMin, bodyMaxWidth } from '../Layout.js'
-import { throttle } from '../utils/throttle.js'
 import { Collapsible } from './Collapsible.js'
 import { ColumnMap, getNavItemsWithComputed, NavItem, NavItemComponent, NavItemComputed } from '../NavItemComponent.js'
 import { usePageContext } from '../renderer/usePageContext.js'
@@ -13,88 +13,85 @@ import { Style } from '../utils/Style.js'
 import { css } from '../utils/css.js'
 
 const marginBottomOnExpand = 15
+// Desktop: the menu is a panel sized to its columns (MenuModal.tsx)
+const menuColumnWidth = 240
+const menuColumnGap = 40
+const menuPaddingX = 28
+const getMenuWidth = (numberOfColumns: number) =>
+  numberOfColumns * menuColumnWidth + (numberOfColumns - 1) * menuColumnGap + 2 * menuPaddingX
 function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   const pageContext = usePageContext()
   const navItemsWithComputed = getNavItemsWithComputed(props.navItems, pageContext.urlPathname)
   let [viewportWidth, setViewportWidth] = useState<number | undefined>()
-  const updateviewportwidth = () => setViewportWidth(getViewportWidth())
+  const updateViewportWidth = () => setViewportWidth(getViewportWidth())
   useEffect(() => {
-    updateviewportwidth()
-    window.addEventListener('resize', throttle(updateviewportwidth, 300), { passive: true })
-  })
+    updateViewportWidth()
+    // Waits for the resizing to pause, so the final width is the one applied
+    let timer: ReturnType<typeof setTimeout>
+    const onResize = () => {
+      clearTimeout(timer)
+      timer = setTimeout(updateViewportWidth, 150)
+    }
+    window.addEventListener('resize', onResize, { passive: true })
+    return () => {
+      window.removeEventListener('resize', onResize)
+      clearTimeout(timer)
+    }
+  }, [])
   const availableWidth = viewportWidth && Math.min(viewportWidth, bodyMaxWidth)
   const navItemsByColumnLayouts = getNavItemsByColumnLayouts(navItemsWithComputed, availableWidth)
   const columnWidthBase = navLeftWidthMax + 20
   const maxColumns = Math.max(...navItemsByColumnLayouts.map((layout) => layout.columns.length), 1)
   const widthMax = maxColumns * columnWidthBase
-  const getColumnsWrapperStyle = (columnLayout: NavItemsByColumnLayout) => {
-    const widthColumn = columnLayout.columns.length * columnWidthBase
-    return {
-      width: Math.max(700, widthColumn),
-      maxWidth: `min(100%, ${widthMax}px)`,
-    }
-  }
   return (
     <>
       <Style>{getStyle()}</Style>
-      <div
-        id="menu-navigation-container"
-        className="navigation-content add-transition"
-        style={{ transitionProperty: 'height', height: 0 }}
-      >
+      <div id="menu-navigation-container" className="navigation-content">
         {navItemsByColumnLayouts.map((columnLayout, i) => (
-          <div
-            id={`menu-navigation-${i}`}
-            className="menu-navigation-content"
-            style={{ transition: 'none 0.2s ease-in-out', transitionProperty: 'opacity, transform' }}
-            key={i}
-          >
+          <div id={`menu-navigation-${i}`} className="menu-navigation-content" key={i}>
             {columnLayout.isFullWidthCategory ? (
-              <div style={{ marginTop: 0 }}>
-                <ColumnsWrapper style={getColumnsWrapperStyle(columnLayout)}>
-                  <Collapsible
-                    head={(onClick) => <NavItemComponent navItem={columnLayout.navItemLevel1} onClick={onClick} />}
-                    disabled={maxColumns > 1}
-                    collapsedInit={!columnLayout.navItemLevel1.isRelevant}
-                    marginBottomOnExpand={marginBottomOnExpand}
-                  >
-                    <ColumnsLayout className="collapsible">
-                      {columnLayout.columns.map((column, j) => (
-                        <Column key={j}>
-                          {column.navItems.map((navItem, k) => (
-                            <NavItemComponent key={k} navItem={navItem} />
-                          ))}
-                        </Column>
-                      ))}
-                      <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
-                    </ColumnsLayout>
-                  </Collapsible>
-                </ColumnsWrapper>
+              <div className="columns-wrapper">
+                <Collapsible
+                  head={<NavItemComponent navItem={columnLayout.navItemLevel1} />}
+                  disabled={maxColumns > 1}
+                  collapsedInit={!columnLayout.navItemLevel1.isRelevant}
+                  marginBottomOnExpand={marginBottomOnExpand}
+                >
+                  <div className="menu-columns collapsible">
+                    {columnLayout.columns.map((column, j) => (
+                      <div key={j} className="menu-column">
+                        {column.navItems.map((navItem, k) => (
+                          <NavItemComponent key={k} navItem={navItem} />
+                        ))}
+                      </div>
+                    ))}
+                    <CategoryBorder navItemLevel1={columnLayout.navItemLevel1} />
+                  </div>
+                </Collapsible>
               </div>
             ) : (
-              <ColumnsWrapper style={getColumnsWrapperStyle(columnLayout)}>
-                <ColumnsLayout>
+              <div className="columns-wrapper">
+                <div className="menu-columns">
                   {columnLayout.columns.map((column, j) => (
-                    <Column key={j}>
+                    <div key={j} className="menu-column">
                       {column.categories.map((category, k) => (
-                        <div key={k} style={{ marginBottom: 0 }}>
-                          <Collapsible
-                            head={(onClick) => <NavItemComponent navItem={category.navItemLevel1} onClick={onClick} />}
-                            disabled={maxColumns > 1}
-                            collapsedInit={!category.navItemLevel1.isRelevant}
-                            marginBottomOnExpand={marginBottomOnExpand}
-                          >
-                            {category.navItems.map((navItem, l) => (
-                              <NavItemComponent key={l} navItem={navItem} />
-                            ))}
-                            <CategoryBorder navItemLevel1={category.navItemLevel1} />
-                          </Collapsible>
-                        </div>
+                        <Collapsible
+                          key={k}
+                          head={<NavItemComponent navItem={category.navItemLevel1} />}
+                          disabled={maxColumns > 1}
+                          collapsedInit={!category.navItemLevel1.isRelevant}
+                          marginBottomOnExpand={marginBottomOnExpand}
+                        >
+                          {category.navItems.map((navItem, l) => (
+                            <NavItemComponent key={l} navItem={navItem} />
+                          ))}
+                          <CategoryBorder navItemLevel1={category.navItemLevel1} />
+                        </Collapsible>
                       ))}
-                    </Column>
+                    </div>
                   ))}
-                </ColumnsLayout>
-              </ColumnsWrapper>
+                </div>
+              </div>
             )}
           </div>
         ))}
@@ -104,14 +101,67 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
 
   function getStyle() {
     const style = css`
-@media(min-width: ${viewTablet + 1}px) {
+.menu-columns {
+  display: flex;
+}
+.menu-column {
+  display: flex;
+  flex-direction: column;
+}
+.menu-navigation-content {
+  --transition-menu-content-duration: 0.2s;
+  transition: opacity var(--transition-menu-content-duration) var(--dp-ease-out), transform
+    var(--transition-menu-content-duration) var(--dp-ease-out), visibility var(--transition-menu-content-duration)
+    var(--dp-ease-out);
+}
+@media (width <= ${viewTablet}px) {
+  .columns-wrapper {
+    width: 100%;
+    max-width: min(100%, ${widthMax}px);
+    margin: auto;
+    padding-left: 3px;
+  }
+  .menu-columns {
+    justify-content: space-between;
+  }
+  .menu-column {
+    flex-grow: 1;
+    max-width: ${navLeftWidthMax}px;
+  }
+}
+@media (width > ${viewTablet}px) {
   .menu-navigation-content {
     position: absolute;
     width: 100%;
   }
+  ${/* Columns of a fixed width, evenly spaced: the panel is sized to them (--menu-width, see MenuModal.tsx) */ ''}
+  ${navItemsByColumnLayouts
+    .map(
+      (columnLayout, i) => css`
+  html.menu-modal-show-${i} #menu-modal-wrapper {
+    --menu-width: min(${getMenuWidth(columnLayout.columns.length)}px, 100% - 32px);
+  }`,
+    )
+    .join('')}
+  .menu-columns {
+    gap: ${menuColumnGap}px;
+  }
+  .menu-column {
+    flex: 0 1 ${menuColumnWidth}px;
+    min-width: 0;
+  }
   #menu-navigation-container {
+    --transition-menu-height-duration: 250ms;
     position: relative;
     overflow: hidden;
+    transition: height var(--transition-menu-height-duration) var(--dp-ease-out);
+  }
+  ${/* Its menus are absolutely positioned: the current one's height (followHeight(), toggleMenuModal.ts) */ ''}
+  html.menu-modal-show #menu-navigation-container {
+    height: var(--menu-height);
+  }
+  html:not(.menu-modal-show) #menu-navigation-container {
+    height: 0;
   }
  ${navItemsByColumnLayouts
    .map((_, i) => {
@@ -123,6 +173,7 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
   html:not(.menu-modal-show-${i}) & {
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
   }
   ${/* Sliding animation */ ''}
   html:not(.menu-modal-show-${i}).menu-modal-show & {
@@ -135,25 +186,6 @@ function NavigationWithColumnLayout(props: { navItems: NavItem[] }) {
     display: none;
   }
 }
-${/* Button style */ ''}
-.menu-toggle-${i} {
-  html.menu-modal-show.menu-modal-show-${i} & {
-    color: var(--dp-color-text, black) !important;
-    [class^='decolorize-'],
-    [class*=' decolorize-'] {
-      filter: grayscale(0) opacity(1) !important;
-    }
-    &::before {
-      top: 0;
-    }
-    & .caret-icon-left {
-      transform: rotate(-90deg);
-    }
-    & .caret-icon-right {
-      transform: rotate(90deg);
-    }
-  }
-}
 `
    })
    .join('')}
@@ -161,47 +193,6 @@ ${/* Button style */ ''}
 `
     return style
   }
-}
-function Column({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        flexGrow: 1,
-        maxWidth: navLeftWidthMax,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-function ColumnsWrapper({ children, style }: { children: React.ReactNode; style: React.CSSProperties }) {
-  return (
-    <div
-      className="columns-wrapper"
-      style={{
-        paddingLeft: 3,
-        margin: 'auto',
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-function ColumnsLayout({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div
-      className={className}
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
-    >
-      {children}
-    </div>
-  )
 }
 function CategoryBorder({ navItemLevel1 }: { navItemLevel1: NavItemComputed }) {
   assert(navItemLevel1.level === 1)
@@ -228,7 +219,10 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
   const numberOfColumnsMax = Math.floor(availableWidth / navLeftWidthMin) || 1
   const navItemsByColumnLayouts: NavItemsByColumnLayout[] = navItemsByColumnEntries.map(
     ({ columnEntries, isFullWidthCategory }) => {
-      const numberOfColumns = Math.min(numberOfColumnsMax, columnEntries.length)
+      const numberOfColumns = getBalancedNumberOfColumns(
+        columnEntries,
+        Math.min(numberOfColumnsMax, columnEntries.length),
+      )
       if (!isFullWidthCategory) {
         const columns: {
           categories: {
@@ -237,7 +231,7 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
           }[]
         }[] = []
         columnEntries.forEach((columnEntry) => {
-          const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
+          const idx = getColumnIndex(columnEntry, numberOfColumns)
           assert(idx >= 0)
           columns[idx] ??= { categories: [] }
           const navItemLevel1 = columnEntry.navItems[0]!
@@ -250,7 +244,7 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
         let navItemLevel1: NavItemComputed
         const columns: { navItems: NavItemComputed[] }[] = []
         columnEntries.forEach((columnEntry, i) => {
-          const idx = numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
+          const idx = getColumnIndex(columnEntry, numberOfColumns)
           assert(idx >= 0)
           columns[idx] ??= { navItems: [] }
           let { navItems } = columnEntry
@@ -271,8 +265,34 @@ function getNavItemsByColumnLayouts(navItems: NavItemComputed[], availableWidth:
   )
   return navItemsByColumnLayouts
 }
+// The fewest columns that are as short as the most columns: e.g. a two-item column next to a long one is merged with a
+// neighbor (the columns balance, and the menu is narrower), unless that makes the menu taller
+function getBalancedNumberOfColumns(columnEntries: ColumnEntry[], numberOfColumnsMax: number): number {
+  // The rendered heights (px) of a category's title, a group label and an item; the current page's sections (level 3)
+  // are left out: the layout doesn't change from one page to another
+  const rowHeights: Record<number, number> = { 1: 43, 4: 40, 2: 31, 3: 0 }
+  const gapBetweenEntries = 26
+  const getEntryHeight = (columnEntry: ColumnEntry) =>
+    columnEntry.navItems.reduce((height, navItem) => height + (rowHeights[navItem.level] ?? 0), 0)
+  const getHeight = (numberOfColumns: number) => {
+    const columnHeights: number[] = []
+    columnEntries.forEach((columnEntry) => {
+      const idx = getColumnIndex(columnEntry, numberOfColumns)
+      const height = columnHeights[idx]
+      columnHeights[idx] =
+        height === undefined ? getEntryHeight(columnEntry) : height + gapBetweenEntries + getEntryHeight(columnEntry)
+    })
+    return Math.max(0, ...columnHeights.map((height) => height ?? 0))
+  }
+  const heights = Array.from({ length: numberOfColumnsMax }, (_, i) => getHeight(i + 1))
+  const heightMin = Math.min(...heights)
+  return heights.findIndex((height) => height <= heightMin) + 1
+}
 type NavItemsByColumnEntries = { columnEntries: ColumnEntry[]; isFullWidthCategory: boolean }[]
 type ColumnEntry = { navItems: NavItemComputed[]; columnMap: ColumnMap }
+function getColumnIndex(columnEntry: ColumnEntry, numberOfColumns: number): number {
+  return numberOfColumns === 1 ? 0 : columnEntry.columnMap[numberOfColumns]!
+}
 function getNavItemsByColumnEntries(navItems: NavItemComputed[]): NavItemsByColumnEntries {
   const navItemsByColumnEntries: NavItemsByColumnEntries = []
   let columnEntries: ColumnEntry[] = []

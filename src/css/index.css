@@ -1,6 +1,7 @@
 @import './tokens.css';
 @import './reset.css';
 @import './colorize-on-hover.css';
+@import './scroll-fade.css';
 @import './heading.css';
 @import './button.css';
 @import './link.css';
@@ -9,4 +10,7 @@
 @import './table.css';
 @import './tooltip.css';
 @import '@docsearch/css/dist/style.css';
+@import './docsearch.css';
 @import './sr-only.css';
+@import './scale-on-press.css';
+@import './a11y.css';

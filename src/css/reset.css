@@ -4,3 +4,7 @@
 body {
   margin: 0;
 }
+a {
+  /* The underline is restored deliberately where links matter (link.css) */
+  text-decoration: none;
+}

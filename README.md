@@ -314,7 +314,7 @@ Options:
 - Use `hide-menu` meta to hide the copy button
 
 > [!NOTE]
-> To prevent `detype` from throwing an error on code diffs (which almost always contain invalid syntax):
+> **To prevent `detype` from throwing an error on code diffs** (which almost always contain invalid syntax):
 > - Use `// @docpress-replace someVarDedupe someVar` above the affected line, or
 > - use `// @docpress-uncomment ` at the beginning of the affected line.
 > ```ts

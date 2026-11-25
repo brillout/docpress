@@ -1,3 +1,13 @@
+## [0.17.9](https://github.com/brillout/docpress/compare/v0.17.8...v0.17.9) (2026-11-25)
+
+
+### Bug Fixes
+
+* abort the build when a code block can't be transformed to JavaScript ([#211](https://github.com/brillout/docpress/issues/211)) ([4da564d](https://github.com/brillout/docpress/commit/4da564d77179a6e00582ea06608233d4694a2b55))
+* improve err msg upon detype syntax error ([f3a1fb5](https://github.com/brillout/docpress/commit/f3a1fb5c0e4205ac85754fc2b47fcb4bd1f0ed4a))
+
+
+
 ## [0.17.8](https://github.com/brillout/docpress/compare/v0.17.7...v0.17.8) (2026-10-08)
 
 

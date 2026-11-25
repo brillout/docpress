@@ -305,18 +305,13 @@ new Crawler({
 
 ## Detype
 
-DocPress automatically converts `ts` code blocks to `js` while showing a JS↔TS toggle to users.
-
-> [!NOTE]
-> It uses [`detype`](https://github.com/cyco130/detype/).
+DocPress automatically converts `ts` code blocks to `js` (using [`detype`](https://github.com/cyco130/detype/)) while showing a JS↔TS toggle to users.
 
 Options:
 - Magic comments `@docpress-replace` and `@docpress-uncomment` (see example below)
 - Use `ts-only` meta to skip transforming typescript code (skips `detype`)
+- To skip `detype` you can also simply define a `js` code block: `detype` only applies to TypeScript blocks
 - Use `hide-menu` meta to hide the copy button
-
-> [!NOTE]
-> To skip `detype` you can also simply define a `js` code block: `detype` only applies to TypeScript blocks.
 
 > [!NOTE]
 > To prevent `detype` from throwing an error on code diffs (which almost always contain invalid syntax):

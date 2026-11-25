@@ -100,18 +100,17 @@ async function transformTsToJs(node: CodeNode, file: VFile) {
       },
     })
   } catch (error) {
-    // Log errors and return original content instead of throwing
-    console.error(pc.red((error as SyntaxError).message))
-    console.error(
+    assertUsage(
+      false,
       [
-        `Failed to transform the code block in: ${pc.bold(pc.blue(file.path))}.`,
-        "This likely happened due to invalid TypeScript syntax (see detype's error message above). You can either:",
+        `Failed to transform the code block at: ${pc.bold(pc.blue(file.path))}, line ${codeBlock.position?.start.line}.`,
+        "This likely happened due to invalid TypeScript syntax (see detype's error message below). You can either:",
         '- Fix the code block syntax',
         '- Set the code block language to js instead of ts',
         '- Use custom meta or comments https://github.com/brillout/docpress#detype',
-      ].join('\n') + '\n',
+        (error as SyntaxError).message,
+      ].join('\n'),
     )
-    return
   }
 
   // Clean up both JS and TS code contents: correct diff comments (for js only) and apply custom magic comment replacements

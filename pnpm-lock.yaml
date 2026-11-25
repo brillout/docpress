@@ -18,7 +18,7 @@ importers:
         specifier: ^0.6.20
         version: 0.6.20
       playwright-chromium:
-        specifier: ^1.65.1
+        specifier: 1.65.1
         version: 1.65.1
       prettier:
         specifier: ^2.8.7

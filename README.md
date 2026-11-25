@@ -305,23 +305,30 @@ new Crawler({
 
 ## Detype
 
-DocPress automatically converts `ts` code blocks to `js` (using [detype](https://github.com/cyco130/detype/)), while showing a JS↔TS toggle to users.
+DocPress automatically converts `ts` code blocks to `js` while showing a JS↔TS toggle to users.
 
-Custom meta and comments:
+> [!NOTE]
+> It uses [`detype`](https://github.com/cyco130/detype/).
 
-- Use `ts-only` meta to skip transforming typescript code.
-- Use `hide-menu` meta to hide the copy button.
-- To transform typescript code with invalid syntax (e.g. for code diffs), use custom magic comments:
-  - Use `// @docpress-replace dummyVarName varName` above the affected line.
-  - Use `// @docpress-uncomment ` at the beginning of the affected line.
-  
-  ```ts
-  const hello: string = 'world' // [!code --]
-  // @docpress-replace dummyhello hello
-  const dummyhello: string[] = ['hello', 'world'] // [!code ++]
+Options:
+- Magic comments `@docpress-replace` and `@docpress-uncomment` (see example below)
+- Use `ts-only` meta to skip transforming typescript code (skips `detype`)
+- Use `hide-menu` meta to hide the copy button
 
-  // @docpress-uncomment function greeting() { // [!code --]
-  function greeting(name: string) { // [!code ++]
-    // ...
-  }
-  ```
+> [!NOTE]
+> To skip `detype` you can also simply define a `js` code block: `detype` only applies to TypeScript blocks.
+
+> [!NOTE]
+> To prevent `detype` from throwing an error on code diffs (which almost always contain invalid syntax):
+> - Use `// @docpress-replace someVarDedupe someVar` above the affected line, or
+> - use `// @docpress-uncomment ` at the beginning of the affected line.
+> ```ts
+> const hello: string = 'world' // [!code --]
+> // @docpress-replace helloDedupe hello
+> const helloDedupe: string[] = ['hello', 'world'] // [!code ++]
+>
+> // @docpress-uncomment function greeting() { // [!code --]
+> function greeting(name: string) { // [!code ++]
+>   // ...
+> }
+> ```

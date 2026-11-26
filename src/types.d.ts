@@ -3,7 +3,6 @@
 declare module '*.mdx' {
   const value: (props?: any) => React.JSX.Element
   export default value
-  export const headings: { level: number; title: string; id: string }[]
 }
 
 // DocPress ships its TypeScript sources (it's `noExternal`), so the user's TypeScript

@@ -74,6 +74,34 @@ function testRun(cmd: 'pnpm run dev' | 'pnpm run preview') {
     await page.click('a[href="#custom-hash"]', { timeout: 1000 })
     await testUrlHash()
   })
+  test(`${featuresURL} - repeated heading title`, async () => {
+    for (const [link, hash, tagName] of [
+      ['#nav-left', '#repeated-heading', 'H2'],
+      ['.doc-page', '#repeated-heading-1', 'H3'],
+      ['#nav-left', '#repeated-heading-2', 'H2'],
+    ] as const) {
+      await page.click(`${link} a[href="${hash}"]`, { timeout: 1000 })
+      await autoRetry(
+        async () => {
+          const target = await page.evaluate(() => {
+            const el = document.getElementById(window.location.hash.slice(1))!
+            const offset = el.getBoundingClientRect().top - parseFloat(getComputedStyle(el).scrollMarginTop)
+            return {
+              hash: window.location.hash,
+              tagName: el.tagName,
+              text: el.textContent,
+              isScrolledTo: Math.abs(offset) <= 1,
+            }
+          })
+          expect(target.hash).toBe(hash)
+          expect(target.tagName).toBe(tagName)
+          expect(target.text).toBe('Repeated heading')
+          expect(target.isScrolledTo).toBe(true)
+        },
+        { timeout: 5 * 1000 },
+      )
+    }
+  })
   test(`${featuresURL} - JavaScript toggle`, async () => {
     const tsText1 = "const hello: string = 'world'"
     const jsText1 = "const hello = 'world'"

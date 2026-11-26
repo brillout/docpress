@@ -1,11 +1,26 @@
 export { parsePageSections }
 export { extractPageSections }
+export { remarkPluginsSyntax }
 export type { PageSection }
 
 import type { PluginOption } from 'vite'
-import { assert } from './utils/assert.js'
+import { assert, assertUsage } from './utils/assert.js'
 import { determineSectionUrlHash } from './utils/determineSectionUrlHash.js'
 import os from 'os'
+import pc from '@brillout/picocolors'
+import { createProcessor } from '@mdx-js/mdx'
+import remarkGfm from 'remark-gfm'
+import remarkDirective from 'remark-directive'
+import { visit } from 'unist-util-visit'
+import type { Processor } from 'unified'
+
+const remarkPluginsSyntax = [remarkGfm, remarkDirective]
+// Which lines are headings is block structure: DocPress renders a heading's text itself, so MDX's inline syntax is left out
+function remarkBlocksOnly(this: Processor) {
+  const data = this.data() as { micromarkExtensions: { text?: unknown }[] }
+  data.micromarkExtensions = data.micromarkExtensions.map(({ text, ...extension }) => extension)
+}
+const mdxProcessor = createProcessor({ remarkPlugins: [...remarkPluginsSyntax, remarkBlocksOnly] })
 
 type PageSection = {
   pageSectionTitle: string
@@ -34,50 +49,34 @@ function transform(code: string) {
 
 /** Replaces the Markdown headings with HTML headings (with their `id`) and returns them as page sections — also used by `$ docpress lint` */
 function extractPageSections(code: string) {
-  const pageSections: PageSection[] = []
-  let isCodeBlock = false
-  const codeNew = code
-    .split('\n')
-    .map((line) => {
-      // Skip code blocks, e.g.
-      // ~~~md
-      // # Markdown Example
-      // Bla
-      // ~~~
-      if (line.startsWith('~~~') || line.startsWith('```')) {
-        isCodeBlock = !isCodeBlock
-        return line
-      }
-      if (isCodeBlock) {
-        return line
-      }
+  const tree = mdxProcessor.parse(code)
+  const headingLines = new Set<number>()
+  visit(tree, 'heading', (node) => {
+    headingLines.add(node.position!.start.line - 1)
+  })
+  const lines = code.split('\n').map((line, i) => {
+    /* TO-DO/eventually: implement.
+    || line.startsWith('<h2')
+    */
+    // E.g. `## Some Title`, also with tabs or more spaces after `##`, and indented by up to 3 spaces (CommonMark)
+    const heading = headingLines.has(i) && /^( {0,3})(#{1,6})[ \t]+(?=\S)/.exec(line)
+    if (heading) {
+      const [match, indent, hashes] = heading
+      return parsePageSection(indent!, hashes!.length, line.slice(match.length))
+    }
 
-      if (
-        line.startsWith('#')
-        /* TO-DO/eventually: implement.
-        || line.startsWith('<h2')
-        */
-      ) {
-        const { pageSectionId, pageSectionLevel, pageSectionTitle, headingHtml } = parsePageSection(line)
-        pageSections.push({ pageSectionId, pageSectionLevel, pageSectionTitle })
-        return headingHtml
-      }
-
-      return line
-    })
-    .join('\n')
+    return line
+  })
+  const headings = lines.filter((line) => typeof line !== 'string')
+  makeIdsUnique(headings)
+  const codeNew = lines.map((line) => (typeof line === 'string' ? line : getHeadingHtml(line))).join('\n')
+  const pageSections: PageSection[] = headings.map(({ isCustomAnchor, indent, ...pageSection }) => pageSection)
   return { codeNew, pageSections }
 }
 
-function parsePageSection(line: string): PageSection & { headingHtml: string } {
-  const [lineBegin, ...lineWords] = line.split(' ')
-  assert(lineBegin!.split('#').join('') === '', { line, lineWords })
-  const pageSectionLevel = lineBegin!.length
+type HeadingLine = PageSection & { isCustomAnchor: boolean; indent: string }
 
-  const titleMdx = lineWords.join(' ')
-  assert(!titleMdx.startsWith(' '), { line, lineWords })
-  assert(titleMdx, { line, lineWords })
-
+function parsePageSection(indent: string, pageSectionLevel: number, titleMdx: string): HeadingLine {
   let pageSectionTitle = titleMdx
   let anchor = titleMdx
   {
@@ -89,14 +88,42 @@ function parsePageSection(line: string): PageSection & { headingHtml: string } {
     }
   }
   const pageSectionId = determineSectionUrlHash(anchor)
-
-  const titleParsed = parseMarkdownMini(pageSectionTitle)
   assert(pageSectionId === null || pageSectionId.length > 0)
-  const headingId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
-  const headingHtml = `<h${pageSectionLevel}${headingId}>${titleParsed}</h${pageSectionLevel}>`
 
-  const pageSection = { pageSectionLevel, pageSectionTitle, pageSectionId, headingHtml }
-  return pageSection
+  return { pageSectionId, pageSectionLevel, pageSectionTitle, isCustomAnchor: anchor !== titleMdx, indent }
+}
+
+// A page may repeat a heading title: `#setup`, `#setup-1`, ... (like GitHub). A heading keeps its own id unless a custom
+// anchor or an earlier heading has it, and a suffix never takes another heading's own id.
+function makeIdsUnique(headings: HeadingLine[]) {
+  const idsOwn = new Set(headings.map((heading) => heading.pageSectionId))
+  const customAnchors = new Map<string, HeadingLine>()
+  const getMdx = (h: HeadingLine) => pc.bold(`${'#'.repeat(h.pageSectionLevel)} ${h.pageSectionTitle}`)
+  headings.forEach((heading) => {
+    const id = heading.pageSectionId
+    if (!heading.isCustomAnchor || id === null) return
+    const first = customAnchors.get(id) ?? heading
+    assertUsage(
+      first === heading,
+      `The headings ${getMdx(first)} and ${getMdx(heading)} have the same URL hash ${pc.bold(`#${id}`)}, give them different {#custom-anchor}`,
+    )
+    customAnchors.set(id, heading)
+  })
+  const idsTaken = new Set(customAnchors.keys())
+  headings.forEach((heading) => {
+    const idBase = heading.pageSectionId
+    if (idBase === null || heading.isCustomAnchor) return
+    let id = idBase
+    for (let i = 1; idsTaken.has(id) || (id !== idBase && idsOwn.has(id)); i++) id = `${idBase}-${i}`
+    heading.pageSectionId = id
+    idsTaken.add(id)
+  })
+}
+
+function getHeadingHtml({ pageSectionLevel, pageSectionTitle, pageSectionId, indent }: HeadingLine): string {
+  const titleParsed = parseMarkdownMini(pageSectionTitle)
+  const headingId = pageSectionId === null ? '' : ` id="${pageSectionId}"`
+  return `${indent}<h${pageSectionLevel}${headingId}>${titleParsed}</h${pageSectionLevel}>`
 }
 
 function parseMarkdownMini(titleMarkdown: string): string {

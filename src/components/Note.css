@@ -1,53 +1,71 @@
-blockquote {
-  --color: 0, 0, 0;
-  --color-strengh-bg: 1.5;
-  --color-strengh-border: 1.5;
-  border-left: 8px solid rgba(var(--color), calc(0.06 * var(--color-strengh-border)));
-  background-color: rgba(var(--color), calc(0.03 * var(--color-strengh-bg)));
-  margin-left: 0;
-  margin-right: 0;
-  padding: 4px 16px;
+/* Callouts: `> Some note` in doc pages (markdown), and <Warning>, <Danger>, ... (components, anywhere). Plain
+ * blockquotes elsewhere, e.g. in a site's own landing page markup, are left alone. */
+/* :where() => no specificity, so that the types below (e.g. `.callout-warning`) set the color */
+:where(.doc-page blockquote, blockquote.callout) {
+  --note-color: var(--dp-color-info);
+  position: relative;
+  margin: 20px 0;
+  padding-block: 12px;
+  padding-right: 16px;
+  border: 1px solid color-mix(in srgb, var(--note-color) 25%, var(--dp-color-border));
+  border-radius: var(--dp-radius-lg);
+  background-color: color-mix(in srgb, var(--note-color) var(--note-tint), var(--dp-color-bg));
+  > :first-child,
+  > .blockquote-content > :first-child {
+    margin-top: 0;
+  }
+  > :last-child,
+  > .blockquote-content > :last-child,
+  /* A code block ending the callout (e.g. inside a list or a choice group) */
+    pre:last-child {
+    margin-bottom: 0;
+  }
 }
-blockquote.note-color-red {
-  --color-strengh-bg: 3.3;
-  --color-strengh-border: 6;
-  --color: 220, 25, 49;
+:root {
+  --note-tint: 5%;
 }
-blockquote.note-color-yellow {
-  --color-strengh-bg: 7;
-  --color-strengh-border: 8;
-  --color: 255, 204, 50;
+:root.dark {
+  --note-tint: 8%;
 }
-blockquote.note-color-green {
-  --color-strengh-bg: 4;
-  --color-strengh-border: 4;
-  --color: 000, 204, 50;
-  border-left-color: rgb(0, 179, 0, 0.3);
-  background-color: rgb(0, 179, 0, 0.08);
+.callout-warning,
+.callout-construction {
+  --note-color: var(--dp-color-warning);
 }
-blockquote.note-color-pink {
-  --color-strengh-bg: 4;
-  --color-strengh-border: 4;
-  --color: 000, 204, 50;
-  border-left-color: rgb(255, 0, 100, 0.3);
-  background-color: rgb(255, 0, 100, 0.1);
+.callout-danger {
+  --note-color: var(--dp-color-danger);
 }
-.blockquote-content {
-  display: inline;
+.callout-contribution {
+  --note-color: var(--dp-color-success);
 }
-blockquote.custom-icon > .blockquote-content > :first-child {
-  /* E.g. for <Warning> so that the warning icon is on the same line as the first paragraph.
-   * We assume the second element to have a top margin.
-   */
-  display: inline;
+.callout-advanced {
+  --note-color: var(--dp-color-advanced);
+}
+/* Room for the icon */
+:where(.doc-page blockquote, blockquote.callout):not(.callout-no-icon) {
+  padding-left: 44px;
+}
+.callout-no-icon {
+  padding-left: 16px;
 }
 
-/************************/
-/*** Icon Positioning ***/
-/************************/
-blockquote > p:first-child::before,
-blockquote > div.paragraph:first-child::before {
-  font-family: emoji;
-  content: 'ℹ️';
-  margin-right: 7px;
+.callout-icon,
+/* Markdown blockquotes have no icon element: draw the info icon */
+  .doc-page
+  blockquote:not(.callout)::before {
+  /* Centered on the first line of text */
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  display: flex;
+  width: 18px;
+  height: 1lh;
+  align-items: center;
+  justify-content: center;
+  color: var(--note-color);
+}
+.doc-page blockquote:not(.callout)::before {
+  content: '';
+  background-color: var(--note-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E")
+    center / 18px 18px no-repeat;
 }

@@ -1,14 +1,44 @@
 @import './code/inline.css';
-@import './code/block.css';
 @import './code/diff.css';
 @import './code/highlight.css';
 
 /* For code blocks, see Pre.css instead */
 
-/* Inline <code> */
-code {
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.063137255);
-  font-size: 1.1em;
-  font-family: var(--dp-font-mono, monospace);
+/* Doc pages' code, and on landing pages the menu's. (A landing page's content is the site's own design: its code keeps
+ * the browser's monospace.) */
+.doc-page code,
+.landing-page #menu-modal-wrapper code {
+  font-family: var(--dp-font-mono);
+  letter-spacing: normal;
+}
+/* In a doc page's text: a pill that doesn't make its line taller. (Elsewhere, e.g. in headings and code blocks: plain
+ * monospace text.) */
+.doc-page
+  .page-content
+  code:not(pre > code, :is(h1, h2, h3, h4, h5, h6, .page-pagination-title, .docs-overview-link) code) {
+  padding: 0.15em 0.4em;
+  border-radius: var(--dp-radius-sm);
+  background: var(--dp-color-code-inline-bg);
+  font-size: 0.875em;
+  line-height: 1.2;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.doc-page :is(h1, h2, h3, h4, h5, h6, .toc-item) code {
+  font-size: 0.92em;
+  line-height: 1;
+}
+
+/* Dual Shiki themes (see getHighlighter.ts): each token carries both colors as CSS variables */
+code[data-theme] span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+:root.dark code[data-theme] span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
 }

@@ -1,5 +1,4 @@
 export { resolveChoices, resolveChoice }
-export type { ResolvedChoices }
 
 import type { Choice, ChoiceItem } from '../../types/Config.js'
 

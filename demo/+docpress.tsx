@@ -10,6 +10,8 @@ import React from 'react'
 
 const config: Config = {
   name: 'Demo',
+  darkMode: true,
+  tocProgress: true,
   version: '0.4.255',
   url: 'fake-website.example.org',
   tagline: 'DocPress Demonstration.',
@@ -45,7 +47,6 @@ const config: Config = {
   pressKit: true,
   docsDir: 'demo',
 
-  // globalNote: <GlobalNoteWarning />,
   topNavigation: <TopNavigation />,
   navMaxWidth: 1140,
   choices: {
@@ -59,12 +60,14 @@ const config: Config = {
         {
           name: 'Express',
           icon: iconExpress,
+          iconMono: true,
           iconStyle: { objectFit: 'contain' },
           iconStyleTab: { height: '11.5px' },
         },
         {
           name: 'Fastify',
           icon: iconFastify,
+          iconMono: true,
           iconStyleDropdown: { width: '14px' },
           iconStyleTab: { width: '18px' },
         },
@@ -82,15 +85,3 @@ const config: Config = {
     },
   },
 }
-
-/*
-function GlobalNoteWarning() {
-  return (
-    <>
-      <div style={{ maxWidth: 500, margin: 'auto' }}>
-        <Warning>Some global note.</Warning>
-      </div>
-    </>
-  )
-}
-*/

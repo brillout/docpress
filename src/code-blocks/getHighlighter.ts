@@ -5,12 +5,12 @@ export { highlighterTheme }
 import { getHighlighter as getHighlighterShiki, bundledLanguagesBase } from 'shiki'
 import type { BundledHighlighterOptions, BundledLanguage, BundledTheme, Highlighter, LanguageRegistration } from 'shiki'
 import type { Plugin } from 'vite'
+import { highlighterTheme } from './themes.js'
 
-const highlighterTheme = 'github-light'
 // The options Rehype Pretty Code passes to `getHighlighter()`, see `rehypePrettyCode()` in
 // node_modules/rehype-pretty-code/dist/index.js
 const highlighterOptions: BundledHighlighterOptions<BundledLanguage, BundledTheme> = {
-  themes: [highlighterTheme],
+  themes: Object.values(highlighterTheme),
   langs: ['plaintext'],
 }
 

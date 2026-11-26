@@ -6,8 +6,8 @@ import { LoremIpsum } from './LoremIpsum'
 function Page() {
   return (
     <>
-      <Block noMargin>
-        <Header />
+      <Block>
+        <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>Next Generation Docs</h1>
         <p>This demo is used for testing and developing DocPress.</p>
         <LoremIpsum />
         <LoremIpsum />
@@ -17,23 +17,13 @@ function Page() {
   )
 }
 
-function Header() {
-  return (
-    <>
-      <h1 style={{ textAlign: 'center', fontSize: '3.4em' }}>Next Generation Docs</h1>
-    </>
-  )
-}
-
-function Block({ children, noMargin }: { children: React.ReactNode; noMargin?: true }) {
+function Block({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        backgroundColor: 'var(--color-bg-gray)',
         display: 'flex',
         justifyContent: 'center',
         paddingBottom: 20,
-        marginTop: noMargin ? 0 : 'var(--block-margin)',
       }}
     >
       <div style={{ maxWidth: 1000 }}>{children}</div>

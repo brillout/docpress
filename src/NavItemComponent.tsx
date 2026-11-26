@@ -9,18 +9,10 @@ import { assert, assertWarning, jsxToTextContent } from './utils/server.js'
 import './NavItemComponent.css'
 import { parseMarkdownMini } from './parseMarkdownMini.js'
 
-/*
-// We cannot do that: we must use `import type` otherwise Vite will transpile global.d.ts and throw:
-//  ```console
-//  [11:55:47.528][/docs/.test-dev.test.ts][pnpm run dev][stderr] 11:55:47 AM [vite] Failed to transpile /home/runner/work/telefunc/telefunc/node_modules/.pnpm/@brillout+docpress@0.15.7_@algolia+client-search@5.31.0_@types+react@19.1.8_@vitejs+plugin-re_lcm3fspejcg3ebrmr3gvb5i3se/node_modules/@brillout/docpress/global.d.ts because:
-//  x `declare` modifier not allowed for code already in an ambient context
-//  ```
-import './global.d.ts'
-/*/
-// The only purpose of `FakeExport` is to be able to use `import type`
+// Loads global.d.ts. `import type`: with a plain `import './global.d.ts'`, Vite transpiles it and throws (`declare`
+// modifier not allowed for code already in an ambient context). `FakeExport` exists only to be imported.
 // @ts-ignore
 import type { FakeExport } from './global.js'
-//*/
 
 type NavItemComputed = ReturnType<typeof getNavItemsWithComputed>[number]
 type NavItem = {
@@ -28,7 +20,6 @@ type NavItem = {
   url?: string | null
   color?: string
   titleIcon?: string
-  titleIconStyle?: React.CSSProperties
   title: string
   titleInNav: string
   menuModalFullWidth?: true
@@ -53,25 +44,13 @@ type ColumnMap = Record<number, number>
 type PropsNavItem = PropsAnchor & PropsSpan
 type PropsAnchor = React.HTMLProps<HTMLAnchorElement>
 type PropsSpan = React.HTMLProps<HTMLSpanElement>
-function NavItemComponent({
-  navItem,
-  onClick,
-}: {
-  navItem: NavItemComputed
-  onClick?: PropsNavItem['onClick']
-}) {
+function NavItemComponent({ navItem }: { navItem: NavItemComputed }) {
   assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
   const titleJsx = parseMarkdownMini(navItem.title)
   const titleInNavJsx = parseMarkdownMini(navItem.titleInNav)
 
-  const iconSize = 25
-  const icon = navItem.titleIcon && (
-    <img
-      src={navItem.titleIcon}
-      style={{ height: iconSize, width: iconSize, marginRight: 8, marginLeft: 2, ...navItem.titleIconStyle }}
-    />
-  )
+  const icon = navItem.titleIcon && <img src={navItem.titleIcon} alt="" />
 
   if (navItem.level === 1 || navItem.level === 4) {
     assert(navItem.url === undefined)
@@ -82,9 +61,6 @@ function NavItemComponent({
       [
         `${jsxToTextContent(titleInNavJsx)} is missing a URL hash.`,
         `Add a URL hash with: \`## ${sectionTitle}{#some-hash}\`.`,
-        /* TO-DO/eventually: not implemented yet.
-        `Use \`<h2 id="url-hash">${sectionTitle}</h2>\` instead of \`## ${sectionTitle}\`.`,
-        */
       ].join(' '),
     )
   }
@@ -95,7 +71,7 @@ function NavItemComponent({
       <>
         {icon}
         {children}
-        <Chevron className="collapsible-icon" height={9} />
+        <Chevron className="collapsible-icon" height={9} style={{ color: 'var(--dp-color-subtle)' }} />
       </>
     )
   }
@@ -103,14 +79,8 @@ function NavItemComponent({
   const props: PropsNavItem = {
     href: navItem.url ?? undefined,
     children,
-    onClick,
-    className: [
-      'nav-item',
-      'nav-item-level-' + navItem.level,
-      ((navItem.url && navItem.isActive) || navItem.level === 3) && ' is-active',
-      navItem.isFirstOfItsKind && 'nav-item-first-of-its-kind',
-      navItem.isLastOfItsKind && 'nav-item-last-of-its-kind',
-    ]
+    'aria-current': navItem.url && navItem.isActive ? 'page' : undefined,
+    className: ['nav-item', 'nav-item-level-' + navItem.level, navItem.url && navItem.isActive && 'is-active']
       .filter(Boolean)
       .join(' '),
   }
@@ -132,9 +102,6 @@ function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
   const navItemsWithComputed = navItems.map((navItem, i) => {
     assert([1, 2, 3, 4].includes(navItem.level), navItem)
 
-    const navItemPrevious = navItems[i - 1]
-    const navItemNext = navItems[i + 1]
-
     let isActive = false
     if (navItem.url === currentUrl) {
       assert(navItem.level === 2, { currentUrl })
@@ -143,15 +110,10 @@ function getNavItemsWithComputed(navItems: NavItem[], currentUrl: string) {
       isActive = true
     }
 
-    const isFirstOfItsKind = navItem.level !== navItemPrevious?.level
-    const isLastOfItsKind = navItem.level !== navItemNext?.level
-
     const navItemComputed = {
       ...navItem,
       isActive,
       isRelevant: false,
-      isFirstOfItsKind,
-      isLastOfItsKind,
     }
 
     return navItemComputed
@@ -178,7 +140,7 @@ function Chevron(props: React.HTMLProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 512 292.52" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
-        fill="#aaa"
+        fill="currentColor"
         d="M10.725 82.42L230.125 261.82c6.8 6.8 16.2 10.7 25.9 10.7s19.1-3.9 25.9-10.7l219.4-179.4c14.3-14.3 14.3-37.4 0-51.7s-37.4-14.3-51.7 0l-193.6 153.6-193.6-153.6c-14.3-14.3-37.4-14.3-51.7 0s-14.3 37.5 0 51.7z"
       />
     </svg>
